@@ -1,0 +1,534 @@
+"""
+Pipeline #16 — Painel Unificado Município × Ano (Goiás, 1985–2024)
+==================================================================
+
+Consolida em uma única tabela wide (cd_mun × ano) todas as fontes prontas do
+projeto: LULC MapBiomas, pecuária e lavouras SIDRA, PIB municipal, população,
+crédito rural SICOR e Censo Agropecuário 2017. Slots vazios reservados para
+IDH-M (#13) e Fogo MapBiomas (#14) — preenchimento futuro sem refator.
+
+Saída:
+    data/processed/painel_unificado.parquet  (formato primário)
+    data/processed/painel_unificado.csv      (cortesia, encoding utf-8)
+    outputs/diagnosticos/painel_unificado_cobertura.csv  (% NaN por coluna × ano)
+
+Como rodar:
+    python scripts/construir_painel_unificado.py
+
+================================================================================
+DECISÕES METODOLÓGICAS E LIMITAÇÕES — LEIA ANTES DE USAR
+================================================================================
+
+1. UNIVERSO ESPACIAL: 246 municípios de Goiás, identificados por `cd_mun`
+   (int, 7 dígitos IBGE). Verificado: mapbiomas_munis_goias.csv tem 246 munis
+   distintos (não 247, como sugere a contagem de linhas do Censo Agro).
+
+2. JANELA TEMPORAL: 1985–2024 completa (40 anos × 246 munis = 9.840 linhas).
+   NaN onde a fonte não cobre. Filtro temporal fica nas análises a jusante:
+       - Pré-2002:   sem PIB, sem população (estimativas IBGE só desde 2001),
+                     sem PAM 839 (safrinha disponível desde 2003).
+       - 2002–2012:  sem SICOR (BACEN só desde 2013).
+       - 2013–2023:  janela completa (todas as fontes coexistem).
+       - 2024:       SICOR e MapBiomas presentes; PIB ainda não publicado.
+       - 2025–2026:  apenas SICOR parcial (excluído desta versão).
+
+   AVISO HISTÓRICO: pré-1989, agregados estaduais "Goiás" em fontes externas
+   (ex.: rebanho_bovino_goias.csv) frequentemente INCLUEM Tocantins (criado
+   em 1988 e instalado em 1989). Este painel cobre APENAS os 246 munis de GO
+   atual — o batimento com agregados pré-1989 mostra dif ~19% por essa razão,
+   o que está CORRETO conceitualmente. Pós-1989 o batimento é exato.
+
+3. DEFLAÇÃO: Valores monetários (PIB, VA agropecuário, SICOR) convertidos para
+   reais de DEZEMBRO/2024 via IPCA acumulado de dezembro de cada ano (tabela
+   SIDRA 1737). Padrão idêntico a `analise_credito_uso_terra.py` Pipeline #8.
+   Variáveis com sufixo `_real_rs`. Sem deflator, valores nominais não são
+   comparáveis entre anos.
+
+4. CENSO AGROPECUÁRIO 2017: replicado como atributo ESTÁTICO em todos os
+   anos do município (mesmo valor 1985–2024). Decisão pragmática para
+   regressão pooled — Censo é cross-section único; não há série temporal
+   municipal anual de estrutura agrária. Limitação: não captura mudanças
+   estruturais pré-2017 ou pós-2017.
+
+5. LEITE PPM 74: EXCLUÍDO. A tabela só contém "Valor da produção" em moedas
+   históricas (Cruzados, Cruzeiros, Cruzeiros Reais, Reais). Comparação
+   intertemporal exigiria conversão monetária histórica que não está pronta.
+   NÃO há quantidade física (mil litros) em PPM 74 conforme inspecionado.
+
+6. LAVOURAS — TOP 6 (decisão do usuário, alinhada com economia de Goiás):
+       PAM 839 (milho safras, desde 2003):
+           - milho1 = categoria_id 114253 (Milho em grão - 1ª safra)
+           - milho2 = categoria_id 114254 (Milho em grão - 2ª safra)
+       PAM 1612 (lavouras temporárias, desde 1974):
+           - soja    = categoria_id 2713
+           - cana    = categoria_id 2696 (Cana-de-açúcar)
+           - feijao  = categoria_id 2702 (Feijão em grão; soma todas as safras)
+           - algodao = categoria_id 2689 (Algodão herbáceo em caroço)
+   Cada cultura → 2 colunas: `agri_<cultura>_ha_plantada`, `agri_<cultura>_ton`.
+   Demais culturas (arroz, mandioca, sorgo, café, banana, etc.) NÃO entram —
+   acessíveis via JOIN ad-hoc com sidra_pam1612_temporarias.csv.
+   Validação cruzada MapBiomas vs SIDRA já feita para soja em
+   validacao_soja_mapbiomas_sidra.csv.
+
+7. PECUÁRIA: PPM 3939, variável "Efetivo dos rebanhos" (cabeças). Mantidas
+   3 categorias agregadas: bovinos (2670), suínos (32794), galináceos (32796).
+   Demais (equino, bubalino, ovino, caprino) excluídas — pouca relevância
+   para o eixo LULC × pecuária da dissertação.
+
+8. PIB MUNICIPAL: SIDRA 5938 (Contas Regionais IBGE). Variáveis selecionadas:
+       - pib_real_rs:     variavel_id 37  (PIB a preços correntes, deflacionado)
+       - va_agro_real_rs: variavel_id 513 (VA da agropecuária, deflacionado)
+   IMPORTANTE: SIDRA 5938 reporta valores em "Mil Reais". Este painel
+   MULTIPLICA POR 1000 para sair em REAIS — coerência com SICOR (R$).
+   `participacao_agro_pct` = VA agro / VA total × 100 (variavel_id 498),
+   invariante à deflação por construção.
+
+   DIVERGÊNCIA conhecida com `painel_credito_lulc.csv` (Pipeline #8):
+   aquele arquivo reporta `pib_real_rs` ~38% maior que o cálculo aqui,
+   apesar de declarar a mesma base IPCA. Causa exata não auditada;
+   a fórmula deste pipeline é determinística e bate com SIDRA bruto.
+   Se a regressão exigir compatibilidade, usar este painel.
+
+9. SICOR: agregado por (cd_mun, ano, finalidade) somando `valor` e
+   `n_operacoes`. Pivotado em Custeio/Investimento. Valores deflacionados.
+   Anos 2025-2026 (parciais) EXCLUÍDOS deste painel — incluí-los enviesaria
+   somatórios. Quem precisar dos parciais usa sicor_painel_municipal.csv.
+
+10. SLOTS VAZIOS (IDH-M e Fogo): colunas criadas com NaN. Quando os pipelines
+    #13 (IDH-M Atlas PNUD) e #14 (Fogo MapBiomas via GEE) forem executados,
+    basta `df.update()` por (cd_mun, ano) — sem refator.
+
+11. LULC — agrupamento de classes MapBiomas Col 10.1: ver dicionário
+    GRUPOS_LULC abaixo. Decisão: agregar por GRUPO TEMÁTICO, não por
+    class_id individual, para reduzir esparsidade. `lulc_agricultura_ha`
+    soma TODAS as lavouras MapBiomas (soja + cana + algodão + arroz +
+    café + citrus + outras temporárias + outras perenes). `lulc_soja_ha`
+    permanece desagregada por ser a cultura central da dissertação.
+    `lulc_area_total_ha` = soma de todas as classes presentes (proxy da
+    área do município; pode divergir levemente da área oficial geobr por
+    arredondamento de pixel).
+
+12. MÉTRICAS DERIVADAS: calculadas APENAS onde os insumos existem (sem
+    extrapolação). NaN propaga.
+
+13. NÃO APLICA validação cruzada automática neste script — apenas gera o
+    diagnóstico de cobertura. Validação fica em scripts dedicados.
+"""
+from __future__ import annotations
+
+import sys
+from pathlib import Path
+
+if sys.platform == "win32":
+    sys.stdout.reconfigure(encoding="utf-8")
+
+import numpy as np
+import pandas as pd
+
+# ---------------------------------------------------------------------------
+# Configuração
+# ---------------------------------------------------------------------------
+ROOT          = Path(__file__).resolve().parent.parent
+DIR_PROCESSED = ROOT / "data" / "processed"
+DIR_OUTPUT    = ROOT / "outputs"
+DIR_DIAG      = DIR_OUTPUT / "diagnosticos"
+for d in (DIR_PROCESSED, DIR_OUTPUT, DIR_DIAG):
+    d.mkdir(parents=True, exist_ok=True)
+
+ANO_INI = 1985
+ANO_FIM = 2024
+DATA_BASE_DEFLATOR = (2024, 12)
+
+# Agrupamento de classes MapBiomas Col 10.1 → coluna do painel.
+# class_ids confirmados via inspeção de mapbiomas_munis_goias.csv.
+GRUPOS_LULC = {
+    "lulc_floresta_nativa_ha":     [3],
+    "lulc_formacao_savanica_ha":   [4],   # Savana/Cerrado
+    "lulc_silvicultura_ha":        [9],
+    "lulc_campo_alagado_ha":       [11],
+    "lulc_campo_nativo_ha":        [12],
+    "lulc_pastagem_ha":            [15],
+    "lulc_mosaico_usos_ha":        [21],
+    "lulc_area_urbana_ha":         [24],
+    "lulc_outras_nao_vegetadas_ha":[25, 29],  # Outras + Afloramento Rochoso
+    "lulc_mineracao_ha":           [30],
+    "lulc_aquicultura_ha":         [31],
+    "lulc_corpo_dagua_ha":         [33],
+    "lulc_soja_ha":                [39],
+    "lulc_agricultura_ha":         [20, 39, 40, 41, 46, 47, 48, 62],  # cana+soja+arroz+outras+café+citrus+perenes+algodão
+}
+
+# IDs de categoria SIDRA (confirmados via inspeção)
+CAT_PAM839_MILHO1  = 114253
+CAT_PAM839_MILHO2  = 114254
+CAT_PAM1612 = {
+    "soja":    2713,
+    "cana":    2696,
+    "feijao":  2702,
+    "algodao": 2689,
+}
+CAT_PPM3939 = {
+    "bovinos":    2670,
+    "suinos":     32794,
+    "galinaceos": 32796,
+}
+
+# IDs de variável SIDRA (confirmados)
+VAR_PAM_AREA_PLANT = 109   # Área plantada (ha)
+VAR_PAM_QTD_PROD   = 214   # Quantidade produzida (ton)
+VAR_PPM_REBANHO    = 105   # Efetivo dos rebanhos (cabeças)
+VAR_PIB_TOTAL      = 37    # PIB a preços correntes
+VAR_PIB_VA_TOTAL   = 498   # VA total
+VAR_PIB_VA_AGRO    = 513   # VA agropecuária
+VAR_POPULACAO      = 9324  # População residente estimada
+
+
+# ---------------------------------------------------------------------------
+# Helpers de I/O e deflação (replica padrão do Pipeline #8)
+# ---------------------------------------------------------------------------
+
+def carregar_ipca() -> pd.DataFrame:
+    df = pd.read_csv(DIR_PROCESSED / "sidra_1737_ipca.csv", encoding="utf-8")
+    return df.dropna(subset=["indice_acum"])
+
+
+def deflacionar(df_nominal: pd.DataFrame, col_val: str, df_ipca: pd.DataFrame) -> pd.Series:
+    """Deflaciona col_val para R$ de DATA_BASE_DEFLATOR usando dez de cada ano."""
+    ano_base, mes_base = DATA_BASE_DEFLATOR
+    idx_base = df_ipca.loc[
+        (df_ipca["ano"] == ano_base) & (df_ipca["mes"] == mes_base),
+        "indice_acum",
+    ].iloc[0]
+    df_dez = df_ipca[df_ipca["mes"] == 12][["ano", "indice_acum"]].rename(
+        columns={"indice_acum": "idx_dez"}
+    )
+    merged = df_nominal.merge(df_dez, on="ano", how="left")
+    return merged[col_val] * (idx_base / merged["idx_dez"])
+
+
+# ---------------------------------------------------------------------------
+# Loaders por fonte — todos retornam DataFrame indexado em (cd_mun, ano)
+# ---------------------------------------------------------------------------
+
+def construir_grade() -> pd.DataFrame:
+    """Produto cartesiano dos 246 munis × 1985–2024."""
+    mapb = pd.read_csv(DIR_PROCESSED / "mapbiomas_munis_goias.csv", encoding="utf-8")
+    munis = mapb[["cd_mun", "nm_mun"]].drop_duplicates().sort_values("cd_mun")
+    anos = pd.DataFrame({"ano": range(ANO_INI, ANO_FIM + 1)})
+    grade = munis.merge(anos, how="cross")
+    print(f"[grade] {len(grade):,} linhas ({munis.shape[0]} munis × {anos.shape[0]} anos)")
+    return grade
+
+
+def load_lulc() -> pd.DataFrame:
+    df = pd.read_csv(DIR_PROCESSED / "mapbiomas_munis_goias.csv", encoding="utf-8")
+    blocos = []
+    for col, class_ids in GRUPOS_LULC.items():
+        sub = (
+            df[df["class_id"].isin(class_ids)]
+            .groupby(["cd_mun", "ano"], as_index=False)["area_ha"].sum()
+            .rename(columns={"area_ha": col})
+        )
+        blocos.append(sub)
+    out = blocos[0]
+    for b in blocos[1:]:
+        out = out.merge(b, on=["cd_mun", "ano"], how="outer")
+    # Área total = soma de todas as classes presentes no original (não dos grupos,
+    # para evitar contagem dupla com lulc_agricultura que inclui soja).
+    area_total = (
+        df.groupby(["cd_mun", "ano"], as_index=False)["area_ha"].sum()
+        .rename(columns={"area_ha": "lulc_area_total_ha"})
+    )
+    out = out.merge(area_total, on=["cd_mun", "ano"], how="outer")
+    print(f"[lulc] {len(out):,} linhas, {out.shape[1]-2} colunas LULC")
+    return out
+
+
+def load_pecuaria() -> pd.DataFrame:
+    df = pd.read_csv(DIR_PROCESSED / "sidra_ppm3939_rebanhos.csv", encoding="utf-8")
+    df = df[df["variavel_id"] == VAR_PPM_REBANHO]
+    blocos = []
+    for nome, cat_id in CAT_PPM3939.items():
+        sub = (
+            df[df["categoria_id"] == cat_id][["cd_mun", "ano", "valor"]]
+            .rename(columns={"valor": f"pec_{nome}_cab"})
+        )
+        blocos.append(sub)
+    out = blocos[0]
+    for b in blocos[1:]:
+        out = out.merge(b, on=["cd_mun", "ano"], how="outer")
+    print(f"[pecuaria] {len(out):,} linhas, {out.shape[1]-2} colunas")
+    return out
+
+
+def load_agricultura() -> pd.DataFrame:
+    # PAM 1612 — soja, cana, feijão, algodão
+    df1612 = pd.read_csv(DIR_PROCESSED / "sidra_pam1612_temporarias.csv", encoding="utf-8")
+    blocos = []
+    for nome, cat_id in CAT_PAM1612.items():
+        for var_id, sufixo in [
+            (VAR_PAM_AREA_PLANT, "ha_plantada"),
+            (VAR_PAM_QTD_PROD,   "ton"),
+        ]:
+            col = f"agri_{nome}_{sufixo}"
+            sub = (
+                df1612[
+                    (df1612["categoria_id"] == cat_id) &
+                    (df1612["variavel_id"]  == var_id)
+                ][["cd_mun", "ano", "valor"]]
+                .rename(columns={"valor": col})
+            )
+            blocos.append(sub)
+
+    # PAM 839 — milho 1ª e 2ª safra
+    df839 = pd.read_csv(DIR_PROCESSED / "sidra_pam839_milho_safras.csv", encoding="utf-8")
+    for nome, cat_id in [("milho1", CAT_PAM839_MILHO1), ("milho2", CAT_PAM839_MILHO2)]:
+        for var_id, sufixo in [
+            (VAR_PAM_AREA_PLANT, "ha_plantada"),
+            (VAR_PAM_QTD_PROD,   "ton"),
+        ]:
+            col = f"agri_{nome}_{sufixo}"
+            sub = (
+                df839[
+                    (df839["categoria_id"] == cat_id) &
+                    (df839["variavel_id"]  == var_id)
+                ][["cd_mun", "ano", "valor"]]
+                .rename(columns={"valor": col})
+            )
+            blocos.append(sub)
+
+    out = blocos[0]
+    for b in blocos[1:]:
+        out = out.merge(b, on=["cd_mun", "ano"], how="outer")
+    print(f"[agricultura] {len(out):,} linhas, {out.shape[1]-2} colunas")
+    return out
+
+
+def load_economico(df_ipca: pd.DataFrame) -> pd.DataFrame:
+    df = pd.read_csv(DIR_PROCESSED / "sidra_5938_pib_municipal.csv", encoding="utf-8")
+    pivot = df.pivot_table(
+        index=["cd_mun", "ano"],
+        columns="variavel_id",
+        values="valor",
+        aggfunc="first",
+    ).reset_index()
+    # Manter só as 3 variáveis de interesse e renomear
+    keep = pivot[["cd_mun", "ano", VAR_PIB_TOTAL, VAR_PIB_VA_TOTAL, VAR_PIB_VA_AGRO]].rename(
+        columns={
+            VAR_PIB_TOTAL:    "pib_nominal_rs",
+            VAR_PIB_VA_TOTAL: "va_total_nominal_rs",
+            VAR_PIB_VA_AGRO:  "va_agro_nominal_rs",
+        }
+    )
+    # SIDRA 5938 está em Mil R$. Multiplicar por 1000 para sair em R$ (alinha com SICOR).
+    keep["pib_real_rs"]     = deflacionar(keep, "pib_nominal_rs",     df_ipca) * 1000.0
+    keep["va_agro_real_rs"] = deflacionar(keep, "va_agro_nominal_rs", df_ipca) * 1000.0
+    keep["participacao_agro_pct"] = (
+        keep["va_agro_nominal_rs"] / keep["va_total_nominal_rs"] * 100
+    )
+    out = keep[["cd_mun", "ano", "pib_real_rs", "va_agro_real_rs", "participacao_agro_pct"]]
+    print(f"[pib] {len(out):,} linhas")
+    return out
+
+
+def load_populacao() -> pd.DataFrame:
+    df = pd.read_csv(DIR_PROCESSED / "sidra_6579_populacao.csv", encoding="utf-8")
+    out = (
+        df[df["variavel_id"] == VAR_POPULACAO][["cd_mun", "ano", "valor"]]
+        .rename(columns={"valor": "populacao"})
+    )
+    print(f"[populacao] {len(out):,} linhas")
+    return out
+
+
+def load_sicor(df_ipca: pd.DataFrame) -> pd.DataFrame:
+    df = pd.read_csv(DIR_PROCESSED / "sicor_painel_municipal.csv", encoding="utf-8")
+    df = df[(df["ano"] >= ANO_INI) & (df["ano"] <= ANO_FIM)]  # exclui 2025–2026 parciais
+    agg = (
+        df.groupby(["cd_mun", "ano", "finalidade"], as_index=False)
+        .agg(valor=("valor", "sum"), n_op=("n_operacoes", "sum"))
+    )
+    pivot = agg.pivot_table(
+        index=["cd_mun", "ano"],
+        columns="finalidade",
+        values=["valor", "n_op"],
+        fill_value=0,
+    ).reset_index()
+    pivot.columns = [
+        "cd_mun" if c == ("cd_mun", "") else
+        "ano"    if c == ("ano", "")    else
+        f"sicor_{c[1].lower()}_{c[0]}"
+        for c in pivot.columns
+    ]
+    # Renomear e calcular total
+    rename = {
+        "sicor_custeio_valor":       "sicor_custeio_nominal_rs",
+        "sicor_investimento_valor":  "sicor_investimento_nominal_rs",
+        "sicor_custeio_n_op":        "sicor_custeio_n_operacoes",
+        "sicor_investimento_n_op":   "sicor_investimento_n_operacoes",
+    }
+    pivot = pivot.rename(columns=rename)
+    for c in rename.values():
+        if c not in pivot.columns:
+            pivot[c] = 0
+    pivot["sicor_custeio_real_rs"]      = deflacionar(pivot, "sicor_custeio_nominal_rs",      df_ipca)
+    pivot["sicor_investimento_real_rs"] = deflacionar(pivot, "sicor_investimento_nominal_rs", df_ipca)
+    pivot["sicor_total_real_rs"]        = pivot["sicor_custeio_real_rs"] + pivot["sicor_investimento_real_rs"]
+    pivot["sicor_n_operacoes_total"]    = (
+        pivot["sicor_custeio_n_operacoes"] + pivot["sicor_investimento_n_operacoes"]
+    )
+    out = pivot[[
+        "cd_mun", "ano",
+        "sicor_custeio_real_rs", "sicor_investimento_real_rs", "sicor_total_real_rs",
+        "sicor_custeio_n_operacoes", "sicor_investimento_n_operacoes", "sicor_n_operacoes_total",
+    ]]
+    print(f"[sicor] {len(out):,} linhas (1985–2024 com NaN onde não há dado)")
+    return out
+
+
+def load_censo_2017() -> pd.DataFrame:
+    """Censo Agropecuário 2017 — replicado como atributo estático por munic."""
+    df = pd.read_csv(DIR_PROCESSED / "sidra_censo_agro_2017.csv", encoding="utf-8")
+    cols_keep = {
+        "cd_mun":                              "cd_mun",
+        "ca_n_estabelecimentos_total":         "censo2017_n_estabelecimentos",
+        "ca_area_estabelecimentos_ha_total":   "censo2017_area_estabelecimentos_ha",
+        "ca_pct_familiar":                     "censo2017_pct_familiar",
+        "ca_n_estab_com_tratores":             "censo2017_n_estab_tratores",
+        "ca_n_cabecas_bovinos":                "censo2017_n_cabecas_bovinos",
+        "ca_lotacao_censo_bov_ha":             "censo2017_lotacao_bov_ha",
+        "ca_valor_producao_mil_reais_soja":    "censo2017_valor_producao_soja_mil_rs",
+        "ca_pct_adubacao":                     "censo2017_pct_adubacao",
+        "ca_pct_agrotoxicos":                  "censo2017_pct_agrotoxicos",
+    }
+    out = df[list(cols_keep.keys())].rename(columns=cols_keep)
+    print(f"[censo2017] {len(out):,} munis (estático, replicado em todos os anos)")
+    return out
+
+
+# ---------------------------------------------------------------------------
+# Pipeline principal
+# ---------------------------------------------------------------------------
+
+def derivar_metricas(df: pd.DataFrame) -> pd.DataFrame:
+    """Calcula ratios e densidades onde insumos existem (NaN propaga)."""
+    df["lotacao_bov_ha"] = df["pec_bovinos_cab"] / df["lulc_pastagem_ha"]
+    df["credito_por_ha_pastagem"] = df["sicor_total_real_rs"] / df["lulc_pastagem_ha"]
+    df["produtividade_soja_ton_ha"] = (
+        df["agri_soja_ton"] / df["agri_soja_ha_plantada"]
+    )
+    # Áreas relativas
+    df["pct_pastagem_lulc"]    = df["lulc_pastagem_ha"]    / df["lulc_area_total_ha"] * 100
+    df["pct_agricultura_lulc"] = df["lulc_agricultura_ha"] / df["lulc_area_total_ha"] * 100
+    df["pct_natural_lulc"] = (
+        (df["lulc_floresta_nativa_ha"] + df["lulc_formacao_savanica_ha"]
+         + df.get("lulc_campo_nativo_ha", 0).fillna(0))
+        / df["lulc_area_total_ha"] * 100
+    )
+    df["pib_per_capita_real"] = df["pib_real_rs"] / df["populacao"]
+    # Densidade demográfica (hab/km² ≈ hab/(ha/100))
+    df["densidade_demografica_hab_km2"] = df["populacao"] / (df["lulc_area_total_ha"] / 100)
+    # Substituir infinitos (divisão por zero) por NaN para análise downstream
+    df = df.replace([np.inf, -np.inf], np.nan)
+    return df
+
+
+def adicionar_slots_vazios(df: pd.DataFrame) -> pd.DataFrame:
+    """Cria colunas placeholder para IDH-M (#13) e Fogo (#14)."""
+    for col in [
+        "idhm", "idhm_renda", "idhm_educ", "idhm_long",
+        "fogo_area_queimada_ha", "fogo_n_focos",
+    ]:
+        df[col] = np.nan
+    return df
+
+
+def diagnostico_cobertura(df: pd.DataFrame) -> pd.DataFrame:
+    """% de NaN por (coluna × ano). Salva em outputs/diagnosticos/."""
+    cols_data = [c for c in df.columns if c not in ("cd_mun", "nm_mun", "ano")]
+    rows = []
+    for ano, sub in df.groupby("ano"):
+        n = len(sub)
+        for c in cols_data:
+            n_nan = sub[c].isna().sum()
+            rows.append({"ano": ano, "coluna": c, "n_total": n,
+                         "n_nan": int(n_nan), "pct_nan": 100.0 * n_nan / n})
+    diag = pd.DataFrame(rows)
+    out_path = DIR_DIAG / "painel_unificado_cobertura.csv"
+    diag.to_csv(out_path, index=False, encoding="utf-8")
+    print(f"[diag] {out_path.relative_to(ROOT)} — {len(diag):,} linhas")
+
+    # Resumo de cobertura média por coluna
+    resumo = diag.groupby("coluna", as_index=False).agg(
+        pct_nan_medio=("pct_nan", "mean"),
+        anos_com_dado=("pct_nan", lambda s: (s < 100).sum()),
+    ).sort_values("pct_nan_medio", ascending=False)
+    print("\n[diag] Top 15 colunas com mais NaN (média entre anos):")
+    print(resumo.head(15).to_string(index=False))
+    return diag
+
+
+def main() -> None:
+    print("=" * 70)
+    print("Pipeline #16 — Construindo painel unificado município × ano")
+    print(f"Janela: {ANO_INI}–{ANO_FIM} | Base deflator: dez/{DATA_BASE_DEFLATOR[0]}")
+    print("=" * 70)
+
+    # 1. Grade base
+    grade   = construir_grade()
+    df_ipca = carregar_ipca()
+
+    # 2. Carregar todas as fontes
+    lulc    = load_lulc()
+    pec     = load_pecuaria()
+    agri    = load_agricultura()
+    pib     = load_economico(df_ipca)
+    pop     = load_populacao()
+    sicor   = load_sicor(df_ipca)
+    censo   = load_censo_2017()
+
+    # 3. Joins sequenciais sobre a grade
+    print("\n[join] Construindo wide table...")
+    painel = grade.copy()
+    for nome, df in [("lulc", lulc), ("pec", pec), ("agri", agri),
+                     ("pib", pib), ("pop", pop), ("sicor", sicor)]:
+        painel = painel.merge(df, on=["cd_mun", "ano"], how="left")
+        print(f"  + {nome}: shape = {painel.shape}")
+    # Censo entra só em cd_mun (replicado em todos os anos)
+    painel = painel.merge(censo, on="cd_mun", how="left")
+    print(f"  + censo: shape = {painel.shape}")
+
+    # 4. Métricas derivadas e slots vazios
+    painel = derivar_metricas(painel)
+    painel = adicionar_slots_vazios(painel)
+
+    # 5. Sanity checks
+    assert painel.duplicated(["cd_mun", "ano"]).sum() == 0, "duplicatas (cd_mun, ano)"
+    n_munis = painel["cd_mun"].nunique()
+    n_anos  = painel["ano"].nunique()
+    print(f"\n[sanity] {n_munis} munis × {n_anos} anos = {n_munis * n_anos} linhas esperadas")
+    print(f"[sanity] painel.shape = {painel.shape}")
+    assert len(painel) == n_munis * n_anos, "linhas != munis × anos"
+
+    # 6. Salvar
+    painel = painel.sort_values(["cd_mun", "ano"]).reset_index(drop=True)
+    out_parquet = DIR_PROCESSED / "painel_unificado.parquet"
+    out_csv     = DIR_PROCESSED / "painel_unificado.csv"
+    painel.to_parquet(out_parquet, index=False)
+    painel.to_csv(out_csv, index=False, encoding="utf-8")
+    print(f"\n[OK] {out_parquet.relative_to(ROOT)}")
+    print(f"[OK] {out_csv.relative_to(ROOT)}")
+
+    # 7. Diagnóstico de cobertura
+    diagnostico_cobertura(painel)
+
+    print("\n" + "=" * 70)
+    print("CONCLUÍDO")
+    print("=" * 70)
+    print(f"Painel: {painel.shape[0]:,} linhas × {painel.shape[1]} colunas")
+    print(f"Cobertura plena (todas as fontes): ano in [2013, 2023]")
+    print(f"Slots vazios reservados: idhm*, fogo_*")
+
+
+if __name__ == "__main__":
+    main()

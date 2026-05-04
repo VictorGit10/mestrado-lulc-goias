@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.pyc
+.env
+.venv/
+venv/
+env/
+
+# Dados e Outputs (Não versionar arquivos pesados e gerados)
+data/
+outputs/
+*.csv
+*.xlsx
+*.pdf
+*.zip
+*.tar.gz
+
+# IDE e Sistema
+.claude/
+.vscode/
+.DS_Store
+*.swp
