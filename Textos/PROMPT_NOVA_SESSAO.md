@@ -6,34 +6,38 @@ Estou trabalhando na dissertação de mestrado sobre dinâmica de uso e cobertur
 
 ## O que já está pronto
 
-8 pipelines foram concluídos. Os dados processados estão em `data/processed/` (37 CSVs) e os gráficos em `outputs/` (18 PNGs). A documentação completa está em `DOCUMENTACAO.md`.
+16 pipelines foram concluídos. Os dados processados estão em `data/processed/` (40+ CSVs + 1 parquet) e as visualizações em `outputs/` (139 imagens). O painel unificado (`painel_unificado.parquet`, 9.840×66) consolida LULC + pecuária + lavouras + PIB + população + SICOR + Censo 2017 + IDH-M.
+
+**Pipelines concluídos**:
+- #1–#8: coleta SIDRA/SICOR + análises descritivas (18 PNGs)
+- #9–#11: cartografia (40 coropletas + 40 rasters GEE + 2 GIFs)
+- #12: matrizes de transição pixel-a-pixel via GEE (6 classes, 9 pares)
+- #13: IDH-M via IPEA Data API (1991/2000/2010, 246 munis, integrado ao painel)
+- #15: milho 1ª e 2ª safra (SIDRA 839, 2003–2024)
+- #16: painel unificado wide (9.840×66, parquet + CSV)
+
+**Pipelines com script pronto, não executados**:
+- #14: fogo MapBiomas (GEE Collection 4) — requer autenticação GEE
 
 ## Arquivos essenciais para ler
 
-1. **`DOCUMENTACAO.md`** — Documentação completa do projeto (estrutura, pipelines, decisões metodológicas, backlog). Comece por aqui.
-2. **`Scripts e Catalogo/CATALOGO_OUTPUTS.md`** — Catálogo detalhado de cada gráfico e CSV produzido.
-3. **`ResumoDoBrainStorm.ini`** — Plano-mestre da dissertação (escrito por mim).
-4. **`Histórico/SugestaoClaude.md`** — Lista de fontes de dados adicionais e decisões de espacialização.
-
-## Arquivos NÃO precisam ser lidos na íntegra
-
-- Os 37 CSVs em `data/processed/` — estão documentados no CATALOGO_OUTPUTS.md
-- Os scripts em `Scripts e Catalogo/` — estão documentados no DOCUMENTACAO.md
-- Os JSONs em `data/raw/sicor/` — dados brutos em cache
-- Os CSVs em `data/raw/sidra/` — dados brutos em cache
-- `data/raw/mapbiomas_col10_estado.xlsx` — 78MB, não abrir
+1. **`Textos/DOCUMENTACAO.md`** — Documentação completa do projeto (estrutura, pipelines, decisões metodológicas, backlog). Comece por aqui.
+2. **`Textos/CATALOGO_OUTPUTS.md`** — Catálogo detalhado de cada gráfico e CSV produzido.
+3. **`Textos/ResumoDoBrainStorm.ini`** — Plano-mestre da dissertação (4 eixos de pesquisa).
+4. **`Textos/SugestaoClaude.md`** — Lista de fontes de dados adicionais e decisões de espacialização.
 
 ## Backlog (prioridade sugerida)
 
-1. Matrizes de transição A→B via GEE (coração da dissertação)
-2. IDH-M (PNUD Atlas)
-3. Fogo MapBiomas (GEE)
-4. Infraestrutura (frigoríficos, silos, malha viária)
-5. Precipitação (Xavier/ERA5)
+1. **Análise espacial estatística** (Moran's I, LISA, spreg) — núcleo analítico faltante; painel unificado destrava
+2. **Pipeline #14 (fogo)** — script pronto, rodar com GEE
+3. **IDH-M 2021** — download manual do Atlas Brasil, integrar ao painel
+4. **Análise descritiva da safrinha** (#15) — dados coletados, sem gráficos
+5. **Infraestrutura agroindustrial** (SIGSIF, CONAB, DNIT) — coleta do zero
+6. **Reprodutibilidade** — requirements.txt/pyproject.toml
 
 ## O que eu quero fazer agora
 
-[TAREFA ESPECÍFICA AQUI — ex.: "Implementar a coleta de dados de IDH-M do PNUD Atlas" ou "Criar o pipeline de matrizes de transição no GEE"]
+[TAREFA ESPECÍFICA AQUI — ex.: "Implementar análise espacial com Moran's I e LISA" ou "Rodar Pipeline #14 de fogo no GEE"]
 
 ## Preferências
 

@@ -508,7 +508,8 @@ Pipelines #3, #4, #6, #7).
 | `populacao` | SIDRA 6579 (Pipeline #3) | 2001–2024 (gaps em 2007 e 2010 — anos de Censo, IBGE não publica estimativa) |
 | `sicor_*` (6 cols: custeio/investimento/total × valor+n_op) | SICOR (Pipeline #6), deflacionado | 2013–2024 |
 | `censo2017_*` (9 cols) | Censo Agro 2017 (Pipeline #7), replicado em todos os anos | Constante (cross-section) |
-| `idhm*`, `fogo_*` | **PLACEHOLDERS** (NaN) | Aguarda Pipelines #13 e #14 |
+| `idhm*` (4 cols: idhm, idhm_renda, idhm_educ, idhm_long) | IPEA Data API (Pipeline #13) | 1991, 2000, 2010 (Censo); 2021 pendente (PNAD Contínua) |
+| `fogo_*` (2 cols) | **PLACEHOLDER** (NaN) | Aguarda Pipeline #14 |
 | Métricas derivadas: `lotacao_bov_ha`, `credito_por_ha_pastagem`, `produtividade_soja_ton_ha`, `pct_pastagem_lulc`, `pct_agricultura_lulc`, `pct_natural_lulc`, `pib_per_capita_real`, `densidade_demografica_hab_km2` | Calculadas onde insumos existem | Variável |
 
 **Decisões metodológicas (críticas — leia antes de usar)**:
@@ -534,7 +535,7 @@ Pipelines #3, #4, #6, #7).
 
 10. **LULC agrupada por tema**: `lulc_agricultura_ha` soma TODAS as lavouras MapBiomas (soja + cana + algodão + arroz + café + citrus + outras temporárias + outras perenes). `lulc_soja_ha` permanece desagregada por ser cultura central da dissertação. `lulc_area_total_ha` = soma de todas as classes (proxy da área do município).
 
-11. **Slots vazios para IDH-M e Fogo**: colunas criadas com NaN. Quando os pipelines #13 e #14 forem executados, basta `df.update()` — sem refator do schema.
+11. **IDH-M parcialmente preenchido, Fogo pendente**: colunas `idhm*` preenchidas para 1991/2000/2010 via IPEA Data API (Pipeline #13, 738 de 9.840 linhas). Dados de 2021 (PNAD Contínua) requerem download manual do Atlas Brasil. Colunas `fogo_*` ainda NaN — aguardam Pipeline #14.
 
 12. **Métricas derivadas com NaN propagado**: nenhuma extrapolação. Razões com denominador zero → NaN (substituídas via `np.replace([np.inf, -np.inf], np.nan)`).
 
@@ -579,7 +580,8 @@ Pipelines #3, #4, #6, #7).
 | Frigoríficos estaduais | Agrodefesa-GO | Complementa SIGSIF para abatedouros menores |
 | Silos e armazéns | CONAB SISDEP | Capacidade estática por município |
 | Malha viária | DNIT/SNV | Acessibilidade rodoviária |
-| ~~IDH-M~~ | ~~PNUD Atlas~~ | ~~CONCLUÍDO Pipeline #13 (aguarda download manual)~~ |
+| ~~IDH-M (Censo)~~ | ~~IPEA Data API~~ | ~~CONCLUÍDO Pipeline #13 (1991/2000/2010)~~ |
+| IDH-M 2021 (PNAD Contínua) | Atlas Brasil PNUD | Download manual → data/raw/idhm/ |
 | População rural/urbana | SIDRA 200 (Censos) | Esvaziamento rural decenal |
 | ~~Fogo MapBiomas~~ | ~~GEE Collection 4~~ | ~~CONCLUÍDO Pipeline #14 (script pronto, rodar com GEE)~~ |
 | PRODES Cerrado | INPE/TerraBrasilis | Desmatamento anual ("primeira supressão") |
@@ -591,8 +593,10 @@ Pipelines #3, #4, #6, #7).
 **Nota Pipeline #15**: tabela 1618 (LSPA) NÃO tem dados municipais (só UF). A tabela municipal
 correta para safrinha é **SIDRA 839** (milho 1ª e 2ª safra, 2003–2024, 246 municípios).
 
-**Nota Pipeline #13**: `coleta_idhm.py` requer download manual do CSV em `data/raw/idhm/`
-(ver instruções no script). Fonte: http://www.atlasbrasil.org.br/consulta/planilha
+**Nota Pipeline #13**: dados 1991/2000/2010 coletados via IPEA Data API (séries ADH_IDHM,
+ADH_IDHM_E, ADH_IDHM_L, ADH_IDHM_R). Script `coleta_idhm.py` usa IPEA API como fonte
+primária e arquivos locais como fallback. Dados de 2021 (PNAD Contínua) requerem
+download manual do Atlas Brasil (http://atlasbrasil.org.br/ranking → "BAIXAR TABELA").
 
 **Nota Pipeline #14**: assets confirmados via GEE:
   - `.../fire/collection4/mapbiomas_fire_collection4_annual_burned_v1` (40 bandas binárias)

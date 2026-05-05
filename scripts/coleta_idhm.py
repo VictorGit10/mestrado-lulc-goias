@@ -3,42 +3,50 @@ coleta_idhm.py — Coletor de IDH-M (Atlas do Desenvolvimento Humano no Brasil)
 ==============================================================================
 
 Baixa e processa o Índice de Desenvolvimento Humano Municipal (IDH-M) e
-sub-índices para os 246 municípios de Goiás, nos anos 1991, 2000, 2010 e 2021.
+sub-índices para os 246 municípios de Goiás.
 
-Fonte: PNUD Brasil / Fundação João Pinheiro / IBGE — Atlas do Desenvolvimento
-Humano no Brasil (http://www.atlasbrasil.org.br/)
+Fonte primária: IPEA Data API (séries ADH_IDHM, ADH_IDHM_E, ADH_IDHM_L,
+ADH_IDHM_R). Cobre os anos do Censo Demográfico: 1991, 2000, 2010.
 
-COMO OBTER OS DADOS (download manual):
+  API endpoint: http://www.ipeadata.gov.br/api/odata4/ValoresSerie(SERCODIGO='<SERIE>')
 
-  1. Acesse http://www.atlasbrasil.org.br/consulta/planilha
-  2. Selecione:
-     - Abrangência: Municípios
-     - UF: Goiás
-     - Anos: 1991, 2000, 2010 (ou 2019 para a atualização 2021)
-     - Indicadores: IDH-M, IDH-M Renda, IDH-M Longevidade, IDH-M Educação
+Fonte secundária (fallback manual): PNUD Brasil / Fundação João Pinheiro / IBGE
+— Atlas do Desenvolvimento Humano no Brasil.
+  Necessária para o ano 2021 (PNAD Contínua), não disponível na IPEA API
+  no nível municipal.
+
+COMO OBTER OS DADOS DE 2021 (download manual):
+
+  1. Acesse http://www.atlasbrasil.org.br/ranking
+  2. Selecione: Municípios > Ano 2021
   3. Clique em "BAIXAR TABELA"
-  4. Salve o CSV como data/raw/idhm/atlas_idhm_goias.csv
+  4. Salve o CSV como data/raw/idhm/atlas_idhm_2021_goias.csv
+     ou o XLSX como data/raw/idhm/atlas_idhm_2021_goias.xlsx
 
-  Alternativa (dados 1991–2010):
-    - Base dos Dados: https://basedosdados.org/dataset/br-atlas-de-desenvolvimento-humano
-    - Baixar a tabela municipio como CSV e colocar em data/raw/idhm/
+  Alternativa (todos os anos Censo):
+    1. Acesse http://www.atlasbrasil.org.br/consulta/planilha
+    2. Selecione: Municípios > Goiás > Anos 1991, 2000, 2010, 2021
+    3. Indicadores: IDH-M, IDH-M Renda, IDH-M Longevidade, IDH-M Educação
+    4. Baixe como CSV e salve em data/raw/idhm/atlas_idhm_goias.csv
 
-  Para dados 2021:
-    - A atualização 2021 do Atlas Brasil está em
-      https://www.ipea.gov.br/atlasbrasil/outras-informacoes/
-    - Baixe o arquivo Excel/CSV e coloque em data/raw/idhm/atlas_idhm_2021_goias.xlsx
-      (ou .csv)
-
-O script detecta o formato do arquivo e normaliza automaticamente.
+  Alternativa Base dos Dados (1991–2010):
+    1. Acesse https://basedosdados.org/dataset/br-atlas-de-desenvolvimento-humano
+    2. Baixe a tabela municipio como CSV e coloque em data/raw/idhm/
 
 Saída:
   data/processed/idhm_goias_municipal.csv
 
 Schema: cd_mun, nm_mun, ano, idhm, idhm_r, idhm_l, idhm_e
 
+  idhm   — IDH-M geral
+  idhm_r — IDH-M Renda
+  idhm_l — IDH-M Longevidade
+  idhm_e — IDH-M Educação
+
 Como rodar:
-    python coleta_idhm.py            # processa o CSV se existir
+    python coleta_idhm.py            # busca IPEA API + processa arquivos locais
     python coleta_idhm.py --force    # reprocessa mesmo se output já existe
+    python coleta_idhm.py --offline  # só processa arquivos locais, sem API
 """
 from __future__ import annotations
 
@@ -47,6 +55,7 @@ import sys
 from pathlib import Path
 
 import pandas as pd
+import requests
 
 # ---------------------------------------------------------------------------
 # Configuração
@@ -59,6 +68,15 @@ for d in (DIR_RAW_IDHM, DIR_PROCESSED):
 
 N_MUNICIPIOS_GO = 246
 CODIGO_UF_GO = 52  # Prefixo IBGE para Goiás
+
+# IPEA Data API — séries ADH (Atlas do Desenvolvimento Humano - Censo)
+IPEA_SERIES = {
+    "ADH_IDHM":   "idhm",
+    "ADH_IDHM_E": "idhm_e",
+    "ADH_IDHM_L": "idhm_l",
+    "ADH_IDHM_R": "idhm_r",
+}
+IPEA_API_BASE = "http://www.ipeadata.gov.br/api/odata4/ValoresSerie(SERCODIGO='{code}')"
 
 # Colunas de interesse (nomes variam por fonte)
 COLUNAS_IDHM = {
@@ -95,15 +113,67 @@ COLUNAS_MUNI = {
 
 COLUNAS_ANO = {"Ano", "ano", "ANO"}
 
+COLUNAS_SAIDA = ["cd_mun", "nm_mun", "ano", "idhm", "idhm_r", "idhm_l", "idhm_e"]
+
 
 # ---------------------------------------------------------------------------
-# Funções de leitura
+# Fonte 1: IPEA Data API
+# ---------------------------------------------------------------------------
+
+def _baixar_ipea() -> pd.DataFrame:
+    """Baixa dados IDH-M do IPEA Data API para municípios de Goiás.
+
+    Retorna DataFrame longo com colunas: cd_mun, ano, col_name (idhm/idhm_e/idhm_l/idhm_r), valor.
+    """
+    all_data = []
+    for sercodigo, col_name in IPEA_SERIES.items():
+        url = IPEA_API_BASE.format(code=sercodigo)
+        print(f"  IPEA API: {sercodigo} -> {col_name}...")
+        try:
+            r = requests.get(url, timeout=120)
+            r.raise_for_status()
+        except requests.RequestException as e:
+            print(f"    ERRO: {e}")
+            continue
+
+        values = r.json().get("value", [])
+        goias = [
+            v for v in values
+            if str(v.get("TERCODIGO", "")).startswith("52")
+            and v.get("NIVNOME", "") == "Municípios"
+        ]
+        print(f"    {len(goias)} registros de Goiás")
+
+        for v in goias:
+            all_data.append({
+                "cd_mun": int(v["TERCODIGO"]),
+                "ano": int(v["VALDATA"][:4]),
+                "col_name": col_name,
+                "valor": v["VALVALOR"],
+            })
+
+    if not all_data:
+        return pd.DataFrame()
+
+    df = pd.DataFrame(all_data)
+    pivot = df.pivot_table(
+        index=["cd_mun", "ano"], columns="col_name", values="valor", aggfunc="first"
+    ).reset_index()
+    pivot.columns.name = None
+    return pivot
+
+
+# ---------------------------------------------------------------------------
+# Fonte 2: arquivos locais (fallback manual)
 # ---------------------------------------------------------------------------
 
 def _encontrar_arquivo_raw() -> Path | None:
     """Procura arquivo de dados IDH-M em data/raw/idhm/."""
-    padroes = ["atlas_idhm_goias.csv", "atlas_idhm_goias.xlsx",
-               "municipio.csv", "*.csv", "*.xlsx"]
+    padroes = [
+        "atlas_idhm_goias.csv", "atlas_idhm_goias.xlsx",
+        "atlas_idhm_2021_goias.csv", "atlas_idhm_2021_goias.xlsx",
+        "municipio.csv", "*.csv", "*.xlsx",
+    ]
     for padrao in padroes:
         arquivos = list(DIR_RAW_IDHM.glob(padrao))
         if arquivos:
@@ -116,7 +186,6 @@ def _ler_atlas_web(caminho: Path) -> pd.DataFrame:
     if caminho.suffix == ".xlsx":
         df = pd.read_excel(caminho)
     else:
-        # Atlas Brasil exporta CSV com ; e encoding latin-1
         try:
             df = pd.read_csv(caminho, sep=";", encoding="latin-1", thousands=".", decimal=",")
         except UnicodeDecodeError:
@@ -141,7 +210,6 @@ def _ler_basedosdados(caminho: Path) -> pd.DataFrame:
 
 def _normalizar_colunas(df: pd.DataFrame) -> pd.DataFrame:
     """Normaliza nomes de colunas para o schema canônico."""
-    # Detectar e renomear colunas de identificação municipal
     rename = {}
     for col in df.columns:
         col_strip = col.strip()
@@ -152,20 +220,15 @@ def _normalizar_colunas(df: pd.DataFrame) -> pd.DataFrame:
 
     df = df.rename(columns=rename)
 
-    # Detectar coluna de ano
     for col in df.columns:
         if col.strip() in COLUNAS_ANO:
             df = df.rename(columns={col: "ano"})
             break
 
-    # Garantir tipos
     if "cd_mun" in df.columns:
-        # cd_mun pode ter 6 ou 7 dígitos. Normalizar para 7 (adicionar dígito verificador se 6).
         df["cd_mun"] = pd.to_numeric(df["cd_mun"], errors="coerce").astype("Int64")
-        # Se códigos têm 6 dígitos, converter para 7
         mask_6 = df["cd_mun"].astype(str).str.len() == 6
         if mask_6.any():
-            # Fórmula do dígito verificador IBGE: soma alternada dos 5 primeiros dígitos
             def _dv_7dig(cd6: int) -> int:
                 s = str(cd6)
                 resto = sum(int(s[i]) * (7 - i) for i in range(6)) % 10
@@ -193,8 +256,6 @@ def _filtrar_goias(df: pd.DataFrame) -> pd.DataFrame:
     df_go = df[df["cd_mun"].astype(str).str.startswith("52")].copy()
     print(f"  Municípios de Goiás encontrados: {df_go['cd_mun'].nunique()}")
     if df_go["cd_mun"].nunique() == 0:
-        # Talvez o cd_mun esteja como UF + código sem dígito
-        # Tentar filtrar por UF=52 (primeiros 2 dígitos)
         raise ValueError(
             "Nenhum município de Goiás encontrado. Códigos presentes: "
             f"{df['cd_mun'].dropna().unique()[:10]}"
@@ -202,33 +263,111 @@ def _filtrar_goias(df: pd.DataFrame) -> pd.DataFrame:
     return df_go
 
 
+def _processar_arquivo_local() -> pd.DataFrame | None:
+    """Lê, normaliza e filtra arquivo local de IDH-M."""
+    arquivo = _encontrar_arquivo_raw()
+    if arquivo is None:
+        return None
+
+    print(f"\n[IDH-M] Processando arquivo local: {arquivo.name}...")
+
+    if "municipio" in arquivo.name.lower() and "atlas" not in arquivo.name.lower():
+        df = _ler_basedosdados(arquivo)
+    else:
+        df = _ler_atlas_web(arquivo)
+
+    df = _normalizar_colunas(df)
+    df = _filtrar_goias(df)
+    return df
+
+
+# ---------------------------------------------------------------------------
+# Merge IPEA API + arquivos locais
+# ---------------------------------------------------------------------------
+
+def _mesclar_fontes(df_ipea: pd.DataFrame, df_local: pd.DataFrame | None) -> pd.DataFrame:
+    """Mescla dados da IPEA API com arquivos locais (anos adicionais como 2021).
+
+    IPEA API tem prioridade para anos sobrepostos.
+    """
+    frames = []
+
+    if not df_ipea.empty:
+        frames.append(df_ipea)
+        anos_ipea = sorted(df_ipea["ano"].unique())
+        print(f"  IPEA API: anos {anos_ipea}, {df_ipea['cd_mun'].nunique()} municípios")
+
+    if df_local is not None and not df_local.empty:
+        # Adicionar apenas anos que a IPEA não cobre
+        anos_ipea_set = set(df_ipea["ano"].unique()) if not df_ipea.empty else set()
+        df_local_extra = df_local[~df_local["ano"].isin(anos_ipea_set)]
+        if not df_local_extra.empty:
+            frames.append(df_local_extra)
+            anos_local = sorted(df_local_extra["ano"].unique())
+            print(f"  Arquivo local (anos adicionais): {anos_local}, {df_local_extra['cd_mun'].nunique()} municípios")
+
+    if not frames:
+        return pd.DataFrame(columns=COLUNAS_SAIDA)
+
+    df = pd.concat(frames, ignore_index=True)
+    # Remover duplicatas (IPEA tem prioridade por vir primeiro na concat)
+    df = df.drop_duplicates(subset=["cd_mun", "ano"], keep="first")
+
+    return df
+
+
 # ---------------------------------------------------------------------------
 # Pipeline
 # ---------------------------------------------------------------------------
 
-def coletar_idhm(force: bool = False) -> pd.DataFrame:
-    """Processa dados IDH-M a partir de arquivo baixado manualmente."""
+def coletar_idhm(force: bool = False, offline: bool = False) -> pd.DataFrame:
+    """Coleta dados IDH-M: IPEA API (primária) + arquivos locais (fallback/2021)."""
     output_path = DIR_PROCESSED / "idhm_goias_municipal.csv"
     if output_path.exists() and not force:
         df = pd.read_csv(output_path)
         print(f"[cache] idhm_goias_municipal.csv ({len(df):,} linhas)")
         return df
 
-    arquivo = _encontrar_arquivo_raw()
-    if arquivo is None:
+    # --- Fonte 1: IPEA Data API ---
+    df_ipea = pd.DataFrame()
+    if not offline:
+        print("\n[IDH-M] Consultando IPEA Data API...")
+        try:
+            df_ipea = _baixar_ipea()
+        except Exception as e:
+            print(f"  IPEA API falhou: {e}")
+            print("  Continuando com arquivos locais...")
+    else:
+        print("\n[IDH-M] Modo offline — pulando IPEA API")
+
+    # --- Fonte 2: arquivos locais ---
+    df_local = None
+    print("\n[IDH-M] Verificando arquivos locais em data/raw/idhm/...")
+    try:
+        df_local = _processar_arquivo_local()
+    except Exception as e:
+        print(f"  Arquivo local falhou: {e}")
+
+    if df_local is None and df_ipea.empty:
         print("=" * 70)
-        print("ERRO: Nenhum arquivo de dados encontrado em data/raw/idhm/")
+        print("ERRO: Nenhuma fonte de dados disponível.")
+        print()
+        print("  IPEA API: indisponível ou sem dados municipais de Goiás")
+        print("  Arquivo local: nenhum encontrado em data/raw/idhm/")
         print()
         print("COMO OBTER OS DADOS:")
         print()
-        print("  Opção 1 — Atlas Brasil (todos os anos, formato web):")
+        print("  Opção 1 — IPEA Data API (automático):")
+        print("    Rode sem --offline. Requer conexão com internet.")
+        print()
+        print("  Opção 2 — Atlas Brasil (todos os anos, formato web):")
         print("    1. Acesse http://www.atlasbrasil.org.br/consulta/planilha")
-        print("    2. Selecione: Municípios > Goiás > Anos 1991, 2000, 2010, 2019/2021")
+        print("    2. Selecione: Municípios > Goiás > Anos 1991, 2000, 2010, 2021")
         print("    3. Indicadores: IDH-M, IDH-M Renda, IDH-M Longevidade, IDH-M Educação")
         print("    4. Baixe como CSV e salve em:")
         print(f"       {DIR_RAW_IDHM / 'atlas_idhm_goias.csv'}")
         print()
-        print("  Opção 2 — Base dos Dados (1991–2010, formato longo):")
+        print("  Opção 3 — Base dos Dados (1991–2010, formato longo):")
         print("    1. Acesse https://basedosdados.org/dataset/br-atlas-de-desenvolvimento-humano")
         print("    2. Baixe a tabela 'municipio' como CSV")
         print("    3. Salve em:")
@@ -236,25 +375,25 @@ def coletar_idhm(force: bool = False) -> pd.DataFrame:
         print("=" * 70)
         sys.exit(1)
 
-    print(f"\n[IDH-M] Processando {arquivo.name}...")
+    # --- Mesclar fontes ---
+    print("\n[IDH-M] Mesclando fontes...")
+    df = _mesclar_fontes(df_ipea, df_local)
 
-    # Detectar formato e ler
-    if "municipio" in arquivo.name.lower() and "atlas" not in arquivo.name.lower():
-        df = _ler_basedosdados(arquivo)
-    else:
-        df = _ler_atlas_web(arquivo)
+    if df.empty:
+        print("ERRO: Mescla resultou em DataFrame vazio.")
+        sys.exit(1)
 
-    # Normalizar colunas
-    df = _normalizar_colunas(df)
+    # Adicionar nomes dos municípios do painel unificado
+    painel_path = DIR_PROCESSED / "painel_unificado.parquet"
+    if painel_path.exists():
+        munis = pd.read_parquet(painel_path, columns=["cd_mun", "nm_mun"]).drop_duplicates()
+        df = df.merge(munis, on="cd_mun", how="left")
+    elif "nm_mun" not in df.columns:
+        df["nm_mun"] = pd.NA
 
-    # Filtrar Goiás
-    df = _filtrar_goias(df)
-
-    # Selecionar colunas de interesse
-    colunas_saida = [c for c in ["cd_mun", "nm_mun", "ano", "idhm", "idhm_r", "idhm_l", "idhm_e"] if c in df.columns]
-    df = df[colunas_saida].copy()
-
-    # Ordenar
+    # Selecionar e ordenar colunas
+    cols = [c for c in COLUNAS_SAIDA if c in df.columns]
+    df = df[cols].copy()
     df = df.sort_values(["cd_mun", "ano"]).reset_index(drop=True)
 
     # Validação
@@ -279,15 +418,18 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--force", action="store_true",
                         help="Reprocessa mesmo se output já existe")
+    parser.add_argument("--offline", action="store_true",
+                        help="Só processa arquivos locais, sem IPEA API")
     args = parser.parse_args()
 
     print("=" * 70)
-    print("Coleta IDH-M — Atlas do Desenvolvimento Humano (PNUD)")
-    print(f"  raw     -> {DIR_RAW_IDHM}")
-    print(f"  limpo   -> {DIR_PROCESSED}")
+    print("Coleta IDH-M — Atlas do Desenvolvimento Humano")
+    print(f"  IPEA API -> http://www.ipeadata.gov.br/api/odata4/")
+    print(f"  raw      -> {DIR_RAW_IDHM}")
+    print(f"  limpo    -> {DIR_PROCESSED}")
     print("=" * 70)
 
-    df = coletar_idhm(force=args.force)
+    df = coletar_idhm(force=args.force, offline=args.offline)
 
     print("\n" + "=" * 70)
     print("RESUMO IDH-M")

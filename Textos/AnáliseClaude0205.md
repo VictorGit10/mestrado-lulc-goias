@@ -3,13 +3,15 @@
                                                                                                     1. O que já está sólido
                                                                                                   
   Coleta de dados (cobertura excepcional para uma dissertação solo)
-  - 15 pipelines documentados, todos com cache e schema padronizado.
+  - 16 pipelines documentados, todos com cache e schema padronizado.
   - 8 tabelas SIDRA municipais + 7 do Censo Agro 2017 + PAM 839 (milho 1ª/2ª safra) —
   data/processed/sidra_*.csv confere.
   - SICOR completo 2013–2026 (245/246 munis) — data/raw/sicor/ tem ~70 JSONs.
   - MapBiomas Col 10.1 municipal (137k linhas), 246 munis × 40 anos × 22 classes.
   - Matrizes de transição pixel-a-pixel (#12) — data/cache/transicoes/ tem 9 CSVs (mais pares do
   que os 5 períodos publicados em outputs/transicoes/).
+  - IDH-M (#13) — CONCLUÍDO via IPEA Data API (1991/2000/2010, 246 munis, integrado ao painel).
+  - Painel unificado (#16) — 9.840×66, parquet + CSV, IDH-M já mesclado.
 
   Cartografia
   - 40 mapas coropléticos + 40 rasters GEE de Goiás + 40 rasters GEE de Rio Verde + 2 GIFs.       
@@ -29,13 +31,14 @@
   1. Pipeline #14 (fogo MapBiomas) — script pronto, mas data/cache/fogo/ não existe. Não foi      
   executado com GEE. Fogo no Cerrado precede ~70% das conversões — é peça-chave do eixo "vetor de 
   ocupação".
-  2. Pipeline #13 (IDH-M) — data/raw/idhm/ está vazio, aguardando download manual do Atlas PNUD.  
-  Sem isso, o eixo "bem-estar" do brainstorm continua intocado.
+  2. Pipeline #13 (IDH-M) — PARCIALMENTE CONCLUÍDO. 1991/2000/2010 obtidos via IPEA Data API e
+  integrados ao painel (#16). Dados de 2021 (PNAD Contínua) ainda pendentes — requer download manual
+  do Atlas Brasil. O eixo "bem-estar" já tem dados para 3 dos 4 anos de referência.
   3. Pipeline #15 (safrinha milho) — dados coletados, mas sem análise nem gráficos. Hoje é só CSV.
    A intensificação agrícola via 2ª safra é justamente o que o MapBiomas mistura num único pixel —
    é diferencial analítico desperdiçado.
-  4. Painel unificado para regressão — listado no backlog. Sem painel cd_mun × ano consolidado    
-  (LULC + crédito + IBGE + Censo + IDH + fogo), você não consegue rodar regressão espacial.       
+  4. ~~Painel unificado para regressão~~ — CONCLUÍDO Pipeline #16 (9.840×66). IDH-M (3/4 anos)
+  já mesclado. Slot para fogo (#14) ainda NaN.       
   5. Análise espacial estatística — Moran's I, LISA, regressão espacial (pysal/spreg) não foram   
   tocados. Você tem todos os ingredientes mas não fez a inferência que diferencia "descrição" de  
   "explicação".
@@ -64,33 +67,32 @@
 
   4. Sugestões de próximos passos (em ordem de impacto)
 
-  ┌────────────┬──────────────────────────────────┬───────────────────────────────────────────┐   
-  │ Prioridade │               Ação               │                  Por quê                  │   
-  ├────────────┼──────────────────────────────────┼───────────────────────────────────────────┤   
-  │ Alta       │ Rodar Pipeline #14 (fogo)        │ Único bloco-chave que tem script mas não  │   
-  │            │                                  │ foi executado. Destrava o eixo Cerrado.   │   
-  ├────────────┼──────────────────────────────────┼───────────────────────────────────────────┤   
-  │ Alta       │ Construir painel unificado       │ Pré-requisito para qualquer regressão /   │   
-  │            │ cd_mun × ano                     │ Moran's I.                                │   
-  ├────────────┼──────────────────────────────────┼───────────────────────────────────────────┤   
-  │ Alta       │ Análise descritiva + 2-3         │ Já tem os dados, falta meia tarde de      │   
-  │            │ gráficos do #15 (safrinha)       │ matplotlib.                               │   
-  ├────────────┼──────────────────────────────────┼───────────────────────────────────────────┤   
-  │            │ Baixar IDH-M (#13) e plotar      │                                           │   
-  │ Média      │ correlação IDH × Δpastagem /     │ Fecha o terceiro eixo do brainstorm.      │   
-  │            │ Δsoja                            │                                           │   
-  ├────────────┼──────────────────────────────────┼───────────────────────────────────────────┤   
-  │ Média      │ Coletar SIGSIF + CONAB SISDEP +  │ Eixo "infraestrutura" inteiro está em     │   
-  │            │ DNIT/SNV                         │ aberto.                                   │   
-  ├────────────┼──────────────────────────────────┼───────────────────────────────────────────┤   
-  │ Média      │ Refator mapas.py                 │ Antes de criar coropletas temáticas       │   
-  │            │                                  │ novas.                                    │   
-  ├────────────┼──────────────────────────────────┼───────────────────────────────────────────┤   
-  │ Baixa      │ PRODES / TerraClass / CAR /      │ Enriquecem mas não bloqueiam.             │   
-  │            │ precipitação                     │                                           │   
-  ├────────────┼──────────────────────────────────┼───────────────────────────────────────────┤   
-  │ Baixa      │ Limpeza de scripts _*.py e cache │ Higiene de repositório.                   │   
-  │            │  órfão                           │                                           │   
+  ┌────────────┬──────────────────────────────────┬───────────────────────────────────────────┐
+  │ Prioridade │               Ação               │                  Por quê                  │
+  ├────────────┼──────────────────────────────────┼───────────────────────────────────────────┤
+  │ Alta       │ Análise espacial (Moran/LISA/     │ Diferencia "descrição" de "explicação".   │
+  │            │ spreg) — painel unificado pronto  │ Painel #16 destravou este passo.           │
+  ├────────────┼──────────────────────────────────┼───────────────────────────────────────────┤
+  │ Alta       │ Rodar Pipeline #14 (fogo)        │ Único bloco-chave que tem script mas não  │
+  │            │                                  │ foi executado. Destrava o eixo Cerrado.   │
+  ├────────────┼──────────────────────────────────┼───────────────────────────────────────────┤
+  │ Alta       │ Análise descritiva + 2-3         │ Já tem os dados, falta meia tarde de      │
+  │            │ gráficos do #15 (safrinha)       │ matplotlib.                               │
+  ├────────────┼──────────────────────────────────┼───────────────────────────────────────────┤
+  │            │ Plotar correlação IDH × Δpastagem │ IDH-M já disponível para 1991/2000/2010   │
+  │ Média      │ / Δsoja + download IDHM 2021    │ (IPEA API). Faltam gráficos e dado 2021.  │
+  ├────────────┼──────────────────────────────────┼───────────────────────────────────────────┤
+  │ Média      │ Coletar SIGSIF + CONAB SISDEP +  │ Eixo "infraestrutura" inteiro está em     │
+  │            │ DNIT/SNV                         │ aberto.                                   │
+  ├────────────┼──────────────────────────────────┼───────────────────────────────────────────┤
+  │ Média      │ Refator mapas.py                 │ Antes de criar coropletas temáticas       │
+  │            │                                  │ novas.                                    │
+  ├────────────┼──────────────────────────────────┼───────────────────────────────────────────┤
+  │ Baixa      │ PRODES / TerraClass / CAR /      │ Enriquecem mas não bloqueiam.             │
+  │            │ precipitação                     │                                           │
+  ├────────────┼──────────────────────────────────┼───────────────────────────────────────────┤
+  │ Baixa      │ Limpeza de scripts _*.py e cache │ Higiene de repositório.                   │
+  │            │  órfão                           │                                           │
   └────────────┴──────────────────────────────────┴───────────────────────────────────────────┘   
 
   5. O que não vi e talvez você não tenha começado
@@ -102,9 +104,9 @@
   entra na dissertação e o que vira artigo posterior, para não inflar o escopo.
 
   ---
-  Resumo em uma frase: você está com coleta e visualização excelentes, inferência estatística     
-  zerada, e o gargalo imediato é executar os pipelines prontos-mas-não-rodados (#13, #14) e       
-  construir o painel unificado para destravar a regressão.
+  Resumo em uma frase: coleta e visualização excelentes, inferência estatística zerada, gargalo
+  imediato é análise espacial (Moran/LISA/spreg — painel unificado pronto) e executar Pipeline #14
+  (fogo) via GEE.
 
   Quer que eu detalhe o roteiro de algum desses pontos (por exemplo, especificação do painel      
   unificado ou plano de gráficos do #15)?

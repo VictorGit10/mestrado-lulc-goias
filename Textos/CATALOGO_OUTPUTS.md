@@ -22,6 +22,10 @@ Este documento descreve, de forma detalhada, cada grafico, tabela e dado process
 | #10 | `gerar_mapas_lulc_gee_40anos.py` | 40 mapas raster GEE MapBiomas (6 classes) | 1985-2024 | Estado (30m) |
 | #11 | `gerar_gif_lulc.py` | GIF animado 40 anos LULC | 1985-2024 | Estado |
 | #16 | `construir_painel_unificado.py` | Painel unificado wide para regressao | 1985-2024 | Municipal (246) |
+| #12 | `transicoes_mapbiomas.py` | Matrizes de transicao pixel-a-pixel via GEE | 1985-2024 | Municipal (246) |
+| #13 | `coleta_idhm.py` | IDH-M municipal (IPEA Data API) | 1991/2000/2010 | Municipal (246) |
+| #14 | `fogo_mapbiomas.py` | Area queimada por municipio e classe LULC via GEE | 1985-2024 | Municipal (246) |
+| #15 | `coleta_sidra.py --so 839` | Milho 1a e 2a safra municipal (SIDRA 839) | 2003-2024 | Municipal (246) |
 
 ---
 
@@ -587,6 +591,15 @@ Alem dos CSVs ja mencionados como saida de cada grafico, existem tabelas de supo
 | `sidra_ppm94_ovos.csv` | Producao de ovos | 94 |
 | `sidra_censo_agro_2017.csv` | Dados do Censo Agropecuario 2017 (consolidado) | Multiplas (6848, 6851, 6870, 6878, 6884, 6910, 6958) |
 
+### Dados IDH-M (coletados por `coleta_idhm.py`)
+
+| Arquivo | Conteudo | Origem | Utilizacao |
+|---------|----------|--------|------------|
+| `idhm_goias_municipal.csv` | IDH-M e sub-indices por municipio e ano (cd_mun, nm_mun, ano, idhm, idhm_r, idhm_l, idhm_e) | IPEA Data API (ADH_IDHM, ADH_IDHM_E, ADH_IDHM_L, ADH_IDHM_R) | Correlacao IDH x LULC; regressao espacial |
+
+**Cobertura**: 246 municipios x 3 anos (1991, 2000, 2010) = 738 linhas. Zero missings.
+**2021 pendente**: dados de PNAD Continua requerem download manual do Atlas Brasil.
+
 ### Dados SICOR tratados (coletados por `coleta_sicor.py`)
 
 | Arquivo | Conteudo |
@@ -670,7 +683,8 @@ Tabela unica pronta para regressao pooled, modelo de painel ou inferencia espaci
 - Leite (PPM 74) EXCLUIDO — so ha "Valor da producao" em moedas historicas.
 - SICOR 2025-2026 EXCLUIDOS (parciais).
 - Pre-1989: agregados externos GO incluem Tocantins; este painel cobre so os 246 munis de GO atual (divergencia ~19% no batimento, conceitualmente correta).
-- IDH-M e Fogo: slots vazios (colunas NaN) aguardando Pipelines #13 e #14.
+- IDH-M: preenchido para 1991/2000/2010 (738 de 9.840 linhas, via IPEA API). 2021 pendente (Atlas Brasil).
+- Fogo: slot vazio (colunas NaN) aguardando Pipeline #14.
 
 **Variaveis monetarias:** PIB, VA agropecuaria e SICOR deflacionados para R$ de dezembro/2024 via IPCA (SIDRA 1737, mes 12 de cada ano). Coluna em REAIS (nao Mil R$).
 
