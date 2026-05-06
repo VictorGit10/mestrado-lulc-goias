@@ -159,19 +159,18 @@ def calcular_fogo_anual(
     burned_info = burned_stats.getInfo()
     cov_info = cov_stats.getInfo()
 
-    # Parsear resultados
+    # Parsear resultados. Para banda única, reduceRegions com Reducer.sum()
+    # retorna a propriedade "sum"; com Reducer.frequencyHistogram() retorna
+    # "histogram" (não usa o nome da banda como prefixo).
     rows = []
     for feat_b, feat_c in zip(burned_info["features"], cov_info["features"]):
         cd_mun = feat_b["properties"]["cd_mun"]
         nm_mun = feat_b["properties"]["nm_mun"]
 
-        # Total queimado (soma de pixels × PIXEL_HA)
-        total_key = f"burned_area_{ano}_sum"
-        total_pixels = feat_b["properties"].get(total_key, 0) or 0
+        total_pixels = feat_b["properties"].get("sum", 0) or 0
         total_ha = total_pixels * PIXEL_HA
 
-        # Histograma de classes
-        hist = feat_c["properties"].get(f"burned_coverage_{ano}", {})
+        hist = feat_c["properties"].get("histogram", {})
         class_ha = {}
         if isinstance(hist, dict):
             for k, v in hist.items():

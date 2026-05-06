@@ -386,6 +386,35 @@ def load_sicor(df_ipca: pd.DataFrame) -> pd.DataFrame:
     return out
 
 
+def load_fogo() -> pd.DataFrame | None:
+    """Fogo MapBiomas Collection 4 — área queimada total e por classe.
+
+    Retorna None se o CSV ainda não foi gerado (pipeline #14 não rodou).
+    """
+    path = DIR_PROCESSED / "fogo_mapbiomas_goias.csv"
+    if not path.exists():
+        print("[fogo] CSV ausente — slot permanecerá NaN (rode fogo_mapbiomas.py)")
+        return None
+    df = pd.read_csv(path, encoding="utf-8")
+    out = (df[["cd_mun", "ano",
+               "area_queimada_total_ha",
+               "area_queimada_veg_nat_ha",
+               "area_queimada_pastagem_ha",
+               "area_queimada_agricultura_ha",
+               "area_queimada_mosaico_ha",
+               "area_queimada_outros_ha"]]
+           .rename(columns={
+                "area_queimada_total_ha":       "fogo_total_ha",
+                "area_queimada_veg_nat_ha":     "fogo_veg_nat_ha",
+                "area_queimada_pastagem_ha":    "fogo_pastagem_ha",
+                "area_queimada_agricultura_ha": "fogo_agricultura_ha",
+                "area_queimada_mosaico_ha":     "fogo_mosaico_ha",
+                "area_queimada_outros_ha":      "fogo_outros_ha",
+           }))
+    print(f"[fogo] {len(out):,} linhas, anos {out['ano'].min()}-{out['ano'].max()}")
+    return out
+
+
 def load_censo_2017() -> pd.DataFrame:
     """Censo Agropecuário 2017 — replicado como atributo estático por munic."""
     df = pd.read_csv(DIR_PROCESSED / "sidra_censo_agro_2017.csv", encoding="utf-8")
@@ -434,12 +463,13 @@ def derivar_metricas(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def adicionar_slots_vazios(df: pd.DataFrame) -> pd.DataFrame:
-    """Cria colunas placeholder para IDH-M (#13) e Fogo (#14)."""
+    """Cria colunas placeholder para IDH-M (#13). Fogo (#14) já é populado
+    via load_fogo() quando o CSV existe — sem placeholder."""
     for col in [
         "idhm", "idhm_renda", "idhm_educ", "idhm_long",
-        "fogo_area_queimada_ha", "fogo_n_focos",
     ]:
-        df[col] = np.nan
+        if col not in df.columns:
+            df[col] = np.nan
     return df
 
 
@@ -485,13 +515,17 @@ def main() -> None:
     pib     = load_economico(df_ipca)
     pop     = load_populacao()
     sicor   = load_sicor(df_ipca)
+    fogo    = load_fogo()
     censo   = load_censo_2017()
 
     # 3. Joins sequenciais sobre a grade
     print("\n[join] Construindo wide table...")
     painel = grade.copy()
-    for nome, df in [("lulc", lulc), ("pec", pec), ("agri", agri),
-                     ("pib", pib), ("pop", pop), ("sicor", sicor)]:
+    fontes = [("lulc", lulc), ("pec", pec), ("agri", agri),
+              ("pib", pib), ("pop", pop), ("sicor", sicor)]
+    if fogo is not None:
+        fontes.append(("fogo", fogo))
+    for nome, df in fontes:
         painel = painel.merge(df, on=["cd_mun", "ano"], how="left")
         print(f"  + {nome}: shape = {painel.shape}")
     # Censo entra só em cd_mun (replicado em todos os anos)
@@ -527,7 +561,7 @@ def main() -> None:
     print("=" * 70)
     print(f"Painel: {painel.shape[0]:,} linhas × {painel.shape[1]} colunas")
     print(f"Cobertura plena (todas as fontes): ano in [2013, 2023]")
-    print(f"Slots vazios reservados: idhm*, fogo_*")
+    print(f"Slots vazios reservados: idhm* (1991/2000/2010 disponíveis pós-merge IDH-M)")
 
 
 if __name__ == "__main__":

@@ -341,9 +341,12 @@ def gerar_painel_credito_lulc(
 
     pib = df_pib[
         (df_pib["ano"] >= ANO_OVERLAP_INI) & (df_pib["ano"] <= ANO_OVERLAP_FIM)
-    ][["cd_mun", "ano", "pib_rs", "va_agro_rs"]].copy()
+    ][["cd_mun", "ano", "pib_rs", "va_agro_rs"]].copy().reset_index(drop=True)
 
-    # Deflacionar PIB
+    # Deflacionar PIB. O reset_index acima é crítico: deflacionar() faz merge
+    # interno e retorna Series com índice 0..N-1; sem reset, o filtro de ano
+    # mantém índices esparsos (ex.: [11, 12, ...]) e a atribuição embaralha
+    # valores entre municípios via alinhamento por índice do pandas.
     ipca = carregar_ipca()
     pib["pib_real_rs"] = deflacionar(pib, "pib_rs", ipca)
     pib["va_agro_real_rs"] = deflacionar(pib, "va_agro_rs", ipca)
