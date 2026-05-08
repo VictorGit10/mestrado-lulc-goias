@@ -231,6 +231,7 @@ def _padronizar_municipal(
     df_raw: pd.DataFrame,
     classif_col: Optional[str] = None,
     classif_nome: Optional[str] = None,
+    var_col: str = "D3C",
 ) -> pd.DataFrame:
     """
     Recebe o DataFrame bruto do SIDRA (com primeira linha-cabeçalho repetida) e
@@ -239,6 +240,10 @@ def _padronizar_municipal(
 
     `classif_col` é o nome da coluna SIDRA com o código da classificação extra
     (ex: "D4C" para PAM/PPM). Se None, deixa categoria_id/nome em branco.
+
+    `var_col` é a coluna SIDRA que contém o id da variável; default "D3C".
+    Algumas tabelas (ex: PPM 74 com classificação 80) trocam a ordem de
+    dimensões e colocam a variável em D4.
     """
     df = df_raw.iloc[1:].copy()  # remove linha-cabeçalho do SIDRA
 
@@ -251,8 +256,9 @@ def _padronizar_municipal(
         .str.strip()
     )
     out["ano"] = pd.to_numeric(df["D2C"], errors="coerce").astype("Int64")
-    out["variavel_id"] = df["D3C"].astype(str)
-    out["variavel"] = df["D3N"].astype(str)
+    var_name_col = var_col.replace("C", "N")
+    out["variavel_id"] = df[var_col].astype(str)
+    out["variavel"] = df[var_name_col].astype(str)
     out["unidade"] = df["MN"].astype(str)
     if classif_col and classif_col in df.columns:
         out["categoria_id"] = df[classif_col].astype(str)
@@ -346,18 +352,25 @@ def coletar_ppm3939(force: bool = False) -> pd.DataFrame:
 
 
 def coletar_ppm74_leite(force: bool = False) -> pd.DataFrame:
-    """PPM 74 — Produção de leite (mil litros)."""
+    """PPM 74 — Produção de leite (mil litros).
+
+    A variável 106 ("Produção de origem animal") só retorna valor quando
+    combinada com a classificação 80 (Tipo de produto), categoria 2682 (Leite).
+    Sem isso, o endpoint devolve apenas a variável 215 (Valor da produção em
+    moedas históricas mistas), que é incomparável ao longo do tempo.
+    """
     print("\n[PPM 74] Produção de leite")
     df_raw = _get_sidra_paginated(
         "ppm74_leite",
         force=force,
         ano_ini=1974, ano_fim=2024,
-        n_vars=2, n_cats=1,  # variáveis e valor de produção
+        n_vars=2, n_cats=1,
         table_code="74",
         territorial_level="6",
         ibge_territorial_code=TERRITORIO_MUNI_GO,
+        classifications={"80": "2682"},
     )
-    df = _padronizar_municipal(df_raw, classif_nome="Leite")
+    df = _padronizar_municipal(df_raw, classif_nome="Leite", var_col="D4C")
     df.to_csv(DIR_PROCESSED / "sidra_ppm74_leite.csv", index=False)
     print(f"  -> sidra_ppm74_leite.csv ({len(df):,} linhas, "
           f"{df['ano'].min()}–{df['ano'].max()}, {df['cd_mun'].nunique()} munis)")

@@ -50,10 +50,12 @@ DECISÕES METODOLÓGICAS E LIMITAÇÕES — LEIA ANTES DE USAR
    municipal anual de estrutura agrária. Limitação: não captura mudanças
    estruturais pré-2017 ou pós-2017.
 
-5. LEITE PPM 74: EXCLUÍDO. A tabela só contém "Valor da produção" em moedas
-   históricas (Cruzados, Cruzeiros, Cruzeiros Reais, Reais). Comparação
-   intertemporal exigiria conversão monetária histórica que não está pronta.
-   NÃO há quantidade física (mil litros) em PPM 74 conforme inspecionado.
+5. LEITE PPM 74: INCLUÍDO via variável 106 (Quantidade em Mil litros). A
+   coleta original não passava a classificação 80 (Tipo de produto) e o
+   endpoint devolvia apenas a variável 215 (Valor da produção em moedas
+   históricas), por isso ficou excluído na primeira versão. Após corrigir a
+   chamada SIDRA com `classifications={"80": "2682"}`, a quantidade física
+   passou a vir corretamente. Coluna do painel: `agri_leite_mil_litros`.
 
 6. LAVOURAS — TOP 6 (decisão do usuário, alinhada com economia de Goiás):
        PAM 839 (milho safras, desde 2003):
@@ -74,6 +76,16 @@ DECISÕES METODOLÓGICAS E LIMITAÇÕES — LEIA ANTES DE USAR
    3 categorias agregadas: bovinos (2670), suínos (32794), galináceos (32796).
    Demais (equino, bubalino, ovino, caprino) excluídas — pouca relevância
    para o eixo LULC × pecuária da dissertação.
+
+   UNIDADE ANIMAL (UA): PPM 3939 e 73 não desagregam bovinos por idade no
+   nível municipal, e Censo Agro 2017 (tabelas 6910–6913) também não publica
+   essa estratificação na API SIDRA. Por isso o painel aplica o fator
+   convencional FATOR_UA_BOVINO = 0.7 UA/cabeça (média Embrapa/CONAB para
+   rebanho de corte misto brasileiro: ~50% adultos de 1.0 UA, ~30% novilhos
+   de 0.7 UA, ~20% bezerros de 0.5 UA → ponderado ≈ 0.71). Coluna derivada:
+   `pec_bovinos_ua` e `lotacao_ua_ha_pasto`. Limitação: o fator é
+   estado-estacionário, não captura variação inter-anual da composição
+   etária. Documentado em Textos/glossario_metricas.md.
 
 8. PIB MUNICIPAL: SIDRA 5938 (Contas Regionais IBGE). Variáveis selecionadas:
        - pib_real_rs:     variavel_id 37  (PIB a preços correntes, deflacionado)
@@ -138,6 +150,11 @@ for d in (DIR_PROCESSED, DIR_OUTPUT, DIR_DIAG):
 ANO_INI = 1985
 ANO_FIM = 2024
 DATA_BASE_DEFLATOR = (2024, 12)
+
+# Conversão cabeças → Unidade Animal. Fator único aplicado por falta de
+# breakdown etário a nível municipal nos dados SIDRA (PPM 3939/73 e Censo
+# Agro 2017). Ver decisão metodológica #7 acima.
+FATOR_UA_BOVINO = 0.7
 
 # Agrupamento de classes MapBiomas Col 10.1 → coluna do painel.
 # class_ids confirmados via inspeção de mapbiomas_munis_goias.csv.
@@ -258,6 +275,22 @@ def load_pecuaria() -> pd.DataFrame:
     for b in blocos[1:]:
         out = out.merge(b, on=["cd_mun", "ano"], how="outer")
     print(f"[pecuaria] {len(out):,} linhas, {out.shape[1]-2} colunas")
+    return out
+
+
+def load_leite() -> pd.DataFrame:
+    """PPM 74 — Quantidade produzida de leite (mil litros).
+
+    Filtra variável 106 (Produção de origem animal) com unidade "Mil litros".
+    A categoria já é fixa (Leite, código 2682) na coleta — basta selecionar a
+    variável certa. Anos sem dado para o município ficam NaN.
+    """
+    df = pd.read_csv(DIR_PROCESSED / "sidra_ppm74_leite.csv", encoding="utf-8")
+    qtd = df[(df["variavel_id"] == 106) & (df["unidade"] == "Mil litros")]
+    out = qtd[["cd_mun", "ano", "valor"]].rename(
+        columns={"valor": "agri_leite_mil_litros"}
+    )
+    print(f"[leite] {len(out):,} linhas com quantidade não-nula")
     return out
 
 
@@ -442,6 +475,8 @@ def load_censo_2017() -> pd.DataFrame:
 def derivar_metricas(df: pd.DataFrame) -> pd.DataFrame:
     """Calcula ratios e densidades onde insumos existem (NaN propaga)."""
     df["lotacao_bov_ha"] = df["pec_bovinos_cab"] / df["lulc_pastagem_ha"]
+    df["pec_bovinos_ua"] = df["pec_bovinos_cab"] * FATOR_UA_BOVINO
+    df["lotacao_ua_ha_pasto"] = df["pec_bovinos_ua"] / df["lulc_pastagem_ha"]
     df["credito_por_ha_pastagem"] = df["sicor_total_real_rs"] / df["lulc_pastagem_ha"]
     df["produtividade_soja_ton_ha"] = (
         df["agri_soja_ton"] / df["agri_soja_ha_plantada"]
@@ -512,6 +547,7 @@ def main() -> None:
     lulc    = load_lulc()
     pec     = load_pecuaria()
     agri    = load_agricultura()
+    leite   = load_leite()
     pib     = load_economico(df_ipca)
     pop     = load_populacao()
     sicor   = load_sicor(df_ipca)
@@ -521,7 +557,7 @@ def main() -> None:
     # 3. Joins sequenciais sobre a grade
     print("\n[join] Construindo wide table...")
     painel = grade.copy()
-    fontes = [("lulc", lulc), ("pec", pec), ("agri", agri),
+    fontes = [("lulc", lulc), ("pec", pec), ("agri", agri), ("leite", leite),
               ("pib", pib), ("pop", pop), ("sicor", sicor)]
     if fogo is not None:
         fontes.append(("fogo", fogo))

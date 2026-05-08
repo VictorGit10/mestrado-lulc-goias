@@ -1,0 +1,731 @@
+﻿<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Goiás 1985-2024 — Cerrado, política e uso da terra</title>
+
+  <meta name="description" content="Linha do tempo interativa do uso e cobertura da terra em Goiás (1985-2024), com marcos políticos como motores causais.">
+  <meta property="og:title" content="Goiás 1985-2024 — Cerrado, política e uso da terra">
+  <meta property="og:description" content="Linha do tempo interativa do uso e cobertura da terra em Goiás (1985-2024), com marcos políticos como motores causais.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="img/mapas_gee/cobertura_2024.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Goiás 1985-2024 — Cerrado, política e uso da terra">
+  <meta name="twitter:description" content="Linha do tempo interativa do uso e cobertura da terra em Goiás (1985-2024), com marcos políticos como motores causais.">
+  <meta name="twitter:image" content="img/mapas_gee/cobertura_2024.webp">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23fafaf7'/%3E%3Ccircle cx='32' cy='32' r='14' fill='%238b3a1d'/%3E%3C/svg%3E">
+
+  <link rel="stylesheet" href="assets/css/styles.css?v=3">
+
+  <link rel="stylesheet" href="assets/css/tabs.css?v=3">
+
+  <link rel="stylesheet" href="assets/css/atlas.css?v=3">
+
+</head>
+
+<body>
+
+
+
+<!-- Regua superior fixa -->
+
+<header class="timeline-rail" aria-label="Linha do tempo">
+
+  <div class="rail-inner">
+
+    <span class="rail-label rail-label--start">1985</span>
+
+    <div class="rail-track" id="rail-track">
+      <div class="rail-era-band rail-era-band--heranca" data-era="heranca" style="left: 0%; width: 20,5%;"></div>
+      <div class="rail-era-band rail-era-band--soja-sudoeste" data-era="soja-sudoeste" style="left: 23,1%; width: 23,1%;"></div>
+      <div class="rail-era-band rail-era-band--boom-commodity" data-era="boom-commodity" style="left: 46,2%; width: 23,1%;"></div>
+      <div class="rail-era-band rail-era-band--intensificacao" data-era="intensificacao" style="left: 69,2%; width: 15,4%;"></div>
+      <div class="rail-era-band rail-era-band--reorganizacao" data-era="reorganizacao" style="left: 84,6%; width: 15,4%;"></div>
+
+      <button type="button" class="rail-pin rail-pin--marco" data-year="1985">1985</button>
+
+      <button type="button" class="rail-pin rail-pin--marco" data-year="1994" aria-label="1994 — Plano Real">1994</button>
+
+      <button type="button" class="rail-pin rail-pin--marco" data-year="1996" aria-label="1996 — Lei Kandir">1996</button>
+
+      <button type="button" class="rail-pin rail-pin--marco" data-year="2002" aria-label="2002 — Plano Safra">2002</button>
+
+      <button type="button" class="rail-pin rail-pin--marco" data-year="2003" aria-label="2003 — Boom de commodities">2003</button>
+
+      <button type="button" class="rail-pin rail-pin--marco" data-year="2012" aria-label="2012 — Código Florestal">2012</button>
+
+      <button type="button" class="rail-pin rail-pin--marco" data-year="2018" aria-label="2018 — Reorganização">2018</button>
+
+      <button type="button" class="rail-pin rail-pin--marco" data-year="2024">2024</button>
+
+      <button type="button" class="rail-pin rail-pin--dado" data-year="2013" title="2013 — SICOR sistemático">2013</button>
+      <button type="button" class="rail-pin rail-pin--dado" data-year="2017" title="2017 — Censo Agropecuário">2017</button>
+      <button type="button" class="rail-pin rail-pin--dado" data-year="2020" title="2020 — Pandemia">2020</button>
+      <span class="rail-cursor" id="rail-cursor" aria-hidden="true"></span>
+
+    </div>
+
+    <span class="rail-label rail-label--end">2024</span>
+
+  </div>
+
+</header>
+
+
+
+<!-- Tabs Narrativa | Atlas -->
+
+<nav class="mode-tabs" aria-label="Modo de visualização">
+
+  <div class="mode-tabs-inner" role="tablist">
+
+    <button class="mode-tab mode-tab--active" data-modo="narrativa" id="tab-narrativa" role="tab" aria-selected="true" aria-controls="panel-narrativa" tabindex="0">
+
+      Narrativa
+
+      <span class="mode-tab-hint">5 atos Ã‚Â· 40 anos</span>
+
+    </button>
+
+    <button class="mode-tab" data-modo="atlas" id="tab-atlas" role="tab" aria-selected="false" aria-controls="panel-atlas" tabindex="-1">
+
+      Atlas
+
+      <span class="mode-tab-hint">parede de mapas</span>
+
+    </button>
+
+  </div>
+
+</nav>
+
+
+
+<noscript>
+
+  <p style="text-align:center; padding:2rem;">
+
+    Esta visualização interativa requer JavaScript habilitado.
+
+  </p>
+
+</noscript>
+
+
+
+<main>
+
+
+
+  <!-- ===================== MODO NARRATIVA ===================== -->
+
+  <section data-modo="narrativa" id="panel-narrativa" role="tabpanel" aria-labelledby="tab-narrativa">
+
+
+
+  <!-- Hero -->
+
+  <section class="hero">
+
+    <p class="hero-eyebrow">Dissertação CIAMB-UFG Ã‚Â· 1985-2024</p>
+
+    <h1 class="hero-title">Cerrado, política e a transformação de Goiás</h1>
+
+    <p class="hero-lede">
+
+      Quatro décadas contadas em cinco atos. Cada um tem um protagonista no
+
+      território — pastagem como herança, soja chegando ao sudoeste, boom de
+
+      commodities sobre pasto degradado, intensificação pós-Código Florestal,
+
+      reorganização frigorífica — e marcos institucionais que mudam as regras
+
+      do jogo a cada virada.
+
+    </p>
+
+    <p class="hero-cta">Role para começar &darr;</p>
+
+  </section>
+
+
+
+  <!-- Narrativa principal (mapa sticky + steps) -->
+
+  <section class="story">
+
+
+
+    <!-- Mapa fixo (sticky) -->
+
+    <div class="story-figure" >
+
+      <div class="map-frame">
+
+        <img id="mapa" src="img/mapas_gee/cobertura_1985.webp"
+
+             alt="Mapa pixel-a-pixel do uso e cobertura da terra em Goiás"
+
+             loading="eager" width="1313" height="1318">
+
+        <div class="composition-bar" id="composition-bar" aria-label="Composição do uso e cobertura da terra">
+
+          <span class="bar-segment bar-veg"     data-class="veg"     title="Vegetação natural"></span>
+
+          <span class="bar-segment bar-pasto"   data-class="pasto"   title="Pastagem"></span>
+
+          <span class="bar-segment bar-agric"   data-class="agric"   title="Agricultura (inclui soja)"></span>
+
+          <span class="bar-segment bar-mosaico" data-class="mosaico" title="Mosaico agric./pastagem"></span>
+
+          <span class="bar-segment bar-agua"    data-class="agua"    title="Água"></span>
+
+          <span class="bar-segment bar-urbano"  data-class="urbano"  title="Área urbana"></span>
+
+          <span class="bar-segment bar-outros"  data-class="outros"  title="Outros (silvicultura, mineração)"></span>
+
+          <div class="bar-tooltip" id="bar-tooltip"></div>
+
+        </div>
+
+        <div class="map-legend">
+
+          <span class="legend-swatch legend-swatch--veg">Veg. natural</span>
+
+          <span class="legend-swatch legend-swatch--pasto">Pastagem</span>
+
+          <span class="legend-swatch legend-swatch--agric">Agricultura</span>
+
+          <span class="legend-swatch legend-swatch--mosaico">Mosaico</span>
+
+          <span class="legend-swatch legend-swatch--agua">Água</span>
+
+          <span class="legend-swatch legend-swatch--urbano">Urbano</span>
+
+          <span class="legend-swatch legend-swatch--outros">Outros</span>
+
+        </div>
+
+        <div class="map-caption">
+
+          <div class="caption-row caption-row--main">
+
+            <span class="map-caption-year" id="map-year">1985</span>
+
+            <span class="map-caption-anchor" id="map-anchor"></span>
+
+          </div>
+
+          <span class="map-caption-source">Fonte: MapBiomas Coleção 10.1 Ã‚Â· pixel-a-pixel (30 m)</span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- Steps (1 por ano) -->
+
+    <div class="story-steps" id="steps">
+
+
+
+      <!-- Ato I: Pastagem como heranca cerradeira (1985-1993) -->
+
+      <article class="step step--era" data-era="heranca">
+
+        <h2 class="era-title">I. Pastagem como herança cerradeira (1985-1993)</h2>
+
+        <p class="era-lede">
+
+          Goiás entra na série já transformada. POLOCENTRO (1975) e PRODECER (anos 1980)
+
+          abriram cerca de um terço do estado para a pecuária extensiva, deixando a
+
+          pastagem como uso dominante. Hiperinflação e regime militar em transição
+
+          bloqueiam o cálculo agrícola de longo prazo: a soja existe, mas embrionária.
+
+          Sudoeste e centro-sul concentram o rebanho; norte e nordeste mantêm cerrado
+
+          contíguo. O ponto de partida não é paisagem original — é paisagem já convertida.
+
+        </p>
+
+      </article>
+
+
+
+      <article class="step" data-year="1985"></article>
+
+      <article class="step" data-year="1986"></article>
+
+      <article class="step" data-year="1987"></article>
+
+      <article class="step" data-year="1988"></article>
+
+      <article class="step" data-year="1989"></article>
+
+      <article class="step" data-year="1990"></article>
+
+      <article class="step" data-year="1991"></article>
+
+      <article class="step" data-year="1992"></article>
+
+      <article class="step" data-year="1993"></article>
+
+
+
+      <!-- Ato II: Estabilizacao e a soja chega ao sudoeste (1994-2002) -->
+
+      <article class="step step--era" data-era="soja-sudoeste">
+
+        <h2 class="era-title">II. Estabilização e a soja chega ao sudoeste (1994-2002)</h2>
+
+        <p class="era-lede">
+
+          O Plano Real (1994) reabilita o cálculo de longo prazo; a Lei Kandir (1996)
+
+          desonera ICMS sobre exportação de commodities. A combinação destrava capital
+
+          privado e a soja avança pela primeira vez em escala sobre Rio Verde, Jataí e
+
+          Mineiros. A pastagem cede área no sudoeste, mas continua dominante no agregado
+
+          estadual. A safrinha de milho ainda não virou sistema; o foco é soja-pasto.
+
+          O eixo geográfico do agronegócio goiano começa a se desenhar.
+
+        </p>
+
+      </article>
+
+
+
+      <article class="step" data-year="1994"></article>
+
+      <article class="step" data-year="1995"></article>
+
+      <article class="step" data-year="1996"></article>
+
+      <article class="step" data-year="1997"></article>
+
+      <article class="step" data-year="1998"></article>
+
+      <article class="step" data-year="1999"></article>
+
+      <article class="step" data-year="2000"></article>
+
+      <article class="step" data-year="2001"></article>
+
+      <article class="step" data-year="2002"></article>
+
+
+
+      <!-- Ato III: Boom commodity sobre pastagem degradada (2003-2011) -->
+
+      <article class="step step--era" data-era="boom-commodity">
+
+        <h2 class="era-title">III. Boom de commodities sobre pastagem degradada (2003-2011)</h2>
+
+        <p class="era-lede">
+
+          A demanda chinesa puxa preços internacionais para um super-ciclo. O Plano Safra
+
+          (sistematizado em 2002) já oferece crédito subsidiado e previsível. A combinação
+
+          viabiliza substituição em massa de pastagem degradada por matriz soja-milho —
+
+          primeiro no sudoeste, depois avançando para o sul-sudoeste e o oeste. A safrinha
+
+          de milho consolida-se como segunda safra. Pela primeira vez na série, a soja
+
+          deixa de ser fronteira pioneira e vira conversão econômica deliberada.
+
+        </p>
+
+      </article>
+
+
+
+      <article class="step" data-year="2003"></article>
+
+      <article class="step" data-year="2004"></article>
+
+      <article class="step" data-year="2005"></article>
+
+      <article class="step" data-year="2006"></article>
+
+      <article class="step" data-year="2007"></article>
+
+      <article class="step" data-year="2008"></article>
+
+      <article class="step" data-year="2009"></article>
+
+      <article class="step" data-year="2010"></article>
+
+      <article class="step" data-year="2011"></article>
+
+
+
+      <!-- Ato IV: Codigo Florestal e a intensificacao onde resiste (2012-2017) -->
+
+      <article class="step step--era" data-era="intensificacao">
+
+        <h2 class="era-title">IV. Código Florestal e a intensificação onde resiste (2012-2017)</h2>
+
+        <p class="era-lede">
+
+          A Lei 12.651/2012 estabelece a Reserva Legal de 20% no Cerrado e cria o
+
+          Cadastro Ambiental Rural. O efeito imediato não é parar a expansão, mas
+
+          mudar a matemática: onde a pastagem permanece, ela se intensifica — a
+
+          lotação bovina sobe enquanto a área cai. O crédito SICOR começa a ser
+
+          monitorado sistematicamente a partir de 2013, conectando dinheiro público
+
+          a desempenho ambiental. A fronteira agrícola gira para o oeste e norte de
+
+          Goiás. O ato é curto mas estrutural: redefine as regras do jogo.
+
+        </p>
+
+      </article>
+
+
+
+      <article class="step" data-year="2012"></article>
+
+      <article class="step" data-year="2013"></article>
+
+      <article class="step" data-year="2014"></article>
+
+      <article class="step" data-year="2015"></article>
+
+      <article class="step" data-year="2016"></article>
+
+      <article class="step" data-year="2017"></article>
+
+
+
+      <!-- Ato V: Reorganizacao - frigorificos, oeste e cerrado nordeste (2018-2024) -->
+
+      <article class="step step--era" data-era="reorganizacao">
+
+        <h2 class="era-title">V. Reorganização: frigoríficos, oeste e cerrado nordeste (2018-2024)</h2>
+
+        <p class="era-lede">
+
+          JBS, Marfrig e Minerva consolidam a malha frigorífica goiana, redefinindo
+
+          geografia e logística da pecuária. O Cerrado Manifesto (2017) entra em vigor
+
+          com adesão de traders e financiadores, introduzindo pressão de cadeia produtiva
+
+          sobre a soja sobre vegetação nativa. A frente da soja avança pelo oeste;
+
+          o nordeste de Goiás — Paranã, Vão do Paranã — segura o cerrado contíguo,
+
+          ainda que sob pressão. Pandemia (2020-21) e novo ciclo político não revertem
+
+          a trajetória: 2024 fecha a série com matriz consolidada, pastagem ainda
+
+          dominante em área absoluta, e vegetação nativa próxima do limite legal em
+
+          várias regiões.
+
+        </p>
+
+      </article>
+
+
+
+      <article class="step" data-year="2018"></article>
+
+      <article class="step" data-year="2019"></article>
+
+      <article class="step" data-year="2020"></article>
+
+      <article class="step" data-year="2021"></article>
+
+      <article class="step" data-year="2022"></article>
+
+      <article class="step" data-year="2023"></article>
+
+      <article class="step" data-year="2024"></article>
+
+
+
+    </div>
+
+  </section>
+
+
+
+  <!-- Sintese -->
+
+    <section class="sintese">
+    <h2>Síntese: 40 anos em uma transição</h2>
+
+    <div id="resumo-transicoes" class="resumo-transicoes" aria-live="polite">
+      <p class="resumo-loading">Carregando dados…</p>
+    </div>
+
+    <div class="sintese-narrativa">
+      <h3>Os cinco atos da transformação</h3>
+      <div class="ato-grid">
+        <div class="ato-card" data-ato="heranca">
+          <h4>I. Pastagem como herança (1985–1993)</h4>
+          <p>Goiás herdava uma estrutura territorial dominada pela pecuária extensiva, legado dos programas POLOCENTRO e PRODECER. A vegetação nativa ainda cobria mais de 50% do estado, mas a fronteira agrícola já pulsava no sudoeste.</p>
+        </div>
+        <div class="ato-card" data-ato="soja-sudoeste">
+          <h4>II. Soja no sudoeste (1994–2002)</h4>
+          <p>O Plano Real (1994) e a Lei Kandir (1996) desoneraram exportações e viabilizaram a primeira onda de expansão da soja sobre o Cerrado. Rio Verde, Jataí e Mineiros emergem como polos de conversão pasto→lavoura.</p>
+        </div>
+        <div class="ato-card" data-ato="boom-commodity">
+          <h4>III. Boom de commodities (2003–2011)</h4>
+          <p>A demanda chinesa e o Plano Safra transformaram Goiás no epicentro da matriz soja-milho. A soja triplicou de área, enquanto a pastagem consolidou-se como a maior classe de uso do solo — agora intensificada pelo crédito rural subsidiado.</p>
+        </div>
+        <div class="ato-card" data-ato="intensificacao">
+          <h4>IV. Intensificação pós-Código Florestal (2012–2017)</h4>
+          <p>Lei 12.651/2012 instituiu o CAR e regulou a Reserva Legal. No Cerrado, o limite de 20% permitiu expansão contínua sobre vegetação nativa, enquanto a safrinha de milho consolidou a dupla aptidão do sudoeste goiano.</p>
+        </div>
+        <div class="ato-card" data-ato="reorganizacao">
+          <h4>V. Reorganização (2018–2024)</h4>
+          <p>O Cerrado Manifesto e a consolidação das frigoríficas redefiniram as regras do mercado. Pressão da cadeia sobre desmatamento, aliada à queda relativa da pastagem e ao crescimento da silvicultura, sinaliza uma nova fase territorial.</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="sankey-container" class="sankey-container">
+      <p class="resumo-loading">Carregando diagrama…</p>
+    </div>
+    <p class="sankey-caption">
+      Diagrama de Sankey: fluxo bruto de área entre classes de uso da terra, 1985 → 2024.
+      As larguras são proporcionais à área em milhões de hectares.
+    </p>
+
+    <div class="sintese-graficos">
+      <h3>Análises complementares</h3>
+      <div class="grafico-grid">
+        <figure class="grafico-card">
+          <img src="img/graficos/07_evolucao_pastagem_soja_estado.png" alt="Evolução da pastagem e soja no estado" loading="lazy">
+          <figcaption>Pastagem vs. soja: a soja ultrapassa a pastagem em proporção do uso do solo?</figcaption>
+        </figure>
+        <figure class="grafico-card">
+          <img src="img/graficos/09_scatter_delta_pastagem_soja.png" alt="Relação entre expansão da soja e redução da pastagem" loading="lazy">
+          <figcaption>Delta pastagem × delta soja: quanto mais soja, menos pastagem?</figcaption>
+        </figure>
+        <figure class="grafico-card">
+          <img src="img/graficos/12_credito_uf_serie_2013-2024.png" alt="Evolução do crédito rural em Goiás" loading="lazy">
+          <figcaption>Crédito rural: o financiamento acompanhou a expansão agrícola?</figcaption>
+        </figure>
+        <figure class="grafico-card">
+          <img src="img/graficos/24_fogo_estado_serie.png" alt="Série temporal de área queimada" loading="lazy">
+          <figcaption>Fogo: a área queimada acompanhou a conversão de pastagem?</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <p class="sintese-cta">
+      A dissertação completa detalha a metodologia, as matrizes de transição
+      pixel-a-pixel (Pipeline #12) e os modelos econométricos que articulam
+      LULC e fatores socioeconômicos no painel municipal 1985-2024.
+    </p>
+  </section>
+<!-- Footer -->
+
+  <footer class="page-footer">
+
+    <div class="footer-grid">
+
+      <div>
+
+        <h3>Como citar</h3>
+
+        <pre class="bibtex"><code>@mastersthesis{amaral2026goias,
+
+  author  = {Amaral, Victor},
+
+  title   = {Dinamica de uso e cobertura da terra em Goias (1985-2024)
+
+             e fatores socioeconomicos},
+
+  school  = {Programa de Pos-Graduacao em Ciencias Ambientais (CIAMB-UFG)},
+
+  year    = {2026}
+
+}</code></pre>
+
+      </div>
+
+      <div>
+
+        <h3>Fontes de dados</h3>
+
+        <ul>
+
+          <li>MapBiomas Brasil — Coleção 10.1 (cobertura) e Coleção 4 (fogo)</li>
+
+          <li>IBGE/SIDRA — PAM, PPM, PIB municipal, população</li>
+
+          <li>BACEN/SICOR — crédito rural (2013-2024)</li>
+
+          <li>IPEA Data — IDH-M (1991/2000/2010, nível municipal; pós-2010 inexistente)</li>
+
+        </ul>
+
+      </div>
+
+      <div>
+
+        <h3>Metodologia</h3>
+
+        <p>
+
+          Painel municipal 246 municípios × 40 anos × 70 variáveis. Agregação UF:
+
+          soma direta de áreas e contagens. Documentação técnica em
+
+          <code>Textos/</code> no repositório.
+
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  </footer>
+
+  <!-- ===================== / MODO NARRATIVA ===================== -->
+
+
+
+  <!-- ===================== MODO ATLAS ===================== -->
+
+  <section data-modo="atlas" id="panel-atlas" role="tabpanel" aria-labelledby="tab-atlas" hidden>
+
+
+
+    <!-- Toolbar de variavel -->
+
+    <div class="atlas-toolbar" role="toolbar" aria-label="Controles do Atlas">
+
+      <div class="atlas-toolbar-inner">
+
+        <div class="atlas-var-toggle" role="radiogroup" aria-label="Variável visualizada">
+
+          <button class="atlas-var atlas-var--active" data-var="lulc"        role="radio" aria-checked="true"  type="button">LULC <span class="atlas-var-n">40</span></button>
+
+          <button class="atlas-var" data-var="fogo"        role="radio" aria-checked="false" type="button">Fogo <span class="atlas-var-n">40</span></button>
+
+          <button class="atlas-var" data-var="transicoes"  role="radio" aria-checked="false" type="button">Transições <span class="atlas-var-n">5</span></button>
+
+          <button class="atlas-var" data-var="delta"       role="radio" aria-checked="false" type="button">Δ” vs. 1985 <span class="atlas-var-n">40</span></button>
+
+        </div>
+
+        <div class="atlas-toolbar-info">
+
+          <span class="atlas-var-label" id="atlas-var-label">Uso e cobertura da terra Ã‚Â· pixel-a-pixel 30m</span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- Grid: parede de mapas -->
+
+    <div class="atlas-grid-wrap">
+
+      <div class="atlas-grid" id="atlas-grid" aria-live="polite">
+
+        <!-- atlas.js popula aqui -->
+
+      </div>
+
+    </div>
+
+
+
+    <!-- Legenda + comparar (placeholder fase 2) -->
+
+    <div class="atlas-legend" id="atlas-legend"></div>
+
+
+
+  </section>
+
+  <!-- ===================== / MODO ATLAS ===================== -->
+
+
+
+</main>
+
+
+
+<!-- Spark-line sticky inferior (apenas modo narrativa) -->
+
+<aside class="sparkline" id="sparkline" data-modo="narrativa" aria-label="Series temporais">
+
+  <div class="sparkline-inner">
+
+    <svg id="sparkline-svg" viewBox="0 0 1000 80" preserveAspectRatio="none"></svg>
+
+    <div class="sparkline-legend">
+
+      <span class="legend-item legend-veg">% Vegetação nativa</span>
+
+      <span class="legend-item legend-pasto">% Pastagem</span>
+
+      <span class="legend-item legend-soja">% Soja (uso do solo)</span>
+
+      <span class="legend-year">
+
+        <span id="sparkline-year">1985</span>
+
+      </span>
+
+    </div>
+
+  </div>
+
+</aside>
+
+
+
+<script src="assets/js/vendor/scrollama.min.js?v=3"></script>
+
+<script src="assets/js/utils.js?v=3"></script>
+
+<script src="assets/js/timeline.js?v=3"></script>
+
+<script src="assets/js/atlas.js?v=3"></script>
+
+<script src="assets/js/router.js?v=3"></script>
+
+<script src="assets/js/sankey.js?v=3"></script>
+
+</body>
+
+</html>
+

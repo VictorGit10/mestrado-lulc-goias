@@ -1,0 +1,74 @@
+/* tabs.css — Top tabs Narrativa | Atlas, logo abaixo da regua superior.
+ * Sticky junto com a regua para nao perder navegacao quando rola.
+ */
+
+.mode-tabs {
+  position: sticky;
+  top: var(--rail-h);
+  z-index: 49;
+  background: rgba(250, 250, 247, 0.95);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--color-rule);
+  font-family: var(--font-sans);
+}
+
+.mode-tabs-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  gap: 0;
+  align-items: stretch;
+  height: 40px;
+}
+
+.mode-tab {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 0 1.4rem;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.mode-tab:hover {
+  color: var(--color-fg);
+}
+
+.mode-tab--active {
+  color: var(--color-accent);
+  border-bottom-color: var(--color-accent);
+  font-weight: 600;
+}
+
+.mode-tab-hint {
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+  color: var(--color-muted);
+  text-transform: none;
+  font-weight: 400;
+}
+
+.mode-tab--active .mode-tab-hint {
+  color: var(--color-accent-soft);
+}
+
+@media (max-width: 900px) {
+  .mode-tabs-inner {
+    padding: 0 1rem;
+    height: 36px;
+  }
+  .mode-tab {
+    padding: 0 0.9rem;
+    font-size: 0.72rem;
+  }
+  .mode-tab-hint { display: none; }
+}
