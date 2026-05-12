@@ -6,7 +6,7 @@
 
 ## O que é
 
-Tabela wide única `cd_mun × ano` (9.840 linhas × 66 colunas) que consolida todas as fontes prontas em formato pronto para regressão pooled, painel ou inferência espacial (Moran, LISA, `spreg`).
+Tabela wide única `cd_mun × ano` (9.840 linhas × ~157 colunas) que consolida todas as fontes prontas em formato pronto para regressão pooled, painel ou inferência espacial (Moran, LISA, `spreg`).
 
 **Universo**: 246 municípios de Goiás (atual), 40 anos (1985–2024). Linha = município × ano.
 
@@ -29,8 +29,10 @@ python scripts/construir_painel_unificado.py
 | Prefixo | Origem | Cobertura plena |
 |---|---|---|
 | `lulc_*` (15 cols) | MapBiomas Col 10.1 (Pipeline #4) | 1985–2024 |
-| `pec_*` (3 cols: bovinos, suínos, galináceos) | SIDRA PPM 3939 (Pipeline #3) | 1974–2024 |
-| `agri_*` (12 cols: soja, milho 1ª/2ª, cana, feijão, algodão × área+ton) | SIDRA PAM 1612 + 839 (Pipeline #3 + #15) | 1974+ (safrinha desde 2003) |
+| `pec_*` (4 cols: bovinos, suínos, galináceos, ovinos tosquiados) | SIDRA PPM 3939 + 95 (Pipeline #3) | 1974–2024 |
+| `agri_*` (~66 cols: todas as temporárias × área+ton + milho 1ª/2ª safras) | SIDRA PAM 1612 + 839 (Pipeline #3 + #15) | 1974+ (safrinha desde 2003) |
+| `perm_*` (~76 cols: todas as permanentes × área destinada+ton) | SIDRA PAM 1613 (Pipeline #3) | 1974–2024 |
+| `pec_mel_kg`, `pec_la_kg` | SIDRA PPM 74 (Pipeline #3) | 1974–2024 (cobertura municipal variável) |
 | `pib_real_rs`, `va_agro_real_rs`, `participacao_agro_pct` | SIDRA 5938 (Pipeline #3) | 2002–2023 (PIB total até 2023; VA agro só 2002–2021) |
 | `populacao` | SIDRA 6579 (Pipeline #3) | 2001–2024 (gaps em 2007 e 2010 — anos de Censo, IBGE não publica estimativa) |
 | `sicor_*` (6 cols: custeio/investimento/total × valor+n_op) | SICOR (Pipeline #6), deflacionado | 2013–2024 |
@@ -50,11 +52,11 @@ python scripts/construir_painel_unificado.py
 
 4. **Censo 2017 replicado** como atributo estático em todos os anos do município. Decisão pragmática para regressão pooled. Limitação: não captura mudanças estruturais pré- ou pós-2017.
 
-5. **Leite PPM 74 EXCLUÍDO**: a tabela só tem "Valor da produção" em moedas históricas (Cruzados, Cruzeiros, Reais). Sem quantidade física comparável. Manter série de leite exigiria conversão monetária histórica não disponível.
+5. **Leite incluído** via PPM 74, variável 106 + classificação 80/categoria 2682 (Leite), unidade "Mil litros". Correção aplicada em 2026-05-11 — a coleta original não passava a classificação 80 e devolvia apenas valor monetário; após corrigir a chamada SIDRA, a quantidade física passou a vir corretamente.
 
-6. **Top-6 lavouras apenas** (soja, milho 1ª, milho 2ª, cana, feijão, algodão): cobre o essencial da economia agrícola goiana. Demais culturas (arroz, sorgo, mandioca, café, banana etc.) acessíveis via JOIN ad-hoc com `sidra_pam1612_temporarias.csv` / `sidra_pam1613_permanentes.csv`.
+6. **Todas as lavouras temporárias e permanentes** (Pipeline #3 expandido em 2026-05-11): 33 temporárias (PAM 1612) e 38 permanentes (PAM 1613) entram no painel. Culturas com pouca expressão em Goiás terão alta proporção de NaN — isso é esperado e não indica erro. Frutas (laranja, banana, manga etc.) e café mudaram de unidade em 2002 (de "mil frutos" para toneladas), gerando quebra de série histórica que deve ser tratada em análises comparativas longitudinais.
 
-7. **3 categorias de pecuária**: bovinos, suínos, galináceos. Equino, bubalino, ovino, caprino excluídos.
+7. **4 categorias de pecuária**: bovinos, suínos, galináceos (PPM 3939) + ovinos tosquiados (PPM 95). Equino, bubalino, ovino, caprino permanecem disponíveis no CSV bruto `sidra_ppm3939_rebanhos.csv` mas não entram no painel unificado. Mel e lã (PPM 74) também disponíveis como colunas isoladas (`pec_mel_kg`, `pec_la_kg`).
 
 8. **SICOR 2025–2026 EXCLUÍDOS** (parciais). Quem precisar usar `sicor_painel_municipal.csv`.
 
@@ -73,6 +75,7 @@ python scripts/construir_painel_unificado.py
 - SICOR/pastagem/soja vs `painel_credito_lulc.csv` (2013–2023): dif mediana 0 (batimento perfeito).
 - Soja MapBiomas vs PAM (2000–2023, 4.316 pares): Pearson r = 0,971; razão mediana 1,124 (consistente com `validacao_soja_mapbiomas_sidra.csv`).
 - Smoke test regressão (2013–2021, drop NaN nas chaves): 2.185 linhas × 243 munis utilizáveis.
+- Validação automatizada em 4 camadas: `scripts/validar_painel_unificado.py` + `notebooks/validacao_painel.ipynb`. Resultado atual: 1.699 OK / 36 ESPERADA_TOCANTINS / 25 CRUZADA_INFORMATIVA / 17 SEM_GABARITO / **0 ANOMALA**. Detalhes em [metodologia/validacao_painel.md](../metodologia/validacao_painel.md).
 
 ## O que ESTE pipeline NÃO faz (escopo deliberado)
 

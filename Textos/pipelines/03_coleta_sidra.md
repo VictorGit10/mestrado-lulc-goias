@@ -3,21 +3,25 @@
 **Script**: `scripts/coleta_sidra.py`
 **Quando foi feito**: 2026-04-26.
 **Depende de**: nenhum.
-**Outputs**: 8 CSVs em `data/processed/sidra_*.csv`. Ver [tabelas_processadas.md](../outputs/tabelas_processadas.md).
+**Outputs**: 11 CSVs em `data/processed/sidra_*.csv`. Ver [tabelas_processadas.md](../outputs/tabelas_processadas.md).
 
 ## O que faz
 
-Baixa **8 tabelas SIDRA no nível municipal** (246 munis de Goiás) usando paginação automática para respeitar o limite de 50.000 valores/chamada da API SIDRA.
+Baixa **11 tabelas SIDRA no nível municipal** (246 munis de Goiás) usando paginação automática para respeitar o limite de 50.000 valores/chamada da API SIDRA.
 
 ## Tabelas cobertas
 
 | Tabela | Variáveis | Categorias | Anos | Linhas |
 |---|---|---|---|---:|
-| **PAM 1612** — Lavouras temporárias | 109 área plantada, 216 área colhida, 214 quantidade produzida | 8 culturas (algodão, arroz, cana, feijão, mamona, milho, soja, sorgo) | 1974–2024 | 301k |
-| **PAM 1613** — Lavouras permanentes | 2313 área destinada, 216 área colhida, 214 quantidade | 8 culturas (banana, café, coco, goiaba, laranja, limão, manga, tangerina) | 1974–2024 | 297k |
+| **PAM 1612** — Lavouras temporárias | 109 área plantada, 216 área colhida, 214 quantidade produzida | 33 culturas (todas as temporárias do SIDRA: soja, milho, cana, algodão, arroz, mandioca, batata, tomate, trigo, girassol etc.) | 1974–2024 | ~1,1M |
+| **PAM 1613** — Lavouras permanentes | 2313 área destinada, 216 área colhida, 214 quantidade | 38 culturas (todas as permanentes: café, banana, laranja, manga, uva, mamão, maracujá, cacau, açaí etc.) | 1974–2024 | ~1,0M |
+| **PAM 839** — Milho 1ª e 2ª safras | 109 área plantada, 216 área colhida, 214 quantidade, 112 rendimento | 2 safras | 2003–2024 | 43k |
 | **PPM 3939** — Efetivo rebanhos | 105 efetivo (cabeças) | 7 espécies (bovino, suíno, bubalino, equino, ovino, caprino, galináceos) | 1974–2024 | 88k |
-| **PPM 74** — Produção de leite | quantidade (mil L), valor (mil R$) | – | 1974–2024 | 25k |
+| **PPM 74** — Produção de leite | quantidade (mil L), valor (mil R$) | Leite (categoria 2682) | 1974–2024 | 25k |
+| **PPM 74** — Produção de mel | quantidade (kg), valor | Mel de abelha (categoria 2687) | 1974–2024 | variável |
+| **PPM 74** — Produção de lã | quantidade (kg), valor | Lã (categoria 2684) | 1974–2024 | variável |
 | **PPM 94** — Produção de ovos | quantidade (mil dúzias), valor | – | 1974–2024 | 13k |
+| **PPM 95** — Ovinos tosquiados | 108 ovinos tosquiados (cabeças) | – | 1974–2024 | variável |
 | **5938** — PIB municipal | 37 PIB, 498 VA total, 543 impostos, 513 VA agro, 517 VA indústria, 6575 VA serviços, 525 VA adm. pública | – | 2002–2023 | 38k |
 | **6579** — População residente | 9324 estimativas anuais | – | 2001–2024 | 5k |
 | **1737** — IPCA mensal Brasil | 63 variação mensal | – | 1979–2026 | 556 |
@@ -58,7 +62,7 @@ python coleta_sidra.py --force          # ignora cache e rebaixa tudo
 python coleta_sidra.py --so 1612 5938   # roda só tabelas que casem com essas substrings
 ```
 
-**Tempo de execução**: ~10 min na primeira execução (38 chunks × ~25s cada). Re-execuções são instantâneas (cache CSV).
+**Tempo de execução**: ~15–20 min na primeira execução (PAM 1612/1613 agora exigem ~1 ano por chunk devido ao grande número de produtos; total ~120 chunks × ~25s cada). Re-execuções são instantâneas (cache CSV).
 
 ## Arquitetura interna
 

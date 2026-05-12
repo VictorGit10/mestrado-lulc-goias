@@ -112,7 +112,6 @@
         <span class="legend-swatch legend-swatch--veg">Vegetação natural</span>
         <span class="legend-swatch legend-swatch--pasto">Pastagem</span>
         <span class="legend-swatch legend-swatch--agric">Agricultura</span>
-        <span class="legend-swatch legend-swatch--mosaico">Mosaico</span>
         <span class="legend-swatch legend-swatch--agua">Água</span>
         <span class="legend-swatch legend-swatch--urbano">Urbano</span>
         <span class="legend-swatch legend-swatch--outros">Outros</span>

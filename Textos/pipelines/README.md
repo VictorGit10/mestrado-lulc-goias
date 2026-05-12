@@ -1,6 +1,6 @@
 # Pipelines — índice
 
-16 pipelines documentados. Cada arquivo descreve **processo** (o que faz, como rodar, decisões metodológicas, validações, limitações). Para descrição dos **produtos** (PNGs, CSVs com interpretação para redação), ver [outputs/](../outputs/).
+23 pipelines documentados. Cada arquivo descreve **processo** (o que faz, como rodar, decisões metodológicas, validações, limitações). Para descrição dos **produtos** (PNGs, CSVs com interpretação para redação), ver [outputs/](../outputs/).
 
 ## Tabela resumo
 
@@ -19,9 +19,16 @@
 | 11 | [11_gif_lulc.md](11_gif_lulc.md) | `gerar_gif_lulc.py` | GIF animado 40 anos | 1985–2024 | Estado | ✅ |
 | 12 | [12_transicoes.md](12_transicoes.md) | `transicoes_mapbiomas.py` | Matrizes pixel-a-pixel via GEE | 1985–2024 | Municipal | ✅ |
 | 13 | [13_idhm.md](13_idhm.md) | `coleta_idhm.py` | IDH-M (IPEA API) | 1991/2000/2010 | Municipal | ✅ (pós-2010 inexistente) |
-| 14 | [14_fogo.md](14_fogo.md) | `fogo_mapbiomas.py` | Área queimada × LULC via GEE | 1985–2024 | Municipal | ⚠️ script pronto, NÃO executado |
+| 14 | [14_fogo.md](14_fogo.md) | `fogo_mapbiomas.py` | Área queimada × LULC via GEE | 1985–2024 | Municipal | ✅ |
 | 15 | [15_safrinha.md](15_safrinha.md) | `coleta_sidra.py --so 839` | Milho 1ª/2ª safra | 2003–2024 | Municipal | ✅ (sem análise gráfica) |
 | 16 | [16_painel_unificado.md](16_painel_unificado.md) | `construir_painel_unificado.py` | Painel wide 9.840 × 66 | 1985–2024 | Municipal | ✅ |
+| 17 | [17_taxas_lulc.md](17_taxas_lulc.md) | `calcular_taxas_lulc.py` | Taxas de variação LULC (slope, delta, aceleração) | 1985–2024 | UF, muni, meso | ✅ |
+| 18 | [18_mesorregioes.md](18_mesorregioes.md) | `mapeamento_mesorregioes.py` | Mapeamento cd_mun → mesorregião IBGE 2017 | — | Municipal | ✅ |
+| 19 | [19_conversoes_brutas.md](19_conversoes_brutas.md) | `agregar_conversoes.py` | Transições brutas ano-a-ano (A→B) | 1985–2024 | UF, muni | ✅ |
+| 20 | [20_figuras_taxas.md](20_figuras_taxas.md) | `figuras_taxas.py` | 7 figuras de taxas (slope, delta, aceleração, mapas) | 1985–2024 | UF, muni, meso | ✅ |
+| 21 | [21_correlacoes_uf.md](21_correlacoes_uf.md) | `correlacoes_uf.py` | Correlações LULC × socioeconômicas UF (Δ-vs-Δ, HAC) | 1985–2024 | UF | ✅ |
+| 22 | [22_correlacoes_painel.md](22_correlacoes_painel.md) | `correlacoes_painel.py` | Painel municipal 2-way FE (entity + time) | 2002–2023 | Municipal | ✅ |
+| 23 | [23_did.md](23_did.md) | `piecewise_did.py` | DiD piecewise GO vs MT/TO | 1985–2024 | UF | ✅ |
 
 ## Como os pipelines se cruzam
 
@@ -34,8 +41,13 @@
 - **#12** é independente (puro GEE) e **substitui o #5 como fonte de matriz de transição** real (pixel-a-pixel).
 - **#13, #14, #15** alimentam slots do painel unificado (#16).
 - **#16** consolida #3, #4, #6, #7, #13, #15 num painel pronto para análise espacial estatística.
-
-> **Nota**: as próximas análises (regressão espacial, Moran/LISA, infraestrutura agroindustrial) vão consumir os CSVs do #3, #4, #5, #6, #7, #16 — não os UFs do #1/#2. Os scripts antigos ficam como referência histórica e validação batimental.
+- **#17** consome #4 (dados brutos MapBiomas municipal) e #18 (mesorregiões). Produz métricas de variação LULC para #20 e para as correlações da Etapa 2.
+- **#18** é independente (geobr). Alimenta #17 e #20 com o mapeamento cd_mun → mesorregião.
+- **#19** consome #12 com flag `--consecutivos` (39 pares ano-a-ano). Produz conversão bruta A→B para análise de fluxo.
+- **#20** consome #17 (taxas) e #18 (geometrias) para figuras.
+- **#21** consome #17 (taxas UF) e #16 (painel socioeconômico) para correlações UF em primeiras diferenças (D7).
+- **#22** consome #17 (taxas municipais) e #16 (painel socioeconômico) para painel 2-way FE (D8). Resíduos alimentam análise espacial (Moran's I).
+- **#23** consome #17 (taxas GO) + séries MT/TO baixadas via GEE. DiD piecewise (D9).
 
 ## Convenções
 

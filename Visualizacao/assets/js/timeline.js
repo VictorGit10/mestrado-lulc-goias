@@ -3,7 +3,7 @@
  * e move cursores ao trocar de ano.
  */
 
-(function () {
+(function (root) {
   "use strict";
 
   const ANO_MIN = 1985;
@@ -267,17 +267,15 @@ function moverCursorSparkline(ano) {
     const veg = dado.pct_vegetacao_nativa || 0;
     const pasto = dado.pct_pastagem || 0;
     const agric = dado.pct_agricultura || 0;
-    const mosaico = dado.pct_mosaico || 0;
     const agua = dado.pct_agua || 0;
     const urbano = dado.pct_area_urbana || 0;
-    const outros = Math.max(0, 1 - veg - pasto - agric - mosaico - agua - urbano);
+    const outros = Math.max(0, 1 - veg - pasto - agric - agua - urbano);
 
-    const map = { veg, pasto, agric, mosaico, agua, urbano, outros };
+    const map = { veg, pasto, agric, agua, urbano, outros };
     const nomes = {
       veg: "Vegetação natural",
       pasto: "Pastagem",
       agric: "Agricultura",
-      mosaico: "Mosaico agric./past.",
       agua: "Água",
       urbano: "Área urbana",
       outros: "Outros"
@@ -378,6 +376,29 @@ function moverCursorSparkline(ano) {
     );
   }
 
+  // -------------------- gerar steps anuais --------------------
+  function gerarStepsAnuais() {
+    const eraRanges = [
+      { era: 'heranca',        start: 1985, end: 1993 },
+      { era: 'soja-sudoeste',  start: 1994, end: 2002 },
+      { era: 'boom-commodity', start: 2003, end: 2011 },
+      { era: 'intensificacao', start: 2012, end: 2017 },
+      { era: 'reorganizacao',  start: 2018, end: 2024 },
+    ];
+    eraRanges.forEach(({ era, start, end }) => {
+      const eraCard = document.querySelector(`.step--era[data-era="${era}"]`);
+      if (!eraCard) return;
+      let anchor = eraCard;
+      for (let year = start; year <= end; year++) {
+        const art = document.createElement('article');
+        art.className = 'step';
+        art.dataset.year = String(year);
+        anchor.insertAdjacentElement('afterend', art);
+        anchor = art;
+      }
+    });
+  }
+
   // -------------------- scrollama --------------------
   function inicializarScrollama() {
     if (typeof scrollama === "undefined") {
@@ -393,6 +414,8 @@ function moverCursorSparkline(ano) {
       })
       .onStepEnter(({ element }) => {
         const ano = parseInt(element.dataset.year, 10);
+        document.querySelectorAll(".step[data-year].is-active").forEach(s => s.classList.remove("is-active"));
+        element.classList.add("is-active");
         trocarMapa(ano);
         moverCursorRegua(ano);
         moverCursorSparkline(ano);
@@ -401,12 +424,23 @@ function moverCursorSparkline(ano) {
     window.addEventListener("resize", () => scroller.resize());
   }
 
+  // -------------------- subrota (chamado pelo router) --------------------
+  function aplicarSubrota(segmentos) {
+    // segmentos: [] | [ano]
+    if (!segmentos || segmentos.length === 0) return;
+    const ano = parseInt(segmentos[0], 10);
+    if (isNaN(ano) || ano < ANO_MIN || ano > ANO_MAX) return;
+    const alvo = document.querySelector(`.step[data-year="${ano}"]`);
+    if (alvo) alvo.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+
   // -------------------- bootstrap --------------------
   async function init() {
     try {
       const dados = await carregarDados();
       porAno = Object.fromEntries(dados.painel.serie.map(r => [r.ano, r]));
       posicionarPinosRegua(dados.marcos);
+      gerarStepsAnuais();
       hidratarSteps(dados.painel, dados.marcos);
       desenharSparkline(dados.painel);
       atualizarBarra(ANO_MIN);
@@ -423,6 +457,8 @@ function moverCursorSparkline(ano) {
           `Se voce abriu via duplo-clique, use o servir.bat ou servir.ps1.</p>`;
       }
     }
+    root.GO40 = root.GO40 || {};
+    root.GO40.narrativa = { aplicarSubrota };
   }
 
   if (document.readyState === "loading") {
@@ -430,4 +466,4 @@ function moverCursorSparkline(ano) {
   } else {
     init();
   }
-})();
+})(typeof window !== "undefined" ? window : this);

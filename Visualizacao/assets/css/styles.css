@@ -1,4 +1,4 @@
-﻿/* ==========================================================================
+/* ==========================================================================
    Goias 1985-2024 â€” Timeline scrollytelling
    Tom academico sobrio. Tipografia serifa para corpo, sans para UI.
    ========================================================================== */
@@ -16,7 +16,6 @@
   --color-agric: #d96aa3;          /* rosa agricultura (alinhado ao mapa GEE) */
   --color-agua: #4a7ba6;           /* azul agua */
   --color-urbano: #8a8a82;         /* cinza area urbana */
-  --color-mosaico: #b8956a;        /* bege mosaico agric./pastagem */
   --color-outros: #c4ad8a;         /* bege claro outros (silvicultura, mineracao) */
   --font-serif: "Source Serif Pro", "Crimson Pro", Georgia, "Times New Roman", serif;
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, system-ui, sans-serif;
@@ -241,7 +240,6 @@ p  { margin: 0 0 1em; }
 .bar-agric   { background: var(--color-agric); }
 .bar-agua    { background: var(--color-agua); }
 .bar-urbano  { background: var(--color-urbano); }
-.bar-mosaico { background: var(--color-mosaico); }
 .bar-outros  { background: var(--color-outros); }
 
 /* Tooltip da barra de composicao */
@@ -294,7 +292,6 @@ p  { margin: 0 0 1em; }
 .legend-swatch--agric::before   { background: var(--color-agric); }
 .legend-swatch--agua::before    { background: var(--color-agua); }
 .legend-swatch--urbano::before  { background: var(--color-urbano); }
-.legend-swatch--mosaico::before { background: var(--color-mosaico); }
 .legend-swatch--outros::before  { background: var(--color-outros); }
 
 /* Steps a direita */

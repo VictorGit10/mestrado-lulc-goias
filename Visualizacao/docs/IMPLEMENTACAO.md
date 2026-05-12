@@ -65,7 +65,11 @@ python Visualizacao/scripts/otimizar_mapas_webp.py
 A peca **nao modifica nada** dos pipelines existentes. So consome:
 
 - `data/processed/painel_unificado.parquet` (Pipeline #16)
-- `outputs/mapas/cobertura_YYYY.png` (Pipeline #9)
+- `data/processed/transicoes_mapbiomas_goias.csv` (Pipeline #12)
+- `outputs/mapas/cobertura_YYYY.png` (Pipeline #9 → Pipeline #10 converte para WebP)
+- `outputs/mapas_fogo/fogo_YYYY.png` (gerar_mapas_fogo_40anos.py)
+- `outputs/mapas_delta/delta_YYYY.png` (gerar_mapas_delta_lulc.py)
+- `outputs/mapas_transicoes/transicao_PERIODO.png` (gerar_mapas_fogo_40anos.py)
 
 ### 1.3 Tamanhos
 
@@ -197,6 +201,9 @@ entram no spark-line** — so aparecem na linha de dados-chave de cada step.
 Pinos da regua e cursor sao posicionados em **percentual proporcional ao
 ano**: `((ano - 1985) / 39) * 100%`. Funciona em qualquer largura sem
 recalcular.
+
+### 3.7 Tratamento da classe Mosaico (ID 21)
+A classe "Mosaico de Agricultura ou Pastagem" (ID 21 do MapBiomas) é intencionalmente excluída dos mapas GEE (ficando transparente através da função `.selfMask()`). Para manter coerência visual entre os mapas rasterizados e a interface interativa (barras empilhadas e legendas), a classe Mosaico também não possui identidade visual isolada no front-end (`index.html`, `timeline.js`, `atlas.js`). Contudo, sua área continua sendo mensurada e preservada no painel tabular unificado (`painel_unificado.parquet`) para cálculos futuros, sendo englobada na visualização dentro da barra "Outros" para fechamento de 100%.
 
 ## 4. O que falta (Dia 4 + Dia 5)
 
@@ -384,26 +391,28 @@ Visualizacao/
 │   │   ├── atlas.js        ✓ criado
 │   │   ├── timeline.js     (ja existe; sera ampliado na Fase E)
 │   │   ├── drilldown.js    ⏳ Fase D
+│   │   └── sankey.js       ✓ criado
 │   │   └── sankey.js       ⏳ Fase E
 │   └── data/
 │       ├── painel_goias.json
 │       ├── marcos.json
 │       ├── transicoes_resumo.json
-│       ├── fogo_goias.json              ⏳ Fase A3
-│       ├── painel_municipal_indice.json ⏳ Fase A3
-│       ├── transicoes_matriz.json       ⏳ Fase A3
-│       ├── sankey_data.json             ⏳ Fase A3
-│       ├── municipios/{code}.json       ⏳ Fase A3 (246 arquivos)
+│       ├── fogo_goias.json              ✓ gerado (nao consumido por JS — futuro)
+│       ├── painel_municipal_indice.json ✓ gerado (nao consumido — Fase D)
+│       ├── transicoes_matriz.json       ✓ gerado (nao consumido — Fase D)
+│       ├── sankey_data.json             ✓ gerado e consumido por sankey.js
+│       ├── municipios/{code}.json       ✓ gerado (nao consumido — Fase D, 246 arquivos)
 │       └── geo/goias_municipios.topojson ⏳ Fase A2
 ├── img/
-│   ├── mapas_gee/cobertura_*.webp   (ja existe)
-│   ├── mapas_fogo/fogo_*.webp       ⏳ Fase A1
-│   └── mapas_delta/delta_*.webp     ⏳ Fase A4
+│   ├── mapas_gee/cobertura_*.webp   ✓ consumido por timeline.js e atlas.js
+│   ├── mapas_fogo/fogo_*.webp       ✓ consumido por atlas.js (toggle fogo)
+│   ├── mapas_transicoes/transicao_*.webp ✓ consumido por atlas.js (toggle transicoes)
+│   └── mapas_delta/delta_*.webp     ✓ consumido por atlas.js (toggle delta)
 └── scripts/
-    ├── preparar_dados_timeline.py   (sera ampliado na Fase A3)
-    ├── otimizar_mapas_webp.py       (ja existe)
-    ├── gerar_mapas_fogo_40anos.py   ⏳ Fase A1
-    ├── gerar_mapas_delta_lulc.py    ⏳ Fase A4
+    ├── preparar_dados_timeline.py   ✓ gerador dos JSONs (ampliado na Fase A3)
+    ├── otimizar_mapas_webp.py       ✓ (ja existe)
+    ├── gerar_mapas_fogo_40anos.py   ✓ gerador dos mapas de fogo
+    ├── gerar_mapas_delta_lulc.py    ✓ gerador dos mapas delta
     └── exportar_geojson_goias.py    ⏳ Fase A2
 ```
 

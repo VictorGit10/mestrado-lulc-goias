@@ -13,6 +13,11 @@ Definições, fórmulas e interpretação das métricas calculadas em pipelines 
 | **UA bovino** | `pec_bovinos_cab × 0,7` | Conversão de efetivo total para Unidade Animal usando fator único 0,7. Justificativa: SIDRA (PPM 3939, PPM 73, Censo Agro 2017) não publica desagregação etária a nível municipal. O fator 0,7 é a média ponderada convencional Embrapa/CONAB para rebanho de corte misto brasileiro (~50% adultos×1,0 + ~30% novilhos×0,7 + ~20% bezerros×0,5 ≈ 0,71). **Limitação**: estado-estacionário; não captura variação inter-anual da composição etária. |
 | **Lotação UA (UA/ha)** | `pec_bovinos_ua / lulc_pastagem_ha` | Lotação em Unidade Animal por hectare de pastagem. Métrica padronizada para comparação com literatura zootécnica. |
 | **Produção de leite (mil litros)** | `agri_leite_mil_litros` | Quantidade física produzida via PPM 74, variável 106 + classificação 80/categoria 2682 (Leite). Disponível 1974–2024. |
+| **Produção de mel (kg)** | `pec_mel_kg` | Quantidade física de mel de abelha via PPM 74, variável 106 + classificação 80/categoria 2687. Disponível 1974–2024 (cobertura municipal variável, muitos NaN esperados). |
+| **Produção de lã (kg)** | `pec_la_kg` | Quantidade física de lã via PPM 74, variável 106 + classificação 80/categoria 2684. Disponível 1974–2024 (cobertura municipal variável). |
+| **Ovinos tosquiados (cabeças)** | `pec_ovinos_tosquiados_cab` | Efetivo de ovinos tosquiados via PPM 95, variável 108. Disponível 1974–2024. |
+| **Lavouras temporárias (ha / ton)** | `agri_<cultura>_ha_plantada`, `agri_<cultura>_ton` | Área plantada e quantidade produzida de todas as 33 culturas temporárias da PAM 1612. Disponível 1988–2024 para área plantada (var. 109); 1974–2024 para quantidade produzida (var. 214). |
+| **Lavouras permanentes (ha / ton)** | `perm_<cultura>_ha_destinada`, `perm_<cultura>_ton` | Área destinada à colheita e quantidade produzida das 38 culturas permanentes da PAM 1613. **Atenção**: frutas e café tiveram mudança de unidade em 2002 — de "mil frutos" (até 2001) para toneladas (2002+). Análises que cruzam esse limite devem tratar os períodos separadamente ou usar apenas área. |
 | **Crédito por hectare de pastagem** | `valor_total_real / pastagem_ha` | Quanto de crédito rural (R$) foi desembolsado por hectare de pastagem existente no município. Indicador de intensificação financeira da pecuária ou de pressão de transição. |
 | **Produtividade soja (ton/ha)** | `agri_soja_ton / agri_soja_ha_plantada` | Rendimento médio da soja por hectare plantado (Pipeline #16). Permite comparar intensificação técnica entre municípios. |
 | **PIB per capita real** | `pib_real_rs / populacao` | PIB municipal deflacionado por habitante (Pipeline #16). Em R$ de dez/2024. |
@@ -20,9 +25,18 @@ Definições, fórmulas e interpretação das métricas calculadas em pipelines 
 | **% pastagem (LULC)** | `lulc_pastagem_ha / lulc_area_total_ha * 100` | Fração do município coberta por pastagem (MapBiomas). |
 | **% agricultura (LULC)** | `lulc_agricultura_ha / lulc_area_total_ha * 100` | Fração coberta por todas as lavouras MapBiomas somadas. |
 | **% natural (LULC)** | `(lulc_floresta_nativa_ha + lulc_formacao_savanica_ha + lulc_campo_nativo_ha) / lulc_area_total_ha * 100` | Fração com vegetação nativa remanescente. |
+| **Delta anual (Mha/ano)** | `area_mha[t] - area_mha[t-1]` | Primeira derivada bruta — variação ano-a-ano. Positivo = expansão, negativo = retração. NaN em 1985 (sem ano anterior). |
+| **Slope 5a trailing (Mha/ano)** | OLS `y = a + b·t` sobre janela `t-4..t`, HAC Newey-West | Coeficiente angular local (5 anos) terminado em `t`. Uso: testes piecewise, comparação antes/depois de marcos. NaN em 1985–1988 (janela insuficiente). |
+| **Slope 5a centrada (Mha/ano)** | OLS `y = a + b·t` sobre janela `t-2..t+2`, HAC Newey-West | Coeficiente angular local centrado em `t`. Uso: visualização narrativa (alinha slope ao ano representado). NaN em 1985–1986 e 2023–2024. |
+| **SE Newey-West (Mha/ano)** | Erro padrão HAC `maxlags=2` do slope trailing | Incerteza do slope corrigida para autocorrelação. Usado para intervalo de confiança (±1.96·SE). Não usar OLS i.i.d. para inferência. |
+| **Aceleração (Mha/ano²)** | `slope_trail[t] - slope_trail[t-1]` | Segunda derivada — mudança do ritmo. Positivo = acelerando; negativo = desacelerando. Ruidosa por construção; plotar apenas pontos onde `|acel| > 2σ`. |
+| **β DiD (Mha/ano)** | Coeficiente da interação `treated × post` na especificação DiD | Efeito diferencial do marco político em Goiás vs controles (MT/TO). Positivo = GO mudou mais na direção da variável do que os controles após o marco. Inferência via OLS com erros robustos HC1 (não HAC, dado N pequeno). Ver [Pipeline #23](../pipelines/23_did.md). |
+| **Pearson + HAC (r)** | Correlação de Pearson com p-valor via Newey-West | Usada nas correlações UF (Pipeline #21). Regressão auxiliar y ~ x com `cov_type="HAC"`, `maxlags=2` para capturar autocorrelação temporal. |
+| **Painel 2-way FE (β)** | `PanelOLS` com `entity_effects + time_effects` | Efeito de Δx sobre Δy controlando por heterogeneidade municipal fixa e choques temporais comuns. SE clusterizado por município. Ver [Pipeline #22](../pipelines/22_correlacoes_painel.md) e decisão D8. |
 
 ## Convenções
 
 - Valores monetários sempre em **R$ de dezembro/2024** (ver [deflacao_ipca.md](deflacao_ipca.md)).
 - Áreas em **hectares** quando indicado `_ha`; em **mil hectares** ou **milhões de hectares** (Mha) em gráficos para legibilidade.
 - Razões com denominador zero → NaN (não infinito; substituídas via `np.replace([np.inf, -np.inf], np.nan)`).
+- **Sistema de classes LULC** para taxas (Pipeline #17): 6 grupos alinhados com `gerar_mapas_lulc_gee_40anos.py`. Mosaico (ID 21) excluído. Campo Alagado (ID 11) em "Outros", não em "Vegetação Natural". Ver [Pipeline #17](../pipelines/17_taxas_lulc.md) para mapeamento completo.

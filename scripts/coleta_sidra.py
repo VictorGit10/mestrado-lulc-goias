@@ -68,14 +68,39 @@ PAM1612_VARIAVEIS = {
 }
 # Classification 81 = Produto das lavouras temporárias
 PAM1612_PRODUTOS = {
+    "2688": "Abacaxi",
+    "40471": "Alfafa fenada",
     "2689": "Algodão herbáceo (em caroço)",
+    "2690": "Alho",
+    "2691": "Amendoim (em casca)",
     "2692": "Arroz (em casca)",
+    "2693": "Aveia (em grão)",
+    "2694": "Batata-doce",
+    "2695": "Batata-inglesa",
     "2696": "Cana-de-açúcar",
+    "40470": "Cana para forragem",
+    "2697": "Cebola",
+    "2698": "Centeio (em grão)",
+    "2699": "Cevada (em grão)",
+    "2700": "Ervilha (em grão)",
+    "2701": "Fava (em grão)",
     "2702": "Feijão (em grão)",
+    "2703": "Fumo (em folha)",
+    "109179": "Girassol (em grão)",
+    "2704": "Juta (fibra)",
+    "2705": "Linho (semente)",
+    "2706": "Malva (fibra)",
     "2707": "Mamona (baga)",
+    "2708": "Mandioca",
+    "2709": "Melancia",
+    "2710": "Melão",
     "2711": "Milho (em grão)",
+    "2712": "Rami (fibra)",
     "2713": "Soja (em grão)",
     "2714": "Sorgo (em grão)",
+    "2715": "Tomate",
+    "2716": "Trigo (em grão)",
+    "109180": "Triticale (em grão)",
 }
 
 # PAM 1613 — Lavouras permanentes (mesmo critério de variáveis)
@@ -86,14 +111,44 @@ PAM1613_VARIAVEIS = {
 }
 # Classification 82 = Produto das lavouras permanentes
 PAM1613_PRODUTOS = {
+    "2717": "Abacate",
+    "2718": "Algodão arbóreo (em caroço)",
+    "45981": "Açaí",
+    "2719": "Azeitona",
     "2720": "Banana (cacho)",
+    "2721": "Borracha (látex coagulado)",
+    "40472": "Borracha (látex líquido)",
+    "2722": "Cacau (em amêndoa)",
     "2723": "Café (em grão) Total",
+    "31619": "Café (em grão) Arábica",
+    "31620": "Café (em grão) Canephora",
+    "40473": "Caju",
+    "2724": "Caqui",
+    "2725": "Castanha de caju",
+    "2726": "Chá-da-índia (folha verde)",
     "2727": "Coco-da-baía",
+    "2728": "Dendê (cacho de coco)",
+    "2729": "Erva-mate (folha verde)",
+    "2730": "Figo",
     "2731": "Goiaba",
+    "2732": "Guaraná (semente)",
     "2733": "Laranja",
     "2734": "Limão",
+    "2735": "Maçã",
+    "2736": "Mamão",
     "2737": "Manga",
+    "2738": "Maracujá",
+    "2739": "Marmelo",
+    "2740": "Noz (fruto seco)",
+    "90001": "Palmito",
+    "2741": "Pera",
+    "2742": "Pêssego",
+    "2743": "Pimenta-do-reino",
+    "2744": "Sisal ou agave (fibra)",
     "2745": "Tangerina",
+    "2746": "Tungue (fruto seco)",
+    "2747": "Urucum (semente)",
+    "2748": "Uva",
 }
 
 # PPM 3939 — Efetivo de rebanhos. Classification 79 = Tipo de rebanho.
@@ -462,6 +517,66 @@ def coletar_ipca(force: bool = False) -> pd.DataFrame:
     return out
 
 
+def coletar_ppm95_ovinos_tosquiados(force: bool = False) -> pd.DataFrame:
+    """PPM 95 — Ovinos tosquiados (cabeças)."""
+    print("\n[PPM 95] Ovinos tosquiados")
+    df_raw = _get_sidra_paginated(
+        "ppm95_ovinos_tosquiados",
+        force=force,
+        ano_ini=1974, ano_fim=2024,
+        n_vars=1, n_cats=1,
+        table_code="95",
+        territorial_level="6",
+        ibge_territorial_code=TERRITORIO_MUNI_GO,
+        variable="108",
+    )
+    df = _padronizar_municipal(df_raw, classif_nome="Ovinos tosquiados")
+    df.to_csv(DIR_PROCESSED / "sidra_ppm95_ovinos_tosquiados.csv", index=False)
+    print(f"  -> sidra_ppm95_ovinos_tosquiados.csv ({len(df):,} linhas, "
+          f"{df['ano'].min()}–{df['ano'].max()}, {df['cd_mun'].nunique()} munis)")
+    return df
+
+
+def coletar_ppm74_mel(force: bool = False) -> pd.DataFrame:
+    """PPM 74 — Produção de mel de abelha (quilogramas)."""
+    print("\n[PPM 74] Produção de mel de abelha")
+    df_raw = _get_sidra_paginated(
+        "ppm74_mel",
+        force=force,
+        ano_ini=1974, ano_fim=2024,
+        n_vars=2, n_cats=1,
+        table_code="74",
+        territorial_level="6",
+        ibge_territorial_code=TERRITORIO_MUNI_GO,
+        classifications={"80": "2687"},
+    )
+    df = _padronizar_municipal(df_raw, classif_nome="Mel de abelha", var_col="D4C")
+    df.to_csv(DIR_PROCESSED / "sidra_ppm74_mel.csv", index=False)
+    print(f"  -> sidra_ppm74_mel.csv ({len(df):,} linhas, "
+          f"{df['ano'].min()}–{df['ano'].max()}, {df['cd_mun'].nunique()} munis)")
+    return df
+
+
+def coletar_ppm74_la(force: bool = False) -> pd.DataFrame:
+    """PPM 74 — Produção de lã (quilogramas)."""
+    print("\n[PPM 74] Produção de lã")
+    df_raw = _get_sidra_paginated(
+        "ppm74_la",
+        force=force,
+        ano_ini=1974, ano_fim=2024,
+        n_vars=2, n_cats=1,
+        table_code="74",
+        territorial_level="6",
+        ibge_territorial_code=TERRITORIO_MUNI_GO,
+        classifications={"80": "2684"},
+    )
+    df = _padronizar_municipal(df_raw, classif_nome="Lã", var_col="D4C")
+    df.to_csv(DIR_PROCESSED / "sidra_ppm74_la.csv", index=False)
+    print(f"  -> sidra_ppm74_la.csv ({len(df):,} linhas, "
+          f"{df['ano'].min()}–{df['ano'].max()}, {df['cd_mun'].nunique()} munis)")
+    return df
+
+
 def coletar_pam839_safrinha(force: bool = False) -> pd.DataFrame:
     """PAM 839 — Milho 1ª e 2ª safras por município de Goiás (2003–2024)."""
     print("\n[PAM 839] Milho 1ª e 2ª safras")
@@ -495,7 +610,10 @@ COLETORES = [
     ("PAM 839 (milho safras)",           coletar_pam839_safrinha),
     ("PPM 3939 (rebanhos)",               coletar_ppm3939),
     ("PPM 74 (leite)",                    coletar_ppm74_leite),
+    ("PPM 74 (mel)",                      coletar_ppm74_mel),
+    ("PPM 74 (lã)",                       coletar_ppm74_la),
     ("PPM 94 (ovos)",                     coletar_ppm94_ovos),
+    ("PPM 95 (ovinos tosquiados)",        coletar_ppm95_ovinos_tosquiados),
     ("Tab 5938 (PIB municipal)",          coletar_pib_municipal),
     ("Tab 6579 (população)",              coletar_populacao),
     ("Tab 1737 (IPCA — deflator)",        coletar_ipca),

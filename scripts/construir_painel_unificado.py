@@ -179,16 +179,88 @@ GRUPOS_LULC = {
 CAT_PAM839_MILHO1  = 114253
 CAT_PAM839_MILHO2  = 114254
 CAT_PAM1612 = {
-    "soja":    2713,
-    "cana":    2696,
-    "feijao":  2702,
-    "algodao": 2689,
+    "abacaxi":      2688,
+    "alfafa_fenada": 40471,
+    "algodao":      2689,
+    "alho":         2690,
+    "amendoim":     2691,
+    "arroz":        2692,
+    "aveia":        2693,
+    "batata_doce":  2694,
+    "batata_inglesa": 2695,
+    "cana":         2696,
+    "cana_forragem": 40470,
+    "cebola":       2697,
+    "centeio":      2698,
+    "cevada":       2699,
+    "ervilha":      2700,
+    "fava":         2701,
+    "feijao":       2702,
+    "fumo":         2703,
+    "girassol":     109179,
+    "juta":         2704,
+    "linho":        2705,
+    "malva":        2706,
+    "mamona":       2707,
+    "mandioca":     2708,
+    "melancia":     2709,
+    "melao":        2710,
+    "milho_total":  2711,
+    "rami":         2712,
+    "soja":         2713,
+    "sorgo":        2714,
+    "tomate":       2715,
+    "trigo":        2716,
+    "triticale":    109180,
+}
+CAT_PAM1613 = {
+    "abacate":         2717,
+    "algodao_arboreo": 2718,
+    "acai":            45981,
+    "azeitona":        2719,
+    "banana":          2720,
+    "borracha_coagulado": 2721,
+    "borracha_liquido": 40472,
+    "cacau":           2722,
+    "cafe_total":      2723,
+    "cafe_arabica":    31619,
+    "cafe_canephora":  31620,
+    "caju":            40473,
+    "caqui":           2724,
+    "castanha_caju":   2725,
+    "cha_da_india":    2726,
+    "coco_da_baia":    2727,
+    "dende":           2728,
+    "erva_mate":       2729,
+    "figo":            2730,
+    "goiaba":          2731,
+    "guarana":         2732,
+    "laranja":         2733,
+    "limao":           2734,
+    "maca":            2735,
+    "mamao":           2736,
+    "manga":           2737,
+    "maracuja":        2738,
+    "marmelo":         2739,
+    "noz":             2740,
+    "palmito":         90001,
+    "pera":            2741,
+    "pessego":         2742,
+    "pimenta_do_reino": 2743,
+    "sisal_agave":     2744,
+    "tangerina":       2745,
+    "tungue":          2746,
+    "urucum":          2747,
+    "uva":             2748,
 }
 CAT_PPM3939 = {
     "bovinos":    2670,
     "suinos":     32794,
     "galinaceos": 32796,
 }
+CAT_PPM95 = {"ovinos_tosquiados": 108}
+CAT_PPM74_MEL = {"mel": 2687}
+CAT_PPM74_LA  = {"la": 2684}
 
 # IDs de variável SIDRA (confirmados)
 VAR_PAM_AREA_PLANT = 109   # Área plantada (ha)
@@ -295,7 +367,7 @@ def load_leite() -> pd.DataFrame:
 
 
 def load_agricultura() -> pd.DataFrame:
-    # PAM 1612 — soja, cana, feijão, algodão
+    # PAM 1612 — todas as lavouras temporárias
     df1612 = pd.read_csv(DIR_PROCESSED / "sidra_pam1612_temporarias.csv", encoding="utf-8")
     blocos = []
     for nome, cat_id in CAT_PAM1612.items():
@@ -334,6 +406,57 @@ def load_agricultura() -> pd.DataFrame:
     for b in blocos[1:]:
         out = out.merge(b, on=["cd_mun", "ano"], how="outer")
     print(f"[agricultura] {len(out):,} linhas, {out.shape[1]-2} colunas")
+    return out
+
+
+def load_permanentes() -> pd.DataFrame:
+    # PAM 1613 — todas as lavouras permanentes
+    df1613 = pd.read_csv(DIR_PROCESSED / "sidra_pam1613_permanentes.csv", encoding="utf-8")
+    blocos = []
+    for nome, cat_id in CAT_PAM1613.items():
+        for var_id, sufixo in [
+            (2313, "ha_destinada"),
+            (214,  "ton"),
+        ]:
+            col = f"perm_{nome}_{sufixo}"
+            sub = (
+                df1613[
+                    (df1613["categoria_id"] == cat_id) &
+                    (df1613["variavel_id"]  == var_id)
+                ][["cd_mun", "ano", "valor"]]
+                .rename(columns={"valor": col})
+            )
+            blocos.append(sub)
+    out = blocos[0]
+    for b in blocos[1:]:
+        out = out.merge(b, on=["cd_mun", "ano"], how="outer")
+    print(f"[permanentes] {len(out):,} linhas, {out.shape[1]-2} colunas")
+    return out
+
+
+def load_ovinos_tosquiados() -> pd.DataFrame:
+    df = pd.read_csv(DIR_PROCESSED / "sidra_ppm95_ovinos_tosquiados.csv", encoding="utf-8")
+    out = (
+        df[df["variavel_id"] == 108][["cd_mun", "ano", "valor"]]
+        .rename(columns={"valor": "pec_ovinos_tosquiados_cab"})
+    )
+    print(f"[ovinos tosquiados] {len(out):,} linhas")
+    return out
+
+
+def load_mel() -> pd.DataFrame:
+    df = pd.read_csv(DIR_PROCESSED / "sidra_ppm74_mel.csv", encoding="utf-8")
+    qtd = df[(df["variavel_id"] == 106) & (df["unidade"] == "Quilogramas")]
+    out = qtd[["cd_mun", "ano", "valor"]].rename(columns={"valor": "pec_mel_kg"})
+    print(f"[mel] {len(out):,} linhas com quantidade não-nula")
+    return out
+
+
+def load_la() -> pd.DataFrame:
+    df = pd.read_csv(DIR_PROCESSED / "sidra_ppm74_la.csv", encoding="utf-8")
+    qtd = df[(df["variavel_id"] == 106) & (df["unidade"] == "Quilogramas")]
+    out = qtd[["cd_mun", "ano", "valor"]].rename(columns={"valor": "pec_la_kg"})
+    print(f"[la] {len(out):,} linhas com quantidade não-nula")
     return out
 
 
@@ -547,7 +670,11 @@ def main() -> None:
     lulc    = load_lulc()
     pec     = load_pecuaria()
     agri    = load_agricultura()
+    perm    = load_permanentes()
     leite   = load_leite()
+    mel     = load_mel()
+    la      = load_la()
+    ovinos  = load_ovinos_tosquiados()
     pib     = load_economico(df_ipca)
     pop     = load_populacao()
     sicor   = load_sicor(df_ipca)
@@ -557,7 +684,8 @@ def main() -> None:
     # 3. Joins sequenciais sobre a grade
     print("\n[join] Construindo wide table...")
     painel = grade.copy()
-    fontes = [("lulc", lulc), ("pec", pec), ("agri", agri), ("leite", leite),
+    fontes = [("lulc", lulc), ("pec", pec), ("agri", agri), ("perm", perm),
+              ("leite", leite), ("mel", mel), ("la", la), ("ovinos", ovinos),
               ("pib", pib), ("pop", pop), ("sicor", sicor)]
     if fogo is not None:
         fontes.append(("fogo", fogo))
@@ -580,7 +708,14 @@ def main() -> None:
     print(f"[sanity] painel.shape = {painel.shape}")
     assert len(painel) == n_munis * n_anos, "linhas != munis × anos"
 
-    # 6. Salvar
+    # 6. Remover colunas 100% NaN (exceto chaves)
+    cols_dado = [c for c in painel.columns if c not in ("cd_mun", "nm_mun", "ano")]
+    cols_vazias = [c for c in cols_dado if painel[c].isna().all()]
+    if cols_vazias:
+        painel = painel.drop(columns=cols_vazias)
+        print(f"\n[cleanup] {len(cols_vazias)} colunas 100% NaN removidas: {', '.join(cols_vazias[:5])}{'...' if len(cols_vazias) > 5 else ''}")
+
+    # 7. Salvar
     painel = painel.sort_values(["cd_mun", "ano"]).reset_index(drop=True)
     out_parquet = DIR_PROCESSED / "painel_unificado.parquet"
     out_csv     = DIR_PROCESSED / "painel_unificado.csv"
@@ -589,7 +724,7 @@ def main() -> None:
     print(f"\n[OK] {out_parquet.relative_to(ROOT)}")
     print(f"[OK] {out_csv.relative_to(ROOT)}")
 
-    # 7. Diagnóstico de cobertura
+    # 8. Diagnóstico de cobertura
     diagnostico_cobertura(painel)
 
     print("\n" + "=" * 70)

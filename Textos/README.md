@@ -15,7 +15,7 @@ Dinâmica de uso e cobertura da terra em Goiás (1985–2024) e fatores socioeco
 | Pasta | Conteúdo |
 |---|---|
 | `visao_geral/` | Escopo, estrutura de diretórios, como retomar |
-| `pipelines/` | 16 pipelines (1 arquivo cada) |
+| `pipelines/` | 23 pipelines (1 arquivo cada) |
 | `outputs/` | Catálogo de gráficos, mapas, CSVs — com interpretação |
 | `metodologia/` | Deflação, validação, glossário, decisões transversais |
 | `referencia/` | Ambiente Python, fontes, plano original, memórias |
