@@ -27,14 +27,26 @@ Itens pendentes alinhados com o plano-mestre e [fontes_dados_adicionais.md](refe
 - [x] Pipeline #21 — Correlações UF Δ-vs-Δ (36 pares, 6 scatter plots)
 - [x] Pipeline #22 — Painel municipal 2-way FE (16 modelos, 6 significativos)
 - [x] Pipeline #23 — DiD GO vs MT/TO (36 modelos, 9 significativos)
+- [x] Fix `agregar_conversoes.py` (2026-05-12) — caches GEE têm IDs agrupados 1–6, não MapBiomas brutos. CSV agora exporta 6×6 = 36 transições por ano-par (era 2×2), 39 pares validados em ±15% de 34 Mha.
+
+## Em andamento (sequência atual A→B→C, 2026-05-12)
+
+- [x] **Frente A** — Fix conversao_bruta_*.csv (concluído)
+- [ ] **Frente B** — Pipeline #25: `scripts/analise_transicoes.py` (matrizes 6×6 por ATO, decomposição de origem, fluxo bruto vs líquido, 5 JSONs Sankey, top por mesorregião)
+- [ ] **Frente C** — Refinar primeira aba do `Visualizacao/index.html`:
+  - C1: cards diversificados de produção (mini-grid 4 culturas por ATO, explora painel ampliado)
+  - C2: toggle de camadas no sticky-map (Cobertura | Δ | Fogo | Transições)
+  - C3: pull-quotes nos marcos 1994/1996/2003/2012/2018
+  - C4: mini-sankey ao fim de cada ato (consome JSONs da Frente B)
+  - C5: highlight barra empilhada ↔ pixels do mapa
 
 ## Próximos (prioridade sugerida)
 
 | # | Item | Fonte | O que adiciona |
 |---|---|---|---|
-| 1 | **Análise espacial estatística** | painel_unificado.parquet | Moran's I, LISA, regressão espacial (spreg) — núcleo analítico faltante |
-| 2 | ~~Correlações socioeconômicas (Etapa 2)~~ | ✅ Pipelines #21–#23 | UF Δ-vs-Δ + painel 2-way FE (feitos); DiD aguarda GEE |
-| 3 | ~~Transições consecutivas (Pipeline #19)~~ | ✅ Rodado | Conversão bruta A→B — completo |
+| 1 | **Pipeline #24 — Análise espacial estatística** | painel_unificado.parquet + painel_residuos.csv | Moran's I, LISA, regressão espacial (spreg) — núcleo analítico faltante, insumo já preparado |
+| 2 | **Robustez DiD** | piecewise_did.py | Event-study plot (β por ano relativo), placebo pré-marco, hierarquizar TO-isolado |
+| 3 | **Robustez painel multivariada** | correlacoes_painel.py | Especificação combinada (Δ SICOR + Δ VA_agro + Δ Bovinos + Δ Fogo) com 2FE+cluster |
 | 4 | **IDH-M 2021** | Atlas Brasil PNUD | Download manual, integrar ao painel |
 | 5 | **Infraestrutura agroindustrial** | SIGSIF, CONAB, DNIT | Frigoríficos, silos, malha viária — coleta do zero |
 | 6 | **Reprodutibilidade** | — | requirements.txt / pyproject.toml |

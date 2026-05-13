@@ -25,22 +25,23 @@ ROOT = Path(__file__).resolve().parent.parent
 CACHE_DIR = ROOT / "data" / "cache" / "transicoes"
 DIR_PROCESSED = ROOT / "data" / "processed"
 
-# Mapeamento id → grupo (mesmo de calcular_taxas_lulc.py e GEE)
-GRUPOS_LULC = {
-    "vegetacao_natural": [3, 4, 12],
-    "pastagem":           [15],
-    "agricultura":        [9, 19, 20, 35, 36, 39, 40, 41, 46, 47, 48, 62],
-    "agua":               [31, 33],
-    "area_urbana":        [24],
-    "outros":             [5, 6, 11, 23, 25, 27, 29, 30, 32, 49, 50, 75],
+# Mapeamento id → grupo: os caches GEE (transicao_YYYY_YYYY.csv) já vêm com
+# IDs agrupados 1..6 (não com IDs MapBiomas brutos). Ver transicoes_mapbiomas.py.
+ID_PARA_GRUPO: dict[int, str] = {
+    1: "vegetacao_natural",
+    2: "pastagem",
+    3: "agricultura",
+    4: "agua",
+    5: "area_urbana",
+    6: "outros",
 }
 
-ID_PARA_GRUPO: dict[int, str] = {}
-for nome, ids in GRUPOS_LULC.items():
-    for cid in ids:
-        ID_PARA_GRUPO[cid] = nome
+NOMES_GRUPOS = list(ID_PARA_GRUPO.values())
 
-NOMES_GRUPOS = list(GRUPOS_LULC.keys())
+# IBGE: 34.009 Mha. MapBiomas tipicamente reporta 30-32 Mha em GO por causa de
+# pixels nao classificados (mais frequentes nos anos iniciais). Tolerancia ampla.
+AREA_GOIAS_MHA = 34.009
+TOLERANCIA_PCT = 15.0
 
 
 def main() -> None:
@@ -110,6 +111,23 @@ def main() -> None:
     for _, row in recente.iterrows():
         print(f"  {row['grupo_orig']:.15s} -> {row['grupo_dest']:.15s}: "
               f"{row['area_mha']:.4f} Mha")
+
+    # Validacao: soma das transicoes por ano-par ~ area de Goias
+    print("\n=== Validacao soma de areas por ano-par (esperado ~ 34 Mha) ===")
+    soma_por_par = uf.groupby(["ano_origem", "ano_destino"])["area_mha"].sum()
+    desvios = []
+    for (a1, a2), total in soma_por_par.items():
+        desvio_pct = (total - AREA_GOIAS_MHA) / AREA_GOIAS_MHA * 100
+        if abs(desvio_pct) > TOLERANCIA_PCT:
+            desvios.append((a1, a2, total, desvio_pct))
+    print(f"  pares dentro de +/-{TOLERANCIA_PCT:.0f}%: "
+          f"{len(soma_por_par) - len(desvios)}/{len(soma_por_par)}")
+    print(f"  min: {soma_por_par.min():.3f} Mha  max: {soma_por_par.max():.3f} Mha  "
+          f"media: {soma_por_par.mean():.3f} Mha")
+    if desvios:
+        print(f"  ATENCAO: {len(desvios)} pares com desvio > 1%:")
+        for a1, a2, t, d in desvios[:5]:
+            print(f"    {a1}->{a2}: {t:.3f} Mha ({d:+.2f}%)")
 
 
 if __name__ == "__main__":

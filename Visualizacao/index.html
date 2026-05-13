@@ -43,33 +43,12 @@
     <span class="rail-label rail-label--start">1985</span>
 
     <div class="rail-track" id="rail-track">
-      <div class="rail-era-band rail-era-band--heranca" data-era="heranca" style="left: 0%; width: 20,5%;"></div>
-      <div class="rail-era-band rail-era-band--soja-sudoeste" data-era="soja-sudoeste" style="left: 23,1%; width: 23,1%;"></div>
-      <div class="rail-era-band rail-era-band--boom-commodity" data-era="boom-commodity" style="left: 46,2%; width: 23,1%;"></div>
-      <div class="rail-era-band rail-era-band--intensificacao" data-era="intensificacao" style="left: 69,2%; width: 15,4%;"></div>
-      <div class="rail-era-band rail-era-band--reorganizacao" data-era="reorganizacao" style="left: 84,6%; width: 15,4%;"></div>
-
-      <button type="button" class="rail-pin rail-pin--marco" data-year="1985">1985</button>
-
-      <button type="button" class="rail-pin rail-pin--marco" data-year="1994" aria-label="1994 — Plano Real">1994</button>
-
-      <button type="button" class="rail-pin rail-pin--marco" data-year="1996" aria-label="1996 — Lei Kandir">1996</button>
-
-      <button type="button" class="rail-pin rail-pin--marco" data-year="2002" aria-label="2002 — Plano Safra">2002</button>
-
-      <button type="button" class="rail-pin rail-pin--marco" data-year="2003" aria-label="2003 — Boom de commodities">2003</button>
-
-      <button type="button" class="rail-pin rail-pin--marco" data-year="2012" aria-label="2012 — Código Florestal">2012</button>
-
-      <button type="button" class="rail-pin rail-pin--marco" data-year="2018" aria-label="2018 — Reorganização">2018</button>
-
-      <button type="button" class="rail-pin rail-pin--marco" data-year="2024">2024</button>
-
-      <button type="button" class="rail-pin rail-pin--dado" data-year="2013" title="2013 — SICOR sistemático">2013</button>
-      <button type="button" class="rail-pin rail-pin--dado" data-year="2017" title="2017 — Censo Agropecuário">2017</button>
-      <button type="button" class="rail-pin rail-pin--dado" data-year="2020" title="2020 — Pandemia">2020</button>
+      <div class="rail-era-band rail-era-band--heranca" data-era="heranca" style="left: 0%; width: 23.08%;"></div>
+      <div class="rail-era-band rail-era-band--soja-sudoeste" data-era="soja-sudoeste" style="left: 23.08%; width: 23.08%;"></div>
+      <div class="rail-era-band rail-era-band--boom-commodity" data-era="boom-commodity" style="left: 46.15%; width: 23.08%;"></div>
+      <div class="rail-era-band rail-era-band--intensificacao" data-era="intensificacao" style="left: 69.23%; width: 15.38%;"></div>
+      <div class="rail-era-band rail-era-band--reorganizacao" data-era="reorganizacao" style="left: 84.62%; width: 15.38%;"></div>
       <span class="rail-cursor" id="rail-cursor" aria-hidden="true"></span>
-
     </div>
 
     <span class="rail-label rail-label--end">2024</span>
@@ -171,6 +150,13 @@
     <div class="story-figure" >
 
       <div class="map-frame">
+
+        <div class="map-layer-toggle" role="tablist" aria-label="Camada do mapa">
+          <button type="button" class="map-layer-btn is-active" data-layer="cobertura" role="tab" aria-selected="true">Cobertura</button>
+          <button type="button" class="map-layer-btn" data-layer="delta" role="tab" aria-selected="false">Δ vs 1985</button>
+          <button type="button" class="map-layer-btn" data-layer="fogo" role="tab" aria-selected="false">Fogo</button>
+          <button type="button" class="map-layer-btn" data-layer="transicoes" role="tab" aria-selected="false">Transições</button>
+        </div>
 
         <img id="mapa" src="img/mapas_gee/cobertura_1985.webp"
 
@@ -477,6 +463,52 @@
       As larguras são proporcionais à área em milhões de hectares.
     </p>
 
+    <div class="sintese-bloco">
+      <h3>Culturas comparadas</h3>
+      <p class="sintese-bloco-lede">
+        Sete culturas anuais lado a lado, mesma escala vertical, 1985-2024.
+        A soja domina o eixo do gráfico; as demais aparecem como séries de
+        baixa amplitude, com o milho como segunda safra crescente após 2003.
+      </p>
+      <figure class="grafico-card grafico-card--wide">
+        <img src="img/graficos/sintese_culturas_comparadas.png" alt="Pequenos múltiplos com produção de soja, milho, cana, algodão, sorgo, arroz e feijão (1985-2024)" loading="lazy">
+        <figcaption>Produção em milhões de toneladas (eixo Y compartilhado). Fonte: IBGE/SIDRA, painel municipal agregado.</figcaption>
+      </figure>
+    </div>
+
+    <div class="sintese-bloco">
+      <h3>Intensificação da pecuária</h3>
+      <p class="sintese-bloco-lede">
+        Área de pastagem (Mha), rebanho bovino (M cab) e lotação (UA/ha)
+        sobrepostos em escalas normalizadas. O desacoplamento pós-2012 mostra
+        que o rebanho continua crescendo enquanto a área de pasto recua —
+        a lotação sobe como consequência.
+      </p>
+      <figure class="grafico-card grafico-card--wide">
+        <img src="img/graficos/sintese_pecuaria_intensificacao.png" alt="Desacoplamento entre área de pasto, rebanho bovino e lotação (1985-2024)" loading="lazy">
+        <figcaption>Séries normalizadas (0–1 do próprio máximo) para comparação de forma. Fonte: MapBiomas (área) e IBGE/PPM (rebanho).</figcaption>
+      </figure>
+    </div>
+
+    <div class="sintese-bloco">
+      <h3>Socioeconômico</h3>
+      <p class="sintese-bloco-lede">
+        PIB real, crédito rural (SICOR) e população do estado. Três séries
+        com <strong>cobertura temporal parcial</strong>: PIB municipal só a
+        partir de 2002, SICOR sistemático após 2013, população anual após 2001.
+        Por isso ficam isoladas da narrativa principal.
+      </p>
+      <div class="cobertura-tags">
+        <span class="cobertura-tag">PIB: 2002–2023</span>
+        <span class="cobertura-tag">SICOR: 2013–2024</span>
+        <span class="cobertura-tag">População: 2001–2024</span>
+      </div>
+      <figure class="grafico-card grafico-card--wide">
+        <img src="img/graficos/sintese_socioeconomico.png" alt="PIB real, SICOR e população de Goiás (cobertura parcial 2001–2024)" loading="lazy">
+        <figcaption>Eixos independentes; gaps anteriores à série indicam ausência de dado, não zero. Fonte: IBGE (PIB, população) e BACEN/SICOR (crédito rural).</figcaption>
+      </figure>
+    </div>
+
     <div class="sintese-graficos">
       <h3>Análises complementares</h3>
       <div class="grafico-grid">
@@ -650,11 +682,13 @@
 
     <div class="sparkline-legend">
 
-      <span class="legend-item legend-veg">% Vegetação nativa</span>
+      <span class="legend-item legend-soja">Soja (Mt)</span>
 
-      <span class="legend-item legend-pasto">% Pastagem</span>
+      <span class="legend-item legend-rebanho">Rebanho bovino (M cab)</span>
 
-      <span class="legend-item legend-soja">% Soja (uso do solo)</span>
+      <span class="legend-item legend-fogo">Área queimada (kha)</span>
+
+      <span class="sparkline-nota">escalas independentes</span>
 
       <span class="legend-year">
 
@@ -681,6 +715,8 @@
 <script src="assets/js/router.js?v=3"></script>
 
 <script src="assets/js/sankey.js?v=3"></script>
+
+<script src="assets/js/mini-sankey.js?v=1"></script>
 
 </body>
 

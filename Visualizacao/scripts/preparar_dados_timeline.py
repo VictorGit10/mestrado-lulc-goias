@@ -207,6 +207,8 @@ def montar_serie(grp: pd.DataFrame) -> list[dict]:
         "pec_ovinos_tosquiados_cab",
         "agri_soja_ton",
         "agri_milho_total_ton",
+        "agri_milho1_ha_plantada",
+        "agri_milho2_ha_plantada",
         "agri_cana_ton",
         "agri_algodao_ton",
         "agri_mandioca_ton",

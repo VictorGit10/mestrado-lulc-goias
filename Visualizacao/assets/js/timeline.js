@@ -29,6 +29,19 @@
   // Estado compartilhado entre funcoes (preenchido em init).
   let porAno = {};
 
+  // Estado dos 3 acordeoes do card lateral (persiste durante o scroll).
+  const acordeaoAberto = { agro: false, pecuaria: false, socio: false };
+
+  // Helpers de cobertura (datasets com gaps): marcar campos com nota inline.
+  function valorOuTraco(v, formatador) {
+    return v == null ? '<span class="metric-na" title="sem dado neste ano">—</span>' : formatador(v);
+  }
+  const fmtTon = v => {
+    if (v >= 1e6) return fmtNum(v / 1e6, 2) + " Mt";
+    if (v >= 1e3) return fmtNum(v / 1e3, 0) + " kt";
+    return fmtNum(v, 0) + " t";
+  };
+
   // -------------------- carregamento --------------------
   async function carregarDados() {
     const [painel, marcos, transicoes] = await Promise.all([
@@ -40,28 +53,9 @@
   }
 
   // -------------------- regua superior --------------------
-  function posicionarPinosRegua(marcos) {
-    document.querySelectorAll(".rail-pin").forEach(pin => {
-      const ano = parseInt(pin.dataset.year, 10);
-      pin.style.left = yearToPct(ano) + "%";
-      pin.addEventListener("click", () => {
-        const alvo = document.querySelector(`.step[data-year="${ano}"]`);
-        if (alvo) alvo.scrollIntoView({ behavior: "smooth", block: "center" });
-      });
-    });
-    // tooltip via title
-    marcos.marcos.forEach(m => {
-      const pin = document.querySelector(`.rail-pin[data-year="${m.ano}"]`);
-      if (pin) pin.title = `${m.ano} — ${m.titulo}`;
-    });
-  }
-
   function moverCursorRegua(ano) {
     const cursor = document.getElementById("rail-cursor");
     if (cursor) cursor.style.left = yearToPct(ano) + "%";
-    document.querySelectorAll(".rail-pin").forEach(pin => {
-      pin.classList.toggle("rail-pin--active", parseInt(pin.dataset.year, 10) === ano);
-    });
   }
 
   // -------------------- delta inline --------------------
@@ -96,6 +90,64 @@
         + '</div>';
     }
 
+    // Cards LULC: tres metricas sempre visiveis, mesma altura entre steps.
+    function cardsLULC(dado, prev) {
+      return [
+        metricCard('Veg. nativa', fmtPct(dado.pct_vegetacao_nativa), formatDelta(dado.pct_vegetacao_nativa, prev ? prev.pct_vegetacao_nativa : null, 'veg'), 'veg'),
+        metricCard('Pastagem',    fmtPct(dado.pct_pastagem),         formatDelta(dado.pct_pastagem,         prev ? prev.pct_pastagem         : null, 'pasto'), 'pasto'),
+        metricCard('Agricultura', fmtPct(dado.pct_agricultura),      formatDelta(dado.pct_agricultura,      prev ? prev.pct_agricultura      : null, 'soja'), 'agric'),
+      ].join('');
+    }
+
+    // Tabela compacta dois colunas (rotulo | valor) — usada nos acordeoes.
+    function linhaTabela(rotulo, valor, nota) {
+      const notaHtml = nota ? `<span class="metric-row-nota">${nota}</span>` : '';
+      return `<div class="metric-row"><span class="metric-row-label">${rotulo}</span><span class="metric-row-value">${valor}</span>${notaHtml}</div>`;
+    }
+
+    function acordeao(id, titulo, conteudo) {
+      const aberto = acordeaoAberto[id] ? ' open' : '';
+      return `<details class="metric-details" data-acordeao="${id}"${aberto}>`
+        + `<summary>${titulo}</summary>`
+        + `<div class="metric-rows">${conteudo}</div>`
+        + `</details>`;
+    }
+
+    function acordeaoAgricultura(dado) {
+      const culturas = [
+        ['Soja',     dado.agri_soja_ton],
+        ['Milho',    dado.agri_milho_total_ton],
+        ['Cana',     dado.agri_cana_ton],
+        ['Algodão',  dado.agri_algodao_ton],
+        ['Sorgo',    dado.agri_sorgo_ton],
+        ['Arroz',    dado.agri_arroz_ton],
+        ['Feijão',   dado.agri_feijao_ton],
+      ];
+      const linhas = culturas
+        .map(([nome, v]) => linhaTabela(nome, valorOuTraco(v, fmtTon)))
+        .join('');
+      return acordeao('agro', 'Produção agrícola (toneladas)', linhas);
+    }
+
+    function acordeaoPecuaria(dado) {
+      const linhas = [
+        linhaTabela('Rebanho bovino', valorOuTraco(dado.pec_bovinos_cab, v => fmtNum(v / 1e6, 2) + ' M cab')),
+        linhaTabela('Lotação',        valorOuTraco(dado.lotacao_ua_ha_pasto, v => fmtNum(v, 2) + ' UA/ha')),
+        linhaTabela('Leite',          valorOuTraco(dado.agri_leite_mil_litros, v => fmtNum(v / 1e3, 1) + ' Mi L')),
+      ].join('');
+      return acordeao('pecuaria', 'Pecuária', linhas);
+    }
+
+    function acordeaoSocio(dado) {
+      const linhas = [
+        linhaTabela('PIB',          valorOuTraco(dado.pib_real_rs,         fmtBilhao), 'desde 2002'),
+        linhaTabela('VA Agro',      valorOuTraco(dado.va_agro_real_rs,     fmtBilhao), 'desde 2002'),
+        linhaTabela('Crédito rural', valorOuTraco(dado.sicor_total_real_rs, fmtBilhao), 'desde 2013'),
+        linhaTabela('População',     valorOuTraco(dado.populacao,           v => fmtNum(v / 1e6, 2) + ' Mi'), 'desde 2001'),
+      ].join('');
+      return acordeao('socio', 'Socioeconômico', linhas);
+    }
+
     document.querySelectorAll(".step[data-year]").forEach(step => {
       const ano = parseInt(step.dataset.year, 10);
       const dado = porAno[ano];
@@ -109,54 +161,68 @@
         html += '<h3 class="marco-titulo">' + marco.titulo + '</h3>';
         if (marco.subtitulo) html += '<p class="marco-subtitulo">' + marco.subtitulo + '</p>';
         html += '<p class="marco-descricao">' + marco.descricao + '</p>';
+        if (marco.dado_choque) {
+          html += '<aside class="marco-dado-choque" aria-label="dado-choque">'
+            + '<span class="dado-choque-icon" aria-hidden="true">◆</span>'
+            + '<span class="dado-choque-text">' + marco.dado_choque + '</span>'
+            + '</aside>';
+        }
       } else {
         html += '<span class="marco-tag muted-year">' + ano + '</span>';
       }
 
       if (dado) {
-        const primary = [
-          metricCard('Veg. nativa', fmtPct(dado.pct_vegetacao_nativa), formatDelta(dado.pct_vegetacao_nativa, (prev ? prev.pct_vegetacao_nativa : null), 'veg'), 'veg'),
-          metricCard('Pastagem', fmtPct(dado.pct_pastagem), formatDelta(dado.pct_pastagem, (prev ? prev.pct_pastagem : null), 'pasto'), 'pasto'),
-          metricCard('Soja (solo)', fmtPct(dado.pct_soja), formatDelta(dado.pct_soja, (prev ? prev.pct_soja : null), 'soja'), 'soja'),
-          metricCard('Rebanho', dado.pec_bovinos_cab != null ? fmtNum(dado.pec_bovinos_cab / 1e6, 1) + ' M cab' : '—', '', 'bovino'),
-          metricCard('Lotacao', dado.lotacao_ua_ha_pasto != null ? fmtNum(dado.lotacao_ua_ha_pasto, 2) + ' UA/ha' : '—', '', 'lotacao'),
-          metricCard('Soja (prod.)', dado.agri_soja_ton != null ? fmtNum(dado.agri_soja_ton / 1e6, 1) + ' Mt' : '—', '', 'soja'),
-        ].join('');
-
-        let secondary = [];
-        if (dado.pib_real_rs != null) {
-          secondary.push(metricCard('PIB', fmtBilhao(dado.pib_real_rs), '', 'pib'));
-        }
-        if (dado.va_agro_real_rs != null) {
-          secondary.push(metricCard('VA Agro', fmtBilhao(dado.va_agro_real_rs), '', 'va'));
-        }
-        if (dado.sicor_total_real_rs != null) {
-          secondary.push(metricCard('Credito rural', fmtBilhao(dado.sicor_total_real_rs), '', 'credito'));
-        }
-        if (dado.fogo_total_ha != null) {
-          secondary.push(metricCard('Fogo', fmtNum(dado.fogo_total_ha / 1e3, 0) + ' kha' , '', 'fogo'));
-        }
-        if (dado.agri_leite_mil_litros != null) {
-          secondary.push(metricCard('Leite', fmtNum(dado.agri_leite_mil_litros / 1e3, 1) + ' Mi L', '', 'leite'));
-        }
-        if (dado.populacao != null) {
-          secondary.push(metricCard('Populacao', fmtNum(dado.populacao / 1e6, 2) + ' Mi', '', 'pop'));
-        }
-
-        html += '<div class="metric-grid">' + primary + '</div>';
-        if (secondary.length > 0) {
-          html += '<details class="metric-details">'
-            + '<summary>+ dados socioeconomicos</summary>'
-            + '<div class="metric-grid metric-grid--secondary">' + secondary.join('') + '</div>'
-            + '</details>';
-        }
+        html += '<div class="metric-grid metric-grid--lulc">' + cardsLULC(dado, prev) + '</div>';
+        html += '<div class="metric-acordeoes">'
+          + acordeaoAgricultura(dado)
+          + acordeaoPecuaria(dado)
+          + acordeaoSocio(dado)
+          + '</div>';
       }
 
       step.innerHTML = html;
     });
+
+    // Sincronizar abertura/fechamento entre todos os steps (estado global).
+    document.querySelectorAll('details[data-acordeao]').forEach(det => {
+      det.addEventListener('toggle', () => {
+        const id = det.dataset.acordeao;
+        acordeaoAberto[id] = det.open;
+        document.querySelectorAll(`details[data-acordeao="${id}"]`).forEach(outro => {
+          if (outro !== det && outro.open !== det.open) outro.open = det.open;
+        });
+      });
+    });
   }
 
 // -------------------- spark-line --------------------
+  // Tres series com unidades diferentes, cada uma normalizada ao proprio
+  // maximo (0 a 1). Tooltip mostra valores absolutos com unidade real.
+  // Complementa o mapa: nenhuma das tres aparece nos cards LULC ou na barra.
+  const SPARK_SERIES = [
+    {
+      chave: "soja",
+      campo: "agri_soja_ton",
+      rotulo: "Produção de soja",
+      transformar: v => v == null ? null : v / 1e6,
+      formatar: v => v == null ? "—" : fmtNum(v / 1e6, 2) + " Mt"
+    },
+    {
+      chave: "rebanho",
+      campo: "pec_bovinos_cab",
+      rotulo: "Rebanho bovino",
+      transformar: v => v == null ? null : v / 1e6,
+      formatar: v => v == null ? "—" : fmtNum(v / 1e6, 1) + " M cab"
+    },
+    {
+      chave: "fogo",
+      campo: "fogo_total_ha",
+      rotulo: "Área queimada",
+      transformar: v => v == null ? null : v / 1e3,
+      formatar: v => v == null ? "—" : fmtNum(v / 1e3, 0) + " kha"
+    }
+  ];
+
   function desenharSparkline(painel) {
     const svg = document.getElementById("sparkline-svg");
     const W = 1000;
@@ -170,30 +236,42 @@
     const xs = ano => padL + ((ano - ANO_MIN) / TOTAL_ANOS) * innerW;
 
     const series = painel.serie;
-    const valores = ["pct_vegetacao_nativa", "pct_pastagem", "pct_soja"]
-      .flatMap(k => series.map(s => s[k]).filter(v => v != null));
-    const yMax = Math.max(...valores) * 1.05;
-    const ys = v => padT + innerH - (v / yMax) * innerH;
 
-    const buildPath = (key) =>
-      series
-        .filter(s => s[key] != null)
-        .map((s, i) => `${i === 0 ? "M" : "L"} ${xs(s.ano).toFixed(2)} ${ys(s[key]).toFixed(2)}`)
+    // Maximo independente por serie (normalizacao 0..1 de cada uma).
+    const maximos = {};
+    SPARK_SERIES.forEach(s => {
+      const valores = series.map(r => s.transformar(r[s.campo])).filter(v => v != null);
+      maximos[s.chave] = valores.length ? Math.max(...valores) : 1;
+    });
+
+    const ysNorm = (chave, valor) => {
+      if (valor == null) return null;
+      const norm = valor / maximos[chave];
+      return padT + innerH - norm * innerH;
+    };
+
+    const buildPath = (s) => {
+      const pontos = series
+        .map(r => ({ ano: r.ano, v: s.transformar(r[s.campo]) }))
+        .filter(p => p.v != null);
+      return pontos
+        .map((p, i) => `${i === 0 ? "M" : "L"} ${xs(p.ano).toFixed(2)} ${ysNorm(s.chave, p.v).toFixed(2)}`)
         .join(" ");
+    };
 
+    const baselineY = (padT + innerH).toFixed(1);
     svg.innerHTML = `
-      <line x1="${padL}" y1="${ys(0).toFixed(1)}" x2="${W - padR}" y2="${ys(0).toFixed(1)}"
+      <line x1="${padL}" y1="${baselineY}" x2="${W - padR}" y2="${baselineY}"
             stroke="var(--color-rule)" stroke-width="1"/>
-      <path class="spark-path spark-path-veg"   d="${buildPath("pct_vegetacao_nativa")}"/>
-      <path class="spark-path spark-path-pasto" d="${buildPath("pct_pastagem")}"/>
-      <path class="spark-path spark-path-soja"  d="${buildPath("pct_soja")}"/>
+      <path class="spark-path spark-path-soja"    d="${buildPath(SPARK_SERIES[0])}"/>
+      <path class="spark-path spark-path-rebanho" d="${buildPath(SPARK_SERIES[1])}"/>
+      <path class="spark-path spark-path-fogo"    d="${buildPath(SPARK_SERIES[2])}"/>
       <line id="spark-cursor-line" class="spark-cursor"
             x1="${xs(ANO_MIN)}" y1="${padT}" x2="${xs(ANO_MIN)}" y2="${H - padB}"/>
       <rect id="spark-hit-area" x="0" y="0" width="${W}" height="${H}"
             fill="transparent" style="cursor: crosshair;" />
     `;
 
-    // Tooltip element
     let tooltip = document.getElementById("sparkline-tooltip");
     if (!tooltip) {
       tooltip = document.createElement("div");
@@ -206,9 +284,11 @@
     if (!hitArea) return;
 
     function anoFromX(clientX) {
+      // O SVG estica para a largura do container (preserveAspectRatio="none"),
+      // entao usamos rect.width (CSS px) em vez de innerW (viewBox).
       const rect = svg.getBoundingClientRect();
       const x = clientX - rect.left;
-      const pct = Math.max(0, Math.min(1, (x - padL) / innerW));
+      const pct = Math.max(0, Math.min(1, x / rect.width));
       return ANO_MIN + Math.round(pct * TOTAL_ANOS);
     }
 
@@ -217,12 +297,11 @@
       const d = porAno[ano];
       if (!d) return;
       moverCursorSparkline(ano);
-      tooltip.innerHTML = `
-        <strong>${ano}</strong><br/>
-        Veg: ${fmtPct(d.pct_vegetacao_nativa)}<br/>
-        Pasto: ${fmtPct(d.pct_pastagem)}<br/>
-        Soja: ${fmtPct(d.pct_soja)}
-      `;
+      const linhasTooltip = SPARK_SERIES.map(s => {
+        const v = s.transformar(d[s.campo]);
+        return `${s.rotulo}: ${s.formatar(d[s.campo])}`;
+      }).join("<br/>");
+      tooltip.innerHTML = `<strong>${ano}</strong><br/>${linhasTooltip}`;
       tooltip.style.opacity = "1";
       const rect = svg.getBoundingClientRect();
       tooltip.style.left = (ev.clientX - rect.left + 10) + "px";
@@ -231,7 +310,6 @@
 
     hitArea.addEventListener("mouseleave", () => {
       tooltip.style.opacity = "0";
-      // Restore cursor to current scroll year
       const currentStep = document.querySelector('.step[data-year].is-active');
       if (currentStep) {
         const ano = parseInt(currentStep.dataset.year, 10);
@@ -241,8 +319,7 @@
 
     hitArea.addEventListener("click", (ev) => {
       const ano = anoFromX(ev.clientX);
-      const alvo = document.querySelector(`.step[data-year="${ano}"]`);
-      if (alvo) alvo.scrollIntoView({ behavior: "smooth", block: "center" });
+      scrollParaAno(ano);
     });
   }
 
@@ -308,39 +385,75 @@ function moverCursorSparkline(ano) {
       ancora.textContent = "";
       return;
     }
-    const series = [
-      { rotulo: "veg. nativa", chave: "pct_vegetacao_nativa" },
-      { rotulo: "pastagem",    chave: "pct_pastagem" }
-    ];
     if (ano === ANO_MIN) {
-      const partes = series.map(s => `${s.rotulo} ${fmtPct(cur[s.chave])}`);
-      ancora.textContent = partes.join(" · ") + " (baseline)";
+      ancora.textContent = "linha de base";
       return;
     }
-    const partes = series.map(s => {
-      const dpp = (cur[s.chave] - base[s.chave]) * 100;
+    const delta = (chave) => {
+      const dpp = (cur[chave] - base[chave]) * 100;
       const sinal = dpp > 0 ? "+" : "−";
-      const abs = Math.abs(dpp).toFixed(1).replace(".", ",");
-      return `${s.rotulo} ${fmtPct(cur[s.chave])} (${sinal}${abs} pp)`;
-    });
-    ancora.textContent = partes.join(" · ") + " vs. 1985";
+      return sinal + Math.abs(dpp).toFixed(1).replace(".", ",") + " pp";
+    };
+    ancora.textContent = `vs. 1985 — veg ${delta("pct_vegetacao_nativa")} · pasto ${delta("pct_pastagem")}`;
   }
 
   // -------------------- mapa cross-fade --------------------
   let anoAtual = null;
-  function trocarMapa(ano) {
-    if (ano === anoAtual) return;
+  let camadaAtual = "cobertura";
+
+  // Periodos do mapa de transicoes (5 imagens disponiveis em img/mapas_transicoes/).
+  const PERIODOS_TRANSICAO = [
+    { ini: 1985, fim: 1995 },
+    { ini: 1995, fim: 2005 },
+    { ini: 2005, fim: 2015 },
+    { ini: 2015, fim: 2024 },
+  ];
+  function periodoTransicao(ano) {
+    for (const p of PERIODOS_TRANSICAO) {
+      if (ano >= p.ini && ano <= p.fim) return p;
+    }
+    return PERIODOS_TRANSICAO[PERIODOS_TRANSICAO.length - 1];
+  }
+
+  function urlDoMapa(camada, ano) {
+    switch (camada) {
+      case "cobertura":  return `img/mapas_gee/cobertura_${ano}.webp`;
+      case "delta":      return `img/mapas_delta/delta_${ano}.webp`;
+      case "fogo":       return `img/mapas_fogo/fogo_${ano}.webp`;
+      case "transicoes": {
+        const p = periodoTransicao(ano);
+        return `img/mapas_transicoes/transicao_${p.ini}-${p.fim}.webp`;
+      }
+      default: return `img/mapas_gee/cobertura_${ano}.webp`;
+    }
+  }
+
+  function altDoMapa(camada, ano) {
+    switch (camada) {
+      case "cobertura":  return `Cobertura LULC em Goiás em ${ano}`;
+      case "delta":      return `Variação acumulada da cobertura em Goiás (${ano} vs 1985)`;
+      case "fogo":       return `Cicatrizes de fogo em Goiás em ${ano}`;
+      case "transicoes": {
+        const p = periodoTransicao(ano);
+        return `Transição dominante em Goiás entre ${p.ini} e ${p.fim}`;
+      }
+      default: return `Mapa de Goiás em ${ano}`;
+    }
+  }
+
+  function trocarMapa(ano, forcar) {
+    if (!forcar && ano === anoAtual) return;
     anoAtual = ano;
     const img = document.getElementById("mapa");
     const frame = img.closest(".map-frame");
     const yearLabel = document.getElementById("map-year");
 
     frame.classList.add("is-fading");
-    const src = `img/mapas_gee/cobertura_${ano}.webp`;
+    const src = urlDoMapa(camadaAtual, ano);
     const next = new Image();
     next.onload = () => {
       img.src = src;
-      img.alt = `Mapa pixel-a-pixel do uso e cobertura da terra em Goiás em ${ano}`;
+      img.alt = altDoMapa(camadaAtual, ano);
       yearLabel.textContent = ano;
       requestAnimationFrame(() => frame.classList.remove("is-fading"));
     };
@@ -349,6 +462,67 @@ function moverCursorSparkline(ano) {
 
     atualizarBarra(ano);
     atualizarAncora(ano);
+  }
+
+  // Mapeia data-class da barra empilhada -> CSS suffix do metric-card no step ativo.
+  const BAR_TO_CARD_CLASS = {
+    veg:    "veg",
+    pasto:  "pasto",
+    agric:  "agric",
+    agua:   null,
+    urbano: null,
+    outros: null,
+  };
+
+  function configurarHighlightBarra() {
+    const segmentos = document.querySelectorAll("#composition-bar .bar-segment");
+    if (segmentos.length === 0) return;
+    const img = document.getElementById("mapa");
+
+    segmentos.forEach(seg => {
+      seg.addEventListener("mouseenter", () => {
+        const cls = seg.dataset.class;
+        // destaca o segmento
+        document.querySelectorAll("#composition-bar .bar-segment")
+          .forEach(s => s.classList.toggle("bar-segment--dim",
+            s.dataset.class !== cls));
+        // dessatura levemente o mapa para sinalizar foco
+        if (img) img.classList.add("mapa--focused");
+        // destaca card correspondente no step ativo
+        const cardSuffix = BAR_TO_CARD_CLASS[cls];
+        if (cardSuffix) {
+          const ativo = document.querySelector(".step[data-year].is-active");
+          if (ativo) {
+            const card = ativo.querySelector(`.metric-card--${cardSuffix}`);
+            if (card) card.classList.add("metric-card--highlight");
+          }
+        }
+      });
+      seg.addEventListener("mouseleave", () => {
+        document.querySelectorAll("#composition-bar .bar-segment")
+          .forEach(s => s.classList.remove("bar-segment--dim"));
+        if (img) img.classList.remove("mapa--focused");
+        document.querySelectorAll(".metric-card--highlight")
+          .forEach(c => c.classList.remove("metric-card--highlight"));
+      });
+    });
+  }
+
+  function configurarToggleCamadas() {
+    const botoes = document.querySelectorAll(".map-layer-btn");
+    botoes.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const camada = btn.dataset.layer;
+        if (camada === camadaAtual) return;
+        camadaAtual = camada;
+        botoes.forEach(b => {
+          const ativo = b.dataset.layer === camada;
+          b.classList.toggle("is-active", ativo);
+          b.setAttribute("aria-selected", ativo ? "true" : "false");
+        });
+        if (anoAtual != null) trocarMapa(anoAtual, true);
+      });
+    });
   }
 
   // -------------------- sintese (cards de transicao) --------------------
@@ -379,13 +553,13 @@ function moverCursorSparkline(ano) {
   // -------------------- gerar steps anuais --------------------
   function gerarStepsAnuais() {
     const eraRanges = [
-      { era: 'heranca',        start: 1985, end: 1993 },
-      { era: 'soja-sudoeste',  start: 1994, end: 2002 },
-      { era: 'boom-commodity', start: 2003, end: 2011 },
-      { era: 'intensificacao', start: 2012, end: 2017 },
-      { era: 'reorganizacao',  start: 2018, end: 2024 },
+      { era: 'heranca',        ato: 'I',   start: 1985, end: 1993 },
+      { era: 'soja-sudoeste',  ato: 'II',  start: 1994, end: 2002 },
+      { era: 'boom-commodity', ato: 'III', start: 2003, end: 2011 },
+      { era: 'intensificacao', ato: 'IV',  start: 2012, end: 2017 },
+      { era: 'reorganizacao',  ato: 'V',   start: 2018, end: 2024 },
     ];
-    eraRanges.forEach(({ era, start, end }) => {
+    eraRanges.forEach(({ era, ato, start, end }) => {
       const eraCard = document.querySelector(`.step--era[data-era="${era}"]`);
       if (!eraCard) return;
       let anchor = eraCard;
@@ -396,6 +570,18 @@ function moverCursorSparkline(ano) {
         anchor.insertAdjacentElement('afterend', art);
         anchor = art;
       }
+      // Container do mini-sankey ao final do ato (depois do ultimo ano).
+      // SEM data-year para que scrollama nao trate como step de ano.
+      const mini = document.createElement('aside');
+      mini.className = 'step--mini-sankey';
+      mini.dataset.ato = ato;
+      mini.innerHTML = `
+        <h3 class="mini-sankey-titulo">Para onde foram os hectares — ATO ${ato}</h3>
+        <p class="mini-sankey-lede">Transições brutas acumuladas entre ${start} e ${end}, em milhões de hectares (off-diagonal apenas).</p>
+        <div class="mini-sankey-svg" data-ato="${ato}" role="img" aria-label="Sankey de transicoes do ATO ${ato}"></div>
+        <p class="mini-sankey-fonte">Dados: MapBiomas Coleção 10.1 · agregação pixel-a-pixel via GEE.</p>
+      `;
+      anchor.insertAdjacentElement('afterend', mini);
     });
   }
 
@@ -409,7 +595,7 @@ function moverCursorSparkline(ano) {
     scroller
       .setup({
         step: ".step[data-year]",
-        offset: 0.55,
+        offset: 0.5,
         progress: false
       })
       .onStepEnter(({ element }) => {
@@ -424,14 +610,33 @@ function moverCursorSparkline(ano) {
     window.addEventListener("resize", () => scroller.resize());
   }
 
+  // -------------------- navegacao programatica --------------------
+  // Debounce evita conflitos entre cliques em sparkline/subrota/hash e o
+  // proprio Scrollama. Calcula offset compensando regua + tabs sticky.
+  let scrollLock = 0;
+  function scrollParaAno(ano) {
+    const agora = performance.now();
+    if (agora - scrollLock < 400) return;
+    scrollLock = agora;
+    const alvo = document.querySelector(`.step[data-year="${ano}"]`);
+    if (!alvo) return;
+    const rect = alvo.getBoundingClientRect();
+    const topo = rect.top + window.pageYOffset;
+    // viewport - (rail + tabs) e centralizar o step na area util
+    const railH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--rail-h")) || 56;
+    const tabsH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--tabs-h")) || 40;
+    const utilH = window.innerHeight - railH - tabsH;
+    const destino = topo - railH - tabsH - (utilH - rect.height) / 2;
+    window.scrollTo({ top: destino, behavior: "smooth" });
+  }
+
   // -------------------- subrota (chamado pelo router) --------------------
   function aplicarSubrota(segmentos) {
     // segmentos: [] | [ano]
     if (!segmentos || segmentos.length === 0) return;
     const ano = parseInt(segmentos[0], 10);
     if (isNaN(ano) || ano < ANO_MIN || ano > ANO_MAX) return;
-    const alvo = document.querySelector(`.step[data-year="${ano}"]`);
-    if (alvo) alvo.scrollIntoView({ behavior: "smooth", block: "center" });
+    scrollParaAno(ano);
   }
 
   // -------------------- bootstrap --------------------
@@ -439,13 +644,14 @@ function moverCursorSparkline(ano) {
     try {
       const dados = await carregarDados();
       porAno = Object.fromEntries(dados.painel.serie.map(r => [r.ano, r]));
-      posicionarPinosRegua(dados.marcos);
       gerarStepsAnuais();
       hidratarSteps(dados.painel, dados.marcos);
       desenharSparkline(dados.painel);
       atualizarBarra(ANO_MIN);
       atualizarAncora(ANO_MIN);
       renderizarSintese(dados.transicoes);
+      configurarToggleCamadas();
+      configurarHighlightBarra();
       inicializarScrollama();
     } catch (err) {
       console.error("Erro ao inicializar timeline:", err);
