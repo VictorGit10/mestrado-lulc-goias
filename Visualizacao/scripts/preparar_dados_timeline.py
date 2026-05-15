@@ -21,6 +21,7 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[2]
 PAINEL = ROOT / "data" / "processed" / "painel_unificado.parquet"
 TRANSICOES_CSV = ROOT / "data" / "processed" / "transicoes_mapbiomas_goias.csv"
+PIB_UF_IPEA_CSV = ROOT / "data" / "processed" / "pib_uf_ipea_goias.csv"
 OUT_DIR = ROOT / "Visualizacao" / "assets" / "data"
 MUNI_DIR = OUT_DIR / "municipios"
 
@@ -184,6 +185,17 @@ def agregar_uf(df: pd.DataFrame) -> pd.DataFrame:
     grp["pct_area_urbana"] = grp["lulc_area_urbana_ha"] / grp["lulc_area_total_ha"]
     grp["lotacao_bov_ha_pasto"] = grp["pec_bovinos_cab"] / grp["lulc_pastagem_ha"]
     grp["lotacao_ua_ha_pasto"] = grp["pec_bovinos_ua"] / grp["lulc_pastagem_ha"]
+
+    # Serie UF nativa IPEA (1985-2023), paralela ao pib_real_rs/va_agro_real_rs
+    # que vem da agregacao municipal SIDRA (so 2002+).
+    if PIB_UF_IPEA_CSV.exists():
+        pib_uf = pd.read_csv(PIB_UF_IPEA_CSV)[
+            ["ano", "pib_uf_real_rs", "va_agro_uf_real_rs"]
+        ]
+        grp = grp.merge(pib_uf, on="ano", how="left")
+    else:
+        grp["pib_uf_real_rs"] = pd.NA
+        grp["va_agro_uf_real_rs"] = pd.NA
     return grp
 
 
@@ -225,6 +237,8 @@ def montar_serie(grp: pd.DataFrame) -> list[dict]:
         "perm_uva_ton",
         "pib_real_rs",
         "va_agro_real_rs",
+        "pib_uf_real_rs",
+        "va_agro_uf_real_rs",
         "populacao",
         "sicor_total_real_rs",
         "fogo_total_ha",
@@ -237,7 +251,8 @@ def montar_serie(grp: pd.DataFrame) -> list[dict]:
         for c in cols_pct:
             rec[c] = None if pd.isna(row[c]) else round(float(row[c]), 6)
         for c in cols_abs:
-            rec[c] = None if pd.isna(row[c]) else float(row[c])
+            v = row.get(c)
+            rec[c] = None if v is None or pd.isna(v) else float(v)
         out.append(rec)
     return out
 

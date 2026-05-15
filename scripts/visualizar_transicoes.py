@@ -27,7 +27,9 @@ import geobr
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 from matplotlib.patches import Patch
-from matplotlib_scalebar.scalebar import ScaleBar
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from _cartografia import adicionar_norte, adicionar_escala  # noqa: E402
 
 # ===== Configuração =====
 CLASSES = {
@@ -219,24 +221,27 @@ def mapa_transicao_dominante(df: pd.DataFrame, gdf: "gpd.GeoDataFrame",
 
     fig, ax = plt.subplots(figsize=(10, 8))
     gdf_plot = gdf_plot.to_crs(5880)  # área
-    gdf_plot.plot(column="classe_dest", categorical=True, cmap="Set2",
-                  ax=ax, edgecolor="0.5", linewidth=0.2, legend=False)
+
+    # Plotar usando as cores MapBiomas (COR_CLASSE) — bate com a legenda.
+    # Municípios sem mudança detectada (NaN em cor) recebem cinza claro.
+    cores_munis = gdf_plot["cor"].fillna("#e0e0e0").tolist()
+    gdf_plot.plot(ax=ax, color=cores_munis,
+                  edgecolor="0.5", linewidth=0.2)
 
     # Legenda manual com cores das classes
     destinos_unicos = sorted(gdf_plot["classe_dest"].dropna().unique())
     handles = [Patch(facecolor=COR_CLASSE[int(d)], edgecolor="black",
                      label=NOME_CLASSE[int(d)]) for d in destinos_unicos]
+    if gdf_plot["cor"].isna().any():
+        handles.append(Patch(facecolor="#e0e0e0", edgecolor="black",
+                             label="Sem mudança detectada"))
     ax.legend(handles=handles, loc="lower right", fontsize=8,
               title=f"Classe destino dominante\n(maior mudança {ano_orig}→{ano_dest})")
 
     ax.set_title(f"Transição Dominante por Município — Goiás {ano_orig}→{ano_dest}", fontsize=13)
     ax.set_axis_off()
-
-    # Barra de escala
-    bbox = gdf_plot.total_bounds
-    metros_por_pixel = (bbox[2] - bbox[0]) / (fig.get_size_inches()[0] * DPI)
-    ax.add_artist(ScaleBar(dx=1, units="m", location="lower left",
-                            length_fraction=0.15, scale_loc="bottom"))
+    adicionar_escala(ax, dx=1)
+    adicionar_norte(ax)
 
     plt.savefig(OUT_DIR / f"mapa_transicao_dominante_{ano_orig}_{ano_dest}.png",
                 dpi=DPI, bbox_inches="tight")
@@ -273,6 +278,8 @@ def mapa_estabilidade(df: pd.DataFrame, gdf: "gpd.GeoDataFrame",
 
     ax.set_title(f"Estabilidade do Uso da Terra — Goiás {ano_orig}→{ano_dest}", fontsize=13)
     ax.set_axis_off()
+    adicionar_escala(ax, dx=1)
+    adicionar_norte(ax)
     plt.savefig(OUT_DIR / f"mapa_estabilidade_{ano_orig}_{ano_dest}.png",
                 dpi=DPI, bbox_inches="tight")
     plt.close(fig)
@@ -302,6 +309,8 @@ def mapa_pastagem_agricultura(df: pd.DataFrame, gdf: "gpd.GeoDataFrame",
 
     ax.set_title(f"Conversão Pastagem → Agricultura — Goiás {ano_orig}→{ano_dest}", fontsize=13)
     ax.set_axis_off()
+    adicionar_escala(ax, dx=1)
+    adicionar_norte(ax)
     plt.savefig(OUT_DIR / f"mapa_pastagem_agricultura_{ano_orig}_{ano_dest}.png",
                 dpi=DPI, bbox_inches="tight")
     plt.close(fig)
@@ -416,7 +425,32 @@ def main() -> None:
     print("\n[Extra] Evolução temporal das transições...")
     evolucao_transicoes(df)
 
+    print("\n[Extra] Convertendo PNGs de transição dominante para WebP publicados...")
+    exportar_webps_transicoes()
+
     print(f"\nConcluído. Outputs em: {OUT_DIR}")
+
+
+def exportar_webps_transicoes() -> None:
+    """Converte os 5 PNGs de transição dominante para WebP em Visualizacao/img/."""
+    from PIL import Image
+
+    pares = [(1985, 1995), (1995, 2005), (2005, 2015), (2015, 2024), (1985, 2024)]
+    dst_dir = ROOT / "Visualizacao" / "img" / "mapas_transicoes"
+    dst_dir.mkdir(parents=True, exist_ok=True)
+
+    for ao, ad in pares:
+        src = OUT_DIR / f"mapa_transicao_dominante_{ao}_{ad}.png"
+        dst = dst_dir / f"transicao_{ao}-{ad}.webp"
+        if not src.exists():
+            print(f"  AVISO: {src.name} não encontrado, pulando")
+            continue
+        with Image.open(src) as img:
+            img.save(dst, format="WEBP", quality=85, method=6)
+        size_in = src.stat().st_size
+        size_out = dst.stat().st_size
+        ratio = (1 - size_out / size_in) * 100
+        print(f"  {dst.name}: {size_in/1024:.0f} KB → {size_out/1024:.0f} KB ({ratio:.0f}% menor)")
 
 
 if __name__ == "__main__":

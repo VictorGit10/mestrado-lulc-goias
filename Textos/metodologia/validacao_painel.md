@@ -81,6 +81,7 @@ Detalhes notáveis:
 - **Lavouras de pouca expressão** (frutas em PAM 1613, sorgo, trigo, etc.) — incluí-las explodiria o CSV de validação sem ganho informativo. Para auditar uma cultura específica, adicionar entrada em `culturas_1612` na função `validar_agri_pam`.
 - **Composição etária bovina** (UA) — o fator `0,7` é constante estado-estacionário; não há gabarito municipal anual.
 - **Granularidade municipal** — esta validação opera no agregado UF. Anomalias em municípios individuais (ex.: cd_mun com PIB zerado) ficam a cargo do diagnóstico de cobertura `outputs/diagnosticos/painel_unificado_cobertura.csv`.
+- **Robustez da especificação e multicolinearidade** — verificação multivariada (especificação combinada + VIFs ≤ 1,55) está documentada em [Pipeline #22](../pipelines/22_correlacoes_painel.md); autocorrelação espacial dos resíduos (Moran's I, LISA, SAR/SEM) em [Pipeline #24](../pipelines/24_analise_espacial.md).
 
 ## Quando re-rodar
 

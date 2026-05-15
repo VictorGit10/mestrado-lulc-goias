@@ -35,7 +35,7 @@ Decisões transversais sobre projeção, malha municipal e divisão de papéis P
 - **Snapshots vs animação**: anos-chave (1985, 1995, 2005, 2015, 2024) num painel de 5 mapas para PDF; GIF para apresentação oral/digital ([Pipeline #11](../pipelines/11_gif_lulc.md)).
 - **Coropleto absoluto vs relativo**: pastagem em ha mostra "onde tem"; em % da área municipal mostra "onde domina". Histórias diferentes — vale gerar ambos.
 - **Bivariados** (3×3 cor, Joshua Stevens): cruzando pastagem × crédito, ou desmatamento × frigoríficos. Visualmente densos mas didáticos.
-- **Hotspot (LISA / Getis-Ord)**: clusters HH/LL de variação de pastagem — fronteiras ativas vs estabilizadas. Pendente.
+- **Hotspot (LISA / Getis-Ord)**: clusters HH/LL de variação de pastagem — fronteiras ativas vs estabilizadas. Implementado ([Pipeline #24](../pipelines/24_analise_espacial.md)).
 - **Mapa de fluxo**: setas A→B sobre matriz de transição (origem-destino dentro de Goiás). Usar saídas do [Pipeline #12](../pipelines/12_transicoes.md).
 
 ## Estética e legibilidade

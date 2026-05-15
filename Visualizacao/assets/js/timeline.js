@@ -25,9 +25,53 @@
   };
 
   const yearToPct = ano => ((ano - ANO_MIN) / TOTAL_ANOS) * 100;
+  const ERA_RANGES = [
+    {
+      era: "heranca",
+      ato: "Ato I",
+      start: 1985,
+      end: 1993,
+      titulo: "Heranca cerradeira",
+      resumo: "pastagem domina e a soja ainda e pontual"
+    },
+    {
+      era: "soja-sudoeste",
+      ato: "Ato II",
+      start: 1994,
+      end: 2002,
+      titulo: "Soja chega ao sudoeste",
+      resumo: "a estabilizacao abre espaco para a expansao agricola"
+    },
+    {
+      era: "boom-commodity",
+      ato: "Ato III",
+      start: 2003,
+      end: 2011,
+      titulo: "Boom de commodities",
+      resumo: "a matriz soja-milho avanca sobre pastagens"
+    },
+    {
+      era: "intensificacao",
+      ato: "Ato IV",
+      start: 2012,
+      end: 2017,
+      titulo: "Intensificacao regulada",
+      resumo: "a pastagem recua e a produtividade ganha peso"
+    },
+    {
+      era: "reorganizacao",
+      ato: "Ato V",
+      start: 2018,
+      end: 2024,
+      titulo: "Reorganizacao territorial",
+      resumo: "cadeias e frentes produtivas se reorganizam"
+    }
+  ];
 
   // Estado compartilhado entre funcoes (preenchido em init).
   let porAno = {};
+  let marcosLinhaDoTempo = [];
+  let marcoPorAno = {};
 
   // Estado dos 3 acordeoes do card lateral (persiste durante o scroll).
   const acordeaoAberto = { agro: false, pecuaria: false, socio: false };
@@ -58,6 +102,89 @@
     if (cursor) cursor.style.left = yearToPct(ano) + "%";
   }
 
+  function eraDoAno(ano) {
+    return ERA_RANGES.find(item => ano >= item.start && ano <= item.end) || null;
+  }
+
+  function atualizarResumoRegua(ano) {
+    const eraEl = document.getElementById("rail-active-era");
+    const labelEl = document.getElementById("rail-active-label");
+    const era = eraDoAno(ano);
+    const marco = marcoPorAno[ano];
+
+    if (eraEl && era) {
+      eraEl.textContent = `${era.ato} · ${era.start}-${era.end} · ${era.titulo}`;
+    }
+    if (labelEl) {
+      labelEl.textContent = marco
+        ? `${ano} · ${marco.titulo}`
+        : `${ano} · ${era ? era.resumo : "linha do tempo em foco"}`;
+    }
+
+    document.querySelectorAll(".rail-era-band").forEach(band => {
+      band.classList.toggle("is-active", band.dataset.era === (era ? era.era : ""));
+    });
+    document.querySelectorAll(".rail-marco-pin").forEach(pin => {
+      pin.classList.toggle("is-active", pin.dataset.year === String(ano));
+    });
+  }
+
+  function anoMaisProximoNaRegua(clientX) {
+    const track = document.getElementById("rail-track");
+    if (!track) return ANO_MIN;
+    const rect = track.getBoundingClientRect();
+    if (rect.width <= 0) return ANO_MIN;
+    const pct = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+    return Math.round(ANO_MIN + pct * TOTAL_ANOS);
+  }
+
+  function configurarRegua(marcos) {
+    marcosLinhaDoTempo = (marcos.marcos || []).slice().sort((a, b) => a.ano - b.ano);
+    marcoPorAno = Object.fromEntries(marcosLinhaDoTempo.map(item => [item.ano, item]));
+
+    const container = document.getElementById("rail-marcos");
+    if (container) {
+      container.innerHTML = "";
+      marcosLinhaDoTempo.forEach(marco => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "rail-marco-pin";
+        btn.dataset.year = String(marco.ano);
+        btn.style.left = yearToPct(marco.ano) + "%";
+        btn.setAttribute("aria-label", `${marco.ano} · ${marco.titulo}`);
+        btn.title = `${marco.ano} · ${marco.titulo}`;
+        btn.innerHTML = `<span class="rail-marco-pin-label">${marco.ano} · ${marco.titulo}</span>`;
+        btn.addEventListener("click", ev => {
+          ev.stopPropagation();
+          scrollParaAno(marco.ano, 0.46);
+          btn.blur();
+        });
+        container.appendChild(btn);
+      });
+    }
+
+    document.querySelectorAll(".rail-era-band").forEach(band => {
+      band.addEventListener("click", ev => {
+        ev.stopPropagation();
+        const startYear = parseInt(band.dataset.startYear, 10);
+        const era = ERA_RANGES.find(item => item.era === band.dataset.era);
+        const focusYear = era ? Math.round((era.start + era.end) / 2) : startYear;
+        if (!isNaN(focusYear)) scrollParaAno(focusYear, 0.48);
+      });
+    });
+
+    const track = document.getElementById("rail-track");
+    if (track) {
+      track.addEventListener("click", ev => {
+        if (ev.target.closest(".rail-marco-pin") || ev.target.closest(".rail-era-band")) return;
+        scrollParaAno(anoMaisProximoNaRegua(ev.clientX), 0.46);
+      });
+    }
+
+    atualizarResumoRegua(ANO_MIN);
+    moverCursorRegua(ANO_MIN);
+  }
+
   // -------------------- delta inline --------------------
   // direcao "boa": para 'veg' subir = bom (verde); para 'pasto'/'soja' subir = expansao (terracota).
   function classeDelta(cls, dpp) {
@@ -80,7 +207,7 @@
 
   // -------------------- hidratacao dos steps --------------------
   function hidratarSteps(painel, marcos) {
-    const marcoPorAno = Object.fromEntries(marcos.marcos.map(m => [m.ano, m]));
+    const marcosPorAnoLocal = Object.fromEntries(marcos.marcos.map(m => [m.ano, m]));
 
     function metricCard(label, value, deltaHtml, cssClass) {
       return '<div class="metric-card' + (cssClass ? ' metric-card--' + cssClass : '') + '">'
@@ -140,8 +267,10 @@
 
     function acordeaoSocio(dado) {
       const linhas = [
-        linhaTabela('PIB',          valorOuTraco(dado.pib_real_rs,         fmtBilhao), 'desde 2002'),
-        linhaTabela('VA Agro',      valorOuTraco(dado.va_agro_real_rs,     fmtBilhao), 'desde 2002'),
+        linhaTabela('PIB (IPEA UF)',     valorOuTraco(dado.pib_uf_real_rs,     fmtBilhao), 'IBGE Contas Reg., 1985+'),
+        linhaTabela('PIB (Σ municípios)', valorOuTraco(dado.pib_real_rs,        fmtBilhao), 'SIDRA 5938, 2002+'),
+        linhaTabela('VA Agro (IPEA UF)',     valorOuTraco(dado.va_agro_uf_real_rs, fmtBilhao), 'IBGE Contas Reg., 1985+'),
+        linhaTabela('VA Agro (Σ municípios)', valorOuTraco(dado.va_agro_real_rs,    fmtBilhao), 'SIDRA 5938, 2002+'),
         linhaTabela('Crédito rural', valorOuTraco(dado.sicor_total_real_rs, fmtBilhao), 'desde 2013'),
         linhaTabela('População',     valorOuTraco(dado.populacao,           v => fmtNum(v / 1e6, 2) + ' Mi'), 'desde 2001'),
       ].join('');
@@ -152,7 +281,7 @@
       const ano = parseInt(step.dataset.year, 10);
       const dado = porAno[ano];
       const prev = porAno[ano - 1];
-      const marco = marcoPorAno[ano];
+      const marco = marcosPorAnoLocal[ano];
 
       let html = "";
       if (marco) {
@@ -604,6 +733,7 @@ function moverCursorSparkline(ano) {
         element.classList.add("is-active");
         trocarMapa(ano);
         moverCursorRegua(ano);
+        atualizarResumoRegua(ano);
         moverCursorSparkline(ano);
       });
 
@@ -614,7 +744,7 @@ function moverCursorSparkline(ano) {
   // Debounce evita conflitos entre cliques em sparkline/subrota/hash e o
   // proprio Scrollama. Calcula offset compensando regua + tabs sticky.
   let scrollLock = 0;
-  function scrollParaAno(ano) {
+  function scrollParaAno(ano, triggerPct) {
     const agora = performance.now();
     if (agora - scrollLock < 400) return;
     scrollLock = agora;
@@ -622,11 +752,13 @@ function moverCursorSparkline(ano) {
     if (!alvo) return;
     const rect = alvo.getBoundingClientRect();
     const topo = rect.top + window.pageYOffset;
-    // viewport - (rail + tabs) e centralizar o step na area util
-    const railH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--rail-h")) || 56;
-    const tabsH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--tabs-h")) || 40;
-    const utilH = window.innerHeight - railH - tabsH;
-    const destino = topo - railH - tabsH - (utilH - rect.height) / 2;
+    // O Scrollama dispara pelo viewport inteiro, nao pela "area util"
+    // abaixo dos sticky headers. Para os pinos nao cairem no ano anterior
+    // ao navegar para frente, o topo do step precisa terminar um pouco
+    // acima da linha de ativacao (~50% da viewport total).
+    const viewportH = window.innerHeight;
+    const pct = triggerPct == null ? 0.46 : triggerPct;
+    const destino = topo - viewportH * pct;
     window.scrollTo({ top: destino, behavior: "smooth" });
   }
 
@@ -644,6 +776,7 @@ function moverCursorSparkline(ano) {
     try {
       const dados = await carregarDados();
       porAno = Object.fromEntries(dados.painel.serie.map(r => [r.ano, r]));
+      configurarRegua(dados.marcos);
       gerarStepsAnuais();
       hidratarSteps(dados.painel, dados.marcos);
       desenharSparkline(dados.painel);

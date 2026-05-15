@@ -59,15 +59,29 @@ LAGS = [0, 1, 2]
 # ─────────────────────────── Funções ───────────────────────────
 
 def agregar_uf_socio() -> pd.DataFrame:
-    """Agrega painel_unificado para nível UF por ano."""
+    """Agrega painel_unificado para nível UF por ano.
+
+    PIB e VA agro UF vêm de fonte separada (IPEA Data, Contas Regionais
+    encadeadas — `pib_uf_ipea_goias.csv`), 1985-2023 contíguo, em vez do
+    agregado municipal SIDRA 5938 (que só existe 2002+). Os outros campos
+    continuam vindo do painel municipal agregado.
+    """
     df = pd.read_parquet(DIR_DATA / "painel_unificado.parquet")
     socio_cols = [
         "pec_bovinos_cab", "agri_soja_ton", "agri_milho_total_ton",
-        "pib_real_rs", "va_agro_real_rs", "sicor_total_real_rs",
+        "sicor_total_real_rs",
         "fogo_total_ha", "fogo_veg_nat_ha", "populacao",
         "agri_leite_mil_litros",
     ]
     grp = df.groupby("ano", as_index=False)[socio_cols].sum(min_count=1)
+
+    # PIB e VA agro UF nativos do IPEA (série longa 1985-2023)
+    pib_uf = pd.read_csv(DIR_DATA / "pib_uf_ipea_goias.csv")
+    pib_uf = pib_uf[["ano", "pib_uf_real_rs", "va_agro_uf_real_rs"]].rename(
+        columns={"pib_uf_real_rs": "pib_real_rs",
+                 "va_agro_uf_real_rs": "va_agro_real_rs"}
+    )
+    grp = grp.merge(pib_uf, on="ano", how="left")
     return grp
 
 

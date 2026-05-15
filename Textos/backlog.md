@@ -28,6 +28,12 @@ Itens pendentes alinhados com o plano-mestre e [fontes_dados_adicionais.md](refe
 - [x] Pipeline #22 — Painel municipal 2-way FE (16 modelos, 6 significativos)
 - [x] Pipeline #23 — DiD GO vs MT/TO (36 modelos, 9 significativos)
 - [x] Fix `agregar_conversoes.py` (2026-05-12) — caches GEE têm IDs agrupados 1–6, não MapBiomas brutos. CSV agora exporta 6×6 = 36 transições por ano-par (era 2×2), 39 pares validados em ±15% de 34 Mha.
+- [x] Pipeline #26 — Detecção de quebras estruturais (binary segmentation + Quandt-Andrews) GO+TO (2026-05-13). 15 quebras em 6 séries. **Código Florestal 2012 sem quebra empírica em GO ou TO; Cerrado Manifesto 2018 é cerrado-amplo, não GO-específico; inflexão de veg. natural em GO é 1998 (Lei Kandir), não 1994 (Real).**
+- [x] Renomeação "PAC Cerrado" → "Cerrado Manifesto" + rebaixamento dos achados DiD 2012/2018 (2026-05-13) — PAC Cerrado era label de rascunho sem programa real correspondente. Efeitos DiD 2012/2018 não replicam vs TO; texto e dados de choque do `index.html`/`marcos.json` atualizados; figuras DiD regeneradas.
+- [x] **PIB e VAB agro UF nativos IPEA (1985-2023)** (2026-05-14) — novo `scripts/coleta_pib_uf_ipea.py` baixa séries `PIBE` e `PIBAGE` do IPEA Data, reescala 2010→dez/2024 via IPCA, gera `data/processed/pib_uf_ipea_goias.csv`. Pipeline #21 (`correlacoes_uf.py`) passa a usar essa série em vez do agregado municipal SIDRA — **N por par com PIB/VA agro sobe de ~21 para ~37**, novo par significativo (Δveg.natural × ΔPIB lag=1: r=+0,32, p=0,046). Site (`painel_goias.json` + acordeão socioeconômico) mostra as duas séries lado a lado. Comparação e quebra metodológica documentadas em `validacao_cruzada.md`.
+- [x] **Robustez DiD: event-study + placebo + hierarquia TO** (2026-05-14) — `piecewise_did.py` ganhou `rodar_event_study()` e `rodar_placebo()`. Resultados em `event_study_resultados.csv` (132 linhas) + 12 figuras + `placebo_resultados.csv` (36 placebos). **Achado consolidado**: apenas Veg.natural × 1995 vs TO sobrevive ao conjunto parallel-trends + placebo + DiD sig. Demais efeitos pós-2012/2018 vs MT/combined têm placebos significativos (dinâmica pré-existente, não causal). Veja `23_did.md`.
+- [x] **Robustez painel multivariada** (2026-05-14) — `correlacoes_painel.py` ganhou `rodar_painel_multivariado()`. 9 modelos multivariados em `painel_multivariada.csv`. **Achado**: SICOR é canal dominante de retração de pastagem (β=−0,003, p<0,001 com VA agro+Bovinos+Fogo no modelo); VA agro perde sig. Intensificação Δ Agricultura × Δ VA agro sobrevive em todas variantes (com/sem SICOR, ambas janelas). R²w salta de 0,047→0,122 em agricultura. VIFs ≤ 1,55.
+- [x] **Pipeline #24 — análise espacial estatística** (2026-05-14) — novo `scripts/analise_espacial.py` com Moran's I global, LISA e regressão espacial (OLS/SAR/SEM via `spreg`). **115 de 140 resíduos (modelo × ano × W) têm I sig** — autocorrelação espacial é estrutural. Pico em 2018 (I=+0,53 para pastagem × bovinos). spreg cross-section 2020 mostra SEM com pequena vantagem sobre OLS (λ=+0,06–0,08). 8 mapas LISA gerados. `requirements.txt` ganha pysal stack.
 
 ## Em andamento (sequência atual A→B→C, 2026-05-12)
 
@@ -44,12 +50,12 @@ Itens pendentes alinhados com o plano-mestre e [fontes_dados_adicionais.md](refe
 
 | # | Item | Fonte | O que adiciona |
 |---|---|---|---|
-| 1 | **Pipeline #24 — Análise espacial estatística** | painel_unificado.parquet + painel_residuos.csv | Moran's I, LISA, regressão espacial (spreg) — núcleo analítico faltante, insumo já preparado |
-| 2 | **Robustez DiD** | piecewise_did.py | Event-study plot (β por ano relativo), placebo pré-marco, hierarquizar TO-isolado |
-| 3 | **Robustez painel multivariada** | correlacoes_painel.py | Especificação combinada (Δ SICOR + Δ VA_agro + Δ Bovinos + Δ Fogo) com 2FE+cluster |
+| 1 | **Frente C** (visualização) | `Visualizacao/` | C1 cards de produção, C3 pull-quotes, C4 mini-sankey containers HTML, C5 highlight barra↔mapa. Componentes para apresentação. |
+| 2 | **Investigar quebras data-driven sem marco** | quebras_resultados.csv | 1991 (pastagem GO+TO), 1999 (agric TO), 2006 (veg_nat TO). Hipóteses: Plano Collor 1990, câmbio flutuante 1999, Moratória Soja Amazônia 2006. Validar via literatura |
+| 3 | **Painel espacial dinâmico** | `analise_espacial.py` | Estender Pipeline #24 com `spreg.Panel_FE_Lag` cobrindo todas as janelas (não só 2020). Pipeline #24 já mostrou que I varia ao longo do tempo |
 | 4 | **IDH-M 2021** | Atlas Brasil PNUD | Download manual, integrar ao painel |
 | 5 | **Infraestrutura agroindustrial** | SIGSIF, CONAB, DNIT | Frigoríficos, silos, malha viária — coleta do zero |
-| 6 | **Reprodutibilidade** | — | requirements.txt / pyproject.toml |
+| 6 | **Reprodutibilidade pyproject.toml** | requirements.txt já existe | pyproject.toml para empacotamento moderno + lock file |
 
 ## Eixos ainda não atacados
 

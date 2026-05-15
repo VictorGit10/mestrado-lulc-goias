@@ -2,10 +2,10 @@
 coleta_sidra.py — Coletor unificado SIDRA/IBGE para a dissertação CIAMB-UFG
 ============================================================================
 
-Baixa todas as tabelas SIDRA relevantes do plano-mestre, no nível MUNICIPAL
-(246 municípios de Goiás), com cache local em CSV para evitar re-downloads.
+Baixa todas as tabelas SIDRA relevantes do plano-mestre, com cache local em
+CSV para evitar re-downloads.
 
-Tabelas cobertas:
+Tabelas cobertas (municipais, 246 municípios de Goiás):
   - PAM 1612 — Lavouras temporárias (soja, milho, sorgo, cana, etc.)
   - PAM 1613 — Lavouras permanentes (café, citrus, banana)
   - PAM 839  — Milho 1ª e 2ª safras (2003–2024)
@@ -16,16 +16,25 @@ Tabelas cobertas:
   - 6579     — População residente (estimativas anuais)
   - 1737     — IPCA mensal (deflator)
 
+Tabelas cobertas (estaduais, nível UF):
+  - ABATE 1092 — Bovinos abatidos e peso das carcaças (trimestral, 1997–2025)
+  - ABATE 1093 — Suínos abatidos e peso das carcaças (trimestral, 1997–2025)
+  - ABATE 1094 — Frangos abatidos e peso das carcaças (trimestral, 1997–2025)
+
 Saída:
   - data/raw/sidra/<nome>.csv     — bruto, schema SIDRA original
   - data/processed/sidra_<nome>.csv — limpo, schema padronizado
 
-Schema padronizado: [cd_mun, nm_mun, ano, variavel_id, variavel, unidade,
-                     categoria_id, categoria, valor]
+Schema padronizado municipal: [cd_mun, nm_mun, ano, variavel_id, variavel,
+                                unidade, categoria_id, categoria, valor]
+Schema padronizado estadual:  [uf_cod, uf_nome, ano_trimestre, ano, trimestre,
+                                variavel_id, variavel, unidade, valor]
 
 Como rodar:
     python coleta_sidra.py            # baixa o que faltar (usa cache)
     python coleta_sidra.py --force    # ignora cache e rebaixa tudo
+    python coleta_sidra.py --abate   # roda só o bloco de abate estadual
+    python coleta_sidra.py --censo-agro  # roda só o Censo Agro 2017
 """
 from __future__ import annotations
 
@@ -601,7 +610,267 @@ def coletar_pam839_safrinha(force: bool = False) -> pd.DataFrame:
 
 
 # ---------------------------------------------------------------------------
-# Pipeline
+# ABATE — Pesquisa Trimestral do Abate de Animais (nível ESTADUAL)
+# ---------------------------------------------------------------------------
+# Tabelas 1092 (bovinos), 1093 (suínos), 1094 (frangos).
+#
+# IMPORTANTE: dados de ABATE são exclusivamente estaduais (UF), não municipais.
+# Para estimativas municipais, usar o script estimativa_abate_municipal.py que
+# distribui proporcionalmente ao efetivo de rebanho (PPM 3939).
+#
+# Período: 1997 T1 – 2025 T4 (dados trimestrais, agregados para anual).
+# Variáveis: 284 (Animais abatidos, cabeças), 285 (Peso total das carcaças, kg).
+# Classificações: Tipo de rebanho bovino (1092), Tipo de inspeção (1092–1094).
+#   → Coletamos apenas o Total geral (sem quebra por tipo de rebanho/inspeção)
+#     para manter a série completa e comparável entre as 3 espécies.
+#
+# Schema de saída (diferente do municipal):
+#   [uf_cod, uf_nome, ano_trimestre, ano, trimestre,
+#    variavel_id, variavel, unidade, especie, valor]
+# ---------------------------------------------------------------------------
+
+ABATE_TABELAS = {
+    "1092": {
+        "nome": "Bovinos abatidos",
+        "especie": "bovino",
+    },
+    "1093": {
+        "nome": "Suínos abatidos",
+        "especie": "suino",
+    },
+    "1094": {
+        "nome": "Frangos abatidos",
+        "especie": "frango",
+    },
+}
+
+# Variáveis comuns às 3 tabelas ABATE
+# 284 = Animais abatidos (cabeças), 285 = Peso total das carcaças (kg)
+ABATE_VARIAVEIS = {"284": "Animais abatidos", "285": "Peso total das carcaças"}
+
+# Período coberto pelas tabelas ABATE (trimestres 1997T1 – 2025T4)
+ABATE_ANO_INI = 1997
+ABATE_ANO_FIM = 2025
+
+
+def _padronizar_estadual_trimestral(
+    df_raw: pd.DataFrame,
+    especie: str,
+) -> pd.DataFrame:
+    """
+    Padroniza DataFrame bruto do SIDRA para schema estadual trimestral.
+
+    Recebe o DataFrame bruto (com linha-cabeçalho do SIDRA) e devolve:
+      [uf_cod, uf_nome, ano_trimestre, ano, trimestre,
+       variavel_id, variavel, unidade, especie, valor]
+
+    `especie` é rótulo fixo: 'bovino', 'suino' ou 'frango'.
+    """
+    df = df_raw.iloc[1:].copy()
+
+    out = pd.DataFrame()
+    out["uf_cod"] = pd.to_numeric(df["D1C"], errors="coerce").astype("Int64")
+    out["uf_nome"] = df["D1N"].astype(str).str.strip()
+    # Período SIDRA: formato YYYYQQ (ex: 202401 = 1º trim 2024)
+    out["ano_trimestre"] = df["D2C"].astype(str)
+    out["ano"] = out["ano_trimestre"].str[:4].astype(int)
+    out["trimestre"] = out["ano_trimestre"].str[4:6].astype(int)
+    out["variavel_id"] = df["D3C"].astype(str)
+    out["variavel"] = df["D3N"].astype(str)
+    out["unidade"] = df["MN"].astype(str)
+    out["especie"] = especie
+
+    # Valor: SIDRA usa ".." (não disponível) e "-" (zero/n.a.)
+    out["valor"] = pd.to_numeric(
+        df["V"].replace({"..": pd.NA, "-": pd.NA, "...": pd.NA, "X": pd.NA}),
+        errors="coerce",
+    )
+
+    out = out.dropna(subset=["uf_cod", "ano"]).reset_index(drop=True)
+    out["uf_cod"] = out["uf_cod"].astype(int)
+    out["ano"] = out["ano"].astype(int)
+    out["trimestre"] = out["trimestre"].astype(int)
+    return out
+
+
+def _gerar_periodos_trimestrais(ano_ini: int, ano_fim: int) -> str:
+    """Gera string de periodos trimestrais no formato SIDRA (YYYYQQ).
+
+    Ex: _gerar_periodos_trimestrais(1997, 2025) -> '199701,199702,...,202504'
+    O SIDRA aceita lista de periodos separados por virgula.
+    """
+    periodos = []
+    for ano in range(ano_ini, ano_fim + 1):
+        for t in range(1, 5):
+            periodos.append(f"{ano}{t:02d}")
+    return ",".join(periodos)
+
+
+def coletar_abate_1092(force: bool = False) -> pd.DataFrame:
+    """ABATE 1092 -- Bovinos abatidos e peso das carcas, Goias (UF)."""
+    print("\n[ABATE 1092] Bovinos abatidos -- Goias (UF)")
+    variaveis = ",".join(ABATE_VARIAVEIS.keys())
+    periodos = _gerar_periodos_trimestrais(ABATE_ANO_INI, ABATE_ANO_FIM)
+    # 1 UF x 2 vars x ~116 trimestres = ~232 valores -- cabe em 1 chamada
+    df_raw = _get_sidra_cached(
+        "abate1092_bovinos_go",
+        force=force,
+        table_code="1092",
+        territorial_level="3",
+        ibge_territorial_code=UF_CODIGO_IBGE,
+        period=periodos,
+        variable=variaveis,
+    )
+    df = _padronizar_estadual_trimestral(df_raw, especie="bovino")
+    df.to_csv(DIR_PROCESSED / "sidra_abate1092_bovinos_go.csv", index=False)
+    print(f"  -> sidra_abate1092_bovinos_go.csv ({len(df):,} linhas, "
+          f"{df['ano'].min()}-{df['ano'].max()}, T{df['trimestre'].min()}-T{df['trimestre'].max()})")
+    return df
+
+
+def coletar_abate_1093(force: bool = False) -> pd.DataFrame:
+    """ABATE 1093 -- Suinos abatidos e peso das carcas, Goias (UF)."""
+    print("\n[ABATE 1093] Suinos abatidos -- Goias (UF)")
+    variaveis = ",".join(ABATE_VARIAVEIS.keys())
+    periodos = _gerar_periodos_trimestrais(ABATE_ANO_INI, ABATE_ANO_FIM)
+    df_raw = _get_sidra_cached(
+        "abate1093_suinos_go",
+        force=force,
+        table_code="1093",
+        territorial_level="3",
+        ibge_territorial_code=UF_CODIGO_IBGE,
+        period=periodos,
+        variable=variaveis,
+    )
+    df = _padronizar_estadual_trimestral(df_raw, especie="suino")
+    df.to_csv(DIR_PROCESSED / "sidra_abate1093_suinos_go.csv", index=False)
+    print(f"  -> sidra_abate1093_suinos_go.csv ({len(df):,} linhas, "
+          f"{df['ano'].min()}-{df['ano'].max()}, T{df['trimestre'].min()}-T{df['trimestre'].max()})")
+    return df
+
+
+def coletar_abate_1094(force: bool = False) -> pd.DataFrame:
+    """ABATE 1094 -- Frangos abatidos e peso das carcas, Goias (UF)."""
+    print("\n[ABATE 1094] Frangos abatidos -- Goias (UF)")
+    variaveis = ",".join(ABATE_VARIAVEIS.keys())
+    periodos = _gerar_periodos_trimestrais(ABATE_ANO_INI, ABATE_ANO_FIM)
+    df_raw = _get_sidra_cached(
+        "abate1094_frangos_go",
+        force=force,
+        table_code="1094",
+        territorial_level="3",
+        ibge_territorial_code=UF_CODIGO_IBGE,
+        period=periodos,
+        variable=variaveis,
+    )
+    df = _padronizar_estadual_trimestral(df_raw, especie="frango")
+    df.to_csv(DIR_PROCESSED / "sidra_abate1094_frangos_go.csv", index=False)
+    print(f"  -> sidra_abate1094_frangos_go.csv ({len(df):,} linhas, "
+          f"{df['ano'].min()}-{df['ano'].max()}, T{df['trimestre'].min()}-T{df['trimestre'].max()})")
+    return df
+
+
+def agregar_abate_anual(force: bool = False) -> pd.DataFrame:
+    """
+    Agrega os dados trimestrais de abate em valores anuais e salva painel
+    consolidado: sidra_abate_goias_anual.csv
+
+    Colunas: [uf_cod, uf_nome, ano, especie, variavel_id, variavel, valor_anual]
+
+    Soma os 4 trimestres de cada ano para obter o total anual.
+    """
+    print("\n[ABATE] Agregando dados trimestrais em anual...")
+    dfs = []
+    # Mapeamento tabela -> nome de arquivo salvo pelas funcoes coletar_abate_*
+    ABATE_ARQUIVOS = {
+        "1092": "sidra_abate1092_bovinos_go.csv",
+        "1093": "sidra_abate1093_suinos_go.csv",
+        "1094": "sidra_abate1094_frangos_go.csv",
+    }
+    for tabela, info in ABATE_TABELAS.items():
+        csv_path = DIR_PROCESSED / ABATE_ARQUIVOS[tabela]
+        if not csv_path.exists():
+            print(f"  [AVISO] {csv_path.name} nao encontrado -- execute a coleta primeiro")
+            continue
+        df = pd.read_csv(csv_path)
+        dfs.append(df)
+
+    if not dfs:
+        print("  [ERRO] Nenhum arquivo de abate encontrado. Execute a coleta primeiro.")
+        return pd.DataFrame()
+
+    df_all = pd.concat(dfs, ignore_index=True)
+
+    # Agregar: somar valor por (uf_cod, ano, especie, variavel_id)
+    anual = (
+        df_all
+        .groupby(["uf_cod", "uf_nome", "ano", "especie", "variavel_id", "variavel"], as_index=False)
+        .agg(valor_anual=("valor", "sum"))
+    )
+    anual["unidade"] = anual["variavel_id"].map({
+        "284": "Cabeças", "285": "Quilogramas",
+    })
+
+    # Ordenar
+    anual = anual.sort_values(["especie", "ano", "variavel_id"]).reset_index(drop=True)
+
+    # Salvar
+    anual.to_csv(DIR_PROCESSED / "sidra_abate_goias_anual.csv", index=False)
+    print(f"  -> sidra_abate_goias_anual.csv ({len(anual):,} linhas, "
+          f"anos {anual['ano'].min()}–{anual['ano'].max()}, "
+          f"espécies: {anual['especie'].unique().tolist()})")
+    return anual
+
+
+COLETORES_ABATE = [
+    ("ABATE 1092 (bovinos — Goiás UF)",  coletar_abate_1092),
+    ("ABATE 1093 (suínos — Goiás UF)",    coletar_abate_1093),
+    ("ABATE 1094 (frangos — Goiás UF)",   coletar_abate_1094),
+]
+
+
+def main_abate(force: bool = False) -> None:
+    """Coleta as 3 tabelas de abate (UF Goiás) e agrega em anual."""
+    print("=" * 70)
+    print(f"Coleta ABATE — Pesquisa Trimestral do Abate ({UF_NOME})")
+    print(f"  raw     -> {DIR_RAW_SIDRA}")
+    print(f"  limpo   -> {DIR_PROCESSED}")
+    print(f"  cache   -> {'OFF (--force)' if force else 'ON'}")
+    print(f"  nível    -> ESTADUAL (UF={UF_CODIGO_IBGE})")
+    print("=" * 70)
+
+    resumo = []
+    for label, fn in COLETORES_ABATE:
+        try:
+            df = fn(force=force)
+            resumo.append({
+                "tabela": label,
+                "linhas": len(df),
+                "anos": f"{df['ano'].min()}–{df['ano'].max()}",
+                "especie": df["especie"].iloc[0] if len(df) else "-",
+                "status": "OK",
+            })
+        except Exception as e:
+            resumo.append({
+                "tabela": label, "linhas": 0, "anos": "-",
+                "especie": "-", "status": f"ERRO: {type(e).__name__}: {e}",
+            })
+            print(f"  [ERRO] {label}: {e}", file=sys.stderr)
+
+    print("\n[AGREGACAO] Somando trimestres -> anual...")
+    anual = agregar_abate_anual()
+
+    print("\n" + "=" * 70)
+    print("RESUMO ABATE")
+    print("=" * 70)
+    print(pd.DataFrame(resumo).to_string(index=False))
+    if len(anual) > 0:
+        print(f"\nPainel anual consolidado: {len(anual)} linhas, "
+              f"anos {anual['ano'].min()}–{anual['ano'].max()}")
+
+
+# ---------------------------------------------------------------------------
+# Pipeline municipal
 # ---------------------------------------------------------------------------
 
 COLETORES = [
@@ -1074,9 +1343,13 @@ if __name__ == "__main__":
                         help="Roda só os coletores cujo nome contenha alguma destas substrings")
     parser.add_argument("--censo-agro", action="store_true",
                         help="Roda só o bloco do Censo Agro 2017")
+    parser.add_argument("--abate", action="store_true",
+                        help="Roda só o bloco de abate (tabelas 1092/1093/1094, nível UF)")
     args = parser.parse_args()
 
     if args.censo_agro:
         main_censo_agro(force=args.force)
+    elif args.abate:
+        main_abate(force=args.force)
     else:
         main()

@@ -23,7 +23,8 @@ import geopandas as gpd
 import geobr
 import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
-from matplotlib_scalebar.scalebar import ScaleBar
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from _cartografia import adicionar_norte, adicionar_escala  # noqa: E402
 
 # ===== Configuração =====
 SHOW_BORDERS = False
@@ -126,16 +127,8 @@ def gerar_mapas(dominante_wide: pd.DataFrame, gdf_munis: gpd.GeoDataFrame) -> No
 
         # ScaleBar em CRS geográfico (EPSG:4674): dx=111000 m/grau é
         # aproximação para latitude central de GO (~−16°), erro < 2%.
-        ax.add_artist(
-            ScaleBar(
-                dx=111000,
-                units="m",
-                location="lower left",
-                length_fraction=0.2,
-                scale_loc="bottom",
-                font_properties={"size": 7},
-            )
-        )
+        adicionar_escala(ax, dx=111000)
+        adicionar_norte(ax)
 
         ax.set_axis_off()
 

@@ -592,6 +592,52 @@ def load_censo_2017() -> pd.DataFrame:
 
 
 # ---------------------------------------------------------------------------
+# Abate estadual + estimativa municipal
+# ---------------------------------------------------------------------------
+
+def load_abate() -> pd.DataFrame:
+    """Carrega estimativa municipal de abate (cabeças e kg de carcaça).
+
+    Fonte: sidra_abate_goias_anual.csv (estadual) + PPM 3939 (rebanho municipal)
+           → estimativa proporcional em estimativa_abate_municipal.py.
+
+    Retorna DataFrame com colunas:
+      [cd_mun, ano, abate_bovino_cab, abate_bovino_kg,
+       abate_suino_cab, abate_suino_kg, abate_frango_cab, abate_frango_kg,
+       taxa_abate_bovino, taxa_abate_suino, taxa_abate_frango]
+
+    Dados disponíveis: 1997–2024 (interseção ABATE 1997–2025 com PPM 3939 1974–2024).
+    Anos fora desse intervalo ficam com NaN.
+    """
+    path = DIR_PROCESSED / "abate_municipal_estimado.csv"
+    if not path.exists():
+        print("[abate] AVISO: abate_municipal_estimado.csv nao encontrado — "
+              "execute estimativa_abate_municipal.py")
+        return pd.DataFrame(columns=["cd_mun", "ano"])
+
+    df = pd.read_csv(path)
+
+    # Pivot: especie × variavel → colunas wide
+    # Colunas: cd_mun, nm_mun, ano, especie, abate_cab_est, abate_kg_est, taxa_abate, ...
+    wide_rows = []
+    for (cd_mun, ano), grp in df.groupby(["cd_mun", "ano"]):
+        row = {"cd_mun": cd_mun, "ano": ano}
+        for _, r in grp.iterrows():
+            esp = r["especie"]
+            row[f"abate_{esp}_cab"] = r.get("abate_cab_est", np.nan)
+            row[f"abate_{esp}_kg"] = r.get("abate_kg_est", np.nan)
+            row[f"taxa_abate_{esp}"] = r.get("taxa_abate", np.nan)
+        wide_rows.append(row)
+
+    out = pd.DataFrame(wide_rows)
+    out = out.sort_values(["cd_mun", "ano"]).reset_index(drop=True)
+    n_munis = out["cd_mun"].nunique()
+    anos = sorted(out["ano"].dropna().unique())
+    print(f"[abate] {len(out):,} linhas, {n_munis} munis, anos {anos[0]}–{anos[-1]}")
+    return out
+
+
+# ---------------------------------------------------------------------------
 # Pipeline principal
 # ---------------------------------------------------------------------------
 
@@ -680,13 +726,14 @@ def main() -> None:
     sicor   = load_sicor(df_ipca)
     fogo    = load_fogo()
     censo   = load_censo_2017()
+    abate   = load_abate()
 
     # 3. Joins sequenciais sobre a grade
     print("\n[join] Construindo wide table...")
     painel = grade.copy()
     fontes = [("lulc", lulc), ("pec", pec), ("agri", agri), ("perm", perm),
               ("leite", leite), ("mel", mel), ("la", la), ("ovinos", ovinos),
-              ("pib", pib), ("pop", pop), ("sicor", sicor)]
+              ("pib", pib), ("pop", pop), ("sicor", sicor), ("abate", abate)]
     if fogo is not None:
         fontes.append(("fogo", fogo))
     for nome, df in fontes:

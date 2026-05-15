@@ -28,7 +28,9 @@
 | 20 | [20_figuras_taxas.md](20_figuras_taxas.md) | `figuras_taxas.py` | 7 figuras de taxas (slope, delta, aceleração, mapas) | 1985–2024 | UF, muni, meso | ✅ |
 | 21 | [21_correlacoes_uf.md](21_correlacoes_uf.md) | `correlacoes_uf.py` | Correlações LULC × socioeconômicas UF (Δ-vs-Δ, HAC) | 1985–2024 | UF | ✅ |
 | 22 | [22_correlacoes_painel.md](22_correlacoes_painel.md) | `correlacoes_painel.py` | Painel municipal 2-way FE (entity + time) | 2002–2023 | Municipal | ✅ |
-| 23 | [23_did.md](23_did.md) | `piecewise_did.py` | DiD piecewise GO vs MT/TO | 1985–2024 | UF | ✅ |
+| 23 | [23_did.md](23_did.md) | `piecewise_did.py` | DiD piecewise GO vs MT/TO + event-study + placebo | 1985–2024 | UF | ✅ |
+| 24 | [24_analise_espacial.md](24_analise_espacial.md) | `analise_espacial.py` | Moran's I, LISA, regressão espacial (OLS/SAR/SEM) | 2013–2021 | Municipal | ✅ |
+| 26 | [26_deteccao_quebras.md](26_deteccao_quebras.md) | `deteccao_quebras.py` | Detecção de quebras estruturais (sup-F + binary segmentation) GO+TO | 1985–2024 | UF | ✅ |
 
 ## Como os pipelines se cruzam
 

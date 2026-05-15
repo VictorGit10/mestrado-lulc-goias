@@ -13,8 +13,9 @@ Janela plena: 2013–2021 (LULC + pecuária + PIB + SICOR completos).
 Janela estendida: 2002–2023 (LULC + pecuária + PIB, sem SICOR).
 
 Saídas:
-    outputs/correlacoes/painel_2fe.csv       — tabela de β com SE
-    outputs/correlacoes/painel_residuos.csv   — resíduos para Moran's I
+    outputs/correlacoes/painel_2fe.csv          — tabela de β com SE (univariada)
+    outputs/correlacoes/painel_multivariada.csv — β simultâneos por classe LULC
+    outputs/correlacoes/painel_residuos.csv     — resíduos para Moran's I
 """
 
 from __future__ import annotations
@@ -49,6 +50,22 @@ PARES = [
 
 JANELA_PLENA = (2013, 2021)
 JANELA_ESTENDIDA = (2002, 2023)
+
+# Modelos multivariados — covariáveis simultâneas por classe LULC
+MODELOS_MULTIVARIADA = [
+    ("pastagem_delta_mha", [
+        "delta_sicor_total_real_rs", "delta_pec_bovinos_cab",
+        "delta_va_agro_real_rs", "delta_fogo_total_ha",
+    ]),
+    ("vegetacao_natural_delta_mha", [
+        "delta_fogo_veg_nat_ha", "delta_sicor_total_real_rs",
+        "delta_va_agro_real_rs",
+    ]),
+    ("agricultura_delta_mha", [
+        "delta_agri_soja_ton", "delta_sicor_total_real_rs",
+        "delta_va_agro_real_rs", "delta_pec_bovinos_cab",
+    ]),
+]
 
 
 # ─────────────────────────── Funções ───────────────────────────
@@ -151,6 +168,62 @@ def rodar_painel(df: pd.DataFrame, y_col: str, x_col: str,
                 "erro": str(e)[:80]}
 
 
+def rodar_painel_multivariado(df: pd.DataFrame, y_col: str, x_cols: list[str],
+                               janela: tuple[int, int]) -> dict | None:
+    """PanelOLS 2-way FE com múltiplas covariáveis simultâneas.
+
+    Especificação: Δy_it = α_i + γ_t + Σ_k β_k · Δx_k_it + ε
+    SE clusterizado por município.
+    """
+    from linearmodels.panel import PanelOLS
+
+    sub = df[(df["ano"] >= janela[0]) & (df["ano"] <= janela[1])].copy()
+    sub = sub.dropna(subset=[y_col] + x_cols)
+
+    if len(sub) < 100:
+        return None
+
+    sub = sub.set_index(["cd_mun", "ano"])
+
+    try:
+        mod = PanelOLS(
+            sub[y_col],
+            sub[x_cols],
+            entity_effects=True,
+            time_effects=True,
+            check_rank=False,
+        )
+        res = mod.fit(cov_type="clustered", cluster_entity=True)
+
+        out = {
+            "y_var": y_col,
+            "janela": f"{janela[0]}–{janela[1]}",
+            "x_vars": ",".join(x_cols),
+            "n_x": len(x_cols),
+            "n_obs": int(res.nobs),
+            "n_entities": int(sub.index.get_level_values(0).nunique()),
+            "r2_within": round(res.rsquared_within, 4) if res.rsquared_within is not None else np.nan,
+            "r2_overall": round(res.rsquared_overall, 4) if res.rsquared_overall is not None else np.nan,
+        }
+        for x in x_cols:
+            out[f"beta_{x}"] = round(float(res.params[x]), 4)
+            out[f"se_{x}"] = round(float(res.std_errors[x]), 4)
+            out[f"p_{x}"] = round(float(res.pvalues[x]), 4)
+        # VIF — usar dataframe na escala original (pré-set_index)
+        try:
+            from statsmodels.stats.outliers_influence import variance_inflation_factor
+            X = sub[x_cols].values
+            vifs = [variance_inflation_factor(X, i) for i in range(len(x_cols))]
+            for x, v in zip(x_cols, vifs):
+                out[f"vif_{x}"] = round(float(v), 2)
+        except Exception:
+            pass
+        return out
+    except Exception as e:
+        return {"y_var": y_col, "janela": f"{janela[0]}–{janela[1]}",
+                "x_vars": ",".join(x_cols), "erro": str(e)[:120]}
+
+
 # ─────────────────────────── Main ───────────────────────────
 
 def main() -> None:
@@ -219,8 +292,75 @@ def main() -> None:
         residuos_df.to_csv(out_resid, index=False)
         print(f"OK: {out_resid.name} ({len(residuos_df):,} resíduos)")
 
-    # Resumo
-    print("\n=== Modelos significativos (p < 0.05) ===")
+    # ── Painel multivariada ──
+    # NOTA: incluir SICOR restringe a amostra a 2014+ (SICOR começa 2013, Δ a partir 2014),
+    # mesmo na janela "estendida" 2002-2023. Por isso rodamos também uma variante
+    # **sem SICOR** para aproveitar a janela completa.
+    print("\nRodando especificação multivariada...")
+    mv_results = []
+    for y_col, x_cols in MODELOS_MULTIVARIADA:
+        if y_col not in df.columns:
+            print(f"  Pulando {y_col}: ausente")
+            continue
+        x_cols_ok = [c for c in x_cols if c in df.columns]
+        if len(x_cols_ok) < 2:
+            print(f"  {y_col}: < 2 covariáveis disponíveis, pulando")
+            continue
+
+        # Variante sem SICOR, para janela estendida 2002-2023 com mais N
+        x_cols_no_sicor = [c for c in x_cols_ok if "sicor" not in c]
+
+        for janela in [JANELA_PLENA, JANELA_ESTENDIDA]:
+            print(f"  Multivariada: {y_col} ~ {'+'.join(c.replace('delta_','Δ') for c in x_cols_ok)} [{janela[0]}–{janela[1]}]...")
+            mv = rodar_painel_multivariado(df, y_col, x_cols_ok, janela)
+            if mv is None:
+                print(f"    insuficiente"); continue
+            if "erro" in mv:
+                print(f"    ERRO: {mv['erro']}"); mv_results.append(mv); continue
+            r2w = mv.get("r2_within", np.nan)
+            print(f"    R²w={r2w:.3f} N={mv['n_obs']}")
+            for x in x_cols_ok:
+                b = mv.get(f"beta_{x}", np.nan)
+                p = mv.get(f"p_{x}", np.nan)
+                vif = mv.get(f"vif_{x}", np.nan)
+                sig = "*" if (p is not None and not pd.isna(p) and p < 0.05) else ""
+                print(f"      {x:35s} β={b:+.5f} p={p:.4f} VIF={vif:.2f}{sig}")
+            mv_results.append(mv)
+
+        # Variante sem SICOR, só na janela estendida (para ganhar N)
+        if x_cols_no_sicor != x_cols_ok and len(x_cols_no_sicor) >= 2:
+            print(f"  Multivariada (sem SICOR): {y_col} ~ {'+'.join(c.replace('delta_','Δ') for c in x_cols_no_sicor)} [{JANELA_ESTENDIDA[0]}–{JANELA_ESTENDIDA[1]}]...")
+            mv_ns = rodar_painel_multivariado(df, y_col, x_cols_no_sicor, JANELA_ESTENDIDA)
+            if mv_ns is not None and "erro" not in mv_ns:
+                mv_ns["variant"] = "sem_sicor"
+                r2w = mv_ns.get("r2_within", np.nan)
+                print(f"    R²w={r2w:.3f} N={mv_ns['n_obs']}")
+                for x in x_cols_no_sicor:
+                    b = mv_ns.get(f"beta_{x}", np.nan)
+                    p = mv_ns.get(f"p_{x}", np.nan)
+                    vif = mv_ns.get(f"vif_{x}", np.nan)
+                    sig = "*" if (p is not None and not pd.isna(p) and p < 0.05) else ""
+                    print(f"      {x:35s} β={b:+.5f} p={p:.4f} VIF={vif:.2f}{sig}")
+                mv_results.append(mv_ns)
+
+    mv_df = pd.DataFrame(mv_results)
+    out_mv = DIR_OUT / "painel_multivariada.csv"
+    mv_df.to_csv(out_mv, index=False)
+    print(f"OK: {out_mv.name} ({len(mv_df)} modelos multivariados)")
+
+    # Comparação R² within univariado vs multivariado
+    print("\n=== R² within: univariado (máx por Y) vs multivariado ===")
+    for y_col, _ in MODELOS_MULTIVARIADA:
+        uni = res_df[res_df["y_var"] == y_col].dropna(subset=["r2_within"]) if "r2_within" in res_df.columns else pd.DataFrame()
+        for janela in [JANELA_PLENA, JANELA_ESTENDIDA]:
+            jstr = f"{janela[0]}–{janela[1]}"
+            r2_uni_max = uni[uni["janela"] == jstr]["r2_within"].max() if len(uni) else np.nan
+            mv_row = mv_df[(mv_df["y_var"] == y_col) & (mv_df["janela"] == jstr)]
+            r2_mv = mv_row["r2_within"].iloc[0] if len(mv_row) and "r2_within" in mv_row.columns else np.nan
+            print(f"  {y_col:30s} [{jstr}] uni_max={r2_uni_max:.3f} mv={r2_mv:.3f}")
+
+    # Resumo univariada
+    print("\n=== Modelos univariados significativos (p < 0.05) ===")
     if len(res_df) > 0 and "p" in res_df.columns:
         sig = res_df[(res_df["p"] < 0.05) & res_df["p"].notna()]
         if len(sig) > 0:

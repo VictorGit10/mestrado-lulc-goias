@@ -29,21 +29,38 @@ from matplotlib.colors import Normalize
 from matplotlib.patches import Patch
 from PIL import Image
 
+ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "scripts"))
+from _cartografia import adicionar_norte, adicionar_escala  # noqa: E402
+
 # ===== Configuracao =====
 DPI = 200
 FIGSIZE = (10, 8)
 ANO_MIN, ANO_MAX = 1985, 2024
 QUALITY_WEBP = 85
 
-ROOT = Path(__file__).resolve().parents[2]
 PAINEL = ROOT / "data" / "processed" / "painel_unificado.parquet"
 OUT_DIR = ROOT / "Visualizacao" / "img" / "mapas_fogo"
+
+
+def _fmt_ha(v: float) -> str:
+    """Formata valor em ha de forma humana: 100, 2k, 35k, 1.2M."""
+    if v < 1000:
+        return f"{v:.0f} ha"
+    if v < 10000:
+        return f"{v / 1000:.1f}k ha".replace(".0k", "k")
+    if v < 1_000_000:
+        return f"{v / 1000:.0f}k ha"
+    return f"{v / 1_000_000:.1f}M ha"
 
 
 def carregar_malha() -> gpd.GeoDataFrame:
     print("[...] Baixando/carregando malha municipal de Goias (geobr)...")
     gdf = geobr.read_municipality(code_muni="GO", year=2020)
     gdf["code_muni"] = gdf["code_muni"].astype("int64")
+    # Reprojetar para EPSG:5880 (Albers Brasil, metrico) — necessario para a
+    # barra de escala em metros via adicionar_escala(ax, dx=1).
+    gdf = gdf.to_crs(5880)
     return gdf
 
 
@@ -69,12 +86,16 @@ def gerar_mapas(df: pd.DataFrame, gdf_munis: gpd.GeoDataFrame) -> None:
     cmap = plt.get_cmap("YlOrRd")
     anos = list(range(ANO_MIN, ANO_MAX + 1))
 
-    # Legenda compartilhada
+    # Legenda: 4 niveis amostrados do gradiente continuo + cinza p/ sem fogo.
+    # Labels = valor em ha aproximado no centro de cada faixa (inversa do log1p).
+    log_max = breaks_log[-1]
+    fracs = [0.15, 0.40, 0.65, 0.85]
+    ha_at_frac = [float(np.expm1(f * log_max)) for f in fracs]
     handles = [
-        Patch(facecolor=cmap(0.15), label="Menor"),
-        Patch(facecolor=cmap(0.4), label=""),
-        Patch(facecolor=cmap(0.65), label=""),
-        Patch(facecolor=cmap(0.85), label="Maior"),
+        Patch(facecolor=cmap(fracs[0]), label=f"~{_fmt_ha(ha_at_frac[0])}"),
+        Patch(facecolor=cmap(fracs[1]), label=f"~{_fmt_ha(ha_at_frac[1])}"),
+        Patch(facecolor=cmap(fracs[2]), label=f"~{_fmt_ha(ha_at_frac[2])}"),
+        Patch(facecolor=cmap(fracs[3]), label=f"~{_fmt_ha(ha_at_frac[3])}"),
         Patch(facecolor="#ececec", label="Sem fogo"),
     ]
 
@@ -106,8 +127,10 @@ def gerar_mapas(df: pd.DataFrame, gdf_munis: gpd.GeoDataFrame) -> None:
         gdf_ano.plot(ax=ax, color=cores, edgecolor="none", linewidth=0.2)
         ax.set_title(f"Area Queimada — Goias {ano}", fontsize=14, pad=10)
         ax.legend(handles=handles, loc="lower right", frameon=True, fontsize=8,
-                  title="Escala log", title_fontsize=8)
+                  title="Area queimada (ha)", title_fontsize=8)
         ax.set_axis_off()
+        adicionar_escala(ax, dx=1)  # gdf_munis usa CRS metrico apos to_crs(5880)
+        adicionar_norte(ax)
 
         png_path = OUT_DIR / f"fogo_{ano}.png"
         webp_path = OUT_DIR / f"fogo_{ano}.webp"

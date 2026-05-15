@@ -29,13 +29,16 @@ from matplotlib.colors import TwoSlopeNorm
 from matplotlib.patches import Patch
 from PIL import Image
 
+ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "scripts"))
+from _cartografia import adicionar_norte, adicionar_escala  # noqa: E402
+
 # ===== Configuracao =====
 DPI = 200
 FIGSIZE = (10, 8)
 ANO_MIN, ANO_MAX = 1985, 2024
 QUALITY_WEBP = 85
 
-ROOT = Path(__file__).resolve().parents[2]
 PAINEL = ROOT / "data" / "processed" / "painel_unificado.parquet"
 OUT_DIR = ROOT / "Visualizacao" / "img" / "mapas_delta"
 
@@ -44,6 +47,8 @@ def carregar_malha() -> gpd.GeoDataFrame:
     print("[...] Baixando/carregando malha municipal de Goias (geobr)...")
     gdf = geobr.read_municipality(code_muni="GO", year=2020)
     gdf["code_muni"] = gdf["code_muni"].astype("int64")
+    # Reprojetar para EPSG:5880 (Albers Brasil) para a barra de escala em metros.
+    gdf = gdf.to_crs(5880)
     return gdf
 
 
@@ -76,12 +81,13 @@ def gerar_mapas(df: pd.DataFrame, gdf_munis: gpd.GeoDataFrame) -> None:
 
     anos = list(range(ANO_MIN, ANO_MAX + 1))
 
+    # Cor central do TwoSlopeNorm em RdBu_r e branco-acinzentado proximo a 0.5.
     handles = [
-        Patch(facecolor=cmap(0.0), label=f"-{vmax:.0f} pp (retracao)"),
-        Patch(facecolor=cmap(0.25), label=f"-{vmax/2:.0f} pp"),
-        Patch(facecolor="#F5F5F5", label="0 pp (baseline)"),
-        Patch(facecolor=cmap(0.75), label=f"+{vmax/2:.0f} pp"),
-        Patch(facecolor=cmap(1.0), label=f"+{vmax:.0f} pp (expansao)"),
+        Patch(facecolor=cmap(0.0),  label=f"-{vmax:.0f} pp (retracao forte)"),
+        Patch(facecolor=cmap(0.25), label=f"-{vmax/2:.0f} pp (retracao)"),
+        Patch(facecolor=cmap(0.5),  label="~0 pp (sem mudanca)"),
+        Patch(facecolor=cmap(0.75), label=f"+{vmax/2:.0f} pp (expansao)"),
+        Patch(facecolor=cmap(1.0),  label=f"+{vmax:.0f} pp (expansao forte)"),
     ]
 
     total_in = total_out = 0
@@ -97,11 +103,13 @@ def gerar_mapas(df: pd.DataFrame, gdf_munis: gpd.GeoDataFrame) -> None:
 
         fig, ax = plt.subplots(figsize=FIGSIZE)
         gdf_ano.plot(ax=ax, color=cores, edgecolor="none", linewidth=0.2)
-        label_delta = "baseline 1985" if ano == 1985 else f"delta vs. 1985"
-        ax.set_title(f"Delta % Pastagem — Goias {ano} ({label_delta})", fontsize=14, pad=10)
+        subtitulo = "referencia" if ano == 1985 else "vs. 1985"
+        ax.set_title(f"Delta % Pastagem — Goias {ano} ({subtitulo})", fontsize=14, pad=10)
         ax.legend(handles=handles, loc="lower right", frameon=True, fontsize=8,
-                  title="Delta pp", title_fontsize=8)
+                  title="Δ pp pastagem vs. 1985", title_fontsize=8)
         ax.set_axis_off()
+        adicionar_escala(ax, dx=1)
+        adicionar_norte(ax)
 
         png_path = OUT_DIR / f"delta_{ano}.png"
         webp_path = OUT_DIR / f"delta_{ano}.webp"

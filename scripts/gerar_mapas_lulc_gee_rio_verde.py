@@ -51,8 +51,10 @@ import geobr
 import requests
 import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
-from matplotlib_scalebar.scalebar import ScaleBar
 from PIL import Image
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from _cartografia import adicionar_norte, adicionar_escala  # noqa: E402
 
 # ===== Configuração =====
 GEE_PROJECT_DEFAULT = ""
@@ -172,11 +174,8 @@ def compor_mapa(raw_bytes: bytes, ano: int, gdf_rv, gdf_vizinhos,
     largura_metros = bbox_5880[2] - bbox_5880[0]
     largura_graus = max_lon - min_lon
     dx = largura_metros / largura_graus
-    ax.add_artist(ScaleBar(
-        dx=dx, units="m",
-        location="lower left", length_fraction=0.2, scale_loc="bottom",
-        rotation="horizontal-only",
-    ))
+    adicionar_escala(ax, dx=dx)
+    adicionar_norte(ax)
 
     plt.savefig(out_path, dpi=DPI, bbox_inches="tight")
     plt.close(fig)

@@ -1,6 +1,6 @@
 # Ambiente Python — pegadinhas conhecidas
 
-**Versão**: Python 3.14. Sem `requirements.txt` no projeto — instalação ad-hoc via pip.
+**Versão**: Python 3.14. `requirements.txt` na raiz do projeto cobre todas as dependências (core, plotting, geoespacial, GEE, estatística/econometria, APIs IBGE/IPEA, e pysal stack para Pipeline #24). Instalação: `pip install -r requirements.txt`.
 
 ## Gotchas geoespaciais (Win+Py 3.14)
 

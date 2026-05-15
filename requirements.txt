@@ -1,0 +1,69 @@
+# ============================================
+# Dissertação — Dinâmica de Uso e Cobertura da Terra em Goiás (1985–2024)
+# Requer: Python >= 3.12
+# Testado com: Python 3.14
+# ============================================
+
+# --- Core ---
+pandas>=2.2
+numpy>=2.0
+openpyxl>=3.1          # leitura de .xlsx (MapBiomas, IDHM)
+
+# --- Plotting ---
+matplotlib>=3.9
+matplotlib-scalebar>=0.8
+plotly>=5.20
+kaleido>=0.2           # exportação PNG de figuras Plotly
+
+# --- Geoespacial ---
+geopandas>=1.0
+geobr>=0.2             # instalar com: pip install --no-deps geobr
+shapely>=2.1           # geobr declara <=2.1.0, mas >=2.1.2 funciona e tem wheel para 3.14
+pyogrio>=0.9           # backend I/O do geopandas
+pyproj>=3.7           # CRS/projeções
+
+# --- Google Earth Engine ---
+earthengine-api>=1.0
+
+# --- Estatística / Econometria ---
+statsmodels>=0.14
+scipy>=1.14
+linearmodels>=5.4      # PanelOLS (regressão de painel 2FE)
+
+# --- Análise espacial estatística (Pipeline #24) ---
+libpysal>=4.14         # matrizes de pesos espaciais
+esda>=2.6              # Moran's I global e LISA
+splot>=1.1             # plots de LISA
+spreg>=1.8             # regressões espaciais (OLS, SAR, SEM)
+
+# --- APIs IBGE / IPEA ---
+sidrapy>=0.4           # cliente SIDRA/IBGE
+requests>=2.32         # HTTP (SICOR/BACEN, IPEA, IPEA Data)
+
+# --- Imagem ---
+Pillow>=11.0           # processamento de imagens (WebP, PNG)
+imageio>=2.35          # geração de GIFs
+
+# --- HTML parsing (dependência geobr) ---
+lxml>=5.3              # geobr declara <6.0.0, mas >=5.3 funciona
+html5lib>=1.1
+
+# ============================================
+# Notas de instalação
+# ============================================
+#
+# geobr tem dependências conflitantes (shapely<=2.1.0, lxml<6.0.0).
+# Instale com --no-deps e instale as dependências separadamente:
+#
+#   pip install --no-deps geobr
+#
+# Para Python 3.14, shapely e lxml não têm wheels nas versões
+# declaradas pelo geobr. Use versões mais recentes que funcionam:
+#
+#   pip install "shapely>=2.1" "lxml>=5.3"
+#
+# earthengine-api requer autenticação via browser:
+#   ee.Authenticate()  e  ee.Initialize(project="seu-project-id")
+#
+# Para ambiente completo com todas as dependências:
+#   pip install -r requirements.txt
