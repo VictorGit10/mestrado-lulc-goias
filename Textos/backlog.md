@@ -34,6 +34,12 @@ Itens pendentes alinhados com o plano-mestre e [fontes_dados_adicionais.md](refe
 - [x] **Robustez DiD: event-study + placebo + hierarquia TO** (2026-05-14) — `piecewise_did.py` ganhou `rodar_event_study()` e `rodar_placebo()`. Resultados em `event_study_resultados.csv` (132 linhas) + 12 figuras + `placebo_resultados.csv` (36 placebos). **Achado consolidado**: apenas Veg.natural × 1995 vs TO sobrevive ao conjunto parallel-trends + placebo + DiD sig. Demais efeitos pós-2012/2018 vs MT/combined têm placebos significativos (dinâmica pré-existente, não causal). Veja `23_did.md`.
 - [x] **Robustez painel multivariada** (2026-05-14) — `correlacoes_painel.py` ganhou `rodar_painel_multivariado()`. 9 modelos multivariados em `painel_multivariada.csv`. **Achado**: SICOR é canal dominante de retração de pastagem (β=−0,003, p<0,001 com VA agro+Bovinos+Fogo no modelo); VA agro perde sig. Intensificação Δ Agricultura × Δ VA agro sobrevive em todas variantes (com/sem SICOR, ambas janelas). R²w salta de 0,047→0,122 em agricultura. VIFs ≤ 1,55.
 - [x] **Pipeline #24 — análise espacial estatística** (2026-05-14) — novo `scripts/analise_espacial.py` com Moran's I global, LISA e regressão espacial (OLS/SAR/SEM via `spreg`). **115 de 140 resíduos (modelo × ano × W) têm I sig** — autocorrelação espacial é estrutural. Pico em 2018 (I=+0,53 para pastagem × bovinos). spreg cross-section 2020 mostra SEM com pequena vantagem sobre OLS (λ=+0,06–0,08). 8 mapas LISA gerados. `requirements.txt` ganha pysal stack.
+- [x] **Pipeline #27 — Trase.earth integrado** (2026-05-15) — novo `scripts/coleta_trase.py` lê zips de soja (2004–2022) e bovinos (2011–2023 sem 2018) baixados de `resources.trase.earth/20260511/`, filtra GO, mapeia nomes Trase (caixa-alta sem acentos) para cd_mun IBGE via mapeamento_mesorregioes.csv, agrega por (cd_mun, ano). Saída: `data/processed/painel_trase.csv` (4.109 linhas, 244 munis, 12 colunas — volume/fob/n_exporters/n_hubs/top_exporter para soja e boi). Top munis batem: Rio Verde/Jataí/Cristalina (soja); Vale do Araguaia (boi, com JBS/Minerva/Marfrig nominais). `construir_painel_unificado.py` ganha `load_trase()` e merge em (cd_mun, ano). **Limitação importante**: Trase rastreia só fluxo exportador — produção processada domesticamente não entra. Proxy de exposição a cadeia agroindustrial exportadora, não de capacidade total de abate.
+- [x] **Censo Agro 2017 — tabelas 6855 e 6877** (2026-05-15) — `coleta_sidra.py` estendido para coletar tabela 6855 (plantio direto na palha: nº estab + ÁREA) e 6877 (veículos no estabelecimento: caminhões, utilitários, automóveis). `load_censo_2017()` em `construir_painel_unificado.py` integra 5 novas colunas: `censo2017_area_plantio_direto_ha` (Rio Verde 362k ha lidera, top 5 = top 5 soja Trase), `censo2017_n_estab_plantio_direto`, `censo2017_n_estab_com_veiculos`, `censo2017_n_veiculos_total`, `censo2017_n_caminhoes`. Painel agora 9.840 × 179 colunas (era 174 antes da integração Trase+Censo extras).
+
+## Em andamento (2026-05-15)
+
+- [x] **Pipeline #28 — Idade da pastagem na conversão para agricultura** (2026-05-15) — Sub-pipelines A (coleta GEE) e B (análise descritiva) concluídos. 78.000 pixels coletados, 241 munis, 1986-2024. Calcula idade da pastagem em Python a partir de bandas `classification_YYYY` amostradas via `stratifiedSample` (não exige asset MapBiomas Pastagem separado). **Achado-chave: ATO V (Cerrado Manifesto 2018-24) tem distribuição BIMODAL — picos em ~5a e ~35a — assinatura empírica direta da coexistência dos mecanismos premeditado e oportunístico.** Idade mediana por ATO cresce 4a (I) → 27a (IV, pico) e cai para 22a (V). Sul Goiano (37% dos pixels) com mediana 9a domina conversão; Norte/Noroeste mediana 20a. Coorte veg.nat→pastagem→agric (20.5%, n=16.009) mediana 13a com cauda longa; rotação agric→pastagem→agric (12.1%) mediana 5a. Sem correlação com Δ SICOR/Δ VA agro municipais. Outputs: `data/processed/pastagem_idade_conversao.csv`, 6 PNGs em `outputs/idade_pastagem/`, 2 JSONs em `Visualizacao/assets/data/`. **Sub-pipeline C (aba na Visualizacao/) pendente.**
 
 ## Em andamento (sequência atual A→B→C, 2026-05-12)
 
@@ -45,26 +51,52 @@ Itens pendentes alinhados com o plano-mestre e [fontes_dados_adicionais.md](refe
   - C3: pull-quotes nos marcos 1994/1996/2003/2012/2018
   - C4: mini-sankey ao fim de cada ato (consome JSONs da Frente B)
   - C5: highlight barra empilhada ↔ pixels do mapa
+- [ ] **Sub-pipeline #28-C — Aba "Pastagem como reserva de terra" no `Visualizacao/index.html`** (criada 2026-05-15). JSONs prontos em `Visualizacao/assets/data/idade_pastagem_municipal.json` (~41 KB, idade mediana/média/n por município) e `idade_pastagem_histograma.json` (~3 KB, histograma por ATO com bins/counts/mediana). Componentes propostos:
+  - **Mapa coroplético municipal** de idade mediana na conversão, com classes em quantis (jovem/médio/antigo) e toggle por ATO.
+  - **Histograma interativo** por ATO com slider temporal, **destacando visualmente o achado bimodal do ATO V** (Cerrado Manifesto 2018-24) — picos em ~5a (premeditado) e ~35a (oportunístico).
+  - **Pull-quote narrativo** com a hipótese e leitura empírica.
+  - **Cards de coortes** comparando `veg.nat → pastagem → agric` (n=16.009, mediana 13a) vs rotação `agric → pastagem → agric` (n=9.419, mediana 5a).
+  - Padrão alinhado com `timeline.js` / `inventario.js` / `atlas.js`. Conexão com a tese: refina a leitura do Δ Pastagem × Δ SICOR β=−0,003 (Pipeline #22) ao distinguir se SICOR opera sobre pastagem nova ou antiga.
 
 ## Próximos (prioridade sugerida)
 
 | # | Item | Fonte | O que adiciona |
 |---|---|---|---|
 | 1 | **Frente C** (visualização) | `Visualizacao/` | C1 cards de produção, C3 pull-quotes, C4 mini-sankey containers HTML, C5 highlight barra↔mapa. Componentes para apresentação. |
+| 1b | **Sub-pipeline #28-C — Aba "Pastagem como reserva de terra"** | JSONs em `Visualizacao/assets/data/idade_pastagem_*.json` | Mapa coroplético de idade mediana na conversão + histograma interativo por ATO (destacar achado bimodal do ATO V) + pull-quote narrativo + cards de coortes. Achado de assinatura empírica para a hipótese reserva de terra; merece visibilidade na defesa. |
 | 2 | **Investigar quebras data-driven sem marco** | quebras_resultados.csv | 1991 (pastagem GO+TO), 1999 (agric TO), 2006 (veg_nat TO). Hipóteses: Plano Collor 1990, câmbio flutuante 1999, Moratória Soja Amazônia 2006. Validar via literatura |
 | 3 | **Painel espacial dinâmico** | `analise_espacial.py` | Estender Pipeline #24 com `spreg.Panel_FE_Lag` cobrindo todas as janelas (não só 2020). Pipeline #24 já mostrou que I varia ao longo do tempo |
 | 4 | **IDH-M 2021** | Atlas Brasil PNUD | Download manual, integrar ao painel |
-| 5 | **Infraestrutura agroindustrial** | SIGSIF, CONAB, DNIT | Frigoríficos, silos, malha viária — coleta do zero |
-| 6 | **Reprodutibilidade pyproject.toml** | requirements.txt já existe | pyproject.toml para empacotamento moderno + lock file |
+| 5 | **Análise exploratória Trase × LULC** | `painel_unificado.csv` | Trase integrado (Pipeline #27, 2026-05-15) com 8 colunas no painel. Próximo: testar precedência temporal entre volume Trase e Δ LULC por classe — pergunta exploratória "infra (cadeia exportadora) segue ou lidera expansão LULC?". Granger pairwise + cross-lagged em painel 2FE. Conecta com modelo multivariado do Pipeline #22. |
+| 6 | **Coletar tabelas Censo Agro 2017 restantes** | SIDRA | 9 tabelas já coletadas (6878, 6884, 6870, 6848, 6851, 6910, 6958, **6855**, **6877** — duas últimas adicionadas 2026-05-15, dão plantio direto + veículos). Ainda não tocadas e potencialmente úteis: **6850** (uso de calcário, insumo de correção do cerrado), **6779/6780** (orientação técnica recebida). Trivial via `coleta_sidra.py` (~30min cada). |
+| 7 | **Reprodutibilidade pyproject.toml** | requirements.txt já existe | pyproject.toml para empacotamento moderno + lock file |
 
-## Eixos ainda não atacados
+## Eixos ainda não atacados — infraestrutura agroindustrial
+
+### Estratégia de coleta (revista 2026-05-15)
+
+A coleta anual completa de infraestrutura (rodovias + frigoríficos + silos + portos) é trabalho de mestrado próprio. Estratégia realista para esta dissertação, por ordem de viabilidade:
+
+| Prioridade | Fonte | Viabilidade | Cobertura | Notas |
+|------------|-------|-------------|-----------|-------|
+| ★★★ | **Trase.earth** (já baixado) | Alta | Soja 2004–2022, Bovinos 2011–2023 (sem 2018), 243 munis GO | URLs diretas em `data/raw/trase/`. Substitui parcialmente SIGSIF e CONAB ao identificar logistics hubs e frigoríficos exportadores. **Apenas fluxo exportador** — produção doméstica processada localmente não aparece. |
+| ★★ | **CNPJ Receita Federal** | Média | Anual 1985–2024 | Snapshots mensais em `dadosabertos.rfb.gov.br/CNPJ/`. Permite contagem anual de estabelecimentos com CNAE 1011-2 (abate bovinos), 1012-1 (aves/suínos), 5211-7 (silos) por município, via `data_abertura` e `data_situacao_cadastral`. **Limitações**: não diferencia SIF/SIE/SIM; abates informais não aparecem; mudanças de CNAE não retroativas. Esforço ~1–2 semanas. |
+| ★★ | **DNIT/SNV** | Média | Anual 2013–2024 shapefiles | Distância à BR pavimentada (estática 2013) + densidade rodoviária por município (anual 2013+). Pré-2013 só com gROADS estática ou OSM history (qualidade variável). Esforço ~1 semana. |
+| ★ | **CONAB SISDEP** | Média | Anual 2006–2024 | Capacidade estática de armazenagem (toneladas) e nº armazéns por município. Esforço ~3–5 dias. |
+| ★ | **SIGSIF/MAPA** | Baixa | Apenas snapshot atual | Lista de frigoríficos com SIF (federal). Histórico só via Wayback Machine ou pedido LAI. Útil como flag `tem_sif` cruzando com CNPJ. |
+| ☆ | **Agrodefesa-GO** | Baixa | Snapshot, sem histórico | Frigoríficos SIE estaduais. Cruzamento com CNPJ. |
+
+### Análise exploratória de precedência ("infra segue ou lidera?")
+
+Pendência conceitual (sem código ainda): testar com Trase + CNPJ se infraestrutura precede expansão LULC ou vice-versa. Via:
+- Painel cross-lagged: Δ LULC[t] ~ Δ Infra[t-1, t-2, t-3] e modelo reverso.
+- Granger pairwise (LULC, infra_var) por classe LULC.
+- Mapa animado: pontos de abertura de frigoríficos (CNPJ) sobre heatmap de Δ agricultura.
+
+### Outros eixos não-infra ainda pendentes
 
 | Item | Fonte | O que adiciona |
 |---|---|---|
-| Frigoríficos federais | SIGSIF/MAPA | Pontos para análise de proximidade |
-| Frigoríficos estaduais | Agrodefesa-GO | Complementa SIGSIF |
-| Silos e armazéns | CONAB SISDEP | Capacidade estática por município |
-| Malha viária | DNIT/SNV | Acessibilidade rodoviária |
 | População rural/urbana | SIDRA 200 | Esvaziamento rural decenal |
 | PRODES Cerrado | INPE/TerraBrasilis | Desmatamento anual |
 | TerraClass Cerrado | INPE/Embrapa | Pastagem íntegra vs degradada |

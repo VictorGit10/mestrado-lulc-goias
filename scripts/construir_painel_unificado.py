@@ -571,6 +571,33 @@ def load_fogo() -> pd.DataFrame | None:
     return out
 
 
+def load_trase() -> pd.DataFrame | None:
+    """Trase.earth — cadeia exportadora soja (2004-2022) e bovinos (2011-2023 sem 2018).
+
+    Fonte: painel_trase.csv produzido por scripts/coleta_trase.py a partir dos
+    zips de Trase.earth (CC BY 4.0) em data/raw/trase/. Retorna None se ainda
+    não foi gerado — o painel pode ser construído sem Trase.
+
+    Cuidado analitico: Trase captura apenas fluxo exportador. Volume processado
+    domesticamente nao entra. Tratar como proxy de exposicao a cadeia
+    agroindustrial exportadora, nao de capacidade total.
+    """
+    arq = DIR_PROCESSED / "painel_trase.csv"
+    if not arq.exists():
+        print(f"[trase] {arq.name} ausente — rode scripts/coleta_trase.py. Pulando.")
+        return None
+    df = pd.read_csv(arq, encoding="utf-8")
+    # Colunas top_exporter/top_frigorifico ficam fora (são strings, viram texto livre)
+    cols = ["cd_mun", "ano",
+            "trase_soja_volume_t", "trase_soja_fob_usd",
+            "trase_soja_n_exporters", "trase_soja_n_hubs",
+            "trase_boi_volume_t", "trase_boi_fob_usd",
+            "trase_boi_n_frigorificos", "trase_boi_n_hubs"]
+    out = df[cols]
+    print(f"[trase] {len(out):,} linhas, anos {out['ano'].min()}-{out['ano'].max()}, munis {out['cd_mun'].nunique()}")
+    return out
+
+
 def load_censo_2017() -> pd.DataFrame:
     """Censo Agropecuário 2017 — replicado como atributo estático por munic."""
     df = pd.read_csv(DIR_PROCESSED / "sidra_censo_agro_2017.csv", encoding="utf-8")
@@ -585,8 +612,14 @@ def load_censo_2017() -> pd.DataFrame:
         "ca_valor_producao_mil_reais_soja":    "censo2017_valor_producao_soja_mil_rs",
         "ca_pct_adubacao":                     "censo2017_pct_adubacao",
         "ca_pct_agrotoxicos":                  "censo2017_pct_agrotoxicos",
+        # 2026-05-15: tabelas 6855 e 6877 (proxy modernização e logística on-farm)
+        "ca_n_estab_plantio_direto":           "censo2017_n_estab_plantio_direto",
+        "ca_area_plantio_direto_ha":           "censo2017_area_plantio_direto_ha",
+        "ca_n_estab_com_veiculos_total":       "censo2017_n_estab_com_veiculos",
+        "ca_n_veiculos_total":                 "censo2017_n_veiculos_total",
+        "ca_n_veiculos_caminhoes":             "censo2017_n_caminhoes",
     }
-    out = df[list(cols_keep.keys())].rename(columns=cols_keep)
+    out = df[[c for c in cols_keep.keys() if c in df.columns]].rename(columns=cols_keep)
     print(f"[censo2017] {len(out):,} munis (estático, replicado em todos os anos)")
     return out
 
@@ -727,6 +760,7 @@ def main() -> None:
     fogo    = load_fogo()
     censo   = load_censo_2017()
     abate   = load_abate()
+    trase   = load_trase()
 
     # 3. Joins sequenciais sobre a grade
     print("\n[join] Construindo wide table...")
@@ -736,6 +770,8 @@ def main() -> None:
               ("pib", pib), ("pop", pop), ("sicor", sicor), ("abate", abate)]
     if fogo is not None:
         fontes.append(("fogo", fogo))
+    if trase is not None:
+        fontes.append(("trase", trase))
     for nome, df in fontes:
         painel = painel.merge(df, on=["cd_mun", "ano"], how="left")
         print(f"  + {nome}: shape = {painel.shape}")

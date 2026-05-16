@@ -88,12 +88,11 @@
 
   // -------------------- carregamento --------------------
   async function carregarDados() {
-    const [painel, marcos, transicoes] = await Promise.all([
+    const [painel, marcos] = await Promise.all([
       fetch("assets/data/painel_goias.json").then(r => r.json()),
-      fetch("assets/data/marcos.json").then(r => r.json()),
-      fetch("assets/data/transicoes_resumo.json").then(r => r.json())
+      fetch("assets/data/marcos.json").then(r => r.json())
     ]);
-    return { painel, marcos, transicoes };
+    return { painel, marcos };
   }
 
   // -------------------- regua superior --------------------
@@ -290,12 +289,6 @@
         html += '<h3 class="marco-titulo">' + marco.titulo + '</h3>';
         if (marco.subtitulo) html += '<p class="marco-subtitulo">' + marco.subtitulo + '</p>';
         html += '<p class="marco-descricao">' + marco.descricao + '</p>';
-        if (marco.dado_choque) {
-          html += '<aside class="marco-dado-choque" aria-label="dado-choque">'
-            + '<span class="dado-choque-icon" aria-hidden="true">◆</span>'
-            + '<span class="dado-choque-text">' + marco.dado_choque + '</span>'
-            + '</aside>';
-        }
       } else {
         html += '<span class="marco-tag muted-year">' + ano + '</span>';
       }
@@ -654,31 +647,6 @@ function moverCursorSparkline(ano) {
     });
   }
 
-  // -------------------- sintese (cards de transicao) --------------------
-  function renderizarSintese(transicoes) {
-    const cont = document.getElementById("resumo-transicoes");
-    if (!cont) return;
-    cont.remove();
-
-    const html = transicoes.classes.map(c => {
-      const dir = c.delta_ha < 0 ? "neg" : "pos";
-      const sinal = c.delta_ha >= 0 ? "+" : "";
-      const pct = c.delta_pct == null ? "—" : `${sinal}${fmtNum(c.delta_pct, 1)}%`;
-      return `
-        <div class="resumo-card">
-          <div class="resumo-card-nome">${c.nome}</div>
-          <div class="resumo-card-valor resumo-card-valor--${dir}">${pct}</div>
-          <div class="resumo-card-detalhe">${fmtMilhao(c.ha_inicio)} → ${fmtMilhao(c.ha_fim)}</div>
-        </div>
-      `;
-    }).join("");
-
-    document.querySelector(".sintese h2").insertAdjacentHTML(
-      "afterend",
-      `<div class="resumo-transicoes" id="resumo-transicoes">${html}</div>`
-    );
-  }
-
   // -------------------- gerar steps anuais --------------------
   function gerarStepsAnuais() {
     const eraRanges = [
@@ -782,13 +750,12 @@ function moverCursorSparkline(ano) {
       desenharSparkline(dados.painel);
       atualizarBarra(ANO_MIN);
       atualizarAncora(ANO_MIN);
-      renderizarSintese(dados.transicoes);
       configurarToggleCamadas();
       configurarHighlightBarra();
       inicializarScrollama();
     } catch (err) {
       console.error("Erro ao inicializar timeline:", err);
-      const cont = document.getElementById("resumo-transicoes");
+      const cont = document.getElementById("inventario-grid");
       if (cont) {
         cont.innerHTML =
           `<p class="resumo-loading" style="color:#8b3a1d">` +

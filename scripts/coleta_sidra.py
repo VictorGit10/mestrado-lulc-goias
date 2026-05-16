@@ -1003,6 +1003,27 @@ CENSO_6958_VARIAVEIS = {
     "10087": "valor_producao_mil_reais",
 }
 
+# Tabela 6855 — Sistema de preparo do solo (plantio direto na palha)
+# Variável-chave: 2018 = ÁREA com plantio direto (ha). Proxy de modernização.
+CENSO_6855_VARIAVEIS = {
+    "2016": "n_estab_plantio_direto",
+    "2018": "area_plantio_direto_ha",
+    "9563": "n_estab_preparo_solo",  # total que utilizou algum preparo
+}
+
+# Tabela 6877 — Veículos no estabelecimento agropecuário
+# Categoria 797 = tipo de veículo.
+CENSO_6877_VARIAVEIS = {
+    "10002": "n_estab_com_veiculos",
+    "9573": "n_veiculos",
+}
+VEICULOS_CATEGORIAS = {
+    "46568": "total",
+    "40621": "caminhoes",
+    "40622": "utilitarios",
+    "40623": "automoveis",
+}
+
 
 def coletar_censo_6878(force: bool = False) -> pd.DataFrame:
     """6878 — Estrutura fundiária: nº estabelecimentos + área, por tipologia."""
@@ -1120,6 +1141,47 @@ def coletar_censo_6910(force: bool = False) -> pd.DataFrame:
     return df
 
 
+def coletar_censo_6855(force: bool = False) -> pd.DataFrame:
+    """6855 — Plantio direto na palha: nº estab + ÁREA (proxy modernização agrícola)."""
+    print("\n[6855] Sistema de preparo do solo / plantio direto (Censo Agro 2017)")
+    var_ids = ",".join(CENSO_6855_VARIAVEIS.keys())
+    df_raw = _get_sidra_cached(
+        "censo_6855_plantio_direto",
+        force=force,
+        table_code="6855",
+        territorial_level="6",
+        ibge_territorial_code=TERRITORIO_MUNI_GO,
+        period="2017",
+        variable=var_ids,
+        classifications={"829": TIPOLOGIA_TOTAL},
+    )
+    df = _padronizar_municipal(df_raw, classif_nome="Plantio direto")
+    df.to_csv(DIR_PROCESSED / "sidra_censo_6855_plantio_direto.csv", index=False)
+    print(f"  -> sidra_censo_6855_plantio_direto.csv ({len(df):,} linhas)")
+    return df
+
+
+def coletar_censo_6877(force: bool = False) -> pd.DataFrame:
+    """6877 — Veículos no estabelecimento (caminhões, utilitários, automóveis)."""
+    print("\n[6877] Veículos no estabelecimento (Censo Agro 2017)")
+    var_ids = ",".join(CENSO_6877_VARIAVEIS.keys())
+    veic_ids = ",".join(VEICULOS_CATEGORIAS.keys())
+    df_raw = _get_sidra_cached(
+        "censo_6877_veiculos",
+        force=force,
+        table_code="6877",
+        territorial_level="6",
+        ibge_territorial_code=TERRITORIO_MUNI_GO,
+        period="2017",
+        variable=var_ids,
+        classifications={"829": TIPOLOGIA_TOTAL, "797": veic_ids},
+    )
+    df = _padronizar_municipal(df_raw, classif_col="D5C")
+    df.to_csv(DIR_PROCESSED / "sidra_censo_6877_veiculos.csv", index=False)
+    print(f"  -> sidra_censo_6877_veiculos.csv ({len(df):,} linhas)")
+    return df
+
+
 def coletar_censo_6958(force: bool = False) -> pd.DataFrame:
     """6958 — Lavouras temporárias: estabelecimentos + área colhida (soja, milho, cana)."""
     print("\n[6958] Lavouras temporárias - soja, milho, cana (Censo Agro 2017)")
@@ -1158,6 +1220,8 @@ def montar_painel_censo_agro(force: bool = False) -> pd.DataFrame:
     df_agr = coletar_censo_6851(force=force)
     df_bov = coletar_censo_6910(force=force)
     df_lav = coletar_censo_6958(force=force)
+    df_pdi = coletar_censo_6855(force=force)
+    df_vei = coletar_censo_6877(force=force)
 
     # Começar com a lista de municípios
     munis = (
@@ -1249,9 +1313,26 @@ def montar_painel_censo_agro(force: bool = False) -> pd.DataFrame:
         wide_lav_rows.append({"cd_mun": row["cd_mun"], col_name: row["valor"]})
     wide_lav = pd.DataFrame(wide_lav_rows).groupby("cd_mun").first().reset_index()
 
+    # Plantio direto (sem categoria — só variável)
+    wide_pdi_rows = []
+    for _, row in df_pdi.iterrows():
+        var_key = CENSO_6855_VARIAVEIS.get(str(row["variavel_id"]), str(row["variavel_id"]))
+        col_name = f"ca_{var_key}"
+        wide_pdi_rows.append({"cd_mun": row["cd_mun"], col_name: row["valor"]})
+    wide_pdi = pd.DataFrame(wide_pdi_rows).groupby("cd_mun").first().reset_index()
+
+    # Veículos (categoria 797 = tipo de veículo)
+    wide_vei_rows = []
+    for _, row in df_vei.iterrows():
+        var_key = CENSO_6877_VARIAVEIS.get(str(row["variavel_id"]), str(row["variavel_id"]))
+        cat_key = VEICULOS_CATEGORIAS.get(str(row.get("categoria_id", "")), str(row.get("categoria_id", "")))
+        col_name = f"ca_{var_key}_{cat_key}"
+        wide_vei_rows.append({"cd_mun": row["cd_mun"], col_name: row["valor"]})
+    wide_vei = pd.DataFrame(wide_vei_rows).groupby("cd_mun").first().reset_index()
+
     # Merge all wide tables
     painel = munis.copy()
-    for wide in [wide_est, wide_pes, wide_tra, wide_adu, wide_agr, wide_bov, wide_lav]:
+    for wide in [wide_est, wide_pes, wide_tra, wide_adu, wide_agr, wide_bov, wide_lav, wide_pdi, wide_vei]:
         if "cd_mun" in wide.columns and len(wide.columns) > 1:
             painel = painel.merge(wide, on="cd_mun", how="left")
 
@@ -1305,6 +1386,8 @@ COLETORES_CENSO_AGRO = [
     ("6851 (agrotóxicos)",         coletar_censo_6851),
     ("6910 (bovinos)",             coletar_censo_6910),
     ("6958 (lavouras temporárias)", coletar_censo_6958),
+    ("6855 (plantio direto)",      coletar_censo_6855),
+    ("6877 (veículos)",            coletar_censo_6877),
 ]
 
 

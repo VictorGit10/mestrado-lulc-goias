@@ -192,6 +192,101 @@ p  { margin: 0 0 1em; }
 }
 
 /* ==========================================================================
+   Como ler esta linha do tempo (contrato de leitura: atos x marcos x navegacao)
+   ========================================================================== */
+.como-ler {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 2rem 3rem;
+}
+.como-ler-inner {
+  background: #fcfcfa;
+  border: 1px solid var(--color-rule);
+  border-radius: 6px;
+  padding: 2rem 2rem 1.6rem;
+}
+.como-ler-titulo {
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-accent);
+  margin: 0 0 0.8rem;
+}
+.como-ler-lede {
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--color-fg);
+  max-width: 75ch;
+  margin: 0 0 1.6rem;
+}
+.como-ler-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.6rem;
+}
+.como-ler-bloco { font-family: var(--font-sans); }
+.como-ler-rotulo {
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-muted);
+  margin: 0 0 0.6rem;
+  font-family: var(--font-sans);
+}
+.como-ler-lista {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.38rem;
+  font-size: 0.86rem;
+  line-height: 1.45;
+  color: var(--color-fg);
+}
+.como-ler-lista li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+}
+
+.como-ler-navegacao li {
+  display: block;
+}
+.como-ler-swatch {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  flex-shrink: 0;
+  align-self: center;
+  opacity: 0.55;
+}
+.como-ler-swatch--heranca        { background: #8b3a1d; }
+.como-ler-swatch--soja-sudoeste  { background: #a85234; }
+.como-ler-swatch--boom-commodity { background: #c97052; }
+.como-ler-swatch--intensificacao { background: #5c8a6f; }
+.como-ler-swatch--reorganizacao  { background: #2d5a3d; }
+.como-ler-pin {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--color-fg);
+  border: 1.5px solid #fff;
+  box-shadow: 0 0 0 1px rgba(26,26,26,0.2);
+  flex-shrink: 0;
+  align-self: center;
+}
+@media (max-width: 700px) {
+  .como-ler { padding: 0 1.25rem 2rem; }
+  .como-ler-inner { padding: 1.4rem 1.4rem 1rem; }
+}
+
+/* ==========================================================================
    Story (mapa sticky + steps)
    ========================================================================== */
 .story {
@@ -358,7 +453,46 @@ p  { margin: 0 0 1em; }
   margin-top: 4rem;
 }
 .era-title { font-size: 2rem; margin-bottom: 1rem; }
-.era-lede { font-size: 1.1rem; color: #333; max-width: 50ch; }
+
+/* Estrutura nova dos atos: tese (1 linha punchy) + contexto (politico/economico) + mapa (o que ver) */
+.era-tese {
+  font-family: var(--font-serif);
+  font-size: 1.18rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  line-height: 1.4;
+  margin: 0 0 1.1rem;
+  padding-left: 0.9rem;
+  border-left: 3px solid var(--color-accent);
+  max-width: 52ch;
+}
+.era-contexto {
+  font-size: 1rem;
+  color: #2a2a2a;
+  line-height: 1.6;
+  max-width: 50ch;
+  margin: 0 0 1rem;
+}
+.era-mapa {
+  font-size: 1rem;
+  color: #2a2a2a;
+  line-height: 1.6;
+  max-width: 50ch;
+  margin: 0 0 0.6rem;
+  padding-left: 0.9rem;
+  border-left: 2px solid var(--color-pasto);
+}
+.era-mapa::before {
+  content: "No mapa";
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin-bottom: 0.3rem;
+}
 
 .step--marco {
   background: linear-gradient(to right, rgba(139, 58, 29, 0.06), transparent);
@@ -390,31 +524,6 @@ p  { margin: 0 0 1em; }
   font-size: 1rem;
   color: #2a2a2a;
   max-width: 50ch;
-}
-
-.marco-dado-choque {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.6rem;
-  margin-top: 0.9rem;
-  padding: 0.7rem 0.85rem;
-  background: rgba(139, 58, 29, 0.07);
-  border-left: 2px solid var(--color-accent);
-  border-radius: 2px;
-  font-family: var(--font-sans);
-  font-size: 0.85rem;
-  line-height: 1.45;
-  color: #2a2a2a;
-  max-width: 52ch;
-}
-.marco-dado-choque .dado-choque-icon {
-  color: var(--color-accent);
-  font-size: 0.7rem;
-  line-height: 1.5;
-  flex-shrink: 0;
-}
-.marco-dado-choque .dado-choque-text {
-  font-style: normal;
 }
 
 .step-dados {
@@ -700,51 +809,144 @@ p  { margin: 0 0 1em; }
 }
 
 /* ==========================================================================
-   Sintese
+   Sintese — vitrine didatica do painel (espelha a estrutura de "Como sabemos")
    ========================================================================== */
 .sintese {
-  max-width: 800px;
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 6rem 2rem 4rem;
+  padding: 5rem 1.5rem 3rem;
+  border-top: 1px solid var(--color-rule);
 }
-.resumo-transicoes {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 1rem;
-  margin: 2rem 0;
-}
-.resumo-card {
-  border: 1px solid var(--color-rule);
-  background: #fff;
-  padding: 1rem;
-  border-radius: 4px;
-}
-.resumo-card-nome {
+.sintese > h2 {
   font-family: var(--font-sans);
-  font-size: 0.78rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-muted);
-  margin-bottom: 0.4rem;
-}
-.resumo-card-valor {
-  font-size: 1.4rem;
+  font-size: 1.7rem;
   font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--color-fg);
+  margin: 0 0 0.6rem;
 }
-.resumo-card-valor--neg { color: var(--color-veg); }
-.resumo-card-valor--pos { color: var(--color-accent); }
-.resumo-card-detalhe {
-  font-family: var(--font-sans);
-  font-size: 0.78rem;
-  color: var(--color-muted);
-  margin-top: 0.3rem;
+.sintese-lede {
+  font-size: 1.02rem;
+  line-height: 1.6;
+  color: var(--color-fg);
+  max-width: 75ch;
+  margin: 0 0 2.5rem;
 }
 .sintese-cta {
+  font-size: 1rem;
   font-style: italic;
-  color: #444;
+  color: var(--color-fg);
+  margin: 1rem 0 0;
+}
+.sintese-cta a { color: var(--color-accent); }
+
+/* Vitrine de painel (S3) — populada por inventario.js */
+.inventario-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.4rem;
+  margin: 1.4rem 0 1rem;
+}
+.inventario-tema {
+  display: grid;
+  gap: 0.75rem;
+}
+.inventario-tema-rotulo {
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-accent);
+  margin: 0 0 0.35rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--color-rule);
+}
+.inventario-tema-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.7rem;
+}
+.inventario-card {
+  background: #fcfcfa;
+  border: 1px solid var(--color-rule);
+  border-left: 3px solid var(--color-rule);
+  border-radius: 4px;
+  padding: 0.75rem 0.9rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.inventario-card[data-tema="lulc"]    { border-left-color: var(--color-veg); }
+.inventario-card[data-tema="cultivos"]{ border-left-color: var(--color-agric); }
+.inventario-card[data-tema="pecuaria"]{ border-left-color: var(--color-pasto); }
+.inventario-card[data-tema="macro"]   { border-left-color: var(--color-accent); }
+.inventario-card[data-tema="credito"] { border-left-color: var(--color-accent-soft); }
+.inventario-card[data-tema="demo"]    { border-left-color: var(--color-urbano); }
+.inventario-card[data-tema="ambiente"]{ border-left-color: #e31a1c; }
+.inventario-card-nome {
+  font-family: var(--font-sans);
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--color-fg);
+  line-height: 1.25;
+}
+.inventario-card-sparkline {
+  width: 100%;
+  height: 28px;
+  display: block;
+}
+.inventario-card-sparkline path {
+  fill: none;
+  stroke: var(--color-fg);
+  stroke-width: 1.4;
+  vector-effect: non-scaling-stroke;
+}
+.inventario-card-sparkline .spark-area {
+  fill: rgba(139, 58, 29, 0.08);
+  stroke: none;
+}
+.inventario-card-valores {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  color: var(--color-fg);
+  font-variant-numeric: tabular-nums;
+}
+.inventario-card-valores .vsep {
+  margin: 0 0.35rem;
+  color: var(--color-muted);
+}
+.inventario-card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  color: var(--color-muted);
+  line-height: 1.35;
+}
+.inventario-card-cobertura {
+  letter-spacing: 0.02em;
+}
+.inventario-card-fonte {
+  font-style: italic;
+}
+.inventario-rodape {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  color: var(--color-muted);
+  font-style: italic;
   border-top: 1px solid var(--color-rule);
-  padding-top: 2rem;
-  margin-top: 2rem;
+  padding-top: 0.8rem;
+  margin-top: 1rem;
+}
+.resumo-loading {
+  font-family: var(--font-sans);
+  color: var(--color-muted);
+  font-size: 0.85rem;
+  font-style: italic;
+  text-align: center;
+  padding: 1.5rem 0;
 }
 
 /* ==========================================================================
@@ -1058,53 +1260,7 @@ p  { margin: 0 0 1em; }
 .rail-marco-pin:focus-visible .rail-marco-pin-label {
   display: none;
 }
-/* Síntese: narrativa por ato */
-.sintese-narrativa {
-  margin: 3rem 0;
-}
-
-.sintese-narrativa h3 {
-  text-align: center;
-  margin-bottom: 1.5rem;
-}
-
-.ato-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1rem;
-}
-
-.ato-card {
-  background: #fff;
-  border: 1px solid var(--color-rule);
-  border-radius: 4px;
-  padding: 1.2rem;
-  border-left: 4px solid var(--color-accent);
-}
-
-.ato-card[data-ato="heranca"]        { border-left-color: #8b3a1d; }
-.ato-card[data-ato="soja-sudoeste"]  { border-left-color: #a85234; }
-.ato-card[data-ato="boom-commodity"] { border-left-color: #c97052; }
-.ato-card[data-ato="intensificacao"] { border-left-color: #5c8a6f; }
-.ato-card[data-ato="reorganizacao"]  { border-left-color: #2d5a3d; }
-
-.ato-card h4 {
-  font-family: var(--font-sans);
-  font-size: 0.85rem;
-  font-weight: 600;
-  margin: 0 0 0.5rem;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-.ato-card p {
-  font-size: 0.92rem;
-  line-height: 1.5;
-  color: #333;
-  margin: 0;
-}
-
-/* Sankey caption */
+/* Sankey caption (legenda do diagrama 1985->2024 na sintese) */
 .sankey-caption {
   font-family: var(--font-sans);
   font-size: 0.8rem;
@@ -1113,86 +1269,27 @@ p  { margin: 0 0 1em; }
   margin: 0.5rem 0 2rem;
 }
 
-/* Blocos da síntese (3 novos: culturas, pecuária, socioeconômico) */
-.sintese-bloco {
-  margin: 3rem 0;
-}
-.sintese-bloco h3 {
-  text-align: left;
-  margin-bottom: 0.6rem;
-}
-.sintese-bloco-lede {
-  font-size: 0.98rem;
-  color: #333;
-  max-width: 65ch;
-  margin-bottom: 1.2rem;
-}
-.cobertura-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
-.cobertura-tag {
-  font-family: var(--font-sans);
-  font-size: 0.72rem;
-  letter-spacing: 0.04em;
-  padding: 0.25rem 0.55rem;
-  background: rgba(139, 58, 29, 0.08);
-  color: var(--color-accent);
-  border-radius: 3px;
-  font-weight: 500;
-}
-.grafico-card--wide {
-  max-width: 100%;
-}
-
-/* Gráficos da síntese */
-.sintese-graficos {
-  margin: 3rem 0;
-}
-
-.sintese-graficos h3 {
-  text-align: center;
-  margin-bottom: 1.5rem;
-}
-
-.grafico-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
-}
-
+/* Figuras da sintese e do "Como sabemos" (PNGs com caption) */
 .grafico-card {
-  margin: 0;
+  margin: 1rem 0;
   background: #fff;
   border: 1px solid var(--color-rule);
   border-radius: 4px;
   overflow: hidden;
 }
-
+.grafico-card--wide { max-width: 100%; }
 .grafico-card img {
   width: 100%;
   height: auto;
   display: block;
   background: #f5f3ed;
 }
-
 .grafico-card figcaption {
   font-family: var(--font-sans);
   font-size: 0.8rem;
   color: var(--color-muted);
   padding: 0.8rem;
   border-top: 1px solid var(--color-rule);
-}
-
-@media (max-width: 600px) {
-  .ato-grid {
-    grid-template-columns: 1fr;
-  }
-  .grafico-grid {
-    grid-template-columns: 1fr;
-  }
 }
 
 /* ============================================================

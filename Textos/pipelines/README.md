@@ -1,6 +1,6 @@
 # Pipelines — índice
 
-23 pipelines documentados. Cada arquivo descreve **processo** (o que faz, como rodar, decisões metodológicas, validações, limitações). Para descrição dos **produtos** (PNGs, CSVs com interpretação para redação), ver [outputs/](../outputs/).
+24 pipelines documentados. Cada arquivo descreve **processo** (o que faz, como rodar, decisões metodológicas, validações, limitações). Para descrição dos **produtos** (PNGs, CSVs com interpretação para redação), ver [outputs/](../outputs/).
 
 ## Tabela resumo
 
@@ -31,6 +31,7 @@
 | 23 | [23_did.md](23_did.md) | `piecewise_did.py` | DiD piecewise GO vs MT/TO + event-study + placebo | 1985–2024 | UF | ✅ |
 | 24 | [24_analise_espacial.md](24_analise_espacial.md) | `analise_espacial.py` | Moran's I, LISA, regressão espacial (OLS/SAR/SEM) | 2013–2021 | Municipal | ✅ |
 | 26 | [26_deteccao_quebras.md](26_deteccao_quebras.md) | `deteccao_quebras.py` | Detecção de quebras estruturais (sup-F + binary segmentation) GO+TO | 1985–2024 | UF | ✅ |
+| 28 | [28_idade_pastagem.md](28_idade_pastagem.md) | `coleta_idade_pastagem.py` + `analise_reserva_terra.py` | Idade da pastagem na conversão para agricultura (hipótese "reserva de terra") | 1986–2024 | Pixel amostrado (78k) + municipal | ✅ |
 
 ## Como os pipelines se cruzam
 
