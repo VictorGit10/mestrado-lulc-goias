@@ -1,0 +1,96 @@
+{
+  "_nota": "Esboço inicial. A redação final dos cards e a bibliografia devem ser validadas com o orientador antes da publicação.",
+  "marcos": [
+    {
+      "ano": 1985,
+      "titulo": "Início da série / Redemocratização",
+      "subtitulo": "Baseline da análise",
+      "descricao": "Fim do regime militar e marco inicial dos dados MapBiomas. Goiás herda a infraestrutura dos programas POLOCENTRO (1975) e PRODECER (anos 1970-80), mas a economia ainda opera sob hiperinflação e baixa estabilidade macroeconômica. Pecuária extensiva domina; soja embrionária.",
+      "categoria": "contexto",
+      "referencias": [
+        "MapBiomas Brasil. Coleção 9 / 10.1 da série anual de cobertura e uso da terra (1985-2024)."
+      ]
+    },
+    {
+      "ano": 1994,
+      "titulo": "Plano Real",
+      "subtitulo": "Estabilização monetária",
+      "descricao": "Introdução da nova moeda em julho de 1994 reduz drasticamente a inflação e reabilita o cálculo econômico de longo prazo. Investimentos em maquinário, fertilizantes e expansão de fronteira passam a ser viáveis com horizonte de retorno previsível.",
+      "dado_choque": "Pastagem cresce a +0,21 Mha/ano (slope HAC 5a); vegetação nativa recua −0,28 Mha/ano.",
+      "categoria": "macroeconomia",
+      "referencias": [
+        "BACHA, E. L. O Plano Real: uma avaliação. In: MERCADANTE, A. (org.). O Brasil pós-Real. Campinas: UNICAMP, 1997."
+      ]
+    },
+    {
+      "ano": 1996,
+      "titulo": "Lei Kandir",
+      "subtitulo": "Isenção de ICMS sobre exportação",
+      "descricao": "Lei Complementar 87/1996 desonera ICMS de produtos primários e semi-elaborados destinados à exportação. Decisiva para a competitividade da soja brasileira no mercado internacional e gatilho da primeira onda forte de expansão no sudoeste de Goiás (Rio Verde, Jataí, Mineiros).",
+      "dado_choque": "Slope de pastagem ainda alto (+0,18 Mha/ano) mas agricultura acelera (+0,11 Mha/ano).",
+      "categoria": "tributação",
+      "referencias": [
+        "BRASIL. Lei Complementar n. 87, de 13 de setembro de 1996.",
+        "REZENDE, G. C. Políticas trabalhista, fundiária e de crédito agrícola e seus impactos adversos sobre a pobreza no Brasil. Texto para Discussão IPEA n. 1180, 2006."
+      ]
+    },
+    {
+      "ano": 2002,
+      "titulo": "Plano Safra",
+      "subtitulo": "Sistematização do crédito rural",
+      "descricao": "Anúncio anual de volumes e taxas para custeio, investimento e comercialização agropecuária via SNCR. Marcos sucessivos (PRONAF Mais Alimentos, Moderfrota, Inovagro) ampliam o crédito subsidiado. Em Goiás, coincide com o boom de commodities e a consolidação da safrinha de milho.",
+      "categoria": "crédito_público",
+      "referencias": [
+        "BACEN/SICOR. Sistema de Operações do Crédito Rural e do Proagro (SICOR), 2013-2024.",
+        "MAPA. Plano Agrícola e Pecuário, edições anuais a partir de 2002/03."
+      ]
+    },
+    {
+      "ano": 2003,
+      "titulo": "Boom de commodities e demanda chinesa",
+      "subtitulo": "Início do super-ciclo de preços agrícolas",
+      "descricao": "A entrada da China na OMC (2001) e a aceleração de sua industrialização deflagram um super-ciclo de preços para soja, carne e milho a partir de 2003. Combinado com o Plano Safra recém-sistematizado e o câmbio favorável, o ciclo viabiliza a substituição de pastagem degradada por matriz soja-milho no sudoeste goiano. Marca o início do período em que a expansão agrícola sobre o Cerrado deixa de ser fronteira pioneira e passa a ser conversão econômica deliberada.",
+      "dado_choque": "Inversão: pastagem desacelera (+0,05 Mha/ano) e agricultura mantém ritmo. 93% da nova área agrícola virá de pasto no ATO seguinte.",
+      "categoria": "macroeconomia",
+      "referencias": [
+        "BARROS, G. S. C. Brazilian agriculture in international perspective. Embrapa Estudos e Capacitação, 2014.",
+        "MARTINELLI, L. A. et al. Agriculture in Brazil: impacts, costs, and opportunities for a sustainable future. Current Opinion in Environmental Sustainability, v. 2, n. 5-6, p. 431-438, 2010."
+      ]
+    },
+    {
+      "ano": 2012,
+      "titulo": "Novo Código Florestal",
+      "subtitulo": "Reset regulatório",
+      "descricao": "Lei 12.651/2012 substitui o código de 1965, redefinindo Áreas de Preservação Permanente, Reserva Legal e instituindo o Cadastro Ambiental Rural (CAR). No bioma Cerrado, a Reserva Legal permanece em 20% (vs 80% na Amazônia), com regras de regularização para passivos ambientais.",
+      "dado_choque": "Marco regulatório sem quebra empírica detectada: a detecção de quebras estruturais (Pipeline #26) não identifica nenhuma quebra ±2 anos em GO ou TO para veg_nat, pastagem ou agricultura. A aceleração transitória da perda de veg. natural em 2013–2015 existe (anistia a passivos pré-2008, Soares-Filho et al. 2014) mas é flutuação, não regime novo. O efeito DiD +0,30 Mha/ano em pastagem vs MT capturava divergência MT, não quebra em GO. Leitura: Código Florestal é marco simbólico-regulatório, não causal mensurável em LULC agregado.",
+      "categoria": "regulação_ambiental",
+      "referencias": [
+        "BRASIL. Lei n. 12.651, de 25 de maio de 2012.",
+        "SOARES-FILHO, B. et al. Cracking Brazil's Forest Code. Science, v. 344, n. 6182, p. 363-364, 2014."
+      ]
+    },
+    {
+      "ano": 2018,
+      "titulo": "Reorganização: Cerrado Manifesto e consolidação frigorífica",
+      "subtitulo": "Pressão de mercado entra na equação",
+      "descricao": "O Cerrado Manifesto (2017) ganha tração com adesão de grandes traders e financiadores (ABIOVE, BNDES, fundos europeus), introduzindo pressão de cadeia produtiva sobre a expansão da soja sobre vegetação nativa. No mesmo período, JBS/Marfrig/Minerva consolidam a malha frigorífica em Goiás, redefinindo a geografia da pecuária. O Acordo da Soja para o Cerrado fica em discussão mas sem moratória efetiva até o fim da série.",
+      "dado_choque": "Pastagem perde área a −0,09 Mha/ano e agricultura acelera a +0,14 Mha/ano. Painel 2FE: VA agro cresce sem expandir área (β=−0,004, p<0,001) — intensificação. Pipeline #26 detecta quebras estruturais simultâneas em pastagem e agricultura tanto em GO (2018, 2020) quanto em TO (2016, 2020) — fenômeno cerrado-amplo, provavelmente recuperação macro pós-2016 + pressão de cadeia + ciclo de preços, não atribuível exclusivamente ao Cerrado Manifesto.",
+      "categoria": "mercado",
+      "referencias": [
+        "SOTERRONI, A. C. et al. Expanding the Soy Moratorium to Brazil's Cerrado. Science Advances, v. 5, n. 7, eaav7336, 2019.",
+        "RAJÃO, R. et al. The rotten apples of Brazil's agribusiness. Science, v. 369, n. 6501, p. 246-248, 2020.",
+        "MANIFESTO DO CERRADO. Carta aberta da sociedade civil em defesa do Cerrado, 2017."
+      ]
+    },
+    {
+      "ano": 2024,
+      "titulo": "Estado atual",
+      "subtitulo": "Síntese da série",
+      "descricao": "Último ano da série MapBiomas Coleção 10.1. Goiás consolidou matriz soja-milho via safrinha, pastagem ainda dominante em área absoluta mas com produtividade ascendente, e vegetação nativa próxima ao limite legal de 20% em diversas regiões. Encerra-se aqui o quadro analisado pela dissertação.",
+      "categoria": "contexto",
+      "referencias": [
+        "MapBiomas Brasil. Coleção 10.1, dados anuais de cobertura e uso da terra até 2024."
+      ]
+    }
+  ]
+}

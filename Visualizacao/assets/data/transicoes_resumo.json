@@ -1,0 +1,55 @@
+{
+  "ano_inicio": 1985,
+  "ano_fim": 2024,
+  "classes": [
+    {
+      "nome": "Vegetacao nativa",
+      "ha_inicio": 17653266.417671215,
+      "ha_fim": 11883358.823975792,
+      "delta_ha": -5769907.593695423,
+      "delta_pct": -32.68
+    },
+    {
+      "nome": "Pastagem",
+      "ha_inicio": 10984292.912214136,
+      "ha_fim": 11989130.055872882,
+      "delta_ha": 1004837.143658746,
+      "delta_pct": 9.15
+    },
+    {
+      "nome": "Soja",
+      "ha_inicio": 370892.40790841955,
+      "ha_fim": 4502268.476648149,
+      "delta_ha": 4131376.0687397295,
+      "delta_pct": 1113.9
+    },
+    {
+      "nome": "Outras lavouras",
+      "ha_inicio": 1170637.8593532091,
+      "ha_fim": 5575638.533872808,
+      "delta_ha": 4405000.674519599,
+      "delta_pct": 376.29
+    },
+    {
+      "nome": "Mosaico de usos",
+      "ha_inicio": 3630747.6212122175,
+      "ha_fim": 3586060.1550330864,
+      "delta_ha": -44687.466179131065,
+      "delta_pct": -1.23
+    },
+    {
+      "nome": "Silvicultura",
+      "ha_inicio": 7608.267286590899,
+      "ha_fim": 156161.581253754,
+      "delta_ha": 148553.3139671631,
+      "delta_pct": 1952.52
+    },
+    {
+      "nome": "Area urbana",
+      "ha_inicio": 70032.43018956915,
+      "ha_fim": 214425.52839500862,
+      "delta_ha": 144393.09820543946,
+      "delta_pct": 206.18
+    }
+  ]
+}

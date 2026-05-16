@@ -15,6 +15,10 @@ outputs/
 *.zip
 *.tar.gz
 
+# Exceção: dados leves consumidos pela visualização (GitHub Pages)
+!Visualizacao/assets/data/
+!Visualizacao/assets/data/**
+
 # IDE e Sistema
 .claude/
 .vscode/

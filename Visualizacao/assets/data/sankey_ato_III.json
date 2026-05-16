@@ -1,0 +1,142 @@
+{
+  "ato": "III",
+  "titulo": "Boom de Commodities",
+  "ano_ini": 2003,
+  "ano_fim": 2011,
+  "nodes": [
+    {
+      "id": "Vegetacao Natural_2003",
+      "label": "Vegetacao Natural (2003)",
+      "color": "#2d5a3d"
+    },
+    {
+      "id": "Pastagem_2003",
+      "label": "Pastagem (2003)",
+      "color": "#d4b65a"
+    },
+    {
+      "id": "Agricultura_2003",
+      "label": "Agricultura (2003)",
+      "color": "#d96aa3"
+    },
+    {
+      "id": "Agua_2003",
+      "label": "Agua (2003)",
+      "color": "#4a7ba6"
+    },
+    {
+      "id": "Area Urbana_2003",
+      "label": "Area Urbana (2003)",
+      "color": "#8a8a82"
+    },
+    {
+      "id": "Outros_2003",
+      "label": "Outros (2003)",
+      "color": "#b8a98a"
+    },
+    {
+      "id": "Vegetacao Natural_2011",
+      "label": "Vegetacao Natural (2011)",
+      "color": "#2d5a3d"
+    },
+    {
+      "id": "Pastagem_2011",
+      "label": "Pastagem (2011)",
+      "color": "#d4b65a"
+    },
+    {
+      "id": "Agricultura_2011",
+      "label": "Agricultura (2011)",
+      "color": "#d96aa3"
+    },
+    {
+      "id": "Agua_2011",
+      "label": "Agua (2011)",
+      "color": "#4a7ba6"
+    },
+    {
+      "id": "Area Urbana_2011",
+      "label": "Area Urbana (2011)",
+      "color": "#8a8a82"
+    },
+    {
+      "id": "Outros_2011",
+      "label": "Outros (2011)",
+      "color": "#b8a98a"
+    }
+  ],
+  "links": [
+    {
+      "source": "Vegetacao Natural_2003",
+      "target": "Pastagem_2011",
+      "value": 0.8309,
+      "color": "#2d5a3d"
+    },
+    {
+      "source": "Vegetacao Natural_2003",
+      "target": "Agricultura_2011",
+      "value": 0.058,
+      "color": "#2d5a3d"
+    },
+    {
+      "source": "Vegetacao Natural_2003",
+      "target": "Agua_2011",
+      "value": 0.0506,
+      "color": "#2d5a3d"
+    },
+    {
+      "source": "Vegetacao Natural_2003",
+      "target": "Outros_2011",
+      "value": 0.0275,
+      "color": "#2d5a3d"
+    },
+    {
+      "source": "Pastagem_2003",
+      "target": "Vegetacao Natural_2011",
+      "value": 0.5032,
+      "color": "#d4b65a"
+    },
+    {
+      "source": "Pastagem_2003",
+      "target": "Agricultura_2011",
+      "value": 0.9175,
+      "color": "#d4b65a"
+    },
+    {
+      "source": "Pastagem_2003",
+      "target": "Agua_2011",
+      "value": 0.0297,
+      "color": "#d4b65a"
+    },
+    {
+      "source": "Pastagem_2003",
+      "target": "Outros_2011",
+      "value": 0.021,
+      "color": "#d4b65a"
+    },
+    {
+      "source": "Agricultura_2003",
+      "target": "Vegetacao Natural_2011",
+      "value": 0.0202,
+      "color": "#d96aa3"
+    },
+    {
+      "source": "Agricultura_2003",
+      "target": "Pastagem_2011",
+      "value": 0.3084,
+      "color": "#d96aa3"
+    },
+    {
+      "source": "Outros_2003",
+      "target": "Vegetacao Natural_2011",
+      "value": 0.0319,
+      "color": "#b8a98a"
+    },
+    {
+      "source": "Outros_2003",
+      "target": "Pastagem_2011",
+      "value": 0.031,
+      "color": "#b8a98a"
+    }
+  ]
+}

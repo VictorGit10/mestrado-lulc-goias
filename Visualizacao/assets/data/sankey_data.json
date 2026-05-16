@@ -1,0 +1,204 @@
+{
+  "nodes": [
+    {
+      "id": "Vegetacao Natural_1985",
+      "label": "Vegetacao Natural (1985)",
+      "color": "#2d5a3d"
+    },
+    {
+      "id": "Pastagem_1985",
+      "label": "Pastagem (1985)",
+      "color": "#d4b65a"
+    },
+    {
+      "id": "Agricultura_1985",
+      "label": "Agricultura (1985)",
+      "color": "#d96aa3"
+    },
+    {
+      "id": "Agua_1985",
+      "label": "Agua (1985)",
+      "color": "#4a7ba6"
+    },
+    {
+      "id": "Area Urbana_1985",
+      "label": "Area Urbana (1985)",
+      "color": "#8a8a82"
+    },
+    {
+      "id": "Outros_1985",
+      "label": "Outros (1985)",
+      "color": "#c4ad8a"
+    },
+    {
+      "id": "Vegetacao Natural_2024",
+      "label": "Vegetacao Natural (2024)",
+      "color": "#2d5a3d"
+    },
+    {
+      "id": "Pastagem_2024",
+      "label": "Pastagem (2024)",
+      "color": "#d4b65a"
+    },
+    {
+      "id": "Agricultura_2024",
+      "label": "Agricultura (2024)",
+      "color": "#d96aa3"
+    },
+    {
+      "id": "Agua_2024",
+      "label": "Agua (2024)",
+      "color": "#4a7ba6"
+    },
+    {
+      "id": "Area Urbana_2024",
+      "label": "Area Urbana (2024)",
+      "color": "#8a8a82"
+    },
+    {
+      "id": "Outros_2024",
+      "label": "Outros (2024)",
+      "color": "#c4ad8a"
+    }
+  ],
+  "links": [
+    {
+      "source": "Vegetacao Natural_1985",
+      "target": "Vegetacao Natural_2024",
+      "value": 10.3542,
+      "color": "#2d5a3d"
+    },
+    {
+      "source": "Vegetacao Natural_1985",
+      "target": "Pastagem_2024",
+      "value": 4.1133,
+      "color": "#2d5a3d"
+    },
+    {
+      "source": "Vegetacao Natural_1985",
+      "target": "Agricultura_2024",
+      "value": 1.2921,
+      "color": "#2d5a3d"
+    },
+    {
+      "source": "Vegetacao Natural_1985",
+      "target": "Agua_2024",
+      "value": 0.1783,
+      "color": "#2d5a3d"
+    },
+    {
+      "source": "Vegetacao Natural_1985",
+      "target": "Area Urbana_2024",
+      "value": 0.0393,
+      "color": "#2d5a3d"
+    },
+    {
+      "source": "Vegetacao Natural_1985",
+      "target": "Outros_2024",
+      "value": 0.0383,
+      "color": "#2d5a3d"
+    },
+    {
+      "source": "Pastagem_1985",
+      "target": "Vegetacao Natural_2024",
+      "value": 0.4891,
+      "color": "#d4b65a"
+    },
+    {
+      "source": "Pastagem_1985",
+      "target": "Pastagem_2024",
+      "value": 6.0328,
+      "color": "#d4b65a"
+    },
+    {
+      "source": "Pastagem_1985",
+      "target": "Agricultura_2024",
+      "value": 2.7301,
+      "color": "#d4b65a"
+    },
+    {
+      "source": "Pastagem_1985",
+      "target": "Agua_2024",
+      "value": 0.0398,
+      "color": "#d4b65a"
+    },
+    {
+      "source": "Pastagem_1985",
+      "target": "Area Urbana_2024",
+      "value": 0.0752,
+      "color": "#d4b65a"
+    },
+    {
+      "source": "Pastagem_1985",
+      "target": "Outros_2024",
+      "value": 0.0146,
+      "color": "#d4b65a"
+    },
+    {
+      "source": "Agricultura_1985",
+      "target": "Pastagem_2024",
+      "value": 0.0325,
+      "color": "#d96aa3"
+    },
+    {
+      "source": "Agricultura_1985",
+      "target": "Agricultura_2024",
+      "value": 1.0748,
+      "color": "#d96aa3"
+    },
+    {
+      "source": "Agua_1985",
+      "target": "Vegetacao Natural_2024",
+      "value": 0.0475,
+      "color": "#4a7ba6"
+    },
+    {
+      "source": "Agua_1985",
+      "target": "Agua_2024",
+      "value": 0.1908,
+      "color": "#4a7ba6"
+    },
+    {
+      "source": "Agua_1985",
+      "target": "Outros_2024",
+      "value": 0.0217,
+      "color": "#4a7ba6"
+    },
+    {
+      "source": "Area Urbana_1985",
+      "target": "Area Urbana_2024",
+      "value": 0.0701,
+      "color": "#8a8a82"
+    },
+    {
+      "source": "Outros_1985",
+      "target": "Vegetacao Natural_2024",
+      "value": 0.0931,
+      "color": "#c4ad8a"
+    },
+    {
+      "source": "Outros_1985",
+      "target": "Pastagem_2024",
+      "value": 0.1074,
+      "color": "#c4ad8a"
+    },
+    {
+      "source": "Outros_1985",
+      "target": "Agricultura_2024",
+      "value": 0.0838,
+      "color": "#c4ad8a"
+    },
+    {
+      "source": "Outros_1985",
+      "target": "Agua_2024",
+      "value": 0.0132,
+      "color": "#c4ad8a"
+    },
+    {
+      "source": "Outros_1985",
+      "target": "Outros_2024",
+      "value": 0.5681,
+      "color": "#c4ad8a"
+    }
+  ]
+}

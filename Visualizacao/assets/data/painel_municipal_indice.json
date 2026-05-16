@@ -1,0 +1,986 @@
+[
+  {
+    "cd_mun": 5200050,
+    "nm_mun": "Abadia de Goiás"
+  },
+  {
+    "cd_mun": 5200100,
+    "nm_mun": "Abadiânia"
+  },
+  {
+    "cd_mun": 5200134,
+    "nm_mun": "Acreúna"
+  },
+  {
+    "cd_mun": 5200159,
+    "nm_mun": "Adelândia"
+  },
+  {
+    "cd_mun": 5200175,
+    "nm_mun": "Água Fria de Goiás"
+  },
+  {
+    "cd_mun": 5200209,
+    "nm_mun": "Água Limpa"
+  },
+  {
+    "cd_mun": 5200258,
+    "nm_mun": "Águas Lindas de Goiás"
+  },
+  {
+    "cd_mun": 5200308,
+    "nm_mun": "Alexânia"
+  },
+  {
+    "cd_mun": 5200506,
+    "nm_mun": "Aloândia"
+  },
+  {
+    "cd_mun": 5200555,
+    "nm_mun": "Alto Horizonte"
+  },
+  {
+    "cd_mun": 5200605,
+    "nm_mun": "Alto Paraíso de Goiás"
+  },
+  {
+    "cd_mun": 5200803,
+    "nm_mun": "Alvorada do Norte"
+  },
+  {
+    "cd_mun": 5200829,
+    "nm_mun": "Amaralina"
+  },
+  {
+    "cd_mun": 5200852,
+    "nm_mun": "Americano do Brasil"
+  },
+  {
+    "cd_mun": 5200902,
+    "nm_mun": "Amorinópolis"
+  },
+  {
+    "cd_mun": 5201108,
+    "nm_mun": "Anápolis"
+  },
+  {
+    "cd_mun": 5201207,
+    "nm_mun": "Anhanguera"
+  },
+  {
+    "cd_mun": 5201306,
+    "nm_mun": "Anicuns"
+  },
+  {
+    "cd_mun": 5201405,
+    "nm_mun": "Aparecida de Goiânia"
+  },
+  {
+    "cd_mun": 5201454,
+    "nm_mun": "Aparecida do Rio Doce"
+  },
+  {
+    "cd_mun": 5201504,
+    "nm_mun": "Aporé"
+  },
+  {
+    "cd_mun": 5201603,
+    "nm_mun": "Araçu"
+  },
+  {
+    "cd_mun": 5201702,
+    "nm_mun": "Aragarças"
+  },
+  {
+    "cd_mun": 5201801,
+    "nm_mun": "Aragoiânia"
+  },
+  {
+    "cd_mun": 5202155,
+    "nm_mun": "Araguapaz"
+  },
+  {
+    "cd_mun": 5202353,
+    "nm_mun": "Arenópolis"
+  },
+  {
+    "cd_mun": 5202502,
+    "nm_mun": "Aruanã"
+  },
+  {
+    "cd_mun": 5202601,
+    "nm_mun": "Aurilândia"
+  },
+  {
+    "cd_mun": 5202809,
+    "nm_mun": "Avelinópolis"
+  },
+  {
+    "cd_mun": 5203104,
+    "nm_mun": "Baliza"
+  },
+  {
+    "cd_mun": 5203203,
+    "nm_mun": "Barro Alto"
+  },
+  {
+    "cd_mun": 5203302,
+    "nm_mun": "Bela Vista de Goiás"
+  },
+  {
+    "cd_mun": 5203401,
+    "nm_mun": "Bom Jardim de Goiás"
+  },
+  {
+    "cd_mun": 5203500,
+    "nm_mun": "Bom Jesus de Goiás"
+  },
+  {
+    "cd_mun": 5203559,
+    "nm_mun": "Bonfinópolis"
+  },
+  {
+    "cd_mun": 5203575,
+    "nm_mun": "Bonópolis"
+  },
+  {
+    "cd_mun": 5203609,
+    "nm_mun": "Brazabrantes"
+  },
+  {
+    "cd_mun": 5203807,
+    "nm_mun": "Britânia"
+  },
+  {
+    "cd_mun": 5203906,
+    "nm_mun": "Buriti Alegre"
+  },
+  {
+    "cd_mun": 5203939,
+    "nm_mun": "Buriti de Goiás"
+  },
+  {
+    "cd_mun": 5203962,
+    "nm_mun": "Buritinópolis"
+  },
+  {
+    "cd_mun": 5204003,
+    "nm_mun": "Cabeceiras"
+  },
+  {
+    "cd_mun": 5204102,
+    "nm_mun": "Cachoeira Alta"
+  },
+  {
+    "cd_mun": 5204201,
+    "nm_mun": "Cachoeira de Goiás"
+  },
+  {
+    "cd_mun": 5204250,
+    "nm_mun": "Cachoeira Dourada"
+  },
+  {
+    "cd_mun": 5204300,
+    "nm_mun": "Caçu"
+  },
+  {
+    "cd_mun": 5204409,
+    "nm_mun": "Caiapônia"
+  },
+  {
+    "cd_mun": 5204508,
+    "nm_mun": "Caldas Novas"
+  },
+  {
+    "cd_mun": 5204557,
+    "nm_mun": "Caldazinha"
+  },
+  {
+    "cd_mun": 5204607,
+    "nm_mun": "Campestre de Goiás"
+  },
+  {
+    "cd_mun": 5204656,
+    "nm_mun": "Campinaçu"
+  },
+  {
+    "cd_mun": 5204706,
+    "nm_mun": "Campinorte"
+  },
+  {
+    "cd_mun": 5204805,
+    "nm_mun": "Campo Alegre de Goiás"
+  },
+  {
+    "cd_mun": 5204854,
+    "nm_mun": "Campo Limpo de Goiás"
+  },
+  {
+    "cd_mun": 5204904,
+    "nm_mun": "Campos Belos"
+  },
+  {
+    "cd_mun": 5204953,
+    "nm_mun": "Campos Verdes"
+  },
+  {
+    "cd_mun": 5205000,
+    "nm_mun": "Carmo do Rio Verde"
+  },
+  {
+    "cd_mun": 5205059,
+    "nm_mun": "Castelândia"
+  },
+  {
+    "cd_mun": 5205109,
+    "nm_mun": "Catalão"
+  },
+  {
+    "cd_mun": 5205208,
+    "nm_mun": "Caturaí"
+  },
+  {
+    "cd_mun": 5205307,
+    "nm_mun": "Cavalcante"
+  },
+  {
+    "cd_mun": 5205406,
+    "nm_mun": "Ceres"
+  },
+  {
+    "cd_mun": 5205455,
+    "nm_mun": "Cezarina"
+  },
+  {
+    "cd_mun": 5205471,
+    "nm_mun": "Chapadão do Céu"
+  },
+  {
+    "cd_mun": 5205497,
+    "nm_mun": "Cidade Ocidental"
+  },
+  {
+    "cd_mun": 5205513,
+    "nm_mun": "Cocalzinho de Goiás"
+  },
+  {
+    "cd_mun": 5205521,
+    "nm_mun": "Colinas do Sul"
+  },
+  {
+    "cd_mun": 5205703,
+    "nm_mun": "Córrego do Ouro"
+  },
+  {
+    "cd_mun": 5205802,
+    "nm_mun": "Corumbá de Goiás"
+  },
+  {
+    "cd_mun": 5205901,
+    "nm_mun": "Corumbaíba"
+  },
+  {
+    "cd_mun": 5206206,
+    "nm_mun": "Cristalina"
+  },
+  {
+    "cd_mun": 5206305,
+    "nm_mun": "Cristianópolis"
+  },
+  {
+    "cd_mun": 5206404,
+    "nm_mun": "Crixás"
+  },
+  {
+    "cd_mun": 5206503,
+    "nm_mun": "Cromínia"
+  },
+  {
+    "cd_mun": 5206602,
+    "nm_mun": "Cumari"
+  },
+  {
+    "cd_mun": 5206701,
+    "nm_mun": "Damianópolis"
+  },
+  {
+    "cd_mun": 5206800,
+    "nm_mun": "Damolândia"
+  },
+  {
+    "cd_mun": 5206909,
+    "nm_mun": "Davinópolis"
+  },
+  {
+    "cd_mun": 5207105,
+    "nm_mun": "Diorama"
+  },
+  {
+    "cd_mun": 5207253,
+    "nm_mun": "Doverlândia"
+  },
+  {
+    "cd_mun": 5207352,
+    "nm_mun": "Edealina"
+  },
+  {
+    "cd_mun": 5207402,
+    "nm_mun": "Edéia"
+  },
+  {
+    "cd_mun": 5207501,
+    "nm_mun": "Estrela do Norte"
+  },
+  {
+    "cd_mun": 5207535,
+    "nm_mun": "Faina"
+  },
+  {
+    "cd_mun": 5207600,
+    "nm_mun": "Fazenda Nova"
+  },
+  {
+    "cd_mun": 5207808,
+    "nm_mun": "Firminópolis"
+  },
+  {
+    "cd_mun": 5207907,
+    "nm_mun": "Flores de Goiás"
+  },
+  {
+    "cd_mun": 5208004,
+    "nm_mun": "Formosa"
+  },
+  {
+    "cd_mun": 5208103,
+    "nm_mun": "Formoso"
+  },
+  {
+    "cd_mun": 5208152,
+    "nm_mun": "Gameleira de Goiás"
+  },
+  {
+    "cd_mun": 5208301,
+    "nm_mun": "Divinópolis de Goiás"
+  },
+  {
+    "cd_mun": 5208400,
+    "nm_mun": "Goianápolis"
+  },
+  {
+    "cd_mun": 5208509,
+    "nm_mun": "Goiandira"
+  },
+  {
+    "cd_mun": 5208608,
+    "nm_mun": "Goianésia"
+  },
+  {
+    "cd_mun": 5208707,
+    "nm_mun": "Goiânia"
+  },
+  {
+    "cd_mun": 5208806,
+    "nm_mun": "Goianira"
+  },
+  {
+    "cd_mun": 5208905,
+    "nm_mun": "Goiás"
+  },
+  {
+    "cd_mun": 5209101,
+    "nm_mun": "Goiatuba"
+  },
+  {
+    "cd_mun": 5209150,
+    "nm_mun": "Gouvelândia"
+  },
+  {
+    "cd_mun": 5209200,
+    "nm_mun": "Guapó"
+  },
+  {
+    "cd_mun": 5209291,
+    "nm_mun": "Guaraíta"
+  },
+  {
+    "cd_mun": 5209408,
+    "nm_mun": "Guarani de Goiás"
+  },
+  {
+    "cd_mun": 5209457,
+    "nm_mun": "Guarinos"
+  },
+  {
+    "cd_mun": 5209606,
+    "nm_mun": "Heitoraí"
+  },
+  {
+    "cd_mun": 5209705,
+    "nm_mun": "Hidrolândia"
+  },
+  {
+    "cd_mun": 5209804,
+    "nm_mun": "Hidrolina"
+  },
+  {
+    "cd_mun": 5209903,
+    "nm_mun": "Iaciara"
+  },
+  {
+    "cd_mun": 5209937,
+    "nm_mun": "Inaciolândia"
+  },
+  {
+    "cd_mun": 5209952,
+    "nm_mun": "Indiara"
+  },
+  {
+    "cd_mun": 5210000,
+    "nm_mun": "Inhumas"
+  },
+  {
+    "cd_mun": 5210109,
+    "nm_mun": "Ipameri"
+  },
+  {
+    "cd_mun": 5210158,
+    "nm_mun": "Ipiranga de Goiás"
+  },
+  {
+    "cd_mun": 5210208,
+    "nm_mun": "Iporá"
+  },
+  {
+    "cd_mun": 5210307,
+    "nm_mun": "Israelândia"
+  },
+  {
+    "cd_mun": 5210406,
+    "nm_mun": "Itaberaí"
+  },
+  {
+    "cd_mun": 5210562,
+    "nm_mun": "Itaguari"
+  },
+  {
+    "cd_mun": 5210604,
+    "nm_mun": "Itaguaru"
+  },
+  {
+    "cd_mun": 5210802,
+    "nm_mun": "Itajá"
+  },
+  {
+    "cd_mun": 5210901,
+    "nm_mun": "Itapaci"
+  },
+  {
+    "cd_mun": 5211008,
+    "nm_mun": "Itapirapuã"
+  },
+  {
+    "cd_mun": 5211206,
+    "nm_mun": "Itapuranga"
+  },
+  {
+    "cd_mun": 5211305,
+    "nm_mun": "Itarumã"
+  },
+  {
+    "cd_mun": 5211404,
+    "nm_mun": "Itauçu"
+  },
+  {
+    "cd_mun": 5211503,
+    "nm_mun": "Itumbiara"
+  },
+  {
+    "cd_mun": 5211602,
+    "nm_mun": "Ivolândia"
+  },
+  {
+    "cd_mun": 5211701,
+    "nm_mun": "Jandaia"
+  },
+  {
+    "cd_mun": 5211800,
+    "nm_mun": "Jaraguá"
+  },
+  {
+    "cd_mun": 5211909,
+    "nm_mun": "Jataí"
+  },
+  {
+    "cd_mun": 5212006,
+    "nm_mun": "Jaupaci"
+  },
+  {
+    "cd_mun": 5212055,
+    "nm_mun": "Jesúpolis"
+  },
+  {
+    "cd_mun": 5212105,
+    "nm_mun": "Joviânia"
+  },
+  {
+    "cd_mun": 5212204,
+    "nm_mun": "Jussara"
+  },
+  {
+    "cd_mun": 5212253,
+    "nm_mun": "Lagoa Santa"
+  },
+  {
+    "cd_mun": 5212303,
+    "nm_mun": "Leopoldo de Bulhões"
+  },
+  {
+    "cd_mun": 5212501,
+    "nm_mun": "Luziânia"
+  },
+  {
+    "cd_mun": 5212600,
+    "nm_mun": "Mairipotaba"
+  },
+  {
+    "cd_mun": 5212709,
+    "nm_mun": "Mambaí"
+  },
+  {
+    "cd_mun": 5212808,
+    "nm_mun": "Mara Rosa"
+  },
+  {
+    "cd_mun": 5212907,
+    "nm_mun": "Marzagão"
+  },
+  {
+    "cd_mun": 5212956,
+    "nm_mun": "Matrinchã"
+  },
+  {
+    "cd_mun": 5213004,
+    "nm_mun": "Maurilândia"
+  },
+  {
+    "cd_mun": 5213053,
+    "nm_mun": "Mimoso de Goiás"
+  },
+  {
+    "cd_mun": 5213087,
+    "nm_mun": "Minaçu"
+  },
+  {
+    "cd_mun": 5213103,
+    "nm_mun": "Mineiros"
+  },
+  {
+    "cd_mun": 5213400,
+    "nm_mun": "Moiporá"
+  },
+  {
+    "cd_mun": 5213509,
+    "nm_mun": "Monte Alegre de Goiás"
+  },
+  {
+    "cd_mun": 5213707,
+    "nm_mun": "Montes Claros de Goiás"
+  },
+  {
+    "cd_mun": 5213756,
+    "nm_mun": "Montividiu"
+  },
+  {
+    "cd_mun": 5213772,
+    "nm_mun": "Montividiu do Norte"
+  },
+  {
+    "cd_mun": 5213806,
+    "nm_mun": "Morrinhos"
+  },
+  {
+    "cd_mun": 5213855,
+    "nm_mun": "Morro Agudo de Goiás"
+  },
+  {
+    "cd_mun": 5213905,
+    "nm_mun": "Mossâmedes"
+  },
+  {
+    "cd_mun": 5214002,
+    "nm_mun": "Mozarlândia"
+  },
+  {
+    "cd_mun": 5214051,
+    "nm_mun": "Mundo Novo"
+  },
+  {
+    "cd_mun": 5214101,
+    "nm_mun": "Mutunópolis"
+  },
+  {
+    "cd_mun": 5214408,
+    "nm_mun": "Nazário"
+  },
+  {
+    "cd_mun": 5214507,
+    "nm_mun": "Nerópolis"
+  },
+  {
+    "cd_mun": 5214606,
+    "nm_mun": "Niquelândia"
+  },
+  {
+    "cd_mun": 5214705,
+    "nm_mun": "Nova América"
+  },
+  {
+    "cd_mun": 5214804,
+    "nm_mun": "Nova Aurora"
+  },
+  {
+    "cd_mun": 5214838,
+    "nm_mun": "Nova Crixás"
+  },
+  {
+    "cd_mun": 5214861,
+    "nm_mun": "Nova Glória"
+  },
+  {
+    "cd_mun": 5214879,
+    "nm_mun": "Nova Iguaçu de Goiás"
+  },
+  {
+    "cd_mun": 5214903,
+    "nm_mun": "Nova Roma"
+  },
+  {
+    "cd_mun": 5215009,
+    "nm_mun": "Nova Veneza"
+  },
+  {
+    "cd_mun": 5215207,
+    "nm_mun": "Novo Brasil"
+  },
+  {
+    "cd_mun": 5215231,
+    "nm_mun": "Novo Gama"
+  },
+  {
+    "cd_mun": 5215256,
+    "nm_mun": "Novo Planalto"
+  },
+  {
+    "cd_mun": 5215306,
+    "nm_mun": "Orizona"
+  },
+  {
+    "cd_mun": 5215405,
+    "nm_mun": "Ouro Verde de Goiás"
+  },
+  {
+    "cd_mun": 5215504,
+    "nm_mun": "Ouvidor"
+  },
+  {
+    "cd_mun": 5215603,
+    "nm_mun": "Padre Bernardo"
+  },
+  {
+    "cd_mun": 5215652,
+    "nm_mun": "Palestina de Goiás"
+  },
+  {
+    "cd_mun": 5215702,
+    "nm_mun": "Palmeiras de Goiás"
+  },
+  {
+    "cd_mun": 5215801,
+    "nm_mun": "Palmelo"
+  },
+  {
+    "cd_mun": 5215900,
+    "nm_mun": "Palminópolis"
+  },
+  {
+    "cd_mun": 5216007,
+    "nm_mun": "Panamá"
+  },
+  {
+    "cd_mun": 5216304,
+    "nm_mun": "Paranaiguara"
+  },
+  {
+    "cd_mun": 5216403,
+    "nm_mun": "Paraúna"
+  },
+  {
+    "cd_mun": 5216452,
+    "nm_mun": "Perolândia"
+  },
+  {
+    "cd_mun": 5216809,
+    "nm_mun": "Petrolina de Goiás"
+  },
+  {
+    "cd_mun": 5216908,
+    "nm_mun": "Pilar de Goiás"
+  },
+  {
+    "cd_mun": 5217104,
+    "nm_mun": "Piracanjuba"
+  },
+  {
+    "cd_mun": 5217203,
+    "nm_mun": "Piranhas"
+  },
+  {
+    "cd_mun": 5217302,
+    "nm_mun": "Pirenópolis"
+  },
+  {
+    "cd_mun": 5217401,
+    "nm_mun": "Pires do Rio"
+  },
+  {
+    "cd_mun": 5217609,
+    "nm_mun": "Planaltina"
+  },
+  {
+    "cd_mun": 5217708,
+    "nm_mun": "Pontalina"
+  },
+  {
+    "cd_mun": 5218003,
+    "nm_mun": "Porangatu"
+  },
+  {
+    "cd_mun": 5218052,
+    "nm_mun": "Porteirão"
+  },
+  {
+    "cd_mun": 5218102,
+    "nm_mun": "Portelândia"
+  },
+  {
+    "cd_mun": 5218300,
+    "nm_mun": "Posse"
+  },
+  {
+    "cd_mun": 5218391,
+    "nm_mun": "Professor Jamil"
+  },
+  {
+    "cd_mun": 5218508,
+    "nm_mun": "Quirinópolis"
+  },
+  {
+    "cd_mun": 5218607,
+    "nm_mun": "Rialma"
+  },
+  {
+    "cd_mun": 5218706,
+    "nm_mun": "Rianápolis"
+  },
+  {
+    "cd_mun": 5218789,
+    "nm_mun": "Rio Quente"
+  },
+  {
+    "cd_mun": 5218805,
+    "nm_mun": "Rio Verde"
+  },
+  {
+    "cd_mun": 5218904,
+    "nm_mun": "Rubiataba"
+  },
+  {
+    "cd_mun": 5219001,
+    "nm_mun": "Sanclerlândia"
+  },
+  {
+    "cd_mun": 5219100,
+    "nm_mun": "Santa Bárbara de Goiás"
+  },
+  {
+    "cd_mun": 5219209,
+    "nm_mun": "Santa Cruz de Goiás"
+  },
+  {
+    "cd_mun": 5219258,
+    "nm_mun": "Santa Fé de Goiás"
+  },
+  {
+    "cd_mun": 5219308,
+    "nm_mun": "Santa Helena de Goiás"
+  },
+  {
+    "cd_mun": 5219357,
+    "nm_mun": "Santa Isabel"
+  },
+  {
+    "cd_mun": 5219407,
+    "nm_mun": "Santa Rita do Araguaia"
+  },
+  {
+    "cd_mun": 5219456,
+    "nm_mun": "Santa Rita do Novo Destino"
+  },
+  {
+    "cd_mun": 5219506,
+    "nm_mun": "Santa Rosa de Goiás"
+  },
+  {
+    "cd_mun": 5219605,
+    "nm_mun": "Santa Tereza de Goiás"
+  },
+  {
+    "cd_mun": 5219704,
+    "nm_mun": "Santa Terezinha de Goiás"
+  },
+  {
+    "cd_mun": 5219712,
+    "nm_mun": "Santo Antônio da Barra"
+  },
+  {
+    "cd_mun": 5219738,
+    "nm_mun": "Santo Antônio de Goiás"
+  },
+  {
+    "cd_mun": 5219753,
+    "nm_mun": "Santo Antônio do Descoberto"
+  },
+  {
+    "cd_mun": 5219803,
+    "nm_mun": "São Domingos"
+  },
+  {
+    "cd_mun": 5219902,
+    "nm_mun": "São Francisco de Goiás"
+  },
+  {
+    "cd_mun": 5220009,
+    "nm_mun": "São João d'Aliança"
+  },
+  {
+    "cd_mun": 5220058,
+    "nm_mun": "São João da Paraúna"
+  },
+  {
+    "cd_mun": 5220108,
+    "nm_mun": "São Luís de Montes Belos"
+  },
+  {
+    "cd_mun": 5220157,
+    "nm_mun": "São Luiz do Norte"
+  },
+  {
+    "cd_mun": 5220207,
+    "nm_mun": "São Miguel do Araguaia"
+  },
+  {
+    "cd_mun": 5220264,
+    "nm_mun": "São Miguel do Passa Quatro"
+  },
+  {
+    "cd_mun": 5220280,
+    "nm_mun": "São Patrício"
+  },
+  {
+    "cd_mun": 5220405,
+    "nm_mun": "São Simão"
+  },
+  {
+    "cd_mun": 5220454,
+    "nm_mun": "Senador Canedo"
+  },
+  {
+    "cd_mun": 5220504,
+    "nm_mun": "Serranópolis"
+  },
+  {
+    "cd_mun": 5220603,
+    "nm_mun": "Silvânia"
+  },
+  {
+    "cd_mun": 5220686,
+    "nm_mun": "Simolândia"
+  },
+  {
+    "cd_mun": 5220702,
+    "nm_mun": "Sítio d'Abadia"
+  },
+  {
+    "cd_mun": 5221007,
+    "nm_mun": "Taquaral de Goiás"
+  },
+  {
+    "cd_mun": 5221080,
+    "nm_mun": "Teresina de Goiás"
+  },
+  {
+    "cd_mun": 5221197,
+    "nm_mun": "Terezópolis de Goiás"
+  },
+  {
+    "cd_mun": 5221304,
+    "nm_mun": "Três Ranchos"
+  },
+  {
+    "cd_mun": 5221403,
+    "nm_mun": "Trindade"
+  },
+  {
+    "cd_mun": 5221452,
+    "nm_mun": "Trombas"
+  },
+  {
+    "cd_mun": 5221502,
+    "nm_mun": "Turvânia"
+  },
+  {
+    "cd_mun": 5221551,
+    "nm_mun": "Turvelândia"
+  },
+  {
+    "cd_mun": 5221577,
+    "nm_mun": "Uirapuru"
+  },
+  {
+    "cd_mun": 5221601,
+    "nm_mun": "Uruaçu"
+  },
+  {
+    "cd_mun": 5221700,
+    "nm_mun": "Uruana"
+  },
+  {
+    "cd_mun": 5221809,
+    "nm_mun": "Urutaí"
+  },
+  {
+    "cd_mun": 5221858,
+    "nm_mun": "Valparaíso de Goiás"
+  },
+  {
+    "cd_mun": 5221908,
+    "nm_mun": "Varjão"
+  },
+  {
+    "cd_mun": 5222005,
+    "nm_mun": "Vianópolis"
+  },
+  {
+    "cd_mun": 5222054,
+    "nm_mun": "Vicentinópolis"
+  },
+  {
+    "cd_mun": 5222203,
+    "nm_mun": "Vila Boa"
+  },
+  {
+    "cd_mun": 5222302,
+    "nm_mun": "Vila Propício"
+  }
+]

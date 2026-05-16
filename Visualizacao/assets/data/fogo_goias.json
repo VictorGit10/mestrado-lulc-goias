@@ -1,0 +1,374 @@
+{
+  "unidade": "Goias (UF)",
+  "n_anos": 40,
+  "classes": [
+    "veg_nat",
+    "pastagem",
+    "agricultura",
+    "mosaico",
+    "outros",
+    "total"
+  ],
+  "serie": [
+    {
+      "ano": 1985,
+      "total": 2091625.36,
+      "veg_nat": 1446671.01,
+      "pastagem": 243971.84,
+      "agricultura": 36533.97,
+      "mosaico": 268504.54,
+      "outros": 95944.05
+    },
+    {
+      "ano": 1986,
+      "total": 1363084.0,
+      "veg_nat": 940586.4,
+      "pastagem": 154175.44,
+      "agricultura": 21878.07,
+      "mosaico": 175761.73,
+      "outros": 70682.45
+    },
+    {
+      "ano": 1987,
+      "total": 1819472.86,
+      "veg_nat": 1224734.46,
+      "pastagem": 237527.21,
+      "agricultura": 48637.81,
+      "mosaico": 225777.13,
+      "outros": 82796.3
+    },
+    {
+      "ano": 1988,
+      "total": 2365356.93,
+      "veg_nat": 1638093.01,
+      "pastagem": 321779.14,
+      "agricultura": 47317.33,
+      "mosaico": 242684.3,
+      "outros": 115483.16
+    },
+    {
+      "ano": 1989,
+      "total": 694304.88,
+      "veg_nat": 421073.48,
+      "pastagem": 128376.88,
+      "agricultura": 23996.55,
+      "mosaico": 90745.38,
+      "outros": 30112.66
+    },
+    {
+      "ano": 1990,
+      "total": 600365.89,
+      "veg_nat": 390209.1,
+      "pastagem": 92906.46,
+      "agricultura": 26557.92,
+      "mosaico": 58566.17,
+      "outros": 32126.12
+    },
+    {
+      "ano": 1991,
+      "total": 511538.45,
+      "veg_nat": 338408.48,
+      "pastagem": 86237.19,
+      "agricultura": 25655.87,
+      "mosaico": 39947.01,
+      "outros": 21289.86
+    },
+    {
+      "ano": 1992,
+      "total": 436709.16,
+      "veg_nat": 316963.05,
+      "pastagem": 49841.0,
+      "agricultura": 16543.52,
+      "mosaico": 37768.39,
+      "outros": 15593.17
+    },
+    {
+      "ano": 1993,
+      "total": 1150287.26,
+      "veg_nat": 810063.92,
+      "pastagem": 167434.06,
+      "agricultura": 38929.03,
+      "mosaico": 94496.89,
+      "outros": 39363.45
+    },
+    {
+      "ano": 1994,
+      "total": 1258809.31,
+      "veg_nat": 836868.61,
+      "pastagem": 221473.6,
+      "agricultura": 47922.85,
+      "mosaico": 105202.39,
+      "outros": 47341.89
+    },
+    {
+      "ano": 1995,
+      "total": 671966.76,
+      "veg_nat": 450048.43,
+      "pastagem": 101930.78,
+      "agricultura": 36702.64,
+      "mosaico": 50928.9,
+      "outros": 32356.0
+    },
+    {
+      "ano": 1996,
+      "total": 957245.01,
+      "veg_nat": 665371.27,
+      "pastagem": 142840.99,
+      "agricultura": 42433.06,
+      "mosaico": 66521.15,
+      "outros": 40078.49
+    },
+    {
+      "ano": 1997,
+      "total": 649936.63,
+      "veg_nat": 426994.82,
+      "pastagem": 116932.68,
+      "agricultura": 34623.94,
+      "mosaico": 44379.12,
+      "outros": 27006.07
+    },
+    {
+      "ano": 1998,
+      "total": 1555916.32,
+      "veg_nat": 1105272.87,
+      "pastagem": 275034.6,
+      "agricultura": 33293.59,
+      "mosaico": 71571.61,
+      "outros": 70743.71
+    },
+    {
+      "ano": 1999,
+      "total": 726136.97,
+      "veg_nat": 438560.42,
+      "pastagem": 149744.91,
+      "agricultura": 42058.8,
+      "mosaico": 47640.09,
+      "outros": 48132.5
+    },
+    {
+      "ano": 2000,
+      "total": 946935.33,
+      "veg_nat": 602643.97,
+      "pastagem": 183640.36,
+      "agricultura": 60878.57,
+      "mosaico": 61825.37,
+      "outros": 37947.08
+    },
+    {
+      "ano": 2001,
+      "total": 785334.24,
+      "veg_nat": 490016.08,
+      "pastagem": 155562.5,
+      "agricultura": 50877.14,
+      "mosaico": 51674.32,
+      "outros": 37204.16
+    },
+    {
+      "ano": 2002,
+      "total": 950872.44,
+      "veg_nat": 667694.0,
+      "pastagem": 146627.04,
+      "agricultura": 44240.39,
+      "mosaico": 57816.3,
+      "outros": 34494.58
+    },
+    {
+      "ano": 2003,
+      "total": 449982.99,
+      "veg_nat": 250836.35,
+      "pastagem": 98330.15,
+      "agricultura": 29831.79,
+      "mosaico": 42534.77,
+      "outros": 28449.88
+    },
+    {
+      "ano": 2004,
+      "total": 998182.98,
+      "veg_nat": 704114.9,
+      "pastagem": 141617.53,
+      "agricultura": 51028.41,
+      "mosaico": 57343.35,
+      "outros": 44078.73
+    },
+    {
+      "ano": 2005,
+      "total": 705892.73,
+      "veg_nat": 480884.5,
+      "pastagem": 104116.64,
+      "agricultura": 42043.42,
+      "mosaico": 44270.7,
+      "outros": 34577.37
+    },
+    {
+      "ano": 2006,
+      "total": 463108.94,
+      "veg_nat": 299126.33,
+      "pastagem": 65630.42,
+      "agricultura": 39611.12,
+      "mosaico": 32035.46,
+      "outros": 26705.51
+    },
+    {
+      "ano": 2007,
+      "total": 1622336.12,
+      "veg_nat": 1171484.92,
+      "pastagem": 229155.04,
+      "agricultura": 83185.18,
+      "mosaico": 69924.84,
+      "outros": 68586.29
+    },
+    {
+      "ano": 2008,
+      "total": 570430.54,
+      "veg_nat": 311782.03,
+      "pastagem": 106795.24,
+      "agricultura": 77058.03,
+      "mosaico": 42482.04,
+      "outros": 32313.26
+    },
+    {
+      "ano": 2009,
+      "total": 289305.67,
+      "veg_nat": 132678.41,
+      "pastagem": 52702.68,
+      "agricultura": 58437.67,
+      "mosaico": 28929.34,
+      "outros": 16557.58
+    },
+    {
+      "ano": 2010,
+      "total": 1803402.27,
+      "veg_nat": 1268718.04,
+      "pastagem": 297149.82,
+      "agricultura": 100019.04,
+      "mosaico": 70283.63,
+      "outros": 67231.65
+    },
+    {
+      "ano": 2011,
+      "total": 681792.28,
+      "veg_nat": 399479.68,
+      "pastagem": 132979.61,
+      "agricultura": 75303.35,
+      "mosaico": 50754.76,
+      "outros": 23274.89
+    },
+    {
+      "ano": 2012,
+      "total": 798537.76,
+      "veg_nat": 575196.96,
+      "pastagem": 90868.28,
+      "agricultura": 59357.59,
+      "mosaico": 41839.66,
+      "outros": 31275.36
+    },
+    {
+      "ano": 2013,
+      "total": 212610.37,
+      "veg_nat": 103584.67,
+      "pastagem": 38233.6,
+      "agricultura": 36929.3,
+      "mosaico": 21633.36,
+      "outros": 12229.44
+    },
+    {
+      "ano": 2014,
+      "total": 854255.74,
+      "veg_nat": 599116.37,
+      "pastagem": 108905.18,
+      "agricultura": 80483.82,
+      "mosaico": 32679.48,
+      "outros": 33070.85
+    },
+    {
+      "ano": 2015,
+      "total": 488391.56,
+      "veg_nat": 317890.9,
+      "pastagem": 87366.59,
+      "agricultura": 40411.01,
+      "mosaico": 24327.68,
+      "outros": 18395.41
+    },
+    {
+      "ano": 2016,
+      "total": 457159.79,
+      "veg_nat": 290396.33,
+      "pastagem": 67362.0,
+      "agricultura": 50176.21,
+      "mosaico": 23658.9,
+      "outros": 25566.32
+    },
+    {
+      "ano": 2017,
+      "total": 734681.85,
+      "veg_nat": 545914.65,
+      "pastagem": 68734.9,
+      "agricultura": 57072.84,
+      "mosaico": 25754.78,
+      "outros": 37204.64
+    },
+    {
+      "ano": 2018,
+      "total": 220927.36,
+      "veg_nat": 104057.87,
+      "pastagem": 49192.11,
+      "agricultura": 40964.78,
+      "mosaico": 16193.47,
+      "outros": 10519.14
+    },
+    {
+      "ano": 2019,
+      "total": 782540.61,
+      "veg_nat": 537196.03,
+      "pastagem": 120653.48,
+      "agricultura": 55370.26,
+      "mosaico": 37740.0,
+      "outros": 31580.82
+    },
+    {
+      "ano": 2020,
+      "total": 410095.49,
+      "veg_nat": 222228.49,
+      "pastagem": 82051.4,
+      "agricultura": 51222.77,
+      "mosaico": 32079.44,
+      "outros": 22513.5
+    },
+    {
+      "ano": 2021,
+      "total": 712613.11,
+      "veg_nat": 519922.39,
+      "pastagem": 79870.06,
+      "agricultura": 44812.98,
+      "mosaico": 38165.45,
+      "outros": 29842.26
+    },
+    {
+      "ano": 2022,
+      "total": 405995.2,
+      "veg_nat": 252343.0,
+      "pastagem": 56843.79,
+      "agricultura": 51110.84,
+      "mosaico": 28506.82,
+      "outros": 17190.7
+    },
+    {
+      "ano": 2023,
+      "total": 260820.24,
+      "veg_nat": 144628.9,
+      "pastagem": 35846.04,
+      "agricultura": 40717.88,
+      "mosaico": 26575.73,
+      "outros": 13051.67
+    },
+    {
+      "ano": 2024,
+      "total": 450243.15,
+      "veg_nat": 194740.65,
+      "pastagem": 68157.35,
+      "agricultura": 119622.77,
+      "mosaico": 40681.53,
+      "outros": 27040.87
+    }
+  ]
+}

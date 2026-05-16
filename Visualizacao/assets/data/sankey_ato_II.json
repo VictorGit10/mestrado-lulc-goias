@@ -1,0 +1,142 @@
+{
+  "ato": "II",
+  "titulo": "Plano Real e Lei Kandir",
+  "ano_ini": 1994,
+  "ano_fim": 2002,
+  "nodes": [
+    {
+      "id": "Vegetacao Natural_1994",
+      "label": "Vegetacao Natural (1994)",
+      "color": "#2d5a3d"
+    },
+    {
+      "id": "Pastagem_1994",
+      "label": "Pastagem (1994)",
+      "color": "#d4b65a"
+    },
+    {
+      "id": "Agricultura_1994",
+      "label": "Agricultura (1994)",
+      "color": "#d96aa3"
+    },
+    {
+      "id": "Agua_1994",
+      "label": "Agua (1994)",
+      "color": "#4a7ba6"
+    },
+    {
+      "id": "Area Urbana_1994",
+      "label": "Area Urbana (1994)",
+      "color": "#8a8a82"
+    },
+    {
+      "id": "Outros_1994",
+      "label": "Outros (1994)",
+      "color": "#b8a98a"
+    },
+    {
+      "id": "Vegetacao Natural_2002",
+      "label": "Vegetacao Natural (2002)",
+      "color": "#2d5a3d"
+    },
+    {
+      "id": "Pastagem_2002",
+      "label": "Pastagem (2002)",
+      "color": "#d4b65a"
+    },
+    {
+      "id": "Agricultura_2002",
+      "label": "Agricultura (2002)",
+      "color": "#d96aa3"
+    },
+    {
+      "id": "Agua_2002",
+      "label": "Agua (2002)",
+      "color": "#4a7ba6"
+    },
+    {
+      "id": "Area Urbana_2002",
+      "label": "Area Urbana (2002)",
+      "color": "#8a8a82"
+    },
+    {
+      "id": "Outros_2002",
+      "label": "Outros (2002)",
+      "color": "#b8a98a"
+    }
+  ],
+  "links": [
+    {
+      "source": "Vegetacao Natural_1994",
+      "target": "Pastagem_2002",
+      "value": 1.4975,
+      "color": "#2d5a3d"
+    },
+    {
+      "source": "Vegetacao Natural_1994",
+      "target": "Agricultura_2002",
+      "value": 0.0528,
+      "color": "#2d5a3d"
+    },
+    {
+      "source": "Vegetacao Natural_1994",
+      "target": "Agua_2002",
+      "value": 0.121,
+      "color": "#2d5a3d"
+    },
+    {
+      "source": "Vegetacao Natural_1994",
+      "target": "Outros_2002",
+      "value": 0.0451,
+      "color": "#2d5a3d"
+    },
+    {
+      "source": "Pastagem_1994",
+      "target": "Vegetacao Natural_2002",
+      "value": 0.4224,
+      "color": "#d4b65a"
+    },
+    {
+      "source": "Pastagem_1994",
+      "target": "Agricultura_2002",
+      "value": 0.7408,
+      "color": "#d4b65a"
+    },
+    {
+      "source": "Pastagem_1994",
+      "target": "Area Urbana_2002",
+      "value": 0.0208,
+      "color": "#d4b65a"
+    },
+    {
+      "source": "Agricultura_1994",
+      "target": "Pastagem_2002",
+      "value": 0.4016,
+      "color": "#d96aa3"
+    },
+    {
+      "source": "Agua_1994",
+      "target": "Vegetacao Natural_2002",
+      "value": 0.0402,
+      "color": "#4a7ba6"
+    },
+    {
+      "source": "Agua_1994",
+      "target": "Outros_2002",
+      "value": 0.0348,
+      "color": "#4a7ba6"
+    },
+    {
+      "source": "Outros_1994",
+      "target": "Vegetacao Natural_2002",
+      "value": 0.0443,
+      "color": "#b8a98a"
+    },
+    {
+      "source": "Outros_1994",
+      "target": "Pastagem_2002",
+      "value": 0.0613,
+      "color": "#b8a98a"
+    }
+  ]
+}

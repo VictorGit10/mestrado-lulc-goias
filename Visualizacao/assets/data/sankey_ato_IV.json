@@ -1,0 +1,118 @@
+{
+  "ato": "IV",
+  "titulo": "Codigo Florestal",
+  "ano_ini": 2012,
+  "ano_fim": 2017,
+  "nodes": [
+    {
+      "id": "Vegetacao Natural_2012",
+      "label": "Vegetacao Natural (2012)",
+      "color": "#2d5a3d"
+    },
+    {
+      "id": "Pastagem_2012",
+      "label": "Pastagem (2012)",
+      "color": "#d4b65a"
+    },
+    {
+      "id": "Agricultura_2012",
+      "label": "Agricultura (2012)",
+      "color": "#d96aa3"
+    },
+    {
+      "id": "Agua_2012",
+      "label": "Agua (2012)",
+      "color": "#4a7ba6"
+    },
+    {
+      "id": "Area Urbana_2012",
+      "label": "Area Urbana (2012)",
+      "color": "#8a8a82"
+    },
+    {
+      "id": "Outros_2012",
+      "label": "Outros (2012)",
+      "color": "#b8a98a"
+    },
+    {
+      "id": "Vegetacao Natural_2017",
+      "label": "Vegetacao Natural (2017)",
+      "color": "#2d5a3d"
+    },
+    {
+      "id": "Pastagem_2017",
+      "label": "Pastagem (2017)",
+      "color": "#d4b65a"
+    },
+    {
+      "id": "Agricultura_2017",
+      "label": "Agricultura (2017)",
+      "color": "#d96aa3"
+    },
+    {
+      "id": "Agua_2017",
+      "label": "Agua (2017)",
+      "color": "#4a7ba6"
+    },
+    {
+      "id": "Area Urbana_2017",
+      "label": "Area Urbana (2017)",
+      "color": "#8a8a82"
+    },
+    {
+      "id": "Outros_2017",
+      "label": "Outros (2017)",
+      "color": "#b8a98a"
+    }
+  ],
+  "links": [
+    {
+      "source": "Vegetacao Natural_2012",
+      "target": "Pastagem_2017",
+      "value": 0.5029,
+      "color": "#2d5a3d"
+    },
+    {
+      "source": "Vegetacao Natural_2012",
+      "target": "Agricultura_2017",
+      "value": 0.0278,
+      "color": "#2d5a3d"
+    },
+    {
+      "source": "Pastagem_2012",
+      "target": "Vegetacao Natural_2017",
+      "value": 0.2566,
+      "color": "#d4b65a"
+    },
+    {
+      "source": "Pastagem_2012",
+      "target": "Agricultura_2017",
+      "value": 0.764,
+      "color": "#d4b65a"
+    },
+    {
+      "source": "Agricultura_2012",
+      "target": "Pastagem_2017",
+      "value": 0.245,
+      "color": "#d96aa3"
+    },
+    {
+      "source": "Agua_2012",
+      "target": "Vegetacao Natural_2017",
+      "value": 0.0208,
+      "color": "#4a7ba6"
+    },
+    {
+      "source": "Agua_2012",
+      "target": "Pastagem_2017",
+      "value": 0.0233,
+      "color": "#4a7ba6"
+    },
+    {
+      "source": "Agua_2012",
+      "target": "Outros_2017",
+      "value": 0.0272,
+      "color": "#4a7ba6"
+    }
+  ]
+}
