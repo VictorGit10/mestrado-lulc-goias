@@ -28,11 +28,9 @@
   // Atos territoriais — definicao canonica (espelha index.html).
   // Cada ato delimita uma faixa contigua de anos (inclusivo).
   const ATOS = [
-    { id: "heranca",        titulo: "I. Pastagem como herança",   anoInicio: 1985, anoFim: 1993, cor: "#8b3a1d" },
-    { id: "soja-sudoeste",  titulo: "II. Soja no sudoeste",        anoInicio: 1994, anoFim: 2002, cor: "#a85234" },
-    { id: "boom-commodity", titulo: "III. Boom de commodities",    anoInicio: 2003, anoFim: 2011, cor: "#c97052" },
-    { id: "intensificacao", titulo: "IV. Código Florestal",        anoInicio: 2012, anoFim: 2017, cor: "#5c8a6f" },
-    { id: "reorganizacao",  titulo: "V. Reorganização",            anoInicio: 2018, anoFim: 2024, cor: "#2d5a3d" }
+    { id: "heranca",        titulo: "I. Pastagem como herança",     anoInicio: 1985, anoFim: 2000, cor: "#8b3a1d" },
+    { id: "expansao",       titulo: "II. Expansão e intensificação", anoInicio: 2001, anoFim: 2019, cor: "#a85234" },
+    { id: "conversao",      titulo: "III. Conversão seletiva",       anoInicio: 2020, anoFim: 2024, cor: "#2d5a3d" }
   ];
 
   function eraDoAno(ano) {

@@ -1,8 +1,8 @@
 {
   "ato": "I",
-  "titulo": "Heranca Cerradeira",
+  "titulo": "Pastagem como herança",
   "ano_ini": 1985,
-  "ano_fim": 1993,
+  "ano_fim": 2000,
   "nodes": [
     {
       "id": "Vegetacao Natural_1985",
@@ -35,101 +35,125 @@
       "color": "#b8a98a"
     },
     {
-      "id": "Vegetacao Natural_1993",
-      "label": "Vegetacao Natural (1993)",
+      "id": "Vegetacao Natural_2000",
+      "label": "Vegetacao Natural (2000)",
       "color": "#2d5a3d"
     },
     {
-      "id": "Pastagem_1993",
-      "label": "Pastagem (1993)",
+      "id": "Pastagem_2000",
+      "label": "Pastagem (2000)",
       "color": "#d4b65a"
     },
     {
-      "id": "Agricultura_1993",
-      "label": "Agricultura (1993)",
+      "id": "Agricultura_2000",
+      "label": "Agricultura (2000)",
       "color": "#d96aa3"
     },
     {
-      "id": "Agua_1993",
-      "label": "Agua (1993)",
+      "id": "Agua_2000",
+      "label": "Agua (2000)",
       "color": "#4a7ba6"
     },
     {
-      "id": "Area Urbana_1993",
-      "label": "Area Urbana (1993)",
+      "id": "Area Urbana_2000",
+      "label": "Area Urbana (2000)",
       "color": "#8a8a82"
     },
     {
-      "id": "Outros_1993",
-      "label": "Outros (1993)",
+      "id": "Outros_2000",
+      "label": "Outros (2000)",
       "color": "#b8a98a"
     }
   ],
   "links": [
     {
       "source": "Vegetacao Natural_1985",
-      "target": "Pastagem_1993",
-      "value": 2.0733,
+      "target": "Pastagem_2000",
+      "value": 3.4816,
       "color": "#2d5a3d"
     },
     {
       "source": "Vegetacao Natural_1985",
-      "target": "Agricultura_1993",
-      "value": 0.0744,
+      "target": "Agricultura_2000",
+      "value": 0.1234,
       "color": "#2d5a3d"
     },
     {
       "source": "Vegetacao Natural_1985",
-      "target": "Agua_1993",
-      "value": 0.0222,
+      "target": "Agua_2000",
+      "value": 0.1336,
       "color": "#2d5a3d"
     },
     {
       "source": "Vegetacao Natural_1985",
-      "target": "Outros_1993",
-      "value": 0.0707,
+      "target": "Outros_2000",
+      "value": 0.1161,
       "color": "#2d5a3d"
     },
     {
       "source": "Pastagem_1985",
-      "target": "Vegetacao Natural_1993",
-      "value": 0.3358,
+      "target": "Vegetacao Natural_2000",
+      "value": 0.7058,
       "color": "#d4b65a"
     },
     {
       "source": "Pastagem_1985",
-      "target": "Agricultura_1993",
-      "value": 0.7988,
+      "target": "Agricultura_2000",
+      "value": 1.4276,
+      "color": "#d4b65a"
+    },
+    {
+      "source": "Pastagem_1985",
+      "target": "Area Urbana_2000",
+      "value": 0.0371,
+      "color": "#d4b65a"
+    },
+    {
+      "source": "Pastagem_1985",
+      "target": "Outros_2000",
+      "value": 0.0267,
       "color": "#d4b65a"
     },
     {
       "source": "Agricultura_1985",
-      "target": "Pastagem_1993",
-      "value": 0.1777,
+      "target": "Pastagem_2000",
+      "value": 0.5428,
       "color": "#d96aa3"
     },
     {
       "source": "Agua_1985",
-      "target": "Vegetacao Natural_1993",
-      "value": 0.0223,
+      "target": "Vegetacao Natural_2000",
+      "value": 0.0608,
+      "color": "#4a7ba6"
+    },
+    {
+      "source": "Agua_1985",
+      "target": "Outros_2000",
+      "value": 0.0455,
       "color": "#4a7ba6"
     },
     {
       "source": "Outros_1985",
-      "target": "Vegetacao Natural_1993",
-      "value": 0.0568,
+      "target": "Vegetacao Natural_2000",
+      "value": 0.0965,
       "color": "#b8a98a"
     },
     {
       "source": "Outros_1985",
-      "target": "Pastagem_1993",
-      "value": 0.1065,
+      "target": "Pastagem_2000",
+      "value": 0.1661,
       "color": "#b8a98a"
     },
     {
       "source": "Outros_1985",
-      "target": "Agricultura_1993",
-      "value": 0.0206,
+      "target": "Agricultura_2000",
+      "value": 0.0348,
+      "color": "#b8a98a"
+    },
+    {
+      "source": "Outros_1985",
+      "target": "Agua_2000",
+      "value": 0.0317,
       "color": "#b8a98a"
     }
   ]

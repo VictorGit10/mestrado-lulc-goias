@@ -30,41 +30,25 @@
       era: "heranca",
       ato: "Ato I",
       start: 1985,
-      end: 1993,
-      titulo: "Heranca cerradeira",
-      resumo: "pastagem domina e a soja ainda e pontual"
+      end: 2000,
+      titulo: "Pastagem como herança",
+      resumo: "pastagem domina e a soja ainda é pontual"
     },
     {
-      era: "soja-sudoeste",
+      era: "expansao",
       ato: "Ato II",
-      start: 1994,
-      end: 2002,
-      titulo: "Soja chega ao sudoeste",
-      resumo: "a estabilizacao abre espaco para a expansao agricola"
+      start: 2001,
+      end: 2019,
+      titulo: "Expansão e intensificação",
+      resumo: "soja avança sobre pastagem; intensificação sem fronteira"
     },
     {
-      era: "boom-commodity",
+      era: "conversao",
       ato: "Ato III",
-      start: 2003,
-      end: 2011,
-      titulo: "Boom de commodities",
-      resumo: "a matriz soja-milho avanca sobre pastagens"
-    },
-    {
-      era: "intensificacao",
-      ato: "Ato IV",
-      start: 2012,
-      end: 2017,
-      titulo: "Intensificacao regulada",
-      resumo: "a pastagem recua e a produtividade ganha peso"
-    },
-    {
-      era: "reorganizacao",
-      ato: "Ato V",
-      start: 2018,
+      start: 2020,
       end: 2024,
-      titulo: "Reorganizacao territorial",
-      resumo: "cadeias e frentes produtivas se reorganizam"
+      titulo: "Conversão seletiva",
+      resumo: "vegetação se recupera; pastagem perde área"
     }
   ];
 
@@ -650,11 +634,9 @@ function moverCursorSparkline(ano) {
   // -------------------- gerar steps anuais --------------------
   function gerarStepsAnuais() {
     const eraRanges = [
-      { era: 'heranca',        ato: 'I',   start: 1985, end: 1993 },
-      { era: 'soja-sudoeste',  ato: 'II',  start: 1994, end: 2002 },
-      { era: 'boom-commodity', ato: 'III', start: 2003, end: 2011 },
-      { era: 'intensificacao', ato: 'IV',  start: 2012, end: 2017 },
-      { era: 'reorganizacao',  ato: 'V',   start: 2018, end: 2024 },
+      { era: 'heranca',  ato: 'I',   start: 1985, end: 2000 },
+      { era: 'expansao', ato: 'II',  start: 2001, end: 2019 },
+      { era: 'conversao', ato: 'III', start: 2020, end: 2024 },
     ];
     eraRanges.forEach(({ era, ato, start, end }) => {
       const eraCard = document.querySelector(`.step--era[data-era="${era}"]`);

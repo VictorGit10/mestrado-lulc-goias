@@ -236,7 +236,8 @@ def mapa_transicao_dominante(df: pd.DataFrame, gdf: "gpd.GeoDataFrame",
         handles.append(Patch(facecolor="#e0e0e0", edgecolor="black",
                              label="Sem mudança detectada"))
     ax.legend(handles=handles, loc="lower right", fontsize=8,
-              title=f"Classe destino dominante\n(maior mudança {ano_orig}→{ano_dest})")
+              title=f"Classe destino dominante\n(maior mudança {ano_orig}→{ano_dest})",
+              borderaxespad=-1.2)
 
     ax.set_title(f"Transição Dominante por Município — Goiás {ano_orig}→{ano_dest}", fontsize=13)
     ax.set_axis_off()

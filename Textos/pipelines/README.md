@@ -32,6 +32,9 @@
 | 24 | [24_analise_espacial.md](24_analise_espacial.md) | `analise_espacial.py` | Moran's I, LISA, regressão espacial (OLS/SAR/SEM) | 2013–2021 | Municipal | ✅ |
 | 26 | [26_deteccao_quebras.md](26_deteccao_quebras.md) | `deteccao_quebras.py` | Detecção de quebras estruturais (sup-F + binary segmentation) GO+TO | 1985–2024 | UF | ✅ |
 | 28 | [28_idade_pastagem.md](28_idade_pastagem.md) | `coleta_idade_pastagem.py` + `analise_reserva_terra.py` | Idade da pastagem na conversão para agricultura (hipótese "reserva de terra") | 1986–2024 | Pixel amostrado (78k) + municipal | ✅ |
+| 29 | [29_triangulacao_periodizacao.md](29_triangulacao_periodizacao.md) | `periodizacao_multivariada.py` + `periodizacao_stars.py` + `periodizacao_transicoes.py` | Triangulação para periodização data-driven (sup-F multivariado + STARS + KL/TV) | 1985–2024 | UF (GO) | ✅ |
+| 30 | (em #29) | `verificacao_periodizacao.py` | Verificação de sanidade (FPR, sensibilidade, consistência) | 1985–2024 | UF (GO) | ✅ |
+| 31 | (em #29) | `intensity_analysis.py` + `verificacao_intensity.py` | Intensity Analysis (Aldwaik & Pontius 2012) + diagnóstico P2 vs P3 | 1985–2024 | UF (GO) | ✅ |
 
 ## Como os pipelines se cruzam
 
@@ -51,6 +54,9 @@
 - **#21** consome #17 (taxas UF) e #16 (painel socioeconômico) para correlações UF em primeiras diferenças (D7).
 - **#22** consome #17 (taxas municipais) e #16 (painel socioeconômico) para painel 2-way FE (D8). Resíduos alimentam análise espacial (Moran's I).
 - **#23** consome #17 (taxas GO) + séries MT/TO baixadas via GEE. DiD piecewise (D9).
+- **#29** consome #17 (taxas GO) e #19 (transições). Triangulação de 3 métodos para estabelecer fronteiras data-driven dos atos. Define `config_periodos.py` (ATOS, MARCOS) que #20, #23, #26, #28, #31 importam.
+- **#30** (verificação de sanidade) consome #29a diretamente. Testa FPR, sensibilidade de parâmetros, consistência univariado vs multivariado, robustez STARS.
+- **#31** consome #19 (transições) e #17 (taxas). Intensity Analysis (Aldwaik & Pontius 2012) para testar se P2 e P3 diferem em taxa de mudança. Diagnóstico complementar para fronteira 2005/2006.
 
 ## Convenções
 

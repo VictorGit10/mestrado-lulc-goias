@@ -145,7 +145,8 @@ def compor_mapa(raw_bytes: bytes, ano: int, gdf_go, out_path: Path) -> None:
     handles = [Patch(facecolor=info["cor"], edgecolor="black", label=nome)
                for nome, info in CLASSES.items()]
     ax.legend(handles=handles, loc="lower right", frameon=True, fontsize=8,
-              title="Classe (6 grupos)", title_fontsize=9)
+              title="Classe (6 grupos)", title_fontsize=9,
+              borderaxespad=-1.2)
 
     # Barra de escala: pixels do thumbnail mapeiam para extent real de GO em metros
     bbox_5880 = gdf_go.to_crs(5880).total_bounds  # [minx, miny, maxx, maxy] em metros
@@ -160,42 +161,62 @@ def compor_mapa(raw_bytes: bytes, ano: int, gdf_go, out_path: Path) -> None:
 
 
 def main() -> None:
-    init_ee()
+    # Lazy init: so conecta ao GEE se algum RAW estiver faltando
+    gee_inicializado = False
+    img_full = None
+    geom = None
+    gdf_go = None
+    from_ids = to_ids = palette = None
+    region_coords = None
 
-    img_full = ee.Image(ASSET)
-    geom, gdf_go = carregar_geometria_go()
-    from_ids, to_ids, palette = construir_remap_palette()
-
-    region_coords = geom.bounds().coordinates().getInfo()
-    print(f"Goiás bbox carregado. Iniciando 40 anos ({ANO_MIN}–{ANO_MAX}).")
+    # Carrega geometria de GO localmente (sem GEE) para o calculo de escala
+    import geobr as _geobr
+    gdf_go_local = _geobr.read_state(code_state="GO", year=2020).to_crs(4326)
+    print(f"Iniciando 40 anos ({ANO_MIN}–{ANO_MAX}).")
 
     for i, ano in enumerate(range(ANO_MIN, ANO_MAX + 1), start=1):
         out_path = OUT_DIR / f"cobertura_{ano}.png"
+        raw_path = RAW_DIR / f"raw_{ano}.png"
+
         if out_path.exists():
-            print(f"[{i:02d}/40] {out_path.name} — já existe, pulando")
+            print(f"[{i:02d}/40] {out_path.name} — ja existe, pulando")
             continue
 
-        banda = f"classification_{ano}"
-        img = (img_full.select(banda)
-                       .clip(geom)
-                       .remap(from_ids, to_ids, 0)
-                       .selfMask())
-
-        params = {
-            "region": region_coords,
-            "dimensions": THUMB_DIM,
-            "format": "png",
-            "min": 1,
-            "max": 6,
-            "palette": palette,
-        }
-
         t0 = time.time()
-        raw = baixar_thumbnail(img, params)
-        (RAW_DIR / f"raw_{ano}.png").write_bytes(raw)
 
-        compor_mapa(raw, ano, gdf_go, out_path)
-        print(f"[{i:02d}/40] {out_path.name}  ({time.time() - t0:.1f}s)")
+        # Reusar RAW em cache, se existir — evita chamada GEE
+        if raw_path.exists():
+            raw = raw_path.read_bytes()
+            origem = "cache"
+        else:
+            if not gee_inicializado:
+                init_ee()
+                img_full = ee.Image(ASSET)
+                geom, gdf_go = carregar_geometria_go()
+                from_ids, to_ids, palette = construir_remap_palette()
+                region_coords = geom.bounds().coordinates().getInfo()
+                gee_inicializado = True
+
+            banda = f"classification_{ano}"
+            img = (img_full.select(banda)
+                           .clip(geom)
+                           .remap(from_ids, to_ids, 0)
+                           .selfMask())
+
+            params = {
+                "region": region_coords,
+                "dimensions": THUMB_DIM,
+                "format": "png",
+                "min": 1,
+                "max": 6,
+                "palette": palette,
+            }
+            raw = baixar_thumbnail(img, params)
+            raw_path.write_bytes(raw)
+            origem = "GEE"
+
+        compor_mapa(raw, ano, gdf_go_local, out_path)
+        print(f"[{i:02d}/40] {out_path.name}  ({time.time() - t0:.1f}s, {origem})")
 
     print(f"OK — 40 mapas em {OUT_DIR}")
 

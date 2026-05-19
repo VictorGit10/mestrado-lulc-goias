@@ -1,11 +1,11 @@
-/* mini-sankey.js — Mini-diagramas de Sankey ao final de cada ATO (I..V).
+/* mini-sankey.js — Mini-diagramas de Sankey ao final de cada ATO (I..III).
  * Reutiliza D3 + d3-sankey carregados pelo sankey.js. Render lazy via
  * IntersectionObserver: dispara quando o container do ato entra na viewport.
  */
 (function (root) {
   "use strict";
 
-  const ATOS = ["I", "II", "III", "IV", "V"];
+  const ATOS = ["I", "II", "III"];
   const renderizados = new Set();
   const cache = {};
 

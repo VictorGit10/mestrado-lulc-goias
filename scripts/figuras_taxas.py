@@ -57,22 +57,17 @@ CLASSE_COR = {
     "agricultura": "#FF69B4",
 }
 
-# Marcos políticos (do marcos.json, sem 1985 e 2024 que são extremos)
-MARCOS = {
-    1994: "Plano Real",
-    1996: "Lei Kandir",
-    2003: "Boom commodities",
-    2012: "Código Florestal",
-    2018: "Cerrado Manifesto",
-}
+from config_periodos import ATOS as ATOS_DICT, MARCOS as MARCOS_DICT, CORES_ATO
 
-# ATOS (de utils.js, para fundo sombreado)
+# Marcos políticos (sem 1985 e 2024 que sao extremos da serie)
+MARCOS = {ano: m["titulo"] for ano, m in MARCOS_DICT.items() if ano not in (1985, 2024)}
+
+# ATOS (para fundo sombreado, com cores de utils.js)
 ATOS = [
-    {"inicio": 1985, "fim": 1993, "cor": "#8b3a1d", "alpha": 0.04, "rotulo": "I"},
-    {"inicio": 1994, "fim": 2002, "cor": "#a85234", "alpha": 0.04, "rotulo": "II"},
-    {"inicio": 2003, "fim": 2011, "cor": "#c97052", "alpha": 0.04, "rotulo": "III"},
-    {"inicio": 2012, "fim": 2017, "cor": "#5c8a6f", "alpha": 0.06, "rotulo": "IV"},
-    {"inicio": 2018, "fim": 2024, "cor": "#2d5a3d", "alpha": 0.04, "rotulo": "V"},
+    {"inicio": ATOS_DICT[k]["inicio"], "fim": ATOS_DICT[k]["fim"],
+     "cor": CORES_ATO[k], "alpha": 0.04 if k != "IV" else 0.06,
+     "rotulo": k}
+    for k in ATOS_DICT
 ]
 
 

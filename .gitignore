@@ -19,6 +19,12 @@ outputs/
 !Visualizacao/assets/data/
 !Visualizacao/assets/data/**
 
+# Trabalho paralelo (duplicata não-rastreada de TrabalhoParalelo/)
+Trabalho paralelo/
+
+# Scripts auxiliares descartáveis
+scripts/_preview_*.py
+
 # IDE e Sistema
 .claude/
 .vscode/

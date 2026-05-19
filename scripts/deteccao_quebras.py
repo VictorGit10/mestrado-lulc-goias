@@ -64,14 +64,10 @@ MAX_BREAKS = 3                     # máximo de quebras por série (binseg)
 F_THRESHOLD = 5.0                  # F-stat mínimo para aceitar nova quebra
 TOL_MARCO = 2                      # tolerância (anos) ao cruzar com marcos
 
-MARCOS_TEORICOS = {
-    1994: "Plano Real",
-    1996: "Lei Kandir",
-    2002: "Plano Safra",
-    2003: "Boom commodities",
-    2012: "Código Florestal",
-    2018: "Cerrado Manifesto",
-}
+from config_periodos import MARCOS as MARCOS_FULL
+
+# Marcos teoricos para cruzar com quebras detectadas (sem 1985 e 2024)
+MARCOS_TEORICOS = {ano: m["titulo"] for ano, m in MARCOS_FULL.items() if ano not in (1985, 2024)}
 
 # ─────────────────────────── Quandt-Andrews ───────────────────────────
 

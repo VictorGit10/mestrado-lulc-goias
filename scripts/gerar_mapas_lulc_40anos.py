@@ -123,6 +123,7 @@ def gerar_mapas(dominante_wide: pd.DataFrame, gdf_munis: gpd.GeoDataFrame) -> No
             fontsize=8,
             title="Classe dominante",
             title_fontsize=8,
+            borderaxespad=-1.2,
         )
 
         # ScaleBar em CRS geográfico (EPSG:4674): dx=111000 m/grau é

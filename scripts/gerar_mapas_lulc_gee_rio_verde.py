@@ -168,7 +168,8 @@ def compor_mapa(raw_bytes: bytes, ano: int, gdf_rv, gdf_vizinhos,
     handles = [Patch(facecolor=info["cor"], edgecolor="black", label=nome)
                for nome, info in CLASSES.items()]
     ax.legend(handles=handles, loc="lower right", frameon=True, fontsize=8,
-              title="Classe (6 grupos)", title_fontsize=9)
+              title="Classe (6 grupos)", title_fontsize=9,
+              borderaxespad=-1.2)
 
     bbox_5880 = gdf_rv.to_crs(5880).total_bounds
     largura_metros = bbox_5880[2] - bbox_5880[0]
@@ -182,44 +183,73 @@ def compor_mapa(raw_bytes: bytes, ano: int, gdf_rv, gdf_vizinhos,
 
 
 def main() -> None:
-    init_ee()
+    # Carregar geometrias localmente (geobr — sem GEE)
+    gdf_rv = geobr.read_municipality(code_muni=COD_RIO_VERDE, year=2020).to_crs(4326)
+    gdf_vizinhos_full = geobr.read_municipality(code_muni="GO", year=2020).to_crs(4326)
+    rv_geom_local = gdf_rv.iloc[0].geometry
+    gdf_vizinhos = gdf_vizinhos_full[
+        gdf_vizinhos_full.intersects(rv_geom_local)
+        & (gdf_vizinhos_full["code_muni"].astype(int) != COD_RIO_VERDE)
+    ].copy()
 
-    img_full = ee.Image(ASSET)
-    geom, gdf_rv = carregar_geometria_rio_verde()
-    gdf_vizinhos = carregar_vizinhos(gdf_rv)
-    from_ids, to_ids, palette = construir_remap_palette()
+    # Bounds em EPSG:4326 — mesmos do region_coords antigo, mas sem GEE
+    minx, miny, maxx, maxy = gdf_rv.total_bounds
+    region_coords_local = [[
+        [minx, miny], [maxx, miny], [maxx, maxy], [minx, maxy], [minx, miny],
+    ]]
 
-    region_coords = geom.bounds().coordinates().getInfo()
     n_viz = len(gdf_vizinhos)
     print(f"Rio Verde carregado ({n_viz} vizinhos). Iniciando 40 anos ({ANO_MIN}–{ANO_MAX}).")
 
+    # Lazy init GEE — so se algum RAW estiver faltando
+    gee_inicializado = False
+    img_full = None
+    geom_ee = None
+    from_ids = to_ids = palette = None
+    region_coords_ee = None
+
     for i, ano in enumerate(range(ANO_MIN, ANO_MAX + 1), start=1):
         out_path = OUT_DIR / f"cobertura_{ano}.png"
+        raw_path = RAW_DIR / f"raw_{ano}.png"
+
         if out_path.exists():
-            print(f"[{i:02d}/40] {out_path.name} — já existe, pulando")
+            print(f"[{i:02d}/40] {out_path.name} — ja existe, pulando")
             continue
 
-        banda = f"classification_{ano}"
-        img = (img_full.select(banda)
-                       .clip(geom)
-                       .remap(from_ids, to_ids, 0)
-                       .selfMask())
-
-        params = {
-            "region": region_coords,
-            "dimensions": THUMB_DIM,
-            "format": "png",
-            "min": 1,
-            "max": 6,
-            "palette": palette,
-        }
-
         t0 = time.time()
-        raw = baixar_thumbnail(img, params)
-        (RAW_DIR / f"raw_{ano}.png").write_bytes(raw)
 
-        compor_mapa(raw, ano, gdf_rv, gdf_vizinhos, region_coords, out_path)
-        print(f"[{i:02d}/40] {out_path.name}  ({time.time() - t0:.1f}s)")
+        if raw_path.exists():
+            raw = raw_path.read_bytes()
+            origem = "cache"
+        else:
+            if not gee_inicializado:
+                init_ee()
+                img_full = ee.Image(ASSET)
+                geom_ee, _ = carregar_geometria_rio_verde()
+                from_ids, to_ids, palette = construir_remap_palette()
+                region_coords_ee = geom_ee.bounds().coordinates().getInfo()
+                gee_inicializado = True
+
+            banda = f"classification_{ano}"
+            img = (img_full.select(banda)
+                           .clip(geom_ee)
+                           .remap(from_ids, to_ids, 0)
+                           .selfMask())
+
+            params = {
+                "region": region_coords_ee,
+                "dimensions": THUMB_DIM,
+                "format": "png",
+                "min": 1,
+                "max": 6,
+                "palette": palette,
+            }
+            raw = baixar_thumbnail(img, params)
+            raw_path.write_bytes(raw)
+            origem = "GEE"
+
+        compor_mapa(raw, ano, gdf_rv, gdf_vizinhos, region_coords_local, out_path)
+        print(f"[{i:02d}/40] {out_path.name}  ({time.time() - t0:.1f}s, {origem})")
 
     print(f"OK — 40 mapas em {OUT_DIR}")
 

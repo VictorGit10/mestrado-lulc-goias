@@ -1,13 +1,17 @@
 """_cartografia.py — helpers cartograficos compartilhados para os mapas da dissertacao.
 
 Padroniza:
-    - adicionar_norte(ax): icone SIG (triangulo solido + N) em caixa branca,
-      ancorado num canto do ax via AnchoredOffsetbox.
-    - adicionar_escala(ax, dx): barra de escala SEGMENTADA estilo cartografico
-      (4 retangulos preto/branco alternados + ticks numericos em km + sufixo 'km'),
-      desenhada em pixels via AnchoredOffsetbox. Funciona identicamente em
-      mapas vetoriais (gpd.plot) e raster (ax.imshow), independente de inversao
-      de eixo.
+    - adicionar_norte(ax): rosa-dos-ventos Mariners de 16 pontas
+      (4 cardinais bipartidos preto/branco + 4 colaterais bipartidos +
+      8 secundarias finas pretas), sem caixa de fundo, com 'N' acima.
+      Ancorada via AnchoredOffsetbox; default loc='upper left' (canto NW
+      do mapa, que tipicamente fica vazio em GO/Brasil).
+
+    - adicionar_escala(ax, dx): regua minimalista em pixels (linha
+      horizontal + 3 ticks + numeros em km + sufixo 'km'), sem caixa
+      de fundo, com path_effects de stroke branco para legibilidade
+      sobre raster. Default loc='lower left' com leve deslocamento
+      para FORA do canto SW (consistente com a legenda).
 
 Uso:
     from _cartografia import adicionar_norte, adicionar_escala
@@ -21,215 +25,226 @@ Uso:
     ax.imshow(img)
     adicionar_escala(ax, dx=metros_por_pixel)
     adicionar_norte(ax)
+
+Para legendas, recomenda-se borderaxespad=-1.2 em ax.legend(loc='lower right')
+para empurrar a caixa levemente para fora do canto SE (gap consistente com
+escala e norte).
 """
 from __future__ import annotations
 
+import math
+
+import matplotlib.patheffects as pe
 from matplotlib.axes import Axes
+from matplotlib.lines import Line2D
 from matplotlib.offsetbox import AnchoredOffsetbox, DrawingArea
-from matplotlib.patches import Polygon, Rectangle
+from matplotlib.patches import Circle, Polygon
 from matplotlib.text import Text
 
 
 # ============================================================
-# Norte
+# Helpers internos
 # ============================================================
-def adicionar_norte(
-    ax: Axes,
-    location: str = "upper right",
-    size: float = 1.3,
-    pad: float = 0.4,
-    borderpad: float = 0.6,
-) -> None:
-    """Seta de norte estilo SIG: triangulo preto solido apontando para cima,
-    com a letra 'N' abaixo, dentro de uma caixa branca discreta.
+def _stroke_white(linewidth: float = 2.5):
+    """Path effect: contorno branco para texto/linhas legiveis sobre raster."""
+    return [pe.withStroke(linewidth=linewidth, foreground="white")]
 
-    Parametros:
-        location: canto do ax ('upper right' (default), 'upper left',
-                  'lower right', 'lower left').
-        size: fator de escala (1.0 = tamanho default; 1.5 = 50% maior).
-    """
-    box_w = int(28 * size)
-    box_h = int(40 * size)
-    da = DrawingArea(box_w, box_h, 0, 0)
 
-    cx = box_w / 2
-    tri = Polygon(
-        [
-            [cx, box_h * 0.92],
-            [cx - box_w * 0.34, box_h * 0.42],
-            [cx + box_w * 0.34, box_h * 0.42],
-        ],
-        facecolor="black",
-        edgecolor="black",
-        linewidth=0.5,
-    )
-    da.add_artist(tri)
-
-    n_label = Text(
-        cx,
-        box_h * 0.02,
-        "N",
-        ha="center",
-        va="bottom",
-        fontsize=int(12 * size),
-        fontweight="bold",
-    )
-    da.add_artist(n_label)
-
+def _anchor(ax: Axes, da: DrawingArea, loc: str, borderpad: float) -> None:
+    """Ancora um DrawingArea num canto do ax, SEM caixa de fundo.
+    borderpad negativo empurra para FORA do ax."""
     box = AnchoredOffsetbox(
-        loc=location,
+        loc=loc,
         child=da,
-        frameon=True,
-        pad=pad,
+        frameon=False,
+        pad=0.0,
         borderpad=borderpad,
     )
-    box.patch.set_facecolor("white")
-    box.patch.set_edgecolor("0.35")
-    box.patch.set_linewidth(0.6)
-    box.patch.set_alpha(0.92)
     ax.add_artist(box)
 
 
-# ============================================================
-# Escala (barra segmentada)
-# ============================================================
-# Valores "redondos" escolhidos para dividir limpo em 4 segmentos
-# (todos sao multiplos de 4: 4/4=1, 8/4=2, 20/4=5, 40/4=10, 100/4=25,
-#  200/4=50, 400/4=100, 1000/4=250, 2000/4=500)
-_NICE_KM = [2, 4, 8, 20, 40, 80, 100, 200, 400, 800, 1000, 2000]
-
-
-def _nice_total_km(extent_m: float, fraction: float = 0.22) -> float:
-    """Escolhe um comprimento 'redondo' proximo a fraction*extent (em km)."""
-    target = (extent_m / 1000.0) * fraction
-    return float(min(_NICE_KM, key=lambda v: abs(v - target)))
+def _losango_bipartido(cx, cy, ang_deg, length, width):
+    """Retorna 2 Polygons formando um losango bipartido (branco esq, preto dir).
+    A ponta aponta para ang_deg; divisao ao longo do eixo central."""
+    ang = math.radians(ang_deg)
+    ux, uy = math.cos(ang), math.sin(ang)
+    px, py = -uy, ux
+    tip = (cx + length * ux, cy + length * uy)
+    base = (cx, cy)
+    left = (cx + (width / 2) * px, cy + (width / 2) * py)
+    right = (cx - (width / 2) * px, cy - (width / 2) * py)
+    return [
+        Polygon([base, left, tip], facecolor="white",
+                edgecolor="black", linewidth=0.7),
+        Polygon([base, tip, right], facecolor="black",
+                edgecolor="black", linewidth=0.7),
+    ]
 
 
 def _estimar_ax_pixel_width(ax: Axes) -> float:
-    """Estima largura do ax em pixels usando o renderer atual."""
     fig = ax.figure
     try:
         renderer = fig.canvas.get_renderer()
         bbox = ax.get_window_extent(renderer)
         return float(bbox.width)
     except Exception:
-        # Fallback: figure_width_inches * dpi * ax_position.width
         ax_pos = ax.get_position()
         return float(fig.get_size_inches()[0] * fig.dpi * ax_pos.width)
 
 
+# Valores "redondos" em km para auto-escolha de comprimento da escala
+_NICE_KM = [2, 4, 8, 20, 40, 80, 100, 200, 400, 800, 1000, 2000]
+
+
+def _pick_total_km(ax: Axes, dx: float, bar_pixel_target: int) -> tuple[float, float]:
+    """Retorna (total_km, bar_pixel_w) para uma escala de ~bar_pixel_target px."""
+    xlim = ax.get_xlim()
+    x_range_data = abs(xlim[1] - xlim[0])
+    ax_pixel_width = _estimar_ax_pixel_width(ax) or 800
+    metros_por_pixel_ax = (x_range_data * dx) / ax_pixel_width
+    metros_alvo = bar_pixel_target * metros_por_pixel_ax
+    km_alvo = metros_alvo / 1000.0
+    total_km = float(min(_NICE_KM, key=lambda v: abs(v - km_alvo)))
+    bar_pixel_w = (total_km * 1000.0) / metros_por_pixel_ax
+    return total_km, bar_pixel_w
+
+
+# ============================================================
+# Norte — Rosa-dos-ventos Mariners 16 pontas
+# ============================================================
+def adicionar_norte(
+    ax: Axes,
+    location: str = "upper left",
+    size: float = 1.0,
+    borderpad: float = 0.7,
+) -> None:
+    """Rosa-dos-ventos cartografica Mariners de 16 pontas, sem caixa de fundo.
+
+    4 cardinais (N/L/S/O) em losangos bipartidos preto/branco grandes,
+    4 colaterais (NE/SE/SO/NO) em losangos bipartidos medios,
+    8 secundarias em triangulos pretos finos curtos. 'N' acima da ponta norte.
+
+    Parametros:
+        location: canto do ax (default 'upper left' — canto NW tipicamente vazio
+                  em mapas de GO).
+        size: fator de escala (1.0 = ~72 px; 1.3 = 30% maior; 0.8 = 20% menor).
+        borderpad: distancia da borda em font-size units. Pode ser negativo para
+                   empurrar para fora.
+    """
+    base_size = 72
+    s = int(base_size * size)
+    da = DrawingArea(s, s + 14, 0, 0)
+    cx = s / 2
+    cy = (s + 14) / 2 - 5
+    r_card = s * 0.46
+    r_col = s * 0.32
+    r_sec = s * 0.22
+    w_card = s * 0.18
+    w_col = s * 0.12
+
+    # 8 secundarias (22.5/67.5/...) — triangulos pretos finos
+    for k in range(8):
+        ang_deg = 22.5 + k * 45
+        ang = math.radians(ang_deg)
+        ux, uy = math.cos(ang), math.sin(ang)
+        px, py = -uy, ux
+        tip = (cx + r_sec * ux, cy + r_sec * uy)
+        w = s * 0.04
+        bl = (cx + (w / 2) * px, cy + (w / 2) * py)
+        br = (cx - (w / 2) * px, cy - (w / 2) * py)
+        da.add_artist(Polygon([bl, tip, br], facecolor="black",
+                              edgecolor="black", linewidth=0.4))
+
+    # 4 colaterais (NE/SE/SO/NO) — losangos bipartidos medios
+    for ang_deg in (45, -45, -135, 135):
+        for poly in _losango_bipartido(cx, cy, ang_deg, r_col, w_col):
+            da.add_artist(poly)
+
+    # 4 cardinais (N/L/S/O) — losangos bipartidos grandes
+    for ang_deg in (90, 0, -90, 180):
+        for poly in _losango_bipartido(cx, cy, ang_deg, r_card, w_card):
+            da.add_artist(poly)
+
+    # Circulo central pequeno
+    da.add_artist(Circle((cx, cy), 2.8 * size, facecolor="black",
+                         edgecolor="black"))
+
+    # N acima da ponta norte
+    n_text = Text(cx, cy + r_card + 4, "N", ha="center", va="bottom",
+                  fontsize=int(11 * size), fontweight="bold")
+    n_text.set_path_effects(_stroke_white(2.5))
+    da.add_artist(n_text)
+
+    _anchor(ax, da, location, borderpad=borderpad)
+
+
+# ============================================================
+# Escala — regua minimalista
+# ============================================================
 def adicionar_escala(
     ax: Axes,
     dx: float = 1.0,
     total_km: float | None = None,
-    n_segs: int = 4,
     location: str = "lower left",
-    bar_pixel_target: int = 180,
-    borderpad: float = 0.7,
+    bar_pixel_target: int = 160,
+    borderpad: float = -0.5,
 ) -> None:
-    """Barra de escala cartografica segmentada estilo SIG (preto/branco
-    alternado), com ticks numericos em km abaixo e sufixo 'km' a direita.
-
-    Implementacao: cria um DrawingArea em coordenadas de pixel e ancora num
-    canto do ax via AnchoredOffsetbox. Funciona para qualquer tipo de plot
-    (gpd.plot vetorial, ax.imshow raster) e para qualquer orientacao de eixo.
+    """Regua de escala minimalista: linha horizontal + 3 ticks (0/meio/total) +
+    numeros em km + sufixo 'km'. Sem caixa de fundo, com path_effects de stroke
+    branco para legibilidade sobre raster.
 
     Parametros:
         dx: metros por unidade do eixo x.
             - GeoDataFrame em CRS metrico (EPSG:5880): dx=1
             - imshow de raster com axes em pixels: dx = metros_por_pixel
             - Coordenadas geograficas (graus): dx ~= 111000 m/grau
-        total_km: comprimento total em km. Se None, escolhe automaticamente
-                  um valor "redondo" (1/2/5/10/20/25/50/100/200/250/500/1000 km)
-                  proximo a bar_pixel_target pixels.
-        n_segs: numero de segmentos alternados (default 4).
-        location: canto do ax onde ancorar (default 'lower left').
-        bar_pixel_target: largura aproximada desejada da barra em pixels
-                          (default 180).
+        total_km: comprimento em km. Se None, escolhe automaticamente um valor
+                  "redondo" proximo a bar_pixel_target pixels.
+        location: canto do ax (default 'lower left').
+        bar_pixel_target: largura aproximada desejada da barra em pixels (default 160).
+        borderpad: distancia da borda em font-size units (default -0.5 = pouco
+                   abaixo do canto SW, gap consistente com a legenda).
     """
-    # Estimar quantos metros equivalem a bar_pixel_target pixels do ax
-    xlim = ax.get_xlim()
-    x_range_data = abs(xlim[1] - xlim[0])
-    ax_pixel_width = _estimar_ax_pixel_width(ax)
-    if ax_pixel_width <= 1:
-        ax_pixel_width = 800  # fallback razoavel
-
-    # metros por pixel do ax
-    metros_por_pixel_ax = (x_range_data * dx) / ax_pixel_width
-    metros_alvo = bar_pixel_target * metros_por_pixel_ax
-
+    _picked_km, bar_w = _pick_total_km(ax, dx, bar_pixel_target=bar_pixel_target)
     if total_km is None:
-        # Escolher valor "redondo" (km) proximo ao alvo em pixels.
-        total_km = _nice_total_km(metros_alvo, fraction=1.0)
+        total_km = _picked_km
+        # recalcula bar_w para o total_km final
+    else:
+        # recalcular largura para total_km customizado
+        xlim = ax.get_xlim()
+        x_range_data = abs(xlim[1] - xlim[0])
+        ax_pixel_width = _estimar_ax_pixel_width(ax) or 800
+        metros_por_pixel_ax = (x_range_data * dx) / ax_pixel_width
+        bar_w = (total_km * 1000.0) / metros_por_pixel_ax
 
-    # Largura final da barra em pixels (depois de arredondar para km redondo)
-    bar_pixel_w = (total_km * 1000.0) / metros_por_pixel_ax
-    bar_pixel_h = 9  # altura da barra em px
+    h_total = 22
+    suffix_w = 30
+    da = DrawingArea(bar_w + suffix_w, h_total, 0, 0)
 
-    # Dimensoes do DrawingArea: largura precisa incluir a barra + sufixo "km"
-    # e a altura precisa incluir a barra + ticks + labels
-    suffix_w = 28  # espaco para " km"
-    da_w = bar_pixel_w + suffix_w
-    label_h = 14   # espaco para os tick labels abaixo
-    da_h = bar_pixel_h + label_h + 2
+    y_bar = 14
+    # Linha principal
+    line = Line2D([0, bar_w], [y_bar, y_bar], color="black", linewidth=1.6)
+    line.set_path_effects(_stroke_white(2.5))
+    da.add_artist(line)
 
-    da = DrawingArea(da_w, da_h, 0, 0)
+    # 3 Ticks (0, meio, fim)
+    for frac in (0.0, 0.5, 1.0):
+        x = frac * bar_w
+        tick = Line2D([x, x], [y_bar - 4, y_bar + 4], color="black", linewidth=1.4)
+        tick.set_path_effects(_stroke_white(2.5))
+        da.add_artist(tick)
 
-    # No DrawingArea, y cresce para CIMA (origin no canto inferior-esquerdo).
-    # Posicionamos a barra perto do topo do DrawingArea, e os labels abaixo dela.
-    bar_y = label_h + 1  # deixar espaco para labels abaixo
-
-    # Segmentos alternados
-    seg_w = bar_pixel_w / n_segs
-    for i in range(n_segs):
-        cor = "black" if i % 2 == 0 else "white"
-        rect = Rectangle(
-            (i * seg_w, bar_y),
-            seg_w,
-            bar_pixel_h,
-            facecolor=cor,
-            edgecolor="black",
-            linewidth=0.6,
-        )
-        da.add_artist(rect)
-
-    # Tick labels (km values) abaixo da barra
-    step_km = total_km / n_segs
-    for i in range(n_segs + 1):
-        x = i * seg_w
-        km_val = i * step_km
-        label = f"{km_val:.0f}" if step_km >= 1 else f"{km_val:g}"
-        t = Text(
-            x, bar_y - 2,
-            label,
-            ha="center",
-            va="top",
-            fontsize=7.5,
-        )
+        km_val = frac * total_km
+        label = f"{km_val:.0f}" if total_km >= 1 else f"{km_val:g}"
+        t = Text(x, y_bar - 6, label, ha="center", va="top",
+                 fontsize=8, fontweight="bold")
+        t.set_path_effects(_stroke_white(2.5))
         da.add_artist(t)
 
-    # Sufixo "km" a direita da barra (alinhado verticalmente com o centro)
-    suffix = Text(
-        bar_pixel_w + 4,
-        bar_y + bar_pixel_h / 2,
-        "km",
-        ha="left",
-        va="center",
-        fontsize=8,
-        fontweight="bold",
-    )
-    da.add_artist(suffix)
+    # Sufixo "km" a direita
+    km_label = Text(bar_w + 4, y_bar, "km", ha="left", va="center",
+                    fontsize=8.5, fontweight="bold")
+    km_label.set_path_effects(_stroke_white(2.5))
+    da.add_artist(km_label)
 
-    # Ancorar no canto do ax via AnchoredOffsetbox
-    box = AnchoredOffsetbox(
-        loc=location,
-        child=da,
-        frameon=True,
-        pad=0.45,
-        borderpad=borderpad,
-    )
-    box.patch.set_facecolor("white")
-    box.patch.set_edgecolor("0.35")
-    box.patch.set_linewidth(0.6)
-    box.patch.set_alpha(0.92)
-    ax.add_artist(box)
+    _anchor(ax, da, location, borderpad=borderpad)

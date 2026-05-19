@@ -266,10 +266,8 @@ p  { margin: 0 0 1em; }
   opacity: 0.55;
 }
 .como-ler-swatch--heranca        { background: #8b3a1d; }
-.como-ler-swatch--soja-sudoeste  { background: #a85234; }
-.como-ler-swatch--boom-commodity { background: #c97052; }
-.como-ler-swatch--intensificacao { background: #5c8a6f; }
-.como-ler-swatch--reorganizacao  { background: #2d5a3d; }
+.como-ler-swatch--expansao       { background: #a85234; }
+.como-ler-swatch--conversao      { background: #2d5a3d; }
 .como-ler-pin {
   display: inline-block;
   width: 10px;
@@ -1203,10 +1201,8 @@ p  { margin: 0 0 1em; }
 }
 
 .rail-era-band--heranca        { background: #8b3a1d; }
-.rail-era-band--soja-sudoeste  { background: #a85234; }
-.rail-era-band--boom-commodity { background: #c97052; }
-.rail-era-band--intensificacao { background: #5c8a6f; }
-.rail-era-band--reorganizacao  { background: #2d5a3d; }
+.rail-era-band--expansao       { background: #a85234; }
+.rail-era-band--conversao      { background: #2d5a3d; }
 
 .rail-marcos {
   position: absolute;

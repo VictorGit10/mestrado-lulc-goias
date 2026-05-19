@@ -106,7 +106,8 @@ def gerar_mapas(df: pd.DataFrame, gdf_munis: gpd.GeoDataFrame) -> None:
         subtitulo = "referencia" if ano == 1985 else "vs. 1985"
         ax.set_title(f"Delta % Pastagem — Goias {ano} ({subtitulo})", fontsize=14, pad=10)
         ax.legend(handles=handles, loc="lower right", frameon=True, fontsize=8,
-                  title="Δ pp pastagem vs. 1985", title_fontsize=8)
+                  title="Δ pp pastagem vs. 1985", title_fontsize=8,
+                  borderaxespad=-1.2)
         ax.set_axis_off()
         adicionar_escala(ax, dx=1)
         adicionar_norte(ax)

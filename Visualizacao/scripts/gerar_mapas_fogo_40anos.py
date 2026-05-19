@@ -127,7 +127,8 @@ def gerar_mapas(df: pd.DataFrame, gdf_munis: gpd.GeoDataFrame) -> None:
         gdf_ano.plot(ax=ax, color=cores, edgecolor="none", linewidth=0.2)
         ax.set_title(f"Area Queimada — Goias {ano}", fontsize=14, pad=10)
         ax.legend(handles=handles, loc="lower right", frameon=True, fontsize=8,
-                  title="Area queimada (ha)", title_fontsize=8)
+                  title="Area queimada (ha)", title_fontsize=8,
+                  borderaxespad=-1.2)
         ax.set_axis_off()
         adicionar_escala(ax, dx=1)  # gdf_munis usa CRS metrico apos to_crs(5880)
         adicionar_norte(ax)

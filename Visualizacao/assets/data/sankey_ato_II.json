@@ -1,141 +1,177 @@
 {
   "ato": "II",
-  "titulo": "Plano Real e Lei Kandir",
-  "ano_ini": 1994,
-  "ano_fim": 2002,
+  "titulo": "Expansão e intensificação",
+  "ano_ini": 2001,
+  "ano_fim": 2019,
   "nodes": [
     {
-      "id": "Vegetacao Natural_1994",
-      "label": "Vegetacao Natural (1994)",
+      "id": "Vegetacao Natural_2001",
+      "label": "Vegetacao Natural (2001)",
       "color": "#2d5a3d"
     },
     {
-      "id": "Pastagem_1994",
-      "label": "Pastagem (1994)",
+      "id": "Pastagem_2001",
+      "label": "Pastagem (2001)",
       "color": "#d4b65a"
     },
     {
-      "id": "Agricultura_1994",
-      "label": "Agricultura (1994)",
+      "id": "Agricultura_2001",
+      "label": "Agricultura (2001)",
       "color": "#d96aa3"
     },
     {
-      "id": "Agua_1994",
-      "label": "Agua (1994)",
+      "id": "Agua_2001",
+      "label": "Agua (2001)",
       "color": "#4a7ba6"
     },
     {
-      "id": "Area Urbana_1994",
-      "label": "Area Urbana (1994)",
+      "id": "Area Urbana_2001",
+      "label": "Area Urbana (2001)",
       "color": "#8a8a82"
     },
     {
-      "id": "Outros_1994",
-      "label": "Outros (1994)",
+      "id": "Outros_2001",
+      "label": "Outros (2001)",
       "color": "#b8a98a"
     },
     {
-      "id": "Vegetacao Natural_2002",
-      "label": "Vegetacao Natural (2002)",
+      "id": "Vegetacao Natural_2019",
+      "label": "Vegetacao Natural (2019)",
       "color": "#2d5a3d"
     },
     {
-      "id": "Pastagem_2002",
-      "label": "Pastagem (2002)",
+      "id": "Pastagem_2019",
+      "label": "Pastagem (2019)",
       "color": "#d4b65a"
     },
     {
-      "id": "Agricultura_2002",
-      "label": "Agricultura (2002)",
+      "id": "Agricultura_2019",
+      "label": "Agricultura (2019)",
       "color": "#d96aa3"
     },
     {
-      "id": "Agua_2002",
-      "label": "Agua (2002)",
+      "id": "Agua_2019",
+      "label": "Agua (2019)",
       "color": "#4a7ba6"
     },
     {
-      "id": "Area Urbana_2002",
-      "label": "Area Urbana (2002)",
+      "id": "Area Urbana_2019",
+      "label": "Area Urbana (2019)",
       "color": "#8a8a82"
     },
     {
-      "id": "Outros_2002",
-      "label": "Outros (2002)",
+      "id": "Outros_2019",
+      "label": "Outros (2019)",
       "color": "#b8a98a"
     }
   ],
   "links": [
     {
-      "source": "Vegetacao Natural_1994",
-      "target": "Pastagem_2002",
-      "value": 1.4975,
+      "source": "Vegetacao Natural_2001",
+      "target": "Pastagem_2019",
+      "value": 1.9523,
       "color": "#2d5a3d"
     },
     {
-      "source": "Vegetacao Natural_1994",
-      "target": "Agricultura_2002",
-      "value": 0.0528,
+      "source": "Vegetacao Natural_2001",
+      "target": "Agricultura_2019",
+      "value": 0.1117,
       "color": "#2d5a3d"
     },
     {
-      "source": "Vegetacao Natural_1994",
-      "target": "Agua_2002",
-      "value": 0.121,
+      "source": "Vegetacao Natural_2001",
+      "target": "Agua_2019",
+      "value": 0.0847,
       "color": "#2d5a3d"
     },
     {
-      "source": "Vegetacao Natural_1994",
-      "target": "Outros_2002",
-      "value": 0.0451,
+      "source": "Vegetacao Natural_2001",
+      "target": "Outros_2019",
+      "value": 0.0562,
       "color": "#2d5a3d"
     },
     {
-      "source": "Pastagem_1994",
-      "target": "Vegetacao Natural_2002",
-      "value": 0.4224,
+      "source": "Pastagem_2001",
+      "target": "Vegetacao Natural_2019",
+      "value": 1.0628,
       "color": "#d4b65a"
     },
     {
-      "source": "Pastagem_1994",
-      "target": "Agricultura_2002",
-      "value": 0.7408,
+      "source": "Pastagem_2001",
+      "target": "Agricultura_2019",
+      "value": 2.1552,
       "color": "#d4b65a"
     },
     {
-      "source": "Pastagem_1994",
-      "target": "Area Urbana_2002",
-      "value": 0.0208,
+      "source": "Pastagem_2001",
+      "target": "Agua_2019",
+      "value": 0.0446,
       "color": "#d4b65a"
     },
     {
-      "source": "Agricultura_1994",
-      "target": "Pastagem_2002",
-      "value": 0.4016,
+      "source": "Pastagem_2001",
+      "target": "Area Urbana_2019",
+      "value": 0.0348,
+      "color": "#d4b65a"
+    },
+    {
+      "source": "Pastagem_2001",
+      "target": "Outros_2019",
+      "value": 0.041,
+      "color": "#d4b65a"
+    },
+    {
+      "source": "Agricultura_2001",
+      "target": "Vegetacao Natural_2019",
+      "value": 0.0346,
       "color": "#d96aa3"
     },
     {
-      "source": "Agua_1994",
-      "target": "Vegetacao Natural_2002",
-      "value": 0.0402,
+      "source": "Agricultura_2001",
+      "target": "Pastagem_2019",
+      "value": 0.8115,
+      "color": "#d96aa3"
+    },
+    {
+      "source": "Agua_2001",
+      "target": "Vegetacao Natural_2019",
+      "value": 0.0486,
       "color": "#4a7ba6"
     },
     {
-      "source": "Agua_1994",
-      "target": "Outros_2002",
-      "value": 0.0348,
+      "source": "Agua_2001",
+      "target": "Pastagem_2019",
+      "value": 0.033,
       "color": "#4a7ba6"
     },
     {
-      "source": "Outros_1994",
-      "target": "Vegetacao Natural_2002",
-      "value": 0.0443,
+      "source": "Agua_2001",
+      "target": "Outros_2019",
+      "value": 0.0435,
+      "color": "#4a7ba6"
+    },
+    {
+      "source": "Outros_2001",
+      "target": "Vegetacao Natural_2019",
+      "value": 0.0604,
       "color": "#b8a98a"
     },
     {
-      "source": "Outros_1994",
-      "target": "Pastagem_2002",
-      "value": 0.0613,
+      "source": "Outros_2001",
+      "target": "Pastagem_2019",
+      "value": 0.0711,
+      "color": "#b8a98a"
+    },
+    {
+      "source": "Outros_2001",
+      "target": "Agricultura_2019",
+      "value": 0.0219,
+      "color": "#b8a98a"
+    },
+    {
+      "source": "Outros_2001",
+      "target": "Agua_2019",
+      "value": 0.0264,
       "color": "#b8a98a"
     }
   ]

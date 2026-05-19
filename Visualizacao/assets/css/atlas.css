@@ -159,10 +159,8 @@
 
 /* Borda colorida pelo ato — strip vertical sutil a esquerda */
 .atlas-cell[data-era="heranca"]        { border-left: 3px solid #8b3a1d; }
-.atlas-cell[data-era="soja-sudoeste"]  { border-left: 3px solid #a85234; }
-.atlas-cell[data-era="boom-commodity"] { border-left: 3px solid #c97052; }
-.atlas-cell[data-era="intensificacao"] { border-left: 3px solid #5c8a6f; }
-.atlas-cell[data-era="reorganizacao"]  { border-left: 3px solid #2d5a3d; }
+.atlas-cell[data-era="expansao"]       { border-left: 3px solid #a85234; }
+.atlas-cell[data-era="conversao"]      { border-left: 3px solid #2d5a3d; }
 
 /* Imagem (mantem aspect ratio dos mapas reais ~1:1) */
 .atlas-cell-img-wrap {

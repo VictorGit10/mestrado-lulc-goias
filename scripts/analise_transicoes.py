@@ -20,13 +20,7 @@ ROOT = Path(__file__).resolve().parent.parent
 DIR_PROC = ROOT / "data" / "processed"
 DIR_VIZ_DATA = ROOT / "Visualizacao" / "assets" / "data"
 
-ATOS = {
-    "I":   (1985, 1993, "Heranca Cerradeira"),
-    "II":  (1994, 2002, "Plano Real e Lei Kandir"),
-    "III": (2003, 2011, "Boom de Commodities"),
-    "IV":  (2012, 2017, "Codigo Florestal"),
-    "V":   (2018, 2024, "Cerrado Manifesto"),
-}
+from config_periodos import ATOS_FLAT as ATOS
 
 GRUPOS = ["vegetacao_natural", "pastagem", "agricultura",
           "agua", "area_urbana", "outros"]

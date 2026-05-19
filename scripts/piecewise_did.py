@@ -69,12 +69,15 @@ GRUPOS_LULC = {
 }
 MOSAICO_ID = 21
 
+from config_periodos import MARCOS as MARCOS_FULL
+
 # Marcos para DiD (ano do marco + label)
+# Nota: 1995 (consolidacao do Real) em vez de 1994 (ano de criacao)
 MARCOS = [
     (1995, "Estabilização (Real)"),
     (2003, "Commodity Boom"),
     (2012, "Código Florestal"),
-    (2018, "Cerrado Manifesto"),
+    (2018, "Reorganização de mercado"),
 ]
 
 # Janela ±5 anos

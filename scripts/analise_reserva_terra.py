@@ -33,16 +33,7 @@ DIR_OUT.mkdir(parents=True, exist_ok=True)
 DIR_VIZ = ROOT / "Visualizacao" / "assets" / "data"
 DIR_VIZ.mkdir(parents=True, exist_ok=True)
 
-ATOS = {
-    "I":   (1985, 1993, "Heranca Cerradeira"),
-    "II":  (1994, 2002, "Plano Real e Lei Kandir"),
-    "III": (2003, 2011, "Boom de Commodities"),
-    "IV":  (2012, 2017, "Codigo Florestal"),
-    "V":   (2018, 2024, "Cerrado Manifesto"),
-}
-
-MARCOS = {1995: "Plano Real consolidado", 2012: "Codigo Florestal",
-          2018: "Cerrado Manifesto"}
+from config_periodos import ATOS_FLAT as ATOS, MARCOS_FLAT as MARCOS
 
 COR_ATO = {
     "I": "#8a8a82", "II": "#4a7ba6", "III": "#2d5a3d",
