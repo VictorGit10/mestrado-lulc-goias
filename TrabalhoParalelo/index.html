@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rebanho Bovino Municipal — Brasil (1985–2024)</title>
+  <meta name="description" content="Levantamento de média e mediana de cabeças bovinas por município brasileiro, usando dados da Pesquisa Pecuária Municipal (PPM/IBGE).">
+  <link rel="stylesheet" href="assets/css/styles.css?v=1">
+</head>
+<body>
+
+<header class="page-header">
+  <div class="page-header-inner">
+    <a href="../" class="back">← Mestrado CIAMB-UFG</a>
+    <span style="color: var(--color-muted);">Trabalho Paralelo</span>
+  </div>
+</header>
+
+<section class="hero">
+  <p class="hero-eyebrow">PPM/IBGE · SIDRA 3939 · 1985–2024</p>
+  <h1 class="hero-title">Rebanho Bovino Municipal no Brasil</h1>
+  <p class="hero-lede">
+    A Pesquisa Pecuária Municipal acompanha ~5.570 municípios brasileiros há quatro décadas.
+    Mas quando novos municípios nascem, a média estadual pode mentir. Este levantamento
+    compara <strong>média</strong> e <strong>mediana</strong> em dois recortes — todos disponíveis
+    e painel balanceado — para separar crescimento real de artefato administrativo.
+  </p>
+</section>
+
+<main>
+
+  <!-- Contexto -->
+  <h2>Por que média e mediana divergem</h2>
+  <p class="section-lede">
+    O Brasil criou centenas de municípios entre 1985 e 2024. Municípios novos tendem a ser
+    pequenos e com rebanho reduzido. Quando entram na série, puxam a <strong>média</strong> para baixo —
+    não porque o rebanho caiu, mas porque a base de cálculo mudou. A <strong>mediana</strong>, por sua vez,
+    resiste a esse viés. Comparar as duas é um teste de robustez simples e poderoso.
+  </p>
+
+  <!-- Metodologia -->
+  <h3>Dois recortes, duas histórias</h3>
+  <div class="method-grid">
+    <div class="method-card">
+      <h4>Todos disponíveis</h4>
+      <p>
+        Usa todos os municípios com dado válido em cada ano (~4.100 em 1985 → ~5.500 em 2024).
+        Série mais completa, mas carrega <strong>viés de composição</strong>:
+        municípios novos enxugam a média artificialmente nos primeiros anos.
+      </p>
+    </div>
+    <div class="method-card">
+      <h4>Balanced panel</h4>
+      <p>
+        Restringe a amostra aos ~4.037 municípios com dado em <strong>todos</strong> os anos de 1985 a 2024.
+        Elimina o viés de composição, mas sub-representa municípios criados após 1985.
+        É o contrafactual que revela o que a série "deveria" mostrar.
+      </p>
+    </div>
+  </div>
+
+  <!-- Gráficos principais -->
+  <h2>O que os dados mostram</h2>
+
+  <div class="figure-card figure-wide">
+    <img src="img/ppm_media_mediana_todos_disponiveis.png" alt="Média e mediana de cabeças bovinas por município — todos disponíveis" loading="lazy">
+    <div class="figure-caption">
+      <strong>Figura 1 · Todos disponíveis</strong>
+      A média cai de ~3.800 para ~2.600 cabeças entre 1985 e 2024. A mediana cai menos (~3.200 → ~2.400).
+      A brecha entre as duas curvas é o sinal do viés: quanto mais municípios pequenos entram, mais a média
+      subestima o rebanho típico. O salto em 1990 e a queda abrupta em 2013 coincidem com reformas do questionário IBGE.
+    </div>
+  </div>
+
+  <div class="figure-card figure-wide">
+    <img src="img/ppm_media_mediana_balanced_panel.png" alt="Média e mediana de cabeças bovinas por município — painel balanceado" loading="lazy">
+    <div class="figure-caption">
+      <strong>Figura 2 · Painel balanceado (n = 4.037)</strong>
+      Com a mesma base fixa de municípios, a tendência muda de forma. A média cai menos — e a mediana
+      praticamente empata com ela nos anos recentes. Isso confirma que boa parte da "queda" do gráfico anterior
+      era efeito de entrada de novos municípios, não de redução real do rebanho municipal típico.
+    </div>
+  </div>
+
+  <!-- Contexto Brasil -->
+  <h3>Panorama e dinâmica regional</h3>
+
+  <div class="figure-grid">
+    <div class="figure-card">
+      <img src="img/serie_total_brasil.png" alt="Série temporal do rebanho bovino total no Brasil" loading="lazy">
+      <div class="figure-caption">
+        <strong>Rebanho total · Brasil</strong>
+        ~230 milhões de cabeças em 2024. A série agregada esconde a heterogeneidade municipal — é o que as médias acima descompactam.
+      </div>
+    </div>
+    <div class="figure-card">
+      <img src="img/serie_top10_ufs.png" alt="Top 10 Unidades da Federação em rebanho bovino" loading="lazy">
+      <div class="figure-caption">
+        <strong>Top 10 UFs</strong>
+        MT, GO e MS concentram a expansão. O ranking se estabiliza após 2010, com o Centro-Oeste consolidado como polo pecuário.
+      </div>
+    </div>
+  </div>
+
+  <div class="figure-grid">
+    <div class="figure-card">
+      <img src="img/crescimento_uf.png" alt="Crescimento do rebanho bovino por Unidade da Federação" loading="lazy">
+      <div class="figure-caption">
+        <strong>Crescimento por UF</strong>
+        Norte e Centro-Oeste crescem acima da média; Sudeste e Sul estagnam ou recuam. O mapa de crescimento é o inverso do mapa de densidade demográfica.
+      </div>
+    </div>
+    <div class="figure-card">
+      <img src="img/completude_serie.png" alt="Completude temporal da série PPM por município" loading="lazy">
+      <div class="figure-caption">
+        <strong>Completude da série</strong>
+        A maioria dos municípios tem dados em poucos anos. Apenas ~4.037 têm série completa (40 anos), o que justifica o recorte do painel balanceado.
+      </div>
+    </div>
+  </div>
+
+  <!-- Dados brutos / drive -->
+  <div class="drive-cta">
+    <h3>Dados e scripts</h3>
+    <p>
+      O painel completo (long format), as estatísticas por município e os scripts de coleta
+      estão disponíveis no Google Drive. Inclui CSVs processados e código Python reutilizável.
+    </p>
+    <a class="btn" href="https://drive.google.com/drive/folders/1ISJG2w5nrCwUPe6hekAIIwLfDn8FjqnH?usp=sharing" target="_blank" rel="noopener">
+      Abrir pasta no Google Drive →
+    </a>
+  </div>
+
+  <!-- Notas metodológicas -->
+  <h3>Notas metodológicas</h3>
+  <ul style="color: #3a3a3a; font-size: 0.95rem; line-height: 1.6; padding-left: 1.2rem;">
+    <li>A PPM sofreu mudanças de questionário em <strong>1981, 1989 e 2013</strong>. A série 1985–2024 pode apresentar descontinuidades nesses pontos.</li>
+    <li>Municípios criados ou extintos ao longo do período terão séries incompletas. O campo <code>n_anos</code> permite filtrar por completude.</li>
+    <li>Valores ausentes no SIDRA (<code>".."</code>, <code>"-"</code>, <code>"..."</code>) foram convertidos para <code>NaN</code>.</li>
+    <li>Validação cruzada: os dados de Goiás foram comparados automaticamente com a pipeline principal do mestrado.</li>
+  </ul>
+
+</main>
+
+<footer class="page-footer">
+  <p>
+    <strong>Fonte:</strong> IBGE/SIDRA — Pesquisa Pecuária Municipal (PPM), tabela 3939, variável 105, classificação 79[2670].
+    Cobertura: ~5.570 municípios brasileiros, 1985–2024.
+  </p>
+  <p style="margin-top: 0.6rem;">
+    Parte do mestrado em Ciências Ambientais (CIAMB-UFG) ·
+    <a href="../Visualizacao/">Visualização principal →</a>
+  </p>
+</footer>
+
+</body>
+</html>

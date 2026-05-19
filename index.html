@@ -2,11 +2,147 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=Visualizacao/">
-  <link rel="canonical" href="Visualizacao/">
-  <title>Mestrado LULC Goiás — Visualização</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mestrado CIAMB-UFG — Projetos</title>
+  <meta name="description" content="Projetos do mestrado em Ciências Ambientais (CIAMB-UFG): visualização interativa de uso da terra em Goiás e análise do rebanho bovino municipal no Brasil.">
+  <style>
+    :root {
+      --color-bg: #fafaf7;
+      --color-fg: #1a1a1a;
+      --color-muted: #6b6b6b;
+      --color-rule: #d8d6cf;
+      --color-accent: #8b3a1d;
+      --color-accent-soft: #c97052;
+      --color-card-bg: #ffffff;
+      --font-serif: "Source Serif Pro", "Crimson Pro", Georgia, "Times New Roman", serif;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, system-ui, sans-serif;
+      --max-width: 720px;
+      --radius: 6px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--color-bg);
+      color: var(--color-fg);
+      font-family: var(--font-serif);
+      font-size: 18px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    h1 {
+      font-size: 2.2rem;
+      letter-spacing: -0.01em;
+      margin: 0 0 0.3em;
+      text-align: center;
+    }
+    .subtitle {
+      font-family: var(--font-sans);
+      font-size: 0.92rem;
+      color: var(--color-muted);
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+      width: 100%;
+      max-width: var(--max-width);
+    }
+    @media (max-width: 600px) {
+      .cards { grid-template-columns: 1fr; }
+      body { justify-content: flex-start; padding-top: 3rem; }
+    }
+    .card {
+      background: var(--color-card-bg);
+      border: 1px solid var(--color-rule);
+      border-radius: var(--radius);
+      padding: 1.6rem 1.8rem;
+      text-decoration: none;
+      color: inherit;
+      transition: box-shadow 0.2s ease, transform 0.15s ease;
+    }
+    .card:hover {
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      transform: translateY(-2px);
+    }
+    .card-eyebrow {
+      font-family: var(--font-sans);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--color-muted);
+      margin-bottom: 0.5rem;
+    }
+    .card-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin: 0 0 0.5rem;
+      color: var(--color-accent);
+    }
+    .card-desc {
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: #3a3a3a;
+      margin: 0;
+    }
+    .card-arrow {
+      display: block;
+      margin-top: 1rem;
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--color-accent);
+    }
+    footer {
+      margin-top: 3rem;
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+      color: var(--color-muted);
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
-  <p>Redirecionando para <a href="Visualizacao/">a visualização interativa</a>…</p>
+
+  <h1>Mestrado CIAMB-UFG</h1>
+  <p class="subtitle">Projetos de pesquisa em uso da terra e dinâmica agropecuária</p>
+
+  <div class="cards">
+    <a class="card" href="Visualizacao/">
+      <div class="card-eyebrow">Visualização Interativa</div>
+      <div class="card-title">Goiás 1985–2024</div>
+      <p class="card-desc">
+        Linha do tempo interativa do uso e cobertura da terra em Goiás,
+        com marcos políticos como motores causais. Mapas pixel-a-pixel,
+        painel municipal e análise estatística.
+      </p>
+      <span class="card-arrow">Acessar visualização →</span>
+    </a>
+
+    <a class="card" href="TrabalhoParalelo/">
+      <div class="card-eyebrow">Trabalho Paralelo</div>
+      <div class="card-title">Rebanho Bovino Municipal</div>
+      <p class="card-desc">
+        Levantamento de média e mediana de cabeças bovinas por município
+        brasileiro (PPM/IBGE, 1985–2024). Análise de viés de composição
+        e comparação entre recortes de amostra.
+      </p>
+      <span class="card-arrow">Acessar página →</span>
+    </a>
+  </div>
+
+  <footer>
+    Programa de Pós-Graduação em Ciências Ambientais · Universidade Federal de Goiás
+  </footer>
+
 </body>
 </html>
