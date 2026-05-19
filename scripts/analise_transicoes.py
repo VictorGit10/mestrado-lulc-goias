@@ -1,9 +1,9 @@
 """analise_transicoes.py - Pipeline #25
 Consome conversao_bruta_*.csv e produz analises por ATO politico:
-  - 5 matrizes 6x6 (matriz_transicao_ato_{I..V}.csv)
+  - 3 matrizes 6x6 (matriz_transicao_ato_{I..III}.csv)
   - decomposicao_origem.csv (de onde veio cada hectare novo)
   - fluxo_bruto_liquido.csv (distingue rotacao de substituicao)
-  - 5 JSONs Sankey por ATO em Visualizacao/assets/data/
+  - 3 JSONs Sankey por ATO em Visualizacao/assets/data/
   - top_transicoes_mesos.csv (top-3 transicoes por mesorregiao x ATO)
 
 Pre-requisito: scripts/agregar_conversoes.py executado.

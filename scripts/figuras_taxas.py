@@ -65,7 +65,7 @@ MARCOS = {ano: m["titulo"] for ano, m in MARCOS_DICT.items() if ano not in (1985
 # ATOS (para fundo sombreado, com cores de utils.js)
 ATOS = [
     {"inicio": ATOS_DICT[k]["inicio"], "fim": ATOS_DICT[k]["fim"],
-     "cor": CORES_ATO[k], "alpha": 0.04 if k != "IV" else 0.06,
+     "cor": CORES_ATO[k], "alpha": 0.04,
      "rotulo": k}
     for k in ATOS_DICT
 ]

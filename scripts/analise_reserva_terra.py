@@ -37,7 +37,6 @@ from config_periodos import ATOS_FLAT as ATOS, MARCOS_FLAT as MARCOS
 
 COR_ATO = {
     "I": "#8a8a82", "II": "#4a7ba6", "III": "#2d5a3d",
-    "IV": "#d4b65a", "V": "#d96aa3",
 }
 
 

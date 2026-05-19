@@ -4,7 +4,7 @@
 
 ## 1. Estado atual (2026-05-08)
 
-MVP estrutural e narrativo funcionais. Refatoracao para 5 atos no territorio
+MVP estrutural e narrativo funcionais. Refatoracao para 3 atos no territorio
 + 8 marcos politicos como pinos concluida em 2026-05-07. Atlas expandido com
 4 variaveis (LULC, Fogo, Transicoes, Delta vs. 1985) em 2026-05-08. Sankey
 lazy-loaded na Sintese.
@@ -30,9 +30,8 @@ Funcionalidades operacionais:
   - Anos comuns (32): tag minimalista com o ano
   - Todos: linha de dados-chave (% LULC, soja em Mt, bovinos, **lotacao bov/ha
     pastagem**, PIB, credito)
-- **5 atos no territorio** (heranca / soja-sudoeste / boom-commodity /
-  intensificacao / reorganizacao) com cabecalho narrativo antes do primeiro
-  ano de cada ato
+- **3 atos no territorio** (heranca / expansao e intensificacao / conversao
+  seletiva) com cabecalho narrativo antes do primeiro ano de cada ato
 - **Spark-line sticky inferior** com 3 series (% vegetacao, % pasto, % soja)
   e cursor vertical movel
 - **Sintese final** com cards de transicao 1985 → 2024 por classe LULC
@@ -209,25 +208,21 @@ A classe "Mosaico de Agricultura ou Pastagem" (ID 21 do MapBiomas) é intenciona
 
 ### 4.1 Dia 4 — Conteudo narrativo
 
-**Concluido em 2026-05-07** com a refatoracao de 4 capitulos para 5 atos:
+**Concluido em 2026-05-07** com a refatoracao de 4 capitulos para 3 atos:
 
-- ✓ **Texto introdutorio dos 5 atos** (~150 palavras cada) escrito
+- ✓ **Texto introdutorio dos 3 atos** (~150 palavras cada) escrito
   diretamente em `index.html`:
-  - I. Pastagem como heranca cerradeira (1985-1993)
-  - II. Estabilizacao e a soja chega ao sudoeste (1994-2002)
-  - III. Boom commodity sobre pastagem degradada (2003-2011)
-  - IV. Codigo Florestal e a intensificacao onde resiste (2012-2017)
-  - V. Reorganizacao: frigorificos, oeste e cerrado nordeste (2018-2024)
+  - I. Pastagem como heranca (1985-2000)
+  - II. Expansao e intensificacao (2001-2019)
+  - III. Conversao seletiva (2020-2024)
 - ✓ **Marcos politicos novos** (2003 boom commodity, 2018 reorganizacao)
   adicionados em `marcos.json` com referencias bibliograficas
 - ✓ **Variavel nova** `lotacao_bov_ha_pasto` exibida na linha de dados-chave
-  de cada ano — evidencia empirica do ato IV ("intensificacao onde resiste":
-  lotacao sobe de 1,57 para 1,68 cab/ha entre 2012 e 2017 enquanto a area
-  de pastagem cai)
+  de cada ano
 
 Pendente:
 
-- **Revisao do orientador**: copy dos 5 atos + redacao final dos cards de
+- **Revisao do orientador**: copy dos 3 atos + redacao final dos cards de
   2003 e 2018 + bibliografia dos marcos novos
 - **Embed do Sankey** existente (`outputs/transicoes/sankey_*.html`) na
   sintese final
@@ -289,7 +284,7 @@ Tudo consumido em modo leitura. Nada e modificado fora de `Visualizacao/`.
 
 ## 7. Pendencias documentadas
 
-- [x] ~~Escrever copy das 4 eras~~ → 5 atos escritos diretamente em
+- [x] ~~Escrever copy das 4 eras~~ → 3 atos escritos diretamente em
       `index.html` (refatoracao 2026-05-07)
 - [x] Adicionar variavel de intensificacao pecuaria (lotacao bov/ha pasto)
 - [x] ~~Expandir preparar_dados_timeline.py~~ → 8 JSONs (incluindo fogo,
@@ -299,7 +294,7 @@ Tudo consumido em modo leitura. Nada e modificado fora de `Visualizacao/`.
 - [x] ~~Converter mapas de transicao~~ → 5 WebPs em `img/mapas_transicoes/` (2026-05-08)
 - [x] ~~Habilitar toggles do Atlas~~ → Fogo, Transicoes, Delta ativos (2026-05-08)
 - [x] ~~Sankey na Sintese~~ → D3 + d3-sankey lazy-loaded, sankey_data.json (2026-05-08)
-- [ ] Validar copy dos 5 atos com orientador
+- [ ] Validar copy dos 3 atos com orientador
 - [ ] Validar bibliografia dos marcos novos (2003 boom commodity / 2018
       Cerrado Manifesto + frigorificos) com orientador
 - [ ] Testar em 3 browsers (Chrome, Firefox, Edge)
@@ -467,7 +462,7 @@ Adicionar saidas (modificar script existente):
 - `assets/data/painel_municipal_indice.json` — lookup leve: code_muni, nome,
   microrregiao, centroide
 - `assets/data/municipios/{code}.json` × 246 — serie municipal compacta
-- `assets/data/transicoes_matriz.json` — 5 matrizes 6x6 (por periodo)
+- `assets/data/transicoes_matriz.json` — 3 matrizes 6x6 (por periodo)
 - `assets/data/sankey_data.json` — nodos + links para d3-sankey 1985→2024
 
 ✓ Check: `len(os.listdir("Visualizacao/assets/data/municipios"))` deve ser 246.

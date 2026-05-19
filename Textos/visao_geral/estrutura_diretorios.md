@@ -76,7 +76,7 @@ Mestrado/
 │       ├── mapeamento_mesorregioes.csv         # cd_mun → mesorregião — Pipeline #18
 │       ├── conversao_bruta_*.csv               # UF + municipal — Pipeline #19
 │       ├── decomposicao_origem.csv, fluxo_bruto_liquido.csv  # Pipeline #19
-│       ├── matriz_transicao_ato_I..V.csv      # 5 matrizes 6×6 por ATO — Pipeline #25
+│       ├── matriz_transicao_ato_I..III.csv      # 3 matrizes 6×6 por ATO — Pipeline #25
 │       ├── painel_unificado.parquet            # 9.840×66 — Pipeline #16
 │       ├── pib_uf_ipea_goias.csv               # PIB/VAB agro UF IPEA (1985-2023)
 │       ├── sicor_painel_municipal.csv          # Crédito municipal consolidado

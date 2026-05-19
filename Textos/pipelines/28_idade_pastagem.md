@@ -70,9 +70,11 @@ Consome `pastagem_idade_conversao.csv` e produz:
 
 A subida 1986-2019 tem componente mecânico (série inicia em 1985), mas a estabilização ~28a em 2014-2018 e a queda pós-2020 (com mediana caindo para 6-7a em 2022 e 2024) são reais e indicam mudança no padrão de conversão.
 
-### 2. Achado-chave — distribuição BIMODAL no ATO V
+### 2. Achado-chave — distribuição BIMODAL no período 2018-24
 
-Os histogramas dos ATOs I-IV são **unimodais** (uma mecânica dominante por vez). O **ATO V (Cerrado Manifesto 2018-24) tem distribuição claramente bimodal**: dois picos, um em ~5 anos e outro em ~35 anos.
+> **Nota metodológica (2026-05-19)**: Este achado foi originalmente descrito como "ATO V" sob a periodização de 5 atos. Com a reestruturação para 3 atos (Ato III = 2020-24), a janela encurta. A bimodalidade é um padrão empírico nos dados, independente da periodização. A sensibilidade ao ponto de corte (2018 vs 2020) será testada com janelas deslizantes (seção 2F do plano).
+
+Os histogramas dos ATOs I-II são **unimodais** (uma mecânica dominante por vez). O **período 2018-24 tem distribuição claramente bimodal**: dois picos, um em ~5 anos e outro em ~35 anos.
 
 Esta é a **assinatura empírica direta** da coexistência dos dois mecanismos da hipótese:
 - **Pico jovem (≈5a)** — mecanismo premeditado. Fronteira interna em consolidação convertendo pastagens novas. Coerente com pressão das tradings pós-Cerrado Manifesto para "agriculturizar sem novo desmatamento".
@@ -116,7 +118,7 @@ Pixels já classificados como pastagem em 1985 não têm idade verdadeira conhec
 
 | Hipótese | Status |
 |---|---|
-| Distribuição bimodal global | **Confirmada apenas no ATO V** — coexistência dos mecanismos surge no Cerrado Manifesto |
+| Distribuição bimodal global | **Confirmada no período 2018-24** — coexistência dos mecanismos surge no Cerrado Manifesto |
 | Idade mediana decrescente ao longo dos ATOs | **Refutada na linha geral**: cresce I→IV; cai parcialmente em V |
 | Idade menor no Sul de GO vs Norte/Nordeste | **Confirmada**: Sul 9a, Norte/Noroeste 20a |
 | Coorte veg.nat→pastagem→agric com mediana <15a | **Confirmada** (mediana 13a, cauda longa) |
@@ -157,7 +159,7 @@ Os JSONs `idade_pastagem_municipal.json` (~41 KB, idade mediana/média/n por mun
 Componentes propostos para a aba nova em `Visualizacao/index.html`:
 
 1. **Mapa coroplético municipal** — idade mediana da pastagem no momento da conversão, com classes em quantis (jovem/médio/antigo) e toggle por ATO.
-2. **Histograma interativo** — distribuição por ATO com slider temporal, destacando o achado bimodal do ATO V.
+2. **Histograma interativo** — distribuição por ATO com slider temporal, destacando o achado bimodal no período 2018-24.
 3. **Pull-quote narrativo** explicando os dois mecanismos da hipótese com leitura empírica.
 4. **Cards de coortes** — comparação visual veg.nat→pastagem→agric vs rotação agric→pastagem→agric.
 

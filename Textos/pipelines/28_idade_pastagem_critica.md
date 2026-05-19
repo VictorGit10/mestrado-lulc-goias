@@ -61,7 +61,7 @@ A censura é massiva: 66% dos 78k pixels são censurados, e quase todos eles est
 - ✅ Descrever como essa idade varia por época, região e origem anterior
 - ⚠️ **NÃO** classificar cada pixel como "provavelmente premeditado" ou "provavelmente oportunístico"
 - ⚠️ **NÃO** quantificar a fração de cada mecanismo por município/mesorregião/ATO
-- ⚠️ **NÃO** testar formalmente a bimodalidade observada no histograma do ATO V
+- ⚠️ **NÃO** testar formalmente a bimodalidade observada no histograma do período 2018-24
 
 A interpretação dos dois mecanismos ficou no nível "olhe o histograma e tire suas conclusões". É um primeiro passo, mas falta o passo de virar isso em variável quantificável.
 
@@ -84,14 +84,14 @@ Depois agregar essas frações por município e ano. Aí sim teríamos variávei
 
 ### B) Modelo de mistura formal para testar bimodalidade
 
-Ajustar uma mistura de 2 gaussianas no ATO V e fazer teste de razão de verossimilhança vs 1 gaussiana. Se duas gaussianas vencem, dá rigor estatístico ao que o histograma sugere visualmente. Os pesos da mistura quantificam a fração de cada mecanismo.
+Ajustar uma mistura de 2 gaussianas no período 2018-24 e fazer teste de razão de verossimilhança vs 1 gaussiana. Se duas gaussianas vencem, dá rigor estatístico ao que o histograma sugere visualmente. Os pesos da mistura quantificam a fração de cada mecanismo.
 
 ### C) Sobrevivência (Kaplan-Meier) — análise mais natural para esses dados
 
 A pergunta "quanto tempo uma pastagem dura antes de virar agricultura?" é literalmente uma análise de sobrevivência. Vantagens:
 
 - Trata a censura formalmente (Kaplan-Meier sabe lidar com observações censuradas).
-- Permite comparar coortes (Sul vs Norte, ATO IV vs V) via teste log-rank.
+- Permite comparar coortes (Sul vs Norte, Ato II vs III) via teste log-rank.
 - Produz curvas interpretáveis: "metade das pastagens de 2010 já viraram agricultura até 2020".
 
 ### D) Coortes longitudinais ao invés de snapshot anual
@@ -201,7 +201,7 @@ Se concorda que a análise está parada na "fase descritiva", o caminho mais pro
 
 1. **Classificação de pixels por regra simples** (premeditado / oportunístico / rotação / ambíguo) — converte os dados em variáveis quantificáveis. ~1h de código.
 2. **Mapa coroplético municipal da idade mediana** — dá visualização espacial imediata. ~30 min.
-3. **Kaplan-Meier por coorte** (Sul vs Norte, ATO IV vs V) — análise estatisticamente mais correta para a pergunta. ~2h.
+3. **Kaplan-Meier por coorte** (Sul vs Norte, Ato II vs III) — análise estatisticamente mais correta para a pergunta. ~2h.
 4. **Investigar o salto 2020→2022** — diagnóstico para ver se é real ou artefato. ~1h.
 
 Depois disso, com variáveis quantificáveis em mãos:

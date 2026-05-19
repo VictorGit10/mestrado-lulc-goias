@@ -71,18 +71,16 @@ Para parar o servidor: `Ctrl+C` no terminal (ou fechar a janela).
 MVP de 5 dias (escopo deliberadamente reduzido). Roadmap em
 `C:\Users\amara\.claude\plans\partitioned-stirring-mountain.md`.
 
-## Estrutura narrativa: 5 atos no territorio
+## Estrutura narrativa: 3 atos no territorio
 
-A peca conta 1985-2024 em **5 atos** com protagonistas no territorio. Os
+A peca conta 1985-2024 em **3 atos** com protagonistas no territorio. Os
 **8 marcos politicos** sao pinos na regua superior (nao mais capitulos).
 
 | Ato | Anos | Protagonista |
 |---|---|---|
-| I. Pastagem como heranca cerradeira | 1985-1993 | Pastagem extensiva |
-| II. Estabilizacao e a soja chega ao sudoeste | 1994-2002 | Soja em Rio Verde/Jatai |
-| III. Boom commodity sobre pastagem degradada | 2003-2011 | Soja-milho substitui pasto |
-| IV. Codigo Florestal e a intensificacao onde resiste | 2012-2017 | Pastagem que se intensifica |
-| V. Reorganizacao: frigorificos, oeste e cerrado nordeste | 2018-2024 | Frigorificos + frente do oeste |
+| I. Pastagem como heranca | 1985-2000 | Pastagem extensiva |
+| II. Expansao e intensificacao | 2001-2019 | Soja + commodity boom |
+| III. Conversao seletiva | 2020-2024 | Frigorificos + reorganizacao |
 
 ### Marcos politicos (pinos da regua, validar com orientador)
 
@@ -96,5 +94,5 @@ A peca conta 1985-2024 em **5 atos** com protagonistas no territorio. Os
 8. **2024** — Fim da serie / sintese
 
 Bibliografia inicial em `assets/data/marcos.json`. Os marcos de **2003 e
-2018 foram adicionados** com a refatoracao para 5 atos e ainda aguardam
+2018 foram adicionados** com a refatoracao para 3 atos e ainda aguardam
 revisao bibliografica do orientador.

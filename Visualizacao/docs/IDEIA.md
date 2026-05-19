@@ -31,10 +31,8 @@ A peca atende tres usos:
 
 A pergunta de pesquisa da dissertacao trata o LULC como variavel dependente e
 fatores socioeconomicos como independentes. A linha do tempo amplifica isso
-em uma tese narrativa em **cinco atos com protagonistas no territorio**:
-pastagem como heranca cerradeira, soja chegando ao sudoeste, boom commodity
-sobre pasto degradado, intensificacao pos-Codigo Florestal, e reorganizacao
-frigorifica. Cada ato tem **um agente concreto** (pastagem, soja, frigorifico,
+em uma tese narrativa em **três atos com protagonistas no territorio**:
+pastagem como herança, expansão e intensificação, e conversão seletiva. Cada ato tem **um agente concreto** (pastagem, soja, frigorifico,
 cerrado nordeste) e **um ou mais marcos institucionais** que mudam as regras
 do jogo dentro do ato.
 
@@ -146,7 +144,7 @@ Oito ancoragens, com pinos visiveis na regua:
 | 2018 | Cerrado Manifesto + reorganizacao frigorifica | Pressao de cadeia produtiva e consolidacao JBS/Marfrig/Minerva mudam a geografia da pecuaria |
 | 2024 | Fim da serie | Estado atual; sintese |
 
-A lista cresceu de 6 para 8 com a refatoracao para 5 atos: 2003 e 2018
+A lista cresceu de 6 para 8 com a refatoracao para 3 atos: 2003 e 2018
 foram adicionados para que os cortes dos atos III e V tenham ancora
 institucional, nao apenas narrativa. **Crise 2008, COVID 2020 e PRONAF
 seguem fora dos pinos** — entram no texto narrativo sem virar marco

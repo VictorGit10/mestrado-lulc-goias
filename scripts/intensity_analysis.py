@@ -257,7 +257,7 @@ def diagnostico_p2_p3(df: pd.DataFrame, periodos: dict) -> dict:
     taxas_p2_sem2004 = taxas_p2[taxas_p2 != taxa_2004] if len(taxas_p2) > 1 else taxas_p2
     u_sem, p_sem = stats.mannwhitneyu(taxas_p2_sem2004, taxas_p3, alternative="two-sided")
 
-    # Com 3 periodos alternativos (P2+P3 fundidos)
+    # Com 2 periodos alternativos (P1 vs P2+P3 fundidos)
     taxas_p2p3 = np.concatenate([taxas_p2, taxas_p3])
     taxas_p1 = []
     ini_p1, fim_p1, _ = periodos["I"]
@@ -268,18 +268,9 @@ def diagnostico_p2_p3(df: pd.DataFrame, periodos: dict) -> dict:
         taxas_p1.append(off_diag / total if total > 0 else 0)
     taxas_p1 = np.array(taxas_p1)
 
-    taxas_p4 = []
-    ini_p4, fim_p4, _ = periodos["IV"]
-    for ano in range(ini_p4, fim_p4):
-        mat = matriz_anual(df, ano, ano + 1)
-        total = mat.sum()
-        off_diag = total - np.trace(mat)
-        taxas_p4.append(off_diag / total if total > 0 else 0)
-    taxas_p4 = np.array(taxas_p4)
-
-    # KW: 3 periodos (P1, P2+P3, P4) vs 4 periodos (P1, P2, P3, P4)
-    h_3, p_3 = stats.kruskal(taxas_p1, taxas_p2p3, taxas_p4)
-    h_4, p_4 = stats.kruskal(taxas_p1, taxas_p2, taxas_p3, taxas_p4)
+    # KW: 2 periodos (P1, P2+P3) vs 3 periodos (P1, P2, P3)
+    h_2, p_2 = stats.kruskal(taxas_p1, taxas_p2p3)
+    h_3, p_3 = stats.kruskal(taxas_p1, taxas_p2, taxas_p3)
 
     return {
         "p2_vs_p3": {
@@ -299,10 +290,10 @@ def diagnostico_p2_p3(df: pd.DataFrame, periodos: dict) -> dict:
             "p2_sem2004_vs_p3_p": round(p_sem, 6),
         },
         "categorias": cat_rows,
-        "3_periodos_vs_4_periodos": {
-            "descricao": "P1 | P2+P3 fundidos | P4 vs P1 | P2 | P3 | P4",
+        "2_periodos_vs_3_periodos": {
+            "descricao": "P1 | P2+P3 fundidos vs P1 | P2 | P3",
+            "h_2per": round(h_2, 3), "p_2per": round(p_2, 6),
             "h_3per": round(h_3, 3), "p_3per": round(p_3, 6),
-            "h_4per": round(h_4, 3), "p_4per": round(p_4, 6),
         },
     }
 
@@ -422,9 +413,9 @@ def main():
         print(f"    {c['categoria']}: P2={c['taxa_media_p2']:.4f}, P3={c['taxa_media_p3']:.4f}, "
               f"ratio={c['ratio_p2_p3']:.2f}, p={c['p']:.4f} {sig}")
 
-    c3 = diag["3_periodos_vs_4_periodos"]
-    print(f"\n  3 periodos (P1 | P2+P3 | P4): H={c3['h_3per']:.3f}, p={c3['p_3per']:.6f}")
-    print(f"  4 periodos (P1 | P2 | P3 | P4): H={c3['h_4per']:.3f}, p={c3['p_4per']:.6f}")
+    c3 = diag["2_periodos_vs_3_periodos"]
+    print(f"\n  2 periodos (P1 | P2+P3): H={c3['h_2per']:.3f}, p={c3['p_2per']:.6f}")
+    print(f"  3 periodos (P1 | P2 | P3): H={c3['h_3per']:.3f}, p={c3['p_3per']:.6f}")
 
     # ── Nivel 3: Transicoes-chave ──
     print("\n5. TRANSICOES-CHAVE (intensidade anual por periodo)")

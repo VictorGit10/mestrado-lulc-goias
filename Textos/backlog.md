@@ -42,12 +42,12 @@ Itens pendentes alinhados com o plano-mestre e [fontes_dados_adicionais.md](refe
 
 ## Em andamento (2026-05-15)
 
-- [x] **Pipeline #28 — Idade da pastagem na conversão para agricultura** (2026-05-15) — Sub-pipelines A (coleta GEE) e B (análise descritiva) concluídos. 78.000 pixels coletados, 241 munis, 1986-2024. Calcula idade da pastagem em Python a partir de bandas `classification_YYYY` amostradas via `stratifiedSample` (não exige asset MapBiomas Pastagem separado). **Achado-chave: ATO V (Cerrado Manifesto 2018-24) tem distribuição BIMODAL — picos em ~5a e ~35a — assinatura empírica direta da coexistência dos mecanismos premeditado e oportunístico.** Idade mediana por ATO cresce 4a (I) → 27a (IV, pico) e cai para 22a (V). Sul Goiano (37% dos pixels) com mediana 9a domina conversão; Norte/Noroeste mediana 20a. Coorte veg.nat→pastagem→agric (20.5%, n=16.009) mediana 13a com cauda longa; rotação agric→pastagem→agric (12.1%) mediana 5a. Sem correlação com Δ SICOR/Δ VA agro municipais. Outputs: `data/processed/pastagem_idade_conversao.csv`, 6 PNGs em `outputs/idade_pastagem/`, 2 JSONs em `Visualizacao/assets/data/`. **Sub-pipeline C (aba na Visualizacao/) pendente.**
+- [x] **Pipeline #28 — Idade da pastagem na conversão para agricultura** (2026-05-15) — Sub-pipelines A (coleta GEE) e B (análise descritiva) concluídos. 78.000 pixels coletados, 241 munis, 1986-2024. Calcula idade da pastagem em Python a partir de bandas `classification_YYYY` amostradas via `stratifiedSample` (não exige asset MapBiomas Pastagem separado). **Achado-chave: período 2018-24 tem distribuição BIMODAL — picos em ~5a e ~35a — assinatura empírica direta da coexistência dos mecanismos premeditado e oportunístico.** Sensibilidade ao corte temporal a verificar (janelas deslizantes). Sul Goiano (37% dos pixels) com mediana 9a domina conversão; Norte/Noroeste mediana 20a. Coorte veg.nat→pastagem→agric (20.5%, n=16.009) mediana 13a com cauda longa; rotação agric→pastagem→agric (12.1%) mediana 5a. Sem correlação com Δ SICOR/Δ VA agro municipais. Outputs: `data/processed/pastagem_idade_conversao.csv`, 6 PNGs em `outputs/idade_pastagem/`, 2 JSONs em `Visualizacao/assets/data/`. **Sub-pipeline C (aba na Visualizacao/) pendente.**
 
 ## Em andamento (sequência A→B→C, 2026-05-12)
 
 - [x] **Frente A** — Fix conversao_bruta_*.csv (concluído)
-- [ ] **Frente B** — Pipeline #25: `scripts/analise_transicoes.py` (matrizes 6×6 por ATO, decomposição de origem, fluxo bruto vs líquido, 5 JSONs Sankey, top por mesorregião)
+- [ ] **Frente B** — Pipeline #25: `scripts/analise_transicoes.py` (matrizes 6×6 por ATO, decomposição de origem, fluxo bruto vs líquido, 3 JSONs Sankey, top por mesorregião)
 - [ ] **Frente C** — Refinar primeira aba do `Visualizacao/index.html`:
   - C1: cards diversificados de produção (mini-grid 4 culturas por ATO, explora painel ampliado)
   - C2: toggle de camadas no sticky-map (Cobertura | Δ | Fogo | Transições)
@@ -56,7 +56,7 @@ Itens pendentes alinhados com o plano-mestre e [fontes_dados_adicionais.md](refe
   - C5: highlight barra empilhada ↔ pixels do mapa
 - [ ] **Sub-pipeline #28-C — Aba "Pastagem como reserva de terra" no `Visualizacao/index.html`** (criada 2026-05-15). JSONs prontos em `Visualizacao/assets/data/idade_pastagem_municipal.json` (~41 KB, idade mediana/média/n por município) e `idade_pastagem_histograma.json` (~3 KB, histograma por ATO com bins/counts/mediana). Componentes propostos:
   - **Mapa coroplético municipal** de idade mediana na conversão, com classes em quantis (jovem/médio/antigo) e toggle por ATO.
-  - **Histograma interativo** por ATO com slider temporal, **destacando visualmente o achado bimodal do ATO V** (Cerrado Manifesto 2018-24) — picos em ~5a (premeditado) e ~35a (oportunístico).
+  - **Histograma interativo** por ATO com slider temporal, **destacando visualmente o achado bimodal no período 2018-24** — picos em ~5a (premeditado) e ~35a (oportunístico). Sensibilidade ao corte temporal a verificar (P#28, seção 2F).
   - **Pull-quote narrativo** com a hipótese e leitura empírica.
   - **Cards de coortes** comparando `veg.nat → pastagem → agric` (n=16.009, mediana 13a) vs rotação `agric → pastagem → agric` (n=9.419, mediana 5a).
   - Padrão alinhado com `timeline.js` / `inventario.js` / `atlas.js`. Conexão com a tese: refina a leitura do Δ Pastagem × Δ SICOR β=−0,003 (Pipeline #22) ao distinguir se SICOR opera sobre pastagem nova ou antiga.
