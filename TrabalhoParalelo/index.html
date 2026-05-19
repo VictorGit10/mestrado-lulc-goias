@@ -88,14 +88,14 @@
 
   <div class="figure-grid">
     <div class="figure-card">
-      <img src="img/serie_total_brasil.png" alt="Série temporal do rebanho bovino total no Brasil" loading="lazy">
+      <img src="img/serie_total_brasil.png" alt="Série temporal do rebanho bovino total no Brasil" loading="lazy" data-lightbox>
       <div class="figure-caption">
         <strong>Rebanho total · Brasil</strong>
         ~230 milhões de cabeças em 2024. A série agregada esconde a heterogeneidade municipal — é o que as médias acima descompactam.
       </div>
     </div>
     <div class="figure-card">
-      <img src="img/serie_top10_ufs.png" alt="Top 10 Unidades da Federação em rebanho bovino" loading="lazy">
+      <img src="img/serie_top10_ufs.png" alt="Top 10 Unidades da Federação em rebanho bovino" loading="lazy" data-lightbox>
       <div class="figure-caption">
         <strong>Top 10 UFs</strong>
         MT, GO e MS concentram a expansão. O ranking se estabiliza após 2010, com o Centro-Oeste consolidado como polo pecuário.
@@ -105,14 +105,14 @@
 
   <div class="figure-grid">
     <div class="figure-card">
-      <img src="img/crescimento_uf.png" alt="Crescimento do rebanho bovino por Unidade da Federação" loading="lazy">
+      <img src="img/crescimento_uf.png" alt="Crescimento do rebanho bovino por Unidade da Federação" loading="lazy" data-lightbox>
       <div class="figure-caption">
         <strong>Crescimento por UF</strong>
         Norte e Centro-Oeste crescem acima da média; Sudeste e Sul estagnam ou recuam. O mapa de crescimento é o inverso do mapa de densidade demográfica.
       </div>
     </div>
     <div class="figure-card">
-      <img src="img/completude_serie.png" alt="Completude temporal da série PPM por município" loading="lazy">
+      <img src="img/completude_serie.png" alt="Completude temporal da série PPM por município" loading="lazy" data-lightbox>
       <div class="figure-caption">
         <strong>Completude da série</strong>
         A maioria dos municípios tem dados em poucos anos. Apenas ~4.037 têm série completa (40 anos), o que justifica o recorte do painel balanceado.
@@ -121,14 +121,51 @@
   </div>
 
   <!-- Dados brutos / drive -->
-  <div class="drive-cta">
-    <h3>Dados e scripts</h3>
+  <h2>Dados, scripts e estrutura da pasta</h2>
+  <p class="section-lede">
+    Todo o trabalho está documentado e replicável. A pasta no Google Drive espelha exatamente a estrutura local
+    do projeto — <strong>Trabalho paralelo/</strong> — com scripts Python, dados brutos do SIDRA, tabelas processadas
+    e figuras geradas. Você pode rodar do zero ou usar apenas os CSVs prontos.
+  </p>
+
+  <div class="drive-tree">
+    <span class="folder">Trabalho paralelo/</span>
+    <ul>
+      <li><span class="file">README.md</span> <span class="meta">— documentação completa do projeto</span></li>
+      <li><span class="folder">scripts/</span>
+        <ul>
+          <li><span class="file">coleta_ppm_br_bovino.py</span> <span class="meta">— download do SIDRA, cache em chunks e processamento do painel completo</span></li>
+          <li><span class="file">figura_media_mediana_anual.py</span> <span class="meta">— gera os gráficos de média/mediana (todos disponíveis + balanced panel)</span></li>
+        </ul>
+      </li>
+      <li><span class="folder">data/raw/ppm_br/</span> <span class="meta">— cache bruto do SIDRA (5 chunks CSV, um por faixa de anos)</span></li>
+      <li><span class="folder">data/processed/</span>
+        <ul>
+          <li><span class="file">ppm_br_bovino_municipal.csv</span> <span class="meta">— painel long (município × ano, ~220k linhas)</span></li>
+          <li><span class="file">ppm_br_bovino_stats_municipal.csv</span> <span class="meta">— estatísticas por município (média, mediana, n_anos)</span></li>
+          <li><span class="file">ppm_media_mediana_anual.csv</span> <span class="meta">— série temporal agregada (média/mediana por ano)</span></li>
+          <li><span class="file">ppm_media_mediana_anual.json</span> <span class="meta">— idem, formato JSON para web</span></li>
+        </ul>
+      </li>
+      <li><span class="folder">outputs/</span> <span class="meta">— 12 figuras PNG (séries temporais, histogramas, completude, boxplots)</span></li>
+    </ul>
+  </div>
+
+  <p style="font-size: 0.95rem; color: #3a3a3a;">
+    <strong>Como replicar:</strong> instale <code>pandas, sidrapy, matplotlib</code> e rode
+    <code>python scripts/coleta_ppm_br_bovino.py</code>. O script baixa dados em cache,
+    monta o painel e exporta CSVs. Use <code>--force</code> para re-download completo
+    ou <code>--stats-only</code> para recalcular sem baixar novamente.
+  </p>
+
+  <div class="drive-cta" style="margin-top: 1.5rem;">
+    <h3>Acessar pasta no Google Drive</h3>
     <p>
-      O painel completo (long format), as estatísticas por município e os scripts de coleta
-      estão disponíveis no Google Drive. Inclui CSVs processados e código Python reutilizável.
+      A pasta compartilhada contém a estrutura completa acima. Você pode baixar os CSVs processados,
+      reexecutar os scripts ou apenas consultar as figuras.
     </p>
     <a class="btn" href="https://drive.google.com/drive/folders/1ISJG2w5nrCwUPe6hekAIIwLfDn8FjqnH?usp=sharing" target="_blank" rel="noopener">
-      Abrir pasta no Google Drive →
+      Abrir Google Drive →
     </a>
   </div>
 
@@ -153,6 +190,45 @@
     <a href="../Visualizacao/">Visualização principal →</a>
   </p>
 </footer>
+
+<!-- Lightbox -->
+<div class="lightbox-overlay" id="lightbox" aria-hidden="true">
+  <span class="lightbox-close" id="lightbox-close">×</span>
+  <img src="" alt="" id="lightbox-img">
+</div>
+
+<script>
+(function() {
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const closeBtn = document.getElementById('lightbox-close');
+
+  document.querySelectorAll('img[data-lightbox]').forEach(function(img) {
+    img.addEventListener('click', function() {
+      lightboxImg.src = img.src;
+      lightboxImg.alt = img.alt;
+      lightbox.classList.add('active');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  function close() {
+    lightbox.classList.remove('active');
+    lightbox.setAttribute('aria-hidden', 'true');
+    lightboxImg.src = '';
+    document.body.style.overflow = '';
+  }
+
+  closeBtn.addEventListener('click', close);
+  lightbox.addEventListener('click', function(e) {
+    if (e.target === lightbox) close();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && lightbox.classList.contains('active')) close();
+  });
+})();
+</script>
 
 </body>
 </html>
