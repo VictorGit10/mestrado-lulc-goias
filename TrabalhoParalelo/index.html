@@ -5,229 +5,285 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Rebanho Bovino Municipal — Brasil (1985–2024)</title>
   <meta name="description" content="Levantamento de média e mediana de cabeças bovinas por município brasileiro, usando dados da Pesquisa Pecuária Municipal (PPM/IBGE).">
-  <link rel="stylesheet" href="assets/css/styles.css?v=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css?v=2">
 </head>
 <body>
 
 <header class="page-header">
   <div class="page-header-inner">
-    <a href="../" class="back">← Mestrado CIAMB-UFG</a>
-    <span style="color: var(--color-muted);">Trabalho Paralelo</span>
+    <a href="../" class="back">← Voltar para Mestrado CIAMB-UFG</a>
+    <span class="badge">Trabalho Paralelo</span>
   </div>
 </header>
 
 <section class="hero">
   <p class="hero-eyebrow">PPM/IBGE · SIDRA 3939 · 1985–2024</p>
-  <h1 class="hero-title">Rebanho Bovino Municipal no Brasil</h1>
+  <h1 class="hero-title">A Dinâmica do Rebanho Bovino Municipal no Brasil</h1>
   <p class="hero-lede">
-    A Pesquisa Pecuária Municipal acompanha ~5.570 municípios brasileiros há quatro décadas.
-    O rebanho total cresceu, mas como esse crescimento se distribui entre os municípios?
-    Este levantamento compara <strong>média</strong> e <strong>mediana</strong> em dois recortes — todos disponíveis
-    e painel balanceado — para testar se o crescimento é generalizado ou concentrado.
+    A Pesquisa Pecuária Municipal acompanha os municípios brasileiros há quatro décadas.
+    O rebanho total cresceu substancialmente, mas como esse crescimento se distribui?
+    Este levantamento compara a <strong>média</strong> e a <strong>mediana</strong> em dois recortes — todos os municípios disponíveis
+    e um painel balanceado — para testar se o crescimento é generalizado ou se há concentração.
   </p>
 </section>
 
 <main>
 
   <!-- Contexto -->
-  <h2>Por que a média cresce mais que a mediana</h2>
-  <p class="section-lede">
-    O rebanho bovino total no Brasil cresceu de ~150 para ~230 milhões de cabeças entre 1985 e 2024.
-    Mas esse crescimento <strong>não é igualitário</strong> entre os municípios. A <strong>média</strong>
-    por município sobe de ~31.500 para ~42.000 — enquanto a <strong>mediana</strong> fica estável em ~14.000–15.000.
-    Isso significa que a pecuária está se <strong>concentrando</strong>: os grandes municípios puxam a média para cima,
-    mas o município típico (mediana) quase não muda.
-  </p>
+  <section class="content-section">
+    <h2>Por que a média cresce mais que a mediana?</h2>
+    <p class="section-lede">
+      O rebanho bovino total no Brasil cresceu de aproximadamente 150 para 230 milhões de cabeças entre 1985 e 2024.
+      Contudo, esse crescimento <strong>não é igualitário</strong> entre os municípios. A <strong>média</strong>
+      por município sobe de ~31.500 para ~42.000 — enquanto a <strong>mediana</strong> permanece incrivelmente estável em torno de 14.000 a 15.000.
+      Isso sugere que a pecuária está se <strong>concentrando</strong>: grandes polos puxam a média para cima,
+      enquanto o município típico (representado pela mediana) praticamente não altera o tamanho do seu rebanho.
+    </p>
 
-  <!-- Metodologia -->
-  <h3>Dois recortes, duas histórias</h3>
-  <div class="method-grid">
-    <div class="method-card">
-      <h4>Todos disponíveis</h4>
-      <p>
-        Usa todos os municípios com dado válido em cada ano (~4.100 em 1985 → ~5.500 em 2024).
-        Série mais completa, mas carrega <strong>viés de composição</strong>:
-        municípios novos (geralmente pequenos) diluem a média, enquanto municípios grandes a puxam para cima.
-      </p>
+    <!-- Metodologia -->
+    <h3>Dois recortes, duas histórias</h3>
+    <div class="method-grid">
+      <div class="method-card">
+        <h4>Todos disponíveis</h4>
+        <p>
+          Utiliza todos os municípios com dado válido em cada ano (~4.100 em 1985 → ~5.500 em 2024).
+          É a série mais completa, mas carrega um <strong>viés de composição</strong>:
+          municípios novos (geralmente menores) diluem a média, enquanto os grandes a elevam.
+        </p>
+      </div>
+      <div class="method-card">
+        <h4>Balanced Panel</h4>
+        <p>
+          Restringe a amostra aos ~4.037 municípios com dados presentes em <strong>todos</strong> os anos entre 1985 e 2024.
+          Isso elimina o viés de entrada e saída. Com uma base fixa, a divergência entre média e mediana
+          comprova que a concentração do rebanho é um fenômeno estrutural e não um artefato administrativo.
+        </p>
+      </div>
     </div>
-    <div class="method-card">
-      <h4>Balanced panel</h4>
-      <p>
-        Restringe a amostra aos ~4.037 municípios com dado em <strong>todos</strong> os anos de 1985 a 2024.
-        Elimina o viés de entrada/saída de municípios. Com a base fixa, a divergência média–mediana
-        revela concentração real do rebanho, não artefato administrativo.
-      </p>
-    </div>
-  </div>
+  </section>
 
   <!-- Gráficos principais -->
-  <h2>O que os dados mostram</h2>
+  <section class="content-section">
+    <h2>O que os dados mostram</h2>
 
-  <div class="figure-card figure-wide">
-    <img src="img/ppm_media_mediana_todos_disponiveis.png" alt="Média e mediana de cabeças bovinas por município — todos disponíveis" loading="lazy">
-    <div class="figure-caption">
-      <strong>Figura 1 · Todos disponíveis</strong>
-      A média sobe de ~31.500 para ~42.000 cabeças entre 1985 e 2024. A mediana fica estável (~14.000–15.000).
-      A <strong>brecha se amplia</strong>: o crescimento do rebanho está concentrado nos municípios grandes,
-      enquanto o município típico quase não muda. O salto em 1990 e a queda abrupta em 2013 coincidem com reformas do questionário IBGE.
-    </div>
-  </div>
+    <figure class="figure-card figure-wide">
+      <img src="img/ppm_media_mediana_todos_disponiveis.png" alt="Média e mediana de cabeças bovinas por município — todos disponíveis" loading="lazy" data-lightbox>
+      <figcaption class="figure-caption">
+        <strong>Figura 1 · Todos disponíveis</strong>
+        A média sobe de ~31.500 para ~42.000 cabeças entre 1985 e 2024. A mediana fica estável (~14.000–15.000).
+        A <strong>brecha se amplia</strong>: o crescimento do rebanho está concentrado nos municípios grandes,
+        enquanto o município típico quase não muda. O salto em 1990 e a queda abrupta em 2013 coincidem com reformas do questionário do IBGE.
+      </figcaption>
+    </figure>
 
-  <div class="figure-card figure-wide">
-    <img src="img/ppm_media_mediana_balanced_panel.png" alt="Média e mediana de cabeças bovinas por município — painel balanceado" loading="lazy">
-    <div class="figure-caption">
-      <strong>Figura 2 · Painel balanceado (n = 4.037)</strong>
-      Com a mesma base fixa de municípios, o padrão se confirma: a média sobe de ~31.500 para ~42.000,
-      mas a mediana permanece em ~14.000–15.000. Isso prova que a divergência é <strong>real</strong>,
-      não artefato de municípios novos: a pecuária brasileira está se concentrando em menos e maiores municípios.
-    </div>
-  </div>
+    <figure class="figure-card figure-wide">
+      <img src="img/ppm_media_mediana_balanced_panel.png" alt="Média e mediana de cabeças bovinas por município — painel balanceado" loading="lazy" data-lightbox>
+      <figcaption class="figure-caption">
+        <strong>Figura 2 · Painel Balanceado (n = 4.037)</strong>
+        Com a mesma base fixa de municípios, o padrão se confirma e até se acentua. Isso comprova que a divergência é <strong>real</strong>,
+        e não um artefato da criação de novos municípios: a pecuária brasileira está de fato se concentrando em menos polos de grande escala.
+      </figcaption>
+    </figure>
+  </section>
 
   <!-- Contexto Brasil -->
-  <h3>Panorama e dinâmica regional</h3>
+  <section class="content-section">
+    <h3>Panorama e Dinâmica Regional</h3>
 
-  <div class="figure-grid">
-    <div class="figure-card">
-      <img src="img/serie_total_brasil.png" alt="Série temporal do rebanho bovino total no Brasil" loading="lazy" data-lightbox>
-      <div class="figure-caption">
-        <strong>Rebanho total · Brasil</strong>
-        ~230 milhões de cabeças em 2024. A série agregada esconde a heterogeneidade municipal — é o que as médias acima descompactam.
-      </div>
+    <div class="figure-grid">
+      <figure class="figure-card">
+        <img src="img/serie_total_brasil.png" alt="Série temporal do rebanho bovino total no Brasil" loading="lazy" data-lightbox>
+        <figcaption class="figure-caption">
+          <strong>Rebanho total · Brasil</strong>
+          ~230 milhões de cabeças em 2024. A série agregada nacional esconde a profunda heterogeneidade municipal revelada na análise de médias.
+        </figcaption>
+      </figure>
+      <figure class="figure-card">
+        <img src="img/serie_top10_ufs.png" alt="Top 10 Unidades da Federação em rebanho bovino" loading="lazy" data-lightbox>
+        <figcaption class="figure-caption">
+          <strong>Top 10 UFs</strong>
+          Mato Grosso (MT), Goiás (GO) e Pará (PA) concentram a expansão. O ranking evidencia o deslocamento do polo pecuário para o Centro-Oeste e Norte.
+        </figcaption>
+      </figure>
     </div>
-    <div class="figure-card">
-      <img src="img/serie_top10_ufs.png" alt="Top 10 Unidades da Federação em rebanho bovino" loading="lazy" data-lightbox>
-      <div class="figure-caption">
-        <strong>Top 10 UFs</strong>
-        MT, GO e MS concentram a expansão. O ranking se estabiliza após 2010, com o Centro-Oeste consolidado como polo pecuário.
-      </div>
-    </div>
-  </div>
 
-  <div class="figure-grid">
-    <div class="figure-card">
-      <img src="img/crescimento_uf.png" alt="Crescimento do rebanho bovino por Unidade da Federação" loading="lazy" data-lightbox>
-      <div class="figure-caption">
-        <strong>Crescimento por UF</strong>
-        Norte e Centro-Oeste crescem acima da média; Sudeste e Sul estagnam ou recuam. O mapa de crescimento é o inverso do mapa de densidade demográfica.
-      </div>
+    <div class="figure-grid">
+      <figure class="figure-card">
+        <img src="img/crescimento_uf.png" alt="Crescimento do rebanho bovino por Unidade da Federação" loading="lazy" data-lightbox>
+        <figcaption class="figure-caption">
+          <strong>Crescimento por UF</strong>
+          Norte e Centro-Oeste crescem muito acima da média nacional; Sudeste e Sul estagnam ou recuam. 
+        </figcaption>
+      </figure>
+      <figure class="figure-card">
+        <img src="img/completude_serie.png" alt="Completude temporal da série PPM por município" loading="lazy" data-lightbox>
+        <figcaption class="figure-caption">
+          <strong>Completude da série</strong>
+          Apenas ~4.037 municípios possuem a série histórica completa de 40 anos, justificando a necessidade do recorte em painel balanceado para análises temporais rigorosas.
+        </figcaption>
+      </figure>
     </div>
-    <div class="figure-card">
-      <img src="img/completude_serie.png" alt="Completude temporal da série PPM por município" loading="lazy" data-lightbox>
-      <div class="figure-caption">
-        <strong>Completude da série</strong>
-        A maioria dos municípios tem dados em poucos anos. Apenas ~4.037 têm série completa (40 anos), o que justifica o recorte do painel balanceado.
-      </div>
-    </div>
-  </div>
+  </section>
 
   <!-- Dados brutos / drive -->
-  <h2>Dados, scripts e estrutura da pasta</h2>
-  <p class="section-lede">
-    Todo o trabalho está documentado e replicável. A pasta no Google Drive espelha exatamente a estrutura local
-    do projeto — <strong>Trabalho paralelo/</strong> — com scripts Python, dados brutos do SIDRA, tabelas processadas
-    e figuras geradas. Você pode rodar do zero ou usar apenas os CSVs prontos.
-  </p>
-
-  <div class="drive-tree">
-    <span class="folder">Trabalho paralelo/</span>
-    <ul>
-      <li><span class="file">README.md</span> <span class="meta">— documentação completa do projeto</span></li>
-      <li><span class="folder">scripts/</span>
-        <ul>
-          <li><span class="file">coleta_ppm_br_bovino.py</span> <span class="meta">— download do SIDRA, cache em chunks e processamento do painel completo</span></li>
-          <li><span class="file">figura_media_mediana_anual.py</span> <span class="meta">— gera os gráficos de média/mediana (todos disponíveis + balanced panel)</span></li>
-        </ul>
-      </li>
-      <li><span class="folder">data/raw/ppm_br/</span> <span class="meta">— cache bruto do SIDRA (5 chunks CSV, um por faixa de anos)</span></li>
-      <li><span class="folder">data/processed/</span>
-        <ul>
-          <li><span class="file">ppm_br_bovino_municipal.csv</span> <span class="meta">— painel long (município × ano, ~220k linhas)</span></li>
-          <li><span class="file">ppm_br_bovino_stats_municipal.csv</span> <span class="meta">— estatísticas por município (média, mediana, n_anos)</span></li>
-          <li><span class="file">ppm_media_mediana_anual.csv</span> <span class="meta">— série temporal agregada (média/mediana por ano)</span></li>
-          <li><span class="file">ppm_media_mediana_anual.json</span> <span class="meta">— idem, formato JSON para web</span></li>
-        </ul>
-      </li>
-      <li><span class="folder">outputs/</span> <span class="meta">— 12 figuras PNG (séries temporais, histogramas, completude, boxplots)</span></li>
-    </ul>
-  </div>
-
-  <p style="font-size: 0.95rem; color: #3a3a3a;">
-    <strong>Como replicar:</strong> instale <code>pandas, sidrapy, matplotlib</code> e rode
-    <code>python scripts/coleta_ppm_br_bovino.py</code>. O script baixa dados em cache,
-    monta o painel e exporta CSVs. Use <code>--force</code> para re-download completo
-    ou <code>--stats-only</code> para recalcular sem baixar novamente.
-  </p>
-
-  <div class="drive-cta" style="margin-top: 1.5rem;">
-    <h3>Acessar pasta no Google Drive</h3>
-    <p>
-      A pasta compartilhada contém a estrutura completa acima. Você pode baixar os CSVs processados,
-      reexecutar os scripts ou apenas consultar as figuras.
+  <section class="content-section">
+    <h2>Replicação e Estrutura do Projeto</h2>
+    <p class="section-lede">
+      Todo o fluxo de trabalho está documentado. A estrutura de diretórios abaixo reflete a pasta
+      <strong>Trabalho paralelo/</strong>, contendo scripts Python para raspagem do SIDRA, dados processados
+      e códigos geradores das figuras.
     </p>
-    <a class="btn" href="https://drive.google.com/drive/folders/1ISJG2w5nrCwUPe6hekAIIwLfDn8FjqnH?usp=sharing" target="_blank" rel="noopener">
-      Abrir Google Drive →
-    </a>
-  </div>
 
-  <!-- Notas metodológicas -->
-  <h3>Notas metodológicas</h3>
-  <ul style="color: #3a3a3a; font-size: 0.95rem; line-height: 1.6; padding-left: 1.2rem;">
-    <li>A PPM sofreu mudanças de questionário em <strong>1981, 1989 e 2013</strong>. A série 1985–2024 pode apresentar descontinuidades nesses pontos.</li>
-    <li>Municípios criados ou extintos ao longo do período terão séries incompletas. O campo <code>n_anos</code> permite filtrar por completude.</li>
-    <li>Valores ausentes no SIDRA (<code>".."</code>, <code>"-"</code>, <code>"..."</code>) foram convertidos para <code>NaN</code>.</li>
-    <li>Validação cruzada: os dados de Goiás foram comparados automaticamente com a pipeline principal do mestrado.</li>
-  </ul>
+    <div class="drive-tree">
+      <div class="tree-root">Trabalho paralelo/</div>
+      <ul class="tree-list">
+        <li>
+          <span class="file">README.md</span>
+          <span class="meta">— documentação completa do projeto</span>
+        </li>
+        <li>
+          <span class="folder">scripts/</span>
+          <ul class="tree-list">
+            <li>
+              <span class="file">coleta_ppm_br_bovino.py</span>
+              <span class="meta">— download do SIDRA, cache e processamento do painel</span>
+            </li>
+            <li>
+              <span class="file">figura_media_mediana_anual.py</span>
+              <span class="meta">— gera os gráficos de média vs. mediana</span>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <span class="folder">data/raw/ppm_br/</span>
+          <span class="meta">— cache bruto do SIDRA (CSV em chunks)</span>
+        </li>
+        <li>
+          <span class="folder">data/processed/</span>
+          <ul class="tree-list">
+            <li>
+              <span class="file">ppm_br_bovino_municipal.csv</span>
+              <span class="meta">— painel formato long (~220k linhas)</span>
+            </li>
+            <li>
+              <span class="file">ppm_br_bovino_stats_municipal.csv</span>
+              <span class="meta">— estatísticas agregadas por município</span>
+            </li>
+            <li>
+              <span class="file">ppm_media_mediana_anual.csv</span>
+              <span class="meta">— série temporal macro do Brasil</span>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <span class="folder">outputs/</span>
+          <span class="meta">— figuras geradas (séries, histogramas, completude)</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="replication-instructions">
+      <strong>Como replicar localmente:</strong> Instale as dependências (<code>pandas</code>, <code>sidrapy</code>, <code>matplotlib</code>) e execute:
+      <br><code>python scripts/coleta_ppm_br_bovino.py</code><br>
+      O script baixará os dados em cache, estruturará o painel e exportará os CSVs. Utilize <code>--force</code> para contornar o cache e baixar os dados brutos novamente.
+    </div>
+
+    <div class="drive-cta">
+      <h3>Acesse os dados na nuvem</h3>
+      <p>
+        Uma pasta pública no Google Drive contém todos os CSVs processados e figuras em alta resolução. 
+        Ideal para quem deseja explorar os dados sem rodar a rotina de coleta.
+      </p>
+      <a class="btn" href="https://drive.google.com/drive/folders/1ISJG2w5nrCwUPe6hekAIIwLfDn8FjqnH?usp=sharing" target="_blank" rel="noopener">
+        Abrir Google Drive ↗
+      </a>
+    </div>
+
+    <!-- Notas metodológicas -->
+    <div class="methodology-notes">
+      <h3>Notas Metodológicas</h3>
+      <ul>
+        <li>A PPM sofreu alterações metodológicas em <strong>1981, 1989 e 2013</strong>. A série 1985–2024 pode apresentar saltos ou descontinuidades associadas a essas revisões.</li>
+        <li>Municípios emancipados ou extintos no período apresentam séries incompletas. A variável <code>n_anos</code> permite controle sobre a completude da amostra.</li>
+        <li>Valores ausentes (reportados como <code>".."</code>, <code>"-"</code>, <code>"..."</code> no SIDRA) foram codificados como <code>NaN</code> durante o pré-processamento.</li>
+      </ul>
+    </div>
+  </section>
 
 </main>
 
 <footer class="page-footer">
-  <p>
-    <strong>Fonte:</strong> IBGE/SIDRA — Pesquisa Pecuária Municipal (PPM), tabela 3939, variável 105, classificação 79[2670].
-    Cobertura: ~5.570 municípios brasileiros, 1985–2024.
-  </p>
-  <p style="margin-top: 0.6rem;">
-    Parte do mestrado em Ciências Ambientais (CIAMB-UFG) ·
-    <a href="../Visualizacao/">Visualização principal →</a>
-  </p>
+  <div class="footer-content">
+    <p>
+      <strong>Fonte de Dados:</strong> IBGE/SIDRA — Pesquisa Pecuária Municipal (PPM), Tabela 3939, Variável 105, Classificação 79[2670].
+      Cobertura: ~5.570 municípios brasileiros (1985–2024).
+    </p>
+    <p class="footer-links">
+      Parte do mestrado em Ciências Ambientais (CIAMB-UFG) 
+      <span class="separator">·</span>
+      <a href="../Visualizacao/">Acessar Visualização Principal →</a>
+    </p>
+  </div>
 </footer>
 
-<!-- Lightbox -->
-<div class="lightbox-overlay" id="lightbox" aria-hidden="true">
-  <span class="lightbox-close" id="lightbox-close">×</span>
-  <img src="" alt="" id="lightbox-img">
+<!-- Lightbox Modal -->
+<div class="lightbox-overlay" id="lightbox" aria-hidden="true" role="dialog" aria-modal="true">
+  <button class="lightbox-close" id="lightbox-close" aria-label="Fechar ampliação">&times;</button>
+  <img src="" alt="Imagem ampliada" id="lightbox-img">
 </div>
 
 <script>
-(function() {
+document.addEventListener("DOMContentLoaded", function() {
   const lightbox = document.getElementById('lightbox');
   const lightboxImg = document.getElementById('lightbox-img');
   const closeBtn = document.getElementById('lightbox-close');
 
-  document.querySelectorAll('img[data-lightbox]').forEach(function(img) {
+  const triggers = document.querySelectorAll('img[data-lightbox]');
+  
+  if (triggers.length === 0) {
+    console.warn("Nenhuma imagem com data-lightbox encontrada.");
+  }
+
+  triggers.forEach(function(img) {
     img.addEventListener('click', function() {
       lightboxImg.src = img.src;
-      lightboxImg.alt = img.alt;
+      lightboxImg.alt = img.alt || "Imagem ampliada";
       lightbox.classList.add('active');
       lightbox.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden'; // Impede o scroll de fundo
     });
   });
 
-  function close() {
+  function closeLightbox() {
     lightbox.classList.remove('active');
     lightbox.setAttribute('aria-hidden', 'true');
-    lightboxImg.src = '';
-    document.body.style.overflow = '';
+    // Pequeno delay para permitir a transição de opacidade antes de remover a src
+    setTimeout(() => {
+      if(!lightbox.classList.contains('active')) {
+        lightboxImg.src = '';
+      }
+    }, 200);
+    document.body.style.overflow = ''; // Restaura o scroll
   }
 
-  closeBtn.addEventListener('click', close);
+  closeBtn.addEventListener('click', closeLightbox);
+  
   lightbox.addEventListener('click', function(e) {
-    if (e.target === lightbox) close();
+    // Fecha apenas se clicar no fundo (overlay), e não na imagem em si
+    if (e.target === lightbox) {
+      closeLightbox();
+    }
   });
+
   document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && lightbox.classList.contains('active')) close();
+    if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+      closeLightbox();
+    }
   });
-})();
+});
 </script>
 
 </body>
