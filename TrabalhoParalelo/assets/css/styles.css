@@ -232,7 +232,7 @@ figure {
   background: #fff;
 }
 
-.figure-caption strong {
+.figure-caption .caption-title {
   display: block;
   font-family: var(--font-sans);
   font-size: 0.85rem;
@@ -240,6 +240,10 @@ figure {
   letter-spacing: 0.06em;
   color: #222;
   margin-bottom: 0.4rem;
+}
+
+.figure-caption strong {
+  color: var(--color-accent);
 }
 
 /* Full width figure */
