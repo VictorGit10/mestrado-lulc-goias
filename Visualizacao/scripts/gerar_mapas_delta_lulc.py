@@ -79,6 +79,13 @@ def gerar_mapas(df: pd.DataFrame, gdf_munis: gpd.GeoDataFrame) -> None:
     cmap = plt.get_cmap("RdBu_r")
     norm = TwoSlopeNorm(vmin=-vmax, vcenter=0, vmax=vmax)
 
+    # Limites fixos baseados no total_bounds da malha projetada (EPSG:5880) com 2% de margem
+    bounds = gdf_munis.total_bounds
+    x_margin = (bounds[2] - bounds[0]) * 0.02
+    y_margin = (bounds[3] - bounds[1]) * 0.02
+    xmin, xmax = bounds[0] - x_margin, bounds[2] + x_margin
+    ymin, ymax = bounds[1] - y_margin, bounds[3] + y_margin
+
     anos = list(range(ANO_MIN, ANO_MAX + 1))
 
     # Cor central do TwoSlopeNorm em RdBu_r e branco-acinzentado proximo a 0.5.
@@ -108,8 +115,12 @@ def gerar_mapas(df: pd.DataFrame, gdf_munis: gpd.GeoDataFrame) -> None:
         ax.legend(handles=handles, loc="lower right", frameon=True, fontsize=8,
                   title="Δ pp pastagem vs. 1985", title_fontsize=8,
                   borderaxespad=-1.2)
+        
+        # Fixar limites para enquadramento idêntico
+        ax.set_xlim(xmin, xmax)
+        ax.set_ylim(ymin, ymax)
         ax.set_axis_off()
-        adicionar_escala(ax, dx=1)
+        adicionar_escala(ax, dx=1, total_km=150)
         adicionar_norte(ax)
 
         png_path = OUT_DIR / f"delta_{ano}.png"

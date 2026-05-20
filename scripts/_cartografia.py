@@ -93,7 +93,7 @@ def _estimar_ax_pixel_width(ax: Axes) -> float:
 
 
 # Valores "redondos" em km para auto-escolha de comprimento da escala
-_NICE_KM = [2, 4, 8, 20, 40, 80, 100, 200, 400, 800, 1000, 2000]
+_NICE_KM = [2, 4, 8, 20, 40, 80, 100, 150, 200, 400, 800, 1000, 2000]
 
 
 def _pick_total_km(ax: Axes, dx: float, bar_pixel_target: int) -> tuple[float, float]:
@@ -205,31 +205,34 @@ def adicionar_escala(
         borderpad: distancia da borda em font-size units (default -0.5 = pouco
                    abaixo do canto SW, gap consistente com a legenda).
     """
-    _picked_km, bar_w = _pick_total_km(ax, dx, bar_pixel_target=bar_pixel_target)
+    _picked_km, bar_pixel_w = _pick_total_km(ax, dx, bar_pixel_target=bar_pixel_target)
     if total_km is None:
         total_km = _picked_km
-        # recalcula bar_w para o total_km final
     else:
         # recalcular largura para total_km customizado
         xlim = ax.get_xlim()
         x_range_data = abs(xlim[1] - xlim[0])
         ax_pixel_width = _estimar_ax_pixel_width(ax) or 800
         metros_por_pixel_ax = (x_range_data * dx) / ax_pixel_width
-        bar_w = (total_km * 1000.0) / metros_por_pixel_ax
+        bar_pixel_w = (total_km * 1000.0) / metros_por_pixel_ax
+
+    # Converter de pixels para pontos (DrawingArea usa pontos, não pixels)
+    dpi = ax.figure.dpi
+    bar_points_w = bar_pixel_w * 72.0 / dpi
 
     h_total = 22
     suffix_w = 30
-    da = DrawingArea(bar_w + suffix_w, h_total, 0, 0)
+    da = DrawingArea(bar_points_w + suffix_w, h_total, 0, 0)
 
     y_bar = 14
     # Linha principal
-    line = Line2D([0, bar_w], [y_bar, y_bar], color="black", linewidth=1.6)
+    line = Line2D([0, bar_points_w], [y_bar, y_bar], color="black", linewidth=1.6)
     line.set_path_effects(_stroke_white(2.5))
     da.add_artist(line)
 
     # 3 Ticks (0, meio, fim)
     for frac in (0.0, 0.5, 1.0):
-        x = frac * bar_w
+        x = frac * bar_points_w
         tick = Line2D([x, x], [y_bar - 4, y_bar + 4], color="black", linewidth=1.4)
         tick.set_path_effects(_stroke_white(2.5))
         da.add_artist(tick)
@@ -242,7 +245,7 @@ def adicionar_escala(
         da.add_artist(t)
 
     # Sufixo "km" a direita
-    km_label = Text(bar_w + 4, y_bar, "km", ha="left", va="center",
+    km_label = Text(bar_points_w + 4, y_bar, "km", ha="left", va="center",
                     fontsize=8.5, fontweight="bold")
     km_label.set_path_effects(_stroke_white(2.5))
     da.add_artist(km_label)

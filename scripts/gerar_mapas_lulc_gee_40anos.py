@@ -153,7 +153,7 @@ def compor_mapa(raw_bytes: bytes, ano: int, gdf_go, out_path: Path) -> None:
     largura_metros = bbox_5880[2] - bbox_5880[0]
     largura_pixels = img.size[0]
     metros_por_pixel = largura_metros / largura_pixels
-    adicionar_escala(ax, dx=metros_por_pixel)
+    adicionar_escala(ax, dx=metros_por_pixel, total_km=150)
     adicionar_norte(ax)
 
     plt.savefig(out_path, dpi=DPI, bbox_inches="tight")

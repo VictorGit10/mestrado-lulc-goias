@@ -66,6 +66,8 @@ def carregar_malha() -> "gpd.GeoDataFrame":
     gdf = geobr.read_municipality(code_muni="GO", year=2020)
     gdf["cd_mun"] = gdf["code_muni"].astype("int64")
     gdf = gdf.rename(columns={"name_muni": "nm_mun"})
+    # Reprojetar para EPSG:5880 (Albers Brasil, métrico) para corrigir o formato de Goiás
+    gdf = gdf.to_crs(5880)
     return gdf
 
 
@@ -239,9 +241,16 @@ def mapa_transicao_dominante(df: pd.DataFrame, gdf: "gpd.GeoDataFrame",
               title=f"Classe destino dominante\n(maior mudança {ano_orig}→{ano_dest})",
               borderaxespad=-1.2)
 
+    # Limites fixos para enquadramento idêntico
+    bounds = gdf.total_bounds
+    x_margin = (bounds[2] - bounds[0]) * 0.02
+    y_margin = (bounds[3] - bounds[1]) * 0.02
+    ax.set_xlim(bounds[0] - x_margin, bounds[2] + x_margin)
+    ax.set_ylim(bounds[1] - y_margin, bounds[3] + y_margin)
+
     ax.set_title(f"Transição Dominante por Município — Goiás {ano_orig}→{ano_dest}", fontsize=13)
     ax.set_axis_off()
-    adicionar_escala(ax, dx=1)
+    adicionar_escala(ax, dx=1, total_km=150)
     adicionar_norte(ax)
 
     plt.savefig(OUT_DIR / f"mapa_transicao_dominante_{ano_orig}_{ano_dest}.png",
@@ -277,9 +286,16 @@ def mapa_estabilidade(df: pd.DataFrame, gdf: "gpd.GeoDataFrame",
                   ax=ax, edgecolor="0.5", linewidth=0.2,
                   legend_kwds={"label": "% estável", "shrink": 0.7})
 
+    # Limites fixos para enquadramento idêntico
+    bounds = gdf.total_bounds
+    x_margin = (bounds[2] - bounds[0]) * 0.02
+    y_margin = (bounds[3] - bounds[1]) * 0.02
+    ax.set_xlim(bounds[0] - x_margin, bounds[2] + x_margin)
+    ax.set_ylim(bounds[1] - y_margin, bounds[3] + y_margin)
+
     ax.set_title(f"Estabilidade do Uso da Terra — Goiás {ano_orig}→{ano_dest}", fontsize=13)
     ax.set_axis_off()
-    adicionar_escala(ax, dx=1)
+    adicionar_escala(ax, dx=1, total_km=150)
     adicionar_norte(ax)
     plt.savefig(OUT_DIR / f"mapa_estabilidade_{ano_orig}_{ano_dest}.png",
                 dpi=DPI, bbox_inches="tight")
@@ -308,9 +324,16 @@ def mapa_pastagem_agricultura(df: pd.DataFrame, gdf: "gpd.GeoDataFrame",
                   ax=ax, edgecolor="0.5", linewidth=0.2,
                   legend_kwds={"label": "Pasto→Agri (ha)", "shrink": 0.7})
 
+    # Limites fixos para enquadramento idêntico
+    bounds = gdf.total_bounds
+    x_margin = (bounds[2] - bounds[0]) * 0.02
+    y_margin = (bounds[3] - bounds[1]) * 0.02
+    ax.set_xlim(bounds[0] - x_margin, bounds[2] + x_margin)
+    ax.set_ylim(bounds[1] - y_margin, bounds[3] + y_margin)
+
     ax.set_title(f"Conversão Pastagem → Agricultura — Goiás {ano_orig}→{ano_dest}", fontsize=13)
     ax.set_axis_off()
-    adicionar_escala(ax, dx=1)
+    adicionar_escala(ax, dx=1, total_km=150)
     adicionar_norte(ax)
     plt.savefig(OUT_DIR / f"mapa_pastagem_agricultura_{ano_orig}_{ano_dest}.png",
                 dpi=DPI, bbox_inches="tight")

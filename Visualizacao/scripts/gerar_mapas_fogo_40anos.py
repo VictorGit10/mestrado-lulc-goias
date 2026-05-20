@@ -99,6 +99,13 @@ def gerar_mapas(df: pd.DataFrame, gdf_munis: gpd.GeoDataFrame) -> None:
         Patch(facecolor="#ececec", label="Sem fogo"),
     ]
 
+    # Limites fixos baseados no total_bounds da malha projetada (EPSG:5880) com 2% de margem
+    bounds = gdf_munis.total_bounds
+    x_margin = (bounds[2] - bounds[0]) * 0.02
+    y_margin = (bounds[3] - bounds[1]) * 0.02
+    xmin, xmax = bounds[0] - x_margin, bounds[2] + x_margin
+    ymin, ymax = bounds[1] - y_margin, bounds[3] + y_margin
+
     total_in = total_out = 0
     convertidos = 0
 
@@ -129,8 +136,12 @@ def gerar_mapas(df: pd.DataFrame, gdf_munis: gpd.GeoDataFrame) -> None:
         ax.legend(handles=handles, loc="lower right", frameon=True, fontsize=8,
                   title="Area queimada (ha)", title_fontsize=8,
                   borderaxespad=-1.2)
+        
+        # Fixar limites para enquadramento idêntico
+        ax.set_xlim(xmin, xmax)
+        ax.set_ylim(ymin, ymax)
         ax.set_axis_off()
-        adicionar_escala(ax, dx=1)  # gdf_munis usa CRS metrico apos to_crs(5880)
+        adicionar_escala(ax, dx=1, total_km=150)  # gdf_munis usa CRS metrico apos to_crs(5880)
         adicionar_norte(ax)
 
         png_path = OUT_DIR / f"fogo_{ano}.png"

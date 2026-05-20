@@ -79,6 +79,8 @@ def carregar_malha() -> gpd.GeoDataFrame:
     print("[...] Baixando/carregando malha municipal de Goiás (geobr)...")
     gdf = geobr.read_municipality(code_muni="GO", year=2020)
     gdf["code_muni"] = gdf["code_muni"].astype("int64")
+    # Reprojetar para EPSG:5880 (Albers Brasil, métrico) para corrigir o achatamento geográfico
+    gdf = gdf.to_crs(5880)
     return gdf
 
 
@@ -88,6 +90,13 @@ def gerar_mapas(dominante_wide: pd.DataFrame, gdf_munis: gpd.GeoDataFrame) -> No
         for n in ORDEM_LEGENDA
     ]
     edgecolor = "black" if SHOW_BORDERS else "none"
+
+    # Limites fixos baseados no total_bounds da malha projetada (EPSG:5880) com 2% de margem
+    bounds = gdf_munis.total_bounds
+    x_margin = (bounds[2] - bounds[0]) * 0.02
+    y_margin = (bounds[3] - bounds[1]) * 0.02
+    xmin, xmax = bounds[0] - x_margin, bounds[2] + x_margin
+    ymin, ymax = bounds[1] - y_margin, bounds[3] + y_margin
 
     anos = list(range(ANO_MIN, ANO_MAX + 1))
     for i, ano in enumerate(anos, start=1):
@@ -126,12 +135,14 @@ def gerar_mapas(dominante_wide: pd.DataFrame, gdf_munis: gpd.GeoDataFrame) -> No
             borderaxespad=-1.2,
         )
 
-        # ScaleBar em CRS geográfico (EPSG:4674): dx=111000 m/grau é
-        # aproximação para latitude central de GO (~−16°), erro < 2%.
-        adicionar_escala(ax, dx=111000)
-        adicionar_norte(ax)
-
+        # Fixar limites para enquadramento idêntico
+        ax.set_xlim(xmin, xmax)
+        ax.set_ylim(ymin, ymax)
         ax.set_axis_off()
+
+        # ScaleBar em CRS métrico (EPSG:5880): dx = 1 metro por unidade do eixo X.
+        adicionar_escala(ax, dx=1, total_km=150)
+        adicionar_norte(ax)
 
         fig.savefig(OUT_DIR / f"cobertura_{ano}.png", dpi=DPI, bbox_inches="tight")
         plt.close(fig)

@@ -88,7 +88,10 @@ def fig_distribuicao_global(df: pd.DataFrame) -> None:
 
 
 def fig_por_ato(df: pd.DataFrame) -> None:
-    fig, axes = plt.subplots(1, 5, figsize=(20, 4.5), sharey=True)
+    n_atos = len(ATOS)
+    fig, axes = plt.subplots(1, n_atos, figsize=(4 * n_atos, 4.5), sharey=True)
+    if n_atos == 1:
+        axes = [axes]
     bins = np.arange(0, 41, 2)
     for ax, (ato_id, (ai, af, nome)) in zip(axes, ATOS.items()):
         sub = df[df["ato"] == ato_id]["idade_pastagem_anos"]
@@ -281,6 +284,224 @@ def exportar_jsons_viz(df: pd.DataFrame) -> None:
     )
 
 
+def classificar_mecanismo(df: pd.DataFrame) -> pd.DataFrame:
+    """Classifica cada pixel não-censurado em um dos mecanismos hipotéticos."""
+    df = df.copy()
+    df["mecanismo"] = "Ambíguo / Outro"
+    
+    is_nao_cens = ~df["censurado"]
+    is_jovem = df["idade_pastagem_anos"] <= 8
+    is_antigo = df["idade_pastagem_anos"] >= 20
+    
+    is_veg_nat = df["origem_anterior"] == "vegetacao_natural"
+    is_agric = df["origem_anterior"] == "agricultura"
+    
+    # 1. Premeditado curto (veg.nat -> pastagem -> agricultura em <= 8 anos)
+    df.loc[is_nao_cens & is_jovem & is_veg_nat, "mecanismo"] = "Premeditado curto"
+    
+    # 2. Rotação (agricultura -> pastagem -> agricultura em <= 8 anos)
+    df.loc[is_nao_cens & is_jovem & is_agric, "mecanismo"] = "Rotação"
+    
+    # 3. Oportunístico clássico (veg.nat -> pastagem -> agricultura em >= 20 anos)
+    df.loc[is_nao_cens & is_antigo & is_veg_nat, "mecanismo"] = "Oportunístico clássico"
+    
+    # 4. Censurado à esquerda
+    df.loc[df["censurado"], "mecanismo"] = "Censurado à esquerda"
+    
+    return df
+
+
+def ajustar_gmm_unidim(x: np.ndarray) -> dict:
+    """Ajusta GMM de 1 e 2 componentes e retorna AIC, BIC e parâmetros estimados."""
+    from scipy.stats import norm
+    
+    x = x.reshape(-1, 1)
+    n = len(x)
+    
+    if n < 5:
+        # Poucos dados para ajustar
+        return {
+            "mu_1c": 0.0, "sig_1c": 1.0, "aic_1c": 0.0, "bic_1c": 0.0,
+            "mu1": 0.0, "sig1": 1.0, "w1": 0.0,
+            "mu2": 0.0, "sig2": 1.0, "w2": 0.0,
+            "aic_2c": 0.0, "bic_2c": 0.0
+        }
+    
+    # Modelo de 1 componente (Gaussiana simples)
+    mu_1c = float(np.mean(x))
+    sig_1c = float(np.std(x))
+    sig_1c = max(sig_1c, 0.1)  # evitar divisão por zero
+    
+    ll_1c = float(np.sum(norm.logpdf(x, loc=mu_1c, scale=sig_1c)))
+    aic_1c = 2 * 2 - 2 * ll_1c  # 2 parâmetros: media, std
+    bic_1c = 2 * np.log(n) - 2 * ll_1c
+    
+    # Modelo de 2 componentes (Mistura)
+    try:
+        from sklearn.mixture import GaussianMixture
+        gmm = GaussianMixture(n_components=2, random_state=42, max_iter=250)
+        gmm.fit(x)
+        w1, w2 = gmm.weights_
+        mu1, mu2 = gmm.means_.flatten()
+        sig1, sig2 = np.sqrt(gmm.covariances_.flatten())
+        aic_2c = gmm.aic(x)
+        bic_2c = gmm.bic(x)
+    except ImportError:
+        # Fallback usando scipy.optimize para ajuste de máxima verossimilhança
+        from scipy.optimize import minimize
+        
+        x_flat = x.flatten()
+        # Chutes iniciais inteligentes baseados nos dois modos conhecidos
+        init_mu1 = np.mean(x_flat[x_flat <= 10]) if np.any(x_flat <= 10) else 4.0
+        init_mu2 = np.mean(x_flat[x_flat > 10]) if np.any(x_flat > 10) else 30.0
+        init_sig1 = np.std(x_flat[x_flat <= 10]) if np.any(x_flat <= 10) and np.std(x_flat[x_flat <= 10]) > 0.5 else 3.0
+        init_sig2 = np.std(x_flat[x_flat > 10]) if np.any(x_flat > 10) and np.std(x_flat[x_flat > 10]) > 0.5 else 3.0
+        
+        # Parâmetros irrestritos iniciais: [logit(w), mu1, log(sig1), mu2, log(sig2)]
+        theta0 = [0.0, float(init_mu1), np.log(float(init_sig1)), float(init_mu2), np.log(float(init_sig2))]
+        
+        def nll(theta):
+            w = 1.0 / (1.0 + np.exp(-theta[0]))
+            m1 = theta[1]
+            s1 = np.exp(theta[2])
+            m2 = theta[3]
+            s2 = np.exp(theta[4])
+            
+            pdf1 = norm.pdf(x_flat, loc=m1, scale=s1)
+            pdf2 = norm.pdf(x_flat, loc=m2, scale=s2)
+            
+            val = w * pdf1 + (1.0 - w) * pdf2
+            val = np.maximum(val, 1e-15)  # evitar log(0)
+            return -np.sum(np.log(val))
+            
+        res = minimize(nll, theta0, method="L-BFGS-B")
+        
+        w1 = 1.0 / (1.0 + np.exp(-res.x[0]))
+        w2 = 1.0 - w1
+        mu1 = res.x[1]
+        sig1 = np.exp(res.x[2])
+        mu2 = res.x[3]
+        sig2 = np.exp(res.x[4])
+        
+        ll_2c = -res.fun
+        aic_2c = 2 * 5 - 2 * ll_2c  # 5 parâmetros: w, mu1, sig1, mu2, sig2
+        bic_2c = 5 * np.log(n) - 2 * ll_2c
+
+    # Garantir que mu1 <= mu2 para manter o componente 1 como o "Jovem"
+    if mu1 > mu2:
+        mu1, mu2 = mu2, mu1
+        sig1, sig2 = sig2, sig1
+        w1, w2 = w2, w1
+
+    return {
+        "mu_1c": float(mu_1c), "sig_1c": float(sig_1c), "aic_1c": float(aic_1c), "bic_1c": float(bic_1c),
+        "mu1": float(mu1), "sig1": float(sig1), "w1": float(w1),
+        "mu2": float(mu2), "sig2": float(sig2), "w2": float(w2),
+        "aic_2c": float(aic_2c), "bic_2c": float(bic_2c)
+    }
+
+
+def analise_sensibilidade_gmm_janelas(df: pd.DataFrame) -> list:
+    """Realiza análise de sensibilidade por janelas deslizantes e ajusta GMM em cada uma."""
+    janelas = [
+        {"nome": "2016–2024", "anos": (2016, 2024)},
+        {"nome": "2017–2024", "anos": (2017, 2024)},
+        {"nome": "2018–2024", "anos": (2018, 2024)},
+        {"nome": "2020–2024", "anos": (2020, 2024)},
+    ]
+    
+    resultados = []
+    df_mecanismos = classificar_mecanismo(df)
+    
+    for j in janelas:
+        ai, af = j["anos"]
+        sub_total = df_mecanismos[(df_mecanismos["ano_conversao"] >= ai) & (df_mecanismos["ano_conversao"] <= af)]
+        sub_nao_cens = sub_total[~sub_total["censurado"]]
+        
+        n_tot = len(sub_total)
+        n_nc = len(sub_nao_cens)
+        
+        # Ajusta GMM nas idades não-censuradas
+        gmm_res = ajustar_gmm_unidim(sub_nao_cens["idade_pastagem_anos"].values)
+        
+        # Proporções dos mecanismos entre os não-censurados
+        mec_counts = sub_nao_cens["mecanismo"].value_counts(normalize=True)
+        prop_premeditado = float(mec_counts.get("Premeditado curto", 0.0))
+        prop_rotacao = float(mec_counts.get("Rotação", 0.0))
+        prop_oportunistico = float(mec_counts.get("Oportunístico clássico", 0.0))
+        prop_ambiguo = float(mec_counts.get("Ambíguo / Outro", 0.0))
+        
+        res = {
+            "janela": j["nome"],
+            "ano_inicio": ai,
+            "ano_fim": af,
+            "n_total": n_tot,
+            "n_nao_censurado": n_nc,
+            **gmm_res,
+            "prop_premeditado_curto": prop_premeditado,
+            "prop_rotacao": prop_rotacao,
+            "prop_oportunistico_classico": prop_oportunistico,
+            "prop_ambiguo_outro": prop_ambiguo
+        }
+        resultados.append(res)
+        
+    return resultados
+
+
+def fig_sensibilidade_gmm(df: pd.DataFrame, resultados: list) -> None:
+    """Gera figura de 4 painéis dos GMMs ajustados sobre os histogramas de cada janela."""
+    from scipy.stats import norm
+    
+    fig, axes = plt.subplots(2, 2, figsize=(13.5, 10.5), sharex=True, sharey=True)
+    axes = axes.flatten()
+    
+    bins = np.arange(0, 41, 2)
+    x_plot = np.linspace(0, 40, 500)
+    
+    for ax, res in zip(axes, resultados):
+        ai, af = res["ano_inicio"], res["ano_fim"]
+        
+        # Filtra dados reais da janela
+        sub = df[(df["ano_conversao"] >= ai) & (df["ano_conversao"] <= af) & (~df["censurado"])]["idade_pastagem_anos"]
+        
+        # Histograma de densidade empírica
+        ax.hist(sub, bins=bins, density=True, color="#dcdcd6", edgecolor="white", alpha=0.85,
+                label=f"Frequência real (n={len(sub):,})")
+        
+        # Parâmetros estimadores do GMM
+        w1, mu1, sig1 = res["w1"], res["mu1"], res["sig1"]
+        w2, mu2, sig2 = res["w2"], res["mu2"], res["sig2"]
+        
+        # Plot das densidades de probabilidade do GMM
+        y1 = w1 * norm.pdf(x_plot, loc=mu1, scale=sig1)
+        y2 = w2 * norm.pdf(x_plot, loc=mu2, scale=sig2)
+        y_mistura = y1 + y2
+        
+        ax.plot(x_plot, y_mistura, color="#8a3068", linewidth=2.5, label="Mistura GMM (2 comp.)")
+        ax.plot(x_plot, y1, color="#d95f02", linestyle="--", linewidth=1.5, label=f"Comp. Jovem (w={w1:.2f})")
+        ax.plot(x_plot, y2, color="#1b9e77", linestyle="--", linewidth=1.5, label=f"Comp. Antigo (w={w2:.2f})")
+        
+        diff_bic = res["bic_1c"] - res["bic_2c"]
+        status_bic = "2 Comp. Superior (ΔBIC > 10)" if diff_bic > 10 else "Sem forte preferência"
+        
+        ax.set_title(f"Janela {res['janela']} ({ai}–{af})\n"
+                     f"Comp. Jovem: μ={mu1:.1f}a (w={w1 * 100:.0f}%)\n"
+                     f"Comp. Antigo: μ={mu2:.1f}a (w={w2 * 100:.0f}%)\n"
+                     f"ΔBIC = {diff_bic:.1f} ({status_bic})", fontsize=10)
+        ax.set_xlabel("Idade da pastagem na conversão (anos)", fontsize=9)
+        ax.grid(True, linestyle=":", alpha=0.4)
+        
+        if ax in (axes[0], axes[2]):
+            ax.set_ylabel("Densidade de probabilidade", fontsize=9)
+        ax.legend(fontsize=8, loc="upper right")
+        
+    fig.suptitle("Modelagem por Mistura Gaussiana (GMM) da Idade da Pastagem na Conversão\n"
+                 "Análise de Sensibilidade por Janelas Deslizantes (Dados Não-Censurados)", fontsize=13, y=0.98)
+    fig.tight_layout()
+    fig.savefig(DIR_OUT / "gmm_janelas_deslizantes.png", dpi=150, bbox_inches="tight")
+    plt.close(fig)
+
+
 def main() -> None:
     print(f"Lendo {CSV_IN.name}...")
     df = carregar()
@@ -288,24 +509,43 @@ def main() -> None:
           f"{df['cd_mun'].nunique()} munis")
     print(f"  Censurado à esquerda: {df['censurado'].mean() * 100:.1f}%")
 
-    print("\nGerando figuras...")
+    print("\nGerando figuras base...")
     fig_distribuicao_global(df)
     fig_por_ato(df)
     fig_por_mesorregiao(df)
     fig_coortes_vegnat(df)
     fig_temporal_marcos(df)
     merged = fig_cruzamento_painel(df)
+    
+    print("\nExecutando modelagem GMM e análise de sensibilidade por janelas deslizantes...")
+    resultados_gmm = analise_sensibilidade_gmm_janelas(df)
+    
+    print("Gerando figura do GMM de janelas deslizantes...")
+    fig_sensibilidade_gmm(df, resultados_gmm)
+    
     print(f"  {len(list(DIR_OUT.glob('*.png')))} PNGs em {DIR_OUT.relative_to(ROOT)}")
 
-    print("\nGerando estatísticas...")
+    print("\nGerando estatísticas descritivas básicas...")
     stats = resumo_estatisticas(df)
     csv_stats = ROOT / "data" / "processed" / "idade_pastagem_estatisticas.csv"
     stats.to_csv(csv_stats, index=False, float_format="%.2f")
     print(f"  {csv_stats.relative_to(ROOT)}")
+    
+    print("Exportando CSV de sensibilidade GMM...")
+    df_sens = pd.DataFrame(resultados_gmm)
+    csv_sens = ROOT / "data" / "processed" / "idade_pastagem_gmm_sensibilidade.csv"
+    df_sens.to_csv(csv_sens, index=False, float_format="%.4f")
+    print(f"  {csv_sens.relative_to(ROOT)}")
 
     print("\nExportando JSONs para visualização web...")
     exportar_jsons_viz(df)
-    print(f"  idade_pastagem_municipal.json | idade_pastagem_histograma.json")
+    
+    # Exporta o JSON do GMM estruturado para a aba do visualizador
+    (DIR_VIZ / "idade_pastagem_gmm.json").write_text(
+        json.dumps(resultados_gmm, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+    print(f"  idade_pastagem_municipal.json | idade_pastagem_histograma.json | idade_pastagem_gmm.json")
 
     print("\n" + "=" * 60)
     print("Resumo executivo:")
@@ -316,6 +556,19 @@ def main() -> None:
     print(f"  Coortes veg.nat → pastagem → agric: "
           f"{(df['origem_anterior'] == 'vegetacao_natural').sum():,} pixels "
           f"({(df['origem_anterior'] == 'vegetacao_natural').mean() * 100:.1f}%)")
+    
+    print("\nResultados do Ajuste GMM (Ato III / Janela 2020-2024):")
+    res_ato3 = resultados_gmm[-1]
+    print(f"  Componente Jovem: μ = {res_ato3['mu1']:.1f} anos | Peso (w) = {res_ato3['w1'] * 100:.1f}%")
+    print(f"  Componente Antigo: μ = {res_ato3['mu2']:.1f} anos | Peso (w) = {res_ato3['w2'] * 100:.1f}%")
+    print(f"  Força da Bimodalidade: ΔBIC = {res_ato3['bic_1c'] - res_ato3['bic_2c']:.1f} "
+          f"(evidência muito forte a favor de 2 comp. se ΔBIC > 10)")
+    
+    print("Distribuição dos Mecanismos de Conversão no Ato III (Não-Censurado):")
+    print(f"  - Premeditado curto (veg.nat <= 8a): {res_ato3['prop_premeditado_curto'] * 100:.1f}%")
+    print(f"  - Rotação agrícola (agric <= 8a):     {res_ato3['prop_rotacao'] * 100:.1f}%")
+    print(f"  - Oportunístico clássico (veg.nat >= 20a): {res_ato3['prop_oportunistico_classico'] * 100:.1f}%")
+    print(f"  - Ambíguo / Outros (faixas intermediárias):  {res_ato3['prop_ambiguo_outro'] * 100:.1f}%")
 
 
 if __name__ == "__main__":
