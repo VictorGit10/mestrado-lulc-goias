@@ -56,12 +56,10 @@
   ];
 
   // -------------------- delta inline --------------------
-  // direcao "boa": para 'veg' subir = bom (verde); para 'pasto'/'soja' subir = expansao (terracota).
+  // ▲ verde, ▼ terracota — consistência visual por direção.
   function classeDelta(cls, dpp) {
     if (Math.abs(dpp) < 0.05) return "delta--flat";
-    const subindo = dpp > 0;
-    if (cls === "veg") return subindo ? "delta--up-good" : "delta--down-bad";
-    return subindo ? "delta--up-bad" : "delta--down-good";
+    return dpp > 0 ? "delta--up" : "delta--down";
   }
 
   function formatDelta(curr, prev, cls) {

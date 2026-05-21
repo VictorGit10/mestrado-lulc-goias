@@ -543,10 +543,8 @@ p  { margin: 0 0 1em; }
   letter-spacing: 0.02em;
   white-space: nowrap;
 }
-.delta--up-good   { color: var(--color-veg); }
-.delta--up-bad    { color: var(--color-accent); }
-.delta--down-good { color: var(--color-veg); }
-.delta--down-bad  { color: var(--color-accent); }
+.delta--up        { color: var(--color-veg); }
+.delta--down      { color: var(--color-accent); }
 .delta--flat      { color: var(--color-muted); }
 /* Metric grid: 3 cards LULC sempre visiveis no topo do step */
 .metric-grid {
@@ -953,27 +951,64 @@ p  { margin: 0 0 1em; }
 .page-footer {
   background: #f1efe8;
   border-top: 1px solid var(--color-rule);
-  padding: 4rem 2rem;
-  font-size: 0.95rem;
+  padding: 3rem 2rem 0;
+  font-family: var(--font-sans);
 }
 .footer-grid {
   max-width: var(--max-width);
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 3rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2.5rem;
+  padding-bottom: 3rem;
 }
-.bibtex {
-  font-family: "SF Mono", Menlo, Consolas, monospace;
-  font-size: 0.78rem;
-  background: #fff;
-  border: 1px solid var(--color-rule);
-  border-radius: 4px;
-  padding: 1rem;
-  white-space: pre-wrap;
-  word-break: break-all;
-  overflow-x: auto;
+.footer-grid h3 {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+  margin: 0 0 1rem;
+}
+.footer-grid p {
+  margin: 0 0 0.35rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--color-fg);
+}
+.footer-grid .footer-muted {
+  color: var(--color-muted);
+  font-size: 0.85rem;
+}
+.footer-list {
+  list-style: none;
+  padding: 0;
   margin: 0;
+}
+.footer-list li {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--color-fg);
+  margin-bottom: 0.4rem;
+}
+.footer-list a {
+  color: var(--color-accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+.footer-list a:hover {
+  text-decoration: underline;
+}
+.footer-bar {
+  border-top: 1px solid var(--color-rule);
+  padding: 1.25rem 2rem;
+  text-align: center;
+}
+.footer-bar p {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--color-muted);
+  letter-spacing: 0.02em;
 }
 
 /* ==========================================================================

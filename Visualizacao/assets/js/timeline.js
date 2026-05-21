@@ -169,12 +169,10 @@
   }
 
   // -------------------- delta inline --------------------
-  // direcao "boa": para 'veg' subir = bom (verde); para 'pasto'/'soja' subir = expansao (terracota).
+  // ▲ verde, ▼ terracota — consistência visual por direção.
   function classeDelta(cls, dpp) {
     if (Math.abs(dpp) < 0.05) return "delta--flat";
-    const subindo = dpp > 0;
-    if (cls === "veg") return subindo ? "delta--up-good" : "delta--down-bad";
-    return subindo ? "delta--up-bad" : "delta--down-good";
+    return dpp > 0 ? "delta--up" : "delta--down";
   }
 
   function formatDelta(curr, prev, cls) {
@@ -203,7 +201,7 @@
     // Cards LULC: tres metricas sempre visiveis, mesma altura entre steps.
     function cardsLULC(dado, prev) {
       return [
-        metricCard('Veg. nativa', fmtPct(dado.pct_vegetacao_nativa), formatDelta(dado.pct_vegetacao_nativa, prev ? prev.pct_vegetacao_nativa : null, 'veg'), 'veg'),
+        metricCard('Veg. natural', fmtPct(dado.pct_vegetacao_nativa), formatDelta(dado.pct_vegetacao_nativa, prev ? prev.pct_vegetacao_nativa : null, 'veg'), 'veg'),
         metricCard('Pastagem',    fmtPct(dado.pct_pastagem),         formatDelta(dado.pct_pastagem,         prev ? prev.pct_pastagem         : null, 'pasto'), 'pasto'),
         metricCard('Agricultura', fmtPct(dado.pct_agricultura),      formatDelta(dado.pct_agricultura,      prev ? prev.pct_agricultura      : null, 'soja'), 'agric'),
       ].join('');

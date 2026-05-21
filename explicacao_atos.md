@@ -28,7 +28,7 @@ O teste sup-F procura o ponto no tempo onde dividir a série em dois segmentos *
 - **~2001**: F = 62.2 (muito significativo) → Goiás mudou fundamentalmente de regime nesse ponto
 - **~2020**: F = 21.5 (significativo) → Outra mudança de regime
 
-O teste é **multivariado** — analisa simultaneamente vegetação nativa, pastagem, agricultura e outras classes, não uma por vez. Isso evita encontrar quebras espúrias que aparecem numa variável isolada.
+O teste é **multivariado** — analisa simultaneamente vegetação natural, pastagem, agricultura e outras classes, não uma por vez. Isso evita encontrar quebras espúrias que aparecem numa variável isolada.
 
 ### Método 2: Rodionov STARS (Pipeline #29b) — **Sensibilidade**
 
@@ -67,7 +67,7 @@ Depois agrupa essas taxas por Ato e testa estatisticamente se as distribuições
 Zoom maior: para cada categoria (vegetação natural, pastagem, agricultura), calcula-se a **intensidade de ganho e perda** por Ato e compara com a intensidade "uniforme" (o que se esperaria se a mudança fosse aleatória).
 
 - Se `perda_real / perda_uniforme > 1` → a categoria está perdendo **mais do que o esperado** naquele Ato
-- Vegetação nativa: perda acima do uniforme em todos os Atos, mas **5× mais intensa no início do Ato II** (2001-2005)
+- Vegetação natural: perda acima do uniforme em todos os Atos, mas **5× mais intensa no início do Ato II** (2001-2005)
 
 #### Nível 3 — Transição: fluxos específicos variam?
 
@@ -83,18 +83,28 @@ Zoom máximo: olha transições individuais (ex: pasto→agricultura, cerrado→
 ### A convergência dos 4 métodos
 
 ```
+                              DETECÇÃO DE QUEBRAS
 Método                    Quebra ~2001    Quebra ~2020
 ──────────────────────────────────────────────────────
 sup-F (primário)              ✓ F=62.2      ✓ F=21.5
 STARS                         ✓ 2004/06     —
 KL/TV                         ✓ pico 2003   ✓ 2018-2020
-Intensity Analysis            ✓ H=22.57     ✓ p<0.001
 ──────────────────────────────────────────────────────
-Concordância:                 4/4           3/4
+Concordância (detecção):      3/3           2/3
+
+                       VALIDAÇÃO GLOBAL
+Método                    Resultado
+──────────────────────────────────────────────────────
+Intensity Analysis        Kruskal-Wallis H = 22.57,
+(Aldwaik & Pontius)       p < 0.001 (3 Atos diferem)
+──────────────────────────────────────────────────────
 ```
 
+> [!NOTE]
+> Os 3 primeiros métodos **detectam** onde estão as quebras (cada um aponta anos específicos). O Intensity Analysis tem papel diferente: ele **valida globalmente** se os períodos resultantes são de fato distintos. O teste Kruskal-Wallis compara os 3 Atos simultaneamente — `H = 22.57` é a estatística do teste e `p < 0.001` é o p-valor desse mesmo teste. Não são detecções separadas para ~2001 e ~2020; são **um resultado único** que diz "os três períodos diferem significativamente em taxa de mudança LULC".
+
 > [!TIP]
-> A lógica é: **se quatro métodos independentes convergem para os mesmos períodos, não é acaso**. É como ter quatro testemunhas que não se conhecem descrevendo o mesmo evento — e o quarto (Intensity Analysis) ainda confirma que o evento é qualitativamente diferente de cada lado da fronteira.
+> A lógica é: **3 métodos independentes convergem para as mesmas fronteiras, e o 4º confirma que o que existe de cada lado delas é qualitativamente diferente**. É como ter três testemunhas que não se conhecem apontando o mesmo momento — e um perito que examina o antes e o depois e confirma que algo de fato mudou.
 
 ---
 
@@ -104,7 +114,7 @@ Uma candidata a 4ª fronteira apareceu em **~2005/2006** — entre os métodos S
 
 1. **Não apareceu no método primário** (sup-F multivariado) — só nos métodos de sensibilidade
 2. **Intensity Analysis — Nível 1 (taxa total)**: Mann-Whitney p = 0.060 (não significativo) → as sub-fases 2001–2005 e 2006–2019 **não diferem em velocidade geral de mudança**
-3. **Intensity Analysis — Nível 2 (categoria)**: a perda de vegetação nativa é 5× maior em 2001–2005 (p = 0.0008, altamente significativo) → **diferem em composição**, mas isso é intensidade de uma classe, não mudança de regime
+3. **Intensity Analysis — Nível 2 (categoria)**: a perda de vegetação natural é 5× maior em 2001–2005 (p = 0.0008, altamente significativo) → **diferem em composição**, mas isso é intensidade de uma classe, não mudança de regime
 4. **Bootstrap (verificação)**: IC 95% da diferença P2−P3 em taxa total **não contém zero** — resultado ambíguo, consistente com diferença pequena mas real
 5. **Sensível ao ponto de corte**: significativa em 2005 (p = 0.046), marginal em 2004 (p = 0.10), não significativa em 2006 (p = 0.12)
 6. **Sem o outlier 2004** (ano anômalo com taxa altíssima), p sobe para 0.189
@@ -152,7 +162,7 @@ O Intensity Analysis tem seu **próprio script de verificação** com 5 testes:
 
 ### Ato I — Pastagem como herança (1985–2000)
 
-Goiás entra na série com um padrão herdado: **pecuária extensiva dominante**, grandes áreas de pastagem degradada, vegetação nativa ainda significativa. A dinâmica é relativamente estável — conversões acontecem, mas em ritmo lento. É a "inércia" do modelo agropecuário pré-estabilização econômica.
+Goiás entra na série com um padrão herdado: **pecuária extensiva dominante**, grandes áreas de pastagem degradada, vegetação natural ainda significativa. A dinâmica é relativamente estável — conversões acontecem, mas em ritmo lento. É a "inércia" do modelo agropecuário pré-estabilização econômica.
 
 - **Protagonista**: Pastagem extensiva (ocupa mais da metade do estado)
 - **Marcos dentro do ato**: Plano Real (1994), Lei Kandir (1996) — esta última é o **único marco com evidência causal GO-específica** (quebra em veg_nat 1998, F = 86.6, DiD robusto p = 0.005)
@@ -160,11 +170,11 @@ Goiás entra na série com um padrão herdado: **pecuária extensiva dominante**
 
 ### Ato II — Expansão e intensificação (2001–2019)
 
-A entrada da China na OMC (dez/2001) e a sistematização do crédito rural (Plano Safra 2002) detonam o super-ciclo de commodities. A soja explode em área plantada, substituindo pastagens degradadas e vegetação nativa. É o período de **transformação acelerada** da matriz produtiva.
+A entrada da China na OMC (dez/2001) e a sistematização do crédito rural (Plano Safra 2002) detonam o super-ciclo de commodities. A soja explode em área plantada, substituindo pastagens degradadas e vegetação natural. É o período de **transformação acelerada** da matriz produtiva.
 
 - **Protagonista**: Soja + commodity boom
 - **Marcos dentro do ato**: Crédito/China (2002), boom de commodities (2003), Código Florestal (2012) — notavelmente, o Código Florestal **não produziu quebra estrutural detectável** (reserva legal de 20% no Cerrado é permissiva; a ausência de efeito é o achado)
-- **Dinâmica**: Substituição massiva de pasto → soja; perda acelerada de vegetação nativa; **pico de transformação na sub-fase 2001–2005** seguido de consolidação
+- **Dinâmica**: Substituição massiva de pasto → soja; perda acelerada de vegetação natural; **pico de transformação na sub-fase 2001–2005** seguido de consolidação
 
 ### Ato III — Conversão seletiva (2020–2024)
 

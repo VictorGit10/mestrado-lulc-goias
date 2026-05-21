@@ -32,7 +32,7 @@
       "descricao": "Lei Complementar 87/1996 desonera ICMS de produtos primários destinados à exportação. É o único evento institucional com efeito diferenciado em GO: a perda de vegetação natural desacelera de 0,54 pp/a para 0,41 pp/a após 1998, enquanto a agricultura se expande no sudoeste (Rio Verde, Jataí, Mineiros). O teste de diferença-em-diferenças confirma que GO diverge dos estados-controle após 1996.",
       "evidencia": "A",
       "escopo_empirico": "go_especifico",
-      "categoria": "tributacao",
+      "categoria": "tributação",
       "referencias": [
         "BRASIL. Lei Complementar n. 87, de 13 de setembro de 1996.",
         "REZENDE, G. C. Políticas trabalhista, fundiária e de crédito agrícola e seus impactos adversos sobre a pobreza no Brasil. Texto para Discussão IPEA n. 1180, 2006."
@@ -95,7 +95,7 @@
       "ano": 2024,
       "titulo": "Estado atual",
       "subtitulo": "Síntese da série",
-      "descricao": "Último ano da série MapBiomas Coleção 10.1. Goiás consolidou matriz soja-milho via safrinha, pastagem ainda dominante em área absoluta mas com produtividade ascendente, e vegetação nativa próxima ao limite legal de 20% em diversas regiões. Encerra-se aqui o quadro analisado pela dissertação.",
+      "descricao": "Último ano da série MapBiomas Coleção 10.1. Goiás consolidou matriz soja-milho via safrinha, pastagem ainda dominante em área absoluta mas com produtividade ascendente, e vegetação natural próxima ao limite legal de 20% em diversas regiões. Encerra-se aqui o quadro analisado pela dissertação.",
       "evidencia": "C",
       "escopo_empirico": "nao_aplicavel",
       "categoria": "contexto",
