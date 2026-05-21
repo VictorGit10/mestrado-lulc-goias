@@ -1,4 +1,4 @@
-/* inventario.js — Vitrine do painel (S3 da sintese).
+/* inventario.js — Vitrine do painel (§ 3).
  * Le painel_goias.json e injeta cards tematicos com mini-sparkline,
  * valores extremos, cobertura temporal e fonte por serie.
  */
