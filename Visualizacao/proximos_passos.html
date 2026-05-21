@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Próximos Passos — Goiás 1985-2024</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #1a1a1a;
+      --fg: #fafaf7;
+      --accent: #c45a3a;
+      --accent-soft: #e07b5a;
+      --muted: #a0a0a0;
+      --card-bg: #252525;
+      --card-border: #333;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%;
+      min-height: 100vh;
+      background: var(--bg);
+      font-family: "Source Serif Pro", Georgia, serif;
+      color: var(--fg);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 5rem 2rem 4rem;
+    }
+
+    .eyebrow {
+      font-family: system-ui, sans-serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .sub {
+      font-size: 1.15rem;
+      color: var(--muted);
+      margin-bottom: 3.5rem;
+      line-height: 1.5;
+    }
+
+    /* Timeline */
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0.45rem;
+      top: 0.35rem;
+      bottom: 0.35rem;
+      width: 2px;
+      background: var(--accent);
+      opacity: 0.35;
+    }
+
+    .item {
+      position: relative;
+      margin-bottom: 2.2rem;
+      padding-left: 1.4rem;
+      opacity: 0;
+      transform: translateX(12px);
+      animation: slideIn 0.6s ease forwards;
+    }
+
+    .item:nth-child(1) { animation-delay: 0.15s; }
+    .item:nth-child(2) { animation-delay: 0.30s; }
+    .item:nth-child(3) { animation-delay: 0.45s; }
+    .item:nth-child(4) { animation-delay: 0.60s; }
+    .item:nth-child(5) { animation-delay: 0.75s; }
+    .item:nth-child(6) { animation-delay: 0.90s; }
+    .item:nth-child(7) { animation-delay: 1.05s; }
+
+    @keyframes slideIn {
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .item::before {
+      content: '';
+      position: absolute;
+      left: -1.78rem;
+      top: 0.45rem;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px rgba(196, 90, 58, 0.2);
+    }
+
+    .item.milestone::before {
+      background: var(--fg);
+      box-shadow: 0 0 0 5px rgba(250, 250, 247, 0.15);
+    }
+
+    .item-date {
+      font-family: system-ui, sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-soft);
+      margin-bottom: 0.25rem;
+    }
+
+    .item.milestone .item-date {
+      color: var(--fg);
+      font-weight: 600;
+    }
+
+    .item-title {
+      font-size: 1.15rem;
+      font-weight: 600;
+      line-height: 1.35;
+      margin-bottom: 0.3rem;
+    }
+
+    .item-desc {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 3rem;
+      font-family: system-ui, sans-serif;
+      font-size: 0.9rem;
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .back:hover {
+      color: var(--fg);
+      border-bottom-color: var(--accent);
+    }
+
+    @media (max-width: 600px) {
+      .container { padding: 3rem 1.5rem 3rem; }
+      .timeline { padding-left: 1.5rem; }
+      .item { padding-left: 1rem; }
+      .item::before { left: -1.57rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <p class="eyebrow">Roadmap</p>
+    <h1>Próximos passos</h1>
+    <p class="sub">O que vem depois da apresentação de hoje</p>
+
+    <div class="timeline">
+      <div class="item">
+        <p class="item-date">Domingo · Maio 2026</p>
+        <p class="item-title">Viagem de campo</p>
+        <p class="item-desc">Coleta de dados primários e contato direto com o território estudado.</p>
+      </div>
+
+      <div class="item">
+        <p class="item-date">Sexta-feira, 29 de agosto</p>
+        <p class="item-title">Reunião com professora da FACE-UFG</p>
+        <p class="item-desc">Discussão sobre as dimensões socioeconômicas e institucionais da análise.</p>
+      </div>
+
+      <div class="item">
+        <p class="item-date">Início de junho</p>
+        <p class="item-title">Reunião com Professor Baumman</p>
+        <p class="item-desc">Alinhamento metodológico e revisão das análises em andamento.</p>
+      </div>
+
+      <div class="item">
+        <p class="item-date">Junho</p>
+        <p class="item-title">Refinar e definir análises</p>
+        <p class="item-desc">Consolidar resultados preliminares e fechar escopo estatístico da dissertação.</p>
+      </div>
+
+      <div class="item">
+        <p class="item-date">Final de junho</p>
+        <p class="item-title">Fechar estrutura com professor Laerte</p>
+        <p class="item-desc">Definição final da arquitetura do texto e das seções da dissertação.</p>
+      </div>
+
+      <div class="item milestone">
+        <p class="item-date">Julho de 2026</p>
+        <p class="item-title">Qualificação</p>
+        <p class="item-desc">Exame de qualificação do mestrado — apresentação do projeto e defesa perante a banca.</p>
+      </div>
+
+      <div class="item milestone">
+        <p class="item-date">Julho 2026 → Janeiro 2027</p>
+        <p class="item-title">Desenvolvimento da dissertação e revisão de literatura</p>
+        <p class="item-desc">Manter o ritmo de trabalho, aprofundar a revisão de literatura e conduzir a defesa em janeiro de 2027.</p>
+      </div>
+    </div>
+
+    <a class="back" href="index.html">&larr; Voltar à visualização</a>
+  </div>
+
+</body>
+</html>

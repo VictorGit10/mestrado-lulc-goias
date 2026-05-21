@@ -200,7 +200,7 @@
                 embora composicionalmente diferente (perda de veg. natural 5× mais intensa, p&nbsp;=&nbsp;0,0008).
               </p>
               <p style="margin: 0; font-size: 0.82rem; color: var(--color-muted);">
-                Detalhes em <a href="#como-sabemos-titulo">Como sabemos § 0</a>.
+                Detalhes em <a href="#sintese-titulo">§ 5</a>.
               </p>
             </div>
           </details>
@@ -413,17 +413,19 @@
 
 
 
-  <!-- Sintese -->
+  <!-- Depois dos mapas -->
 
     <section class="sintese" aria-labelledby="sintese-titulo">
-    <h2 id="sintese-titulo">Síntese: 40 anos em uma transição</h2>
+    <span id="como-sabemos-titulo"></span>
+    <h2 id="sintese-titulo">Depois dos mapas: saldo, processos e evidência</h2>
 
     <p class="sintese-lede">
-      A narrativa cobriu o tempo ano a ano e ato a ato. Esta síntese muda de
-      escala: olha para o saldo de 40 anos, para os fluxos brutos entre classes
-      e para o painel completo de variáveis. O objetivo aqui não é reabrir a
-      narrativa — é mostrar <em>o que mudou no agregado</em>, <em>para onde foram os
-      hectares</em> e <em>quais dados sustentam cada afirmação</em>.
+      A narrativa cobriu o tempo ano a ano e ato a ato. Esta seção muda de escala:
+      primeiro mostra o saldo de 40 anos, os fluxos entre classes e o painel completo
+      de variáveis — e o que esses números revelam sobre os processos que moveram
+      Goiás. Depois abre o capô: quais métricas medem o tempo, quais camadas de
+      evidência sustentam cada afirmação e o que esta análise ainda não consegue
+      responder.
     </p>
 
     <!-- S1 — Saldo 40 anos -->
@@ -528,19 +530,18 @@
       </details>
     </div>
 
-    <!-- S3 — Vitrine do painel (populada por inventario.js) -->
+    <!-- S3 — Vitrine do painel + achados -->
     <div class="como-bloco" id="painel-vitrine">
-      <h3>3 &middot; O painel: ~70 variáveis em 40 anos</h3>
+      <h3>3 &middot; O painel e o que ele revela</h3>
       <p>
         A dissertação consolidou um painel municipal (246 municípios × 40 anos
         × ~70 variáveis), reunindo MapBiomas, IBGE/SIDRA-PAM/PPM, IPEA, BACEN
         e outras fontes. Os agregados municipais foram confrontados com os totais
         estaduais do IBGE/SIDRA e checagens internas entre fontes, sem anomalias
         graves — cada série pode ser rastreada até a fonte original. A grade abaixo
-        mostra <strong>o que está disponível</strong> — uma série por card, com
-        mini-tendência, valores extremos, cobertura temporal e fonte. As leituras
-        inferenciais ficam em § 4 e em
-        <a href="#como-sabemos-titulo">Como sabemos</a>.
+        mostra <strong>o que está disponível</strong>; as subseções seguintes mostram
+        <strong>o que esses números revelam</strong>. A camada inferencial completa
+        está em <a href="#sintese-titulo">§ 7</a>.
       </p>
       <div id="inventario-grid" class="inventario-grid" aria-live="polite">
         <p class="resumo-loading">Carregando vitrine do painel…</p>
@@ -550,22 +551,9 @@
         municipal completo (246 munis × ~70 vars) está documentado nos pipelines
         #1–#26 da dissertação.
       </p>
-    </div>
 
-    <!-- S4 — O que o painel revela -->
-    <div class="como-bloco">
-      <h3>4 &middot; O que o painel revela: três processos</h3>
-      <p>
-        O agregado e o Sankey <em>descrevem</em>; o painel municipal
-        <em>explica</em>. As três seções abaixo articulam as descobertas mais
-        robustas — cada uma com a figura sintética, o número-chave e um
-        acordeão para a parte metodológica. A camada inferencial completa
-        (painel 2FE com efeitos fixos, DiD com placebos) está em
-        <a href="#como-sabemos-titulo">Como sabemos</a>.
-      </p>
-
-      <!-- S4.1 — Pecuária desacoplada -->
-      <h4>4.1 &middot; A pecuária se desacoplou da área de pasto</h4>
+      <!-- S3.1 — Pecuária desacoplada -->
+      <h4>3.1 &middot; A pecuária se desacoplou da área de pasto</h4>
       <p>
         A partir do início dos anos 2010, a área de pasto recua enquanto o
         rebanho continua crescendo. O resultado é uma <strong>lotação que
@@ -588,13 +576,13 @@
             O salto acontece após 2001 e se acelera no Ato II. Inferencialmente,
             o painel 2FE Δ Pastagem × Δ Rebanho municipal confirma o padrão
             mesmo controlando heterogeneidade municipal e tendências comuns
-            — detalhes em <a href="#como-sabemos-titulo">Como sabemos § 3.2</a>.
+            — detalhes em <a href="#sintese-titulo">§ 7.2</a>.
           </p>
         </div>
       </details>
 
-      <!-- S4.2 — Lavoura sobre pasto, não sobre mata -->
-      <h4>4.2 &middot; Lavoura cresceu sobre pasto, não sobre mata</h4>
+      <!-- S3.2 — Lavoura sobre pasto, não sobre mata -->
+      <h4>3.2 &middot; Lavoura cresceu sobre pasto, não sobre mata</h4>
       <p>
         O Sankey de § 2 já mostrou: dos 4,4 Mha de agricultura que apareceram
         entre 1985 e 2024, 2,73 Mha vieram diretamente da pastagem — mais que
@@ -658,8 +646,8 @@
         </div>
       </details>
 
-      <!-- S4.3 — Crédito → pastagem -->
-      <h4>4.3 &middot; Onde o crédito apareceu, a pastagem recuou</h4>
+      <!-- S3.3 — Crédito → pastagem -->
+      <h4>3.3 &middot; Onde o crédito apareceu, a pastagem recuou</h4>
       <p>
         A partir de 2013, o SICOR (BACEN) registra o crédito rural município
         a município. Cruzando com a variação anual de pastagem no painel
@@ -703,19 +691,24 @@
             causalidade pelo painel isolado. Tendências paralelas, confundidores
             espaciais e o sentido da relação (crédito puxa transição vs. transição
             atrai crédito) são discutidos em
-            <a href="#como-sabemos-titulo">Como sabemos § 3.2 e § 5</a>.
+            <a href="#sintese-titulo">§ 7.2 e § 9</a>.
           </p>
         </div>
       </details>
     </div>
 
-    <!-- S4.4 — Pastagem como reserva de terra -->
-    <h4>4.4 &middot; Pastagem como reserva de terra: duas populações de conversão</h4>
+    <!-- S4 — Pastagem como reserva de terra -->
+    <div class="como-bloco">
+      <h3>4 &middot; Pastagem como reserva de terra: duas populações de conversão</h3>
     <p>
-      Se a pecuária se desacoplou da área (§ 4.1) e a lavoura cresceu sobre pasto (§ 4.2),
+      Se a pecuária se desacoplou da área (§ 3.1) e a lavoura cresceu sobre pasto (§ 3.2),
       resta uma pergunta: <em>quanto tempo a pastagem permaneceu antes de virar lavoura?</em>
-      A idade da pastagem no momento da conversão pixel-a-pixel (78.000 amostras, 246 municípios)
-      revela que não existe uma única resposta — existem <strong>duas populações</strong>.
+      A resposta importa porque distinguir conversão premeditada de oportunística muda a leitura
+      política: se a pastagem funciona como reserva de terra de longo prazo, políticas de
+      crédito e regulação fundiária têm alavancagem diferente do que se toda conversão fosse
+      rotação agrícola de curto prazo. A idade da pastagem no momento da conversão
+      pixel-a-pixel (78.000 amostras, 246 municípios) revela que não existe uma única
+      resposta — existem <strong>duas populações</strong>.
     </p>
     <figure class="grafico-card grafico-card--wide">
       <img src="img/graficos/sintese_idade_pastagem_atos.png"
@@ -749,7 +742,7 @@
     <p>
       A bimodalidade é estável: o modelo de 2 componentes (AIC 66.428) supera o de 1 componente
       (AIC 76.187) em todas as janelas deslizantes testadas (2016–24, 2017–24, 2018–24, 2020–24).
-      A coexistência dos dois mecanismos conecta § 4.2 (lavoura sobre pasto) com § 4.3 (crédito
+      A coexistência dos dois mecanismos conecta § 3.2 (lavoura sobre pasto) com § 3.3 (crédito
       → retração de pasto): o crédito rural financia tanto a conversão premeditada (projetos
       integrados) quanto a oportunística (arrendamento de pastagem consolidada).
     </p>
@@ -776,40 +769,13 @@
         </p>
       </div>
     </details>
-
-    <!-- S5 — Limites desta síntese -->
-    <div class="como-bloco">
-      <h3>5 &middot; Os limites desta síntese</h3>
-      <p>
-        Esta seção é <strong>descritiva-agregada</strong>: balanços, fluxos
-        pixel-a-pixel e pequenas regressões municipais. Afirmações causais —
-        <em>o crédito empurrou a transição</em>, <em>o Cerrado Manifesto teve
-        efeito mensurável</em> — exigem outro aparato: diferença-em-diferenças
-        com placebos, tendências paralelas verificadas, controles regionais
-        comparáveis. Esse aparato, com suas robustezes e fragilidades, está
-        no capítulo seguinte.
-      </p>
-      <p class="sintese-cta">
-        → Continuar para
-        <a href="#como-sabemos-titulo"><strong>Como sabemos: a estatística por trás da narrativa</strong></a>.
-      </p>
     </div>
-  </section>
 
-  <!-- ===================== Como sabemos: metodologia + achados ===================== -->
-  <section class="como-sabemos" aria-labelledby="como-sabemos-titulo">
-    <h2 id="como-sabemos-titulo">Como sabemos: a estatística por trás da narrativa</h2>
-    <p class="como-lede">
-      Os três atos acima descrevem <em>o que</em> aconteceu. Esta seção abre o capô e mostra
-      <em>como</em> sabemos — quais métricas medem o tempo, o que conversões revelam que a
-      variação anual esconde, e três camadas de evidência estatística (descritiva,
-      inferencial e causal) que sustentam as afirmações. Inclui também o que esta
-      análise <strong>não</strong> consegue responder.
-    </p>
+  <!-- ===================== Fundamentos: periodização, métricas, evidência ===================== -->
 
-    <!-- Bloco 0: Periodização data-driven -->
+    <!-- §5 — Periodização data-driven -->
     <div class="como-bloco">
-      <h3>0 · Como os três atos foram detectados</h3>
+      <h3>5 · Como os três atos foram detectados</h3>
       <p>
         Os atos não são capítulos arbitrários — são <strong>períodos identificados estatisticamente</strong>.
         Quatro métodos independentes procuram quebras estruturais na série LULC de Goiás.
@@ -902,9 +868,9 @@
       </details>
     </div>
 
-    <!-- Bloco 1: 4 métricas do tempo -->
+    <!-- §6 — 4 métricas do tempo -->
     <div class="como-bloco">
-      <h3>1 · As quatro métricas do tempo</h3>
+      <h3>6 · As quatro métricas do tempo</h3>
       <p>
         Para descrever como o uso da terra muda, usamos quatro métricas encadeadas. A
         analogia mais simples é a de um carro numa rodovia: <strong>posição</strong> diz
@@ -995,17 +961,19 @@
       </details>
     </div>
 
-    <!-- Bloco 2: Conversões -->
+    <!-- §7 — 3 camadas de evidência (+ conteúdo do delta) -->
     <div class="como-bloco">
-      <h3>2 · O conteúdo do delta: conversões pixel-a-pixel</h3>
+      <h3>7 · Três camadas de evidência</h3>
       <p>
         O delta é um saldo líquido: se a pastagem perde 0,3 Mha num ano, isso não diz
         para onde foi essa área — pode ter virado lavoura, regeneração ou solo exposto.
         As <strong>matrizes de transição</strong> resolvem isso. Para cada par de anos
         consecutivos, o MapBiomas é cruzado pixel-a-pixel (30 m × 30 m): cada pixel
         guarda seu uso em t e em t+1. O resultado é uma matriz 6×6 (origem × destino)
-        que abre o que o delta agrega. O Sankey acima representa essa matriz somada de
-        1985 a 2024.
+        que abre o que o delta agrega. O Sankey de § 2 representa essa matriz somada de
+        1985 a 2024. Sobre essa base de transições, a dissertação constrói três camadas
+        de evidência, cada uma com força e fraqueza distintas — descritivo → inferencial
+        → causal.
       </p>
 
       <div class="dado-choque-grid">
@@ -1020,16 +988,10 @@
           <div class="dado-choque-glosa">Total da série. Confirma que a expansão da lavoura em Goiás se deu predominantemente sobre pastagem, não sobre vegetação natural.</div>
         </div>
       </div>
-    </div>
 
-    <!-- Bloco 3: 3 camadas de evidência -->
-    <div class="como-bloco">
-      <h3>3 · Três camadas de evidência</h3>
       <p>
         Quando dizemos que "o crédito rural acelerou a transição pastagem → agricultura",
-        que tipo de afirmação estamos fazendo? Existem três níveis de evidência, cada um
-        com força e fraqueza distintas. A dissertação usa os três como camadas
-        complementares — descritivo → inferencial → causal.
+        que tipo de afirmação estamos fazendo? A tabela abaixo organiza os três níveis.
       </p>
 
       <table class="camadas-tabela">
@@ -1063,7 +1025,7 @@
         </tbody>
       </table>
 
-      <h4>3.1 · Correlação UF — camada descritiva</h4>
+      <h4>7.1 · Correlação UF — camada descritiva</h4>
       <p>
         Agrega tudo no nível estadual (uma linha por ano) e correlaciona séries de
         primeiras diferenças. Decisão metodológica importante: nunca correlacionar
@@ -1078,7 +1040,7 @@
         <figcaption>UF, 1985–2024: variação da agricultura plotada contra a variação anual da produção de soja em Goiás. Cada ponto é um ano.</figcaption>
       </figure>
 
-      <h4>3.2 · Painel 2-way FE — camada inferencial (núcleo da dissertação)</h4>
+      <h4>7.2 · Painel 2-way FE — camada inferencial (núcleo da dissertação)</h4>
       <p>
         Usa os 246 municípios × ~10 anos como painel. A especificação é
         <code>Δlulc<sub>it</sub> = α<sub>i</sub> + γ<sub>t</sub> + β·Δx<sub>it</sub> + ε<sub>it</sub></code>:
@@ -1158,7 +1120,7 @@
         </div>
       </details>
 
-      <h4>3.3 · DiD piecewise — camada causal (avaliação de marcos)</h4>
+      <h4>7.3 · DiD piecewise — camada causal (avaliação de marcos)</h4>
       <p>
         Compara Goiás (tratado) com Tocantins e Mato Grosso (controles do bioma
         Cerrado) ao redor de quatro marcos: Plano Real (1995), boom de commodities
@@ -1257,7 +1219,7 @@
 
     <!-- Bloco 4: Decisões metodológicas D1-D11 -->
     <div class="como-bloco">
-      <h3>4 · As decisões metodológicas</h3>
+      <h3>8 · As decisões metodológicas</h3>
       <p>
         Toda escolha numa cadeia analítica é uma decisão documentada — e cada uma tem
         um <em>porquê</em>. Onze decisões estruturam toda a pipeline estatística desta
@@ -1313,7 +1275,7 @@
         <div class="decisao-card">
           <span class="decisao-badge">D10</span>
           <div class="decisao-titulo">3 atos por triangulação de 4 métodos</div>
-          <div class="decisao-por-que">Períodos definidos por convergência estatística (sup-F, STARS, KL/TV, Intensity Analysis), não por capítulos políticos. Ver § 0.</div>
+          <div class="decisao-por-que">Períodos definidos por convergência estatística (sup-F, STARS, KL/TV, Intensity Analysis), não por capítulos políticos. Ver § 5.</div>
         </div>
         <div class="decisao-card">
           <span class="decisao-badge">D11</span>
@@ -1325,7 +1287,7 @@
 
     <!-- Bloco 5: Fragilidades -->
     <div class="como-bloco">
-      <h3>5 · O que esta análise não consegue responder</h3>
+      <h3>9 · O que esta análise não consegue responder</h3>
       <p>
         Honestidade epistêmica: nenhuma análise é completa. Documentar fragilidades é
         parte do método, não um defeito a esconder. Os pontos abaixo são limitações
@@ -1435,8 +1397,18 @@
         <dd>Milhões de hectares. 1 Mha = 10.000 km².</dd>
       </dl>
     </details>
+
+    <!-- CTA Próximos Passos -->
+    <div class="proximos-passos-cta" style="margin: 3rem 0 0; padding: 2.5rem 2rem; background: #1a1a1a; border-radius: 6px; text-align: center; color: #fafaf7;">
+      <p style="font-family: system-ui, sans-serif; font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; color: #c45a3a; margin: 0 0 0.8rem;">E agora?</p>
+      <h3 style="font-size: 1.5rem; font-weight: 600; margin: 0 0 0.6rem; color: #fafaf7;">Próximos passos da dissertação</h3>
+      <p style="font-size: 1rem; color: #a0a0a0; max-width: 520px; margin: 0 auto 1.2rem; line-height: 1.5;">
+        Viagem de campo, reuniões com orientadores, qualificação em julho e a defesa em janeiro de 2027.
+      </p>
+      <a href="proximos_passos.html" style="display: inline-block; font-family: system-ui, sans-serif; font-size: 0.9rem; font-weight: 500; color: #1a1a1a; background: #c45a3a; padding: 0.7rem 1.6rem; border-radius: 4px; text-decoration: none; transition: background 0.2s;">Ver roadmap completo →</a>
+    </div>
   </section>
-  <!-- ===================== / Como sabemos ===================== -->
+  <!-- ===================== / Depois dos mapas ===================== -->
 
 <!-- Footer -->
 
