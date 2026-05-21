@@ -4,6 +4,8 @@
 **Status**: ✅ executado (2026-05-13)
 **Depende de**: #17 (`taxas_lulc_goias.csv`), #23 (cache `to_uf_lulc.csv`)
 
+> **Nota de contexto (2026-05-20):** Este pipeline foi um passo intermediário para a triangulação data-driven (#29). As quebras detectadas alimentaram o sup-F multivariado e a verificação de sanidade (#30). A classificação dos marcos em GO-específico / cerrado-amplo / sem evidência pertencia ao paradigma anterior (marcos como unidades analíticas). Na periodização final, os marcos são referências narrativas dentro dos atos — a tipologia A/B/C (#29) reclassificou os marcos por nível de evidência, e o enquadramento atual os trata como contexto institucional, não como variáveis causais testáveis independentemente.
+
 ## Motivação
 
 O DiD piecewise (#23) testa apenas 4 marcos pré-definidos, sofrendo de viés

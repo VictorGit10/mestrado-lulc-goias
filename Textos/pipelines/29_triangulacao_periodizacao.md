@@ -229,7 +229,9 @@ STARS detecta shifts em 2004 (pastagem, agricultura) e 2006 (vegetação natural
 - **1991**: Instável no sup-F (desloca 1989-1993 com min_size), não detectada por STARS ou KL/TV. Provavelmente efeito de borda ou ruído. Não incluída como fronteira de período.
 - **2014**: Só detectada por STARS na série de agricultura com α=0.05. Não confirmada por outros métodos. Não incluída.
 
-## Tipologia dos marcos (independente dos atos)
+## Tipologia dos marcos (referências narrativas dentro dos atos)
+
+Os marcos são referências institucionais/econômicas que contextualizam as transições LULC observadas nos atos data-driven. Não são unidades analíticas independentes — são pontos no tempo que ajudam a narrar cada período. A tipologia comunica o nível de evidência de cada referência:
 
 | Marco | Quebra em GO? | GO-específico? | DiD robusto? | Categoria |
 |-------|:-------------:|:--------------:|:-------------:|:---------:|
@@ -242,9 +244,9 @@ STARS detecta shifts em 2004 (pastagem, agricultura) e 2006 (vegetação natural
 | 2018 Reorganização de mercado | agric 2018, past 2020 | Não (cerrado-amplo) | Não | B |
 | 2024 | N/A | N/A | N/A | C |
 
-- **A (Causal)**: quebra estrutural GO-específica + DiD robusto. Apenas Lei Kandir (1996).
-- **B (Narrativo)**: evento institucionalmente significativo; evidência cerrado-amplo ou sem quebra. Cinco marcos.
-- **C (Fronteira)**: limites da série, sem pretensão causal. Dois marcos (1985, 2024).
+- **A (Evidência causal)**: único marco com quebra estrutural GO-específica + DiD robusto. Apenas Lei Kandir (1996).
+- **B (Referência narrativa)**: evento institucionalmente significativo que contextualiza as transições, sem afirmação causal direta. Cinco marcos.
+- **C (Limite da série)**: 1985 e 2024, sem pretensão causal.
 
 ## Limitações
 
@@ -295,5 +297,5 @@ Pré-requisitos: `taxas_lulc_goias.csv` (#17), `conversao_bruta_goias.csv` (#19)
 
 - **3 períodos, não 4**: a fronteira 2005/2006 não é confirmada pelo método primário (sup-F multivariado vê 2001-2020 como platô contínuo). A diferença composicional é real (perda de veg_nat p=0.0008), mas a taxa total não difere (p=0.060) e a fronteira é sensível ao ponto de corte. Optou-se por 3 períodos, documentando a sub-fase 2001-05 como nota metodológica.
 - **Código Florestal (2012)**: cai dentro de P2 (2001-2019) sem efeito mensurável — ausência de quebra é o achado.
-- **Tipologia A/B/C dos marcos**: independente dos atos. Fraqueza de marco não afeta ato.
+- **Tipologia A/B/C dos marcos**: marcos são referências narrativas dentro dos atos, não unidades analíticas. A (Kandir) é o único com evidência causal GO-específica; B são referências institucionais que contextualizam as transições; C são limites da série.
 - **Config centralizada**: todos os scripts importam de `config_periodos.py`. Não há cópias independentes de ATOS ou MARCOS.

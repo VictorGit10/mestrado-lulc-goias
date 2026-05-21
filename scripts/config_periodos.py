@@ -63,11 +63,16 @@ ATOS = {
 ATOS_FLAT = {k: (v["inicio"], v["fim"], v["titulo"]) for k, v in ATOS.items()}
 
 # ─────────────────────────── MARCOS ───────────────────────────
-# Tipologia evidencial:
-#   A — Causal: quebra estrutural GO-especifica + DiD robusto
-#   B — Narrativo: evento institucionalmente significativo; evidencia
-#       cerrado-amplo ou sem quebra detectavel
-#   C — Fronteira: limites da serie, sem pretensao causal
+# Referencias institucionais que contextualizam as transicoes LULC
+# nos atos data-driven. Nao sao unidades analiticas independentes —
+# sao pontos no tempo que ajudam a narrar o periodo.
+#
+# Tipologia:
+#   A — Evidencia causal: unico marco com quebra estrutural GO-especifica
+#       + DiD robusto (Lei Kandir)
+#   B — Referencia narrativa: evento institucionalmente significativo;
+#       contextualiza as transicoes sem afirmacao causal
+#   C — Limite da serie: 1985 e 2024
 #
 # escopo_empirico:
 #   go_especifico  — quebra em GO sem quebra equivalente em TO
