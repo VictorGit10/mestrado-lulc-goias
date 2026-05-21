@@ -88,48 +88,48 @@ MARCOS = {
     },
     1994: {
         "titulo": "Plano Real",
-        "evidencia": "B",       # narrativo
+        "evidencia": "B",       # referencia narrativa
         "escopo_empirico": "cerrado_amplo",
-        "nota": "Resposta LULC em GO é defasada (inflexão em 1998, alinhada à Lei Kandir). "
-                "O Real viabilizou a Kandir; não mudou o LULC diretamente.",
+        "nota": "Perda de veg_nat desacelera de 0,88 pp/a (1990-93) para 0,63 pp/a (1995-98). "
+                "A inflexão mais nítida vem em 1998, alinhada à Kandir.",
     },
     1996: {
         "titulo": "Lei Kandir",
-        "evidencia": "A",       # causal
+        "evidencia": "A",       # evidencia causal
         "escopo_empirico": "go_especifico",
-        "nota": "Único marco com quebra GO-específica (veg_nat 1998, F=86.6) "
-                "e DiD robusto (veg.nat × 1995 vs TO, p=0.005).",
+        "nota": "Único evento com efeito diferenciado em GO: perda de veg_nat desacelera "
+                "de 0,54 pp/a para 0,41 pp/a após 1998, enquanto agricultura se expande "
+                "no sudoeste. DiD confirma divergência vs estados-controle após 1996.",
     },
     2002: {
         "titulo": "Crédito e demanda chinesa",
-        "evidencia": "B",       # narrativo
+        "evidencia": "B",       # referencia narrativa
         "escopo_empirico": "cerrado_amplo",
-        "nota": "Confluência do Plano Safra (crédito rural sistematizado) e "
-                "entrada da China na OMC (dez/2001). Quebra em GO past 2001 (F=85.7).",
+        "nota": "Agricultura goiana salta de 9,3% para 10,8% do território em 3 anos "
+                "(2001-04). Em 2004, soja-milho avança 0,94 pp em um único ano.",
     },
     2003: {
         "titulo": "Boom de commodities",
-        "evidencia": "B",       # narrativo
+        "evidencia": "B",       # referencia narrativa
         "escopo_empirico": "cerrado_amplo",
-        "nota": "Super-ciclo de preços para soja, carne e milho. "
-                "Quebras em GO veg_nat 2005 e TO agric 2004 / past 2005.",
+        "nota": "Perda de veg_nat atinge 0,49 pp/a em 2003 — a maior desde 1993. "
+                "Super-ciclo de preços viabiliza substituição de pastagem por soja-milho.",
     },
     2012: {
         "titulo": "Código Florestal",
-        "evidencia": "B",       # narrativo
+        "evidencia": "B",       # referencia narrativa
         "escopo_empirico": "sem_quebra",
-        "nota": "Sem quebra estrutural detectável em GO ou TO (±2a). "
-                "RL 20% no Cerrado é permissiva; ausência de efeito é o achado. "
-                "Marco regulatório-simbólico, não causal mensurável.",
+        "nota": "Após o código, perda de veg_nat acelera de 0,11 pp/a (2008-11) para "
+                "0,21 pp/a (2012-15); agricultura expande 2,3x mais rápido "
+                "(0,20 → 0,45 pp/a). Ausência de desaceleração é o achado.",
     },
     2018: {
         "titulo": "Reorganização de mercado",
-        "evidencia": "B",       # narrativo
+        "evidencia": "B",       # referencia narrativa
         "escopo_empirico": "cerrado_amplo",
-        "nota": "Quebras cerrado-amplo (GO agric 2018, past 2020; TO past 2016, agric 2020). "
-                "Drivers múltiplos: recuperação macro pós-2016, ciclo de preços, "
-                "compromissos de cadeia produtiva (Cerrado Manifesto 2017), CAR. "
-                "Cerrado Manifesto é sinal dentro da reorganização, não causa.",
+        "nota": "Perda de veg_nat estabiliza em torno de 0,10 pp/a; pastagem cede "
+                "0,33-0,61 pp/a consistentemente (2018-21). Agricultura para de "
+                "crescer; vegetação se recupera lentamente.",
     },
     2024: {
         "titulo": "Estado atual",
