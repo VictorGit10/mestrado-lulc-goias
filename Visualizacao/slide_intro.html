@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Intro — Goiás 1985-2024</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #1a1a1a;
+      --fg: #fafaf7;
+      --accent: #c45a3a;
+      --muted: #999;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: var(--bg);
+      font-family: "Source Serif Pro", Georgia, serif;
+      color: var(--fg);
+    }
+
+    /* Parede de mapas */
+    .wall {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      grid-template-rows: repeat(4, 1fr);
+      gap: 4px;
+      z-index: 1;
+      padding: 4px;
+    }
+
+    .wall-cell {
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: scale(0.85);
+      animation: reveal 0.6s ease forwards;
+      background-size: cover;
+      background-position: center;
+      filter: grayscale(30%) brightness(0.7);
+      transition: filter 0.4s ease;
+    }
+
+    .wall-cell:hover {
+      filter: grayscale(0%) brightness(1);
+      z-index: 2;
+    }
+
+    /* Stagger — 40 itens */
+    .wall-cell:nth-child(1)  { animation-delay: 0.05s; }
+    .wall-cell:nth-child(2)  { animation-delay: 0.10s; }
+    .wall-cell:nth-child(3)  { animation-delay: 0.15s; }
+    .wall-cell:nth-child(4)  { animation-delay: 0.20s; }
+    .wall-cell:nth-child(5)  { animation-delay: 0.25s; }
+    .wall-cell:nth-child(6)  { animation-delay: 0.30s; }
+    .wall-cell:nth-child(7)  { animation-delay: 0.35s; }
+    .wall-cell:nth-child(8)  { animation-delay: 0.40s; }
+    .wall-cell:nth-child(9)  { animation-delay: 0.45s; }
+    .wall-cell:nth-child(10) { animation-delay: 0.50s; }
+    .wall-cell:nth-child(11) { animation-delay: 0.55s; }
+    .wall-cell:nth-child(12) { animation-delay: 0.60s; }
+    .wall-cell:nth-child(13) { animation-delay: 0.65s; }
+    .wall-cell:nth-child(14) { animation-delay: 0.70s; }
+    .wall-cell:nth-child(15) { animation-delay: 0.75s; }
+    .wall-cell:nth-child(16) { animation-delay: 0.80s; }
+    .wall-cell:nth-child(17) { animation-delay: 0.85s; }
+    .wall-cell:nth-child(18) { animation-delay: 0.90s; }
+    .wall-cell:nth-child(19) { animation-delay: 0.95s; }
+    .wall-cell:nth-child(20) { animation-delay: 1.00s; }
+    .wall-cell:nth-child(21) { animation-delay: 1.05s; }
+    .wall-cell:nth-child(22) { animation-delay: 1.10s; }
+    .wall-cell:nth-child(23) { animation-delay: 1.15s; }
+    .wall-cell:nth-child(24) { animation-delay: 1.20s; }
+    .wall-cell:nth-child(25) { animation-delay: 1.25s; }
+    .wall-cell:nth-child(26) { animation-delay: 1.30s; }
+    .wall-cell:nth-child(27) { animation-delay: 1.35s; }
+    .wall-cell:nth-child(28) { animation-delay: 1.40s; }
+    .wall-cell:nth-child(29) { animation-delay: 1.45s; }
+    .wall-cell:nth-child(30) { animation-delay: 1.50s; }
+    .wall-cell:nth-child(31) { animation-delay: 1.55s; }
+    .wall-cell:nth-child(32) { animation-delay: 1.60s; }
+    .wall-cell:nth-child(33) { animation-delay: 1.65s; }
+    .wall-cell:nth-child(34) { animation-delay: 1.70s; }
+    .wall-cell:nth-child(35) { animation-delay: 1.75s; }
+    .wall-cell:nth-child(36) { animation-delay: 1.80s; }
+    .wall-cell:nth-child(37) { animation-delay: 1.85s; }
+    .wall-cell:nth-child(38) { animation-delay: 1.90s; }
+    .wall-cell:nth-child(39) { animation-delay: 1.95s; }
+    .wall-cell:nth-child(40) { animation-delay: 2.00s; }
+
+    @keyframes reveal {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* Overlay escura para legibilidade do texto */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.45);
+      pointer-events: none;
+    }
+
+    .overlay-text {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: textReveal 1.2s ease 2.4s forwards;
+    }
+
+    .eyebrow {
+      font-size: 1rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #ffffff;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+      margin-bottom: 1.2rem;
+      font-weight: 400;
+    }
+
+    .headline {
+      font-size: clamp(2rem, 5vw, 4.5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      max-width: 90vw;
+      letter-spacing: -0.02em;
+    }
+
+    .headline em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .sub {
+      margin-top: 1.5rem;
+      font-size: clamp(1rem, 2vw, 1.4rem);
+      color: #ffffff;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+      font-weight: 400;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: textReveal 1s ease 3.2s forwards;
+    }
+
+    .hint {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 20;
+      font-family: system-ui, sans-serif;
+      font-size: 0.85rem;
+      color: #ffffff;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+      letter-spacing: 0.05em;
+      opacity: 0;
+      animation: textReveal 0.8s ease 4s forwards;
+    }
+
+    @keyframes textReveal {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="wall" id="wall"></div>
+
+  <div class="overlay">
+    <div class="overlay-text">
+      <p class="eyebrow">1985 — 2024</p>
+      <h1 class="headline">E se colocássemos <em>40 anos de mapas</em><br>na parede?</h1>
+      <p class="sub">340 milhões de pixels. Uma história só.</p>
+    </div>
+  </div>
+
+  <p class="hint">Pressione espaço ou clique para abrir a visualização</p>
+
+  <script>
+    const wall = document.getElementById('wall');
+    const startYear = 1985;
+    const endYear = 2024;
+
+    for (let y = startYear; y <= endYear; y++) {
+      const cell = document.createElement('div');
+      cell.className = 'wall-cell';
+      cell.style.backgroundImage = `url('img/mapas_gee/cobertura_${y}.webp')`;
+      wall.appendChild(cell);
+    }
+
+    // Navegação para o site principal
+    function openSite() {
+      window.location.href = 'index.html';
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.code === 'Space' || e.code === 'Enter' || e.code === 'ArrowRight') {
+        e.preventDefault();
+        openSite();
+      }
+    });
+
+    document.addEventListener('click', openSite);
+  </script>
+
+</body>
+</html>
