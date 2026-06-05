@@ -70,13 +70,24 @@ MODELOS_MULTIVARIADA = [
 
 # ─────────────────────────── Funções ───────────────────────────
 
-def preparar_painel() -> pd.DataFrame:
-    """Monta painel municipal com deltas LULC e socioeconômicos."""
-    # Taxas LULC municipal
-    taxas = pd.read_csv(DIR_DATA / "taxas_lulc_municipal.csv")
+def preparar_painel(nivel: str = "municipal") -> pd.DataFrame:
+    """Monta o painel com deltas LULC e socioeconômicos.
 
-    # Painel unificado (socioeconômicos)
-    socio = pd.read_parquet(DIR_DATA / "painel_unificado.parquet")
+    nivel='municipal' (default): 246 municípios (painel_unificado + taxas_lulc_municipal).
+    nivel='amc': 166 Áreas Mínimas Comparáveis (Pipeline #25) — entidade
+    territorialmente constante, recomendada para a análise longitudinal (D11).
+    A coluna de entidade continua chamada 'cd_mun' para reaproveitar toda a
+    maquinaria de painel; em modo AMC ela carrega o code_amc.
+    """
+    if nivel == "amc":
+        taxas = pd.read_csv(DIR_DATA / "taxas_lulc_amc.csv").rename(columns={"code_amc": "cd_mun"})
+        socio = pd.read_parquet(DIR_DATA / "painel_amc_goias.parquet").rename(
+            columns={"code_amc": "cd_mun", "amc_nome_rep": "nm_mun"})
+        merge_keys = ["cd_mun", "ano"]   # nm_mun vem só do painel (taxas AMC não tem)
+    else:
+        taxas = pd.read_csv(DIR_DATA / "taxas_lulc_municipal.csv")
+        socio = pd.read_parquet(DIR_DATA / "painel_unificado.parquet")
+        merge_keys = ["cd_mun", "nm_mun", "ano"]
 
     # Manter apenas colunas socioeconômicas relevantes
     socio_cols = [
@@ -88,7 +99,7 @@ def preparar_painel() -> pd.DataFrame:
     socio = socio[keep_cols]
 
     # Merge
-    df = taxas.merge(socio, on=["cd_mun", "nm_mun", "ano"], how="left")
+    df = taxas.merge(socio, on=merge_keys, how="left")
 
     # Ordenar para painel
     df = df.sort_values(["cd_mun", "ano"]).reset_index(drop=True)
@@ -226,12 +237,15 @@ def rodar_painel_multivariado(df: pd.DataFrame, y_col: str, x_cols: list[str],
 
 # ─────────────────────────── Main ───────────────────────────
 
-def main() -> None:
-    print("Preparando painel municipal...")
-    df = preparar_painel()
+def main(nivel: str = "municipal") -> None:
+    suf = "_amc" if nivel == "amc" else ""
+    rotulo = "AMC (166)" if nivel == "amc" else "municipal (246)"
+    print(f"Preparando painel {rotulo}...")
+    df = preparar_painel(nivel)
     n_munis = df["cd_mun"].nunique()
     n_anos = df["ano"].nunique()
-    print(f"  {len(df):,} obs × {len(df.columns)} cols ({n_munis} munis, {n_anos} anos)")
+    unidade = "AMCs" if nivel == "amc" else "munis"
+    print(f"  {len(df):,} obs × {len(df.columns)} cols ({n_munis} {unidade}, {n_anos} anos)")
 
     results = []
 
@@ -257,7 +271,7 @@ def main() -> None:
             results.append(res)
 
     # Salvar
-    out_csv = DIR_OUT / "painel_2fe.csv"
+    out_csv = DIR_OUT / f"painel_2fe{suf}.csv"
     res_df = pd.DataFrame(results)
     res_df.to_csv(out_csv, index=False)
     print(f"\nOK: {out_csv.name} ({len(res_df)} modelos)")
@@ -288,7 +302,7 @@ def main() -> None:
 
     if residuos_rows:
         residuos_df = pd.concat(residuos_rows, ignore_index=True)
-        out_resid = DIR_OUT / "painel_residuos.csv"
+        out_resid = DIR_OUT / f"painel_residuos{suf}.csv"
         residuos_df.to_csv(out_resid, index=False)
         print(f"OK: {out_resid.name} ({len(residuos_df):,} resíduos)")
 
@@ -344,7 +358,7 @@ def main() -> None:
                 mv_results.append(mv_ns)
 
     mv_df = pd.DataFrame(mv_results)
-    out_mv = DIR_OUT / "painel_multivariada.csv"
+    out_mv = DIR_OUT / f"painel_multivariada{suf}.csv"
     mv_df.to_csv(out_mv, index=False)
     print(f"OK: {out_mv.name} ({len(mv_df)} modelos multivariados)")
 
@@ -376,4 +390,9 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    import argparse
+    ap = argparse.ArgumentParser(description="Painel 2-way FE (D8) — municipal ou AMC (D11)")
+    ap.add_argument("--nivel", choices=["municipal", "amc"], default="municipal",
+                    help="unidade espacial: 'municipal' (246) ou 'amc' (166, recomendado p/ longitudinal)")
+    args = ap.parse_args()
+    main(args.nivel)

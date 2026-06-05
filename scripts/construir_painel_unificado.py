@@ -23,6 +23,14 @@ DECISÕES METODOLÓGICAS E LIMITAÇÕES — LEIA ANTES DE USAR
    (int, 7 dígitos IBGE). Verificado: mapbiomas_munis_goias.csv tem 246 munis
    distintos (não 247, como sugere a contagem de linhas do Censo Agro).
 
+   ATENÇÃO — COMPARABILIDADE LONGITUDINAL: 25% dos 246 municípios surgiram
+   depois de 1985 (emancipações de 1989/1993/1997/2001). Para os municípios-pai
+   isso gera quedas espúrias de 50–80% no ano da emancipação. Este painel é
+   adequado para análises TRANSVERSAIS e do período recente; para análises
+   LONGITUDINAIS (1ª diferença, painel FE, DiD, tendências) use o painel agregado
+   em Áreas Mínimas Comparáveis: `painel_amc_goias.parquet` (Pipeline #25,
+   construir_amc_goias.py). Ver metodologia/areas_minimas_comparaveis.md (D11).
+
 2. JANELA TEMPORAL: 1985–2024 completa (40 anos × 246 munis = 9.840 linhas).
    NaN onde a fonte não cobre. Filtro temporal fica nas análises a jusante:
        - Pré-2002:   sem PIB, sem população (estimativas IBGE só desde 2001),

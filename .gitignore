@@ -19,8 +19,8 @@ outputs/
 !Visualizacao/assets/data/
 !Visualizacao/assets/data/**
 
-# Trabalho paralelo (duplicata não-rastreada de TrabalhoParalelo/)
-Trabalho paralelo/
+# Trabalho paralelo (workspace-fonte não-rastreado que gera paralelo/TrabalhoParalelo/)
+paralelo/Trabalho paralelo/
 
 # Scripts auxiliares descartáveis
 scripts/_preview_*.py

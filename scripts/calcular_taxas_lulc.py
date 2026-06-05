@@ -297,6 +297,65 @@ def agregar_mesorregioes(taxas_muni: pd.DataFrame, mapa_meso: pd.DataFrame) -> p
 
 # ─────────────────────────── Main ───────────────────────────
 
+def computar_taxas_unidade(unidades: pd.DataFrame) -> pd.DataFrame:
+    """Delta e slope trailing por unidade espacial (groupby 'cd_mun').
+
+    Reutilizado para o nível municipal e para o nível AMC (#25) — neste caso a
+    coluna 'cd_mun' carrega o código da Área Mínima Comparável. Só delta e slope
+    trailing (sem centrada/aceleração), igual ao nível municipal original.
+    """
+    results = []
+    for cd_mun, grp in unidades.groupby("cd_mun"):
+        grp = grp.sort_values("ano").reset_index(drop=True)
+        nm = grp["nm_mun"].iloc[0]
+        n = len(grp)
+        for idx in range(n):
+            row: dict = {"cd_mun": int(cd_mun), "nm_mun": str(nm), "ano": int(grp["ano"].iloc[idx])}
+            for g in NOMES_GRUPOS:
+                area_mha = grp[g].values.astype(float) / 1e6
+                total_ha = grp["area_total_ha"].values.astype(float)
+                row[f"{g}_mha"] = round(area_mha[idx], 6)
+                row[f"{g}_pct"] = round(
+                    (grp[g].iloc[idx] / total_ha[idx] * 100) if total_ha[idx] > 0 else np.nan, 4
+                )
+                row[f"{g}_delta_mha"] = round(area_mha[idx] - area_mha[idx - 1], 6) if idx > 0 else np.nan
+            for g in NOMES_GRUPOS:
+                area_mha = grp[g].values.astype(float) / 1e6
+                slopes_trail, se_nw = rolling_slope_hac(pd.Series(area_mha), window=JANELA)
+                row[f"{g}_slope_5a_trail"] = round(slopes_trail[idx], 6) if not np.isnan(slopes_trail[idx]) else np.nan
+                row[f"{g}_slope_se_nw"] = round(se_nw[idx], 6) if not np.isnan(se_nw[idx]) else np.nan
+            row["mosaico_mha"] = round(grp["mosaico"].iloc[idx] / 1e6, 6)
+            row["area_total_mha"] = round(grp["area_total_ha"].iloc[idx] / 1e6, 6)
+            results.append(row)
+    return pd.DataFrame(results)
+
+
+def gerar_taxas_amc(df: pd.DataFrame) -> None:
+    """Gera taxas_lulc_amc.csv agregando o LULC bruto por AMC (Pipeline #25).
+
+    Mapeia cd_mun → code_amc via crosswalk e reaproveita exatamente a mesma
+    lógica de agregação e taxas do nível municipal — só muda a unidade espacial.
+    """
+    cw_path = DIR_PROCESSED / "amc_crosswalk_goias.csv"
+    if not cw_path.exists():
+        print("\n[6/6] AMC: amc_crosswalk_goias.csv ausente "
+              "(rode construir_amc_goias.py) — pulando.")
+        return
+    print("\n[6/6] Computando taxas (AMC)...")
+    cw = pd.read_csv(cw_path)
+    df_amc = df.merge(cw[["cd_mun", "code_amc"]], on="cd_mun", how="inner")
+    df_amc["cd_mun"] = df_amc["code_amc"]                    # unidade = AMC
+    df_amc["nm_mun"] = "AMC_" + df_amc["code_amc"].astype(str)
+    amc_agg = agregar_por_grupo(df_amc, nivel="municipal")
+    taxas_amc = (computar_taxas_unidade(amc_agg)
+                 .rename(columns={"cd_mun": "code_amc"})
+                 .drop(columns=["nm_mun"]))               # nome vem do painel AMC
+    out_amc = DIR_PROCESSED / "taxas_lulc_amc.csv"
+    taxas_amc.to_csv(out_amc, index=False, float_format="%.6f")
+    print(f"  OK: {out_amc.name} ({len(taxas_amc)} linhas, "
+          f"{taxas_amc['code_amc'].nunique()} AMCs)")
+
+
 def main() -> None:
     DIR_PROCESSED.mkdir(parents=True, exist_ok=True)
 
@@ -330,46 +389,7 @@ def main() -> None:
     # ── Nível municipal ──
     print("\n[4/5] Computando taxas (municipal)...")
     muni = agregar_por_grupo(df, nivel="municipal")
-
-    # Para municipal: apenas delta e slope_trail (sem centrada e aceleração)
-    results_muni = []
-
-    for cd_mun, grp in muni.groupby("cd_mun"):
-        grp = grp.sort_values("ano").reset_index(drop=True)
-        nm = grp["nm_mun"].iloc[0]
-        n = len(grp)
-
-        for idx in range(n):
-            row: dict = {"cd_mun": int(cd_mun), "nm_mun": str(nm), "ano": int(grp["ano"].iloc[idx])}
-
-            for g in NOMES_GRUPOS:
-                area_mha = grp[g].values.astype(float) / 1e6
-                total_ha = grp["area_total_ha"].values.astype(float)
-
-                row[f"{g}_mha"] = round(area_mha[idx], 6)
-                row[f"{g}_pct"] = round(
-                    (grp[g].iloc[idx] / total_ha[idx] * 100) if total_ha[idx] > 0 else np.nan, 4
-                )
-
-                # Delta
-                if idx > 0:
-                    row[f"{g}_delta_mha"] = round(area_mha[idx] - area_mha[idx - 1], 6)
-                else:
-                    row[f"{g}_delta_mha"] = np.nan
-
-            # Slopes por grupo (municipal: apenas trailing)
-            for g in NOMES_GRUPOS:
-                area_mha = grp[g].values.astype(float) / 1e6
-                slopes_trail, se_nw = rolling_slope_hac(pd.Series(area_mha), window=JANELA)
-                row[f"{g}_slope_5a_trail"] = round(slopes_trail[idx], 6) if not np.isnan(slopes_trail[idx]) else np.nan
-                row[f"{g}_slope_se_nw"] = round(se_nw[idx], 6) if not np.isnan(se_nw[idx]) else np.nan
-
-            row["mosaico_mha"] = round(grp["mosaico"].iloc[idx] / 1e6, 6)
-            row["area_total_mha"] = round(total_ha[idx] / 1e6, 6)
-
-            results_muni.append(row)
-
-    taxas_muni = pd.DataFrame(results_muni)
+    taxas_muni = computar_taxas_unidade(muni)
 
     # Salvar municipal
     out_muni = DIR_PROCESSED / "taxas_lulc_municipal.csv"
@@ -384,6 +404,9 @@ def main() -> None:
     out_meso = DIR_PROCESSED / "taxas_lulc_mesorregioes.csv"
     taxas_meso.to_csv(out_meso, index=False, float_format="%.6f")
     print(f"  OK: {out_meso.name} ({len(taxas_meso)} linhas, {len(taxas_meso.columns)} colunas)")
+
+    # ── Nível AMC (Pipeline #25) ──
+    gerar_taxas_amc(df)
 
     # ── Resumo ──
     print("\n" + "=" * 60)

@@ -85,11 +85,47 @@ Todos ≤ 1,55. Sem multicolinearidade preocupante.
 - O R² within do multivariado é 1,5× a 2,4× o do univariado em pastagem e agricultura. Substancial, mas ainda modesto — confirma que **dinâmica intra-municipal** captura a maior parte da variação de Δlulc, com socioeconômicos explicando ~10–15% adicional.
 - A **decomposição do canal** muda interpretação: para pastagem, SICOR (não VA agro) é o vetor causal mais forte; VA agro é proxy de algo capturado pelo crédito. Para agricultura, VA agro mantém a posição central — **a intensificação é o resultado consistente da dissertação**.
 
+## Robustez — Áreas Mínimas Comparáveis (D11, 2026-06-04)
+
+25% dos 246 municípios surgiram após 1985 (emancipações 1989/1993/1997/2001), o
+que injeta saltos territoriais espúrios na variação intra-município — exatamente
+a variação que o 2FE usa. Re-rodamos o painel inteiro sobre as **166 AMC**
+(Pipeline #25, território constante): `--nivel amc`.
+
+**As conclusões são robustas.** Todos os achados significativos mantêm sinal e
+significância; os β ficam sistematicamente um pouco **mais fortes** e o R² within
+**maior** — coerente com a remoção do ruído territorial que atenuava as
+estimativas municipais.
+
+| Y ~ X | Janela | β municipal | β AMC | R²w mun → AMC |
+|---|---|---|---|---|
+| Δ Pastagem ~ Δ SICOR | 2013–2021 | −0,0034* | −0,0045* | 0,049 → 0,070 |
+| Δ Pastagem ~ Δ SICOR | 2002–2023 | −0,0029* | −0,0040* | 0,030 → 0,045 |
+| Δ Pastagem ~ Δ VA agro | 2013–2021 | −0,0015* | −0,0018* | 0,022 → 0,031 |
+| Δ Agricultura ~ Δ VA agro | 2013–2021 | −0,0035* | −0,0040* | 0,105 → 0,137 |
+| Δ Agricultura ~ Δ VA agro | 2002–2023 | −0,0040* | −0,0047* | 0,047 → 0,068 |
+
+\* p < 0,05. R²w médio dos 16 modelos: 0,021 (municipal) → 0,028 (AMC).
+
+- **Trocas de sinal: 2** — ambas em `Δ Agricultura ~ Δ SICOR`, β≈0 e **não-significativo** nos dois níveis (ruído, sem achado).
+- **Trocas de significância: 1** — `Δ Agricultura ~ Δ Soja [2013–2021]` passa de p=0,112 (n.s.) para p=0,044 (sig.), na direção esperada com dados mais limpos.
+
+**Implicação para a redação**: a AMC é a unidade defensável para os resultados
+longitudinais (responde à crítica de comparabilidade), e o re-teste **confirma**
+que os achados-chave — crédito→retração de pastagem e VA agro→intensificação da
+agricultura — não eram artefatos da malha municipal.
+
+Saídas AMC: `painel_2fe_amc.csv`, `painel_residuos_amc.csv`,
+`painel_multivariada_amc.csv`, e a comparação lado a lado em
+`outputs/correlacoes/comparacao_municipal_vs_amc.csv`.
+
 ## Como rodar
 
 ```bash
 pip install linearmodels
-python scripts/correlacoes_painel.py
+python scripts/correlacoes_painel.py                # municipal (246) — default
+python scripts/correlacoes_painel.py --nivel amc    # AMC (166) — longitudinal (D11)
 ```
 
-Sem argumentos. Requer `linearmodels` instalado.
+Requer `linearmodels`. O modo `amc` depende de `painel_amc_goias.parquet` (#25) e
+`taxas_lulc_amc.csv` (#17).

@@ -72,14 +72,32 @@ Padrão típico: hot-spots de Δ agricultura concentrados no **Sudoeste e Sul** 
 | `outputs/espacial/lisa_*.png` | 8 mapas LISA (3 modelos × 3 anos representativos) |
 | `outputs/espacial/modelos_espaciais.csv` | OLS vs SAR vs SEM para 2 pares × 2 matrizes W. 12 modelos. |
 
+## Robustez — Áreas Mínimas Comparáveis (D11, 2026-06-04)
+
+Re-rodado sobre as 166 AMC (`--nivel amc`, geometria `amc_goias.gpkg` do #25,
+resíduos `painel_residuos_amc.csv`). **A estrutura espacial se mantém**:
+
+| | Municipal (246) | AMC (166) |
+|---|---|---|
+| Moran I significativo | 115/140 | 125/140 |
+| Moran I médio | +0,201 | +0,208 |
+| Melhor modelo (AIC) | SEM (Error) | SEM (Error); SAR p/ pastagem-queen |
+
+A autocorrelação espacial positiva forte nos resíduos e a vitória dos modelos
+espaciais (SEM/SAR) sobre OLS aparecem nos dois níveis — não são artefato da
+malha municipal. Saídas: `moran_global_amc.csv`, `modelos_espaciais_amc.csv`,
+`lisa_*_amc.png`.
+
 ## Como rodar
 
 ```bash
 pip install libpysal esda splot spreg  # ver requirements.txt
-python scripts/analise_espacial.py
+python scripts/analise_espacial.py                # municipal (246) — default
+python scripts/analise_espacial.py --nivel amc    # AMC (166) — D11
 ```
 
 Tempo: ~2 min (geobr download + Moran com 999 permutações × 140 pares).
+O modo `amc` requer `amc_goias.gpkg` (#25) e `painel_residuos_amc.csv` (#22 `--nivel amc`).
 
 ## Limitações
 

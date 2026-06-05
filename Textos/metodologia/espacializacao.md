@@ -6,7 +6,8 @@ Decisões transversais sobre projeção, malha municipal e divisão de papéis P
 
 - **Recomendado**: `geobr.read_municipality(code_muni="GO", year=2020)` — 246 polígonos, IBGE oficial.
 - **Chave de junção** com qualquer CSV: `cd_mun` (IBGE 7 dígitos).
-- **Por que IBGE 2020 (e não 2022/2024)**: Goiás tem 246 munis hoje, mas em 1985 tinha ~199. Usar 2020 é convenção estável; séries anteriores ficam agregadas via pai-filho de desmembramento se preciso.
+- **Por que IBGE 2020 (e não 2022/2024)**: Goiás tem 246 munis hoje, mas em 1985 tinha ~199. Usar 2020 é convenção estável para mapas e análises transversais.
+- **Séries longitudinais → AMC, não município**: para qualquer análise que cruze dados de pesquisa (SIDRA) com LULC ao longo do tempo, a malha municipal **não é comparável** (25% dos munis surgiram após 1985). Usa-se **Áreas Mínimas Comparáveis** (Ehrl 2017) — ver [areas_minimas_comparaveis.md](areas_minimas_comparaveis.md) (D11) e [Pipeline #25](../pipelines/25_amc_goias.md). A ideia antiga de "agregar via pai-filho se preciso" foi substituída por essa concordância publicada.
 - **Bacia vs município**: para análise ambiental, OttoBacias nível 4–5 fragmenta menos. Mas socioeconômica é obrigatoriamente municipal (é onde IBGE/BACEN publicam). Se necessário, gerar duas malhas e juntar via área proporcional.
 
 ## CRS — cuidado com o uso

@@ -1,6 +1,6 @@
 # Pipelines — índice
 
-24 pipelines documentados. Cada arquivo descreve **processo** (o que faz, como rodar, decisões metodológicas, validações, limitações). Para descrição dos **produtos** (PNGs, CSVs com interpretação para redação), ver [outputs/](../outputs/).
+25 pipelines documentados. Cada arquivo descreve **processo** (o que faz, como rodar, decisões metodológicas, validações, limitações). Para descrição dos **produtos** (PNGs, CSVs com interpretação para redação), ver [outputs/](../outputs/).
 
 ## Tabela resumo
 
@@ -30,6 +30,7 @@
 | 22 | [22_correlacoes_painel.md](22_correlacoes_painel.md) | `correlacoes_painel.py` | Painel municipal 2-way FE (entity + time) | 2002–2023 | Municipal | ✅ |
 | 23 | [23_did.md](23_did.md) | `piecewise_did.py` | DiD piecewise GO vs MT/TO + event-study + placebo | 1985–2024 | UF | ✅ |
 | 24 | [24_analise_espacial.md](24_analise_espacial.md) | `analise_espacial.py` | Moran's I, LISA, regressão espacial (OLS/SAR/SEM) | 2013–2021 | Municipal | ✅ |
+| 25 | [25_amc_goias.md](25_amc_goias.md) | `construir_amc_goias.py` | Áreas Mínimas Comparáveis (Ehrl 2017) — painel 6.640 × 180 para análise longitudinal | 1985–2024 | AMC (166) | ✅ |
 | 26 | [26_deteccao_quebras.md](26_deteccao_quebras.md) | `deteccao_quebras.py` | Detecção de quebras estruturais (sup-F + binary segmentation) GO+TO | 1985–2024 | UF | ✅ |
 | 28 | [28_idade_pastagem.md](28_idade_pastagem.md) | `coleta_idade_pastagem.py` + `analise_reserva_terra.py` | Idade da pastagem na conversão para agricultura (hipótese "reserva de terra") | 1986–2024 | Pixel amostrado (78k) + municipal | ✅ |
 | 29 | [29_triangulacao_periodizacao.md](29_triangulacao_periodizacao.md) | `periodizacao_multivariada.py` + `periodizacao_stars.py` + `periodizacao_transicoes.py` | Triangulação para periodização data-driven (sup-F multivariado + STARS + KL/TV) | 1985–2024 | UF (GO) | ✅ |
@@ -47,6 +48,7 @@
 - **#12** é independente (puro GEE) e **substitui o #5 como fonte de matriz de transição** real (pixel-a-pixel).
 - **#13, #14, #15** alimentam slots do painel unificado (#16).
 - **#16** consolida #3, #4, #6, #7, #13, #15 num painel pronto para análise espacial estatística.
+- **#25** consome #16 e a concordância AMC do `geobr` (Ehrl 2017). Agrega o painel municipal em 166 Áreas Mínimas Comparáveis de território constante — unidade canônica para as análises **longitudinais** (corrige o viés de 25% de munis criados após 1985). Ver D11 em [metodologia/areas_minimas_comparaveis.md](../metodologia/areas_minimas_comparaveis.md).
 - **#17** consome #4 (dados brutos MapBiomas municipal) e #18 (mesorregiões). Produz métricas de variação LULC para #20 e para as correlações da Etapa 2.
 - **#18** é independente (geobr). Alimenta #17 e #20 com o mapeamento cd_mun → mesorregião.
 - **#19** consome #12 com flag `--consecutivos` (39 pares ano-a-ano). Produz conversão bruta A→B para análise de fluxo.

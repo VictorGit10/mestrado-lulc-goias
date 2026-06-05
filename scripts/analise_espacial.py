@@ -75,7 +75,16 @@ PARES_SPREG = [
 ]
 
 
-def carregar_geometrias() -> "gpd.GeoDataFrame":
+def carregar_geometrias(nivel: str = "municipal") -> "gpd.GeoDataFrame":
+    """Geometrias da unidade espacial. 'municipal' (246 munis via geobr) ou
+    'amc' (166 AMCs via amc_goias.gpkg do Pipeline #25). A coluna de entidade
+    chama-se 'cd_mun' nos dois casos (em AMC carrega o code_amc)."""
+    if nivel == "amc":
+        import geopandas as gpd
+        gdf = gpd.read_file(ROOT / "data" / "processed" / "amc_goias.gpkg")
+        gdf["cd_mun"] = gdf["code_amc"].astype(int)
+        gdf["name_muni"] = "AMC_" + gdf["cd_mun"].astype(str)
+        return gdf[["cd_mun", "name_muni", "geometry"]].to_crs(5880)
     import geobr
     gdf = geobr.read_municipality(code_muni="GO", year=2020)
     # Padronizar cd_mun (7 dig int)
@@ -133,7 +142,7 @@ def moran_por_ano(residuos: pd.DataFrame, gdf, pesos: dict) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
-def plotar_lisa(gdf, residuos_ano: pd.DataFrame, modelo: str, ano: int, w) -> Path | None:
+def plotar_lisa(gdf, residuos_ano: pd.DataFrame, modelo: str, ano: int, w, suf: str = "") -> Path | None:
     """Mapa LISA: 5 cores (HH, LL, HL, LH, n.s.)."""
     df = gdf.merge(residuos_ano[["cd_mun", "residuo"]], on="cd_mun", how="inner")
     df = df.dropna(subset=["residuo"])
@@ -173,7 +182,7 @@ def plotar_lisa(gdf, residuos_ano: pd.DataFrame, modelo: str, ano: int, w) -> Pa
     fig.tight_layout()
 
     safe = modelo.replace("~", "_vs_").replace("delta_", "Δ")
-    path = DIR_OUT / f"lisa_{safe}_{ano}.png"
+    path = DIR_OUT / f"lisa_{safe}_{ano}{suf}.png"
     fig.savefig(path, bbox_inches="tight", dpi=180)
     plt.close(fig)
     return path
@@ -247,10 +256,12 @@ def rodar_spreg(df_ano: pd.DataFrame, y_col: str, x_cols: list[str], w,
     return out
 
 
-def main() -> None:
-    print("Carregando geometrias GO via geobr...")
-    gdf = carregar_geometrias()
-    print(f"  {len(gdf)} municipios (CRS={gdf.crs})")
+def main(nivel: str = "municipal") -> None:
+    suf = "_amc" if nivel == "amc" else ""
+    rotulo = "AMC (166)" if nivel == "amc" else "municipal (246)"
+    print(f"Carregando geometrias [{rotulo}]...")
+    gdf = carregar_geometrias(nivel)
+    print(f"  {len(gdf)} unidades (CRS={gdf.crs})")
 
     print("Construindo matrizes de pesos W...")
     pesos = montar_pesos(gdf)
@@ -258,13 +269,13 @@ def main() -> None:
         print(f"  {name}: {w.n} unidades, {w.s0:.0f} links totais, mean_neighbors={w.mean_neighbors:.2f}")
 
     print("\nCarregando residuos do painel #22...")
-    residuos = pd.read_csv(DIR_CORR / "painel_residuos.csv")
+    residuos = pd.read_csv(DIR_CORR / f"painel_residuos{suf}.csv")
     print(f"  {len(residuos):,} residuos × {residuos['modelo'].nunique()} modelos × {residuos['ano'].nunique()} anos")
 
     print("\nMoran's I global por (modelo, ano, W)...")
     moran_df = moran_por_ano(residuos, gdf, pesos)
     moran_df = moran_df.sort_values(["modelo", "W", "ano"])
-    out_moran = DIR_OUT / "moran_global.csv"
+    out_moran = DIR_OUT / f"moran_global{suf}.csv"
     moran_df.to_csv(out_moran, index=False)
     print(f"OK: {out_moran.name} ({len(moran_df)} linhas)")
 
@@ -288,7 +299,7 @@ def main() -> None:
             if len(sub_resid) < 50:
                 continue
             try:
-                path = plotar_lisa(gdf, sub_resid, modelo, ano, pesos["queen"])
+                path = plotar_lisa(gdf, sub_resid, modelo, ano, pesos["queen"], suf)
                 if path:
                     print(f"  OK: {path.name}")
                     n_lisa += 1
@@ -298,8 +309,12 @@ def main() -> None:
 
     # Regressao espacial cross-section
     print(f"\nRegressao espacial (cross-section em {ANO_SPREG})...")
-    taxas = pd.read_csv(DIR_DATA / "taxas_lulc_municipal.csv")
-    socio = pd.read_parquet(DIR_DATA / "painel_unificado.parquet")
+    if nivel == "amc":
+        taxas = pd.read_csv(DIR_DATA / "taxas_lulc_amc.csv").rename(columns={"code_amc": "cd_mun"})
+        socio = pd.read_parquet(DIR_DATA / "painel_amc_goias.parquet").rename(columns={"code_amc": "cd_mun"})
+    else:
+        taxas = pd.read_csv(DIR_DATA / "taxas_lulc_municipal.csv")
+        socio = pd.read_parquet(DIR_DATA / "painel_unificado.parquet")
     socio_keep = ["cd_mun", "ano", "sicor_total_real_rs", "va_agro_real_rs"]
     socio = socio[socio_keep]
     socio = socio.sort_values(["cd_mun", "ano"])
@@ -323,7 +338,7 @@ def main() -> None:
             spreg_results.extend(res)
 
     spreg_df = pd.DataFrame(spreg_results)
-    out_spreg = DIR_OUT / "modelos_espaciais.csv"
+    out_spreg = DIR_OUT / f"modelos_espaciais{suf}.csv"
     spreg_df.to_csv(out_spreg, index=False)
     print(f"OK: {out_spreg.name} ({len(spreg_df)} modelos espaciais)")
 
@@ -341,4 +356,9 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    import argparse
+    ap = argparse.ArgumentParser(description="Análise espacial (Moran/LISA/spreg) — municipal ou AMC")
+    ap.add_argument("--nivel", choices=["municipal", "amc"], default="municipal",
+                    help="unidade espacial: 'municipal' (246) ou 'amc' (166, D11)")
+    args = ap.parse_args()
+    main(args.nivel)
