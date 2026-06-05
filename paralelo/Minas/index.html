@@ -1,0 +1,1537 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Minas Gerais 1985-2024 — Uso da terra e transformação territorial</title>
+
+  <meta name="description" content="Linha do tempo interativa do uso e cobertura da terra em Minas Gerais (1985-2024), com periodização data-driven e referências institucionais.">
+  <meta property="og:title" content="Minas Gerais 1985-2024 — Uso da terra e transformação territorial">
+  <meta property="og:description" content="Linha do tempo interativa do uso e cobertura da terra em Minas Gerais (1985-2024), com periodização data-driven e referências institucionais.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="img/mapas_gee/cobertura_2024.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Minas Gerais 1985-2024 — Uso da terra e transformação territorial">
+  <meta name="twitter:description" content="Linha do tempo interativa do uso e cobertura da terra em Minas Gerais (1985-2024), com periodização data-driven e referências institucionais.">
+  <meta name="twitter:image" content="img/mapas_gee/cobertura_2024.webp">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23fafaf7'/%3E%3Ccircle cx='32' cy='32' r='14' fill='%238b3a1d'/%3E%3C/svg%3E">
+
+  <link rel="stylesheet" href="assets/css/styles.css?v=4">
+
+  <link rel="stylesheet" href="assets/css/tabs.css?v=4">
+
+  <link rel="stylesheet" href="assets/css/atlas.css?v=4">
+
+</head>
+
+<body>
+
+<!-- ============================================================
+     PLACEHOLDER: Esta é uma réplica da visualização de Goiás adaptada para
+     Minas Gerais. A narrativa, estatísticas e referências institucionais
+     ainda contêm conteúdo de Goiás que precisa ser reescrito.
+     Procure por {{MG_*}} para encontrar estatísticas pendentes.
+     Sem dados de fogo (camada removida).
+     ============================================================ -->
+
+
+
+<!-- Regua superior fixa -->
+
+<header class="timeline-rail" aria-label="Linha do tempo">
+
+  <div class="rail-inner">
+
+    <div class="rail-meta">
+      <div class="rail-context" aria-live="polite">
+        <span class="rail-context-era" id="rail-active-era">Ato I · 1985-2000</span>
+        <strong class="rail-context-label" id="rail-active-label">1985 · Linha de base da serie</strong>
+      </div>
+      <span class="rail-hint">Faixas = atos · pontos = referências · clique para navegar</span>
+    </div>
+
+    <div class="rail-body">
+
+      <span class="rail-label rail-label--start">1985</span>
+
+      <div class="rail-track-wrap">
+        <div class="rail-track" id="rail-track">
+          <button type="button" class="rail-era-band rail-era-band--heranca" data-era="heranca" data-start-year="1985" style="left: 0%; width: 38.46%;" aria-label="Ir para o Ato I, 1985 a 2000"></button>
+          <button type="button" class="rail-era-band rail-era-band--expansao" data-era="expansao" data-start-year="2001" style="left: 38.46%; width: 46.15%;" aria-label="Ir para o Ato II, 2001 a 2019"></button>
+          <button type="button" class="rail-era-band rail-era-band--conversao" data-era="conversao" data-start-year="2020" style="left: 84.62%; width: 15.38%;" aria-label="Ir para o Ato III, 2020 a 2024"></button>
+          <div class="rail-marcos" id="rail-marcos" aria-hidden="false"></div>
+          <span class="rail-cursor" id="rail-cursor" aria-hidden="true"></span>
+        </div>
+      </div>
+
+      <span class="rail-label rail-label--end">2024</span>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+
+<!-- Tabs Narrativa | Atlas -->
+
+<nav class="mode-tabs" aria-label="Modo de visualização">
+
+  <div class="mode-tabs-inner" role="tablist">
+
+    <button class="mode-tab mode-tab--active" data-modo="narrativa" id="tab-narrativa" role="tab" aria-selected="true" aria-controls="panel-narrativa" tabindex="0">
+
+      Narrativa
+
+      <span class="mode-tab-hint">3 atos &middot; 40 anos</span>
+
+    </button>
+
+    <button class="mode-tab" data-modo="atlas" id="tab-atlas" role="tab" aria-selected="false" aria-controls="panel-atlas" tabindex="-1">
+
+      Atlas
+
+      <span class="mode-tab-hint">parede de mapas</span>
+
+    </button>
+
+  </div>
+
+</nav>
+
+
+
+<noscript>
+
+  <p style="text-align:center; padding:2rem;">
+
+    Esta visualização interativa requer JavaScript habilitado.
+
+  </p>
+
+</noscript>
+
+
+
+<main>
+
+
+
+  <!-- ===================== MODO NARRATIVA ===================== -->
+
+  <section data-modo="narrativa" id="panel-narrativa" role="tabpanel" aria-labelledby="tab-narrativa">
+
+
+
+  <!-- Hero -->
+
+  <section class="hero">
+
+    <p class="hero-eyebrow">Dissertação CIAMB-UFG &middot; 1985-2024</p>
+
+    <h1 class="hero-title">Buscando histórias em 40 anos de dados</h1>
+
+    <p class="hero-lede">
+      Cada pixel nesta tela representa um quadrado de 30 por 30 metros no chão. Multiplique isso por 38 milhões de pontos, ano a ano, durante quatro décadas. Cruzamos essa massa de dados — 1,5 bilhão de registros pixel a pixel do MapBiomas — para rastrear a cicatriz física que as leis, os mercados e as decisões econômicas deixaram em Minas Gerais. A história de como o território se reorganizou se divide em três atos.
+    </p>
+
+    <p class="hero-cta">Comece pelo mapa de 1985 &darr;</p>
+
+  </section>
+
+
+
+  <!-- Como ler: contrato de leitura (atos x referencias x navegacao) -->
+  <section class="como-ler" aria-label="Como ler esta linha do tempo">
+    <div class="como-ler-inner">
+      <h2 class="como-ler-titulo">Como ler esta linha do tempo</h2>
+      <p class="como-ler-lede">
+        Os 40 anos da série se organizam em dois níveis. No agregado, a série se divide em
+        <strong>três atos</strong> — períodos macro de 5 a 19 anos, definidos por triangulação
+        estatística e marcados pelas <strong>faixas coloridas</strong> da régua acima.
+        Dentro dos atos, <strong>referências institucionais</strong> (pinos pretos na régua)
+        marcam eventos que contextualizam as transições observadas.
+      </p>
+      <div class="como-ler-grid">
+        <div class="como-ler-bloco">
+          <h3 class="como-ler-rotulo">Os três atos</h3>
+          <ul class="como-ler-lista como-ler-atos">
+            <li><span class="como-ler-swatch como-ler-swatch--heranca"></span>I &middot; Pastagem como herança &middot; 1985–2000</li>
+            <li><span class="como-ler-swatch como-ler-swatch--expansao"></span>II &middot; Expansão e intensificação &middot; 2001–2019</li>
+            <li><span class="como-ler-swatch como-ler-swatch--conversao"></span>III &middot; Conversão seletiva &middot; 2020–2024</li>
+          </ul>
+          <details class="metric-details" style="margin-top: 0.8rem;">
+            <summary>Como os atos foram definidos?</summary>
+            <div style="padding: 0.9rem 1.1rem; border-top: 1px solid var(--color-rule); background: #fcfcfa;">
+              <p style="margin: 0 0 0.6rem;">
+                As fronteiras ~2001 e ~2020 não foram escolhidas — foram <strong>detectadas</strong> por
+                triangulação de quatro métodos estatísticos independentes:
+              </p>
+              <table class="camadas-tabela" style="margin: 0.5rem 0; font-size: 0.82rem;">
+                <thead><tr><th>Método</th><th style="text-align:right;">~2001</th><th style="text-align:right;">~2020</th></tr></thead>
+                <tbody>
+                  <tr><td>sup-F multivariado (primário)</td><td style="text-align:right;">F = 62,2 ✓</td><td style="text-align:right;">F = 21,5 ✓</td></tr>
+                  <tr><td>STARS (sensibilidade)</td><td style="text-align:right;">2004/06 ✓</td><td style="text-align:right;">—</td></tr>
+                  <tr><td>KL/TV de transições</td><td style="text-align:right;">pico 2003 ✓</td><td style="text-align:right;">pico 2018–20 ✓</td></tr>
+                </tbody>
+              </table>
+              <p style="margin: 0.5rem 0 0.4rem; font-size: 0.85rem;">
+                <strong>Convergência (detecção):</strong> 3/3 para ~2001, 2/3 para ~2020.
+              </p>
+              <p style="margin: 0 0 0.4rem; font-size: 0.85rem;">
+                <strong>Validação global — Intensity Analysis</strong> (Aldwaik &amp; Pontius):<br>
+                Kruskal-Wallis H&nbsp;=&nbsp;22,6, p&nbsp;&lt;&nbsp;0,001 — os 3&nbsp;Atos diferem
+                significativamente em taxa de mudança. Este resultado é <em>um teste único</em>
+                que compara os 3&nbsp;períodos simultaneamente, não detecções separadas por fronteira.
+              </p>
+              <p style="margin: 0 0 0.4rem; font-size: 0.85rem;">
+                A candidata a 4º período (~2005/06) foi rejeitada: taxa total NS (p&nbsp;=&nbsp;0,060),
+                embora composicionalmente diferente (perda de veg. natural 5× mais intensa, p&nbsp;=&nbsp;0,0008).
+              </p>
+              <p style="margin: 0; font-size: 0.82rem; color: var(--color-muted);">
+                Detalhes em <a href="#sintese-titulo">§ 5</a>.
+              </p>
+            </div>
+          </details>
+        </div>
+        <div class="como-ler-bloco">
+          <h3 class="como-ler-rotulo">Referências institucionais</h3>
+          <ul class="como-ler-lista como-ler-marcos">
+            <li><span class="como-ler-pin"></span>1994 &middot; Plano Real</li>
+            <li><span class="como-ler-pin"></span>1996 &middot; Lei Kandir</li>
+            <li><span class="como-ler-pin"></span>2002 &middot; Crédito e demanda chinesa</li>
+            <li><span class="como-ler-pin"></span>2003 &middot; Boom de commodities</li>
+            <li><span class="como-ler-pin"></span>2012 &middot; Código Florestal</li>
+            <li><span class="como-ler-pin"></span>2018 &middot; Reorganização de mercado</li>
+          </ul>
+        </div>
+        <div class="como-ler-bloco">
+          <h3 class="como-ler-rotulo">Como navegar</h3>
+          <ul class="como-ler-lista como-ler-navegacao">
+            <li>Role para avançar no tempo — cada parágrafo lateral é um ano.</li>
+            <li>Clique em uma <strong>faixa</strong> ou em um <strong>pino</strong> da régua para saltar.</li>
+            <li>O mapa, os cards laterais e a sparkline inferior sincronizam com o ano em foco.</li>
+            <li>Os cards laterais têm acordeões para <strong>agricultura</strong>, <strong>pecuária</strong> e <strong>socioeconômico</strong>.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- Narrativa principal (mapa sticky + steps) -->
+
+  <section class="story">
+
+
+
+    <!-- Mapa fixo (sticky) -->
+
+    <div class="story-figure" >
+
+      <div class="map-frame">
+
+        <div class="map-layer-toggle" role="tablist" aria-label="Camada do mapa">
+          <button type="button" class="map-layer-btn is-active" data-layer="cobertura" role="tab" aria-selected="true">Cobertura</button>
+          <button type="button" class="map-layer-btn" data-layer="delta" role="tab" aria-selected="false">Δ vs 1985</button>
+          <button type="button" class="map-layer-btn" data-layer="transicoes" role="tab" aria-selected="false">Transições</button>
+        </div>
+
+        <img id="mapa" src="img/mapas_gee/cobertura_1985.webp"
+
+             alt="Mapa pixel-a-pixel do uso e cobertura da terra em Minas Gerais"
+
+             loading="eager" width="1313" height="1318">
+
+        <div class="composition-bar" id="composition-bar" aria-label="Composição do uso e cobertura da terra">
+
+          <span class="bar-segment bar-veg"     data-class="veg"     title="Vegetação natural"></span>
+
+          <span class="bar-segment bar-pasto"   data-class="pasto"   title="Pastagem"></span>
+
+          <span class="bar-segment bar-agric"   data-class="agric"   title="Agricultura (inclui soja)"></span>
+
+          <span class="bar-segment bar-agua"    data-class="agua"    title="Água"></span>
+
+          <span class="bar-segment bar-urbano"  data-class="urbano"  title="Área urbana"></span>
+
+          <span class="bar-segment bar-outros"  data-class="outros"  title="Outros (silvicultura, mineração)"></span>
+
+          <div class="bar-tooltip" id="bar-tooltip"></div>
+
+        </div>
+
+        <div class="map-legend">
+
+          <span class="legend-swatch legend-swatch--veg">Veg. natural</span>
+
+          <span class="legend-swatch legend-swatch--pasto">Pastagem</span>
+
+          <span class="legend-swatch legend-swatch--agric">Agricultura</span>
+
+          <span class="legend-swatch legend-swatch--agua">Água</span>
+
+          <span class="legend-swatch legend-swatch--urbano">Urbano</span>
+
+          <span class="legend-swatch legend-swatch--outros">Outros</span>
+
+        </div>
+
+        <div class="map-caption">
+
+          <div class="caption-row caption-row--main">
+
+            <span class="map-caption-year" id="map-year">1985</span>
+
+            <span class="map-caption-anchor" id="map-anchor"></span>
+
+          </div>
+
+          <span class="map-caption-source">Fonte: MapBiomas Coleção 10.1 &middot; pixel-a-pixel (30 m)</span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- Steps (1 por ano) -->
+
+    <div class="story-steps" id="steps">
+
+
+
+      <!-- Ato I: Pastagem como herança (1985-2000) -->
+
+      <article class="step step--era" data-era="heranca">
+
+        <h2 class="era-title">I. Pastagem como herança (1985–2000)</h2>
+
+        <p class="era-tese">
+          O ponto de partida não é uma paisagem natural — é uma fronteira que já se moveu.
+        </p>
+
+        <p class="era-contexto">
+          O fim do regime militar e a hiperinflação dos anos 1980 enquadram o início da série. Mas o que o mapa mostra em 1985 é o legado da década anterior: POLOCENTRO e PRODECER abriram cerca de um terço do estado para pecuária extensiva. Sem estabilidade macroeconômica, qualquer cálculo agrícola de longo prazo segue bloqueado.
+        </p>
+
+        <p class="era-mapa">
+          O dourado que domina o centro-sul é pastagem. O verde escuro do norte e nordeste — Paranã, Vão do Paranã — é o cerrado que sobreviveu. A agricultura aparece em manchas pontuais de rosa no sudoeste; ainda é incipiente.
+        </p>
+
+      </article>
+
+
+
+
+
+
+      <!-- Ato II: Expansão e intensificação (2001-2019) -->
+
+      <article class="step step--era" data-era="expansao">
+
+        <h2 class="era-title">II. Expansão e intensificação (2001–2019)</h2>
+
+        <p class="era-tese">
+          A soja abre caminho no sudoeste impulsionada pela estabilização da moeda.
+        </p>
+
+        <p class="era-contexto">
+          O Plano Real em 1994 faz o que nenhuma política agrícola isolada conseguiria: permite calcular o futuro. Logo depois, em 1996, a Lei Kandir zera o ICMS sobre exportações de grãos. Essa conjunção de estabilidade e isenção atrai o capital privado e inicia a grande transformação.
+        </p>
+
+        <p class="era-mapa">
+          No mapa, o sudoeste (Rio Verde, Jataí e Mineiros) começa a se vestir de rosa com o avanço da lavoura sobre o pasto. Embora a pecuária continue gigante no total do estado, a dinâmica econômica do agronegócio agora pertence à soja.
+        </p>
+
+      </article>
+
+
+
+
+
+
+      <!-- Ato III: Conversao seletiva (2020-2024) -->
+
+      <article class="step step--era" data-era="conversao">
+
+        <h2 class="era-title">III. Conversão seletiva (2020–2024)</h2>
+
+        <p class="era-tese">
+          O ritmo de desmatamento cai e o pasto recua, indicando uma nova lógica no território.
+        </p>
+
+        <p class="era-contexto">
+          A partir de 2020, a inércia de quatro décadas se quebra. O pasto começa a encolher e, pela primeira vez, a vegetação nativa registra uma sutil recuperação. Não é por acaso: o avanço do Cadastro Ambiental Rural (CAR), o aperto na fiscalização das cadeias de suprimento e os acordos globais de desmatamento zero começam a regular a ocupação.
+        </p>
+
+        <p class="era-mapa">
+          O verde escuro do Cerrado resiste no norte (Vão do Paranã), enquanto as lavouras se estabilizam no oeste. Com a vegetação natural em 34,9% do estado em 2024, Minas Gerais toca o limite legal do bioma, mas a queda livre de quarenta anos finalmente parece encontrar um piso.
+        </p>
+
+      </article>
+
+
+
+
+
+
+
+    </div>
+
+  </section>
+
+
+
+  <!-- Depois dos mapas -->
+
+    <section class="sintese" aria-labelledby="sintese-titulo">
+    <span id="como-sabemos-titulo"></span>
+    <h2 id="sintese-titulo">Depois dos mapas: saldo, processos e evidência</h2>
+
+    <p class="sintese-lede">
+      A narrativa cobriu o tempo ano a ano e ato a ato. Esta seção muda de escala:
+      primeiro mostra o saldo de 40 anos, os fluxos entre classes e o painel completo
+      de variáveis — e o que esses números revelam sobre os processos que moveram
+      Minas Gerais. Depois abre o capô: quais métricas medem o tempo, quais camadas de
+      evidência sustentam cada afirmação e o que esta análise ainda não consegue
+      responder.
+    </p>
+
+    <!-- S1 — Saldo 40 anos -->
+    <div class="como-bloco">
+      <h3>1 &middot; O que mudou em 40 anos</h3>
+      <p>
+        Quatro números enquadram a transformação que os três atos descreveram
+        em detalhe. Eles vêm direto do painel agregado UF (MapBiomas Coleção
+        10.1 e IBGE/PPM) e podem ser conferidos na vitrine de § 3.
+      </p>
+      <div class="dado-choque-grid">
+        <div class="dado-choque">
+          <div class="dado-choque-valor">−5,8 Mha</div>
+          <div class="dado-choque-label">Vegetação natural perdida &middot; 1985→2024</div>
+          <div class="dado-choque-glosa">{{MG_VEG_LOSS}} — dados de vegetação nativa de MG a definir após pipeline.</div>
+        </div>
+        <div class="dado-choque">
+          <div class="dado-choque-valor">×4,8</div>
+          <div class="dado-choque-label">Crescimento da agricultura</div>
+          <div class="dado-choque-glosa">1,17 → 5,58 Mha. A soja sozinha cresce ×12 em área (0,37 → 4,50 Mha) e ×13 em produção (1,3 → 17,0 Mt).</div>
+        </div>
+        <div class="dado-choque">
+          <div class="dado-choque-valor">+1,0 Mha</div>
+          <div class="dado-choque-label">Pastagem &middot; saldo líquido enganoso</div>
+          <div class="dado-choque-glosa">10,98 → 11,99 Mha. Mas a trajetória é em U invertido: cresce até 2003 (pico ~14,8 Mha) e depois recua. O saldo agregado esconde o ciclo.</div>
+        </div>
+        <div class="dado-choque">
+          <div class="dado-choque-valor">×1,35</div>
+          <div class="dado-choque-label">Lotação bovina por hectare</div>
+          <div class="dado-choque-glosa">1,01 → 1,36 UA/ha. Rebanho cresce 46% (15,9 → 23,2 M cab) enquanto a área de pasto cresce só 9% — a pecuária se intensifica.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S2 — Para onde foram os hectares -->
+    <div class="como-bloco">
+      <h3>2 &middot; Para onde foram os hectares</h3>
+      <p>
+        O saldo de § 1 é líquido: diz quanto cada classe ganhou ou perdeu,
+        mas esconde de <em>onde</em> vieram e para <em>onde</em> foram esses
+        hectares. O diagrama abaixo cruza o uso de cada pixel em 1985 com o
+        uso do mesmo pixel em 2024 e abre os fluxos por trás dos saldos.
+      </p>
+
+      <div id="sankey-container" class="sankey-container">
+        <p class="resumo-loading">Carregando diagrama…</p>
+      </div>
+      <p class="sankey-caption">
+        Diagrama de Sankey &middot; cruzamento pixel-a-pixel 1985 ↔ 2024 (30 m).
+        Larguras proporcionais à área em milhões de hectares. Fonte: MapBiomas Coleção 10.1 via GEE.
+      </p>
+
+      <div class="dado-choque-grid">
+        <div class="dado-choque">
+          <div class="dado-choque-valor">4,11 Mha</div>
+          <div class="dado-choque-label">Veg. natural → Pastagem</div>
+          <div class="dado-choque-glosa">O maior fluxo da série. Desmatamento histórico para pecuária extensiva — boa parte concentrada nos anos 1980–1990.</div>
+        </div>
+        <div class="dado-choque">
+          <div class="dado-choque-valor">2,73 Mha</div>
+          <div class="dado-choque-label">Pastagem → Agricultura</div>
+          <div class="dado-choque-glosa">A maior conversão <em>entre classes manejadas</em>. É o que permite a expansão da lavoura sem desmatar diretamente.</div>
+        </div>
+        <div class="dado-choque">
+          <div class="dado-choque-valor">1,29 Mha</div>
+          <div class="dado-choque-label">Veg. natural → Agricultura (direta)</div>
+          <div class="dado-choque-glosa">Desmatamento direto para lavoura. Menor que via pasto, mas existe — e ganha peso no nordeste após 2010.</div>
+        </div>
+      </div>
+
+      <details class="metric-details">
+        <summary>Matriz 6×6 completa &middot; 1985 → 2024 (Mha)</summary>
+        <div style="overflow-x: auto; border-top: 1px solid var(--color-rule);">
+          <table class="camadas-tabela" style="margin: 0;">
+            <thead>
+              <tr>
+                <th>Origem ↓ / Destino →</th>
+                <th style="text-align:right;">Veg. natural</th>
+                <th style="text-align:right;">Pastagem</th>
+                <th style="text-align:right;">Agricultura</th>
+                <th style="text-align:right;">Água</th>
+                <th style="text-align:right;">Urbano</th>
+                <th style="text-align:right;">Outros</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Veg. natural</td><td style="text-align:right; font-variant-numeric: tabular-nums;">10,35</td><td style="text-align:right; font-variant-numeric: tabular-nums;"><strong>4,11</strong></td><td style="text-align:right; font-variant-numeric: tabular-nums;"><strong>1,29</strong></td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,18</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,04</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,04</td></tr>
+              <tr><td>Pastagem</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,49</td><td style="text-align:right; font-variant-numeric: tabular-nums;">6,03</td><td style="text-align:right; font-variant-numeric: tabular-nums;"><strong>2,73</strong></td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,04</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,08</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,01</td></tr>
+              <tr><td>Agricultura</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,00</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,03</td><td style="text-align:right; font-variant-numeric: tabular-nums;">1,07</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,00</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,00</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,00</td></tr>
+              <tr><td>Água</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,05</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,01</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,00</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,19</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,00</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,02</td></tr>
+              <tr><td>Urbano</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,00</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,00</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,00</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,00</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,07</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,00</td></tr>
+              <tr><td>Outros</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,09</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,11</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,08</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,01</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,01</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,57</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size: 0.82rem; color: var(--color-muted); padding: 0.7rem 0.9rem 0.9rem; margin: 0; background: #fcfcfa; line-height: 1.5;">
+          Diagonal (em itálico): pixels que permaneceram na mesma classe. Off-diagonal: transições.
+          Leitura: dos 17,65 Mha de vegetação natural em 1985, 10,35 Mha permaneciam em 2024 — os
+          ~7,3 Mha restantes foram convertidos, principalmente para pastagem (4,11) e agricultura (1,29).
+          Fonte: MapBiomas Coleção 10.1 (Pipeline #12).
+        </p>
+      </details>
+    </div>
+
+    <!-- S3 — Vitrine do painel + achados -->
+    <div class="como-bloco" id="painel-vitrine">
+      <h3>3 &middot; O painel e o que ele revela</h3>
+      <p>
+        A dissertação consolidou um painel municipal (246 municípios × 40 anos
+        × ~70 variáveis), reunindo MapBiomas, IBGE/SIDRA-PAM/PPM, IPEA, BACEN
+        e outras fontes. Os agregados municipais foram confrontados com os totais
+        estaduais do IBGE/SIDRA e checagens internas entre fontes, sem anomalias
+        graves — cada série pode ser rastreada até a fonte original. A grade abaixo
+        mostra <strong>o que está disponível</strong>; as subseções seguintes mostram
+        <strong>o que esses números revelam</strong>. A camada inferencial completa
+        está em <a href="#sintese-titulo">§ 7</a>.
+      </p>
+      <div id="inventario-grid" class="inventario-grid" aria-live="polite">
+        <p class="resumo-loading">Carregando vitrine do painel…</p>
+      </div>
+      <p class="inventario-rodape">
+        Todas as séries são para o estado de Minas Gerais (agregação UF). O painel
+        municipal completo (246 munis × ~70 vars) está documentado nos pipelines
+        #1–#26 da dissertação.
+      </p>
+
+      <!-- S3.1 — Pecuária desacoplada -->
+      <h4>3.1 &middot; A pecuária se desacoplou da área de pasto</h4>
+      <p>
+        A partir do início dos anos 2010, a área de pasto recua enquanto o
+        rebanho continua crescendo. O resultado é uma <strong>lotação que
+        sobe</strong> — mais cabeças por hectare. É uma mudança de modelo
+        produtivo: pecuária de área dá lugar a pecuária de manejo.
+      </p>
+      <figure class="grafico-card grafico-card--wide">
+        <img src="img/graficos/sintese_pecuaria_intensificacao.png" alt="Desacoplamento entre área de pasto, rebanho bovino e lotação (1985-2024)" loading="lazy">
+        <figcaption>Séries normalizadas (0–1 do próprio máximo) para comparar a forma da curva. Fonte: MapBiomas (área de pasto), IBGE/PPM (rebanho bovino).</figcaption>
+      </figure>
+      <details class="metric-details">
+        <summary>Lotação bovina por ato &middot; valores e leitura inferencial</summary>
+        <div style="padding: 0.9rem 1.1rem; border-top: 1px solid var(--color-rule); background: #fcfcfa;">
+          <div class="metric-rows" style="border: none; padding: 0; background: transparent;">
+            <div class="metric-row"><span class="metric-row-label">Ato I &middot; 1985 → 2000</span><span class="metric-row-value">1,01 → 0,98 UA/ha</span></div>
+            <div class="metric-row"><span class="metric-row-label">Ato II &middot; 2001 → 2019</span><span class="metric-row-value">0,98 → 1,17 UA/ha</span></div>
+            <div class="metric-row"><span class="metric-row-label">Ato III &middot; 2020 → 2024</span><span class="metric-row-value">1,17 → 1,36 UA/ha</span></div>
+          </div>
+          <p style="font-size: 0.88rem; line-height: 1.55; margin: 0.9rem 0 0;">
+            O salto acontece após 2001 e se acelera no Ato II. Inferencialmente,
+            o painel 2FE Δ Pastagem × Δ Rebanho municipal confirma o padrão
+            mesmo controlando heterogeneidade municipal e tendências comuns
+            — detalhes em <a href="#sintese-titulo">§ 7.2</a>.
+          </p>
+        </div>
+      </details>
+
+      <!-- S3.2 — Lavoura sobre pasto, não sobre mata -->
+      <h4>3.2 &middot; Lavoura cresceu sobre pasto, não sobre mata</h4>
+      <p>
+        O Sankey de § 2 já mostrou: dos 4,4 Mha de agricultura que apareceram
+        entre 1985 e 2024, 2,73 Mha vieram diretamente da pastagem — mais que
+        o dobro do que veio diretamente da vegetação natural (1,29 Mha).
+        O perfil de culturas do painel mostra <em>o que</em> foi plantado.
+      </p>
+      <figure class="grafico-card grafico-card--wide">
+        <img src="img/graficos/sintese_culturas_comparadas.png" alt="Pequenos múltiplos com produção de soja, milho, cana, algodão, sorgo, arroz e feijão (1985-2024)" loading="lazy">
+        <figcaption>Produção anual em milhões de toneladas, eixo Y compartilhado entre culturas. Fonte: IBGE/SIDRA-PAM.</figcaption>
+      </figure>
+      <p>
+        A expansão sobre pastagem, não sobre mata, é a assinatura do <em>land sparing</em>:
+        a agricultura cresce em área (×4,8) enquanto o valor agregado agropecuário por hectare
+        sobe — ou seja, mais produção por m², não apenas mais m². O painel 2FE confirma
+        (β = −0,004, p &lt; 0,001): municípios onde o VA agro cresceu mais não foram os que
+        mais expandiram área agrícola. A safrinha de milho (2ª safra) amplifica esse efeito
+        a partir dos anos 2000 — mesma área, duas colheitas por ano.
+      </p>
+      <details class="metric-details">
+        <summary>Por que a cana parece dominar visualmente o gráfico?</summary>
+        <div style="padding: 0.9rem 1.1rem; border-top: 1px solid var(--color-rule); background: #fcfcfa;">
+          <p style="margin: 0 0 0.7rem;">
+            <strong>Massa, não importância.</strong> A cana-de-açúcar é colhida em
+            massa fresca (colmo, ~70–80 t/ha de produtividade); a soja e o milho
+            são grãos secos (~3–4 t/ha cada). Por hectare, a cana pesa cerca de
+            20× mais que a soja. Portanto a barra alta da cana no gráfico de
+            toneladas <em>não significa</em> importância econômica nem área
+            plantada maior — significa apenas massa fresca colhida.
+          </p>
+          <p style="margin: 0 0 0.7rem;">
+            <strong>Em área plantada</strong>, a soja é hoje (2024) a principal
+            cultura goiana com ~4,5 Mha; a cana ocupa menos de 1 Mha. Para
+            <strong>importância econômica</strong>, ver o Valor Agregado da
+            Agropecuária na vitrine de § 3 (tema "Macroeconomia").
+          </p>
+          <p style="margin: 0;">
+            A escolha por mostrar toneladas alinha com a maioria das séries
+            históricas do IBGE/SIDRA-PAM, que registram volume colhido — mas
+            um gráfico complementar em hectares ou em R$ daria leitura mais
+            imediata da importância relativa (no backlog).
+          </p>
+        </div>
+      </details>
+      <details class="metric-details">
+        <summary>Conversão sobre pasto vs sobre mata &middot; método pixel-a-pixel</summary>
+        <div style="padding: 0.9rem 1.1rem; border-top: 1px solid var(--color-rule); background: #fcfcfa;">
+          <p style="margin: 0 0 0.6rem;">
+            As matrizes de transição cruzam o uso de cada pixel (30 × 30 m) em
+            dois anos. Pipeline #12 produz a matriz pixel-a-pixel para pares
+            1985→1995, →2005, →2015, →2024 e 1985→2024. Pipeline #19 produz
+            39 pares anuais consecutivos.
+          </p>
+          <p style="margin: 0;">
+            Os números do Sankey vêm do par <strong>1985→2024 (matriz líquida)</strong>
+            — cada pixel conta uma única vez na sua trajetória inicial/final. Já a
+            soma dos 39 pares anuais dá um total maior para "Pastagem → Agricultura"
+            (≈3,83 Mha contra 2,73 Mha da matriz líquida), porque conta pixels que
+            oscilaram entre classes. As duas leituras são complementares; aqui
+            preferimos a líquida para destacar trajetórias e não duplicar transições.
+          </p>
+        </div>
+      </details>
+
+      <!-- S3.3 — Crédito → pastagem -->
+      <h4>3.3 &middot; Onde o crédito apareceu, a pastagem recuou</h4>
+      <p>
+        A partir de 2013, o SICOR (BACEN) registra o crédito rural município
+        a município. Cruzando com a variação anual de pastagem no painel
+        municipal (2-way FE), encontra-se uma associação inversa
+        significativa: onde o crédito aumentou, a pastagem encolheu. O sinal
+        é consistente com a transição financiada pastagem → agricultura
+        mostrada no Sankey de § 2.
+      </p>
+      <figure class="grafico-card grafico-card--wide">
+        <img src="img/graficos/12_credito_uf_serie_2013-2024.png" alt="Evolução anual do SICOR em Minas Gerais, 2013-2024" loading="lazy">
+        <figcaption>Crédito rural agregado em Minas Gerais (R$ reais, deflacionado IPCA). Fonte: BACEN/SICOR.</figcaption>
+      </figure>
+      <details class="metric-details">
+        <summary>Painel 2FE &middot; Δ Pastagem × Δ SICOR &middot; coeficientes em duas janelas</summary>
+        <div style="padding: 0.9rem 1.1rem; border-top: 1px solid var(--color-rule); background: #fcfcfa;">
+          <p style="margin: 0 0 0.6rem;">
+            Especificação:
+            <code>Δ Pastagem<sub>it</sub> = α<sub>i</sub> + γ<sub>t</sub> + β · Δ SICOR<sub>it</sub> + ε<sub>it</sub></code>.
+            O efeito fixo de município (α<sub>i</sub>) absorve heterogeneidade local;
+            o efeito fixo de ano (γ<sub>t</sub>) absorve choques nacionais.
+            Erro padrão clusterizado por município.
+          </p>
+          <table class="camadas-tabela" style="margin: 0.5rem 0;">
+            <thead>
+              <tr>
+                <th>Janela</th>
+                <th style="text-align:right;">β</th>
+                <th style="text-align:right;">SE</th>
+                <th style="text-align:right;">p</th>
+                <th style="text-align:right;">N</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>2013–2021 (plena)</td><td style="text-align:right; font-variant-numeric: tabular-nums;">−0,0034</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,0006</td><td style="text-align:right; font-variant-numeric: tabular-nums;">&lt;0,001</td><td style="text-align:right; font-variant-numeric: tabular-nums;">1.956</td></tr>
+              <tr><td>2002–2023 (estendida)</td><td style="text-align:right; font-variant-numeric: tabular-nums;">−0,0029</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,0007</td><td style="text-align:right; font-variant-numeric: tabular-nums;">&lt;0,001</td><td style="text-align:right; font-variant-numeric: tabular-nums;">2.444</td></tr>
+            </tbody>
+          </table>
+          <p style="font-size: 0.88rem; margin: 0;">
+            Sinal negativo persiste em duas janelas independentes — robustez
+            forte. <strong>Atenção:</strong> a associação 2FE não estabelece
+            causalidade pelo painel isolado. Tendências paralelas, confundidores
+            espaciais e o sentido da relação (crédito puxa transição vs. transição
+            atrai crédito) são discutidos em
+            <a href="#sintese-titulo">§ 7.2 e § 9</a>.
+          </p>
+        </div>
+      </details>
+    </div>
+
+    <!-- S4 — Pastagem como reserva de terra -->
+    <div class="como-bloco">
+      <h3>4 &middot; Pastagem como reserva de terra: duas populações de conversão</h3>
+    <p>
+      Se a pecuária se desacoplou da área (§ 3.1) e a lavoura cresceu sobre pasto (§ 3.2),
+      resta uma pergunta: <em>quanto tempo a pastagem permaneceu antes de virar lavoura?</em>
+      A resposta importa porque distinguir conversão premeditada de oportunística muda a leitura
+      política: se a pastagem funciona como reserva de terra de longo prazo, políticas de
+      crédito e regulação fundiária têm alavancagem diferente do que se toda conversão fosse
+      rotação agrícola de curto prazo. A idade da pastagem no momento da conversão
+      pixel-a-pixel (78.000 amostras, 246 municípios) revela que não existe uma única
+      resposta — existem <strong>duas populações</strong>.
+    </p>
+    <figure class="grafico-card grafico-card--wide">
+      <img src="img/graficos/sintese_idade_pastagem_atos.png"
+           alt="Distribuição da idade da pastagem na conversão para agricultura, por Ato" loading="lazy">
+      <figcaption>Distribuição da idade da pastagem (anos) no momento da conversão para agricultura, por Ato.
+      A mediana sobe de 6 anos (Ato I) para 19 anos (Ato II) e 17 anos (Ato III). 66% dos pixels já eram pastagem em 1985 (censura à esquerda).
+      Fonte: MapBiomas Coleção 10.1, classificação pixel-a-pixel.</figcaption>
+    </figure>
+
+    <div class="dado-choque-grid">
+      <div class="dado-choque">
+        <div class="dado-choque-valor">μ ≈ 4,6 a (44%)</div>
+        <div class="dado-choque-label">Rotação rápida / premeditada</div>
+        <div class="dado-choque-glosa">
+          Na janela 2016–2024, 44% dos pixels convertidos pertencem a uma componente gaussiana com
+          média de ~4,6 anos e desvio σ ≈ 2,1. Pastagem jovem convertida rapidamente — consistente
+          com planejamento (abertura para lavoura em 2–7 anos) ou rotação agricultura → pastagem → agricultura.
+        </div>
+      </div>
+      <div class="dado-choque">
+        <div class="dado-choque-valor">μ ≈ 21,8 a (56%)</div>
+        <div class="dado-choque-label">Reserva histórica / oportunismo</div>
+        <div class="dado-choque-glosa">
+          A segunda componente tem média ~21,8 anos (σ ≈ 7,6). Pastagem consolidada, convertida tardiamente —
+          consistente com o mecanismo oportunístico: produtores ativam reservas de terra antigas quando
+          o preço da commodity ou o crédito tornam a conversão viável.
+        </div>
+      </div>
+    </div>
+
+    <p>
+      A bimodalidade é estável: o modelo de 2 componentes (AIC 66.428) supera o de 1 componente
+      (AIC 76.187) em todas as janelas deslizantes testadas (2016–24, 2017–24, 2018–24, 2020–24).
+      A coexistência dos dois mecanismos conecta § 3.2 (lavoura sobre pasto) com § 3.3 (crédito
+      → retração de pasto): o crédito rural financia tanto a conversão premeditada (projetos
+      integrados) quanto a oportunística (arrendamento de pastagem consolidada).
+    </p>
+
+    <details class="metric-details" style="margin-top: 1rem;">
+      <summary>Mediana por Ato e proporções detalhadas</summary>
+      <div style="padding: 0.9rem 1.1rem; border-top: 1px solid var(--color-rule); background: #fcfcfa;">
+        <div class="metric-rows" style="border: none; padding: 0; background: transparent;">
+          <div class="metric-row"><span class="metric-row-label">Ato I (1985–2000)</span><span class="metric-row-value">mediana 6 a</span></div>
+          <div class="metric-row"><span class="metric-row-label">Ato II (2001–2019)</span><span class="metric-row-value">mediana 19 a</span></div>
+          <div class="metric-row"><span class="metric-row-label">Ato III (2020–2024)</span><span class="metric-row-value">mediana 17 a</span></div>
+        </div>
+        <p style="font-size: 0.85rem; margin: 0.8rem 0 0.3rem;">
+          <strong>Censura à esquerda:</strong> 66% dos pixels (51.573 de 78.000) já eram pastagem em 1985.
+          A idade real desses pixels é desconhecida. Análises interpretativas restringem-se aos 26.427 não-censurados.
+        </p>
+        <p style="font-size: 0.85rem; margin: 0.3rem 0;">
+          <strong>Proporções (GMM, janela 2020–24):</strong> rotação rápida/premeditada 5,5%,
+          rotação agricultura→pastagem→agricultura 47,9%, oportunístico clássico 22,6%, ambíguo 24,0%.
+        </p>
+        <p style="font-size: 0.85rem; margin: 0.3rem 0;">
+          <strong>Limitação:</strong> a análise é descritiva — não estabelece causalidade.
+          Sem dados de CAR/SICAR para testar a hipótese de arrendamento diretamente.
+        </p>
+      </div>
+    </details>
+    </div>
+
+  <!-- ===================== Fundamentos: periodização, métricas, evidência ===================== -->
+
+    <!-- §5 — Periodização data-driven -->
+    <div class="como-bloco">
+      <h3>5 · Como os três atos foram detectados</h3>
+      <p>
+        A divisão da nossa história em três períodos não é uma escolha narrativa subjetiva — é 
+        um resultado matemático. Para encontrá-los, submetemos a série de transições a quatro 
+        testes estatísticos independentes de quebra estrutural. A convergência dos algoritmos para 
+        marcos muito próximos nos dá a segurança física de que o regime de ocupação do estado de 
+        fato mudou nesses anos, isolando qualquer ruído da série histórica.
+      </p>
+
+      <table class="camadas-tabela" style="margin: 0.8rem 0;">
+        <thead>
+          <tr>
+            <th>Método</th>
+            <th>O que faz</th>
+            <th style="text-align:right;">~2001</th>
+            <th style="text-align:right;">~2020</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>sup-F multivariado</strong> (primário)</td>
+            <td>Encontra o ponto que melhor divide a série multivariada em dois segmentos</td>
+            <td style="text-align:right;">F = 62,2 ✓</td>
+            <td style="text-align:right;">F = 21,5 ✓</td>
+          </tr>
+          <tr>
+            <td><strong>STARS</strong> (Rodionov)</td>
+            <td>Detecta mudanças abruptas na média sequencialmente</td>
+            <td style="text-align:right;">2004/06 ✓</td>
+            <td style="text-align:right;">—</td>
+          </tr>
+          <tr>
+            <td><strong>KL/TV de transições</strong></td>
+            <td>Mede o quanto a matriz de transição LULC muda ano a ano</td>
+            <td style="text-align:right;">pico 2003 ✓</td>
+            <td style="text-align:right;">pico 2018–20 ✓</td>
+          </tr>
+          <tr>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="como-bloco" style="margin: 1.2rem 0 0.8rem; padding: 1rem 1.2rem; border-left: 3px solid var(--color-accent, #8b3a1d); background: #faf8f5;">
+        <h4 style="margin: 0 0 0.4rem; font-size: 0.92rem;">Validação global — Intensity Analysis (Aldwaik &amp; Pontius)</h4>
+        <p style="margin: 0; font-size: 0.88rem; line-height: 1.6;">
+          Enquanto os 3 métodos acima <strong>detectam</strong> as fronteiras (cada um aponta anos específicos),
+          o Intensity Analysis tem papel diferente: ele <strong>valida globalmente</strong> se os períodos
+          resultantes são de fato distintos. O teste Kruskal-Wallis compara os 3&nbsp;Atos simultaneamente:<br>
+          <strong>H&nbsp;=&nbsp;22,6, p&nbsp;&lt;&nbsp;0,001</strong> — os três períodos diferem significativamente
+          em taxa de mudança LULC.<br>
+          <em>H</em> e <em>p</em> são do mesmo teste — não são detecções separadas para ~2001 e ~2020.
+          É um resultado único que confirma que o que existe de cada lado das fronteiras é qualitativamente diferente.
+        </p>
+      </div>
+
+      <div class="dado-choque-grid">
+        <div class="dado-choque">
+          <div class="dado-choque-valor">3/3</div>
+          <div class="dado-choque-label">Convergência de detecção para ~2001</div>
+          <div class="dado-choque-glosa">Os 3 métodos de detecção apontam uma mudança de regime por volta de 2001 — entrada da China na OMC, sistematização do crédito rural.</div>
+        </div>
+        <div class="dado-choque">
+          <div class="dado-choque-valor">2/3</div>
+          <div class="dado-choque-label">Convergência de detecção para ~2020</div>
+          <div class="dado-choque-glosa">STARS não detecta quebra em 2020 (as mudanças são gradativas, não abruptas). A fronteira é real mas menos nítida.</div>
+        </div>
+        <div class="dado-choque">
+          <div class="dado-choque-valor">✓</div>
+          <div class="dado-choque-label">Validação global (Intensity Analysis)</div>
+          <div class="dado-choque-glosa">O teste Kruskal-Wallis confirma que os 3 períodos diferem significativamente entre si (H = 22,6; p &lt; 0,001) — valida ambas as fronteiras simultaneamente.</div>
+        </div>
+      </div>
+
+      <details class="metric-details" style="margin-top: 1rem;">
+        <summary>Por que não 4 ou 5 períodos? · robustez e sub-fase 2001–2005</summary>
+        <div style="padding: 0.9rem 1.1rem; border-top: 1px solid var(--color-rule); background: #fcfcfa;">
+          <p style="margin: 0 0 0.6rem;">
+            Uma candidata a 4ª fronteira apareceu em ~2005/06 (STARS e KL/TV).
+            O Intensity Analysis foi decisivo para rejeitá-la:
+          </p>
+          <ul style="margin: 0 0 0.6rem; padding-left: 1.2rem; font-size: 0.88rem; line-height: 1.6;">
+            <li><strong>Taxa total de mudança</strong>: Mann-Whitney p = 0,060 (NS) — as sub-fases não diferem em velocidade geral.</li>
+            <li><strong>Perda de veg. natural</strong>: p = 0,0008 (***) — diferem em <em>composição</em>, não em volume.</li>
+            <li><strong>Robustez do sup-F</strong>: 2001 estável em 9/9 combinações; 2020 em 6/9; ~1991 instável.</li>
+            <li><strong>Poder estatístico</strong>: com n = 4 anos na sub-fase, o teste tem poder de 0,63 — insuficiente para concluir.</li>
+          </ul>
+          <p style="margin: 0; font-size: 0.85rem;">
+            Decisão: documentar como sub-fase do Ato II (aceleração composicional 2001–05),
+            sem promover a fronteira de período.
+          </p>
+        </div>
+      </details>
+    </div>
+
+    <!-- §6 — 4 métricas do tempo -->
+    <div class="como-bloco">
+      <h3>6 · As quatro métricas do tempo</h3>
+      <p>
+        Para descrever como o uso da terra muda, usamos quatro métricas encadeadas. A
+        analogia mais simples é a de um carro numa rodovia: <strong>posição</strong> diz
+        onde ele está, <strong>velocidade</strong> diz quanto ele se moveu, e
+        <strong>aceleração</strong> diz se ele está pisando no acelerador ou freando.
+        Cada métrica responde uma pergunta diferente — e cada uma tem seu ruído.
+      </p>
+
+      <div class="metricas-grid">
+        <div class="metrica-card">
+          <h5>Posição</h5>
+          <div class="metrica-nome">Área</div>
+          <p class="metrica-glosa">Quanto há de cada classe no ano <em>t</em>, em milhões de hectares (Mha).</p>
+          <code class="metrica-formula">area<sub>t</sub></code>
+        </div>
+        <div class="metrica-card">
+          <h5>Velocidade instantânea</h5>
+          <div class="metrica-nome">Delta (Δ)</div>
+          <p class="metrica-glosa">Variação ano-a-ano. Mostra a mudança imediata, mas é ruidosa — mistura sinal real com erro de classificação.</p>
+          <code class="metrica-formula">Δ<sub>t</sub> = area<sub>t</sub> − area<sub>t−1</sub></code>
+        </div>
+        <div class="metrica-card">
+          <h5>Velocidade média (5 anos)</h5>
+          <div class="metrica-nome">Slope</div>
+          <p class="metrica-glosa">Ajusta uma reta por mínimos quadrados em 5 anos consecutivos. Filtra o ruído anual e revela a tendência.</p>
+          <code class="metrica-formula">OLS(area ~ ano), janela t−4 .. t</code>
+        </div>
+        <div class="metrica-card">
+          <h5>Segunda derivada</h5>
+          <div class="metrica-nome">Aceleração</div>
+          <p class="metrica-glosa">Variação do slope. Diz se a expansão (ou retração) está se acelerando ou desacelerando.</p>
+          <code class="metrica-formula">accel<sub>t</sub> = slope<sub>t</sub> − slope<sub>t−1</sub></code>
+        </div>
+      </div>
+
+      <div class="como-inset">
+        <div class="como-inset-titulo">Valores reais — Minas Gerais, 2024 (três classes principais)</div>
+        <div class="como-inset-rows">
+          <span class="row-header row-classe">Classe</span>
+          <span class="row-header">Área (Mha)</span>
+          <span class="row-header">Slope (Mha/ano)</span>
+          <span class="row-header">Aceleração</span>
+
+          <span class="row-classe">Pastagem</span>
+          <span class="row-valor">11,99</span>
+          <span class="row-valor row-valor-neg">−0,289</span>
+          <span class="row-valor row-valor-neg">−0,045</span>
+
+          <span class="row-classe">Agricultura</span>
+          <span class="row-valor">5,73</span>
+          <span class="row-valor row-valor-pos">+0,016</span>
+          <span class="row-valor row-valor-neg">−0,009</span>
+
+          <span class="row-classe">Vegetação natural</span>
+          <span class="row-valor">11,41</span>
+          <span class="row-valor row-valor-neg">−0,076</span>
+          <span class="row-valor row-valor-neg">−0,016</span>
+        </div>
+        <p class="metrica-glosa" style="margin-top: 0.7rem; font-size: 0.82rem; color: var(--color-muted);">
+          Leitura: em 2024, a pastagem perdia área a uma taxa média de 0,289 Mha por
+          ano (slope) — e essa <em>perda</em> estava se intensificando (aceleração negativa).
+          A agricultura ainda crescia, mas <em>desacelerando</em>.
+        </p>
+      </div>
+
+      <details class="metric-details">
+        <summary>Detalhes técnicos · janela, HAC, trailing vs centrada</summary>
+        <div style="padding: 0.9rem 1.1rem; font-size: 0.88rem; line-height: 1.55; border-top: 1px solid var(--color-rule); background: #fcfcfa;">
+          <p style="margin: 0 0 0.6rem;">
+            <strong>Janela = 5 anos.</strong> Compromisso entre suavização (janelas maiores filtram mais) e responsividade
+            (janelas menores detectam viradas mais rápido). Cinco anos é o intervalo usual em estudos LULC.
+          </p>
+          <p style="margin: 0 0 0.6rem;">
+            <strong>Trailing × centrada.</strong> A versão trailing usa apenas o passado (t−4 a t) e serve para inferência —
+            quando se está no ano <em>t</em>, só se conhece o passado. A versão centrada (t−2 a t+2) suaviza melhor mas
+            "trapaceia" usando o futuro: é só para visualização.
+          </p>
+          <p style="margin: 0 0 0.6rem;">
+            <strong>Erro padrão HAC Newey-West (maxlags=2).</strong> Resíduos de uma regressão em 5 anos consecutivos
+            são autocorrelacionados; o ajuste HAC corrige o erro padrão para que p-valores não fiquem otimistas.
+          </p>
+          <p style="margin: 0;">
+            <strong>Filtro 2σ na aceleração.</strong> Como <code>slope<sub>t</sub></code> e <code>slope<sub>t−1</sub></code>
+            sobrepõem 4 anos, a aceleração é autocorrelacionada por construção. Só pontos &gt;2σ entram nos gráficos —
+            destaca eventos realmente fora do normal.
+          </p>
+        </div>
+      </details>
+    </div>
+
+    <!-- §7 — 3 camadas de evidência (+ conteúdo do delta) -->
+    <div class="como-bloco">
+      <h3>7 · Três camadas de evidência</h3>
+      <p>
+        O delta é um saldo líquido: se a pastagem perde 0,3 Mha num ano, isso não diz
+        para onde foi essa área — pode ter virado lavoura, regeneração ou solo exposto.
+        As <strong>matrizes de transição</strong> resolvem isso. Para cada par de anos
+        consecutivos, o MapBiomas é cruzado pixel-a-pixel (30 m × 30 m): cada pixel
+        guarda seu uso em t e em t+1. O resultado é uma matriz 6×6 (origem × destino)
+        que abre o que o delta agrega. O Sankey de § 2 representa essa matriz somada de
+        1985 a 2024. Sobre essa base de transições, a dissertação constrói três camadas
+        de evidência, cada uma com força e fraqueza distintas — descritivo → inferencial
+        → causal.
+      </p>
+
+      <div class="dado-choque-grid">
+        <div class="dado-choque">
+          <div class="dado-choque-valor">1,90 Mha</div>
+          <div class="dado-choque-label">Pastagem → Agricultura · 2003–2018</div>
+          <div class="dado-choque-glosa">Conversão acumulada entre o boom de commodities e a intensificação pós-Código Florestal — o "core" da reorganização agrícola.</div>
+        </div>
+        <div class="dado-choque">
+          <div class="dado-choque-valor">3,83 Mha</div>
+          <div class="dado-choque-label">Pastagem → Agricultura · 1985–2024</div>
+          <div class="dado-choque-glosa">Total da série. Confirma que a expansão da lavoura em Minas Gerais se deu predominantemente sobre pastagem, não sobre vegetação natural.</div>
+        </div>
+      </div>
+
+      <p>
+        Quando dizemos que "o crédito rural acelerou a transição pastagem → agricultura",
+        que tipo de afirmação estamos fazendo? A tabela abaixo organiza os três níveis.
+      </p>
+
+      <table class="camadas-tabela">
+        <thead>
+          <tr>
+            <th>Camada</th>
+            <th>Pergunta</th>
+            <th>Força</th>
+            <th>Fraqueza</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Correlação UF</td>
+            <td>"Houve coincidência temporal entre as duas séries no estado?"</td>
+            <td>Simples e comunicativa; comparação direta com a literatura.</td>
+            <td>N pequeno (11–39 obs); sem controle por confundidores.</td>
+          </tr>
+          <tr>
+            <td>Painel 2-way FE</td>
+            <td>"Dentro de cada município, X explica Y depois de remover choques nacionais?"</td>
+            <td>Causalmente forte; absorve heterogeneidade municipal e tendências comuns.</td>
+            <td>Não isola marcos específicos; R² <em>within</em> baixo.</td>
+          </tr>
+          <tr>
+            <td>DiD piecewise</td>
+            <td>"Este marco regulatório teve impacto diferencial em GO vs estados-controle?"</td>
+            <td>Identifica efeito de política em janela curta.</td>
+            <td>Depende de tendências paralelas (não testado aqui).</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>7.1 · Correlação UF — camada descritiva</h4>
+      <p>
+        Agrega tudo no nível estadual (uma linha por ano) e correlaciona séries de
+        primeiras diferenças. Decisão metodológica importante: nunca correlacionar
+        níveis com níveis — duas séries que crescem juntas geram correlação
+        espúria (regressão fajuta). Dos 36 pares testados, <strong>apenas 1 ficou
+        significativo</strong>: Δ Agricultura × Δ Soja, r = −0,30 (p = 0,022). A camada
+        UF é principalmente comunicativa, não inferencial.
+      </p>
+      <figure class="grafico-card" style="max-width: 720px; margin: 1.2rem 0;">
+        <img src="img/correlacoes/uf_scatter_agricultura_agri_soja_ton.png"
+             alt="Dispersão UF: slope da agricultura × Δ produção de soja, com linha de regressão" loading="lazy">
+        <figcaption>UF, 1985–2024: variação da agricultura plotada contra a variação anual da produção de soja em Minas Gerais. Cada ponto é um ano.</figcaption>
+      </figure>
+
+      <h4>7.2 · Painel 2-way FE — camada inferencial (núcleo da dissertação)</h4>
+      <p>
+        Usa os 246 municípios × ~10 anos como painel. A especificação é
+        <code>Δlulc<sub>it</sub> = α<sub>i</sub> + γ<sub>t</sub> + β·Δx<sub>it</sub> + ε<sub>it</sub></code>:
+        o efeito fixo de município (α<sub>i</sub>) absorve tudo que é constante no
+        local (bioma, solo, distância de estradas, cultura local); o efeito fixo de
+        ano (γ<sub>t</sub>) absorve choques nacionais (preço da soja global, política
+        monetária federal). O coeficiente β que sobra é o efeito <em>dentro</em> de
+        cada município, líquido de tendências comuns. Erro padrão clusterizado por
+        município. Dos 16 modelos testados, 6 são significativos. Os dois mais robustos:
+      </p>
+
+      <div class="dado-choque-grid">
+        <div class="dado-choque">
+          <div class="dado-choque-valor">β = −0,004</div>
+          <div class="dado-choque-label">Δ Agricultura × Δ VA agropec. · p &lt; 0,001</div>
+          <div class="dado-choque-glosa">
+            Significativo em <strong>duas janelas independentes</strong> (2013–2021 e 2002–2023). O crescimento do valor agregado agro veio de produtividade, não de expansão de área — evidência empírica de <em>land sparing</em>.
+          </div>
+        </div>
+        <div class="dado-choque">
+          <div class="dado-choque-valor">β = −0,003</div>
+          <div class="dado-choque-label">Δ Pastagem × Δ SICOR · p &lt; 0,001</div>
+          <div class="dado-choque-glosa">
+            Significativo em <strong>duas janelas</strong>. Aumento no crédito rural municipal está associado à retração da pastagem — consistente com a transição pastagem → agricultura financiada por crédito.
+          </div>
+        </div>
+      </div>
+
+      <details class="metric-details" style="margin-top: 1rem;">
+        <summary>Tabela completa · 6 modelos significativos do Painel 2FE</summary>
+        <div style="overflow-x: auto; border-top: 1px solid var(--color-rule);">
+          <table class="camadas-tabela" style="margin: 0;">
+            <thead>
+              <tr>
+                <th>Y (Δ LULC)</th>
+                <th>X (Δ socio)</th>
+                <th>Janela</th>
+                <th style="text-align:right;">β</th>
+                <th style="text-align:right;">SE</th>
+                <th style="text-align:right;">p</th>
+                <th style="text-align:right;">N</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Pastagem</td><td>SICOR</td><td>2013–2021</td><td style="text-align:right; font-variant-numeric: tabular-nums;">−0,0034</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,0006</td><td style="text-align:right; font-variant-numeric: tabular-nums;">&lt;0,001</td><td style="text-align:right; font-variant-numeric: tabular-nums;">1.956</td></tr>
+              <tr><td>Pastagem</td><td>SICOR</td><td>2002–2023</td><td style="text-align:right; font-variant-numeric: tabular-nums;">−0,0029</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,0007</td><td style="text-align:right; font-variant-numeric: tabular-nums;">&lt;0,001</td><td style="text-align:right; font-variant-numeric: tabular-nums;">2.444</td></tr>
+              <tr><td>Pastagem</td><td>VA agropec.</td><td>2013–2021</td><td style="text-align:right; font-variant-numeric: tabular-nums;">−0,0015</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,0007</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,033</td><td style="text-align:right; font-variant-numeric: tabular-nums;">2.214</td></tr>
+              <tr><td>Pastagem</td><td>Bovinos</td><td>2002–2023</td><td style="text-align:right; font-variant-numeric: tabular-nums;">≈0</td><td style="text-align:right; font-variant-numeric: tabular-nums;">≈0</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,004</td><td style="text-align:right; font-variant-numeric: tabular-nums;">5.412</td></tr>
+              <tr><td>Agricultura</td><td>VA agropec.</td><td>2013–2021</td><td style="text-align:right; font-variant-numeric: tabular-nums;">−0,0035</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,0007</td><td style="text-align:right; font-variant-numeric: tabular-nums;">&lt;0,001</td><td style="text-align:right; font-variant-numeric: tabular-nums;">2.214</td></tr>
+              <tr><td>Agricultura</td><td>VA agropec.</td><td>2002–2023</td><td style="text-align:right; font-variant-numeric: tabular-nums;">−0,0040</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,0007</td><td style="text-align:right; font-variant-numeric: tabular-nums;">&lt;0,001</td><td style="text-align:right; font-variant-numeric: tabular-nums;">4.674</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size: 0.8rem; color: var(--color-muted); padding: 0.7rem 0.9rem 0.9rem; margin: 0; background: #fcfcfa;">
+          β em Mha de LULC por unidade de Δ X. Erro padrão clusterizado por município. Janelas: plena (2013–2021, com SICOR) e estendida (2002–2023, sem SICOR).
+        </p>
+      </details>
+
+      <details class="metric-details" style="margin-top: 0.8rem;">
+        <summary>Painel multivariado · SICOR domina, VA agro perde significância</summary>
+        <div style="padding: 0.9rem 1.1rem; border-top: 1px solid var(--color-rule); background: #fcfcfa;">
+          <p style="margin: 0 0 0.6rem;">
+            Quando Δ SICOR, Δ Bovinos, Δ VA agropecuário e Δ Fogo entram simultaneamente,
+            o <strong>crédito rural é o canal dominante</strong> da retração de pastagem:
+          </p>
+          <ul style="margin: 0 0 0.6rem; padding-left: 1.2rem; font-size: 0.88rem; line-height: 1.6;">
+            <li><strong>Δ Pastagem ~ Δ SICOR + Δ Bovinos + Δ VA agro + Δ Fogo:</strong> β<sub>SICOR</sub> = −0,003 (p &lt; 0,001); β<sub>VA agro</sub> = −0,001 (p = 0,15, <em>perde significância</em>).</li>
+            <li><strong>Δ Agricultura ~ Δ SICOR + Δ Bovinos + Δ VA agro + Δ Fomo:</strong> β<sub>VA agro</sub> = −0,004 (p &lt; 0,001) — a intensificação permanece robusta.</li>
+            <li>R²<sub>within</sub> sobe de 0,047 para 0,122 em agricultura; de 0,030 para 0,072 em pastagem.</li>
+            <li>VIFs ≤ 1,55 — sem multicolinearidade relevante.</li>
+          </ul>
+          <p style="margin: 0; font-size: 0.85rem;">
+            Interpretação: quando o crédito rural está no modelo, o valor agregado agropecuário deixa de ser significativo
+            para pastagem — o crédito captura o canal que o VA agro representava no modelo univariado.
+            A intensificação agrícola (Δ Agricultura × Δ VA agro) é o achado mais robusto, sobrevivendo a todos os controles.
+          </p>
+        </div>
+      </details>
+
+      <h4>7.3 · DiD piecewise — camada causal (avaliação de marcos)</h4>
+      <p>
+        Compara Minas Gerais (tratado) com Tocantins e Mato Grosso (controles do bioma
+        Cerrado) ao redor de quatro marcos: Plano Real (1995), boom de commodities
+        (2003), Código Florestal (2012) e Cerrado Manifesto + reorganização frigorífica (2018).
+        A especificação
+        <code>Δlulc<sub>st</sub> = α<sub>s</sub> + γ<sub>t</sub> + β·(treated<sub>s</sub> × post<sub>t</sub>) + ε<sub>st</sub></code>
+        captura, no β do termo de interação, a diferença na variação de uso da
+        terra em GO <em>menos</em> a diferença nos controles depois do marco. Janela
+        ±5 anos. <strong>TO é o controle mais comparável (~92% Cerrado); MT mistura Amazônia, Cerrado e Pantanal e deve ser lido como sensibilidade.</strong>
+        Dos 36 modelos (3 classes × 4 marcos × 3 controles), 9 são significativos —
+        mas a maioria <em>não se replica</em> quando o controle muda de MT para TO.
+        Testes de placebos e event-study foram rodados (ver acordeão abaixo).
+        O único achado robusto cross-especificação:
+      </p>
+
+      <div class="dado-choque-grid">
+        <div class="dado-choque">
+          <div class="dado-choque-valor">+0,08 Mha/ano</div>
+          <div class="dado-choque-label">Veg. natural em GO vs TO · pós-Plano Real 1995 · p = 0,005</div>
+          <div class="dado-choque-glosa">
+            Após a estabilização monetária, a vegetação natural em Minas Gerais perdeu área 0,08 Mha/ano <em>mais devagar</em> do que em Tocantins. É o efeito que sobrevive à troca de controle, à mudança de janela e à especificação combinada — leitura honesta: estabilização macro reduziu pressão sobre veg. natural em GO mais do que em outros estados do Cerrado.
+          </div>
+        </div>
+        <div class="dado-choque">
+          <div class="dado-choque-valor">sensível ao controle</div>
+          <div class="dado-choque-label">Pastagem em 2012 e 2018 · efeitos só vs MT</div>
+          <div class="dado-choque-glosa">
+            Os efeitos pós-Código Florestal (+0,30 Mha/ano) e pós-Cerrado Manifesto (−0,44 Mha/ano) reportados vs MT <strong>não se replicam vs TO</strong> (β=+0,01, p=0,82 e β=−0,07, p=0,21). O β contra MT provavelmente capta também a dinâmica própria de MT (Moratória da Soja Amazônia 2006), não apenas GO divergindo do Cerrado.
+          </div>
+        </div>
+      </div>
+
+      <figure class="grafico-card" style="max-width: 760px; margin: 1.2rem 0;">
+        <img src="img/correlacoes/did_pastagem_2018.png"
+             alt="Diferença-em-diferenças: pastagem em Minas Gerais vs Mato Grosso e Tocantins, marco Cerrado Manifesto 2018" loading="lazy">
+        <figcaption>DiD pastagem · marco 2018 (Cerrado Manifesto + consolidação frigorífica). Linhas mostram a evolução em GO (tratado) vs MT e TO (controles). A separação visível entre GO e MT após 2018 não se reproduz entre GO e TO — o β contra MT é dirigido pela dinâmica própria de MT.</figcaption>
+      </figure>
+
+      <details class="metric-details" style="margin-top: 1rem;">
+        <summary>Tabela completa · 9 modelos DiD significativos</summary>
+        <div style="overflow-x: auto; border-top: 1px solid var(--color-rule);">
+          <table class="camadas-tabela" style="margin: 0;">
+            <thead>
+              <tr>
+                <th>Classe</th>
+                <th>Marco</th>
+                <th>Controle</th>
+                <th style="text-align:right;">β-DiD</th>
+                <th style="text-align:right;">SE</th>
+                <th style="text-align:right;">p</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Veg. natural</td><td>1995 · Real</td><td>Tocantins</td><td style="text-align:right; font-variant-numeric: tabular-nums;">+0,083</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,030</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,005</td></tr>
+              <tr><td>Pastagem</td><td>1995 · Real</td><td>Mato Grosso</td><td style="text-align:right; font-variant-numeric: tabular-nums;">−0,229</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,100</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,022</td></tr>
+              <tr><td>Pastagem</td><td>2012 · Cód. Florestal</td><td>combined</td><td style="text-align:right; font-variant-numeric: tabular-nums;">+0,158</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,061</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,010</td></tr>
+              <tr><td>Pastagem</td><td>2012 · Cód. Florestal</td><td>Mato Grosso</td><td style="text-align:right; font-variant-numeric: tabular-nums;">+0,305</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,063</td><td style="text-align:right; font-variant-numeric: tabular-nums;">&lt;0,001</td></tr>
+              <tr><td>Pastagem</td><td>2018 · Cerrado Manifesto</td><td>combined</td><td style="text-align:right; font-variant-numeric: tabular-nums;">−0,258</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,074</td><td style="text-align:right; font-variant-numeric: tabular-nums;">&lt;0,001</td></tr>
+              <tr><td>Pastagem</td><td>2018 · Cerrado Manifesto</td><td>Mato Grosso</td><td style="text-align:right; font-variant-numeric: tabular-nums;">−0,443</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,078</td><td style="text-align:right; font-variant-numeric: tabular-nums;">&lt;0,001</td></tr>
+              <tr><td>Agricultura</td><td>1995 · Real</td><td>Tocantins</td><td style="text-align:right; font-variant-numeric: tabular-nums;">−0,074</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,037</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,046</td></tr>
+              <tr><td>Agricultura</td><td>2012 · Cód. Florestal</td><td>Mato Grosso</td><td style="text-align:right; font-variant-numeric: tabular-nums;">−0,191</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,068</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,005</td></tr>
+              <tr><td>Agricultura</td><td>2018 · Cerrado Manifesto</td><td>Mato Grosso</td><td style="text-align:right; font-variant-numeric: tabular-nums;">+0,167</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,066</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,011</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size: 0.8rem; color: var(--color-muted); padding: 0.7rem 0.9rem 0.9rem; margin: 0; background: #fcfcfa;">
+          β em Mha/ano. Janela ±5 anos ao redor do marco. "combined" = MT+TO juntos como grupo de controle.
+        </p>
+      </details>
+
+      <details class="metric-details" style="margin-top: 0.8rem;">
+        <summary>Event-study e placebos · robustez do DiD</summary>
+        <div style="padding: 0.9rem 1.1rem; border-top: 1px solid var(--color-rule); background: #fcfcfa;">
+          <p style="margin: 0 0 0.6rem;">
+            <strong>Event-study:</strong> 11 de 12 combinações (classe × marco) com controle
+            combined passam no teste de tendências paralelas (lags pré-marco não significativos).
+            Os 3 lags pré-marco significativos estão todos em agricultura × 1995 — consistente
+            com a aceleração agrícola já em curso antes do marco.
+          </p>
+          <p style="margin: 0 0 0.6rem;">
+            <strong>Placebos:</strong> 9 de 36 modelos placebo são significativos — principalmente
+            em marcos 2012 e 2018 vs MT/combined. Isso indica que os efeitos pós-Código Florestal
+            e pós-Cerrado Manifesto capturam, em parte, dinâmica pré-existente, não apenas
+            o efeito do marco institucional. A única combinação robusta cross-test é
+            <strong>veg. natural × 1995 vs TO</strong>.
+          </p>
+          <p style="margin: 0; font-size: 0.85rem;">
+            Leitura honesta: o DiD é mais informativo como diagnóstico descritivo (quais marcos
+            têm efeito diferencial em GO?) do que como prova causal estrita. O achado de que
+            2012 (Código Florestal) <em>não gera quebra estrutural detectável</em> é, ele próprio,
+            um resultado — a ausência de efeito é informativa.
+          </p>
+        </div>
+      </details>
+    </div>
+
+    <!-- Bloco 4: Decisões metodológicas D1-D11 -->
+    <div class="como-bloco">
+      <h3>8 · As decisões metodológicas</h3>
+      <p>
+        Toda escolha numa cadeia analítica é uma decisão documentada — e cada uma tem
+        um <em>porquê</em>. Onze decisões estruturam toda a pipeline estatística desta
+        dissertação:
+      </p>
+
+      <div class="decisao-grid">
+        <div class="decisao-card">
+          <span class="decisao-badge">D1</span>
+          <div class="decisao-titulo">6 classes agregadas, Mosaico excluído</div>
+          <div class="decisao-por-que">Reduz ruído de subclasses e alinha com o mapa cartográfico final.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D2</span>
+          <div class="decisao-titulo">Fonte LULC = MapBiomas direto</div>
+          <div class="decisao-por-que">Usa <code>mapbiomas_munis_mg.csv</code> bruto do GEE, não dados derivados.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D3</span>
+          <div class="decisao-titulo">Slope trailing para inferência</div>
+          <div class="decisao-por-que">Trailing (t−4..t) é honesto temporalmente; centrada só para visualização.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D4</span>
+          <div class="decisao-titulo">HAC Newey-West, maxlags=2</div>
+          <div class="decisao-por-que">Corrige autocorrelação dos resíduos em séries com janelas sobrepostas.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D5</span>
+          <div class="decisao-titulo">Aceleração plotada apenas &gt;2σ</div>
+          <div class="decisao-por-que">Filtra ruído da sobreposição das janelas trailing; destaca eventos reais.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D6</span>
+          <div class="decisao-titulo">5 mesorregiões IBGE 2017</div>
+          <div class="decisao-por-que">Recorte oficial via <code>geobr</code>, mapeado a partir de cd_mun.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D7</span>
+          <div class="decisao-titulo">Primeiras diferenças sempre</div>
+          <div class="decisao-por-que">Evita regressão espúria entre séries com tendência. Nunca níveis.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D8</span>
+          <div class="decisao-titulo">Painel com entity + time FE</div>
+          <div class="decisao-por-que">Controla heterogeneidade municipal e choques nacionais; SE clusterizado.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D9</span>
+          <div class="decisao-titulo">DiD com MT/TO como controles</div>
+          <div class="decisao-por-que">Estados do bioma Cerrado mais comparáveis a GO. TO é o controle mais credível.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D10</span>
+          <div class="decisao-titulo">3 atos por triangulação de 4 métodos</div>
+          <div class="decisao-por-que">Períodos definidos por convergência estatística (sup-F, STARS, KL/TV, Intensity Analysis), não por capítulos políticos. Ver § 5.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D11</span>
+          <div class="decisao-titulo">Idade da pastagem calculada ad hoc</div>
+          <div class="decisao-por-que">Não existe asset MapBiomas separado de pasture age. Idade é calculada pixel-a-pixel das bandas classification_YYYY via <code>stratifiedSample</code>, com GMM de 2 componentes para detectar bimodalidade.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bloco 5: Fragilidades -->
+    <div class="como-bloco">
+      <h3>9 · O que esta análise não consegue responder</h3>
+      <p>
+        Honestidade epistêmica: nenhuma análise é completa. Documentar fragilidades é
+        parte do método, não um defeito a esconder. Os pontos abaixo são limitações
+        conhecidas que orientam o backlog de robustez e devem ser ponderados no
+        julgamento das conclusões.
+      </p>
+
+      <div class="fragilidade-list">
+        <div class="fragilidade-item">
+          <div class="fragilidade-titulo">DiD: efeitos de 2012 e 2018 sensíveis ao controle</div>
+          <p class="fragilidade-glosa">
+            Event-study e placebos foram rodados. 11 de 12 combinações passam tendências paralelas
+            com controle combined; 9 de 36 placebos são significativos (principalmente 2012/2018
+            vs MT/combined). Os efeitos pós-Código Florestal e pós-Cerrado Manifesto capturam
+            dinâmica pré-existente, não apenas o efeito do marco. Único par robusto cross-test:
+            veg. natural × 1995 vs TO.
+          </p>
+        </div>
+        <div class="fragilidade-item">
+          <div class="fragilidade-titulo">Mato Grosso é controle imperfeito</div>
+          <p class="fragilidade-glosa">
+            MT é majoritariamente Amazônia, monocultura de soja em larga escala —
+            composição distinta de GO. Reportar TO-isolado como especificação
+            principal mitiga, mas reduz poder (apenas 2 UFs no controle).
+          </p>
+        </div>
+        <div class="fragilidade-item">
+          <div class="fragilidade-titulo">R² <em>within</em> modesto no painel</div>
+          <p class="fragilidade-glosa">
+            No multivariado, R²<sub>within</sub> chega a 0,122 em agricultura (0,047 no univariado)
+            e 0,072 em pastagem. β preciso e significativo, mas grande parte da mudança
+            vem de fatores não modelados. Extensão: painel espacial dinâmico.
+          </p>
+        </div>
+        <div class="fragilidade-item">
+          <div class="fragilidade-titulo">Autocorrelação espacial não modelada</div>
+          <p class="fragilidade-glosa">
+            115 de 140 modelos (classe × ano × W) têm Moran's I global significativo —
+            pico em 2018 (I = +0,53 para pastagem). SEM (Spatial Error) vence OLS por margem
+            pequena (AIC −2.924 vs −2.924 em agric). Limitação reconhecida: análise é
+            cross-section em 1 ano; painel espacial dinâmico fica para extensão.
+          </p>
+        </div>
+        <div class="fragilidade-item">
+          <div class="fragilidade-titulo">Aceleração é autocorrelacionada por construção</div>
+          <p class="fragilidade-glosa">
+            <code>slope<sub>t</sub></code> e <code>slope<sub>t−1</sub></code> compartilham 4 anos da janela. A diferença entre eles
+            (aceleração) herda essa estrutura. Filtro 2σ atenua, mas a métrica é
+            descritiva, não inferencial.
+          </p>
+        </div>
+        <div class="fragilidade-item">
+          <div class="fragilidade-titulo">N pequeno nas correlações UF com SICOR</div>
+          <p class="fragilidade-glosa">
+            SICOR só está disponível sistematicamente a partir de 2013 — N = 11
+            observações UF nessa janela. Pouco poder estatístico; correlações UF com
+            SICOR servem para narrativa, não para inferência.
+          </p>
+        </div>
+        <div class="fragilidade-item">
+          <div class="fragilidade-titulo">Censura à esquerda na idade da pastagem (66%)</div>
+          <p class="fragilidade-glosa">
+            51.573 de 78.000 pixels já eram pastagem em 1985 — a idade real desses pixels
+            é desconhecida (podem ter décadas a mais). Análises de idade restringem-se aos
+            26.427 pixels não-censurados, que representam conversões mais recentes.
+            A distribuição global é enviesada para idades menores.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bloco 6: Glossário -->
+    <details class="metric-details" style="margin: 2.5rem 0 0;">
+      <summary>Glossário rápido · β, p, slope, HAC, FE, DiD…</summary>
+      <dl class="glossario-dl" style="padding: 1rem 1.2rem; border-top: 1px solid var(--color-rule); background: #fcfcfa;">
+        <dt>β</dt>
+        <dd>Coeficiente da regressão. Diz quanto Y muda por unidade de X. Sinal negativo = relação inversa.</dd>
+
+        <dt>SE</dt>
+        <dd>Erro padrão de β. Quanto menor, mais preciso é o coeficiente estimado.</dd>
+
+        <dt>p</dt>
+        <dd>Probabilidade de ver um β tão extremo quanto o observado se na verdade não houvesse efeito. Usual: p &lt; 0,05 = "estatisticamente significativo".</dd>
+
+        <dt>R² <em>within</em></dt>
+        <dd>Fração da variância <em>dentro</em> de cada município (depois de remover efeitos fixos) que o modelo explica.</dd>
+
+        <dt>Slope</dt>
+        <dd>Coeficiente angular da reta ajustada em 5 anos consecutivos. Velocidade média (Mha/ano).</dd>
+
+        <dt>Aceleração</dt>
+        <dd>Variação do slope entre anos consecutivos. Segunda derivada discreta da área.</dd>
+
+        <dt>HAC</dt>
+        <dd><em>Heteroscedasticity and Autocorrelation Consistent</em>. Correção do erro padrão para resíduos autocorrelacionados (Newey-West é a forma mais comum).</dd>
+
+        <dt>FE</dt>
+        <dd><em>Fixed Effects</em>, efeitos fixos. α<sub>i</sub> absorve o que é constante no município; γ<sub>t</sub> absorve choques nacionais.</dd>
+
+        <dt>DiD</dt>
+        <dd><em>Difference-in-Differences</em>. Compara a mudança em um grupo tratado com a mudança em um grupo controle ao redor de um marco. β-DiD = "diferença das diferenças".</dd>
+
+        <dt>Δ x<sub>t</sub></dt>
+        <dd>Primeira diferença: x<sub>t</sub> − x<sub>t−1</sub>. Remove tendência e evita regressão espúria.</dd>
+
+        <dt>Mha</dt>
+        <dd>Milhões de hectares. 1 Mha = 10.000 km².</dd>
+      </dl>
+    </details>
+  </section>
+  <!-- ===================== / Depois dos mapas ===================== -->
+
+<!-- Footer -->
+
+  <footer class="page-footer">
+    <div class="footer-grid">
+      <div>
+        <h3>Sobre</h3>
+        <p>Victor Amaral</p>
+        <p class="footer-muted">Mestrando em Ciências Ambientais (CIAMB-UFG)</p>
+        <p class="footer-muted">Dissertação em desenvolvimento · 2026</p>
+      </div>
+      <div>
+        <h3>Fontes de dados</h3>
+        <ul class="footer-list">
+          <li><a href="https://brasil.mapbiomas.org/" target="_blank" rel="noopener">MapBiomas</a> — Coleção 10.1 (cobertura) e Coleção 4 (fogo)</li>
+          <li><a href="https://sidra.ibge.gov.br/" target="_blank" rel="noopener">IBGE/SIDRA</a> — PAM, PPM, PIB municipal, população</li>
+          <li><a href="https://www.bcb.gov.br/estatisticas/tabelasespeciais/creditorural" target="_blank" rel="noopener">BACEN/SICOR</a> — Crédito rural (2013-2024)</li>
+          <li><a href="http://www.ipeadata.gov.br/" target="_blank" rel="noopener">IPEA Data</a> — IDH-M (1991/2000/2010)</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Links úteis</h3>
+        <ul class="footer-list">
+          <li><a href="https://github.com/victoreoa" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="http://lattes.cnpq.br/" target="_blank" rel="noopener">Currículo Lattes</a></li>
+          <li><a href="mailto:victor.amaral@ufg.br">E-mail institucional</a></li>
+          <li><a href="../">Voltar à página inicial</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <p>© 2026 Victor Amaral · Dados abertos sob licença CC BY 4.0 onde aplicável</p>
+    </div>
+  </footer>
+
+  </section>
+  <!-- ===================== / MODO NARRATIVA ===================== -->
+
+
+
+  <!-- ===================== MODO ATLAS ===================== -->
+
+  <section data-modo="atlas" id="panel-atlas" role="tabpanel" aria-labelledby="tab-atlas" hidden>
+
+
+
+    <!-- Toolbar de variavel -->
+
+    <div class="atlas-toolbar" role="toolbar" aria-label="Controles do Atlas">
+
+      <div class="atlas-toolbar-inner">
+
+        <div class="atlas-var-toggle" role="radiogroup" aria-label="Variável visualizada">
+
+          <button class="atlas-var atlas-var--active" data-var="lulc"        role="radio" aria-checked="true"  type="button">LULC <span class="atlas-var-n">40</span></button>
+
+
+          <button class="atlas-var" data-var="transicoes"  role="radio" aria-checked="false" type="button">Transições <span class="atlas-var-n">5</span></button>
+
+          <button class="atlas-var" data-var="delta"       role="radio" aria-checked="false" type="button">Δ” vs. 1985 <span class="atlas-var-n">40</span></button>
+
+        </div>
+
+        <div class="atlas-toolbar-info">
+
+          <span class="atlas-var-label" id="atlas-var-label">Uso e cobertura da terra &middot; pixel-a-pixel 30m</span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- Grid: parede de mapas -->
+
+    <div class="atlas-grid-wrap">
+
+      <div class="atlas-grid" id="atlas-grid" aria-live="polite">
+
+        <!-- atlas.js popula aqui -->
+
+      </div>
+
+    </div>
+
+
+
+    <!-- Legenda + comparar (placeholder fase 2) -->
+
+    <div class="atlas-legend" id="atlas-legend"></div>
+
+
+
+  </section>
+
+  <!-- ===================== / MODO ATLAS ===================== -->
+
+
+
+</main>
+
+
+
+<!-- Spark-line sticky inferior (apenas modo narrativa) -->
+
+<aside class="sparkline" id="sparkline" data-modo="narrativa" aria-label="Series temporais">
+
+  <div class="sparkline-inner">
+
+    <svg id="sparkline-svg" viewBox="0 0 1000 80" preserveAspectRatio="none"></svg>
+
+    <div class="sparkline-legend">
+
+      <span class="legend-item legend-soja">Soja (Mt)</span>
+
+      <span class="legend-item legend-rebanho">Rebanho bovino (M cab)</span>
+
+      <span class="sparkline-nota">escalas independentes</span>
+
+      <span class="legend-year">
+
+        <span id="sparkline-year">1985</span>
+
+      </span>
+
+    </div>
+
+  </div>
+
+</aside>
+
+
+
+<script src="assets/js/vendor/scrollama.min.js?v=3"></script>
+
+<script src="assets/js/utils.js?v=3"></script>
+
+<script src="assets/js/timeline.js?v=3"></script>
+
+<script src="assets/js/atlas.js?v=3"></script>
+
+<script src="assets/js/router.js?v=3"></script>
+
+<script src="assets/js/sankey.js?v=3"></script>
+
+<script src="assets/js/mini-sankey.js?v=1"></script>
+
+<script src="assets/js/inventario.js?v=1"></script>
+
+</body>
+
+</html>
+

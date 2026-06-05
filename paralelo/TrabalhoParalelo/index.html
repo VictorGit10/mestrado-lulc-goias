@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rebanho Bovino Municipal — Brasil (1985–2024)</title>
+  <meta name="description" content="Levantamento de média e mediana de cabeças bovinas por município brasileiro, usando dados da Pesquisa Pecuária Municipal (PPM/IBGE).">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css?v=2">
+</head>
+<body>
+
+<header class="page-header">
+  <div class="page-header-inner">
+    <a href="../" class="back">← Voltar para Mestrado CIAMB-UFG</a>
+    <span class="badge">Trabalho Paralelo</span>
+  </div>
+</header>
+
+<section class="hero">
+  <p class="hero-eyebrow">PPM/IBGE · SIDRA 3939 · 1985–2024</p>
+  <h1 class="hero-title">A Dinâmica do Rebanho Bovino Municipal no Brasil</h1>
+  <p class="hero-lede">
+    A Pesquisa Pecuária Municipal acompanha os municípios brasileiros há quatro décadas.
+    O rebanho total cresceu substancialmente, mas como esse crescimento se distribui?
+    Este levantamento compara a <strong>média</strong> e a <strong>mediana</strong> em dois recortes — todos os municípios disponíveis
+    e um painel balanceado — para testar se o crescimento é generalizado ou se há concentração.
+  </p>
+</section>
+
+<main>
+
+  <!-- Contexto -->
+  <section class="content-section">
+    <h2>Por que a média cresce mais que a mediana?</h2>
+    <p class="section-lede">
+      O rebanho bovino total no Brasil cresceu de aproximadamente 150 para 230 milhões de cabeças entre 1985 e 2024.
+      Contudo, esse crescimento <strong>não é igualitário</strong> entre os municípios. A <strong>média</strong>
+      por município sobe de ~31.500 para ~42.000 — enquanto a <strong>mediana</strong> permanece incrivelmente estável em torno de 14.000 a 15.000.
+      Isso sugere que a pecuária está se <strong>concentrando</strong>: grandes polos puxam a média para cima,
+      enquanto o município típico (representado pela mediana) praticamente não altera o tamanho do seu rebanho.
+    </p>
+
+    <!-- Metodologia -->
+    <h3>Dois recortes, duas histórias</h3>
+    <div class="method-grid">
+      <div class="method-card">
+        <h4>Todos disponíveis</h4>
+        <p>
+          Utiliza todos os municípios com dado válido em cada ano (~4.100 em 1985 → ~5.500 em 2024).
+          É a série mais completa, mas carrega um <strong>viés de composição</strong>:
+          municípios novos (geralmente menores) diluem a média, enquanto os grandes a elevam.
+        </p>
+      </div>
+      <div class="method-card">
+        <h4>Balanced Panel</h4>
+        <p>
+          Restringe a amostra aos ~4.037 municípios com dados presentes em <strong>todos</strong> os anos entre 1985 e 2024.
+          Isso elimina o viés de entrada e saída. Com uma base fixa, a divergência entre média e mediana
+          comprova que a concentração do rebanho é um fenômeno estrutural e não um artefato administrativo.
+        </p>
+      </div>
+    </div>
+
+    <!-- Chamada para Análise Regional -->
+    <div style="background: rgba(176, 70, 37, 0.04); border: 1px solid var(--color-rule); border-left: 4px solid var(--color-accent); border-radius: var(--radius); padding: 1.5rem 1.8rem; margin: 2.5rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap;">
+      <div style="flex: 1; min-width: 280px;">
+        <h4 style="font-family: var(--font-sans); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-accent); margin: 0 0 0.5rem 0;">Estudo de Caso Regional</h4>
+        <h3 style="font-family: var(--font-serif); font-size: 1.4rem; text-transform: none; letter-spacing: 0; color: #111; margin: 0 0 0.4rem 0;">Montes Claros (MG): Secas e Transição no Norte de Minas</h3>
+        <p style="font-size: 0.95rem; line-height: 1.5; color: #444; margin: 0;">
+          Como se comporta um polo tradicional pecuário sob severas pressões climáticas e urbanização? 
+          Enquanto o Brasil cresceu, Montes Claros encolheu 29% desde 1985, com um colapso de 46,6% na seca de 2012-2017.
+        </p>
+      </div>
+      <a class="btn" href="montes_claros.html" style="white-space: nowrap; font-family: var(--font-sans); font-size: 0.85rem; padding: 0.6rem 1.2rem;">Ver Análise de Montes Claros →</a>
+    </div>
+  </section>
+
+  <!-- Gráficos principais -->
+  <section class="content-section">
+    <h2>O que os dados mostram</h2>
+
+    <figure class="figure-card figure-wide">
+      <img src="img/ppm_media_mediana_todos_disponiveis.png" alt="Média e mediana de cabeças bovinas por município — todos disponíveis" loading="lazy" data-lightbox>
+      <figcaption class="figure-caption">
+        <strong class="caption-title">Figura 1 · Todos disponíveis</strong>
+        A média sobe de ~31.500 para ~42.000 cabeças entre 1985 e 2024. A mediana fica estável (~14.000–15.000).
+        A <strong>brecha se amplia</strong>: o crescimento do rebanho está concentrado nos municípios grandes,
+        enquanto o município típico quase não muda. O salto em 1990 e a queda abrupta em 2013 coincidem com reformas do questionário do IBGE.
+      </figcaption>
+    </figure>
+
+    <figure class="figure-card figure-wide">
+      <img src="img/ppm_media_mediana_balanced_panel.png" alt="Média e mediana de cabeças bovinas por município — painel balanceado" loading="lazy" data-lightbox>
+      <figcaption class="figure-caption">
+        <strong class="caption-title">Figura 2 · Painel Balanceado (n = 4.037)</strong>
+        Com a mesma base fixa de municípios, o padrão se confirma e até se acentua. Isso comprova que a divergência é <strong>real</strong>,
+        e não um artefato da criação de novos municípios: a pecuária brasileira está de fato se concentrando em menos polos de grande escala.
+      </figcaption>
+    </figure>
+  </section>
+
+  <!-- Contexto Brasil -->
+  <section class="content-section">
+    <h3>Panorama e Dinâmica Regional</h3>
+
+    <div class="figure-grid">
+      <figure class="figure-card">
+        <img src="img/serie_total_brasil.png" alt="Série temporal do rebanho bovino total no Brasil" loading="lazy" data-lightbox>
+        <figcaption class="figure-caption">
+          <strong class="caption-title">Rebanho total · Brasil</strong>
+          ~230 milhões de cabeças em 2024. A série agregada nacional esconde a profunda heterogeneidade municipal revelada na análise de médias.
+        </figcaption>
+      </figure>
+      <figure class="figure-card">
+        <img src="img/serie_top10_ufs.png" alt="Top 10 Unidades da Federação em rebanho bovino" loading="lazy" data-lightbox>
+        <figcaption class="figure-caption">
+          <strong class="caption-title">Top 10 UFs</strong>
+          Mato Grosso (MT), Goiás (GO) e Pará (PA) concentram a expansão. O ranking evidencia o deslocamento do polo pecuário para o Centro-Oeste e Norte.
+        </figcaption>
+      </figure>
+    </div>
+
+    <div class="figure-grid">
+      <figure class="figure-card">
+        <img src="img/crescimento_uf.png" alt="Crescimento do rebanho bovino por Unidade da Federação" loading="lazy" data-lightbox>
+        <figcaption class="figure-caption">
+          <strong class="caption-title">Crescimento por UF</strong>
+          Norte e Centro-Oeste crescem muito acima da média nacional; Sudeste e Sul estagnam ou recuam. 
+        </figcaption>
+      </figure>
+      <figure class="figure-card">
+        <img src="img/completude_serie.png" alt="Completude temporal da série PPM por município" loading="lazy" data-lightbox>
+        <figcaption class="figure-caption">
+          <strong class="caption-title">Completude da série</strong>
+          Apenas ~4.037 municípios possuem a série histórica completa de 40 anos, justificando a necessidade do recorte em painel balanceado para análises temporais rigorosas.
+        </figcaption>
+      </figure>
+  </section>
+
+  <!-- Os Gigantes da Pecuária (Top Municípios) -->
+  <section class="content-section">
+    <h2>Os Gigantes da Pecuária: Municípios Líderes (2024)</h2>
+    <p class="section-lede">
+      O rebanho nacional não apenas se concentrou no plano agregado das médias de UFs, como também gerou verdadeiros 
+      <strong>polos municipais gigantescos</strong>, principalmente na fronteira agrícola do Norte e Centro-Oeste do país.
+    </p>
+
+    <!-- Gráfico Top 3 Municípios -->
+    <figure class="figure-card figure-wide">
+      <img src="img/ppm_top3_municipios.png" alt="Série Histórica dos Top 3 Municípios em Rebanho Bovino" loading="lazy" data-lightbox>
+      <figcaption class="figure-caption">
+        <strong class="caption-title">Figura 3 · Evolução do Top 3 Nacional (1985–2024)</strong>
+        Trajetória histórica dos três líderes atuais do rebanho bovino municipal: <strong>São Félix do Xingu (PA)</strong>, 
+        <strong>Corumbá (MS)</strong> e <strong>Porto Velho (RO)</strong>. Observe a guinada vertiginosa de São Félix do Xingu a partir do ano 2000, 
+        consolidando-se como o maior rebanho municipal do Brasil com mais de 2,5 milhões de cabeças.
+      </figcaption>
+    </figure>
+
+    <!-- Tabela Top 10 Municípios -->
+    <h3>Ranking dos 10 Maiores Rebanhos Municipais de 2024</h3>
+    <p>
+      Estes são os dez municípios líderes em cabeças de gado no Brasil em 2024. Juntos, esses dez polos concentram 
+      mais de 15,9 milhões de cabeças, evidenciando o padrão de extrema assimetria espacial na pecuária nacional:
+    </p>
+
+    <div class="data-table-container" style="overflow-x: auto; border: 1px solid var(--color-rule); border-radius: var(--radius); margin: 1.5rem 0; box-shadow: var(--shadow-sm);">
+      <table class="data-table" style="width: 100%; border-collapse: collapse; font-family: var(--font-sans); font-size: 0.92rem; background: var(--color-card-bg);">
+        <thead>
+          <tr style="background: #fcfbfa; border-bottom: 2px solid var(--color-rule); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: #111;">
+            <th style="padding: 0.85rem 1.2rem; text-align: left; font-weight: 600;">Posição</th>
+            <th style="padding: 0.85rem 1.2rem; text-align: left; font-weight: 600;">Município</th>
+            <th style="padding: 0.85rem 1.2rem; text-align: left; font-weight: 600;">UF</th>
+            <th style="padding: 0.85rem 1.2rem; text-align: left; font-weight: 600;">Cód. IBGE</th>
+            <th style="padding: 0.85rem 1.2rem; text-align: left; font-weight: 600;">Rebanho (2024)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom: 1px solid var(--color-rule);">
+            <td style="padding: 0.85rem 1.2rem;"><span class="badge-rank" style="display: inline-block; background: var(--color-accent); color: white; padding: 0.1rem 0.5rem; border-radius: 4px; font-weight: 600; font-size: 0.8rem;">1º</span></td>
+            <td style="padding: 0.85rem 1.2rem; font-weight: 600; color: var(--color-accent);">São Félix do Xingu</td>
+            <td style="padding: 0.85rem 1.2rem;">PA</td>
+            <td style="padding: 0.85rem 1.2rem; color: var(--color-muted); font-family: monospace;">1507300</td>
+            <td style="padding: 0.85rem 1.2rem; font-weight: 600; color: var(--color-fg);">2.519.911</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--color-rule);">
+            <td style="padding: 0.85rem 1.2rem;"><span class="badge-rank" style="display: inline-block; background: var(--color-accent); color: white; padding: 0.1rem 0.5rem; border-radius: 4px; font-weight: 600; font-size: 0.8rem;">2º</span></td>
+            <td style="padding: 0.85rem 1.2rem; font-weight: 600; color: var(--color-accent);">Corumbá</td>
+            <td style="padding: 0.85rem 1.2rem;">MS</td>
+            <td style="padding: 0.85rem 1.2rem; color: var(--color-muted); font-family: monospace;">5003207</td>
+            <td style="padding: 0.85rem 1.2rem; font-weight: 600; color: var(--color-fg);">2.195.363</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--color-rule);">
+            <td style="padding: 0.85rem 1.2rem;"><span class="badge-rank" style="display: inline-block; background: var(--color-accent); color: white; padding: 0.1rem 0.5rem; border-radius: 4px; font-weight: 600; font-size: 0.8rem;">3º</span></td>
+            <td style="padding: 0.85rem 1.2rem; font-weight: 600; color: var(--color-accent);">Porto Velho</td>
+            <td style="padding: 0.85rem 1.2rem;">RO</td>
+            <td style="padding: 0.85rem 1.2rem; color: var(--color-muted); font-family: monospace;">1100205</td>
+            <td style="padding: 0.85rem 1.2rem; font-weight: 600; color: var(--color-fg);">1.794.590</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--color-rule);">
+            <td style="padding: 0.85rem 1.2rem;"><span class="badge-rank" style="display: inline-block; background: #f0eeea; color: #333; padding: 0.1rem 0.5rem; border-radius: 4px; font-weight: 600; font-size: 0.8rem;">4º</span></td>
+            <td style="padding: 0.85rem 1.2rem;">Cáceres</td>
+            <td style="padding: 0.85rem 1.2rem;">MT</td>
+            <td style="padding: 0.85rem 1.2rem; color: var(--color-muted); font-family: monospace;">5102504</td>
+            <td style="padding: 0.85rem 1.2rem;">1.365.224</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--color-rule);">
+            <td style="padding: 0.85rem 1.2rem;"><span class="badge-rank" style="display: inline-block; background: #f0eeea; color: #333; padding: 0.1rem 0.5rem; border-radius: 4px; font-weight: 600; font-size: 0.8rem;">5º</span></td>
+            <td style="padding: 0.85rem 1.2rem;">Marabá</td>
+            <td style="padding: 0.85rem 1.2rem;">PA</td>
+            <td style="padding: 0.85rem 1.2rem; color: var(--color-muted); font-family: monospace;">1504208</td>
+            <td style="padding: 0.85rem 1.2rem;">1.295.819</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--color-rule);">
+            <td style="padding: 0.85rem 1.2rem;"><span class="badge-rank" style="display: inline-block; background: #f0eeea; color: #333; padding: 0.1rem 0.5rem; border-radius: 4px; font-weight: 600; font-size: 0.8rem;">6º</span></td>
+            <td style="padding: 0.85rem 1.2rem;">Novo Repartimento</td>
+            <td style="padding: 0.85rem 1.2rem;">PA</td>
+            <td style="padding: 0.85rem 1.2rem; color: var(--color-muted); font-family: monospace;">1505064</td>
+            <td style="padding: 0.85rem 1.2rem;">1.263.160</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--color-rule);">
+            <td style="padding: 0.85rem 1.2rem;"><span class="badge-rank" style="display: inline-block; background: #f0eeea; color: #333; padding: 0.1rem 0.5rem; border-radius: 4px; font-weight: 600; font-size: 0.8rem;">7º</span></td>
+            <td style="padding: 0.85rem 1.2rem;">Altamira</td>
+            <td style="padding: 0.85rem 1.2rem;">PA</td>
+            <td style="padding: 0.85rem 1.2rem; color: var(--color-muted); font-family: monospace;">1500602</td>
+            <td style="padding: 0.85rem 1.2rem;">1.093.383</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--color-rule);">
+            <td style="padding: 0.85rem 1.2rem;"><span class="badge-rank" style="display: inline-block; background: #f0eeea; color: #333; padding: 0.1rem 0.5rem; border-radius: 4px; font-weight: 600; font-size: 0.8rem;">8º</span></td>
+            <td style="padding: 0.85rem 1.2rem;">Vila Bela da Santíssima Trindade</td>
+            <td style="padding: 0.85rem 1.2rem;">MT</td>
+            <td style="padding: 0.85rem 1.2rem; color: var(--color-muted); font-family: monospace;">5105507</td>
+            <td style="padding: 0.85rem 1.2rem;">1.071.822</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--color-rule);">
+            <td style="padding: 0.85rem 1.2rem;"><span class="badge-rank" style="display: inline-block; background: #f0eeea; color: #333; padding: 0.1rem 0.5rem; border-radius: 4px; font-weight: 600; font-size: 0.8rem;">9º</span></td>
+            <td style="padding: 0.85rem 1.2rem;">Nova Mamoré</td>
+            <td style="padding: 0.85rem 1.2rem;">RO</td>
+            <td style="padding: 0.85rem 1.2rem; color: var(--color-muted); font-family: monospace;">1100338</td>
+            <td style="padding: 0.85rem 1.2rem;">1.019.780</td>
+          </tr>
+          <tr style="border-bottom: none;">
+            <td style="padding: 0.85rem 1.2rem;"><span class="badge-rank" style="display: inline-block; background: #f0eeea; color: #333; padding: 0.1rem 0.5rem; border-radius: 4px; font-weight: 600; font-size: 0.8rem;">10º</span></td>
+            <td style="padding: 0.85rem 1.2rem;">Juara</td>
+            <td style="padding: 0.85rem 1.2rem;">MT</td>
+            <td style="padding: 0.85rem 1.2rem; color: var(--color-muted); font-family: monospace;">5105101</td>
+            <td style="padding: 0.85rem 1.2rem;">926.926</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Dados brutos / drive -->
+  <section class="content-section">
+    <h2>Replicação e Estrutura do Projeto</h2>
+    <p class="section-lede">
+      Todo o fluxo de trabalho está documentado. A estrutura de diretórios abaixo reflete a pasta
+      <strong>Trabalho paralelo/</strong>, contendo scripts Python para raspagem do SIDRA, dados processados
+      e códigos geradores das figuras.
+    </p>
+
+    <div class="drive-tree">
+      <div class="tree-root">Trabalho paralelo/</div>
+      <ul class="tree-list">
+        <li>
+          <span class="file">README.md</span>
+          <span class="meta">— documentação completa do projeto</span>
+        </li>
+        <li>
+          <span class="folder">scripts/</span>
+          <ul class="tree-list">
+            <li>
+              <span class="file">coleta_ppm_br_bovino.py</span>
+              <span class="meta">— download do SIDRA, cache e processamento do painel</span>
+            </li>
+            <li>
+              <span class="file">figura_media_mediana_anual.py</span>
+              <span class="meta">— gera os gráficos de média vs. mediana</span>
+            </li>
+            <li>
+              <span class="file">analise_montes_claros.py</span>
+              <span class="meta">— processamento e geração da análise regional</span>
+            </li>
+            <li>
+              <span class="file">figura_top_municipios.py</span>
+              <span class="meta">— gera a análise dos líderes e série do top 3</span>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <span class="folder">data/raw/ppm_br/</span>
+          <span class="meta">— cache bruto do SIDRA (CSV em chunks)</span>
+        </li>
+        <li>
+          <span class="folder">data/processed/</span>
+          <ul class="tree-list">
+            <li>
+              <span class="file">ppm_br_bovino_municipal.csv</span>
+              <span class="meta">— painel formato long (~220k linhas)</span>
+            </li>
+            <li>
+              <span class="file">ppm_br_bovino_stats_municipal.csv</span>
+              <span class="meta">— estatísticas agregadas por município</span>
+            </li>
+            <li>
+              <span class="file">ppm_media_mediana_anual.csv</span>
+              <span class="meta">— série temporal macro do Brasil</span>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <span class="folder">outputs/</span>
+          <span class="meta">— figuras geradas (séries, histogramas, completude)</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="replication-instructions">
+      <strong>Como replicar localmente:</strong> Instale as dependências (<code>pandas</code>, <code>sidrapy</code>, <code>matplotlib</code>) e execute:
+      <br><code>python scripts/coleta_ppm_br_bovino.py</code><br>
+      O script baixará os dados em cache, estruturará o painel e exportará os CSVs. Utilize <code>--force</code> para contornar o cache e baixar os dados brutos novamente.
+    </div>
+
+    <div class="drive-cta">
+      <h3>Acesse os dados na nuvem</h3>
+      <p>
+        Uma pasta pública no Google Drive contém todos os CSVs processados e figuras em alta resolução. 
+        Ideal para quem deseja explorar os dados sem rodar a rotina de coleta.
+      </p>
+      <a class="btn" href="https://drive.google.com/drive/folders/1ISJG2w5nrCwUPe6hekAIIwLfDn8FjqnH?usp=sharing" target="_blank" rel="noopener">
+        Abrir Google Drive ↗
+      </a>
+    </div>
+
+    <!-- Notas metodológicas -->
+    <div class="methodology-notes">
+      <h3>Notas Metodológicas</h3>
+      <ul>
+        <li>A PPM sofreu alterações metodológicas em <strong>1981, 1989 e 2013</strong>. A série 1985–2024 pode apresentar saltos ou descontinuidades associadas a essas revisões.</li>
+        <li>Municípios emancipados ou extintos no período apresentam séries incompletas. A variável <code>n_anos</code> permite controle sobre a completude da amostra.</li>
+        <li>Valores ausentes (reportados como <code>".."</code>, <code>"-"</code>, <code>"..."</code> no SIDRA) foram codificados como <code>NaN</code> durante o pré-processamento.</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer class="page-footer">
+  <div class="footer-content">
+    <p>
+      <strong>Fonte de Dados:</strong> IBGE/SIDRA — Pesquisa Pecuária Municipal (PPM), Tabela 3939, Variável 105, Classificação 79[2670].
+      Cobertura: ~5.570 municípios brasileiros (1985–2024).
+    </p>
+    <p class="footer-links">
+      Parte do mestrado em Ciências Ambientais (CIAMB-UFG) 
+      <span class="separator">·</span>
+      <a href="../Visualizacao/">Acessar Visualização Principal →</a>
+      <span class="separator">·</span>
+      <a href="montes_claros.html">Análise Regional: Montes Claros (MG) →</a>
+    </p>
+  </div>
+</footer>
+
+<!-- Lightbox Modal -->
+<div class="lightbox-overlay" id="lightbox" aria-hidden="true" role="dialog" aria-modal="true">
+  <button class="lightbox-close" id="lightbox-close" aria-label="Fechar ampliação">&times;</button>
+  <img src="" alt="Imagem ampliada" id="lightbox-img">
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const closeBtn = document.getElementById('lightbox-close');
+
+  const triggers = document.querySelectorAll('img[data-lightbox]');
+  
+  if (triggers.length === 0) {
+    console.warn("Nenhuma imagem com data-lightbox encontrada.");
+  }
+
+  triggers.forEach(function(img) {
+    img.addEventListener('click', function() {
+      lightboxImg.src = img.src;
+      lightboxImg.alt = img.alt || "Imagem ampliada";
+      lightbox.classList.add('active');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden'; // Impede o scroll de fundo
+    });
+  });
+
+  function closeLightbox() {
+    lightbox.classList.remove('active');
+    lightbox.setAttribute('aria-hidden', 'true');
+    // Pequeno delay para permitir a transição de opacidade antes de remover a src
+    setTimeout(() => {
+      if(!lightbox.classList.contains('active')) {
+        lightboxImg.src = '';
+      }
+    }, 200);
+    document.body.style.overflow = ''; // Restaura o scroll
+  }
+
+  closeBtn.addEventListener('click', closeLightbox);
+  
+  lightbox.addEventListener('click', function(e) {
+    // Fecha apenas se clicar no fundo (overlay), e não na imagem em si
+    if (e.target === lightbox) {
+      closeLightbox();
+    }
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+      closeLightbox();
+    }
+  });
+});
+</script>
+
+</body>
+</html>

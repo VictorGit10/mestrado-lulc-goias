@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Análise Regional: Montes Claros (MG) — Rebanho Bovino (1985–2024)</title>
+  <meta name="description" content="Análise regional detalhada da dinâmica do rebanho bovino em Montes Claros (MG), comparando com os dados estaduais e nacionais de 1985 a 2024.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css?v=2">
+  <style>
+    /* Estilos Adicionais Premium para o Dashboard Regional */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .kpi-card {
+      background: var(--color-card-bg);
+      border: 1px solid var(--color-rule);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .kpi-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+      border-color: var(--color-accent-soft);
+    }
+
+    .kpi-title {
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .kpi-value {
+      font-family: var(--font-sans);
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--color-accent);
+      line-height: 1.2;
+    }
+
+    .kpi-sub {
+      font-size: 0.82rem;
+      color: var(--color-muted);
+      margin-top: 0.4rem;
+      font-family: var(--font-sans);
+      line-height: 1.4;
+    }
+
+    .kpi-card.highlight {
+      border-left: 4px solid var(--color-accent);
+    }
+    
+    .kpi-card.warning {
+      border-left: 4px solid #cc0000;
+    }
+    
+    .kpi-card.warning .kpi-value {
+      color: #cc0000;
+    }
+
+    /* Elegant Data Table */
+    .data-table-container {
+      overflow-x: auto;
+      border: 1px solid var(--color-rule);
+      border-radius: var(--radius);
+      margin: 2.5rem 0;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-sans);
+      font-size: 0.92rem;
+      background: var(--color-card-bg);
+    }
+
+    .data-table th, .data-table td {
+      padding: 0.85rem 1.2rem;
+      text-align: left;
+    }
+
+    .data-table th {
+      background: #fcfbfa;
+      border-bottom: 2px solid var(--color-rule);
+      font-weight: 600;
+      color: #111;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .data-table td {
+      border-bottom: 1px solid var(--color-rule);
+      color: #333;
+    }
+
+    .data-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .data-table tr:hover td {
+      background: rgba(176, 70, 37, 0.015);
+    }
+
+    .highlight-cell {
+      font-weight: 600;
+      color: var(--color-accent);
+    }
+    
+    .badge-rank {
+      display: inline-block;
+      background: #f0eeea;
+      color: #333;
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    /* Environmental Callout block */
+    .callout-box {
+      background: rgba(45, 90, 61, 0.04);
+      border-left: 4px solid #2d5a3d;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 1.5rem;
+      margin: 2.5rem 0;
+      font-size: 1.05rem;
+    }
+
+    .callout-box h4 {
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #2d5a3d;
+      margin-top: 0;
+      margin-bottom: 0.6rem;
+    }
+
+    .callout-box p {
+      margin: 0;
+      color: #2d5a3d;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+<header class="page-header">
+  <div class="page-header-inner">
+    <a href="index.html" class="back">← Voltar para Painel Macro</a>
+    <span class="badge" style="background: var(--color-accent); color: #fff;">Análise Regional</span>
+  </div>
+</header>
+
+<section class="hero">
+  <p class="hero-eyebrow">PPM/IBGE · Recorte Municipal · 1985–2024</p>
+  <h1 class="hero-title">Montes Claros (MG): O Contraste entre a Lógica Local e a Dinâmica Nacional</h1>
+  <p class="hero-lede">
+    Enquanto o rebanho bovino brasileiro expandiu 85% nas últimas quatro décadas e concentrou-se em gigantescos polos, 
+    <strong>Montes Claros encolheu 29%</strong>. Esta análise investiga os choques de seca extrema e a urbanização 
+    que explicam por que este polo do Norte de Minas Gerais diverge da série macro nacional.
+  </p>
+</section>
+
+<main>
+
+  <!-- Seção de KPIs -->
+  <section class="content-section" style="margin-bottom: 2rem;">
+    <div class="kpi-grid">
+      <div class="kpi-card highlight">
+        <span class="kpi-title">Rebanho Atual (2024)</span>
+        <span class="kpi-value">103.677</span>
+        <span class="kpi-sub">Efetivo de cabeças bovinas. Ocupa a <strong>36ª posição</strong> no ranking de Minas Gerais.</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-title">Pico Histórico (2011)</span>
+        <span class="kpi-value">170.200</span>
+        <span class="kpi-sub">Efetivo máximo registrado. O município ocupava o <strong>15º lugar</strong> no estado de MG.</span>
+      </div>
+      <div class="kpi-card warning">
+        <span class="kpi-title">Queda na Grande Seca</span>
+        <span class="kpi-value">-46,6%</span>
+        <span class="kpi-sub">Redução drástica entre 2011 e 2017 (perda de <strong>79,3 mil cabeças</strong>) devido à estiagem.</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-title">Evolução Histórica</span>
+        <span class="kpi-value">-29,0%</span>
+        <span class="kpi-sub">Variação acumulada entre 1985 e 2024 (contração contra-cíclica frente ao crescimento de MG).</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Análise Textual Metodológica -->
+  <section class="content-section">
+    <h2>A Peça que Falta no Quebra-Cabeça da Concentração</h2>
+    <p>
+      O painel nacional da PPM revela uma tendência marcante: o município mediano brasileiro manteve seu rebanho estável 
+      em cerca de 14.000 cabeças, enquanto a média subiu impulsionada por novos polos de altíssima escala. 
+      No entanto, o que acontece com os <strong>polos regionais consolidados mais antigos</strong> sob restrições climáticas 
+      e transições de uso da terra?
+    </p>
+    <p>
+      Montes Claros (MG) serve como um caso de estudo crucial. Situada no Norte de Minas Gerais, a cidade é a "capital" 
+      regional de uma área de transição ecológica (Cerrado-Caatinga) integrada ao Semiárido. Em 1985, seu rebanho de 
+      ~146 mil cabeças era **5,3 vezes maior** do que a média dos municípios mineiros da época. Embora ainda represente 
+      um efetivo expressivo (cerca de **4 vezes** a média de MG em 2024), sua trajetória histórica é de contração e 
+      forte vulnerabilidade climática, demonstrando que a robustez das séries nacionais esconde realidades de risco regionais.
+    </p>
+  </section>
+
+  <!-- Gráficos Principais -->
+  <section class="content-section">
+    <h2>Visualização da Dinâmica Regional</h2>
+    <p class="section-lede">
+      Explore os três novos recortes visuais gerados a partir do painel da PPM. Clique nas figuras para ampliá-las.
+    </p>
+
+    <!-- Gráfico 1: Montes Claros vs Brasil -->
+    <figure class="figure-card figure-wide">
+      <img src="img/ppm_montes_claros_vs_brasil.png" alt="Rebanho de Montes Claros vs Média e Mediana do Brasil" loading="lazy" data-lightbox>
+      <figcaption class="figure-caption">
+        <strong class="caption-title">Figura 1 · Comparação Nacional</strong>
+        Trajetória de Montes Claros (MG) comparada com a média (tracejado) e mediana (pontilhado) de todos os municípios brasileiros. 
+        A área sombreada em vermelho destaca a <strong>Grande Seca do Semiárido (2012-2017)</strong>, período no qual o rebanho 
+        municipal colapsou de forma severa, evidenciando a extrema sensibilidade da região a eventos climáticos extremos.
+      </figcaption>
+    </figure>
+
+    <div class="figure-grid">
+      <!-- Gráfico 2: Montes Claros vs MG -->
+      <figure class="figure-card">
+        <img src="img/ppm_montes_claros_vs_mg.png" alt="Rebanho de Montes Claros vs Média e Mediana de Minas Gerais" loading="lazy" data-lightbox>
+        <figcaption class="figure-caption">
+          <strong class="caption-title">Figura 2 · Contexto Estadual</strong>
+          Montes Claros comparada com as estatísticas do estado de Minas Gerais. O rebanho do município permanece em um patamar 
+          muito superior ao município típico mineiro, mas a distância histórica encurtou devido à redução da capacidade de suporte das pastagens locais.
+        </figcaption>
+      </figure>
+
+      <!-- Gráfico 3: Trajetória dos Rankings -->
+      <figure class="figure-card">
+        <img src="img/ppm_montes_claros_rankings.png" alt="Evolução dos rankings de Montes Claros" loading="lazy" data-lightbox>
+        <figcaption class="figure-caption">
+          <strong class="caption-title">Figura 3 · Trajetória nos Rankings</strong>
+          A perda de posições de Montes Claros no ranking de rebanho bovino em Minas Gerais (gráfico superior) e no Brasil (gráfico inferior). 
+          O município caiu da 19ª posição estadual em 1985 para a 36ª em 2024, e da 153ª posição nacional para a 534ª.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Box de Destaque Ambiental -->
+  <div class="callout-box">
+    <h4>Foco em Ciências Ambientais: O Choque da Seca de 2012-2017</h4>
+    <p>
+      O declínio abrupto observado após 2011 está diretamente associado à <strong>maior seca multi-ano registrada na história do Semiárido brasileiro</strong>. 
+      O Norte de Minas Gerais sofreu com anomalias de precipitação severas por 6 anos consecutivos. A escassez hídrica comprometeu o abastecimento do gado, 
+      destruiu a capacidade de rebrote das pastagens e gerou um processo em cadeia de venda emergencial para abate e mortalidade animal. 
+      Para pesquisadores de Ciências Ambientais, Montes Claros representa um termômetro claro dos impactos da vulnerabilidade climática sobre sistemas de produção pecuária extensiva.
+    </p>
+  </div>
+
+  <!-- Tabela de Dados Comparativos -->
+  <section class="content-section">
+    <h2>Série Temporal Consolidada (Anos-Chave)</h2>
+    <p class="section-lede">
+      Tabela comparativa sintetizando a trajetória de Montes Claros em relação aos agregados estaduais e nacionais nos momentos marcantes da série histórica.
+    </p>
+
+    <div class="data-table-container">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Ano</th>
+            <th>Montes Claros (cab.)</th>
+            <th>Rank (MG)</th>
+            <th>Rank (BR)</th>
+            <th>Média (MG)</th>
+            <th>Mediana (MG)</th>
+            <th>Média (BR)</th>
+            <th>Mediana (BR)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1985</strong></td>
+            <td class="highlight-cell">145.992</td>
+            <td><span class="badge-rank">19º</span></td>
+            <td><span class="badge-rank">153º</span></td>
+            <td>27.490</td>
+            <td>14.581</td>
+            <td>31.346</td>
+            <td>14.273</td>
+          </tr>
+          <tr>
+            <td><strong>1995</strong></td>
+            <td class="highlight-cell">120.000</td>
+            <td><span class="badge-rank">23º</span></td>
+            <td><span class="badge-rank">262º</span></td>
+            <td>26.649</td>
+            <td>14.407</td>
+            <td>32.506</td>
+            <td>13.375</td>
+          </tr>
+          <tr>
+            <td><strong>2005</strong></td>
+            <td class="highlight-cell">138.971</td>
+            <td><span class="badge-rank">21º</span></td>
+            <td><span class="badge-rank">325º</span></td>
+            <td>25.092</td>
+            <td>13.161</td>
+            <td>37.501</td>
+            <td>13.064</td>
+          </tr>
+          <tr>
+            <td><strong>2011</strong> (Pico)</td>
+            <td class="highlight-cell" style="color: #2d5a3d;">170.200</td>
+            <td><span class="badge-rank" style="background: rgba(45, 90, 61, 0.1); color: #2d5a3d;">15º</span></td>
+            <td><span class="badge-rank">253º</span></td>
+            <td>28.028</td>
+            <td>15.200</td>
+            <td>38.505</td>
+            <td>13.500</td>
+          </tr>
+          <tr>
+            <td><strong>2017</strong> (Fim da Seca)</td>
+            <td class="highlight-cell" style="color: #cc0000;">90.835</td>
+            <td><span class="badge-rank" style="background: rgba(204, 0, 0, 0.1); color: #cc0000;">42º</span></td>
+            <td><span class="badge-rank">541º</span></td>
+            <td>25.758</td>
+            <td>15.000</td>
+            <td>38.823</td>
+            <td>12.500</td>
+          </tr>
+          <tr>
+            <td><strong>2024</strong></td>
+            <td class="highlight-cell">103.677</td>
+            <td><span class="badge-rank">36º</span></td>
+            <td><span class="badge-rank">534º</span></td>
+            <td>25.867</td>
+            <td>15.063</td>
+            <td>43.016</td>
+            <td>14.000</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Os Gigantes de Minas Gerais (Top Municípios MG) -->
+  <section class="content-section">
+    <h2>Os Gigantes de Minas Gerais: Municípios Líderes (2024)</h2>
+    <p class="section-lede">
+      Como Montes Claros se posiciona frente aos verdadeiros titãs do rebanho bovino mineiro? 
+      Abaixo, apresentamos a dinâmica de crescimento e o ranking dos maiores produtores de gado do estado.
+    </p>
+
+    <!-- Gráfico Top 3 MG -->
+    <figure class="figure-card figure-wide">
+      <img src="img/ppm_top3_mg_municipios.png" alt="Série Histórica dos Top 3 Municípios de Minas Gerais" loading="lazy" data-lightbox>
+      <figcaption class="figure-caption">
+        <strong class="caption-title">Figura 4 · Evolução do Top 3 em Minas Gerais (1985–2024)</strong>
+        Trajetória histórica das três potências da pecuária mineira: <strong>Prata</strong>, <strong>Campina Verde</strong> e <strong>Santa Vitória</strong>. 
+        Localizados estrategicamente na fértil bacia do Triângulo Mineiro, esses três municípios destacam-se pela estabilidade e contínuo melhoramento genético 
+        de suas raças zebuínas de corte.
+      </figcaption>
+    </figure>
+
+    <!-- Tabela Top 10 MG -->
+    <h3>Ranking dos 10 Maiores Rebanhos Municipais de Minas Gerais (2024)</h3>
+    <p>
+      Estes são os dez maiores municípios em efetivo bovino no estado de Minas Gerais em 2024. Montes Claros ocupa atualmente a <strong>36ª posição</strong> estadual. 
+      Os dez líderes somam mais de 2,56 milhões de cabeças, concentrando-se no Triângulo Mineiro e no Noroeste do estado:
+    </p>
+
+    <div class="data-table-container">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Posição</th>
+            <th>Município</th>
+            <th>Mesorregião</th>
+            <th>Cód. IBGE</th>
+            <th>Rebanho (2024)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge-rank" style="background: var(--color-accent); color: white; padding: 0.1rem 0.5rem; border-radius: 4px; font-weight: 600;">1º</span></td>
+            <td style="font-weight: 600; color: var(--color-accent);">Prata</td>
+            <td>Triângulo Mineiro / Alto Paranaíba</td>
+            <td style="color: var(--color-muted); font-family: monospace;">3152808</td>
+            <td style="font-weight: 600;">374.558</td>
+          </tr>
+          <tr>
+            <td><span class="badge-rank" style="background: var(--color-accent); color: white; padding: 0.1rem 0.5rem; border-radius: 4px; font-weight: 600;">2º</span></td>
+            <td style="font-weight: 600; color: var(--color-accent);">Campina Verde</td>
+            <td>Triângulo Mineiro / Alto Paranaíba</td>
+            <td style="color: var(--color-muted); font-family: monospace;">3111101</td>
+            <td style="font-weight: 600;">341.046</td>
+          </tr>
+          <tr>
+            <td><span class="badge-rank" style="background: var(--color-accent); color: white; padding: 0.1rem 0.5rem; border-radius: 4px; font-weight: 600;">3º</span></td>
+            <td style="font-weight: 600; color: var(--color-accent);">Santa Vitória</td>
+            <td>Triângulo Mineiro / Alto Paranaíba</td>
+            <td style="color: var(--color-muted); font-family: monospace;">3159803</td>
+            <td style="font-weight: 600;">273.000</td>
+          </tr>
+          <tr>
+            <td><span class="badge-rank">4º</span></td>
+            <td style="font-weight: 600;">Unaí</td>
+            <td>Noroeste de Minas</td>
+            <td style="color: var(--color-muted); font-family: monospace;">3170404</td>
+            <td>270.609</td>
+          </tr>
+          <tr>
+            <td><span class="badge-rank">5º</span></td>
+            <td style="font-weight: 600;">João Pinheiro</td>
+            <td>Noroeste de Minas</td>
+            <td style="color: var(--color-muted); font-family: monospace;">3136306</td>
+            <td>226.768</td>
+          </tr>
+          <tr>
+            <td><span class="badge-rank">6º</span></td>
+            <td style="font-weight: 600;">Carlos Chagas</td>
+            <td>Vale do Mucuri</td>
+            <td style="color: var(--color-muted); font-family: monospace;">3113701</td>
+            <td>225.330</td>
+          </tr>
+          <tr>
+            <td><span class="badge-rank">7º</span></td>
+            <td style="font-weight: 600;">Patos de Minas</td>
+            <td>Triângulo Mineiro / Alto Paranaíba</td>
+            <td style="color: var(--color-muted); font-family: monospace;">3148004</td>
+            <td>222.223</td>
+          </tr>
+          <tr>
+            <td><span class="badge-rank">8º</span></td>
+            <td style="font-weight: 600;">Paracatu</td>
+            <td>Noroeste de Minas</td>
+            <td style="color: var(--color-muted); font-family: monospace;">3147006</td>
+            <td>206.319</td>
+          </tr>
+          <tr>
+            <td><span class="badge-rank">9º</span></td>
+            <td style="font-weight: 600;">Gurinhatã</td>
+            <td>Triângulo Mineiro / Alto Paranaíba</td>
+            <td style="color: var(--color-muted); font-family: monospace;">3129103</td>
+            <td>192.000</td>
+          </tr>
+          <tr>
+            <td><span class="badge-rank">10º</span></td>
+            <td style="font-weight: 600;">Carneirinho</td>
+            <td>Triângulo Mineiro / Alto Paranaíba</td>
+            <td style="color: var(--color-muted); font-family: monospace;">3114550</td>
+            <td>187.514</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Discussão de Fatores Adicionais -->
+  <section class="content-section">
+    <h2>Fatores Concorrentes: Urbanização e Transição do Uso do Solo</h2>
+    <p>
+      Além do fator climático crucial, a dinâmica de Montes Claros também ilustra a <strong>teoria de transição do uso do solo</strong> em economias regionais em desenvolvimento. 
+      Nas últimas quatro décadas, Montes Claros passou por uma intensa expansão urbana e industrialização, consolidando-se como o polo de comércio, saúde, educação e serviços para todo o Norte de Minas Gerais.
+    </p>
+    <p>
+      Esse crescimento urbano gerou dois efeitos diretos na pecuária:
+    </p>
+    <ul>
+      <li><strong>Fragmentação de Terras e Especulação Imobiliária:</strong> Antigas fazendas pecuárias localizadas nos arredores da cidade foram loteadas para expansão residencial e industrial, empurrando as atividades agrícolas para mais longe.</li>
+      <li><strong>Silvicultura de Eucalipto:</strong> A introdução de grandes maciços florestais de eucalipto (para abastecer a indústria metalúrgica e de celulose do estado) substituiu áreas de pastagem natural ou degradada em porções significativas do município.</li>
+      <li><strong>Pecuária Intensiva de Leite:</strong> Houve uma migração parcial da pecuária extensiva de corte (que demanda grandes extensões de terra) para sistemas semi-intensivos ou intensivos de leite, os quais mantêm rebanhos menores, mas com maior produtividade por hectare.</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer class="page-footer">
+  <div class="footer-content">
+    <p>
+      <strong>Fonte de Dados:</strong> IBGE/SIDRA — Pesquisa Pecuária Municipal (PPM), Tabela 3939, Variável 105.
+      Município-alvo: Montes Claros (MG) — Código IBGE: 3143302.
+    </p>
+    <p class="footer-links">
+      Parte do mestrado em Ciências Ambientais (CIAMB-UFG) 
+      <span class="separator">·</span>
+      <a href="index.html">Retornar à Visualização Principal</a>
+    </p>
+  </div>
+</footer>
+
+<!-- Lightbox Modal -->
+<div class="lightbox-overlay" id="lightbox" aria-hidden="true" role="dialog" aria-modal="true">
+  <button class="lightbox-close" id="lightbox-close" aria-label="Fechar ampliação">&times;</button>
+  <img src="" alt="Imagem ampliada" id="lightbox-img">
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const closeBtn = document.getElementById('lightbox-close');
+
+  const triggers = document.querySelectorAll('img[data-lightbox]');
+
+  triggers.forEach(function(img) {
+    img.addEventListener('click', function() {
+      lightboxImg.src = img.src;
+      lightboxImg.alt = img.alt || "Imagem ampliada";
+      lightbox.classList.add('active');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  function closeLightbox() {
+    lightbox.classList.remove('active');
+    lightbox.setAttribute('aria-hidden', 'true');
+    setTimeout(() => {
+      if(!lightbox.classList.contains('active')) {
+        lightboxImg.src = '';
+      }
+    }, 200);
+    document.body.style.overflow = '';
+  }
+
+  closeBtn.addEventListener('click', closeLightbox);
+  
+  lightbox.addEventListener('click', function(e) {
+    if (e.target === lightbox) {
+      closeLightbox();
+    }
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+      closeLightbox();
+    }
+  });
+});
+</script>
+
+</body>
+</html>

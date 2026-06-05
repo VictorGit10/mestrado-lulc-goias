@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pasto Legal — Expedição Norte de Minas</title>
+  <meta name="description" content="Itinerário interativo da expedição Pasto Legal pelo Norte de Minas Gerais, 24–27 de maio de 2026. Quatro dias, quatro fazendas, 1.977 km.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <link rel="stylesheet" href="css/campo.css">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232d6a42'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-size='36' fill='white'%3E🌿%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+
+  <!-- Progresso da jornada -->
+  <div class="journey-progress" id="journey-progress" aria-hidden="true"><div class="journey-progress-bar" id="journey-progress-bar"></div></div>
+
+  <!-- Header fixo -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="header-brand">
+        <span class="header-brand-mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </span>
+        <span class="header-brand-text">Pasto Legal</span>
+        <span class="header-brand-sub">Expedição Norte de Minas · Maio 2026</span>
+      </div>
+      <nav class="header-nav">
+        <a href="#itinerario" class="is-active">Itinerário</a>
+        <a href="#fazendas">Fazendas</a>
+        <a href="#equipe">Equipe</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero" id="hero">
+    <div class="hero-bg"></div>
+    <canvas class="hero-canvas" id="hero-canvas"></canvas>
+    <div class="hero-content">
+      <span class="hero-eyebrow">Expedição de Campo</span>
+      <h1 class="hero-title">Norte de Minas Gerais</h1>
+      <p class="hero-subtitle">Uma jornada de quatro dias pelo território da pecuária de precisão e do planejamento forrageiro no semiárido mineiro.</p>
+      <div class="hero-meta">
+        <div class="hero-stat">
+          <span class="hero-stat-value">24–27</span>
+          <span class="hero-stat-label">Maio 2026</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-value">4</span>
+          <span class="hero-stat-label">Fazendas</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-value">1.977</span>
+          <span class="hero-stat-label">Quilômetros</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-value">4</span>
+          <span class="hero-stat-label">Pesquisadores</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-scroll-indicator" id="hero-scroll-indicator">
+      <span>Começar a expedição</span>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+    </div>
+  </section>
+
+  <!-- Transição poética 1 -->
+  <section class="transition-section transition-dark" id="transicao-1">
+    <div class="transition-content">
+      <span class="transition-number" data-animate="count">1.977</span>
+      <p class="transition-text">quilômetros não são apenas distância.<br>São <em>perguntas</em>.</p>
+    </div>
+  </section>
+
+  <!-- Seção: Mapa + Itinerário -->
+  <div class="section section-intro" id="itinerario">
+    <p class="section-title">Roteiro da Expedição</p>
+    <h2 class="section-heading">Itinerário dia a dia</h2>
+    <p class="section-lede">Acompanhe o trajeto no mapa interativo enquanto explora cada dia da jornada.</p>
+  </div>
+
+  <div class="expedition scrollytelling" id="expedition">
+    <!-- Mapa (sticky) -->
+    <div class="map-panel" id="map-panel">
+      <div class="map-wrap" id="map"></div>
+      <div class="map-caption">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span>Rota real via OSRM · Goiânia → Montes Claros → Janaúba → Pirapora → Goiânia</span>
+      </div>
+      <!-- Controles sobre o mapa -->
+      <div class="map-controls">
+        <button type="button" class="ctrl-btn" id="btn-prev" title="Dia anterior">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        <button type="button" class="ctrl-btn" id="btn-play" title="Reproduzir jornada">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </button>
+        <button type="button" class="ctrl-btn" id="btn-next" title="Próximo dia">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+      </div>
+      <div class="map-chapter-indicator" id="map-chapter-indicator">
+        <span class="chapter-dot active" data-chapter="0"></span>
+        <span class="chapter-dot" data-chapter="1"></span>
+        <span class="chapter-dot" data-chapter="2"></span>
+        <span class="chapter-dot" data-chapter="3"></span>
+      </div>
+    </div>
+
+    <!-- Itinerário -->
+    <div class="itinerary" id="itinerary-container">
+      <!-- Preenchido por jornada.js -->
+    </div>
+  </div>
+
+  <!-- Transição poética 2 -->
+  <section class="transition-section transition-light" id="transicao-2">
+    <div class="transition-content">
+      <span class="transition-number-alt">4</span>
+      <p class="transition-text-alt">fazendas. <em>Quatro mundos</em> dentro de um só território.</p>
+    </div>
+  </section>
+
+  <!-- Seção: Fazendas -->
+  <div class="section" id="fazendas">
+    <p class="section-title">Pontos de Visita</p>
+    <h2 class="section-heading">Fazendas</h2>
+    <p class="section-lede">Propriedades rurais do Norte de Minas que serão visitadas durante a expedição.</p>
+    <div class="fazendas-grid" id="fazendas-grid">
+      <!-- Preenchido por jornada.js -->
+    </div>
+  </div>
+
+  <!-- Seção: Equipe -->
+  <div class="section" id="equipe">
+    <p class="section-title">Participantes</p>
+    <h2 class="section-heading">Equipe de campo</h2>
+    <div class="team-grid" id="team-grid">
+      <!-- Preenchido por jornada.js -->
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p>Pasto Legal · CIAMB-UFG · <a href="../Visualizacao/index.html">Voltar à visualização</a></p>
+      <p style="margin-top: 0.3rem;">© 2026 Victor Amaral · Dissertação de Mestrado</p>
+    </div>
+  </footer>
+
+  <!-- Painel de Descobertas -->
+  <div class="discovery-panel" id="discovery-panel" aria-label="Descobertas da expedição">
+    <button type="button" class="discovery-toggle" id="discovery-toggle" aria-expanded="false" title="Ver descobertas">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <span class="discovery-count" id="discovery-count">0</span>
+    </button>
+    <div class="discovery-badges" id="discovery-badges">
+      <!-- Preenchido por descobertas.js -->
+    </div>
+  </div>
+
+  <!-- Notificação de selo -->
+  <div class="badge-toast" id="badge-toast" role="status" aria-live="polite">
+    <div class="badge-toast-icon">🏅</div>
+    <div class="badge-toast-content">
+      <strong id="badge-toast-title"></strong>
+      <span id="badge-toast-desc"></span>
+    </div>
+  </div>
+
+  <!-- FAB: Registrar dado -->
+  <button type="button" class="fab" id="fab-form" aria-label="Registrar dado de campo">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    <span>Registrar dado</span>
+  </button>
+
+  <!-- Modal formulário (dialog nativo) -->
+  <dialog class="modal" id="modal-form" aria-labelledby="modal-title">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 id="modal-title">Registrar dado de campo</h2>
+        <button type="button" class="btn-close" id="btn-close-modal" aria-label="Fechar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>
+      <form class="form" id="campo-form" novalidate>
+        <div class="field">
+          <label for="f-fazenda">Fazenda</label>
+          <select id="f-fazenda" name="fazenda" required>
+            <option value="" disabled selected>Selecione…</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f-tipo">Tipo de dado</label>
+          <select id="f-tipo" name="tipo" required>
+            <option value="" disabled selected>Selecione…</option>
+            <option value="anotacao">Anotação textual</option>
+            <option value="metrica">Métrica / medição</option>
+            <option value="foto">Fotografia</option>
+            <option value="amostra">Amostra / coleta</option>
+            <option value="outro">Outro</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f-descricao">Descrição / valor</label>
+          <textarea id="f-descricao" name="descricao" rows="3" placeholder="Descreva o dado coletado…" required></textarea>
+        </div>
+        <div class="field">
+          <label>Arquivos e Anexos (Fotos, PDFs, Planilhas)</label>
+          <div class="upload-zone" id="upload-zone">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <p>Arraste arquivos aqui ou <span>clique para selecionar</span></p>
+            <input type="file" id="f-imagem" name="imagem" accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.csv,.txt" style="display: none;">
+          </div>
+          <div class="file-preview" id="file-preview"></div>
+        </div>
+        <div class="field">
+          <label for="f-url">URL externo (opcional)</label>
+          <input type="url" id="f-url" name="url" placeholder="https://…">
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn-primary">Enviar para planilha</button>
+          <button type="button" class="btn-secondary" id="btn-salvar-local">Salvar localmente</button>
+        </div>
+        <p class="form-hint" id="form-status"></p>
+      </form>
+    </div>
+  </dialog>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="js/dados.js"></script>
+  <script src="js/mapa.js"></script>
+  <script src="js/canvas-hero.js"></script>
+  <script src="js/jornada.js"></script>
+  <script src="js/narrativa.js"></script>
+  <script src="js/descobertas.js"></script>
+  <script src="js/formulario.js"></script>
+</body>
+</html>
