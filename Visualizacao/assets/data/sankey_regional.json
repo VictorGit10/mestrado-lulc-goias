@@ -1,0 +1,1469 @@
+[
+  {
+    "ato": "I",
+    "titulo": "Sul Goiano — Ato I",
+    "ano_ini": 1985,
+    "ano_fim": 2000,
+    "nodes": [
+      {
+        "id": "Vegetacao Natural_1985",
+        "label": "Vegetacao Natural (1985)",
+        "color": "#2d5a3d"
+      },
+      {
+        "id": "Pastagem_1985",
+        "label": "Pastagem (1985)",
+        "color": "#d4b65a"
+      },
+      {
+        "id": "Agricultura_1985",
+        "label": "Agricultura (1985)",
+        "color": "#d96aa3"
+      },
+      {
+        "id": "Agua_1985",
+        "label": "Agua (1985)",
+        "color": "#4a7ba6"
+      },
+      {
+        "id": "Area Urbana_1985",
+        "label": "Area Urbana (1985)",
+        "color": "#8a8a82"
+      },
+      {
+        "id": "Outros_1985",
+        "label": "Outros (1985)",
+        "color": "#b8a98a"
+      },
+      {
+        "id": "Vegetacao Natural_2000",
+        "label": "Vegetacao Natural (2000)",
+        "color": "#2d5a3d"
+      },
+      {
+        "id": "Pastagem_2000",
+        "label": "Pastagem (2000)",
+        "color": "#d4b65a"
+      },
+      {
+        "id": "Agricultura_2000",
+        "label": "Agricultura (2000)",
+        "color": "#d96aa3"
+      },
+      {
+        "id": "Agua_2000",
+        "label": "Agua (2000)",
+        "color": "#4a7ba6"
+      },
+      {
+        "id": "Area Urbana_2000",
+        "label": "Area Urbana (2000)",
+        "color": "#8a8a82"
+      },
+      {
+        "id": "Outros_2000",
+        "label": "Outros (2000)",
+        "color": "#b8a98a"
+      }
+    ],
+    "links": [
+      {
+        "source": "Vegetacao Natural_1985",
+        "target": "Pastagem_2000",
+        "value": 1.2659,
+        "color": "#2d5a3d"
+      },
+      {
+        "source": "Vegetacao Natural_1985",
+        "target": "Agricultura_2000",
+        "value": 0.0491,
+        "color": "#2d5a3d"
+      },
+      {
+        "source": "Vegetacao Natural_1985",
+        "target": "Outros_2000",
+        "value": 0.0443,
+        "color": "#2d5a3d"
+      },
+      {
+        "source": "Pastagem_1985",
+        "target": "Vegetacao Natural_2000",
+        "value": 0.2453,
+        "color": "#d4b65a"
+      },
+      {
+        "source": "Pastagem_1985",
+        "target": "Agricultura_2000",
+        "value": 1.1121,
+        "color": "#d4b65a"
+      },
+      {
+        "source": "Agricultura_1985",
+        "target": "Pastagem_2000",
+        "value": 0.3765,
+        "color": "#d96aa3"
+      },
+      {
+        "source": "Agua_1985",
+        "target": "Outros_2000",
+        "value": 0.0264,
+        "color": "#4a7ba6"
+      },
+      {
+        "source": "Outros_1985",
+        "target": "Vegetacao Natural_2000",
+        "value": 0.0517,
+        "color": "#b8a98a"
+      },
+      {
+        "source": "Outros_1985",
+        "target": "Pastagem_2000",
+        "value": 0.081,
+        "color": "#b8a98a"
+      }
+    ],
+    "mesorregiao": "Sul Goiano"
+  },
+  {
+    "ato": "II",
+    "titulo": "Sul Goiano — Ato II",
+    "ano_ini": 2001,
+    "ano_fim": 2019,
+    "nodes": [
+      {
+        "id": "Vegetacao Natural_2001",
+        "label": "Vegetacao Natural (2001)",
+        "color": "#2d5a3d"
+      },
+      {
+        "id": "Pastagem_2001",
+        "label": "Pastagem (2001)",
+        "color": "#d4b65a"
+      },
+      {
+        "id": "Agricultura_2001",
+        "label": "Agricultura (2001)",
+        "color": "#d96aa3"
+      },
+      {
+        "id": "Agua_2001",
+        "label": "Agua (2001)",
+        "color": "#4a7ba6"
+      },
+      {
+        "id": "Area Urbana_2001",
+        "label": "Area Urbana (2001)",
+        "color": "#8a8a82"
+      },
+      {
+        "id": "Outros_2001",
+        "label": "Outros (2001)",
+        "color": "#b8a98a"
+      },
+      {
+        "id": "Vegetacao Natural_2019",
+        "label": "Vegetacao Natural (2019)",
+        "color": "#2d5a3d"
+      },
+      {
+        "id": "Pastagem_2019",
+        "label": "Pastagem (2019)",
+        "color": "#d4b65a"
+      },
+      {
+        "id": "Agricultura_2019",
+        "label": "Agricultura (2019)",
+        "color": "#d96aa3"
+      },
+      {
+        "id": "Agua_2019",
+        "label": "Agua (2019)",
+        "color": "#4a7ba6"
+      },
+      {
+        "id": "Area Urbana_2019",
+        "label": "Area Urbana (2019)",
+        "color": "#8a8a82"
+      },
+      {
+        "id": "Outros_2019",
+        "label": "Outros (2019)",
+        "color": "#b8a98a"
+      }
+    ],
+    "links": [
+      {
+        "source": "Vegetacao Natural_2001",
+        "target": "Pastagem_2019",
+        "value": 0.4293,
+        "color": "#2d5a3d"
+      },
+      {
+        "source": "Vegetacao Natural_2001",
+        "target": "Agricultura_2019",
+        "value": 0.0357,
+        "color": "#2d5a3d"
+      },
+      {
+        "source": "Pastagem_2001",
+        "target": "Vegetacao Natural_2019",
+        "value": 0.2508,
+        "color": "#d4b65a"
+      },
+      {
+        "source": "Pastagem_2001",
+        "target": "Agricultura_2019",
+        "value": 1.1921,
+        "color": "#d4b65a"
+      },
+      {
+        "source": "Pastagem_2001",
+        "target": "Agua_2019",
+        "value": 0.0227,
+        "color": "#d4b65a"
+      },
+      {
+        "source": "Agricultura_2001",
+        "target": "Pastagem_2019",
+        "value": 0.4537,
+        "color": "#d96aa3"
+      },
+      {
+        "source": "Outros_2001",
+        "target": "Vegetacao Natural_2019",
+        "value": 0.0339,
+        "color": "#b8a98a"
+      },
+      {
+        "source": "Outros_2001",
+        "target": "Pastagem_2019",
+        "value": 0.0214,
+        "color": "#b8a98a"
+      }
+    ],
+    "mesorregiao": "Sul Goiano"
+  },
+  {
+    "ato": "III",
+    "titulo": "Sul Goiano — Ato III",
+    "ano_ini": 2020,
+    "ano_fim": 2024,
+    "nodes": [
+      {
+        "id": "Vegetacao Natural_2020",
+        "label": "Vegetacao Natural (2020)",
+        "color": "#2d5a3d"
+      },
+      {
+        "id": "Pastagem_2020",
+        "label": "Pastagem (2020)",
+        "color": "#d4b65a"
+      },
+      {
+        "id": "Agricultura_2020",
+        "label": "Agricultura (2020)",
+        "color": "#d96aa3"
+      },
+      {
+        "id": "Agua_2020",
+        "label": "Agua (2020)",
+        "color": "#4a7ba6"
+      },
+      {
+        "id": "Area Urbana_2020",
+        "label": "Area Urbana (2020)",
+        "color": "#8a8a82"
+      },
+      {
+        "id": "Outros_2020",
+        "label": "Outros (2020)",
+        "color": "#b8a98a"
+      },
+      {
+        "id": "Vegetacao Natural_2024",
+        "label": "Vegetacao Natural (2024)",
+        "color": "#2d5a3d"
+      },
+      {
+        "id": "Pastagem_2024",
+        "label": "Pastagem (2024)",
+        "color": "#d4b65a"
+      },
+      {
+        "id": "Agricultura_2024",
+        "label": "Agricultura (2024)",
+        "color": "#d96aa3"
+      },
+      {
+        "id": "Agua_2024",
+        "label": "Agua (2024)",
+        "color": "#4a7ba6"
+      },
+      {
+        "id": "Area Urbana_2024",
+        "label": "Area Urbana (2024)",
+        "color": "#8a8a82"
+      },
+      {
+        "id": "Outros_2024",
+        "label": "Outros (2024)",
+        "color": "#b8a98a"
+      }
+    ],
+    "links": [
+      {
+        "source": "Vegetacao Natural_2020",
+        "target": "Pastagem_2024",
+        "value": 0.0484,
+        "color": "#2d5a3d"
+      },
+      {
+        "source": "Pastagem_2020",
+        "target": "Vegetacao Natural_2024",
+        "value": 0.0451,
+        "color": "#d4b65a"
+      },
+      {
+        "source": "Pastagem_2020",
+        "target": "Agricultura_2024",
+        "value": 0.0307,
+        "color": "#d4b65a"
+      }
+    ],
+    "mesorregiao": "Sul Goiano"
+  },
+  {
+    "ato": "I",
+    "titulo": "Centro Goiano — Ato I",
+    "ano_ini": 1985,
+    "ano_fim": 2000,
+    "nodes": [
+      {
+        "id": "Vegetacao Natural_1985",
+        "label": "Vegetacao Natural (1985)",
+        "color": "#2d5a3d"
+      },
+      {
+        "id": "Pastagem_1985",
+        "label": "Pastagem (1985)",
+        "color": "#d4b65a"
+      },
+      {
+        "id": "Agricultura_1985",
+        "label": "Agricultura (1985)",
+        "color": "#d96aa3"
+      },
+      {
+        "id": "Agua_1985",
+        "label": "Agua (1985)",
+        "color": "#4a7ba6"
+      },
+      {
+        "id": "Area Urbana_1985",
+        "label": "Area Urbana (1985)",
+        "color": "#8a8a82"
+      },
+      {
+        "id": "Outros_1985",
+        "label": "Outros (1985)",
+        "color": "#b8a98a"
+      },
+      {
+        "id": "Vegetacao Natural_2000",
+        "label": "Vegetacao Natural (2000)",
+        "color": "#2d5a3d"
+      },
+      {
+        "id": "Pastagem_2000",
+        "label": "Pastagem (2000)",
+        "color": "#d4b65a"
+      },
+      {
+        "id": "Agricultura_2000",
+        "label": "Agricultura (2000)",
+        "color": "#d96aa3"
+      },
+      {
+        "id": "Agua_2000",
+        "label": "Agua (2000)",
+        "color": "#4a7ba6"
+      },
+      {
+        "id": "Area Urbana_2000",
+        "label": "Area Urbana (2000)",
+        "color": "#8a8a82"
+      },
+      {
+        "id": "Outros_2000",
+        "label": "Outros (2000)",
+        "color": "#b8a98a"
+      }
+    ],
+    "links": [
+      {
+        "source": "Vegetacao Natural_1985",
+        "target": "Pastagem_2000",
+        "value": 0.2311,
+        "color": "#2d5a3d"
+      },
+      {
+        "source": "Pastagem_1985",
+        "target": "Vegetacao Natural_2000",
+        "value": 0.056,
+        "color": "#d4b65a"
+      },
+      {
+        "source": "Pastagem_1985",
+        "target": "Agricultura_2000",
+        "value": 0.1227,
+        "color": "#d4b65a"
+      },
+      {
+        "source": "Pastagem_1985",
+        "target": "Area Urbana_2000",
+        "value": 0.0208,
+        "color": "#d4b65a"
+      },
+      {
+        "source": "Agricultura_1985",
+        "target": "Pastagem_2000",
+        "value": 0.0749,
+        "color": "#d96aa3"
+      }
+    ],
+    "mesorregiao": "Centro Goiano"
+  },
+  {
+    "ato": "II",
+    "titulo": "Centro Goiano — Ato II",
+    "ano_ini": 2001,
+    "ano_fim": 2019,
+    "nodes": [
+      {
+        "id": "Vegetacao Natural_2001",
+        "label": "Vegetacao Natural (2001)",
+        "color": "#2d5a3d"
+      },
+      {
+        "id": "Pastagem_2001",
+        "label": "Pastagem (2001)",
+        "color": "#d4b65a"
+      },
+      {
+        "id": "Agricultura_2001",
+        "label": "Agricultura (2001)",
+        "color": "#d96aa3"
+      },
+      {
+        "id": "Agua_2001",
+        "label": "Agua (2001)",
+        "color": "#4a7ba6"
+      },
+      {
+        "id": "Area Urbana_2001",
+        "label": "Area Urbana (2001)",
+        "color": "#8a8a82"
+      },
+      {
+        "id": "Outros_2001",
+        "label": "Outros (2001)",
+        "color": "#b8a98a"
+      },
+      {
+        "id": "Vegetacao Natural_2019",
+        "label": "Vegetacao Natural (2019)",
+        "color": "#2d5a3d"
+      },
+      {
+        "id": "Pastagem_2019",
+        "label": "Pastagem (2019)",
+        "color": "#d4b65a"
+      },
+      {
+        "id": "Agricultura_2019",
+        "label": "Agricultura (2019)",
+        "color": "#d96aa3"
+      },
+      {
+        "id": "Agua_2019",
+        "label": "Agua (2019)",
+        "color": "#4a7ba6"
+      },
+      {
+        "id": "Area Urbana_2019",
+        "label": "Area Urbana (2019)",
+        "color": "#8a8a82"
+      },
+      {
+        "id": "Outros_2019",
+        "label": "Outros (2019)",
+        "color": "#b8a98a"
+      }
+    ],
+    "links": [
+      {
+        "source": "Vegetacao Natural_2001",
+        "target": "Pastagem_2019",
+        "value": 0.1095,
+        "color": "#2d5a3d"
+      },
+      {
+        "source": "Pastagem_2001",
+        "target": "Vegetacao Natural_2019",
+        "value": 0.0808,
+        "color": "#d4b65a"
+      },
+      {
+        "source": "Pastagem_2001",
+        "target": "Agricultura_2019",
+        "value": 0.2795,
+        "color": "#d4b65a"
+      },
+      {
+        "source": "Agricultura_2001",
+        "target": "Pastagem_2019",
+        "value": 0.1214,
+        "color": "#d96aa3"
+      }
+    ],
+    "mesorregiao": "Centro Goiano"
+  },
+  {
+    "ato": "III",
+    "titulo": "Centro Goiano — Ato III",
+    "ano_ini": 2020,
+    "ano_fim": 2024,
+    "nodes": [
+      {
+        "id": "Vegetacao Natural_2020",
+        "label": "Vegetacao Natural (2020)",
+        "color": "#2d5a3d"
+      },
+      {
+        "id": "Pastagem_2020",
+        "label": "Pastagem (2020)",
+        "color": "#d4b65a"
+      },
+      {
+        "id": "Agricultura_2020",
+        "label": "Agricultura (2020)",
+        "color": "#d96aa3"
+      },
+      {
+        "id": "Agua_2020",
+        "label": "Agua (2020)",
+        "color": "#4a7ba6"
+      },
+      {
+        "id": "Area Urbana_2020",
+        "label": "Area Urbana (2020)",
+        "color": "#8a8a82"
+      },
+      {
+        "id": "Outros_2020",
+        "label": "Outros (2020)",
+        "color": "#b8a98a"
+      },
+      {
+        "id": "Vegetacao Natural_2024",
+        "label": "Vegetacao Natural (2024)",
+        "color": "#2d5a3d"
+      },
+      {
+        "id": "Pastagem_2024",
+        "label": "Pastagem (2024)",
+        "color": "#d4b65a"
+      },
+      {
+        "id": "Agricultura_2024",
+        "label": "Agricultura (2024)",
+        "color": "#d96aa3"
+      },
+      {
+        "id": "Agua_2024",
+        "label": "Agua (2024)",
+        "color": "#4a7ba6"
+      },
+      {
+        "id": "Area Urbana_2024",
+        "label": "Area Urbana (2024)",
+        "color": "#8a8a82"
+      },
+      {
+        "id": "Outros_2024",
+        "label": "Outros (2024)",
+        "color": "#b8a98a"
+      }
+    ],
+    "links": [
+      {
+        "source": "Vegetacao Natural_2020",
+        "target": "Pastagem_2024",
+        "value": 0.025,
+        "color": "#2d5a3d"
+      }
+    ],
+    "mesorregiao": "Centro Goiano"
+  },
+  {
+    "ato": "I",
+    "titulo": "Leste Goiano — Ato I",
+    "ano_ini": 1985,
+    "ano_fim": 2000,
+    "nodes": [
+      {
+        "id": "Vegetacao Natural_1985",
+        "label": "Vegetacao Natural (1985)",
+        "color": "#2d5a3d"
+      },
+      {
+        "id": "Pastagem_1985",
+        "label": "Pastagem (1985)",
+        "color": "#d4b65a"
+      },
+      {
+        "id": "Agricultura_1985",
+        "label": "Agricultura (1985)",
+        "color": "#d96aa3"
+      },
+      {
+        "id": "Agua_1985",
+        "label": "Agua (1985)",
+        "color": "#4a7ba6"
+      },
+      {
+        "id": "Area Urbana_1985",
+        "label": "Area Urbana (1985)",
+        "color": "#8a8a82"
+      },
+      {
+        "id": "Outros_1985",
+        "label": "Outros (1985)",
+        "color": "#b8a98a"
+      },
+      {
+        "id": "Vegetacao Natural_2000",
+        "label": "Vegetacao Natural (2000)",
+        "color": "#2d5a3d"
+      },
+      {
+        "id": "Pastagem_2000",
+        "label": "Pastagem (2000)",
+        "color": "#d4b65a"
+      },
+      {
+        "id": "Agricultura_2000",
+        "label": "Agricultura (2000)",
+        "color": "#d96aa3"
+      },
+      {
+        "id": "Agua_2000",
+        "label": "Agua (2000)",
+        "color": "#4a7ba6"
+      },
+      {
+        "id": "Area Urbana_2000",
+        "label": "Area Urbana (2000)",
+        "color": "#8a8a82"
+      },
+      {
+        "id": "Outros_2000",
+        "label": "Outros (2000)",
+        "color": "#b8a98a"
+      }
+    ],
+    "links": [
+      {
+        "source": "Vegetacao Natural_1985",
+        "target": "Pastagem_2000",
+        "value": 0.5822,
+        "color": "#2d5a3d"
+      },
+      {
+        "source": "Vegetacao Natural_1985",
+        "target": "Agricultura_2000",
+        "value": 0.0461,
+        "color": "#2d5a3d"
+      },
+      {
+        "source": "Vegetacao Natural_1985",
+        "target": "Outros_2000",
+        "value": 0.0427,
+        "color": "#2d5a3d"
+      },
+      {
+        "source": "Pastagem_1985",
+        "target": "Vegetacao Natural_2000",
+        "value": 0.1478,
+        "color": "#d4b65a"
+      },
+      {
+        "source": "Pastagem_1985",
+        "target": "Agricultura_2000",
+        "value": 0.094,
+        "color": "#d4b65a"
+      },
+      {
+        "source": "Agricultura_1985",
+        "target": "Pastagem_2000",
+        "value": 0.0314,
+        "color": "#d96aa3"
+      },
+      {
+        "source": "Outros_1985",
+        "target": "Pastagem_2000",
+        "value": 0.0383,
+        "color": "#b8a98a"
+      }
+    ],
+    "mesorregiao": "Leste Goiano"
+  },
+  {
+    "ato": "II",
+    "titulo": "Leste Goiano — Ato II",
+    "ano_ini": 2001,
+    "ano_fim": 2019,
+    "nodes": [
+      {
+        "id": "Vegetacao Natural_2001",
+        "label": "Vegetacao Natural (2001)",
+        "color": "#2d5a3d"
+      },
+      {
+        "id": "Pastagem_2001",
+        "label": "Pastagem (2001)",
+        "color": "#d4b65a"
+      },
+      {
+        "id": "Agricultura_2001",
+        "label": "Agricultura (2001)",
+        "color": "#d96aa3"
+      },
+      {
+        "id": "Agua_2001",
+        "label": "Agua (2001)",
+        "color": "#4a7ba6"
+      },
+      {
+        "id": "Area Urbana_2001",
+        "label": "Area Urbana (2001)",
+        "color": "#8a8a82"
+      },
+      {
+        "id": "Outros_2001",
+        "label": "Outros (2001)",
+        "color": "#b8a98a"
+      },
+      {
+        "id": "Vegetacao Natural_2019",
+        "label": "Vegetacao Natural (2019)",
+        "color": "#2d5a3d"
+      },
+      {
+        "id": "Pastagem_2019",
+        "label": "Pastagem (2019)",
+        "color": "#d4b65a"
+      },
+      {
+        "id": "Agricultura_2019",
+        "label": "Agricultura (2019)",
+        "color": "#d96aa3"
+      },
+      {
+        "id": "Agua_2019",
+        "label": "Agua (2019)",
+        "color": "#4a7ba6"
+      },
+      {
+        "id": "Area Urbana_2019",
+        "label": "Area Urbana (2019)",
+        "color": "#8a8a82"
+      },
+      {
+        "id": "Outros_2019",
+        "label": "Outros (2019)",
+        "color": "#b8a98a"
+      }
+    ],
+    "links": [
+      {
+        "source": "Vegetacao Natural_2001",
+        "target": "Pastagem_2019",
+        "value": 0.4592,
+        "color": "#2d5a3d"
+      },
+      {
+        "source": "Vegetacao Natural_2001",
+        "target": "Agricultura_2019",
+        "value": 0.053,
+        "color": "#2d5a3d"
+      },
+      {
+        "source": "Vegetacao Natural_2001",
+        "target": "Agua_2019",
+        "value": 0.0213,
+        "color": "#2d5a3d"
+      },
+      {
+        "source": "Pastagem_2001",
+        "target": "Vegetacao Natural_2019",
+        "value": 0.2404,
+        "color": "#d4b65a"
+      },
+      {
+        "source": "Pastagem_2001",
+        "target": "Agricultura_2019",
+        "value": 0.2928,
+        "color": "#d4b65a"
+      },
+      {
+        "source": "Agricultura_2001",
+        "target": "Pastagem_2019",
+        "value": 0.1179,
+        "color": "#d96aa3"
+      }
+    ],
+    "mesorregiao": "Leste Goiano"
+  },
+  {
+    "ato": "III",
+    "titulo": "Leste Goiano — Ato III",
+    "ano_ini": 2020,
+    "ano_fim": 2024,
+    "nodes": [
+      {
+        "id": "Vegetacao Natural_2020",
+        "label": "Vegetacao Natural (2020)",
+        "color": "#2d5a3d"
+      },
+      {
+        "id": "Pastagem_2020",
+        "label": "Pastagem (2020)",
+        "color": "#d4b65a"
+      },
+      {
+        "id": "Agricultura_2020",
+        "label": "Agricultura (2020)",
+        "color": "#d96aa3"
+      },
+      {
+        "id": "Agua_2020",
+        "label": "Agua (2020)",
+        "color": "#4a7ba6"
+      },
+      {
+        "id": "Area Urbana_2020",
+        "label": "Area Urbana (2020)",
+        "color": "#8a8a82"
+      },
+      {
+        "id": "Outros_2020",
+        "label": "Outros (2020)",
+        "color": "#b8a98a"
+      },
+      {
+        "id": "Vegetacao Natural_2024",
+        "label": "Vegetacao Natural (2024)",
+        "color": "#2d5a3d"
+      },
+      {
+        "id": "Pastagem_2024",
+        "label": "Pastagem (2024)",
+        "color": "#d4b65a"
+      },
+      {
+        "id": "Agricultura_2024",
+        "label": "Agricultura (2024)",
+        "color": "#d96aa3"
+      },
+      {
+        "id": "Agua_2024",
+        "label": "Agua (2024)",
+        "color": "#4a7ba6"
+      },
+      {
+        "id": "Area Urbana_2024",
+        "label": "Area Urbana (2024)",
+        "color": "#8a8a82"
+      },
+      {
+        "id": "Outros_2024",
+        "label": "Outros (2024)",
+        "color": "#b8a98a"
+      }
+    ],
+    "links": [
+      {
+        "source": "Vegetacao Natural_2020",
+        "target": "Pastagem_2024",
+        "value": 0.0762,
+        "color": "#2d5a3d"
+      },
+      {
+        "source": "Pastagem_2020",
+        "target": "Vegetacao Natural_2024",
+        "value": 0.0555,
+        "color": "#d4b65a"
+      }
+    ],
+    "mesorregiao": "Leste Goiano"
+  },
+  {
+    "ato": "I",
+    "titulo": "Noroeste Goiano — Ato I",
+    "ano_ini": 1985,
+    "ano_fim": 2000,
+    "nodes": [
+      {
+        "id": "Vegetacao Natural_1985",
+        "label": "Vegetacao Natural (1985)",
+        "color": "#2d5a3d"
+      },
+      {
+        "id": "Pastagem_1985",
+        "label": "Pastagem (1985)",
+        "color": "#d4b65a"
+      },
+      {
+        "id": "Agricultura_1985",
+        "label": "Agricultura (1985)",
+        "color": "#d96aa3"
+      },
+      {
+        "id": "Agua_1985",
+        "label": "Agua (1985)",
+        "color": "#4a7ba6"
+      },
+      {
+        "id": "Area Urbana_1985",
+        "label": "Area Urbana (1985)",
+        "color": "#8a8a82"
+      },
+      {
+        "id": "Outros_1985",
+        "label": "Outros (1985)",
+        "color": "#b8a98a"
+      },
+      {
+        "id": "Vegetacao Natural_2000",
+        "label": "Vegetacao Natural (2000)",
+        "color": "#2d5a3d"
+      },
+      {
+        "id": "Pastagem_2000",
+        "label": "Pastagem (2000)",
+        "color": "#d4b65a"
+      },
+      {
+        "id": "Agricultura_2000",
+        "label": "Agricultura (2000)",
+        "color": "#d96aa3"
+      },
+      {
+        "id": "Agua_2000",
+        "label": "Agua (2000)",
+        "color": "#4a7ba6"
+      },
+      {
+        "id": "Area Urbana_2000",
+        "label": "Area Urbana (2000)",
+        "color": "#8a8a82"
+      },
+      {
+        "id": "Outros_2000",
+        "label": "Outros (2000)",
+        "color": "#b8a98a"
+      }
+    ],
+    "links": [
+      {
+        "source": "Vegetacao Natural_1985",
+        "target": "Pastagem_2000",
+        "value": 0.8613,
+        "color": "#2d5a3d"
+      },
+      {
+        "source": "Pastagem_1985",
+        "target": "Vegetacao Natural_2000",
+        "value": 0.1441,
+        "color": "#d4b65a"
+      },
+      {
+        "source": "Pastagem_1985",
+        "target": "Agricultura_2000",
+        "value": 0.0757,
+        "color": "#d4b65a"
+      },
+      {
+        "source": "Agricultura_1985",
+        "target": "Pastagem_2000",
+        "value": 0.0506,
+        "color": "#d96aa3"
+      },
+      {
+        "source": "Outros_1985",
+        "target": "Pastagem_2000",
+        "value": 0.0215,
+        "color": "#b8a98a"
+      }
+    ],
+    "mesorregiao": "Noroeste Goiano"
+  },
+  {
+    "ato": "II",
+    "titulo": "Noroeste Goiano — Ato II",
+    "ano_ini": 2001,
+    "ano_fim": 2019,
+    "nodes": [
+      {
+        "id": "Vegetacao Natural_2001",
+        "label": "Vegetacao Natural (2001)",
+        "color": "#2d5a3d"
+      },
+      {
+        "id": "Pastagem_2001",
+        "label": "Pastagem (2001)",
+        "color": "#d4b65a"
+      },
+      {
+        "id": "Agricultura_2001",
+        "label": "Agricultura (2001)",
+        "color": "#d96aa3"
+      },
+      {
+        "id": "Agua_2001",
+        "label": "Agua (2001)",
+        "color": "#4a7ba6"
+      },
+      {
+        "id": "Area Urbana_2001",
+        "label": "Area Urbana (2001)",
+        "color": "#8a8a82"
+      },
+      {
+        "id": "Outros_2001",
+        "label": "Outros (2001)",
+        "color": "#b8a98a"
+      },
+      {
+        "id": "Vegetacao Natural_2019",
+        "label": "Vegetacao Natural (2019)",
+        "color": "#2d5a3d"
+      },
+      {
+        "id": "Pastagem_2019",
+        "label": "Pastagem (2019)",
+        "color": "#d4b65a"
+      },
+      {
+        "id": "Agricultura_2019",
+        "label": "Agricultura (2019)",
+        "color": "#d96aa3"
+      },
+      {
+        "id": "Agua_2019",
+        "label": "Agua (2019)",
+        "color": "#4a7ba6"
+      },
+      {
+        "id": "Area Urbana_2019",
+        "label": "Area Urbana (2019)",
+        "color": "#8a8a82"
+      },
+      {
+        "id": "Outros_2019",
+        "label": "Outros (2019)",
+        "color": "#b8a98a"
+      }
+    ],
+    "links": [
+      {
+        "source": "Vegetacao Natural_2001",
+        "target": "Pastagem_2019",
+        "value": 0.4611,
+        "color": "#2d5a3d"
+      },
+      {
+        "source": "Pastagem_2001",
+        "target": "Vegetacao Natural_2019",
+        "value": 0.2367,
+        "color": "#d4b65a"
+      },
+      {
+        "source": "Pastagem_2001",
+        "target": "Agricultura_2019",
+        "value": 0.2362,
+        "color": "#d4b65a"
+      },
+      {
+        "source": "Agricultura_2001",
+        "target": "Pastagem_2019",
+        "value": 0.0898,
+        "color": "#d96aa3"
+      }
+    ],
+    "mesorregiao": "Noroeste Goiano"
+  },
+  {
+    "ato": "III",
+    "titulo": "Noroeste Goiano — Ato III",
+    "ano_ini": 2020,
+    "ano_fim": 2024,
+    "nodes": [
+      {
+        "id": "Vegetacao Natural_2020",
+        "label": "Vegetacao Natural (2020)",
+        "color": "#2d5a3d"
+      },
+      {
+        "id": "Pastagem_2020",
+        "label": "Pastagem (2020)",
+        "color": "#d4b65a"
+      },
+      {
+        "id": "Agricultura_2020",
+        "label": "Agricultura (2020)",
+        "color": "#d96aa3"
+      },
+      {
+        "id": "Agua_2020",
+        "label": "Agua (2020)",
+        "color": "#4a7ba6"
+      },
+      {
+        "id": "Area Urbana_2020",
+        "label": "Area Urbana (2020)",
+        "color": "#8a8a82"
+      },
+      {
+        "id": "Outros_2020",
+        "label": "Outros (2020)",
+        "color": "#b8a98a"
+      },
+      {
+        "id": "Vegetacao Natural_2024",
+        "label": "Vegetacao Natural (2024)",
+        "color": "#2d5a3d"
+      },
+      {
+        "id": "Pastagem_2024",
+        "label": "Pastagem (2024)",
+        "color": "#d4b65a"
+      },
+      {
+        "id": "Agricultura_2024",
+        "label": "Agricultura (2024)",
+        "color": "#d96aa3"
+      },
+      {
+        "id": "Agua_2024",
+        "label": "Agua (2024)",
+        "color": "#4a7ba6"
+      },
+      {
+        "id": "Area Urbana_2024",
+        "label": "Area Urbana (2024)",
+        "color": "#8a8a82"
+      },
+      {
+        "id": "Outros_2024",
+        "label": "Outros (2024)",
+        "color": "#b8a98a"
+      }
+    ],
+    "links": [
+      {
+        "source": "Vegetacao Natural_2020",
+        "target": "Pastagem_2024",
+        "value": 0.0573,
+        "color": "#2d5a3d"
+      },
+      {
+        "source": "Pastagem_2020",
+        "target": "Vegetacao Natural_2024",
+        "value": 0.0495,
+        "color": "#d4b65a"
+      }
+    ],
+    "mesorregiao": "Noroeste Goiano"
+  },
+  {
+    "ato": "I",
+    "titulo": "Norte Goiano — Ato I",
+    "ano_ini": 1985,
+    "ano_fim": 2000,
+    "nodes": [
+      {
+        "id": "Vegetacao Natural_1985",
+        "label": "Vegetacao Natural (1985)",
+        "color": "#2d5a3d"
+      },
+      {
+        "id": "Pastagem_1985",
+        "label": "Pastagem (1985)",
+        "color": "#d4b65a"
+      },
+      {
+        "id": "Agricultura_1985",
+        "label": "Agricultura (1985)",
+        "color": "#d96aa3"
+      },
+      {
+        "id": "Agua_1985",
+        "label": "Agua (1985)",
+        "color": "#4a7ba6"
+      },
+      {
+        "id": "Area Urbana_1985",
+        "label": "Area Urbana (1985)",
+        "color": "#8a8a82"
+      },
+      {
+        "id": "Outros_1985",
+        "label": "Outros (1985)",
+        "color": "#b8a98a"
+      },
+      {
+        "id": "Vegetacao Natural_2000",
+        "label": "Vegetacao Natural (2000)",
+        "color": "#2d5a3d"
+      },
+      {
+        "id": "Pastagem_2000",
+        "label": "Pastagem (2000)",
+        "color": "#d4b65a"
+      },
+      {
+        "id": "Agricultura_2000",
+        "label": "Agricultura (2000)",
+        "color": "#d96aa3"
+      },
+      {
+        "id": "Agua_2000",
+        "label": "Agua (2000)",
+        "color": "#4a7ba6"
+      },
+      {
+        "id": "Area Urbana_2000",
+        "label": "Area Urbana (2000)",
+        "color": "#8a8a82"
+      },
+      {
+        "id": "Outros_2000",
+        "label": "Outros (2000)",
+        "color": "#b8a98a"
+      }
+    ],
+    "links": [
+      {
+        "source": "Vegetacao Natural_1985",
+        "target": "Pastagem_2000",
+        "value": 0.5411,
+        "color": "#2d5a3d"
+      },
+      {
+        "source": "Vegetacao Natural_1985",
+        "target": "Agua_2000",
+        "value": 0.0962,
+        "color": "#2d5a3d"
+      },
+      {
+        "source": "Pastagem_1985",
+        "target": "Vegetacao Natural_2000",
+        "value": 0.1126,
+        "color": "#d4b65a"
+      },
+      {
+        "source": "Pastagem_1985",
+        "target": "Agricultura_2000",
+        "value": 0.0231,
+        "color": "#d4b65a"
+      }
+    ],
+    "mesorregiao": "Norte Goiano"
+  },
+  {
+    "ato": "II",
+    "titulo": "Norte Goiano — Ato II",
+    "ano_ini": 2001,
+    "ano_fim": 2019,
+    "nodes": [
+      {
+        "id": "Vegetacao Natural_2001",
+        "label": "Vegetacao Natural (2001)",
+        "color": "#2d5a3d"
+      },
+      {
+        "id": "Pastagem_2001",
+        "label": "Pastagem (2001)",
+        "color": "#d4b65a"
+      },
+      {
+        "id": "Agricultura_2001",
+        "label": "Agricultura (2001)",
+        "color": "#d96aa3"
+      },
+      {
+        "id": "Agua_2001",
+        "label": "Agua (2001)",
+        "color": "#4a7ba6"
+      },
+      {
+        "id": "Area Urbana_2001",
+        "label": "Area Urbana (2001)",
+        "color": "#8a8a82"
+      },
+      {
+        "id": "Outros_2001",
+        "label": "Outros (2001)",
+        "color": "#b8a98a"
+      },
+      {
+        "id": "Vegetacao Natural_2019",
+        "label": "Vegetacao Natural (2019)",
+        "color": "#2d5a3d"
+      },
+      {
+        "id": "Pastagem_2019",
+        "label": "Pastagem (2019)",
+        "color": "#d4b65a"
+      },
+      {
+        "id": "Agricultura_2019",
+        "label": "Agricultura (2019)",
+        "color": "#d96aa3"
+      },
+      {
+        "id": "Agua_2019",
+        "label": "Agua (2019)",
+        "color": "#4a7ba6"
+      },
+      {
+        "id": "Area Urbana_2019",
+        "label": "Area Urbana (2019)",
+        "color": "#8a8a82"
+      },
+      {
+        "id": "Outros_2019",
+        "label": "Outros (2019)",
+        "color": "#b8a98a"
+      }
+    ],
+    "links": [
+      {
+        "source": "Vegetacao Natural_2001",
+        "target": "Pastagem_2019",
+        "value": 0.4932,
+        "color": "#2d5a3d"
+      },
+      {
+        "source": "Vegetacao Natural_2001",
+        "target": "Agua_2019",
+        "value": 0.0292,
+        "color": "#2d5a3d"
+      },
+      {
+        "source": "Pastagem_2001",
+        "target": "Vegetacao Natural_2019",
+        "value": 0.2541,
+        "color": "#d4b65a"
+      },
+      {
+        "source": "Pastagem_2001",
+        "target": "Agricultura_2019",
+        "value": 0.1545,
+        "color": "#d4b65a"
+      },
+      {
+        "source": "Agricultura_2001",
+        "target": "Pastagem_2019",
+        "value": 0.0286,
+        "color": "#d96aa3"
+      }
+    ],
+    "mesorregiao": "Norte Goiano"
+  },
+  {
+    "ato": "III",
+    "titulo": "Norte Goiano — Ato III",
+    "ano_ini": 2020,
+    "ano_fim": 2024,
+    "nodes": [
+      {
+        "id": "Vegetacao Natural_2020",
+        "label": "Vegetacao Natural (2020)",
+        "color": "#2d5a3d"
+      },
+      {
+        "id": "Pastagem_2020",
+        "label": "Pastagem (2020)",
+        "color": "#d4b65a"
+      },
+      {
+        "id": "Agricultura_2020",
+        "label": "Agricultura (2020)",
+        "color": "#d96aa3"
+      },
+      {
+        "id": "Agua_2020",
+        "label": "Agua (2020)",
+        "color": "#4a7ba6"
+      },
+      {
+        "id": "Area Urbana_2020",
+        "label": "Area Urbana (2020)",
+        "color": "#8a8a82"
+      },
+      {
+        "id": "Outros_2020",
+        "label": "Outros (2020)",
+        "color": "#b8a98a"
+      },
+      {
+        "id": "Vegetacao Natural_2024",
+        "label": "Vegetacao Natural (2024)",
+        "color": "#2d5a3d"
+      },
+      {
+        "id": "Pastagem_2024",
+        "label": "Pastagem (2024)",
+        "color": "#d4b65a"
+      },
+      {
+        "id": "Agricultura_2024",
+        "label": "Agricultura (2024)",
+        "color": "#d96aa3"
+      },
+      {
+        "id": "Agua_2024",
+        "label": "Agua (2024)",
+        "color": "#4a7ba6"
+      },
+      {
+        "id": "Area Urbana_2024",
+        "label": "Area Urbana (2024)",
+        "color": "#8a8a82"
+      },
+      {
+        "id": "Outros_2024",
+        "label": "Outros (2024)",
+        "color": "#b8a98a"
+      }
+    ],
+    "links": [
+      {
+        "source": "Vegetacao Natural_2020",
+        "target": "Pastagem_2024",
+        "value": 0.0956,
+        "color": "#2d5a3d"
+      },
+      {
+        "source": "Pastagem_2020",
+        "target": "Vegetacao Natural_2024",
+        "value": 0.0646,
+        "color": "#d4b65a"
+      }
+    ],
+    "mesorregiao": "Norte Goiano"
+  }
+]

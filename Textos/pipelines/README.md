@@ -1,6 +1,6 @@
 # Pipelines — índice
 
-25 pipelines documentados. Cada arquivo descreve **processo** (o que faz, como rodar, decisões metodológicas, validações, limitações). Para descrição dos **produtos** (PNGs, CSVs com interpretação para redação), ver [outputs/](../outputs/).
+Pipelines **#1–#36** documentados aqui — **35 com doc dedicado**; o **#27** (Trase) ainda está sem doc próprio, e o **#30** e o **#31** vivem dentro do [#29](29_triangulacao_periodizacao.md). Cada arquivo descreve **processo** (o que faz, como rodar, decisões metodológicas, validações, limitações). Para descrição dos **produtos** (PNGs, CSVs com interpretação para redação), ver [outputs/](../outputs/).
 
 ## Tabela resumo
 
@@ -36,6 +36,11 @@
 | 29 | [29_triangulacao_periodizacao.md](29_triangulacao_periodizacao.md) | `periodizacao_multivariada.py` + `periodizacao_stars.py` + `periodizacao_transicoes.py` | Triangulação para periodização data-driven (sup-F multivariado + STARS + KL/TV) | 1985–2024 | UF (GO) | ✅ |
 | 30 | (em #29) | `verificacao_periodizacao.py` | Verificação de sanidade (FPR, sensibilidade, consistência) | 1985–2024 | UF (GO) | ✅ |
 | 31 | (em #29) | `intensity_analysis.py` + `verificacao_intensity.py` | Intensity Analysis (Aldwaik & Pontius 2012) + diagnóstico P2 vs P3 | 1985–2024 | UF (GO) | ✅ |
+| 32 | [32_centro_massa.md](32_centro_massa.md) | `centro_massa.py` | Centro de massa migratório das AMCs (Camada 1 Sul→Norte) | 1985–2024 | AMC (166) | ✅ |
+| 33 | [33_transicoes_regionais.md](33_transicoes_regionais.md) | `transicoes_regionais.py` | Mecanismo de transições por mesorregião × ato (Camada 2 Sul→Norte) | 1985–2024 | Mesorregião (5) | ✅ |
+| 34 | [34_deslocamento_espacial.md](34_deslocamento_espacial.md) | `deslocamento_espacial.py` | Lead-lag + spillover espacial (Camada 3 Sul→Norte) — teste formal de deslocamento | 1985–2024 | AMC (166) | ✅ |
+| 35 | [35_robustez_janelas.md](35_robustez_janelas.md) | `robustez_janelas.py` | Robustez multi-resolução de #32/#33 (atos vs grade 5a vs décadas) | 1985–2024 | AMC + meso | ✅ |
+| 36 | [36_robustez_janela_slope.md](36_robustez_janela_slope.md) | `robustez_janela_slope.py` | Robustez do slope do #17 à largura da janela móvel (3/5/7/10 anos) | 1985–2024 | UF (GO) | ✅ |
 
 ## Como os pipelines se cruzam
 
@@ -49,11 +54,16 @@
 - **#13, #14, #15** alimentam slots do painel unificado (#16).
 - **#16** consolida #3, #4, #6, #7, #13, #15 num painel pronto para análise espacial estatística.
 - **#25** consome #16 e a concordância AMC do `geobr` (Ehrl 2017). Agrega o painel municipal em 166 Áreas Mínimas Comparáveis de território constante — unidade canônica para as análises **longitudinais** (corrige o viés de 25% de munis criados após 1985). Ver D11 em [metodologia/areas_minimas_comparaveis.md](../metodologia/areas_minimas_comparaveis.md).
+- **#32** consome #25 (painel AMC e geometrias GPKG) para calcular o centro de massa migratório (médio e mediano) e elipses de dispersão por ato, consolidando a Camada 1 da narrativa de deslocamento Sul→Norte.
+- **#33** consome #19 (conversões brutas), #18 (mesorregiões) e #28 (idade do pasto), reusando a maquinaria do #25 (`analise_transicoes.py`). Re-corta as transições 6×6 por mesorregião × ato e quantifica o **mecanismo** Sul→Norte (Sul: pasto→agric; Norte: veg→pasto) — Camada 2, que explica o movimento do centroide do #32.
+- **#34** consome #25 (painel AMC + geometria), #17 (deltas) e #18 (mesorregiões), reusando convenções de #22 (painel FE) e #24 (pesos espaciais). Faz o **teste formal de deslocamento** (Camada 3): lead-lag temporal (Granger/CCF) + spillover espacial direcional (SLX em painel FE). **Resultado de não-confirmação**: o padrão Sul→Norte é reorganização espacial sob drive comum, **não** deslocamento causal (sem precedência temporal nem spillover direcional). Tempo contínuo (não bina por ato).
+- **#35** reusa #32 e #33 e recalcula as métricas-manchete (velocidade N–S; gradiente de fluxos) sob **três réguas de tempo** (atos, grade de 5 anos, décadas) + referência contínua/janela-única. **Os achados são robustos**: pasto sempre marcha ao norte e o gradiente Sul(pasto→agric)/Norte(veg→pasto) vale em ~todas as janelas; a desaceleração recente da agricultura é nítida só em réguas que isolam 2020–24 (confirma que é fenômeno pós-2020).
+- **#36** reusa #17 e recalcula as manchetes de **slope** sob **quatro larguras de janela móvel** (3/5/7/10 anos) — é a **face de resolução** da D12 (largura da suavização), complementar à **face de fronteira** do #35 (onde cortar). **Robustos**: a desaceleração da vegetação e a freada recente da agricultura valem em toda janela; o pico da pastagem é robusto a menos do atraso esperado do trailing — **confirmado pela versão centrada** (`rolling_slope_hac_centr`), que fixa o cruzamento de zero em ~2002–03 independente da largura. Sensibilidades informativas: a cronologia interna da expansão agrícola (multi-pico) e a aceleração (frágil — só o pico de pastagem 2004 sobrevive às 4 janelas, confirmando a D5 do #17).
 - **#17** consome #4 (dados brutos MapBiomas municipal) e #18 (mesorregiões). Produz métricas de variação LULC para #20 e para as correlações da Etapa 2.
 - **#18** é independente (geobr). Alimenta #17 e #20 com o mapeamento cd_mun → mesorregião.
 - **#19** consome #12 com flag `--consecutivos` (39 pares ano-a-ano). Produz conversão bruta A→B para análise de fluxo.
 - **#20** consome #17 (taxas) e #18 (geometrias) para figuras.
-- **#21** consome #17 (taxas UF) e #16 (painel socioeconômico) para correlações UF em primeiras diferenças (D7).
+- **#21** consome #17 (taxas UF) e #16 (painel socioeconômico) para correlações UF in primeiras diferenças (D7).
 - **#22** consome #17 (taxas municipais) e #16 (painel socioeconômico) para painel 2-way FE (D8). Resíduos alimentam análise espacial (Moran's I).
 - **#23** consome #17 (taxas GO) + séries MT/TO baixadas via GEE. DiD piecewise (D9).
 - **#29** consome #17 (taxas GO) e #19 (transições). Triangulação de 3 métodos para estabelecer fronteiras data-driven dos atos. Define `config_periodos.py` (ATOS, MARCOS) que #20, #23, #26, #28, #31 importam.

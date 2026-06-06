@@ -1,5 +1,5 @@
-"""analise_transicoes.py - Pipeline #25
-Consome conversao_bruta_*.csv e produz analises por ATO politico:
+"""analise_transicoes.py - maquinaria de transicoes por ATO (consumida pelo #33)
+Consome conversao_bruta_*.csv e produz analises por ATO (data-driven, #29):
   - 3 matrizes 6x6 (matriz_transicao_ato_{I..III}.csv)
   - decomposicao_origem.csv (de onde veio cada hectare novo)
   - fluxo_bruto_liquido.csv (distingue rotacao de substituicao)
