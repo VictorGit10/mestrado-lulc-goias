@@ -490,37 +490,11 @@
         </div>
       </div>
 
-      <details class="metric-details">
-        <summary>Matriz 6×6 completa &middot; 1985 → 2024 (Mha)</summary>
-        <div style="overflow-x: auto; border-top: 1px solid var(--color-rule);">
-          <table class="camadas-tabela" style="margin: 0;">
-            <thead>
-              <tr>
-                <th>Origem ↓ / Destino →</th>
-                <th style="text-align:right;">Veg. natural</th>
-                <th style="text-align:right;">Pastagem</th>
-                <th style="text-align:right;">Agricultura</th>
-                <th style="text-align:right;">Água</th>
-                <th style="text-align:right;">Urbano</th>
-                <th style="text-align:right;">Outros</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td>Veg. natural</td><td style="text-align:right; font-variant-numeric: tabular-nums;">10,35</td><td style="text-align:right; font-variant-numeric: tabular-nums;"><strong>4,11</strong></td><td style="text-align:right; font-variant-numeric: tabular-nums;"><strong>1,29</strong></td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,18</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,04</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,04</td></tr>
-              <tr><td>Pastagem</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,49</td><td style="text-align:right; font-variant-numeric: tabular-nums;">6,03</td><td style="text-align:right; font-variant-numeric: tabular-nums;"><strong>2,73</strong></td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,04</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,08</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,01</td></tr>
-              <tr><td>Agricultura</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,00</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,03</td><td style="text-align:right; font-variant-numeric: tabular-nums;">1,07</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,00</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,00</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,00</td></tr>
-              <tr><td>Água</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,05</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,01</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,00</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,19</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,00</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,02</td></tr>
-              <tr><td>Urbano</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,00</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,00</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,00</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,00</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,07</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,00</td></tr>
-              <tr><td>Outros</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,09</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,11</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,08</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,01</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,01</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,57</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <p style="font-size: 0.82rem; color: var(--color-muted); padding: 0.7rem 0.9rem 0.9rem; margin: 0; background: #fcfcfa; line-height: 1.5;">
-          Diagonal (em itálico): pixels que permaneceram na mesma classe. Off-diagonal: transições.
-          Leitura: dos 17,65 Mha de vegetação natural em 1985, 10,35 Mha permaneciam em 2024 — os
-          ~7,3 Mha restantes foram convertidos, principalmente para pastagem (4,11) e agricultura (1,29).
-          Fonte: MapBiomas Coleção 10.1 (Pipeline #12).
-        </p>
+      <details class="metric-details" id="matriz-details">
+        <summary>Matriz de transição 6×6 <span class="matriz-toggle" id="matriz-toggle"></span></summary>
+        <div class="matriz-periodos" id="matriz-periodos"></div>
+        <div id="matriz-container"></div>
+        <p class="matriz-caption" id="matriz-caption"></p>
       </details>
     </div>
 
@@ -1545,6 +1519,8 @@
 <script src="assets/js/sankey.js?v=3"></script>
 
 <script src="assets/js/mini-sankey.js?v=1"></script>
+
+<script src="assets/js/matriz.js?v=1"></script>
 
 <script src="assets/js/inventario.js?v=1"></script>
 

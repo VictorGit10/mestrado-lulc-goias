@@ -1478,6 +1478,80 @@ p  { margin: 0 0 1em; }
   color: var(--color-accent);
 }
 
+/* Matriz de transição: toggle %/Mha, períodos e diagonal */
+.matriz-toggle {
+  display: inline-flex;
+  gap: 0;
+  margin-left: 0.6rem;
+  vertical-align: middle;
+}
+
+.matriz-toggle-btn {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.15rem 0.5rem;
+  border: 1px solid var(--color-rule);
+  background: #fff;
+  color: var(--color-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.matriz-toggle-btn:first-child { border-radius: 3px 0 0 3px; }
+.matriz-toggle-btn:last-child  { border-radius: 0 3px 3px 0; }
+.matriz-toggle-btn.active {
+  background: var(--color-accent);
+  color: #fff;
+  border-color: var(--color-accent);
+}
+
+.matriz-periodos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  padding: 0.6rem 0.9rem 0;
+  border-top: 1px solid var(--color-rule);
+  background: #fcfcfa;
+}
+
+.matriz-periodo-btn {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.25rem 0.55rem;
+  border: 1px solid var(--color-rule);
+  border-radius: 3px;
+  background: #fff;
+  color: var(--color-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.matriz-periodo-btn.active {
+  background: var(--color-fg);
+  color: #fff;
+  border-color: var(--color-fg);
+}
+
+.matriz-diagonal {
+  background: rgba(0, 0, 0, 0.04);
+  font-weight: 700;
+}
+
+.matriz-destaque {
+  font-weight: 700;
+}
+
+.matriz-caption {
+  font-size: 0.82rem;
+  color: var(--color-muted);
+  padding: 0.7rem 0.9rem 0.9rem;
+  margin: 0;
+  background: #fcfcfa;
+  line-height: 1.5;
+}
+
 /* Grid das 9 decisões metodológicas */
 .decisao-grid {
   display: grid;

@@ -386,7 +386,8 @@ def gerar_series_amc(df: pd.DataFrame) -> None:
 
 
 def gerar_transicoes_matriz() -> dict:
-    """5 matrizes 6x6 agregadas (periodos do Atlas)."""
+    """5 matrizes 6x6 agregadas (periodos do Atlas).
+    Cada periodo contem 'matriz' (ha) e 'matriz_pct' (row-stochastic, %)."""
     df = pd.read_csv(TRANSICOES_CSV)
     # Mapear ids para nomes canonicos
     id_to_nome = {1: "Vegetacao Natural", 2: "Pastagem", 3: "Agricultura",
@@ -401,19 +402,26 @@ def gerar_transicoes_matriz() -> dict:
             continue
         # Agregar area_ha por (classe_orig, classe_dest)
         pivot = subset.groupby(["classe_orig", "classe_dest"], as_index=False)["area_ha"].sum()
-        # Montar matriz 6x6
+        # Montar matriz 6x6 em hectares
         matriz = [[0.0] * 6 for _ in range(6)]
         for _, row in pivot.iterrows():
             i = int(row["classe_orig"]) - 1
             j = int(row["classe_dest"]) - 1
             if 0 <= i < 6 and 0 <= j < 6:
                 matriz[i][j] = round(float(row["area_ha"]), 2)
+        # Matriz row-stochastic: cada linha soma ~100%
+        matriz_pct = [[0.0] * 6 for _ in range(6)]
+        for i in range(6):
+            row_sum = sum(matriz[i])
+            for j in range(6):
+                matriz_pct[i][j] = round(matriz[i][j] / row_sum * 100, 1) if row_sum > 0 else 0.0
         periodos.append({
             "rotulo": f"{ano_orig} → {ano_dest}",
             "ano_origem": ano_orig,
             "ano_destino": ano_dest,
             "classes": nomes_canonicos,
             "matriz": matriz,
+            "matriz_pct": matriz_pct,
         })
     return {"periodos": periodos}
 
