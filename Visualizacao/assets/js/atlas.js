@@ -36,7 +36,7 @@
   function rotuloDescritivo(variavel) {
     const map = {
       lulc: "Uso e cobertura da terra · pixel-a-pixel 30m · MapBiomas Coleção 10.1",
-      fogo: "Área queimada por município · escala log · MapBiomas Coleção 4",
+      fogo: "Área queimada por AMC · escala log · MapBiomas Coleção 4",
       transicoes: "Transições pixel-a-pixel · pares de anos · 6 classes",
       delta: "Δ %pastagem vs. 1985 · diverging · valores positivos = expansão"
     };
@@ -125,7 +125,7 @@
         <span class="atlas-leg-grad atlas-leg-grad--delta"></span>
         <span class="atlas-leg-min">retração (verde)</span><span class="atlas-leg-max">expansão (vermelho)</span>`;
     } else {
-      cont.innerHTML = `<span class="atlas-leg-titulo">Transição dominante por município no período</span>`;
+      cont.innerHTML = `<span class="atlas-leg-titulo">Transição dominante por AMC no período</span>`;
     }
   }
 
@@ -241,7 +241,7 @@
 
   // -------------------- subrota (chamado pelo router) --------------------
   function aplicarSubrota(segmentos) {
-    // segmentos: [] | [var] | [var, ano] | [var, 'municipio', code] | ['comparar', ...]
+    // segmentos: [] | [var] | [var, ano] | [var, 'amc', code] | ['comparar', ...]
     if (!segmentos || segmentos.length === 0) {
       // mantem variavel atual
       return;
@@ -258,7 +258,7 @@
       if (/^\d{4}$/.test(sub) || /^\d{4}-\d{4}$/.test(sub)) {
         abrirLightbox(varAtual, sub);
       } else {
-        // 'municipio' ou 'comparar' — fase 2/3
+        // 'amc' ou 'comparar' — fase 2/3
         console.info("[atlas] subrota pendente:", sub);
       }
     }

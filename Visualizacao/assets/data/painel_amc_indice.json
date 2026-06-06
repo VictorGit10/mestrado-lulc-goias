@@ -1,0 +1,1410 @@
+[
+  {
+    "code_amc": 16039,
+    "amc_nome_rep": "Goiânia",
+    "amc_n_munis": 6,
+    "municipios": [
+      "Abadia de Goiás",
+      "Aragoiânia",
+      "Goiânia",
+      "Guapó",
+      "Senador Canedo",
+      "Trindade"
+    ]
+  },
+  {
+    "code_amc": 16040,
+    "amc_nome_rep": "Abadiânia",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Abadiânia"
+    ]
+  },
+  {
+    "code_amc": 16041,
+    "amc_nome_rep": "Acreúna",
+    "amc_n_munis": 2,
+    "municipios": [
+      "Acreúna",
+      "Turvelândia"
+    ]
+  },
+  {
+    "code_amc": 16042,
+    "amc_nome_rep": "Mossâmedes",
+    "amc_n_munis": 3,
+    "municipios": [
+      "Adelândia",
+      "Buriti de Goiás",
+      "Mossâmedes"
+    ]
+  },
+  {
+    "code_amc": 16043,
+    "amc_nome_rep": "Planaltina",
+    "amc_n_munis": 2,
+    "municipios": [
+      "Água Fria de Goiás",
+      "Planaltina"
+    ]
+  },
+  {
+    "code_amc": 16044,
+    "amc_nome_rep": "Água Limpa",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Água Limpa"
+    ]
+  },
+  {
+    "code_amc": 16045,
+    "amc_nome_rep": "Luziânia",
+    "amc_n_munis": 6,
+    "municipios": [
+      "Águas Lindas de Goiás",
+      "Cidade Ocidental",
+      "Luziânia",
+      "Novo Gama",
+      "Santo Antônio do Descoberto",
+      "Valparaíso de Goiás"
+    ]
+  },
+  {
+    "code_amc": 16046,
+    "amc_nome_rep": "Alexânia",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Alexânia"
+    ]
+  },
+  {
+    "code_amc": 16047,
+    "amc_nome_rep": "Aloândia",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Aloândia"
+    ]
+  },
+  {
+    "code_amc": 16048,
+    "amc_nome_rep": "Mara Rosa",
+    "amc_n_munis": 4,
+    "municipios": [
+      "Alto Horizonte",
+      "Amaralina",
+      "Mara Rosa",
+      "Nova Iguaçu de Goiás"
+    ]
+  },
+  {
+    "code_amc": 16049,
+    "amc_nome_rep": "Alto Paraíso de Goiás",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Alto Paraíso de Goiás"
+    ]
+  },
+  {
+    "code_amc": 16050,
+    "amc_nome_rep": "Alvorada do Norte",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Alvorada do Norte"
+    ]
+  },
+  {
+    "code_amc": 16051,
+    "amc_nome_rep": "Anicuns",
+    "amc_n_munis": 2,
+    "municipios": [
+      "Americano do Brasil",
+      "Anicuns"
+    ]
+  },
+  {
+    "code_amc": 16052,
+    "amc_nome_rep": "Amorinópolis",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Amorinópolis"
+    ]
+  },
+  {
+    "code_amc": 16053,
+    "amc_nome_rep": "Anápolis",
+    "amc_n_munis": 2,
+    "municipios": [
+      "Anápolis",
+      "Campo Limpo de Goiás"
+    ]
+  },
+  {
+    "code_amc": 16054,
+    "amc_nome_rep": "Anhanguera",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Anhanguera"
+    ]
+  },
+  {
+    "code_amc": 16055,
+    "amc_nome_rep": "Aparecida de Goiânia",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Aparecida de Goiânia"
+    ]
+  },
+  {
+    "code_amc": 16056,
+    "amc_nome_rep": "Jataí",
+    "amc_n_munis": 3,
+    "municipios": [
+      "Aparecida do Rio Doce",
+      "Jataí",
+      "Perolândia"
+    ]
+  },
+  {
+    "code_amc": 16057,
+    "amc_nome_rep": "Mineiros",
+    "amc_n_munis": 3,
+    "municipios": [
+      "Aporé",
+      "Chapadão do Céu",
+      "Mineiros"
+    ]
+  },
+  {
+    "code_amc": 16058,
+    "amc_nome_rep": "Araçu",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Araçu"
+    ]
+  },
+  {
+    "code_amc": 16059,
+    "amc_nome_rep": "Aragarças",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Aragarças"
+    ]
+  },
+  {
+    "code_amc": 16060,
+    "amc_nome_rep": "Goiás",
+    "amc_n_munis": 4,
+    "municipios": [
+      "Araguapaz",
+      "Faina",
+      "Goiás",
+      "Santa Fé de Goiás"
+    ]
+  },
+  {
+    "code_amc": 16061,
+    "amc_nome_rep": "Piranhas",
+    "amc_n_munis": 2,
+    "municipios": [
+      "Arenópolis",
+      "Piranhas"
+    ]
+  },
+  {
+    "code_amc": 16062,
+    "amc_nome_rep": "Aruanã",
+    "amc_n_munis": 2,
+    "municipios": [
+      "Aruanã",
+      "Matrinchã"
+    ]
+  },
+  {
+    "code_amc": 16063,
+    "amc_nome_rep": "Aurilândia",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Aurilândia"
+    ]
+  },
+  {
+    "code_amc": 16064,
+    "amc_nome_rep": "Avelinópolis",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Avelinópolis"
+    ]
+  },
+  {
+    "code_amc": 16065,
+    "amc_nome_rep": "Baliza",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Baliza"
+    ]
+  },
+  {
+    "code_amc": 16066,
+    "amc_nome_rep": "Barro Alto",
+    "amc_n_munis": 4,
+    "municipios": [
+      "Barro Alto",
+      "Itapaci",
+      "Santa Rita do Novo Destino",
+      "São Luiz do Norte"
+    ]
+  },
+  {
+    "code_amc": 16067,
+    "amc_nome_rep": "Bela Vista de Goiás",
+    "amc_n_munis": 2,
+    "municipios": [
+      "Bela Vista de Goiás",
+      "Caldazinha"
+    ]
+  },
+  {
+    "code_amc": 16068,
+    "amc_nome_rep": "Bom Jardim de Goiás",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Bom Jardim de Goiás"
+    ]
+  },
+  {
+    "code_amc": 16069,
+    "amc_nome_rep": "Bom Jesus de Goiás",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Bom Jesus de Goiás"
+    ]
+  },
+  {
+    "code_amc": 16070,
+    "amc_nome_rep": "Leopoldo de Bulhões",
+    "amc_n_munis": 2,
+    "municipios": [
+      "Bonfinópolis",
+      "Leopoldo de Bulhões"
+    ]
+  },
+  {
+    "code_amc": 16071,
+    "amc_nome_rep": "Porangatu",
+    "amc_n_munis": 2,
+    "municipios": [
+      "Bonópolis",
+      "Porangatu"
+    ]
+  },
+  {
+    "code_amc": 16072,
+    "amc_nome_rep": "Brazabrantes",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Brazabrantes"
+    ]
+  },
+  {
+    "code_amc": 16073,
+    "amc_nome_rep": "Britânia",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Britânia"
+    ]
+  },
+  {
+    "code_amc": 16074,
+    "amc_nome_rep": "Buriti Alegre",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Buriti Alegre"
+    ]
+  },
+  {
+    "code_amc": 16075,
+    "amc_nome_rep": "Mambaí",
+    "amc_n_munis": 2,
+    "municipios": [
+      "Buritinópolis",
+      "Mambaí"
+    ]
+  },
+  {
+    "code_amc": 16076,
+    "amc_nome_rep": "Cabeceiras",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Cabeceiras"
+    ]
+  },
+  {
+    "code_amc": 16077,
+    "amc_nome_rep": "Cachoeira Alta",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Cachoeira Alta"
+    ]
+  },
+  {
+    "code_amc": 16078,
+    "amc_nome_rep": "Cachoeira de Goiás",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Cachoeira de Goiás"
+    ]
+  },
+  {
+    "code_amc": 16079,
+    "amc_nome_rep": "Itumbiara",
+    "amc_n_munis": 3,
+    "municipios": [
+      "Cachoeira Dourada",
+      "Inaciolândia",
+      "Itumbiara"
+    ]
+  },
+  {
+    "code_amc": 16080,
+    "amc_nome_rep": "Caçu",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Caçu"
+    ]
+  },
+  {
+    "code_amc": 16081,
+    "amc_nome_rep": "Caiapônia",
+    "amc_n_munis": 3,
+    "municipios": [
+      "Caiapônia",
+      "Doverlândia",
+      "Palestina de Goiás"
+    ]
+  },
+  {
+    "code_amc": 16082,
+    "amc_nome_rep": "Caldas Novas",
+    "amc_n_munis": 2,
+    "municipios": [
+      "Caldas Novas",
+      "Rio Quente"
+    ]
+  },
+  {
+    "code_amc": 16083,
+    "amc_nome_rep": "Campestre de Goiás",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Campestre de Goiás"
+    ]
+  },
+  {
+    "code_amc": 16084,
+    "amc_nome_rep": "Uruaçu",
+    "amc_n_munis": 2,
+    "municipios": [
+      "Campinaçu",
+      "Uruaçu"
+    ]
+  },
+  {
+    "code_amc": 16085,
+    "amc_nome_rep": "Campinorte",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Campinorte"
+    ]
+  },
+  {
+    "code_amc": 16086,
+    "amc_nome_rep": "Campo Alegre de Goiás",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Campo Alegre de Goiás"
+    ]
+  },
+  {
+    "code_amc": 16087,
+    "amc_nome_rep": "Campos Belos",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Campos Belos"
+    ]
+  },
+  {
+    "code_amc": 16088,
+    "amc_nome_rep": "Santa Terezinha de Goiás",
+    "amc_n_munis": 2,
+    "municipios": [
+      "Campos Verdes",
+      "Santa Terezinha de Goiás"
+    ]
+  },
+  {
+    "code_amc": 16089,
+    "amc_nome_rep": "Carmo do Rio Verde",
+    "amc_n_munis": 2,
+    "municipios": [
+      "Carmo do Rio Verde",
+      "São Patrício"
+    ]
+  },
+  {
+    "code_amc": 16090,
+    "amc_nome_rep": "Rio Verde",
+    "amc_n_munis": 4,
+    "municipios": [
+      "Castelândia",
+      "Montividiu",
+      "Rio Verde",
+      "Santo Antônio da Barra"
+    ]
+  },
+  {
+    "code_amc": 16091,
+    "amc_nome_rep": "Catalão",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Catalão"
+    ]
+  },
+  {
+    "code_amc": 16092,
+    "amc_nome_rep": "Caturaí",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Caturaí"
+    ]
+  },
+  {
+    "code_amc": 16093,
+    "amc_nome_rep": "Cavalcante",
+    "amc_n_munis": 3,
+    "municipios": [
+      "Cavalcante",
+      "Colinas do Sul",
+      "Teresina de Goiás"
+    ]
+  },
+  {
+    "code_amc": 16094,
+    "amc_nome_rep": "Nova Glória",
+    "amc_n_munis": 3,
+    "municipios": [
+      "Ceres",
+      "Ipiranga de Goiás",
+      "Nova Glória"
+    ]
+  },
+  {
+    "code_amc": 16095,
+    "amc_nome_rep": "Palmeiras de Goiás",
+    "amc_n_munis": 2,
+    "municipios": [
+      "Cezarina",
+      "Palmeiras de Goiás"
+    ]
+  },
+  {
+    "code_amc": 16096,
+    "amc_nome_rep": "Cocalzinho de Goiás",
+    "amc_n_munis": 2,
+    "municipios": [
+      "Cocalzinho de Goiás",
+      "Corumbá de Goiás"
+    ]
+  },
+  {
+    "code_amc": 16097,
+    "amc_nome_rep": "Córrego do Ouro",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Córrego do Ouro"
+    ]
+  },
+  {
+    "code_amc": 16098,
+    "amc_nome_rep": "Corumbaíba",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Corumbaíba"
+    ]
+  },
+  {
+    "code_amc": 16099,
+    "amc_nome_rep": "Cristalina",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Cristalina"
+    ]
+  },
+  {
+    "code_amc": 16100,
+    "amc_nome_rep": "Cristianópolis",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Cristianópolis"
+    ]
+  },
+  {
+    "code_amc": 16101,
+    "amc_nome_rep": "Nova Crixás",
+    "amc_n_munis": 4,
+    "municipios": [
+      "Crixás",
+      "Mundo Novo",
+      "Nova Crixás",
+      "Uirapuru"
+    ]
+  },
+  {
+    "code_amc": 16102,
+    "amc_nome_rep": "Cromínia",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Cromínia"
+    ]
+  },
+  {
+    "code_amc": 16103,
+    "amc_nome_rep": "Cumari",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Cumari"
+    ]
+  },
+  {
+    "code_amc": 16104,
+    "amc_nome_rep": "Damianópolis",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Damianópolis"
+    ]
+  },
+  {
+    "code_amc": 16105,
+    "amc_nome_rep": "Damolândia",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Damolândia"
+    ]
+  },
+  {
+    "code_amc": 16106,
+    "amc_nome_rep": "Davinópolis",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Davinópolis"
+    ]
+  },
+  {
+    "code_amc": 16107,
+    "amc_nome_rep": "Diorama",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Diorama"
+    ]
+  },
+  {
+    "code_amc": 16108,
+    "amc_nome_rep": "Edéia",
+    "amc_n_munis": 2,
+    "municipios": [
+      "Edealina",
+      "Edéia"
+    ]
+  },
+  {
+    "code_amc": 16109,
+    "amc_nome_rep": "Estrela do Norte",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Estrela do Norte"
+    ]
+  },
+  {
+    "code_amc": 16110,
+    "amc_nome_rep": "Fazenda Nova",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Fazenda Nova"
+    ]
+  },
+  {
+    "code_amc": 16111,
+    "amc_nome_rep": "Firminópolis",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Firminópolis"
+    ]
+  },
+  {
+    "code_amc": 16112,
+    "amc_nome_rep": "Flores de Goiás",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Flores de Goiás"
+    ]
+  },
+  {
+    "code_amc": 16113,
+    "amc_nome_rep": "Formosa",
+    "amc_n_munis": 2,
+    "municipios": [
+      "Formosa",
+      "Vila Boa"
+    ]
+  },
+  {
+    "code_amc": 16114,
+    "amc_nome_rep": "Montividiu do Norte",
+    "amc_n_munis": 3,
+    "municipios": [
+      "Formoso",
+      "Montividiu do Norte",
+      "Trombas"
+    ]
+  },
+  {
+    "code_amc": 16115,
+    "amc_nome_rep": "Silvânia",
+    "amc_n_munis": 3,
+    "municipios": [
+      "Gameleira de Goiás",
+      "São Miguel do Passa Quatro",
+      "Silvânia"
+    ]
+  },
+  {
+    "code_amc": 16116,
+    "amc_nome_rep": "Divinópolis de Goiás",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Divinópolis de Goiás"
+    ]
+  },
+  {
+    "code_amc": 16117,
+    "amc_nome_rep": "Goianápolis",
+    "amc_n_munis": 2,
+    "municipios": [
+      "Goianápolis",
+      "Terezópolis de Goiás"
+    ]
+  },
+  {
+    "code_amc": 16118,
+    "amc_nome_rep": "Goiandira",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Goiandira"
+    ]
+  },
+  {
+    "code_amc": 16119,
+    "amc_nome_rep": "Goianésia",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Goianésia"
+    ]
+  },
+  {
+    "code_amc": 16120,
+    "amc_nome_rep": "Goianira",
+    "amc_n_munis": 2,
+    "municipios": [
+      "Goianira",
+      "Santo Antônio de Goiás"
+    ]
+  },
+  {
+    "code_amc": 16121,
+    "amc_nome_rep": "Goiatuba",
+    "amc_n_munis": 2,
+    "municipios": [
+      "Goiatuba",
+      "Porteirão"
+    ]
+  },
+  {
+    "code_amc": 16122,
+    "amc_nome_rep": "Quirinópolis",
+    "amc_n_munis": 2,
+    "municipios": [
+      "Gouvelândia",
+      "Quirinópolis"
+    ]
+  },
+  {
+    "code_amc": 16123,
+    "amc_nome_rep": "Itapuranga",
+    "amc_n_munis": 2,
+    "municipios": [
+      "Guaraíta",
+      "Itapuranga"
+    ]
+  },
+  {
+    "code_amc": 16124,
+    "amc_nome_rep": "Guarani de Goiás",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Guarani de Goiás"
+    ]
+  },
+  {
+    "code_amc": 16125,
+    "amc_nome_rep": "Pilar de Goiás",
+    "amc_n_munis": 2,
+    "municipios": [
+      "Guarinos",
+      "Pilar de Goiás"
+    ]
+  },
+  {
+    "code_amc": 16126,
+    "amc_nome_rep": "Heitoraí",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Heitoraí"
+    ]
+  },
+  {
+    "code_amc": 16127,
+    "amc_nome_rep": "Hidrolândia",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Hidrolândia"
+    ]
+  },
+  {
+    "code_amc": 16128,
+    "amc_nome_rep": "Hidrolina",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Hidrolina"
+    ]
+  },
+  {
+    "code_amc": 16129,
+    "amc_nome_rep": "Iaciara",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Iaciara"
+    ]
+  },
+  {
+    "code_amc": 16130,
+    "amc_nome_rep": "Indiara",
+    "amc_n_munis": 2,
+    "municipios": [
+      "Indiara",
+      "Jandaia"
+    ]
+  },
+  {
+    "code_amc": 16131,
+    "amc_nome_rep": "Inhumas",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Inhumas"
+    ]
+  },
+  {
+    "code_amc": 16132,
+    "amc_nome_rep": "Ipameri",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Ipameri"
+    ]
+  },
+  {
+    "code_amc": 16133,
+    "amc_nome_rep": "Iporá",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Iporá"
+    ]
+  },
+  {
+    "code_amc": 16134,
+    "amc_nome_rep": "Israelândia",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Israelândia"
+    ]
+  },
+  {
+    "code_amc": 16135,
+    "amc_nome_rep": "Itaberaí",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Itaberaí"
+    ]
+  },
+  {
+    "code_amc": 16136,
+    "amc_nome_rep": "Taquaral de Goiás",
+    "amc_n_munis": 2,
+    "municipios": [
+      "Itaguari",
+      "Taquaral de Goiás"
+    ]
+  },
+  {
+    "code_amc": 16137,
+    "amc_nome_rep": "Itaguaru",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Itaguaru"
+    ]
+  },
+  {
+    "code_amc": 16138,
+    "amc_nome_rep": "Itajá",
+    "amc_n_munis": 2,
+    "municipios": [
+      "Itajá",
+      "Lagoa Santa"
+    ]
+  },
+  {
+    "code_amc": 16139,
+    "amc_nome_rep": "Itapirapuã",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Itapirapuã"
+    ]
+  },
+  {
+    "code_amc": 16140,
+    "amc_nome_rep": "Itarumã",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Itarumã"
+    ]
+  },
+  {
+    "code_amc": 16141,
+    "amc_nome_rep": "Itauçu",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Itauçu"
+    ]
+  },
+  {
+    "code_amc": 16142,
+    "amc_nome_rep": "Ivolândia",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Ivolândia"
+    ]
+  },
+  {
+    "code_amc": 16143,
+    "amc_nome_rep": "Jaraguá",
+    "amc_n_munis": 2,
+    "municipios": [
+      "Jaraguá",
+      "Santa Isabel"
+    ]
+  },
+  {
+    "code_amc": 16144,
+    "amc_nome_rep": "Jaupaci",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Jaupaci"
+    ]
+  },
+  {
+    "code_amc": 16145,
+    "amc_nome_rep": "São Francisco de Goiás",
+    "amc_n_munis": 2,
+    "municipios": [
+      "Jesúpolis",
+      "São Francisco de Goiás"
+    ]
+  },
+  {
+    "code_amc": 16146,
+    "amc_nome_rep": "Joviânia",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Joviânia"
+    ]
+  },
+  {
+    "code_amc": 16147,
+    "amc_nome_rep": "Jussara",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Jussara"
+    ]
+  },
+  {
+    "code_amc": 16148,
+    "amc_nome_rep": "Mairipotaba",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Mairipotaba"
+    ]
+  },
+  {
+    "code_amc": 16149,
+    "amc_nome_rep": "Marzagão",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Marzagão"
+    ]
+  },
+  {
+    "code_amc": 16150,
+    "amc_nome_rep": "Maurilândia",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Maurilândia"
+    ]
+  },
+  {
+    "code_amc": 16151,
+    "amc_nome_rep": "Niquelândia",
+    "amc_n_munis": 2,
+    "municipios": [
+      "Mimoso de Goiás",
+      "Niquelândia"
+    ]
+  },
+  {
+    "code_amc": 16152,
+    "amc_nome_rep": "Minaçu",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Minaçu"
+    ]
+  },
+  {
+    "code_amc": 16153,
+    "amc_nome_rep": "Moiporá",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Moiporá"
+    ]
+  },
+  {
+    "code_amc": 16154,
+    "amc_nome_rep": "Monte Alegre de Goiás",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Monte Alegre de Goiás"
+    ]
+  },
+  {
+    "code_amc": 16155,
+    "amc_nome_rep": "Montes Claros de Goiás",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Montes Claros de Goiás"
+    ]
+  },
+  {
+    "code_amc": 16156,
+    "amc_nome_rep": "Morrinhos",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Morrinhos"
+    ]
+  },
+  {
+    "code_amc": 16157,
+    "amc_nome_rep": "Rubiataba",
+    "amc_n_munis": 2,
+    "municipios": [
+      "Morro Agudo de Goiás",
+      "Rubiataba"
+    ]
+  },
+  {
+    "code_amc": 16158,
+    "amc_nome_rep": "Mozarlândia",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Mozarlândia"
+    ]
+  },
+  {
+    "code_amc": 16159,
+    "amc_nome_rep": "Mutunópolis",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Mutunópolis"
+    ]
+  },
+  {
+    "code_amc": 16160,
+    "amc_nome_rep": "Nazário",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Nazário"
+    ]
+  },
+  {
+    "code_amc": 16161,
+    "amc_nome_rep": "Nerópolis",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Nerópolis"
+    ]
+  },
+  {
+    "code_amc": 16162,
+    "amc_nome_rep": "Nova América",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Nova América"
+    ]
+  },
+  {
+    "code_amc": 16163,
+    "amc_nome_rep": "Nova Aurora",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Nova Aurora"
+    ]
+  },
+  {
+    "code_amc": 16164,
+    "amc_nome_rep": "Nova Roma",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Nova Roma"
+    ]
+  },
+  {
+    "code_amc": 16165,
+    "amc_nome_rep": "Nova Veneza",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Nova Veneza"
+    ]
+  },
+  {
+    "code_amc": 16166,
+    "amc_nome_rep": "Novo Brasil",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Novo Brasil"
+    ]
+  },
+  {
+    "code_amc": 16167,
+    "amc_nome_rep": "São Miguel do Araguaia",
+    "amc_n_munis": 2,
+    "municipios": [
+      "Novo Planalto",
+      "São Miguel do Araguaia"
+    ]
+  },
+  {
+    "code_amc": 16168,
+    "amc_nome_rep": "Orizona",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Orizona"
+    ]
+  },
+  {
+    "code_amc": 16169,
+    "amc_nome_rep": "Ouro Verde de Goiás",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Ouro Verde de Goiás"
+    ]
+  },
+  {
+    "code_amc": 16170,
+    "amc_nome_rep": "Ouvidor",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Ouvidor"
+    ]
+  },
+  {
+    "code_amc": 16171,
+    "amc_nome_rep": "Padre Bernardo",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Padre Bernardo"
+    ]
+  },
+  {
+    "code_amc": 16172,
+    "amc_nome_rep": "Palmelo",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Palmelo"
+    ]
+  },
+  {
+    "code_amc": 16173,
+    "amc_nome_rep": "Palminópolis",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Palminópolis"
+    ]
+  },
+  {
+    "code_amc": 16174,
+    "amc_nome_rep": "Panamá",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Panamá"
+    ]
+  },
+  {
+    "code_amc": 16175,
+    "amc_nome_rep": "Paranaiguara",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Paranaiguara"
+    ]
+  },
+  {
+    "code_amc": 16176,
+    "amc_nome_rep": "Paraúna",
+    "amc_n_munis": 2,
+    "municipios": [
+      "Paraúna",
+      "São João da Paraúna"
+    ]
+  },
+  {
+    "code_amc": 16177,
+    "amc_nome_rep": "Petrolina de Goiás",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Petrolina de Goiás"
+    ]
+  },
+  {
+    "code_amc": 16178,
+    "amc_nome_rep": "Piracanjuba",
+    "amc_n_munis": 2,
+    "municipios": [
+      "Piracanjuba",
+      "Professor Jamil"
+    ]
+  },
+  {
+    "code_amc": 16179,
+    "amc_nome_rep": "Pirenópolis",
+    "amc_n_munis": 2,
+    "municipios": [
+      "Pirenópolis",
+      "Vila Propício"
+    ]
+  },
+  {
+    "code_amc": 16180,
+    "amc_nome_rep": "Pires do Rio",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Pires do Rio"
+    ]
+  },
+  {
+    "code_amc": 16181,
+    "amc_nome_rep": "Pontalina",
+    "amc_n_munis": 2,
+    "municipios": [
+      "Pontalina",
+      "Vicentinópolis"
+    ]
+  },
+  {
+    "code_amc": 16182,
+    "amc_nome_rep": "Portelândia",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Portelândia"
+    ]
+  },
+  {
+    "code_amc": 16183,
+    "amc_nome_rep": "Posse",
+    "amc_n_munis": 2,
+    "municipios": [
+      "Posse",
+      "Simolândia"
+    ]
+  },
+  {
+    "code_amc": 16184,
+    "amc_nome_rep": "Rialma",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Rialma"
+    ]
+  },
+  {
+    "code_amc": 16185,
+    "amc_nome_rep": "Rianápolis",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Rianápolis"
+    ]
+  },
+  {
+    "code_amc": 16186,
+    "amc_nome_rep": "Sanclerlândia",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Sanclerlândia"
+    ]
+  },
+  {
+    "code_amc": 16187,
+    "amc_nome_rep": "Santa Bárbara de Goiás",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Santa Bárbara de Goiás"
+    ]
+  },
+  {
+    "code_amc": 16188,
+    "amc_nome_rep": "Santa Cruz de Goiás",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Santa Cruz de Goiás"
+    ]
+  },
+  {
+    "code_amc": 16189,
+    "amc_nome_rep": "Santa Helena de Goiás",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Santa Helena de Goiás"
+    ]
+  },
+  {
+    "code_amc": 16190,
+    "amc_nome_rep": "Santa Rita do Araguaia",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Santa Rita do Araguaia"
+    ]
+  },
+  {
+    "code_amc": 16191,
+    "amc_nome_rep": "Santa Rosa de Goiás",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Santa Rosa de Goiás"
+    ]
+  },
+  {
+    "code_amc": 16192,
+    "amc_nome_rep": "Santa Tereza de Goiás",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Santa Tereza de Goiás"
+    ]
+  },
+  {
+    "code_amc": 16193,
+    "amc_nome_rep": "São Domingos",
+    "amc_n_munis": 1,
+    "municipios": [
+      "São Domingos"
+    ]
+  },
+  {
+    "code_amc": 16194,
+    "amc_nome_rep": "São João d'Aliança",
+    "amc_n_munis": 1,
+    "municipios": [
+      "São João d'Aliança"
+    ]
+  },
+  {
+    "code_amc": 16195,
+    "amc_nome_rep": "São Luís de Montes Belos",
+    "amc_n_munis": 1,
+    "municipios": [
+      "São Luís de Montes Belos"
+    ]
+  },
+  {
+    "code_amc": 16196,
+    "amc_nome_rep": "São Simão",
+    "amc_n_munis": 1,
+    "municipios": [
+      "São Simão"
+    ]
+  },
+  {
+    "code_amc": 16197,
+    "amc_nome_rep": "Serranópolis",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Serranópolis"
+    ]
+  },
+  {
+    "code_amc": 16198,
+    "amc_nome_rep": "Sítio d'Abadia",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Sítio d'Abadia"
+    ]
+  },
+  {
+    "code_amc": 16199,
+    "amc_nome_rep": "Três Ranchos",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Três Ranchos"
+    ]
+  },
+  {
+    "code_amc": 16200,
+    "amc_nome_rep": "Turvânia",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Turvânia"
+    ]
+  },
+  {
+    "code_amc": 16201,
+    "amc_nome_rep": "Uruana",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Uruana"
+    ]
+  },
+  {
+    "code_amc": 16202,
+    "amc_nome_rep": "Urutaí",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Urutaí"
+    ]
+  },
+  {
+    "code_amc": 16203,
+    "amc_nome_rep": "Varjão",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Varjão"
+    ]
+  },
+  {
+    "code_amc": 16204,
+    "amc_nome_rep": "Vianópolis",
+    "amc_n_munis": 1,
+    "municipios": [
+      "Vianópolis"
+    ]
+  }
+]

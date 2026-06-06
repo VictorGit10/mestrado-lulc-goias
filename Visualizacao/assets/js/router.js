@@ -5,12 +5,12 @@
  *   #atlas                → grid LULC default
  *   #atlas/{var}          → grid de outra variavel
  *   #atlas/{var}/{ano}    → lightbox no ano (delegado ao atlas.js)
- *   #atlas/{var}/municipio/{code_muni}  → drill-down
+ *   #atlas/{var}/amc/{code_amc}   → drill-down
  *   #atlas/comparar/1985,2010,2024
  *
  * Decoupling: este modulo so muda visibilidade das secoes e atualiza tabs.
  * Os modos publicam handlers em window.GO40.narrativa.* e window.GO40.atlas.*
- * para receber sub-rotas (ano, municipio, etc).
+ * para receber sub-rotas (ano, amc, etc).
  */
 
 (function (root) {

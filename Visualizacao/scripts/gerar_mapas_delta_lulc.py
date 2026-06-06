@@ -1,9 +1,11 @@
 """gerar_mapas_delta_lulc.py — 40 mapas coropleticos anuais (1985-2024)
-de delta % pastagem vs. 1985 por municipio de Goias.
+de delta % pastagem vs. 1985 por AMC de Goias.
 
-Usa painel unificado para pct_pastagem_lulc por municipio x ano,
+Usa painel AMC para pct_pastagem_lulc por AMC x ano,
 calcula delta = pct_pastagem[ano] - pct_pastagem[1985] e plota
 mapa diverging (RdBu_r) centrado em 0.
+
+D11: AMC = unidade canonica para analises longitudinais.
 
 Saida:
     Visualizacao/img/mapas_delta/delta_{ANO}.webp  (40 arquivos)
@@ -39,20 +41,21 @@ FIGSIZE = (10, 8)
 ANO_MIN, ANO_MAX = 1985, 2024
 QUALITY_WEBP = 85
 
-PAINEL = ROOT / "data" / "processed" / "painel_unificado.parquet"
+PAINEL = ROOT / "data" / "processed" / "painel_amc_goias.parquet"
+AMC_GPKG = ROOT / "data" / "processed" / "amc_goias.gpkg"
 OUT_DIR = ROOT / "Visualizacao" / "img" / "mapas_delta"
 
 
 def carregar_malha() -> gpd.GeoDataFrame:
-    print("[...] Baixando/carregando malha municipal de Goias (geobr)...")
-    gdf = geobr.read_municipality(code_muni="GO", year=2020)
-    gdf["code_muni"] = gdf["code_muni"].astype("int64")
+    print("[...] Carregando malha AMC de Goias (amc_goias.gpkg)...")
+    gdf = gpd.read_file(AMC_GPKG)
+    gdf["code_amc"] = gdf["code_amc"].astype(int)
     # Reprojetar para EPSG:5880 (Albers Brasil) para a barra de escala em metros.
     gdf = gdf.to_crs(5880)
     return gdf
 
 
-def gerar_mapas(df: pd.DataFrame, gdf_munis: gpd.GeoDataFrame) -> None:
+def gerar_mapas(df: pd.DataFrame, gdf_amcs: gpd.GeoDataFrame) -> None:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
 
     # Calcular pct_pastagem se nao existir
@@ -63,12 +66,12 @@ def gerar_mapas(df: pd.DataFrame, gdf_munis: gpd.GeoDataFrame) -> None:
         pct_col = "pct_pastagem"
 
     # Baseline: pct_pastagem em 1985
-    baseline = df[df["ano"] == 1985][["cd_mun", pct_col]].rename(
+    baseline = df[df["ano"] == 1985][["code_amc", pct_col]].rename(
         columns={pct_col: "pct_baseline"}
     )
 
-    # Calcular delta para cada municipio x ano
-    delta = df[["cd_mun", "ano", pct_col]].merge(baseline, on="cd_mun", how="left")
+    # Calcular delta para cada AMC x ano
+    delta = df[["code_amc", "ano", pct_col]].merge(baseline, on="code_amc", how="left")
     delta["delta_pct"] = delta[pct_col] - delta["pct_baseline"]
 
     # Limites globais para o colormap (centrado em 0)
@@ -80,7 +83,7 @@ def gerar_mapas(df: pd.DataFrame, gdf_munis: gpd.GeoDataFrame) -> None:
     norm = TwoSlopeNorm(vmin=-vmax, vcenter=0, vmax=vmax)
 
     # Limites fixos baseados no total_bounds da malha projetada (EPSG:5880) com 2% de margem
-    bounds = gdf_munis.total_bounds
+    bounds = gdf_amcs.total_bounds
     x_margin = (bounds[2] - bounds[0]) * 0.02
     y_margin = (bounds[3] - bounds[1]) * 0.02
     xmin, xmax = bounds[0] - x_margin, bounds[2] + x_margin
@@ -101,8 +104,8 @@ def gerar_mapas(df: pd.DataFrame, gdf_munis: gpd.GeoDataFrame) -> None:
     convertidos = 0
 
     for i, ano in enumerate(anos, start=1):
-        delta_ano = delta[delta["ano"] == ano][["cd_mun", "delta_pct"]].copy()
-        gdf_ano = gdf_munis.merge(delta_ano, left_on="code_muni", right_on="cd_mun", how="left")
+        delta_ano = delta[delta["ano"] == ano][["code_amc", "delta_pct"]].copy()
+        gdf_ano = gdf_amcs.merge(delta_ano, on="code_amc", how="left")
         gdf_ano["delta_pct"] = gdf_ano["delta_pct"].fillna(0)
 
         # 1985 deve ser neutro (delta = 0)
@@ -151,17 +154,17 @@ def gerar_mapas(df: pd.DataFrame, gdf_munis: gpd.GeoDataFrame) -> None:
 
 def main() -> None:
     print("=" * 60)
-    print("Gerando 40 mapas coropleticos delta pastagem — Goias 1985-2024")
+    print("Gerando 40 mapas coropleticos delta pastagem — Goias 1985-2024 (AMC)")
     print("=" * 60)
 
     print(f"[...] Lendo {PAINEL.name}...")
     df = pd.read_parquet(PAINEL)
-    print(f"[OK]  {len(df)} linhas, {df['cd_mun'].nunique()} municipios")
+    print(f"[OK]  {len(df)} linhas, {df['code_amc'].nunique()} AMCs")
 
-    gdf_munis = carregar_malha()
-    print(f"[OK]  Malha: {len(gdf_munis)} municipios, CRS {gdf_munis.crs}")
+    gdf_amcs = carregar_malha()
+    print(f"[OK]  Malha: {len(gdf_amcs)} AMCs, CRS {gdf_amcs.crs}")
 
-    gerar_mapas(df, gdf_munis)
+    gerar_mapas(df, gdf_amcs)
 
     print("\n" + "=" * 60)
     print(f"Concluido! WebPs em: {OUT_DIR}")

@@ -240,12 +240,12 @@ def fig_mapas_slope_municipal(taxas_muni: pd.DataFrame):
     go_munis = go_munis[["cd_mun", "geometry"]].to_crs(5880)
 
     # Períodos-chave: usar o slope_5a_trail do ano central de cada ATOS
+    sys.path.insert(0, str(ROOT / "scripts"))
+    from config_periodos import ATOS
     periodos = {
-        "I. Herança\n(1989)": 1989,
-        "II. Soja sudoeste\n(1998)": 1998,
-        "III. Boom\n(2007)": 2007,
-        "IV. Cód. Florestal\n(2014)": 2014,
-        "V. Reorganização\n(2021)": 2021,
+        f"{k}. {ATOS[k]['titulo']}\n({(ATOS[k]['inicio'] + ATOS[k]['fim']) // 2})":
+            (ATOS[k]['inicio'] + ATOS[k]['fim']) // 2
+        for k in ATOS
     }
 
     for g in CLASSES_PLOT:

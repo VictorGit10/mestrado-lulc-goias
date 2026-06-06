@@ -1,14 +1,18 @@
-"""Agrega painel municipal em series anuais UF (Goias) para a timeline.
+"""Agrega painel AMC em series anuais UF (Goias) para a timeline.
 
-Le data/processed/painel_unificado.parquet (246 munis x 40 anos x 70 cols),
+Le data/processed/painel_amc_goias.parquet (166 AMCs x 40 anos x 180 cols),
 soma areas LULC, totaliza socioeconomicos e exporta JSONs enxutos para o
 front-end consumir. Tambem produz:
   - transicoes_resumo.json  (2 snapshots: inicio e fim da serie)
   - fogo_goias.json         (serie UF de fogo por classe)
-  - painel_municipal_indice.json (lookup leve: 246 municipios)
-  - municipios/{cd_mun}.json x 246 (serie municipal compacta)
+  - painel_amc_indice.json  (lookup leve: 166 AMCs)
+  - amcs/{code_amc}.json x 166 (serie AMC compacta)
   - transicoes_matriz.json  (5 matrizes 6x6 por periodo)
   - sankey_data.json        (nodos + links para d3-sankey 1985->2024)
+
+D11: AMC = unidade canonica para analises longitudinais. Os 246 municipios
+atuais ficam reservados para cortes transversais e periodo recente. Ver
+Textos/metodologia/areas_minimas_comparaveis.md.
 """
 
 from __future__ import annotations
@@ -19,11 +23,12 @@ from pathlib import Path
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[2]
-PAINEL = ROOT / "data" / "processed" / "painel_unificado.parquet"
+PAINEL = ROOT / "data" / "processed" / "painel_amc_goias.parquet"
+CROSSWALK = ROOT / "data" / "processed" / "amc_crosswalk_goias.csv"
 TRANSICOES_CSV = ROOT / "data" / "processed" / "transicoes_mapbiomas_goias.csv"
 PIB_UF_IPEA_CSV = ROOT / "data" / "processed" / "pib_uf_ipea_goias.csv"
 OUT_DIR = ROOT / "Visualizacao" / "assets" / "data"
-MUNI_DIR = OUT_DIR / "municipios"
+AMC_DIR = OUT_DIR / "amcs"
 
 LULC_NATIVO = [
     "lulc_floresta_nativa_ha",
@@ -97,8 +102,9 @@ FOGO_SOMAR = [
     "fogo_outros_ha",
 ]
 
-# Colunas para a serie municipal compacta
-MUNI_COLS_SERIE = [
+# Colunas para a serie AMC compacta
+# Nota: o painel AMC usa lotacao_bov_ha (nao lotacao_bov_ha_pasto)
+AMC_COLS_SERIE = [
     "lulc_area_total_ha",
     "lulc_vegetacao_nativa_ha",
     "lulc_pastagem_ha",
@@ -132,11 +138,11 @@ MUNI_COLS_SERIE = [
     "populacao",
     "sicor_total_real_rs",
     "fogo_total_ha",
-    "lotacao_bov_ha_pasto",
+    "lotacao_bov_ha",
     "lotacao_ua_ha_pasto",
 ]
 
-MUNI_COLS_PCT = [
+AMC_COLS_PCT = [
     "pct_pastagem_lulc",
     "pct_agricultura_lulc",
     "pct_natural_lulc",
@@ -171,7 +177,7 @@ CORES_SANKEY = {
 }
 
 
-# -------------------- funcoes existentes (inalteradas) --------------------
+# -------------------- funcoes UF (inalteradas — soma AMC = soma muni) --------------------
 
 def agregar_uf(df: pd.DataFrame) -> pd.DataFrame:
     grp = df.groupby("ano", as_index=False)[SOMAR].sum(min_count=1)
@@ -289,7 +295,8 @@ def transicoes_resumo(grp: pd.DataFrame) -> dict:
     }
 
 
-# -------------------- novas funcoes --------------------
+# -------------------- funcoes UF (inalteradas) --------------------
+
 
 def gerar_fogo_goias(df: pd.DataFrame) -> dict:
     """Serie UF agregada de fogo por classe, 40 anos."""
@@ -310,27 +317,47 @@ def gerar_fogo_goias(df: pd.DataFrame) -> dict:
     }
 
 
-def gerar_painel_municipal_indice(df: pd.DataFrame) -> list[dict]:
-    """Lookup leve: cd_mun, nm_mun para cada municipio."""
-    indice = df[["cd_mun", "nm_mun"]].drop_duplicates("cd_mun").sort_values("cd_mun")
+# -------------------- funcoes AMC (substituem municipais) --------------------
+
+
+def gerar_painel_amc_indice(df: pd.DataFrame, crosswalk: pd.DataFrame) -> list[dict]:
+    """Lookup: code_amc, amc_nome_rep, amc_n_munis, municipios para cada AMC."""
+    indice = (
+        df[["code_amc", "amc_nome_rep", "amc_n_munis"]]
+        .drop_duplicates("code_amc")
+        .sort_values("code_amc")
+    )
+    # Adicionar lista de municipios-membros a partir do crosswalk
+    membros = (
+        crosswalk.groupby("code_amc")["nm_mun"]
+        .apply(list)
+        .reset_index()
+        .rename(columns={"nm_mun": "municipios"})
+    )
+    indice = indice.merge(membros, on="code_amc", how="left")
     return [
-        {"cd_mun": int(row["cd_mun"]), "nm_mun": str(row["nm_mun"])}
+        {
+            "code_amc": int(row["code_amc"]),
+            "amc_nome_rep": str(row["amc_nome_rep"]),
+            "amc_n_munis": int(row["amc_n_munis"]),
+            "municipios": row["municipios"],
+        }
         for _, row in indice.iterrows()
     ]
 
 
-def gerar_series_municipais(df: pd.DataFrame) -> None:
-    """Escreve 246 JSONs individuais em municipios/."""
-    MUNI_DIR.mkdir(parents=True, exist_ok=True)
+def gerar_series_amc(df: pd.DataFrame) -> None:
+    """Escreve 166 JSONs individuais em amcs/."""
+    AMC_DIR.mkdir(parents=True, exist_ok=True)
 
-    # Derivar pct vegetacao nativa
+    # Derivar pct vegetacao nativa (coluna nao existe no painel AMC)
     df = df.copy()
     df["lulc_vegetacao_nativa_ha"] = df[LULC_NATIVO].sum(axis=1)
     df["pct_vegetacao_nativa"] = df["lulc_vegetacao_nativa_ha"] / df["lulc_area_total_ha"]
 
-    all_cols = MUNI_COLS_SERIE + MUNI_COLS_PCT + ["lulc_vegetacao_nativa_ha", "pct_vegetacao_nativa"]
+    all_cols = AMC_COLS_SERIE + AMC_COLS_PCT + ["lulc_vegetacao_nativa_ha", "pct_vegetacao_nativa"]
 
-    for cd_mun, grp in df.groupby("cd_mun"):
+    for code_amc, grp in df.groupby("code_amc"):
         grp = grp.sort_values("ano")
         serie = []
         for _, row in grp.iterrows():
@@ -342,14 +369,20 @@ def gerar_series_municipais(df: pd.DataFrame) -> None:
                 else:
                     rec[c] = None if pd.isna(v) else float(v)
             serie.append(rec)
-        nm = grp["nm_mun"].iloc[0]
-        obj = {"cd_mun": int(cd_mun), "nm_mun": str(nm), "serie": serie}
-        path = MUNI_DIR / f"{int(cd_mun)}.json"
+        nome = grp["amc_nome_rep"].iloc[0]
+        n_munis = int(grp["amc_n_munis"].iloc[0])
+        obj = {
+            "code_amc": int(code_amc),
+            "amc_nome_rep": str(nome),
+            "amc_n_munis": n_munis,
+            "serie": serie,
+        }
+        path = AMC_DIR / f"{int(code_amc)}.json"
         path.write_text(
             json.dumps(obj, ensure_ascii=False),
             encoding="utf-8",
         )
-    print(f"OK municipios/ -> {len(df['cd_mun'].unique())} arquivos")
+    print(f"OK amcs/ -> {len(df['code_amc'].unique())} arquivos")
 
 
 def gerar_transicoes_matriz() -> dict:
@@ -439,9 +472,16 @@ def gerar_sankey_data() -> dict:
 def main() -> None:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     df = pd.read_parquet(PAINEL)
+    cw = pd.read_csv(CROSSWALK)
+
+    # Validar colunas esperadas
+    missing = [c for c in SOMAR if c not in df.columns]
+    if missing:
+        print(f"AVISO: colunas ausentes no painel AMC: {missing}")
+
     grp = agregar_uf(df).sort_values("ano").reset_index(drop=True)
 
-    # 1. painel_goias.json (existente, inalterado)
+    # 1. painel_goias.json (UF agregada — identico quer some por muni ou AMC)
     serie = montar_serie(grp)
     (OUT_DIR / "painel_goias.json").write_text(
         json.dumps({"unidade": "Goias (UF)", "n_anos": len(serie), "serie": serie}, ensure_ascii=False, indent=2),
@@ -449,7 +489,7 @@ def main() -> None:
     )
     print(f"OK painel_goias.json -> {len(serie)} anos ({serie[0]['ano']}-{serie[-1]['ano']})")
 
-    # 2. transicoes_resumo.json (existente, inalterado)
+    # 2. transicoes_resumo.json (UF agregada)
     resumo = transicoes_resumo(grp)
     (OUT_DIR / "transicoes_resumo.json").write_text(
         json.dumps(resumo, ensure_ascii=False, indent=2),
@@ -457,7 +497,7 @@ def main() -> None:
     )
     print(f"OK transicoes_resumo.json -> {len(resumo['classes'])} classes")
 
-    # 3. fogo_goias.json (novo)
+    # 3. fogo_goias.json (UF agregada)
     fogo = gerar_fogo_goias(df)
     (OUT_DIR / "fogo_goias.json").write_text(
         json.dumps(fogo, ensure_ascii=False, indent=2),
@@ -465,18 +505,18 @@ def main() -> None:
     )
     print(f"OK fogo_goias.json -> {fogo['n_anos']} anos, {len(fogo['classes'])} classes")
 
-    # 4. painel_municipal_indice.json (novo)
-    indice = gerar_painel_municipal_indice(df)
-    (OUT_DIR / "painel_municipal_indice.json").write_text(
+    # 4. painel_amc_indice.json (lookup: 166 AMCs)
+    indice = gerar_painel_amc_indice(df, cw)
+    (OUT_DIR / "painel_amc_indice.json").write_text(
         json.dumps(indice, ensure_ascii=False, indent=2),
         encoding="utf-8",
     )
-    print(f"OK painel_municipal_indice.json -> {len(indice)} municipios")
+    print(f"OK painel_amc_indice.json -> {len(indice)} AMCs")
 
-    # 5. municipios/{cd_mun}.json x 246 (novo)
-    gerar_series_municipais(df)
+    # 5. amcs/{code_amc}.json x 166
+    gerar_series_amc(df)
 
-    # 6. transicoes_matriz.json (novo)
+    # 6. transicoes_matriz.json (5 matrizes 6x6)
     transicoes = gerar_transicoes_matriz()
     (OUT_DIR / "transicoes_matriz.json").write_text(
         json.dumps(transicoes, ensure_ascii=False, indent=2),
@@ -485,7 +525,7 @@ def main() -> None:
     n_periodos = len(transicoes["periodos"])
     print(f"OK transicoes_matriz.json -> {n_periodos} periodos")
 
-    # 7. sankey_data.json (novo)
+    # 7. sankey_data.json (1985 -> 2024)
     sankey = gerar_sankey_data()
     (OUT_DIR / "sankey_data.json").write_text(
         json.dumps(sankey, ensure_ascii=False, indent=2),
@@ -494,6 +534,17 @@ def main() -> None:
     n_links = len(sankey["links"])
     n_nodes = len(sankey["nodes"])
     print(f"OK sankey_data.json -> {n_nodes} nodos, {n_links} links")
+
+    # 8. Limpar dados municipais obsoletos
+    muni_dir = OUT_DIR / "municipios"
+    muni_indice = OUT_DIR / "painel_municipal_indice.json"
+    if muni_dir.exists():
+        import shutil
+        shutil.rmtree(muni_dir)
+        print(f"LIMPO {muni_dir} (246 JSONs municipais obsoletos)")
+    if muni_indice.exists():
+        muni_indice.unlink()
+        print(f"LIMPO {muni_indice}")
 
 
 if __name__ == "__main__":

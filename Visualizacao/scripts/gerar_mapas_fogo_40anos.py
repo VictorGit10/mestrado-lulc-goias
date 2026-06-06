@@ -1,8 +1,10 @@
 """gerar_mapas_fogo_40anos.py — 40 mapas coropleticos anuais (1985-2024)
-de area queimada por municipio de Goias.
+de area queimada por AMC de Goias.
 
-Usa painel unificado para area queimada total por municipio x ano,
+Usa painel AMC para area queimada total por AMC x ano,
 aplica escala log (np.log1p) e breaks Jenks globais para comparabilidade.
+
+D11: AMC = unidade canonica para analises longitudinais.
 
 Saida:
     Visualizacao/img/mapas_fogo/fogo_{ANO}.webp  (40 arquivos)
@@ -39,7 +41,8 @@ FIGSIZE = (10, 8)
 ANO_MIN, ANO_MAX = 1985, 2024
 QUALITY_WEBP = 85
 
-PAINEL = ROOT / "data" / "processed" / "painel_unificado.parquet"
+PAINEL = ROOT / "data" / "processed" / "painel_amc_goias.parquet"
+AMC_GPKG = ROOT / "data" / "processed" / "amc_goias.gpkg"
 OUT_DIR = ROOT / "Visualizacao" / "img" / "mapas_fogo"
 
 
@@ -55,20 +58,20 @@ def _fmt_ha(v: float) -> str:
 
 
 def carregar_malha() -> gpd.GeoDataFrame:
-    print("[...] Baixando/carregando malha municipal de Goias (geobr)...")
-    gdf = geobr.read_municipality(code_muni="GO", year=2020)
-    gdf["code_muni"] = gdf["code_muni"].astype("int64")
+    print("[...] Carregando malha AMC de Goias (amc_goias.gpkg)...")
+    gdf = gpd.read_file(AMC_GPKG)
+    gdf["code_amc"] = gdf["code_amc"].astype(int)
     # Reprojetar para EPSG:5880 (Albers Brasil, metrico) — necessario para a
     # barra de escala em metros via adicionar_escala(ax, dx=1).
     gdf = gdf.to_crs(5880)
     return gdf
 
 
-def gerar_mapas(df: pd.DataFrame, gdf_munis: gpd.GeoDataFrame) -> None:
+def gerar_mapas(df: pd.DataFrame, gdf_amcs: gpd.GeoDataFrame) -> None:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    # Agregar fogo total por municipio x ano
-    fogo = df.groupby(["cd_mun", "ano"], as_index=False)["fogo_total_ha"].sum(min_count=1)
+    # Agregar fogo total por AMC x ano
+    fogo = df.groupby(["code_amc", "ano"], as_index=False)["fogo_total_ha"].sum(min_count=1)
 
     # Calcular breaks Jenks globais sobre log1p de TODOS os valores
     try:
@@ -100,7 +103,7 @@ def gerar_mapas(df: pd.DataFrame, gdf_munis: gpd.GeoDataFrame) -> None:
     ]
 
     # Limites fixos baseados no total_bounds da malha projetada (EPSG:5880) com 2% de margem
-    bounds = gdf_munis.total_bounds
+    bounds = gdf_amcs.total_bounds
     x_margin = (bounds[2] - bounds[0]) * 0.02
     y_margin = (bounds[3] - bounds[1]) * 0.02
     xmin, xmax = bounds[0] - x_margin, bounds[2] + x_margin
@@ -110,7 +113,7 @@ def gerar_mapas(df: pd.DataFrame, gdf_munis: gpd.GeoDataFrame) -> None:
     convertidos = 0
 
     for i, ano in enumerate(anos, start=1):
-        fogo_ano = fogo[fogo["ano"] == ano][["cd_mun", "fogo_total_ha"]].copy()
+        fogo_ano = fogo[fogo["ano"] == ano][["code_amc", "fogo_total_ha"]].copy()
         fogo_ano["log_fogo"] = np.where(
             fogo_ano["fogo_total_ha"] > 0,
             np.log1p(fogo_ano["fogo_total_ha"]),
@@ -118,7 +121,7 @@ def gerar_mapas(df: pd.DataFrame, gdf_munis: gpd.GeoDataFrame) -> None:
         )
         fogo_ano["tem_fogo"] = fogo_ano["fogo_total_ha"] > 0
 
-        gdf_ano = gdf_munis.merge(fogo_ano, left_on="code_muni", right_on="cd_mun", how="left")
+        gdf_ano = gdf_amcs.merge(fogo_ano, on="code_amc", how="left")
         gdf_ano["tem_fogo"] = gdf_ano["tem_fogo"].fillna(False)
         gdf_ano["log_fogo"] = gdf_ano["log_fogo"].fillna(0)
 
@@ -172,17 +175,17 @@ def gerar_mapas(df: pd.DataFrame, gdf_munis: gpd.GeoDataFrame) -> None:
 
 def main() -> None:
     print("=" * 60)
-    print("Gerando 40 mapas coropleticos de fogo — Goias 1985-2024")
+    print("Gerando 40 mapas coropleticos de fogo — Goias 1985-2024 (AMC)")
     print("=" * 60)
 
     print(f"[...] Lendo {PAINEL.name}...")
     df = pd.read_parquet(PAINEL)
-    print(f"[OK]  {len(df)} linhas, {df['cd_mun'].nunique()} municipios")
+    print(f"[OK]  {len(df)} linhas, {df['code_amc'].nunique()} AMCs")
 
-    gdf_munis = carregar_malha()
-    print(f"[OK]  Malha: {len(gdf_munis)} municipios, CRS {gdf_munis.crs}")
+    gdf_amcs = carregar_malha()
+    print(f"[OK]  Malha: {len(gdf_amcs)} AMCs, CRS {gdf_amcs.crs}")
 
-    gerar_mapas(df, gdf_munis)
+    gerar_mapas(df, gdf_amcs)
 
     print("\n" + "=" * 60)
     print(f"Concluido! WebPs em: {OUT_DIR}")

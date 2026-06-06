@@ -322,6 +322,13 @@
           O dourado que domina o centro-sul é pastagem. O verde escuro do norte e nordeste — Paranã, Vão do Paranã — é o cerrado que sobreviveu. A agricultura aparece em manchas pontuais de rosa no sudoeste; ainda é incipiente.
         </p>
 
+        <div class="step--mini-sankey">
+          <p class="mini-sankey-titulo">Fluxos do Ato I</p>
+          <p class="mini-sankey-lede">Para onde foram os hectares entre 1985 e 2000: cruzamento pixel-a-pixel das transições deste período.</p>
+          <div class="mini-sankey-svg" data-ato="I"></div>
+          <p class="mini-sankey-fonte">Fonte: MapBiomas Col. 10.1 · Pipeline #25</p>
+        </div>
+
       </article>
 
 
@@ -347,6 +354,13 @@
           No mapa, o sudoeste (Rio Verde, Jataí e Mineiros) começa a se vestir de rosa com o avanço da lavoura sobre o pasto. Embora a pecuária continue gigante no total do estado, a dinâmica econômica do agronegócio agora pertence à soja.
         </p>
 
+        <div class="step--mini-sankey">
+          <p class="mini-sankey-titulo">Fluxos do Ato II</p>
+          <p class="mini-sankey-lede">Para onde foram os hectares entre 2001 e 2019: o período da grande expansão agrícola sobre a pastagem.</p>
+          <div class="mini-sankey-svg" data-ato="II"></div>
+          <p class="mini-sankey-fonte">Fonte: MapBiomas Col. 10.1 · Pipeline #25</p>
+        </div>
+
       </article>
 
 
@@ -371,6 +385,13 @@
         <p class="era-mapa">
           O verde escuro do Cerrado resiste no norte (Vão do Paranã), enquanto as lavouras se estabilizam no oeste. Com a vegetação natural em 34,9% do estado em 2024, Goiás toca o limite legal do bioma, mas a queda livre de quarenta anos finalmente parece encontrar um piso.
         </p>
+
+        <div class="step--mini-sankey">
+          <p class="mini-sankey-titulo">Fluxos do Ato III</p>
+          <p class="mini-sankey-lede">Para onde foram os hectares entre 2020 e 2024: a conversão seletiva e os primeiros sinais de estabilização.</p>
+          <div class="mini-sankey-svg" data-ato="III"></div>
+          <p class="mini-sankey-fonte">Fonte: MapBiomas Col. 10.1 · Pipeline #25</p>
+        </div>
 
       </article>
 
@@ -507,7 +528,7 @@
     <div class="como-bloco" id="painel-vitrine">
       <h3>3 &middot; O painel e o que ele revela</h3>
       <p>
-        A dissertação consolidou um painel municipal (246 municípios × 40 anos
+        A dissertação consolidou um painel de 166 Áreas Mínimas Comparáveis (AMCs × 40 anos
         × ~70 variáveis), reunindo MapBiomas, IBGE/SIDRA-PAM/PPM, IPEA, BACEN
         e outras fontes. Os agregados municipais foram confrontados com os totais
         estaduais do IBGE/SIDRA e checagens internas entre fontes, sem anomalias
@@ -521,7 +542,7 @@
       </div>
       <p class="inventario-rodape">
         Todas as séries são para o estado de Goiás (agregação UF). O painel
-        municipal completo (246 munis × ~70 vars) está documentado nos pipelines
+        AMC completo (166 AMCs × ~70 vars) está documentado nos pipelines
         #1–#26 da dissertação.
       </p>
 
@@ -547,8 +568,8 @@
           </div>
           <p style="font-size: 0.88rem; line-height: 1.55; margin: 0.9rem 0 0;">
             O salto acontece após 2001 e se acelera no Ato II. Inferencialmente,
-            o painel 2FE Δ Pastagem × Δ Rebanho municipal confirma o padrão
-            mesmo controlando heterogeneidade municipal e tendências comuns
+            o painel 2FE Δ Pastagem × Δ Rebanho (AMC) confirma o padrão
+            mesmo controlando heterogeneidade da AMC e tendências comuns
             — detalhes em <a href="#sintese-titulo">§ 7.2</a>.
           </p>
         </div>
@@ -570,7 +591,7 @@
         A expansão sobre pastagem, não sobre mata, é a assinatura do <em>land sparing</em>:
         a agricultura cresce em área (×4,8) enquanto o valor agregado agropecuário por hectare
         sobe — ou seja, mais produção por m², não apenas mais m². O painel 2FE confirma
-        (β = −0,004, p &lt; 0,001): municípios onde o VA agro cresceu mais não foram os que
+        (β = −0,004, p &lt; 0,001): AMCs onde o VA agro cresceu mais não foram os que
         mais expandiram área agrícola. A safrinha de milho (2ª safra) amplifica esse efeito
         a partir dos anos 2000 — mesma área, duas colheitas por ano.
       </p>
@@ -622,9 +643,9 @@
       <!-- S3.3 — Crédito → pastagem -->
       <h4>3.3 &middot; Onde o crédito apareceu, a pastagem recuou</h4>
       <p>
-        A partir de 2013, o SICOR (BACEN) registra o crédito rural município
-        a município. Cruzando com a variação anual de pastagem no painel
-        municipal (2-way FE), encontra-se uma associação inversa
+        A partir de 2013, o SICOR (BACEN) registra o crédito rural por AMC.
+        Cruzando com a variação anual de pastagem no painel
+        AMC (2-way FE), encontra-se uma associação inversa
         significativa: onde o crédito aumentou, a pastagem encolheu. O sinal
         é consistente com a transição financiada pastagem → agricultura
         mostrada no Sankey de § 2.
@@ -639,9 +660,9 @@
           <p style="margin: 0 0 0.6rem;">
             Especificação:
             <code>Δ Pastagem<sub>it</sub> = α<sub>i</sub> + γ<sub>t</sub> + β · Δ SICOR<sub>it</sub> + ε<sub>it</sub></code>.
-            O efeito fixo de município (α<sub>i</sub>) absorve heterogeneidade local;
+            O efeito fixo de AMC (α<sub>i</sub>) absorve heterogeneidade local;
             o efeito fixo de ano (γ<sub>t</sub>) absorve choques nacionais.
-            Erro padrão clusterizado por município.
+            Erro padrão clusterizado por AMC.
           </p>
           <table class="camadas-tabela" style="margin: 0.5rem 0;">
             <thead>
@@ -680,7 +701,7 @@
       política: se a pastagem funciona como reserva de terra de longo prazo, políticas de
       crédito e regulação fundiária têm alavancagem diferente do que se toda conversão fosse
       rotação agrícola de curto prazo. A idade da pastagem no momento da conversão
-      pixel-a-pixel (78.000 amostras, 246 municípios) revela que não existe uma única
+      pixel-a-pixel (78.000 amostras, 166 AMCs) revela que não existe uma única
       resposta — existem <strong>duas populações</strong>.
     </p>
     <figure class="grafico-card grafico-card--wide">
@@ -986,8 +1007,8 @@
           </tr>
           <tr>
             <td>Painel 2-way FE</td>
-            <td>"Dentro de cada município, X explica Y depois de remover choques nacionais?"</td>
-            <td>Causalmente forte; absorve heterogeneidade municipal e tendências comuns.</td>
+            <td>"Dentro de cada AMC, X explica Y depois de remover choques nacionais?"</td>
+            <td>Causalmente forte; absorve heterogeneidade da AMC e tendências comuns.</td>
             <td>Não isola marcos específicos; R² <em>within</em> baixo.</td>
           </tr>
           <tr>
@@ -1016,14 +1037,14 @@
 
       <h4>7.2 · Painel 2-way FE — camada inferencial (núcleo da dissertação)</h4>
       <p>
-        Usa os 246 municípios × ~10 anos como painel. A especificação é
+        Usa as 166 AMCs × ~10 anos como painel. A especificação é
         <code>Δlulc<sub>it</sub> = α<sub>i</sub> + γ<sub>t</sub> + β·Δx<sub>it</sub> + ε<sub>it</sub></code>:
-        o efeito fixo de município (α<sub>i</sub>) absorve tudo que é constante no
+        o efeito fixo de AMC (α<sub>i</sub>) absorve tudo que é constante no
         local (bioma, solo, distância de estradas, cultura local); o efeito fixo de
         ano (γ<sub>t</sub>) absorve choques nacionais (preço da soja global, política
         monetária federal). O coeficiente β que sobra é o efeito <em>dentro</em> de
-        cada município, líquido de tendências comuns. Erro padrão clusterizado por
-        município. Dos 16 modelos testados, 6 são significativos. Os dois mais robustos:
+        cada AMC, líquido de tendências comuns. Erro padrão clusterizado por
+        AMC. Dos 16 modelos testados, 6 são significativos. Os dois mais robustos:
       </p>
 
       <div class="dado-choque-grid">
@@ -1038,7 +1059,7 @@
           <div class="dado-choque-valor">β = −0,003</div>
           <div class="dado-choque-label">Δ Pastagem × Δ SICOR · p &lt; 0,001</div>
           <div class="dado-choque-glosa">
-            Significativo em <strong>duas janelas</strong>. Aumento no crédito rural municipal está associado à retração da pastagem — consistente com a transição pastagem → agricultura financiada por crédito.
+            Significativo em <strong>duas janelas</strong>. Aumento no crédito rural por AMC está associado à retração da pastagem — consistente com a transição pastagem → agricultura financiada por crédito.
           </div>
         </div>
       </div>
@@ -1069,7 +1090,7 @@
           </table>
         </div>
         <p style="font-size: 0.8rem; color: var(--color-muted); padding: 0.7rem 0.9rem 0.9rem; margin: 0; background: #fcfcfa;">
-          β em Mha de LULC por unidade de Δ X. Erro padrão clusterizado por município. Janelas: plena (2013–2021, com SICOR) e estendida (2002–2023, sem SICOR).
+          β em Mha de LULC por unidade de Δ X. Erro padrão clusterizado por AMC. Janelas: plena (2013–2021, com SICOR) e estendida (2002–2023, sem SICOR).
         </p>
       </details>
 
@@ -1229,7 +1250,7 @@
         <div class="decisao-card">
           <span class="decisao-badge">D6</span>
           <div class="decisao-titulo">5 mesorregiões IBGE 2017</div>
-          <div class="decisao-por-que">Recorte oficial via <code>geobr</code>, mapeado a partir de cd_mun.</div>
+          <div class="decisao-por-que">Recorte oficial via <code>geobr</code>, mapeado a partir de code_amc (Ehrl 2017).</div>
         </div>
         <div class="decisao-card">
           <span class="decisao-badge">D7</span>
@@ -1239,7 +1260,7 @@
         <div class="decisao-card">
           <span class="decisao-badge">D8</span>
           <div class="decisao-titulo">Painel com entity + time FE</div>
-          <div class="decisao-por-que">Controla heterogeneidade municipal e choques nacionais; SE clusterizado.</div>
+          <div class="decisao-por-que">Controla heterogeneidade da AMC e choques nacionais; SE clusterizado.</div>
         </div>
         <div class="decisao-card">
           <span class="decisao-badge">D9</span>
@@ -1347,7 +1368,7 @@
         <dd>Probabilidade de ver um β tão extremo quanto o observado se na verdade não houvesse efeito. Usual: p &lt; 0,05 = "estatisticamente significativo".</dd>
 
         <dt>R² <em>within</em></dt>
-        <dd>Fração da variância <em>dentro</em> de cada município (depois de remover efeitos fixos) que o modelo explica.</dd>
+        <dd>Fração da variância <em>dentro</em> de cada AMC (depois de remover efeitos fixos) que o modelo explica.</dd>
 
         <dt>Slope</dt>
         <dd>Coeficiente angular da reta ajustada em 5 anos consecutivos. Velocidade média (Mha/ano).</dd>
@@ -1359,7 +1380,7 @@
         <dd><em>Heteroscedasticity and Autocorrelation Consistent</em>. Correção do erro padrão para resíduos autocorrelacionados (Newey-West é a forma mais comum).</dd>
 
         <dt>FE</dt>
-        <dd><em>Fixed Effects</em>, efeitos fixos. α<sub>i</sub> absorve o que é constante no município; γ<sub>t</sub> absorve choques nacionais.</dd>
+        <dd><em>Fixed Effects</em>, efeitos fixos. α<sub>i</sub> absorve o que é constante na AMC; γ<sub>t</sub> absorve choques nacionais.</dd>
 
         <dt>DiD</dt>
         <dd><em>Difference-in-Differences</em>. Compara a mudança em um grupo tratado com a mudança em um grupo controle ao redor de um marco. β-DiD = "diferença das diferenças".</dd>
