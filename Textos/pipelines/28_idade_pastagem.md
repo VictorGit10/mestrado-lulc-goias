@@ -134,6 +134,8 @@ A coorte `agricultura → pastagem → agricultura` (rotação) é distinta da c
 
 Idade da pastagem na conversão **não é guiada por choques agregados municipais**. Sugere que os mecanismos atuam **abaixo da escala municipal** — provavelmente por propriedade individual e história fundiária, variáveis não capturadas pelos dados disponíveis.
 
+> **Seguimento (Pipeline #40, 2026-06-07)**: a espacialização (AMC + município) e o cruzamento com **plantio direto** (estrutura, não fluxo) **confirmam** esta leitura. No recorte transversal, idade, no-till, VA agro e SICOR **co-variam apenas pelo gradiente Sul→Norte de aptidão** — controlando latitude, nenhum isola um mecanismo (no-till × idade cai de −0,37 para −0,22). A contribuição do #40 é a **geografia** das duas lógicas (Rotação jovem no Sul × Oportunístico antigo no Norte), não um preditor transversal. Ver `pipelines/40_duas_logicas_pastagem.md`.
+
 ## Censura à esquerda
 
 Pixels já classificados como pastagem em 1985 não têm idade verdadeira conhecida (a série inicia em 1985). O Sub-pipeline A marca esses pixels com `origem_anterior = censurado_esquerda` (66,1% da amostra global, decrescendo de 100% em 1986 para 12% em 2024) e o Sub-pipeline B os separa em todas as figuras. Análises sensíveis a idade absoluta restringem-se aos 26.427 pixels não-censurados.

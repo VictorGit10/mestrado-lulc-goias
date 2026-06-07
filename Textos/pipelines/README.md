@@ -1,6 +1,6 @@
 # Pipelines — índice
 
-Pipelines **#1–#38** documentados aqui — **37 com doc dedicado**; o **#27** (Trase) ainda está sem doc próprio, e o **#30** e o **#31** vivem dentro do [#29](29_triangulacao_periodizacao.md). Cada arquivo descreve **processo** (o que faz, como rodar, decisões metodológicas, validações, limitações). Para descrição dos **produtos** (PNGs, CSVs com interpretação para redação), ver [outputs/](../outputs/).
+Pipelines **#1–#40** documentados aqui — **39 com doc dedicado**; o **#27** (Trase) ainda está sem doc próprio, e o **#30** e o **#31** vivem dentro do [#29](29_triangulacao_periodizacao.md). Cada arquivo descreve **processo** (o que faz, como rodar, decisões metodológicas, validações, limitações). Para descrição dos **produtos** (PNGs, CSVs com interpretação para redação), ver [outputs/](../outputs/).
 
 ## Tabela resumo
 
@@ -43,6 +43,8 @@ Pipelines **#1–#38** documentados aqui — **37 com doc dedicado**; o **#27** 
 | 36 | [36_robustez_janela_slope.md](36_robustez_janela_slope.md) | `robustez_janela_slope.py` | Robustez do slope do #17 à largura da janela móvel (3/5/7/10 anos) | 1985–2024 | UF (GO) | ✅ |
 | 37 | [37_drive_comum.md](37_drive_comum.md) | `coleta_drivers_macro.py` + `drive_comum.py` | Drivers macro (preço recebido, câmbio real, crédito) × inflexões do LULC — testa o "drive comum" do #34 | 1985–2024 | UF (GO) | ✅ |
 | 38 | [38_drive_comum_amc.md](38_drive_comum_amc.md) | `drive_comum_amc.py` | Drive comum no painel AMC: interação **driver × exposição** (2FE) — testa o gradiente de aptidão (indício sugestivo, não confirmado sob FDR) | 1985–2024 | AMC (166) | ✅ |
+| 39 | [39_fronteira_fechando.md](39_fronteira_fechando.md) | `fronteira_fechando.py` | A fronteira está fechando? Estoque de Cerrado convertível como restrição de **oferta** (D13) | 1985–2024 | AMC + faixa lat. | ✅ |
+| 40 | [40_duas_logicas_pastagem.md](40_duas_logicas_pastagem.md) | `duas_logicas_pastagem.py` | As duas lógicas da pastagem: espacialização do #28 + cruzamento com plantio direto (D14) | 2010–2024 | AMC + municipal | ✅ |
 
 ## Como os pipelines se cruzam
 
@@ -73,6 +75,8 @@ Pipelines **#1–#38** documentados aqui — **37 com doc dedicado**; o **#27** 
 - **#31** consome #19 (transições) e #17 (taxas). Intensity Analysis (Aldwaik & Pontius 2012) para testar se P2 e P3 diferem em taxa de mudança. Diagnóstico complementar para fronteira 2005/2006.
 - **#37** coleta drivers macro **exógenos** novos (IPEA Data: preços internacionais IMF IFS, câmbio real efetivo REER, crédito rural longo CREATE-GO) e cruza com #17 (deltas LULC), #26 (quebras) e #34 (séries regionais). Reusa `ccf_defasada`/`granger` do #34 e `pearson_with_hac` do #21. **Testa o "drive comum"** que o #34 deixou inferido — mas na série **UF/anual (N≈38)**: os hits não sobrevivem a multiplicidade e só o **câmbio** tem estrutura (aparece em duas margens). Camada 4 da narrativa Sul→Norte; deixa o teste com poder para o #38.
 - **#38** consome #37A (drivers macro), #25 (painel AMC, rebanho) e `taxas_lulc_amc`, reusando o padrão **PanelOLS 2-way FE** do #22. **Muda a unidade de análise** do #37 (UF/anual, N≈38) para o **painel AMC** (~6.600 obs) e testa o **gradiente de aptidão** via interação **driver × exposição baseline**: o γ_t absorve o choque comum, a interação identifica o gradiente. Clusterização dupla (entidade+ano) + **conjunto confirmatório teórico** + **grade exploratória FDR** (lição de multiplicidade do #37). **Achado (sóbrio)**: a hipótese confirmatória câmbio × fronteira → **REBANHO** confirma a direção (p=0,031), mas a grade exploratória completa (lags 0/1/2, 144 testes) **não devolve nenhum** sobrevivente do FDR — o gradiente no rebanho é **sugestivo, não estabelecido**; a área LULC **não** responde (nulo robusto). Avança (não fecha) a Camada 5.
+- **#39** consome #25 (painel AMC) e #19 (conversões brutas) para testar a alternativa de **oferta** ao drive de demanda (#37/#38): a desaceleração recente seria o estoque de Cerrado convertível esgotando? (**D13**: convertível = proxy MapBiomas com teto). **Escalonado**: no estado a fronteira **não** fechou (só migrou ao norte); **no Sul sim** (estoque baixo + hazard caindo = giro à intensificação), sob demanda forte ⇒ restrição de oferta. Terceira perna da leitura Sul→Norte.
+- **#40** consome #28 (idade da pastagem na conversão, por pixel) + #27/Censo 2017 (plantio direto) + #25 (crosswalk/geometria AMC). **Espacializa** os mecanismos de conversão (Rotação jovem × Oportunístico antigo) por AMC/município e cruza com no-till. **Achado sólido = a geografia das duas lógicas** (Rotação no Sul, Oportunístico no Norte = duas faces do gradiente de aptidão). **Verificação interna (D14)**: o cruzamento com no-till é **co-localização no gradiente Sul→Norte, não efeito próprio** (parcial controlando lat+lon zera o sinal; fluxo correlaciona igual no mesmo recorte) — corrige um overclaim da primeira leitura.
 
 ## Convenções
 
