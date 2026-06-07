@@ -1,0 +1,142 @@
+# Pipeline #39 — A fronteira está fechando? (frontier closure / oferta de Cerrado)
+
+**Script**: `scripts/fronteira_fechando.py`
+**Status**: ✅ concluído (2026-06-07)
+**Entradas**: `painel_amc_goias.parquet` (#25), `drivers_macro_anual.csv` (#37), geometria/crosswalk AMC.
+**Saídas**: 4 CSVs (`data/processed/fronteira_*.csv`) + 4 PNGs (`outputs/fronteira_fechando/`).
+
+## Pergunta de pesquisa
+
+A narrativa Sul→Norte (#32–#38) explicou a desaceleração recente da fronteira agropecuária
+sobretudo pela **demanda** (drive comum câmbio/crédito/commodities, #37/#38) sobre um gradiente
+de aptidão. Falta testar a alternativa pela **oferta**: a desaceleração recente (agricultura
+quase parada no Ato III, #32/#33) seria o **estoque de Cerrado convertível se esgotando** — a
+fronteira *fechando*? O sinal de partida vem do #32: tudo marchou ao norte (+65 a +78 km)
+**menos a vegetação natural (+8 km, ancorada)**, coerente com uma fronteira que recua ao norte
+à medida que o estoque ao sul se exaure. É **reinterpretação**, não mais um cruzamento.
+
+## Decisão metodológica nova — D13: o que é "terra convertível"
+
+Sem CAR/UC/PRODES integrados (coletas pendentes), "convertível" é **proxy com teto declarado**,
+reportado em 3 definições lado a lado:
+
+| Definição | Classes (painel #25) | Uso |
+|---|---|---|
+| **ampla** | floresta nativa + formação savânica + campo nativo | consistente com #32/#25 |
+| **refinada** (primária) | **formação savânica + campo nativo** | convertível de fato (exclui floresta) |
+| **refinada_rl** | refinada − 20% da área de estabelecimentos (Censo 2017) | sensibilidade Reserva Legal |
+
+**Justificativa empírica da refinada** (rodada dentro do pipeline, depleção 1985→2024 por classe):
+
+| Classe | 1985 → 2024 (Mha) | % perdido |
+|---|---|---|
+| Formação savânica | 9,90 → 6,11 | **38,2%** |
+| Campo nativo | 0,77 → 0,45 | **42,5%** |
+| Floresta nativa | 6,28 → 4,85 | 22,8% |
+| Campo alagado *(não usado)* | 0,70 → 0,48 | 31,8% |
+
+Savana e campo nativo são as classes **ativamente convertidas**; a floresta nativa (mata
+ciliar/APP, mais protegida) encolhe bem menos → fica fora da definição preferida.
+
+**Limite honesto**: é um **teto** — inclui RL/APP/UC não-subtraídos. O cenário RL (20%) é cru.
+PRODES Cerrado, TerraClass e CAR refinariam, mas não são necessários para o teste de 1ª ordem.
+
+## Abordagem (3 blocos)
+
+- **A. Estoque convertível por região e no tempo** (descritivo) — estoque/depleção por AMC×ano
+  nas 3 definições; agregação por mesorregião e **faixa de latitude** (centroide EPSG:5880).
+- **B. Teste de oferta** — fluxo de perda anual `= max(0, estoque_{t−1} − estoque_t)`;
+  **hazard** `= fluxo / estoque_{t−1}`; **painel 2-way FE** (ano FE absorve o choque comum de
+  demanda → o coeficiente do estoque isola o gradiente de oferta cross-AMC, lógica do #38);
+  resíduo controlado por demanda (drivers #37). Padrão PanelOLS + cluster duplo (D8).
+- **C. Decomposição da desaceleração Ato II→III** — `Δfluxo = h̄·Δestoque + estoquē·Δhazard`
+  (decomposição exata de produto pelo ponto médio): efeito-**OFERTA** vs efeito-**DEMANDA** por
+  região; cruzamento com os níveis de demanda (#37) por ato.
+
+## Achados
+
+### 1. O estoque convertível recuou ao norte, mas não se esgotou no estado
+
+Cerrado convertível (refinada) restante por mesorregião (Mha | % de 1985):
+
+| Mesorregião | 1985 | 2000 | 2019 | 2024 |
+|---|---|---|---|---|
+| **Sul** | 2,24 (100%) | 1,47 (66%) | 1,23 (55%) | **1,19 (53%)** |
+| Centro | 3,98 (100%) | 3,08 (77%) | 2,63 (66%) | 2,49 (63%) |
+| **Norte** | 4,46 (100%) | 3,55 (80%) | 3,04 (68%) | **2,89 (65%)** |
+
+O **Sul** começou com o **menor** estoque absoluto, depletou o **mais** (53%) e **estabilizou
+após ~2019** (1,23→1,19) — assinatura de estoque que rareou. A faixa de **latitude mais ao norte
+concentra 4,05 de ~6,56 Mha (≈62%)** do convertível remanescente: a fronteira de oferta está, de
+fato, ao norte.
+
+### 2. A conversão escala com o estoque disponível, e isso sobrevive à demanda
+
+Painel 2-way FE (z-score; N≈6.400; cluster entidade+ano):
+
+| Spec | Regressor | β | p | Leitura |
+|---|---|---|---|---|
+| B1 fluxo ~ estoque | estoque_{t−1} | **+2,76** | <0,001 | conversão escala com a oferta disponível |
+| B2a hazard ~ estoque | estoque_{t−1} | −0,32 | 0,092 | (marginal) estoque-rico converte um pouco menos por unidade |
+| B2b hazard ~ depleção | depleção_{t−1} | −0,02 | 0,48 | **n.s.** — hazard não cai com a depleção (sem atrito claro) |
+| B3 fluxo ~ estoque + demanda | estoque_{t−1} | **+2,76** | <0,001 | sobrevive a controlar câmbio/preço/crédito (#37) |
+
+> **Honestidade**: B1/B3 são **parcialmente mecânicos** (fluxo ≡ estoque × hazard), então o β
+> grande do estoque é em parte definicional. O teste informativo é o **hazard** (B2): a taxa de
+> conversão *por unidade de estoque* **não** sobe com a depleção — ou seja, o remanescente não é
+> convertido mais rápido nem trava por atrito. A conversão é, em primeira ordem, **paced pela
+> oferta** (fluxo ≈ estoque × taxa ~constante).
+
+### 3. A desaceleração Ato II→III é regional, não estadual — a fronteira **migrou**, não fechou
+
+Decomposição do Δ do fluxo de conversão de vegetação (Mha/ano):
+
+| Região | fluxo II | fluxo III | Δfluxo | efeito-OFERTA (Δestoque) | efeito-DEMANDA (Δhazard) |
+|---|---|---|---|---|---|
+| Goiás (total) | 0,071 | 0,072 | **+0,001** | −0,007 | +0,008 |
+| **Sul** | 0,015 | 0,010 | **−0,006** | −0,001 | **−0,005** |
+| Centro | 0,027 | 0,030 | +0,003 | −0,003 | +0,006 |
+| **Norte** | 0,029 | 0,033 | **+0,004** | −0,003 | **+0,007** |
+
+- **Estado**: o fluxo de conversão de vegetação **não desacelerou** (0,071→0,072) — o efeito-oferta
+  (estoque encolhendo, negativo em toda parte) é **compensado** pelo efeito-demanda (hazard subindo
+  no Centro/Norte). A fronteira **relocou ao norte**.
+- **Sul**: único onde o fluxo **caiu**, por estoque baixo **e** hazard caindo (0,012→0,008) — a
+  assinatura de **fronteira fechada + giro à intensificação** (coerente com #33: `pasto→agric` do
+  Sul despenca −88% no Ato III).
+- **Norte**: **fronteira ativa** — estoque declinante mas convertido a taxa **crescente**.
+
+### 4. A demanda NÃO esfriou no Ato III — reforça a leitura de oferta no Sul
+
+Níveis médios dos drivers (#37) por ato: câmbio real 134,5→**169,0**; preço recebido soja
+104,4→**186,4**; crédito rural GO (R$ 2010) 14,3→**24,1 bi**. A demanda **subiu** no Ato III.
+Logo a desaceleração agrícola do Sul (#32/#33) ocorreu **sob demanda forte** → consistente com
+**restrição de oferta** (de Cerrado convertível **e** de pasto-reserva jovem, #28) no Sul, não com
+demanda fraca.
+
+## Veredito
+
+**A fronteira está fechando — mas de forma escalonada e incompleta.** No agregado estadual, **não**
+(ainda): resta ~60% do Cerrado convertível de 1985 e o fluxo de conversão não desacelerou, apenas
+migrou ao norte. **Regionalmente, sim no Sul**: estoque baixo + hazard caindo + giro à intensificação
+sob demanda forte. O **Norte** é fronteira ativa que persegue o estoque convertível remanescente.
+
+Para a tese, isto **complementa** (não derruba) o "drive comum + gradiente de aptidão" (#37/#38),
+adicionando uma **terceira perna**: a oferta de terra convertível é um **teto regional móvel** — o
+Sul bateu no teto e girou para intensificação; o Norte ainda tem teto e avança. A "marcha ao norte"
+do #32 é, em parte, a fronteira **perseguindo o estoque que só resta no norte**.
+
+## Limitações
+
+- **Convertível = proxy MapBiomas** (teto; sem CAR/UC/PRODES). Cenário RL (20%) é cru.
+- **Fluxo = perda líquida de estoque** clipada em 0 (ignora rebrota; gross `veg→pasto` via
+  `analise_transicoes.py` refinaria).
+- **B1/B3 parcialmente mecânicos**; a inferência forte vem do hazard (B2, fraco/plano) + decomposição.
+- **Descritivo/quase-causal**; recorte mesorregional (3 regiões) é grosso; Ato III tem só 4–5 anos.
+
+## Como rodar
+
+```bash
+python scripts/fronteira_fechando.py               # CSVs + 4 figuras
+python scripts/fronteira_fechando.py --sem-figuras # só a parte numérica
+```
