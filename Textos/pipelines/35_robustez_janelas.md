@@ -48,12 +48,12 @@ Se a narrativa Sul→Norte só aparece quando se usa exatamente os atos (1985–
 | **Décadas** | sim (+2,0 km/a) | mais fraco (+0,9 vs +1,5) | **100%** | 75% |
 
 1. **A marcha do pasto ao norte é robusta** — velocidade média ~+2 km/ano em todos os esquemas.
-2. **A desaceleração recente da agricultura é robusta — mas dependente de resolução.** Nítida nos Atos e na Grade-5 (a janela recente isola 2020–24); **diluída nas Décadas**, porque a década 2015–2024 mistura o boom pré-2020 com o congelamento pós-2020. Isso **justifica** manter janelas finas / a fronteira de 2020 dos atos: o congelamento é um fenômeno pós-2020 que réguas grossas borram.
+2. **A desaceleração recente da agricultura é robusta — mas dependente de resolução.** Nítida nos Atos e na Grade-5 (a janela recente isola 2020–24); **diluída nas Décadas**, porque a década 2015–2024 mistura o boom pré-2020 com a desaceleração pós-2020. Isso **justifica** manter janelas finas / a fronteira de 2020 dos atos: a desaceleração é um fenômeno pós-2020 que réguas grossas borram.
 3. **O gradiente `Sul: pasto→agric` é cravado**: o Sul converte mais pasto em agricultura que o Norte em **100% das janelas, em todos os esquemas**.
 4. **O gradiente `Norte: veg→pasto` é robusto, com leve oscilação no fino** (100%/88%/75%) — coerente com o achado honesto do #33 (gradiente **relativo, não exclusivo**: o Sul também foi fronteira de `veg→pasto` no início).
 5. **O deslocamento líquido 1985→2024 é idêntico em todo esquema** (agricultura +65, pasto +78, rebanho +67, veg +8 km) — depende só dos extremos, é a robustez trivial.
 
-> **Conclusão**: a narrativa Sul→Norte (#32/#33) **não é artefato das fronteiras dos atos**. Sobrevive a réguas regulares e exógenas. A única sensibilidade — a nitidez do congelamento recente da agricultura — é informativa: ela confirma que o fenômeno é **pós-2020** e endossa o uso de janelas que isolam esse período.
+> **Conclusão**: a narrativa Sul→Norte (#32/#33) **não é artefato das fronteiras dos atos**. Sobrevive a réguas regulares e exógenas. A única sensibilidade — a nitidez da desaceleração recente da agricultura — é informativa: ela confirma que o fenômeno é **pós-2020** e endossa o uso de janelas que isolam esse período.
 
 ---
 

@@ -73,7 +73,7 @@ aparece em uma pode ser artefato do recorte.
 | Aparece nos **atos**, mas **não na grade exógena** | pode ser **artefato das fronteiras** escolhidas | **rebaixe** o achado; investigue por que a fronteira importa |
 | Não aparece na série **contínua** | provável **artefato de binning** | descarte ou investigue |
 
-*Exemplo real (#35)*: a desaceleração recente da agricultura aparece nos **atos** e na **grade de 5 anos** (que isolam 2020–24), mas **dilui nas décadas** (a década 2015–2024 mistura o boom pré-2020 com o congelamento). Leitura pela tabela: **sensibilidade de resolução** → o congelamento é um fenômeno **pós-2020**, e réguas grossas o borram. Isso *valida* o uso de janelas finas, em vez de invalidar o achado.
+*Exemplo real (#35)*: a desaceleração recente da agricultura aparece nos **atos** e na **grade de 5 anos** (que isolam 2020–24), mas **dilui nas décadas** (a década 2015–2024 mistura o boom pré-2020 com a desaceleração pós-2020). Leitura pela tabela: **sensibilidade de resolução** → a desaceleração é um fenômeno **pós-2020**, e réguas grossas o borram. Isso *valida* o uso de janelas finas, em vez de invalidar o achado.
 
 ---
 
@@ -99,7 +99,7 @@ Os **atos** ([#29](../pipelines/29_triangulacao_periodizacao.md), `config_period
 
 ## Onde já foi aplicado
 
-- **[#35](../pipelines/35_robustez_janelas.md)** — robustez de [#32](../pipelines/32_centro_massa.md) (centro de massa) e [#33](../pipelines/33_transicoes_regionais.md) (transições) sob atos / grade-5a / décadas (**face de fronteira**: onde cortar). Resultado: os achados-manchete são robustos; a única sensibilidade (congelamento recente da agricultura) é de resolução e localiza o fenômeno em pós-2020.
+- **[#35](../pipelines/35_robustez_janelas.md)** — robustez de [#32](../pipelines/32_centro_massa.md) (centro de massa) e [#33](../pipelines/33_transicoes_regionais.md) (transições) sob atos / grade-5a / décadas (**face de fronteira**: onde cortar). Resultado: os achados-manchete são robustos; a única sensibilidade (desaceleração recente da agricultura) é de resolução e localiza o fenômeno em pós-2020.
 - **[#36](../pipelines/36_robustez_janela_slope.md)** — robustez do slope do [#17](../pipelines/17_taxas_lulc.md) à **largura da janela móvel** (3/5/7/10 anos). É a **face de resolução** da D12 (quão fina é a suavização), distinta da face de fronteira do #35 (*binning* disjunto vs. *smoothing* sobreposto). Resultado: as manchetes de slope sobrevivem à largura; a aceleração (D5) é frágil — só o pico da pastagem de 2004 é uma inflexão robusta às 4 janelas.
 - **[#34](../pipelines/34_deslocamento_espacial.md)** — Camada 3 rodou em tempo contínuo (princípio 4, anti-circularidade).
 

@@ -1,6 +1,6 @@
 # Pipelines — índice
 
-Pipelines **#1–#36** documentados aqui — **35 com doc dedicado**; o **#27** (Trase) ainda está sem doc próprio, e o **#30** e o **#31** vivem dentro do [#29](29_triangulacao_periodizacao.md). Cada arquivo descreve **processo** (o que faz, como rodar, decisões metodológicas, validações, limitações). Para descrição dos **produtos** (PNGs, CSVs com interpretação para redação), ver [outputs/](../outputs/).
+Pipelines **#1–#38** documentados aqui — **37 com doc dedicado**; o **#27** (Trase) ainda está sem doc próprio, e o **#30** e o **#31** vivem dentro do [#29](29_triangulacao_periodizacao.md). Cada arquivo descreve **processo** (o que faz, como rodar, decisões metodológicas, validações, limitações). Para descrição dos **produtos** (PNGs, CSVs com interpretação para redação), ver [outputs/](../outputs/).
 
 ## Tabela resumo
 
@@ -41,6 +41,8 @@ Pipelines **#1–#36** documentados aqui — **35 com doc dedicado**; o **#27** 
 | 34 | [34_deslocamento_espacial.md](34_deslocamento_espacial.md) | `deslocamento_espacial.py` | Lead-lag + spillover espacial (Camada 3 Sul→Norte) — teste formal de deslocamento | 1985–2024 | AMC (166) | ✅ |
 | 35 | [35_robustez_janelas.md](35_robustez_janelas.md) | `robustez_janelas.py` | Robustez multi-resolução de #32/#33 (atos vs grade 5a vs décadas) | 1985–2024 | AMC + meso | ✅ |
 | 36 | [36_robustez_janela_slope.md](36_robustez_janela_slope.md) | `robustez_janela_slope.py` | Robustez do slope do #17 à largura da janela móvel (3/5/7/10 anos) | 1985–2024 | UF (GO) | ✅ |
+| 37 | [37_drive_comum.md](37_drive_comum.md) | `coleta_drivers_macro.py` + `drive_comum.py` | Drivers macro (preço recebido, câmbio real, crédito) × inflexões do LULC — testa o "drive comum" do #34 | 1985–2024 | UF (GO) | ✅ |
+| 38 | [38_drive_comum_amc.md](38_drive_comum_amc.md) | `drive_comum_amc.py` | Drive comum no painel AMC: interação **driver × exposição** (2FE) — testa o gradiente de aptidão (indício sugestivo, não confirmado sob FDR) | 1985–2024 | AMC (166) | ✅ |
 
 ## Como os pipelines se cruzam
 
@@ -69,6 +71,8 @@ Pipelines **#1–#36** documentados aqui — **35 com doc dedicado**; o **#27** 
 - **#29** consome #17 (taxas GO) e #19 (transições). Triangulação de 3 métodos para estabelecer fronteiras data-driven dos atos. Define `config_periodos.py` (ATOS, MARCOS) que #20, #23, #26, #28, #31 importam.
 - **#30** (verificação de sanidade) consome #29a diretamente. Testa FPR, sensibilidade de parâmetros, consistência univariado vs multivariado, robustez STARS.
 - **#31** consome #19 (transições) e #17 (taxas). Intensity Analysis (Aldwaik & Pontius 2012) para testar se P2 e P3 diferem em taxa de mudança. Diagnóstico complementar para fronteira 2005/2006.
+- **#37** coleta drivers macro **exógenos** novos (IPEA Data: preços internacionais IMF IFS, câmbio real efetivo REER, crédito rural longo CREATE-GO) e cruza com #17 (deltas LULC), #26 (quebras) e #34 (séries regionais). Reusa `ccf_defasada`/`granger` do #34 e `pearson_with_hac` do #21. **Testa o "drive comum"** que o #34 deixou inferido — mas na série **UF/anual (N≈38)**: os hits não sobrevivem a multiplicidade e só o **câmbio** tem estrutura (aparece em duas margens). Camada 4 da narrativa Sul→Norte; deixa o teste com poder para o #38.
+- **#38** consome #37A (drivers macro), #25 (painel AMC, rebanho) e `taxas_lulc_amc`, reusando o padrão **PanelOLS 2-way FE** do #22. **Muda a unidade de análise** do #37 (UF/anual, N≈38) para o **painel AMC** (~6.600 obs) e testa o **gradiente de aptidão** via interação **driver × exposição baseline**: o γ_t absorve o choque comum, a interação identifica o gradiente. Clusterização dupla (entidade+ano) + **conjunto confirmatório teórico** + **grade exploratória FDR** (lição de multiplicidade do #37). **Achado (sóbrio)**: a hipótese confirmatória câmbio × fronteira → **REBANHO** confirma a direção (p=0,031), mas a grade exploratória completa (lags 0/1/2, 144 testes) **não devolve nenhum** sobrevivente do FDR — o gradiente no rebanho é **sugestivo, não estabelecido**; a área LULC **não** responde (nulo robusto). Avança (não fecha) a Camada 5.
 
 ## Convenções
 

@@ -79,7 +79,7 @@ com semi-eixos = desvios-padrão ponderados das coordenadas rotacionadas. **Intu
 
 2. **Gradiente latitudinal persistente.** Mesmo todos subindo, a **distância relativa entre eles quase não muda**: o centro da agricultura fica sistematicamente **1,1° a 1,2° (≈120–130 km) ao sul** do de pastagem/rebanho em *todos* os anos. Desenha-se um modelo de cinturões ordenados de sul para norte: **agricultura → pastagem/pecuária → vegetação natural**.
 
-3. **Congelamento agrícola recente (Ato III) — o sinal mais limpo.** No **Ato III (2020–2024)**, o centro da agricultura **congela** (apenas +0,2 km ao norte), enquanto pastagem (+11,0 km) e rebanho (+8,1 km) **seguem subindo**. É a assinatura mais nítida de deslocamento de fronteira *recente*: a agricultura se assentou nas áreas consolidadas do Sul/Sudoeste e a pecuária continua sendo empurrada para o Norte/Noroeste. **É o recorte que as Camadas 2 e 3 devem investigar.**
+3. **Desaceleração agrícola recente (Ato III) — o sinal mais limpo.** No **Ato III (2020–2024)**, o centro da agricultura **desacelera** (apenas +0,2 km ao norte), enquanto pastagem (+11,0 km) e rebanho (+8,1 km) **seguem subindo**. É a assinatura mais nítida de deslocamento de fronteira *recente*: a agricultura se assentou nas áreas consolidadas do Sul/Sudoeste e a pecuária continua sendo empurrada para o Norte/Noroeste. *(Nota: +0,2 km ainda é crescimento, não estagnação absoluta; "desaceleração" é o termo honesto, não "congelamento".)* **É o recorte que as Camadas 2 e 3 devem investigar.**
 
 4. **Vetores de expansão distintos.** A agricultura avança a **nordeste** (azimute líquido 37°; forte componente leste), enquanto pasto e rebanho sobem quase **a prumo** ao norte (14° e 19°). Ou seja: não é só *quanto* cada um anda, mas em *que direção*.
 
@@ -98,7 +98,7 @@ Cada variável aparece com a posição do centro de massa em **1985 (círculo va
 ![Posições 1985 vs 2024](../../outputs/centro_massa/overview_posicoes.png)
 
 ### B. `deslocamento_latitude.png` — a narrativa N–S em uma linha
-Latitude do centro de massa **ano a ano**. As bandas de fundo marcam os três atos. É aqui que se enxerga, de relance, o **gradiente estável** (as linhas nunca se cruzam: agricultura sempre embaixo) e o **congelamento do Ato III** (a linha magenta achata enquanto laranja e vinho seguem subindo). Linha cheia = centro médio; tracejada = mediano (robusto).
+Latitude do centro de massa **ano a ano**. As bandas de fundo marcam os três atos. É aqui que se enxerga, de relance, o **gradiente estável** (as linhas nunca se cruzam: agricultura sempre embaixo) e a **desaceleração do Ato III** (a linha magenta achata enquanto laranja e vinho seguem subindo). Linha cheia = centro médio; tracejada = mediano (robusto).
 
 ![Latitude no tempo](../../outputs/centro_massa/deslocamento_latitude.png)
 

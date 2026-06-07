@@ -15,7 +15,7 @@
 
 ## Pergunta de pesquisa
 
-O Pipeline #32 (centro de massa) mostrou **o quê** se moveu: pasto e rebanho marcharam para o norte e a agricultura **congelou** no Ato III. Este pipeline responde **por quê** — qual é o **mecanismo** de uso da terra por trás disso.
+O Pipeline #32 (centro de massa) mostrou **o quê** se moveu: pasto e rebanho marcharam para o norte e a agricultura **desacelerou** no Ato III. Este pipeline responde **por quê** — qual é o **mecanismo** de uso da terra por trás disso.
 
 > A hipótese é um gradiente Sul→Norte: no **Sul**, `pastagem → agricultura` (a lavoura come o pasto e empurra o rebanho para fora); no **Norte/Noroeste**, `vegetação natural → pastagem` (o pasto abre fronteira nova sobre o Cerrado).
 
@@ -65,9 +65,9 @@ O **balanço líquido de pastagem** quantifica a mudança da fronteira:
 
 *(Mha; + ganha pasto, − perde.)* No **Ato II**, o **Sul perde pasto líquido (−0,57 Mha)** enquanto ganha agricultura (+0,76 Mha) — lavoura **deslocando** pasto. No mesmo período, **Norte (+0,13) e Noroeste (+0,09) ganham pasto**. Em hectares: **o pasto sai do Sul e reaparece no Norte.** É exatamente o que move o centro de massa para cima (#32).
 
-### 4. O Ato III conecta o mecanismo ao "congelamento" do #32
+### 4. O Ato III conecta o mecanismo à "desaceleração" do #32
 Em taxa anual, no Ato III (2020–2024):
-- **Sul: `pasto→agric` despenca** de 0,066 → 0,008 Mha/ano (−88%) → a lavoura **para** de comer pasto no Sul → **a agricultura congela** (#32, achado 3).
+- **Sul: `pasto→agric` despenca** de 0,066 → 0,008 Mha/ano (−88%) → a lavoura **para** de comer pasto no Sul → **a agricultura desacelera** (#32, achado 3).
 - **Norte/Noroeste: `veg→pasto` persiste** em ~0,038 Mha/ano → o pasto **segue** abrindo fronteira → **pasto/rebanho continuam subindo** (#32).
 
 O mecanismo, portanto, **explica** o comportamento do centroide período a período.
@@ -121,6 +121,6 @@ O #33 fecha a ponte que o #32 abriu:
 
 > **#33 (mecanismo)** — Sul: `pasto→agric` sobre pasto jovem; Norte: `veg→pasto` sobre Cerrado →
 > **redistribuição líquida** — o Sul perde pasto, o Norte ganha →
-> **#32 (resultado)** — o centro de massa do pasto/rebanho migra para o norte, e a agricultura, ancorada no Sul, congela quando para de comer pasto (Ato III).
+> **#32 (resultado)** — o centro de massa do pasto/rebanho migra para o norte, e a agricultura, ancorada no Sul, desacelera quando para de comer pasto (Ato III).
 
 **Próximo passo — Camada 3** (econômica, #22/#24): testar se a expansão da agricultura no Sul *antecede* (lead-lag) o avanço de pasto/rebanho no Norte, e se há *spillover* espacial dos vizinhos — o teste formal de deslocamento.

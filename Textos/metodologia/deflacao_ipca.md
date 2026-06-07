@@ -31,6 +31,7 @@ valor_real = valor_nominal * fator.loc[ano]
 - [Pipeline #2](../pipelines/02_analise_expandida.md) — VA agropecuário e PIB total
 - [Pipeline #8](../pipelines/08_credito_lulc.md) — todo o crédito SICOR
 - [Pipeline #16](../pipelines/16_painel_unificado.md) — `pib_real_rs`, `va_agro_real_rs`, `sicor_*` em reais (não mil R$)
+- [Pipeline #37](../pipelines/37_drive_comum.md) — crédito rural GO (`CREATE`, R$ 2010 → dez/2024) e o "preço recebido em R$ real" (preço internacional × câmbio nominal, deflacionado; válido 1994+)
 
 ## Limitações
 
