@@ -29,7 +29,7 @@ para *descrever*. Organizamos isso em sete fases:
 | 3 | Consolidação | "Como pôr tudo numa tabela única e comparável?" | #16, #17, #18, #20, #25 |
 | 4 | Inferência estatística | "As associações resistem a controles sérios?" | #21, #22, #23, #24, #26 |
 | 5 | Periodização data-driven | "Quais são os 'atos' reais da série, sem chutar datas?" | #28, #29, #30, #31 |
-| 6 | A marcha ao norte (Sul→Norte) | "A fronteira se desloca? Como? Por quê?" | #32–#41, #28C |
+| 6 | A marcha ao norte (Sul→Norte) | "A fronteira se desloca? Como? Por quê?" | #32–#41, #28C, #42 |
 
 Cada fase abaixo abre com o *momento* em que ela surgiu, narra os pipelines que a compõem
 (incluindo os scripts auxiliares de coleta, validação e cartografia), e fecha com a transição
@@ -59,7 +59,7 @@ faz peças escritas em momentos diferentes conversarem entre si.
   os **246 municípios** atuais. Para análises **longitudinais** (1ª diferença, painel FE, DiD,
   tendências), as **166 Áreas Mínimas Comparáveis (AMC)** de território constante — porque 25%
   dos municípios goianos nasceram depois de 1985 e produziriam quedas espúrias.
-- **As decisões (D1–D15).** Ao longo do texto aparecem referências a decisões metodológicas
+- **As decisões (D1–D16).** Ao longo do texto aparecem referências a decisões metodológicas
   numeradas. Resumidas:
 
   | # | Decisão | Onde |
@@ -79,6 +79,7 @@ faz peças escritas em momentos diferentes conversarem entre si.
   | D13 | "Terra convertível" = proxy MapBiomas com teto, em 3 definições | #39 |
   | D14 | Em cross-section estadual, reportar a **parcial controlando latitude** antes de atribuir efeito próprio | #40, #28C |
   | D15 | Alinhamento `fogo(t) ↔ conv(origem=t)` como contemporâneo | #41 |
+  | D16 | Lead-lag de séries AMC integradas exige Toda-Yamamoto + placebos (Granger ingênuo fabrica precedência espúria) | #42 |
 
 - **Os atos (a régua narrativa).** A periodização data-driven (Fase 5) cristalizou três
   **atos** em `config_periodos.py`: **I — Pastagem como herança (1985–2000)**, **II — Expansão
@@ -465,7 +466,10 @@ defensável: **não é iLUC causal, é reorganização espacial** — dois mecan
 (intensificar no Sul, abrir fronteira no Norte) sob um mesmo impulso macro, sobre um gradiente
 de aptidão. Daí a regra de redação: nunca dizer "deslocamento" sem qualificar; usar
 "reorganização espacial" ou "marcha ao norte da fronteira". O nulo aqui é **força, não
-fraqueza** — refuta uma hipótese tentadora e errada.
+fraqueza** — refuta uma hipótese tentadora e errada. (Um detalhe ficou pendente: o *teste
+reverso* desse lead-lag deu um resultado isolado e significativo — ΔPasto_Norte → ΔAgric_Sul,
+p=0,0007 — que, se real, *inverteria* a leitura. O #34 o descartou só com "N pequeno"; foi essa
+ponta solta que o **#42** mais tarde puxou e fechou.)
 
 ### Robustez — `robustez_janelas.py` (#35) e `robustez_janela_slope.py` (#36)
 
@@ -597,6 +601,59 @@ o pulso jovem recente do Ato III, coerente com o *onset* da soja direta do #41. 
 #41, é uma **correção pós-robustez** no espírito da D14: a frase certa é "gradiente regional no
 *peso* da mistura", nunca "bimodalidade causada pela região".
 
+### A ponta solta do #34 — o Granger reverso inverte a história? `granger_reverso_norte_sul.py` (#42)
+
+A Camada 3 (#34) fechou a narrativa Sul→Norte num nulo causal, mas deixou **uma** pedra no
+sapato. Ao testar a precedência temporal, o #34 rodou também o *teste reverso* — e ele deu
+significativo: **ΔPasto_Norte → ΔAgric_Sul, Granger p=0,0007**. Lido ao pé da letra, isso seria
+uma bomba: significaria que é o **Norte que antecede o Sul**, e a história inteira ("a lavoura
+do Sul organiza o avanço ao Norte") estaria de cabeça para baixo. O #34 o descartou com uma
+única frase — "N pequeno" — e seguiu em frente. Mas "descartar por N pequeno" é insatisfatório:
+um N pequeno *dificulta* achar significância, então um p=0,0007 *apesar* do N pequeno pede
+explicação, não um aceno. O #42 é essa explicação. Ele discrimina três hipóteses — **inverte**
+(Norte→Sul é real), **comum** (os dois respondem ao boom, e o pasto do Norte só responde um ano
+antes — timing, não causa) e **espúrio** (artefato estatístico) — com quatro blocos, e o
+veredito é inequívoco: **é espúrio; não inverte nada; ao contrário, reforça o #34.**
+
+A demonstração tem três pregos. **Primeiro, a regressão do #34 era desbalanceada.** Os testes
+ADF/KPSS revelam que a série `pasto_Norte` é **I(2)** — ou seja, *nem a sua primeira diferença é
+estacionária* (ADF p=0,92). O Granger do #34 rodou sobre primeiras diferenças, o que para uma
+série I(2) ainda deixa um regressor **não-estacionário**; cruzá-lo com a `Δagric_Sul` (que é
+estacionária, ~I(0)) é a montagem de manual da **regressão espúria**. E como as duas séries têm
+*ordens de integração diferentes* (I(0) vs I(2)), elas nem podem ser cointegradas — não existe
+relação de longo prazo entre os níveis para o Granger detectar. **Segundo, o método correto
+apaga tudo.** O **Toda-Yamamoto** (VAR aumentado, robusto a integração) — o jeito certo de fazer
+Granger quando as séries são integradas — zera **as duas direções** (reverso p=0,45, forward
+p=0,25). Não há precedência em sentido nenhum; só co-movimento — exatamente o que o #34 já
+afirmava. (Note-se a simetria honesta: isso também impede reivindicar uma precedência *Sul→Norte*
+— o veredito é "sem líder", não "o Sul lidera".) **Terceiro, e mais limpo: os placebos.** Se a
+"precedência reversa" fosse um mecanismo econômico Norte→Sul de verdade, ela não deveria
+aparecer onde não há mecanismo. Mas aparece em tudo: o pasto do Norte "Granger-lidera" até o
+**pasto do Sul** (mesmo p=0,0007 do achado-manchete!), e o pasto do *Centro* lidera a lavoura do
+Sul. Qualquer série de área nortenha suave "prevê" qualquer sulista suave no lag 1 — a assinatura
+inconfundível de **co-tendência espúria**, não de um canal direcionado.
+
+Houve uma armadilha no caminho, e vale registrá-la porque ensina. O **Bloco C** controlava o
+reverso pelos drivers do drive comum (#37): se o pasto do Norte só "antecede" porque ambos
+seguem o câmbio/crédito (hipótese *comum*), controlar esses drivers deveria matar o termo. Mas
+ele **persiste** (p=0,0002) — o que, isolado, pareceria *robustez* a favor do Norte→Sul real. A
+leitura correta é o oposto: os controles são taxas de crescimento **estacionárias**, e elas não
+têm como absorver a **tendência espúria** de uma série I(2); persistir ali é o *esperado* de um
+artefato de integração, não prova de causa. Some-se a fragilidade do achado — vive **só no lag
+1** (some no lag 2), o *detrend* linear já o derruba ao limite (p=0,050), e ele aparece **só na
+área de pasto, não no rebanho** (incoerente como mecanismo econômico) — e o caso está fechado.
+
+O fruto metodológico é a **Decisão D16**: para as séries de área e rebanho das AMC — que são
+suaves e fortemente integradas — o Granger ingênuo em primeira diferença **fabrica** precedência
+espúria no lag 1. Antes de ler qualquer lead-lag agregado como causal, é preciso exigir o
+diagnóstico de integração (ADF/KPSS), o **Toda-Yamamoto** e a **bateria de placebos
+direcionais**. É a irmã de séries-temporais da D14 (parcial controlando latitude) e da D15
+(alinhamento fogo↔conversão), e funciona como **ressalva retroativa** ao lead-lag agregado do
+próprio #34 e do #41 (ambos com Granger de N≈38). No saldo, a narrativa Sul→Norte sai deste
+exame **mais forte e mais honesta**: a única ponta que poderia tê-la invertido está agora
+caracterizada e descartada em base sólida — co-evolução sob drive comum, **sem precedência
+temporal limpa em direção nenhuma**.
+
 ---
 
 ## Encerramento — a tese que emergiu
@@ -621,9 +678,11 @@ A afirmação central que o conjunto sustenta é esta:
 Três traços de método merecem registro, porque são o que dá credibilidade à tese:
 
 1. **Os nulos são tratados como resultados.** O #34 (sem deslocamento causal), o #38 (gradiente
-   apenas sugestivo) e as correções do #40/#41 não são fracassos escondidos — são a espinha
-   dorsal da honestidade do trabalho. A regra D14 nasceu de uma autocorreção.
-2. **As decisões são explícitas e centralizadas.** As quinze decisões (D1–D15) e os atos
+   apenas sugestivo), as correções do #40/#41 e o #42 (o contra-resultado que invertia a leitura,
+   desmontado como espúrio) não são fracassos escondidos — são a espinha dorsal da honestidade do
+   trabalho. A regra D14 nasceu de uma autocorreção; a D16, de levar a sério uma ponta solta em
+   vez de varrê-la para baixo do "N pequeno".
+2. **As decisões são explícitas e centralizadas.** As dezesseis decisões (D1–D16) e os atos
    (`config_periodos.py`) garantem que peças escritas em meses diferentes usem a mesma régua —
    e que a régua possa ser defendida, não apenas usada.
 3. **Tudo é validado contra verdades independentes.** Os auxiliares de validação
@@ -710,6 +769,7 @@ Mapeamento completo de cada script não-MG à sua fase e função. (Os scripts `
 | `duas_logicas_pastagem.py` | 40 | 6 | Geografia das duas lógicas do pasto (D14) |
 | `fogo_lidera_fronteira.py` | 41 | 6 | Fogo como vanguarda da fronteira (D15) |
 | `bimodalidade_regional.py` | 28C | 6 | Bimodalidade é regional? Decomposição within/between (meso+AMC, D14) |
+| `granger_reverso_norte_sul.py` | 42 | 6 | O Granger reverso do #34 inverte a leitura? Estacionariedade + Toda-Yamamoto + placebos (D16) |
 
 ## Apêndice B — Nota sobre os trabalhos paralelos (fora deste documento)
 
