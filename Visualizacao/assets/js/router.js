@@ -1,23 +1,20 @@
-/* router.js — alternancia entre modo Narrativa e modo Atlas via hash routing.
+/* router.js — alternancia entre modo Narrativa e modo Metodos via hash routing.
  * Esquema URL:
  *   #narrativa            → padrao
  *   #narrativa/2010       → scroll-to ano (delegado ao timeline.js)
- *   #atlas                → grid LULC default
- *   #atlas/{var}          → grid de outra variavel
- *   #atlas/{var}/{ano}    → lightbox no ano (delegado ao atlas.js)
- *   #atlas/{var}/amc/{code_amc}   → drill-down
- *   #atlas/comparar/1985,2010,2024
+ *   #narrativa/sec-tese   → scroll-to ancora pos-mapas (delegado ao timeline.js)
+ *   #metodos              → aba Metodos
+ *   #metodos/{id-secao}   → scroll-to secao da oficina (delegado ao secoes.js)
  *
  * Decoupling: este modulo so muda visibilidade das secoes e atualiza tabs.
- * Os modos publicam handlers em window.GO40.narrativa.* e window.GO40.atlas.*
- * para receber sub-rotas (ano, amc, etc).
+ * Os modos publicam handlers em window.GO40.narrativa.* e window.GO40.metodos.*
+ * para receber sub-rotas (ano, ancora, etc).
  */
 
 (function (root) {
   "use strict";
 
-  const VARIAVEIS = ["lulc", "fogo", "transicoes", "delta"];
-  const MODOS = ["narrativa", "atlas"];
+  const MODOS = ["narrativa", "metodos"];
 
   function parseHash() {
     const raw = (root.location.hash || "").replace(/^#/, "");
@@ -68,7 +65,7 @@
   }
 
   root.GO40 = root.GO40 || {};
-  root.GO40.router = { ir, parseHash, aplicarRota, VARIAVEIS };
+  root.GO40.router = { ir, parseHash, aplicarRota };
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);

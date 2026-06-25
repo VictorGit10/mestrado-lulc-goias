@@ -26,7 +26,6 @@
 
   <link rel="stylesheet" href="assets/css/tabs.css?v=4">
 
-  <link rel="stylesheet" href="assets/css/atlas.css?v=4">
 
 </head>
 
@@ -72,7 +71,7 @@
 
 
 
-<!-- Tabs Narrativa | Atlas -->
+<!-- Tabs -->
 
 <nav class="mode-tabs" aria-label="Modo de visualização">
 
@@ -83,14 +82,6 @@
       Narrativa
 
       <span class="mode-tab-hint">3 atos &middot; 40 anos</span>
-
-    </button>
-
-    <button class="mode-tab" data-modo="atlas" id="tab-atlas" role="tab" aria-selected="false" aria-controls="panel-atlas" tabindex="-1">
-
-      Atlas
-
-      <span class="mode-tab-hint">parede de mapas</span>
 
     </button>
 
@@ -221,7 +212,7 @@
           <ul class="como-ler-lista como-ler-navegacao">
             <li>Role para avançar no tempo — cada parágrafo lateral é um ano.</li>
             <li>Clique em uma <strong>faixa</strong> ou em um <strong>pino</strong> da régua para saltar.</li>
-            <li>O mapa, os cards laterais e a sparkline inferior sincronizam com o ano em foco.</li>
+            <li>O mapa e os cards laterais sincronizam com o ano em foco.</li>
             <li>Os cards laterais têm acordeões para <strong>agricultura</strong>, <strong>pecuária</strong> e <strong>socioeconômico</strong>.</li>
           </ul>
         </div>
@@ -1440,101 +1431,10 @@
 
 
 
-  <!-- ===================== MODO ATLAS ===================== -->
-
-  <section data-modo="atlas" id="panel-atlas" role="tabpanel" aria-labelledby="tab-atlas" hidden>
-
-
-
-    <!-- Toolbar de variavel -->
-
-    <div class="atlas-toolbar" role="toolbar" aria-label="Controles do Atlas">
-
-      <div class="atlas-toolbar-inner">
-
-        <div class="atlas-var-toggle" role="radiogroup" aria-label="Variável visualizada">
-
-          <button class="atlas-var atlas-var--active" data-var="lulc"        role="radio" aria-checked="true"  type="button">LULC <span class="atlas-var-n">40</span></button>
-
-          <button class="atlas-var" data-var="fogo"        role="radio" aria-checked="false" type="button">Fogo <span class="atlas-var-n">40</span></button>
-
-          <button class="atlas-var" data-var="transicoes"  role="radio" aria-checked="false" type="button">Transições <span class="atlas-var-n">5</span></button>
-
-          <button class="atlas-var" data-var="delta"       role="radio" aria-checked="false" type="button">Δ” vs. 1985 <span class="atlas-var-n">40</span></button>
-
-        </div>
-
-        <div class="atlas-toolbar-info">
-
-          <span class="atlas-var-label" id="atlas-var-label">Uso e cobertura da terra &middot; pixel-a-pixel 30m</span>
-
-        </div>
-
-      </div>
-
-    </div>
-
-
-
-    <!-- Grid: parede de mapas -->
-
-    <div class="atlas-grid-wrap">
-
-      <div class="atlas-grid" id="atlas-grid" aria-live="polite">
-
-        <!-- atlas.js popula aqui -->
-
-      </div>
-
-    </div>
-
-
-
-    <!-- Legenda + comparar (placeholder fase 2) -->
-
-    <div class="atlas-legend" id="atlas-legend"></div>
-
-
-
-  </section>
-
-  <!-- ===================== / MODO ATLAS ===================== -->
 
 
 
 </main>
-
-
-
-<!-- Spark-line sticky inferior (apenas modo narrativa) -->
-
-<aside class="sparkline" id="sparkline" data-modo="narrativa" aria-label="Series temporais">
-
-  <div class="sparkline-inner">
-
-    <svg id="sparkline-svg" viewBox="0 0 1000 80" preserveAspectRatio="none"></svg>
-
-    <div class="sparkline-legend">
-
-      <span class="legend-item legend-soja">Soja (Mt)</span>
-
-      <span class="legend-item legend-rebanho">Rebanho bovino (M cab)</span>
-
-      <span class="legend-item legend-fogo">Área queimada (kha)</span>
-
-      <span class="sparkline-nota">escalas independentes</span>
-
-      <span class="legend-year">
-
-        <span id="sparkline-year">1985</span>
-
-      </span>
-
-    </div>
-
-  </div>
-
-</aside>
 
 
 
@@ -1544,8 +1444,6 @@
 
 <script src="assets/js/timeline.js?v=3"></script>
 
-<script src="assets/js/atlas.js?v=3"></script>
-
 <script src="assets/js/router.js?v=3"></script>
 
 <script src="assets/js/sankey.js?v=3"></script>
@@ -1553,6 +1451,8 @@
 <script src="assets/js/mini-sankey.js?v=1"></script>
 
 <script src="assets/js/inventario.js?v=1"></script>
+
+<script src="assets/js/zoom.js?v=1"></script>
 
 </body>
 

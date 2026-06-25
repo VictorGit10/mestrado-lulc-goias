@@ -152,11 +152,17 @@
     }
   }
 
+  let observer = null;
+
+  // Idempotente: timeline.js chama init() logo apos gerar os containers e o
+  // self-init por timeout tambem chama. Se ja houver observer, reconecta nos
+  // containers atuais em vez de empilhar observers duplicados.
   function init() {
     const containers = document.querySelectorAll(".mini-sankey-svg[data-ato]");
     if (containers.length === 0) return;
 
-    const observer = new IntersectionObserver((entries) => {
+    if (observer) observer.disconnect();
+    observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const ato = entry.target.dataset.ato;

@@ -37,22 +37,11 @@
     return ATOS.find(a => ano >= a.anoInicio && ano <= a.anoFim) || null;
   }
 
-  // Anos-marco (politicos) — usado para destacar miniaturas no Atlas.
-  const ANOS_MARCO = new Set([1985, 1994, 1996, 2002, 2003, 2012, 2018, 2024]);
-
   // Pinos-dado (inicio sistematico de algum dado) — visualmente distintos.
   const ANOS_DADO = [
     { ano: 2013, rotulo: "SICOR sistemático" },
     { ano: 2017, rotulo: "Censo Agropecuário" },
     { ano: 2020, rotulo: "Pandemia" }
-  ];
-
-  // Variaveis do Atlas — espelha o toggle de toolbar.
-  const VARIAVEIS_ATLAS = [
-    { id: "lulc",        rotulo: "LULC",          n: 40, prontoMVP: true,  pasta: "img/mapas_gee",   prefixo: "cobertura_",  ext: "webp" },
-    { id: "fogo",        rotulo: "Fogo",          n: 40, prontoMVP: true,  pasta: "img/mapas_fogo",  prefixo: "fogo_",       ext: "webp" },
-    { id: "transicoes",  rotulo: "Transições",    n: 5,  prontoMVP: true,  pasta: "img/mapas_transicoes", prefixo: "transicao_", ext: "webp" },
-    { id: "delta",       rotulo: "Δ vs. 1985",    n: 40, prontoMVP: true,  pasta: "img/mapas_delta", prefixo: "delta_",      ext: "webp" }
   ];
 
   // -------------------- delta inline --------------------
@@ -76,7 +65,7 @@
   root.GO40 = root.GO40 || {};
   Object.assign(root.GO40, {
     ANO_MIN, ANO_MAX, TOTAL_ANOS,
-    ATOS, ANOS_MARCO, ANOS_DADO, VARIAVEIS_ATLAS,
+    ATOS, ANOS_DADO,
     fmt: { pct: fmtPct, pctBar: fmtPctBar, pp: fmtPp, num: fmtNum, bilhao: fmtBilhao, milhao: fmtMilhao },
     yearToPct, clampAno, eraDoAno,
     classeDelta, formatDelta

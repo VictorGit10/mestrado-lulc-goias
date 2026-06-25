@@ -1,5 +1,5 @@
 /* timeline.js — orquestracao do scrollytelling.
- * Carrega dados, hidrata steps, inicializa Scrollama, desenha spark-line
+ * Carrega dados, hidrata steps, inicializa Scrollama
  * e move cursores ao trocar de ano.
  */
 
@@ -299,145 +299,6 @@
     });
   }
 
-// -------------------- spark-line --------------------
-  // Tres series com unidades diferentes, cada uma normalizada ao proprio
-  // maximo (0 a 1). Tooltip mostra valores absolutos com unidade real.
-  // Complementa o mapa: nenhuma das tres aparece nos cards LULC ou na barra.
-  const SPARK_SERIES = [
-    {
-      chave: "soja",
-      campo: "agri_soja_ton",
-      rotulo: "Produção de soja",
-      transformar: v => v == null ? null : v / 1e6,
-      formatar: v => v == null ? "—" : fmtNum(v / 1e6, 2) + " Mt"
-    },
-    {
-      chave: "rebanho",
-      campo: "pec_bovinos_cab",
-      rotulo: "Rebanho bovino",
-      transformar: v => v == null ? null : v / 1e6,
-      formatar: v => v == null ? "—" : fmtNum(v / 1e6, 1) + " M cab"
-    },
-    {
-      chave: "fogo",
-      campo: "fogo_total_ha",
-      rotulo: "Área queimada",
-      transformar: v => v == null ? null : v / 1e3,
-      formatar: v => v == null ? "—" : fmtNum(v / 1e3, 0) + " kha"
-    }
-  ];
-
-  function desenharSparkline(painel) {
-    const svg = document.getElementById("sparkline-svg");
-    const W = 1000;
-    const H = 80;
-    const padL = 8;
-    const padR = 8;
-    const padT = 6;
-    const padB = 6;
-    const innerW = W - padL - padR;
-    const innerH = H - padT - padB;
-    const xs = ano => padL + ((ano - ANO_MIN) / TOTAL_ANOS) * innerW;
-
-    const series = painel.serie;
-
-    // Maximo independente por serie (normalizacao 0..1 de cada uma).
-    const maximos = {};
-    SPARK_SERIES.forEach(s => {
-      const valores = series.map(r => s.transformar(r[s.campo])).filter(v => v != null);
-      maximos[s.chave] = valores.length ? Math.max(...valores) : 1;
-    });
-
-    const ysNorm = (chave, valor) => {
-      if (valor == null) return null;
-      const norm = valor / maximos[chave];
-      return padT + innerH - norm * innerH;
-    };
-
-    const buildPath = (s) => {
-      const pontos = series
-        .map(r => ({ ano: r.ano, v: s.transformar(r[s.campo]) }))
-        .filter(p => p.v != null);
-      return pontos
-        .map((p, i) => `${i === 0 ? "M" : "L"} ${xs(p.ano).toFixed(2)} ${ysNorm(s.chave, p.v).toFixed(2)}`)
-        .join(" ");
-    };
-
-    const baselineY = (padT + innerH).toFixed(1);
-    svg.innerHTML = `
-      <line x1="${padL}" y1="${baselineY}" x2="${W - padR}" y2="${baselineY}"
-            stroke="var(--color-rule)" stroke-width="1"/>
-      <path class="spark-path spark-path-soja"    d="${buildPath(SPARK_SERIES[0])}"/>
-      <path class="spark-path spark-path-rebanho" d="${buildPath(SPARK_SERIES[1])}"/>
-      <path class="spark-path spark-path-fogo"    d="${buildPath(SPARK_SERIES[2])}"/>
-      <line id="spark-cursor-line" class="spark-cursor"
-            x1="${xs(ANO_MIN)}" y1="${padT}" x2="${xs(ANO_MIN)}" y2="${H - padB}"/>
-      <rect id="spark-hit-area" x="0" y="0" width="${W}" height="${H}"
-            fill="transparent" style="cursor: crosshair;" />
-    `;
-
-    let tooltip = document.getElementById("sparkline-tooltip");
-    if (!tooltip) {
-      tooltip = document.createElement("div");
-      tooltip.id = "sparkline-tooltip";
-      tooltip.className = "sparkline-tooltip";
-      document.querySelector(".sparkline-inner").appendChild(tooltip);
-    }
-
-    const hitArea = document.getElementById("spark-hit-area");
-    if (!hitArea) return;
-
-    function anoFromX(clientX) {
-      // O SVG estica para a largura do container (preserveAspectRatio="none"),
-      // entao usamos rect.width (CSS px) em vez de innerW (viewBox).
-      const rect = svg.getBoundingClientRect();
-      const x = clientX - rect.left;
-      const pct = Math.max(0, Math.min(1, x / rect.width));
-      return ANO_MIN + Math.round(pct * TOTAL_ANOS);
-    }
-
-    hitArea.addEventListener("mousemove", (ev) => {
-      const ano = anoFromX(ev.clientX);
-      const d = porAno[ano];
-      if (!d) return;
-      moverCursorSparkline(ano);
-      const linhasTooltip = SPARK_SERIES.map(s => {
-        const v = s.transformar(d[s.campo]);
-        return `${s.rotulo}: ${s.formatar(d[s.campo])}`;
-      }).join("<br/>");
-      tooltip.innerHTML = `<strong>${ano}</strong><br/>${linhasTooltip}`;
-      tooltip.style.opacity = "1";
-      const rect = svg.getBoundingClientRect();
-      tooltip.style.left = (ev.clientX - rect.left + 10) + "px";
-      tooltip.style.top = (ev.clientY - rect.top - 10) + "px";
-    });
-
-    hitArea.addEventListener("mouseleave", () => {
-      tooltip.style.opacity = "0";
-      const currentStep = document.querySelector('.step[data-year].is-active');
-      if (currentStep) {
-        const ano = parseInt(currentStep.dataset.year, 10);
-        moverCursorSparkline(ano);
-      }
-    });
-
-    hitArea.addEventListener("click", (ev) => {
-      const ano = anoFromX(ev.clientX);
-      scrollParaAno(ano);
-    });
-  }
-
-function moverCursorSparkline(ano) {
-    const line = document.getElementById("spark-cursor-line");
-    if (!line) return;
-    const W = 1000;
-    const x = 8 + ((ano - ANO_MIN) / TOTAL_ANOS) * (W - 16);
-    line.setAttribute("x1", x.toFixed(2));
-    line.setAttribute("x2", x.toFixed(2));
-    const yearLabel = document.getElementById("sparkline-year");
-    if (yearLabel) yearLabel.textContent = ano;
-  }
-
   // -------------------- barra empilhada --------------------
   // 7 segmentos espelhando as classes do mapa: veg natural, pastagem,
   // agricultura (inclui soja no MapBiomas), mosaico agric./pastagem,
@@ -632,11 +493,14 @@ function moverCursorSparkline(ano) {
   // -------------------- gerar steps anuais --------------------
   function gerarStepsAnuais() {
     const eraRanges = [
-      { era: 'heranca',  ato: 'I',   start: 1985, end: 2000 },
-      { era: 'expansao', ato: 'II',  start: 2001, end: 2019 },
-      { era: 'conversao', ato: 'III', start: 2020, end: 2024 },
+      { era: 'heranca',  ato: 'I',   start: 1985, end: 2000,
+        lede: 'Para onde foram os hectares entre 1985 e 2000: cruzamento pixel-a-pixel das transições deste período.' },
+      { era: 'expansao', ato: 'II',  start: 2001, end: 2019,
+        lede: 'Para onde foram os hectares entre 2001 e 2019: o período da grande expansão agrícola sobre a pastagem.' },
+      { era: 'conversao', ato: 'III', start: 2020, end: 2024,
+        lede: 'Para onde foram os hectares entre 2020 e 2024: a conversão seletiva e os primeiros sinais de estabilização.' },
     ];
-    eraRanges.forEach(({ era, ato, start, end }) => {
+    eraRanges.forEach(({ era, ato, start, end, lede }) => {
       const eraCard = document.querySelector(`.step--era[data-era="${era}"]`);
       if (!eraCard) return;
       let anchor = eraCard;
@@ -653,13 +517,18 @@ function moverCursorSparkline(ano) {
       mini.className = 'step--mini-sankey';
       mini.dataset.ato = ato;
       mini.innerHTML = `
-        <h3 class="mini-sankey-titulo">Para onde foram os hectares — ATO ${ato}</h3>
-        <p class="mini-sankey-lede">Transições brutas acumuladas entre ${start} e ${end}, em milhões de hectares (off-diagonal apenas).</p>
-        <div class="mini-sankey-svg" data-ato="${ato}" role="img" aria-label="Sankey de transicoes do ATO ${ato}"></div>
-        <p class="mini-sankey-fonte">Dados: MapBiomas Coleção 10.1 · agregação pixel-a-pixel via GEE.</p>
+        <p class="mini-sankey-titulo">Fluxos do Ato ${ato}</p>
+        <p class="mini-sankey-lede">${lede}</p>
+        <div class="mini-sankey-svg" data-ato="${ato}" role="img" aria-label="Sankey de transições do Ato ${ato}"></div>
+        <p class="mini-sankey-fonte">Fonte: MapBiomas Col. 10.1 · Pipeline #25</p>
       `;
       anchor.insertAdjacentElement('afterend', mini);
     });
+
+    // Os containers do mini-sankey so existem agora (gerados acima). Dispara a
+    // inicializacao do observer apos a geracao, evitando a corrida com o
+    // self-init por timeout de mini-sankey.js (que roda antes do fetch acabar).
+    if (root.GO40 && root.GO40.miniSankey) root.GO40.miniSankey.init();
   }
 
   // -------------------- scrollama --------------------
@@ -682,14 +551,13 @@ function moverCursorSparkline(ano) {
         trocarMapa(ano);
         moverCursorRegua(ano);
         atualizarResumoRegua(ano);
-        moverCursorSparkline(ano);
       });
 
     window.addEventListener("resize", () => scroller.resize());
   }
 
   // -------------------- navegacao programatica --------------------
-  // Debounce evita conflitos entre cliques em sparkline/subrota/hash e o
+  // Debounce evita conflitos entre cliques na regua/subrota/hash e o
   // proprio Scrollama. Calcula offset compensando regua + tabs sticky.
   let scrollLock = 0;
   function scrollParaAno(ano, triggerPct) {
@@ -707,16 +575,32 @@ function moverCursorSparkline(ano) {
     const viewportH = window.innerHeight;
     const pct = triggerPct == null ? 0.46 : triggerPct;
     const destino = topo - viewportH * pct;
-    window.scrollTo({ top: destino, behavior: "smooth" });
+    window.scrollTo({ top: destino, behavior: comportamentoScroll() });
+  }
+
+  // Respeita prefers-reduced-motion: rolagem instantanea em vez de suave.
+  function comportamentoScroll() {
+    return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      ? "auto" : "smooth";
   }
 
   // -------------------- subrota (chamado pelo router) --------------------
   function aplicarSubrota(segmentos) {
-    // segmentos: [] | [ano]
+    // segmentos: [] | [ano] | [id-de-ancora]
     if (!segmentos || segmentos.length === 0) return;
     const ano = parseInt(segmentos[0], 10);
-    if (isNaN(ano) || ano < ANO_MIN || ano > ANO_MAX) return;
-    scrollParaAno(ano);
+    if (!isNaN(ano) && ano >= ANO_MIN && ano <= ANO_MAX) {
+      scrollParaAno(ano);
+      return;
+    }
+    // Ancora nao-numerica (secoes pos-mapas, ex.: #narrativa/sec-tese).
+    const alvo = document.getElementById(segmentos[0]);
+    if (alvo) {
+      requestAnimationFrame(() => {
+        const topo = alvo.getBoundingClientRect().top + window.pageYOffset;
+        window.scrollTo({ top: Math.max(0, topo - 150), behavior: comportamentoScroll() });
+      });
+    }
   }
 
   // -------------------- bootstrap --------------------
@@ -727,7 +611,6 @@ function moverCursorSparkline(ano) {
       configurarRegua(dados.marcos);
       gerarStepsAnuais();
       hidratarSteps(dados.painel, dados.marcos);
-      desenharSparkline(dados.painel);
       atualizarBarra(ANO_MIN);
       atualizarAncora(ANO_MIN);
       configurarToggleCamadas();
@@ -745,6 +628,14 @@ function moverCursorSparkline(ano) {
     }
     root.GO40 = root.GO40 || {};
     root.GO40.narrativa = { aplicarSubrota };
+    // O router aplica a rota inicial antes deste init assincrono terminar;
+    // reaplica a subrota da carga (deep-link p/ ano ou ancora pos-mapas).
+    if (root.GO40.router) {
+      const rota = root.GO40.router.parseHash();
+      if (rota.modo === "narrativa" && rota.segmentos.length > 0) {
+        aplicarSubrota(rota.segmentos);
+      }
+    }
   }
 
   if (document.readyState === "loading") {

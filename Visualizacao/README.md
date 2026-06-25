@@ -71,6 +71,27 @@ Para parar o servidor: `Ctrl+C` no terminal (ou fechar a janela).
 MVP de 5 dias (escopo deliberadamente reduzido). Roadmap em
 `C:\Users\amara\.claude\plans\partitioned-stirring-mountain.md`.
 
+## Abas (jun/2026)
+
+A pagina tem **tres abas** (hash routing em `router.js`):
+
+- **Narrativa** — scrollytelling dos 3 atos (40 mapas) + "Depois dos mapas",
+  o argumento em 3 movimentos (saldo/fluxos → processos no agregado → marcha
+  ao norte) ate a tese. Cada secao abre com a *pergunta* e fecha com a
+  *resposta em uma frase* (`.bloco-pergunta` / `.bloco-resposta`); jargao tem
+  tooltip (`.termo`). O **Movimento III e um segundo scrollytelling**
+  (`marcha.js` + `.marcha-scrolly`): painel de figura fixo a esquerda troca a
+  figura-chave (#32→#33→#42→#37→#39) conforme o leitor avanca pelos passos
+  7–11; em telas <1020px degrada para fluxo normal com figuras inline
+  (`.figura-chave`). A secao 12 expoe a **autocorrecao** do metodo (#40, #41,
+  #28C) em cards visiveis. Depois dos mapas, a regua superior vira uma
+  **navegacao de blocos** (`secoes.js` + `#rail-secoes`). Rolagens
+  programaticas respeitam `prefers-reduced-motion`.
+- **Metodos** — a oficina: periodizacao dos atos, metricas do tempo, tres
+  camadas de evidencia, vitrine do painel, decisoes D1-D16 (agrupadas por
+  tema), limitacoes e glossario. Ancoras: `#metodos/<id>` (ex.:
+  `#metodos/metodo-evidencia`); de volta, `#narrativa/<id>`.
+
 ## Estrutura narrativa: 3 atos no territorio
 
 A peca conta 1985-2024 em **3 atos** com protagonistas no territorio. Os
