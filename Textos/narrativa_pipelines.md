@@ -80,6 +80,7 @@ faz peças escritas em momentos diferentes conversarem entre si.
   | D14 | Em cross-section estadual, reportar a **parcial controlando latitude** antes de atribuir efeito próprio | #40, #28C |
   | D15 | Alinhamento `fogo(t) ↔ conv(origem=t)` como contemporâneo | #41 |
   | D16 | Lead-lag de séries AMC integradas exige Toda-Yamamoto + placebos (Granger ingênuo fabrica precedência espúria) | #42 |
+  | D17 | "Proteção" = malha vetorial de UCs (Proteção Integral × Uso Sustentável), proxy-teto no espírito da D13; refino pixel e PRODES/MMA pendentes | #46 |
 
 - **Os atos (a régua narrativa).** A periodização data-driven (Fase 5) cristalizou três
   **atos** em `config_periodos.py`: **I — Pastagem como herança (1985–2000)**, **II — Expansão
@@ -697,6 +698,17 @@ replicado o achado na malha **AMC** (158 unidades, com ω² e permutação contr
 conclusão tenha sobrevivido; o mecanismo de transições do #33 segue, esse sim, em resolução
 mesorregional. São essas qualificações que transformam um conjunto de gráficos numa tese.
 
+**Duas extensões pós-fechamento (jul/2026).** Fechada a narrativa Sul→Norte, dois pipelines a
+prolongam por fora. O **#45** ativa o **Eixo A** — as colunas Trase (cadeia exportadora) que
+dormiam no painel desde o #27 — e pergunta se a infraestrutura de escoamento *lidera* a fronteira:
+a resposta é **não** — ela **co-move contemporaneamente** com a produção (4/8 pares no painel FE),
+sem precedência defasada robusta, um terceiro canal (depois de #34 e #37/#42) a confirmar
+"co-evolução sem líder temporal". O **#46** dá ao #39 a perna que faltava — a **proteção**: a
+marcha ao norte se dirige a Cerrado convertível que está **97% desprotegido** (a Proteção Integral
+cobre <3% em qualquer região e congelou após 2000), de modo que o teto de oferta do #39 é
+**físico, não institucional**. Este último abre, pela primeira vez, o **eixo ambiental** da
+dissertação — a conservação e, adiante, o custo de carbono/biodiversidade da reorganização.
+
 ---
 
 ## Apêndice A — Índice de todos os scripts (trabalho principal)
@@ -770,6 +782,10 @@ Mapeamento completo de cada script não-MG à sua fase e função. (Os scripts `
 | `fogo_lidera_fronteira.py` | 41 | 6 | Fogo como vanguarda da fronteira (D15) |
 | `bimodalidade_regional.py` | 28C | 6 | Bimodalidade é regional? Decomposição within/between (meso+AMC, D14) |
 | `granger_reverso_norte_sul.py` | 42 | 6 | O Granger reverso do #34 inverte a leitura? Estacionariedade + Toda-Yamamoto + placebos (D16) |
+| `centro_massa_pixel.py` | 43 | 6 | O centroide-AMC do #32 é artefato de malha (MAUP)? Centro de massa pixel-a-pixel |
+| `centro_massa_desagregado.py` | 44 | 6 | Abre os *lumps* do #32 (soja; veg. em 3 formações) + controles (leite, área urbana) |
+| `analise_trase_lulc.py` | 45 | 6 | Infra exportadora (Trase) segue ou lidera a expansão LULC? Cross-lagged em painel (D16) |
+| `fronteira_protecao.py` | 46 | 6 | A fronteira marcha para terra protegida ou desprotegida? Overlay UC×AMC sobre o #39 (D17) |
 
 ## Apêndice B — Nota sobre os trabalhos paralelos (fora deste documento)
 

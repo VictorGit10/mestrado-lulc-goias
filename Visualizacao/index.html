@@ -861,7 +861,7 @@
         <div class="dado-choque">
           <div class="dado-choque-valor">+78 km</div>
           <div class="dado-choque-label">Pastagem &middot; deslocamento ao norte (40 anos)</div>
-          <div class="dado-choque-glosa">O maior avanço da série. Rebanho +67 km e agricultura +65 km acompanham; a vegetação natural ficou quase parada (+8 km), ancorada no Cerrado do norte.</div>
+          <div class="dado-choque-glosa">O maior avanço da série. Rebanho +67 km e agricultura +65 km acompanham; a vegetação natural quase não se moveu (+8 km) — mas esse agregado engana: é a floresta que está presa, enquanto o campo nativo e a savânica recuaram ao norte (ver robustez abaixo).</div>
         </div>
         <div class="dado-choque">
           <div class="dado-choque-valor">~120–130 km</div>
@@ -889,6 +889,58 @@
           <figure class="grafico-card grafico-card--wide" style="margin: 0;">
             <img src="img/marcha_norte/elipses_por_ato.png" alt="Elipses de desvio-padrão da distribuição de cada variável por ato" loading="lazy">
             <figcaption>Elipses de 1 desvio-padrão por ato (#32) — cada uma cobre ~68% da atividade naquele ato. O que observar: a elipse da agricultura não só sobe como <em>cresce</em> (eixo maior 160→183 km) em vez de encolher — ou seja, a lavoura se espalhou mais, não se consolidou num núcleo.</figcaption>
+          </figure>
+        </div>
+      </details>
+      <details class="metric-details">
+        <summary>A marcha resiste ao escrutínio? &middot; quatro provas de robustez (malha, fonte, especificidade, formações)</summary>
+        <div style="padding: 0.9rem 1.1rem; border-top: 1px solid var(--color-rule); background: #fcfcfa;">
+          <p style="margin: 0 0 0.9rem;">
+            Antes de tratar a marcha ao norte como fato, ela foi submetida a quatro testes que poderiam
+            derrubá-la — trocando a malha, trocando a fonte de dados e checando se o movimento é
+            específico da fronteira. As três primeiras passaram; a quarta ainda <em>reforça</em> a leitura.
+          </p>
+
+          <p style="margin: 0 0 0.4rem;"><strong>1 &middot; Não é artefato da malha (#43).</strong>
+            O centro de massa usa o centroide de cada AMC — e as AMCs do Norte (fronteira) são maiores
+            e mais irregulares que as do Sul. Recalculando pixel a pixel do raster MapBiomas,
+            <em>sem malha administrativa nenhuma</em>, o resultado é o mesmo: as curvas colam a ~1–2 km
+            ao longo dos 40 anos. O Sul→Norte não é efeito de como as unidades foram desenhadas
+            (<span class="termo" tabindex="0" data-def="Modifiable Areal Unit Problem: o resultado de uma análise espacial pode mudar conforme o tamanho e o recorte das unidades geográficas usadas para agregar os dados.">MAUP</span>).</p>
+          <figure class="grafico-card grafico-card--wide" style="margin: 0 0 1.1rem;">
+            <img src="img/marcha_norte/comparacao_pixel_amc.png" alt="Centro de massa: centroide-AMC (#32) versus pixel-a-pixel (#43), praticamente sobrepostos ao longo de 1985-2024" loading="lazy">
+            <figcaption>Centroide-AMC (linha cheia, #32) vs pixel-a-pixel bruto (tracejado, #43) para as três classes com raster. Sobrepostos o tempo todo — a leitura Sul→Norte não vem da agregação por AMC. Fonte: #43.</figcaption>
+          </figure>
+
+          <p style="margin: 0 0 0.4rem;"><strong>2 &middot; Duas fontes independentes concordam (#44).</strong>
+            A soja tem posição pelo raster (satélite, MapBiomas) <em>e</em> pela SIDRA (censo agropecuário).
+            Os dois centroides andam juntos (correlação 0,89; diferença média ~7 km) — validação cruzada que,
+            por tabela, empresta credibilidade ao centroide do <em>rebanho</em>, que só existe em dado tabular.
+            E revela que, quando o trabalho diz "agricultura", é essencialmente soja: as curvas são quase a mesma.</p>
+          <figure class="grafico-card grafico-card--wide" style="margin: 0 0 1.1rem;">
+            <img src="img/marcha_norte/desagregado_soja.png" alt="Centro de massa da soja pelo raster e pela SIDRA, colados entre si e ao agregado agrícola" loading="lazy">
+            <figcaption>Soja pelo raster (roxo escuro) e pela SIDRA (roxo claro), coladas entre si e ao agregado "agricultura" (tracejado magenta). Fontes independentes, mesmo centroide. Fonte: #44.</figcaption>
+          </figure>
+
+          <p style="margin: 0 0 0.4rem;"><strong>3 &middot; A marcha é específica da fronteira (#44).</strong>
+            Se tudo simplesmente "derivasse ao norte", seria um artefato. Dois controles mostram que não:
+            a <strong>área urbana fica parada</strong> (placebo limpo, no eixo Goiânia–Anápolis) e o
+            <strong>leite</strong> — pecuária da bacia consolidada do Sul — fica ancorado ao sul enquanto o
+            rebanho de corte marcha; o vão entre os dois dobra (30 → 67 km).</p>
+          <figure class="grafico-card grafico-card--wide" style="margin: 0 0 1.1rem;">
+            <img src="img/marcha_norte/desagregado_controle.png" alt="Área urbana estável e leite ao sul, contra pasto e rebanho que marcham ao norte" loading="lazy">
+            <figcaption>Controles: a área urbana (cinza) é horizontal por 40 anos; o leite (azul) fica ao sul do rebanho o tempo todo. A marcha ao norte é da fronteira agropecuária, não deriva genérica. Fonte: #44.</figcaption>
+          </figure>
+
+          <p style="margin: 0 0 0.4rem;"><strong>4 &middot; O "teto" é a floresta — a vegetação convertível recuou (#44).</strong>
+            O +8 km "quase parado" da vegetação natural é média enganosa. Abrindo as formações: a
+            <strong>floresta</strong> está presa (segue os rios, +9 km), mas o <strong>campo nativo recuou
+            fortemente ao norte</strong> e a savânica +12 — as formações convertíveis recuaram <em>com</em> a
+            fronteira, e o pasto as alcança em latitude por volta de 2021. O agregado escondia isso; a
+            versão aberta é ainda mais consistente com a fronteira.</p>
+          <figure class="grafico-card grafico-card--wide" style="margin: 0;">
+            <img src="img/marcha_norte/desagregado_vegetacao.png" alt="Vegetação natural aberta em floresta (presa), savânica e campo nativo (que recuam ao norte)" loading="lazy">
+            <figcaption>Vegetação natural aberta: floresta (verde escuro) presa; campo nativo (verde claro) e savânica recuam ao norte; o pasto (laranja) os alcança ~2021. Fonte: #44.</figcaption>
           </figure>
         </div>
       </details>
