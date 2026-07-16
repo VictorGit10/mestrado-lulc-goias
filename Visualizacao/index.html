@@ -26,6 +26,8 @@
 
   <link rel="stylesheet" href="assets/css/tabs.css?v=4">
 
+  <link rel="stylesheet" href="assets/css/reserva.css?v=1">
+
 
 </head>
 
@@ -746,6 +748,50 @@
            alt="Distribuição da idade da pastagem na conversão para agricultura, por Ato" loading="lazy">
       <figcaption>Distribuição da idade da pastagem (anos) na conversão para agricultura, por Ato. O que observar: a curva não tem um pico só, mas <em>dois</em> — um perto de ~5 anos (pasto jovem) e outro perto de ~22 anos (pasto antigo). A mediana sobe de 6 anos (Ato I) para 19 (Ato II) e 17 (Ato III). 66% dos pixels já eram pastagem em 1985 (censura à esquerda). Fonte: MapBiomas Coleção 10.1, classificação pixel-a-pixel.</figcaption>
     </figure>
+
+    <!-- #28-C — bloco interativo (progressive enhancement; sem JS, a figura acima assume) -->
+    <div id="reserva-interativo" class="reserva-interativo" hidden>
+      <div class="reserva-grid">
+        <figure class="reserva-painel">
+          <figcaption class="reserva-titulo">Onde o pasto convertido é jovem × antigo</figcaption>
+          <div id="reserva-mapa" class="reserva-mapa" role="img"
+               aria-label="Mapa das 166 AMCs de Goiás coloridas pela idade média da pastagem na conversão para agricultura"></div>
+          <div id="reserva-mapa-legenda" class="reserva-legenda"></div>
+          <p class="reserva-nota">
+            Idade média da pastagem na conversão, por AMC (pixel-ponderada). O
+            gradiente Sul→Norte é nítido: <strong>reserva jovem no Sul</strong>
+            (rotação/ILP, ~5–8 anos) e <strong>reserva antiga no Norte</strong>
+            (oportunismo de fronteira, ~20+ anos) — a geografia da bimodalidade (#40).
+          </p>
+        </figure>
+        <figure class="reserva-painel">
+          <figcaption class="reserva-titulo">A distribuição por Ato — a bimodalidade que aparece</figcaption>
+          <div id="reserva-ato-toggle" class="reserva-toggle" role="tablist"
+               aria-label="Selecionar o Ato"></div>
+          <div id="reserva-hist" class="reserva-hist" role="img"
+               aria-label="Histograma da idade da pastagem na conversão para o Ato selecionado"></div>
+          <p class="reserva-nota" id="reserva-hist-nota"></p>
+        </figure>
+      </div>
+      <div class="reserva-coortes">
+        <div class="reserva-coorte">
+          <div class="reserva-coorte-valor">mediana 13 a</div>
+          <div class="reserva-coorte-rotulo">Vegetação → pastagem → agricultura</div>
+          <div class="reserva-coorte-glosa">
+            n = 16.009 pixels. Terra aberta do Cerrado que passou pela pastagem
+            antes da lavoura — a <em>reserva</em> de fronteira, com cauda longa.
+          </div>
+        </div>
+        <div class="reserva-coorte">
+          <div class="reserva-coorte-valor">mediana 5 a</div>
+          <div class="reserva-coorte-rotulo">Agricultura → pastagem → agricultura</div>
+          <div class="reserva-coorte-glosa">
+            n = 9.419 pixels. Pasto de <em>passagem</em> dentro de um sistema já
+            agrícola — rotação/ILP de ciclo curto, sem abertura de vegetação.
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="dado-choque-grid">
       <div class="dado-choque">
@@ -2125,6 +2171,8 @@
 <script src="assets/js/matriz.js?v=1"></script>
 
 <script src="assets/js/inventario.js?v=1"></script>
+
+<script src="assets/js/pastagem-reserva.js?v=1"></script>
 
 <script src="assets/js/zoom.js?v=1"></script>
 

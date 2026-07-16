@@ -1,0 +1,157 @@
+/* reserva.css — sub-pipeline #28-C: bloco interativo "Pastagem como reserva de terra". */
+
+.reserva-interativo {
+  margin: 1.6rem 0 0.4rem;
+}
+
+.reserva-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.4rem 1.8rem;
+  align-items: start;
+}
+
+@media (max-width: 720px) {
+  .reserva-grid { grid-template-columns: 1fr; }
+}
+
+.reserva-painel {
+  margin: 0;
+  min-width: 0;                 /* permite o SVG encolher no grid */
+}
+
+.reserva-titulo {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-muted);
+  margin: 0 0 0.5rem;
+}
+
+.reserva-mapa,
+.reserva-hist {
+  width: 100%;
+  background: #fff;
+  border: 1px solid var(--color-rule);
+  border-radius: 4px;
+}
+
+.reserva-svg { width: 100%; height: auto; display: block; }
+
+.reserva-legenda { margin-top: 0.4rem; }
+.reserva-legenda-svg { width: 260px; max-width: 100%; height: auto; }
+.reserva-legenda-txt {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  fill: var(--color-fg);
+}
+.reserva-legenda-cap {
+  font-family: var(--font-sans);
+  font-size: 9px;
+  fill: var(--color-muted);
+}
+
+.reserva-nota {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--color-muted);
+  margin: 0.6rem 0 0;
+}
+
+/* --- toggle de Ato --- */
+.reserva-toggle {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+.reserva-tab {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  padding: 0.28rem 0.6rem;
+  border: 1px solid var(--color-rule);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--color-muted);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.reserva-tab span { opacity: 0.7; font-size: 0.72rem; }
+.reserva-tab:hover { border-color: var(--ato-cor, var(--color-accent)); }
+.reserva-tab--ativo {
+  background: var(--ato-cor, var(--color-accent));
+  border-color: var(--ato-cor, var(--color-accent));
+  color: #fff;
+}
+.reserva-tab--ativo span { opacity: 0.85; }
+
+/* --- eixos e rótulos do histograma --- */
+.reserva-eixo text { font-family: var(--font-sans); font-size: 10px; fill: var(--color-muted); }
+.reserva-eixo path, .reserva-eixo line { stroke: var(--color-rule); }
+.reserva-hist-med {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  fill: #222;
+  font-weight: 600;
+}
+.reserva-hist-nota-svg {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  fill: var(--color-veg);
+  font-style: italic;
+}
+
+/* --- cards de coortes --- */
+.reserva-coortes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1.4rem;
+}
+@media (max-width: 560px) {
+  .reserva-coortes { grid-template-columns: 1fr; }
+}
+.reserva-coorte {
+  border: 1px solid var(--color-rule);
+  border-left: 4px solid var(--color-veg);
+  border-radius: 4px;
+  padding: 0.9rem 1.1rem;
+  background: #fcfcfa;
+}
+.reserva-coorte:last-child { border-left-color: var(--color-pasto); }
+.reserva-coorte-valor {
+  font-family: var(--font-sans);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-fg);
+}
+.reserva-coorte-rotulo {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-muted);
+  margin: 0.15rem 0 0.4rem;
+}
+.reserva-coorte-glosa {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--color-muted);
+}
+
+/* --- tooltip do mapa --- */
+.reserva-tooltip {
+  position: fixed;
+  z-index: 1000;
+  pointer-events: none;
+  background: rgba(26, 26, 26, 0.92);
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  line-height: 1.35;
+  padding: 0.45rem 0.6rem;
+  border-radius: 4px;
+  max-width: 220px;
+}

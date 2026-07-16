@@ -626,6 +626,13 @@ def load_censo_2017() -> pd.DataFrame:
         "ca_n_estab_com_veiculos_total":       "censo2017_n_estab_com_veiculos",
         "ca_n_veiculos_total":                 "censo2017_n_veiculos_total",
         "ca_n_veiculos_caminhoes":             "censo2017_n_caminhoes",
+        # 2026-07-16: tabela 6850 (calcário = correção de solo; orientação = extensão)
+        "ca_n_estab_calcario_fez_aplicacao":   "censo2017_n_estab_calcario",
+        "ca_pct_calcario":                     "censo2017_pct_calcario",
+        "ca_n_estab_orientacao_recebe":        "censo2017_n_estab_orientacao",
+        "ca_pct_orientacao":                   "censo2017_pct_orientacao",
+        "ca_n_estab_orientacao_governo":       "censo2017_n_estab_orientacao_governo",
+        "ca_n_estab_orientacao_cooperativas":  "censo2017_n_estab_orientacao_coop",
     }
     out = df[[c for c in cols_keep.keys() if c in df.columns]].rename(columns=cols_keep)
     print(f"[censo2017] {len(out):,} munis (estático, replicado em todos os anos)")

@@ -1024,6 +1024,29 @@ VEICULOS_CATEGORIAS = {
     "40623": "automoveis",
 }
 
+# Tabela 6850 — Uso de calcário/corretivos + origem da orientação técnica.
+# A mesma tabela traz DUAS classificações que fecham dois itens do backlog:
+#   class 12549 = Uso de calcário e/ou outros corretivos do pH do solo (col D5C)
+#   class 12567 = Origem da orientação técnica recebida               (col D6C)
+# Coletamos cada classificação isoladamente, com as demais fixas no "Total".
+CALCARIO_TOTAL = "46553"          # Uso de calcário — Total
+ORIENTACAO_TOTAL = "41151"        # Origem da orientação técnica — Total
+GRUPOS_AREA_TOTAL = "110085"      # Grupos de área total — Total
+
+CALCARIO_CATEGORIAS = {
+    "46553": "total",
+    "46554": "fez_aplicacao",     # aplicou calcário/corretivo — proxy correção de solo
+    "46555": "nao_fez",
+}
+ORIENTACAO_CATEGORIAS = {
+    "41151": "total",
+    "113111": "recebe",           # recebe orientação técnica (qualquer origem)
+    "112647": "governo",          # federal/estadual/municipal (extensão pública)
+    "112648": "propria",          # própria ou do próprio produtor
+    "112649": "cooperativas",
+    "112650": "empresas_integradoras",
+}
+
 
 def coletar_censo_6878(force: bool = False) -> pd.DataFrame:
     """6878 — Estrutura fundiária: nº estabelecimentos + área, por tipologia."""
@@ -1182,6 +1205,55 @@ def coletar_censo_6877(force: bool = False) -> pd.DataFrame:
     return df
 
 
+def coletar_censo_6850_calcario(force: bool = False) -> pd.DataFrame:
+    """6850 — Uso de calcário/corretivos do pH do solo (proxy correção/intensificação).
+
+    Varia a classificação 12549 (col D5C); demais fixas no Total.
+    """
+    print("\n[6850] Uso de calcário/corretivos do solo (Censo Agro 2017)")
+    calc_ids = ",".join(CALCARIO_CATEGORIAS.keys())
+    df_raw = _get_sidra_cached(
+        "censo_6850_calcario",
+        force=force,
+        table_code="6850",
+        territorial_level="6",
+        ibge_territorial_code=TERRITORIO_MUNI_GO,
+        period="2017",
+        variable="183",
+        classifications={"829": TIPOLOGIA_TOTAL, "12549": calc_ids,
+                         "12567": ORIENTACAO_TOTAL, "220": GRUPOS_AREA_TOTAL},
+    )
+    df = _padronizar_municipal(df_raw, classif_col="D5C")
+    df.to_csv(DIR_PROCESSED / "sidra_censo_6850_calcario.csv", index=False)
+    print(f"  -> sidra_censo_6850_calcario.csv ({len(df):,} linhas)")
+    return df
+
+
+def coletar_censo_6850_orientacao(force: bool = False) -> pd.DataFrame:
+    """6850 — Origem da orientação técnica recebida (proxy capacitação/extensão).
+
+    Varia a classificação 12567 (col D6C); demais fixas no Total. Mesma tabela do
+    calcário, outra classificação — evita uma segunda requisição a tabela distinta.
+    """
+    print("\n[6850] Origem da orientação técnica recebida (Censo Agro 2017)")
+    ori_ids = ",".join(ORIENTACAO_CATEGORIAS.keys())
+    df_raw = _get_sidra_cached(
+        "censo_6850_orientacao",
+        force=force,
+        table_code="6850",
+        territorial_level="6",
+        ibge_territorial_code=TERRITORIO_MUNI_GO,
+        period="2017",
+        variable="183",
+        classifications={"829": TIPOLOGIA_TOTAL, "12549": CALCARIO_TOTAL,
+                         "12567": ori_ids, "220": GRUPOS_AREA_TOTAL},
+    )
+    df = _padronizar_municipal(df_raw, classif_col="D6C")
+    df.to_csv(DIR_PROCESSED / "sidra_censo_6850_orientacao.csv", index=False)
+    print(f"  -> sidra_censo_6850_orientacao.csv ({len(df):,} linhas)")
+    return df
+
+
 def coletar_censo_6958(force: bool = False) -> pd.DataFrame:
     """6958 — Lavouras temporárias: estabelecimentos + área colhida (soja, milho, cana)."""
     print("\n[6958] Lavouras temporárias - soja, milho, cana (Censo Agro 2017)")
@@ -1222,6 +1294,8 @@ def montar_painel_censo_agro(force: bool = False) -> pd.DataFrame:
     df_lav = coletar_censo_6958(force=force)
     df_pdi = coletar_censo_6855(force=force)
     df_vei = coletar_censo_6877(force=force)
+    df_cal = coletar_censo_6850_calcario(force=force)
+    df_ori = coletar_censo_6850_orientacao(force=force)
 
     # Começar com a lista de municípios
     munis = (
@@ -1330,9 +1404,26 @@ def montar_painel_censo_agro(force: bool = False) -> pd.DataFrame:
         wide_vei_rows.append({"cd_mun": row["cd_mun"], col_name: row["valor"]})
     wide_vei = pd.DataFrame(wide_vei_rows).groupby("cd_mun").first().reset_index()
 
+    # Calcário (categoria 12549 = uso de calcário/corretivos)
+    wide_cal_rows = []
+    for _, row in df_cal.iterrows():
+        cat_key = CALCARIO_CATEGORIAS.get(str(row.get("categoria_id", "")), str(row.get("categoria_id", "")))
+        col_name = f"ca_n_estab_calcario_{cat_key}"
+        wide_cal_rows.append({"cd_mun": row["cd_mun"], col_name: row["valor"]})
+    wide_cal = pd.DataFrame(wide_cal_rows).groupby("cd_mun").first().reset_index()
+
+    # Orientação técnica (categoria 12567 = origem da orientação recebida)
+    wide_ori_rows = []
+    for _, row in df_ori.iterrows():
+        cat_key = ORIENTACAO_CATEGORIAS.get(str(row.get("categoria_id", "")), str(row.get("categoria_id", "")))
+        col_name = f"ca_n_estab_orientacao_{cat_key}"
+        wide_ori_rows.append({"cd_mun": row["cd_mun"], col_name: row["valor"]})
+    wide_ori = pd.DataFrame(wide_ori_rows).groupby("cd_mun").first().reset_index()
+
     # Merge all wide tables
     painel = munis.copy()
-    for wide in [wide_est, wide_pes, wide_tra, wide_adu, wide_agr, wide_bov, wide_lav, wide_pdi, wide_vei]:
+    for wide in [wide_est, wide_pes, wide_tra, wide_adu, wide_agr, wide_bov,
+                 wide_lav, wide_pdi, wide_vei, wide_cal, wide_ori]:
         if "cd_mun" in wide.columns and len(wide.columns) > 1:
             painel = painel.merge(wide, on="cd_mun", how="left")
 
@@ -1371,6 +1462,16 @@ def montar_painel_censo_agro(force: bool = False) -> pd.DataFrame:
             painel["ca_n_estabelecimentos_fam_sim"]
             / painel["ca_n_estabelecimentos_total"] * 100
         ).round(2)
+    if "ca_n_estab_calcario_total" in painel.columns and "ca_n_estab_calcario_fez_aplicacao" in painel.columns:
+        painel["ca_pct_calcario"] = (
+            painel["ca_n_estab_calcario_fez_aplicacao"]
+            / painel["ca_n_estab_calcario_total"] * 100
+        ).round(2)
+    if "ca_n_estab_orientacao_total" in painel.columns and "ca_n_estab_orientacao_recebe" in painel.columns:
+        painel["ca_pct_orientacao"] = (
+            painel["ca_n_estab_orientacao_recebe"]
+            / painel["ca_n_estab_orientacao_total"] * 100
+        ).round(2)
 
     painel.to_csv(DIR_PROCESSED / "sidra_censo_agro_2017.csv", index=False)
     n_cols = len(painel.columns)
@@ -1388,6 +1489,8 @@ COLETORES_CENSO_AGRO = [
     ("6958 (lavouras temporárias)", coletar_censo_6958),
     ("6855 (plantio direto)",      coletar_censo_6855),
     ("6877 (veículos)",            coletar_censo_6877),
+    ("6850 (calcário)",            coletar_censo_6850_calcario),
+    ("6850 (orientação técnica)",  coletar_censo_6850_orientacao),
 ]
 
 
