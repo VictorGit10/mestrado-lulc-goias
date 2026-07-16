@@ -49,6 +49,19 @@ O Norte — destino da marcha e detentor de 44% do convertível remanescente —
 
 **Robustez da manchete**: como a PI é tão pequena em toda parte, o "97% desprotegido" sobrevive ao caveat do proxy uniforme (Bloco B assume convertível distribuído uniformemente na AMC) — mesmo se o convertível estivesse **3× mais concentrado** dentro das UCs de PI, ainda seria **90% desprotegido**.
 
+### 2b. Refino pixel-a-pixel confirma a manchete (2026-07-16)
+
+O caveat do proxy uniforme (D17) foi **fechado no raster** via GEE (`scripts/refino_protecao_pixel.py`): intersecção pixel do convertível de 2024 (savana ID 4 + campo ID 12, def. refinada) com os polígonos de Proteção Integral, medida por `reduceRegion` agrupado por região. Resultado em `data/processed/protecao_gap_pixel_regiao.csv`:
+
+| Região | Convertível 2024 (pixel) | % desprotegido **pixel** | % desprotegido **proxy** |
+|---|---|---|---|
+| **Estado** | 6,558 Mha | **94,3%** | 97% |
+| Norte | 2,886 Mha | 93,4% | 94,6% |
+| Centro | 2,487 Mha | 98,1% | 99,0% |
+| Sul | 1,186 Mha | 88,8% | 97,4% |
+
+Duas leituras: (1) o **convertível total do pixel (6,558 Mha) bate quase exatamente** com o proxy do #39 (6,56 Mha) — valida a base de estoque; (2) o headline **se mantém e agora é pixel-a-pixel** (94% desprotegido no estado, ≥93% no Norte/Centro). A única nuance real é o **Sul**: o pixel mostra **11% de proteção** (vs 3% do proxy), porque as UCs de PI do Sudoeste — sobretudo o **Parque Nacional das Emas**, que é justamente savana/campo — assentam **sobre** Cerrado convertível, algo que a hipótese de distribuição uniforme não captava. Ou seja, o proxy **superestimava** ligeiramente a desproteção no Sul; corrigido, o Sul é um pouco mais protegido, mas ainda ~89% aberto. **Conclusão inalterada, agora validada no raster.**
+
 ### 3. A proteção não respondeu à fronteira — ela a antecede e congelou
 **89% da Proteção Integral de GO já existia em 2000** (0,45 de 0,50 Mha); ela cresceu só +0,05 Mha em 24 anos, enquanto a marcha ao norte se intensificava (Ato III, 2020–24). A PI **não** se expandiu para acompanhar a fronteira que avança para o Norte — ela ficou pequena e estática. A proteção formal não é resposta ao avanço recente.
 
@@ -74,16 +87,16 @@ Esquerda: o Cerrado convertível remanescente por faixa de latitude, empilhando 
 
 ## Decisão metodológica nova — D17 (proteção como malha vetorial)
 
-**"Proteção" é operacionalizada como a malha de UCs (CNUC via `geobr`), em nível VETORIAL, distinguindo Proteção Integral (veda conversão) de Uso Sustentável (admite uso rural).** Limitação, no espírito da D13: sem intersecção **pixel** do Cerrado convertível *dentro* de cada UC, aplica-se a fração protegida da AMC ao estoque convertível assumindo distribuição **uniforme** intra-AMC — logo o "convertível desprotegido" é um **proxy/teto**, não uma medida pixel-a-pixel (mostra-se robusto porque a PI é minúscula em toda parte). O refino pixel (recortar o estoque do #39 pela malha de UC no raster, via GEE) fica para a Sprint 2.
+**"Proteção" é operacionalizada como a malha de UCs (CNUC via `geobr`), em nível VETORIAL, distinguindo Proteção Integral (veda conversão) de Uso Sustentável (admite uso rural).** Limitação, no espírito da D13: sem intersecção **pixel** do Cerrado convertível *dentro* de cada UC, aplica-se a fração protegida da AMC ao estoque convertível assumindo distribuição **uniforme** intra-AMC — logo o "convertível desprotegido" é um **proxy/teto**, não uma medida pixel-a-pixel (mostra-se robusto porque a PI é minúscula em toda parte). **O refino pixel foi FEITO em 2026-07-16** (`scripts/refino_protecao_pixel.py`, ver §2b): confirma a manchete no raster (94,3% desprotegido no estado) e só corrige a desproteção do Sul para baixo (efeito Emas). O proxy do D17 fica validado como aproximação segura.
 
 ---
 
 ## Limitações honestas e validações PENDENTES
 
-- **Overlay vetorial, não pixel** (D17). O headline sobrevive ao caveat (ver §2), mas a atribuição fina "este hectare convertível está dentro/fora de UC" exige o raster.
-- **UC ≠ proteção efetiva.** A camada é o limite legal; não mede fiscalização, desmatamento ilegal dentro de UC, nem a Reserva Legal/APP prediais (que o #39 aproxima na def. `refinada_rl`).
-- **PRODES Cerrado (INPE) — validação PENDENTE.** A checagem independente da série de perda de vegetação do MapBiomas contra o PRODES não entrou: a API pública de taxas do terrabrasilis não expõe tabular limpo deste ambiente. Fonte para coleta manual: `http://terrabrasilis.dpi.inpe.br/downloads/` → PRODES Cerrado, incrementos anuais 2000+.
-- **Áreas Prioritárias para Conservação do Cerrado (MMA, Portaria 223/2016) — PENDENTE.** Enriqueceria o Bloco B com "prioridade de conservação" além do binário UC. Fonte: dados espaciais do MMA (`gov.br/mma`).
+- **Overlay vetorial → refino pixel FEITO (2026-07-16).** O D17 assumia distribuição uniforme; o raster (§2b) confirma o headline (94,3% estado) e corrige só o Sul (efeito Emas). A atribuição fina "este hectare está dentro/fora de PI" agora existe em `protecao_gap_pixel_regiao.csv`.
+- **UC ≠ proteção efetiva.** A camada é o limite legal; não mede fiscalização, desmatamento ilegal dentro de UC, nem a Reserva Legal/APP prediais (que o #39 aproxima na def. `refinada_rl`). *(Este é o único caveat de fundo que permanece — é conceitual, não sanável com mais dado espacial.)*
+- **PRODES Cerrado (INPE) — validação FEITA no #48 (2026-07-16).** No regime anual 2013–24 MapBiomas e PRODES concordam (1,09 vs 1,08 Mha, r=0,91) → a base de perda de vegetação do #39/#46 tem respaldo externo do INPE.
+- **Áreas Prioritárias para Conservação do Cerrado (MMA, Portaria 223/2016) — DISPENSADA (2026-07-16).** Avaliada como **não necessária** ao fechamento: seria *enriquecimento* (uma segunda camada de "prioridade" além do binário UC), não validação de nenhuma alegação existente. A manchete (94–97% desprotegido) se apoia em Proteção Integral e já está pixel-validada; o MMA só acrescentaria cor ao Bloco B. Fica registrada como opção futura de redação, não pendência de análise.
 
 ---
 
