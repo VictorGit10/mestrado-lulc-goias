@@ -22,15 +22,41 @@ Saidas:
 
 Schema:
   cd_mun, ano,
-  trase_soja_volume_t, trase_soja_fob_usd,
-  trase_soja_n_exporters, trase_soja_n_hubs, trase_soja_top_exporter,
-  trase_boi_volume_t, trase_boi_fob_usd,
-  trase_boi_n_frigorificos, trase_boi_n_hubs, trase_boi_top_frigorifico
+  trase_soja_volume_t, trase_soja_volume_export_t, trase_soja_volume_domestico_t,
+  trase_soja_fob_usd, trase_soja_n_exporters,
+  trase_soja_n_hubs, trase_soja_n_hubs_export, trase_soja_top_exporter,
+  trase_boi_volume_t, trase_boi_volume_export_t, trase_boi_volume_domestico_t,
+  trase_boi_fob_usd, trase_boi_n_frigorificos,
+  trase_boi_n_hubs, trase_boi_n_hubs_export, trase_boi_top_frigorifico
 
-Observacao analitica importante: Trase rastreia *cadeia exportadora*. Producao
-processada domesticamente (frigorifico para mercado interno) NAO entra. Para
-inferencia, tratar como proxy de exposicao a cadeia agroindustrial exportadora,
-nao de capacidade total de abate / esmagamento.
+OBSERVACAO ANALITICA CRITICA -- "Trase = so exportacao" NAO vale para a soja
+---------------------------------------------------------------------------
+Esta era a premissa original deste script, e ela e FALSA para a soja (corrigido
+em 2026-07-17). O dataset *composite* da soja cobre o fluxo TOTAL rastreado e
+ETIQUETA o que foi esmagado no Brasil, em vez de omiti-lo. Medido em GO 2004-22:
+
+  exporter == 'PROCESSED DOMESTICALLY'  -> 44,6% do volume (74,2 de 166,4 Mt)
+    destino BRAZIL em 100% das linhas, FOB = 0 em 100% das linhas.
+  exporter in {'UNKNOWN', 'UNKNOWN CUSTOMER'} -> 1,4% do volume
+    exportacao REAL (destinos China/Alemanha/..., portos Santos/Paranagua,
+    FOB > 0 sempre) -- so o trader e anonimo. CONTA como export.
+
+Por isso o schema separa explicitamente:
+  *_volume_t            = fluxo total rastreado   (export + domestico)
+  *_volume_export_t     = so exportacao           <- use este como "infra exportadora"
+  *_volume_domestico_t  = so esmagamento no Brasil
+  *_fob_usd             = so exportacao POR CONSTRUCAO (as linhas domesticas tem FOB=0)
+  *_n_exporters         = so tradings IDENTIFICADAS (exclui os 3 rotulos pseudo)
+  *_n_hubs_export       = hubs logisticos nas linhas de exportacao
+
+O BOI (v2.2.2) e export-only de verdade: nao tem bucket domestico, e as colunas
+*_volume_domestico_t saem 0 -- o que este script VERIFICA e imprime, em vez de
+supor. A simetria e proposital: se uma versao futura da Trase passar a incluir
+volume domestico no boi, os numeros aparecem em vez de contaminar em silencio.
+
+Consequencia para quem consome: `trase_soja_volume_t` e `trase_boi_volume_t`
+NAO sao comparaveis (total vs export). O par comparavel e *_volume_export_t.
+Ver Textos/pipelines/27_coleta_trase.md.
 
 Como rodar:
     python coleta_trase.py            # processa zips e salva painel
@@ -59,6 +85,14 @@ CSV_SOY  = "brazil_soy_v2_6_1_composite.csv"
 MAPEAMENTO_CSV = DIR_PROCESSED / "mapeamento_mesorregioes.csv"
 SAIDA          = DIR_PROCESSED / "painel_trase.csv"
 
+# Rotulos do campo `exporter` que nao sao uma trading exportadora identificada.
+# Verificado no dado bruto (GO): DOMESTICO tem destino BRAZIL e FOB=0 em 100% das
+# linhas; os NAO_IDENTIFICADO tem destino estrangeiro, porto real e FOB>0 -- sao
+# exportacao de verdade, so o trader e anonimo (logo entram no volume exportado,
+# mas nao podem ser contados como um "player").
+EXPORTER_DOMESTICO       = "PROCESSED DOMESTICALLY"
+EXPORTER_NAO_IDENTIFICADO = {"UNKNOWN", "UNKNOWN CUSTOMER"}
+
 
 def normaliza_nome(s: str) -> str:
     """CAIXA-ALTA sem acentos, sem espacos duplos. Match Trase x IBGE."""
@@ -76,15 +110,45 @@ def carregar_mapeamento() -> pd.DataFrame:
 
 
 def _agregar_grupo(g: pd.DataFrame, prefix: str, col_exporter: str) -> pd.Series:
-    """Agrega um (cd_mun, ano) em uma linha de metricas."""
-    top = g.groupby(col_exporter)["volume"].sum().sort_values(ascending=False)
+    """Agrega um (cd_mun, ano) em uma linha de metricas.
+
+    Separa exportacao de esmagamento domestico (ver docstring do modulo). O
+    `top_exporter` e a maior trading IDENTIFICADA -- se o muni-ano so teve volume
+    domestico ou anonimo, sai None (honesto: nao houve exportador identificado),
+    e nao 'PROCESSED DOMESTICALLY' como na versao anterior.
+    """
+    eh_domestico = g[col_exporter] == EXPORTER_DOMESTICO
+    g_exp = g[~eh_domestico]                # exportacao (inclui trader anonimo)
+    g_dom = g[eh_domestico]                 # esmagamento no Brasil
+    # so tradings identificadas contam como "player"
+    ident = g_exp[~g_exp[col_exporter].isin(EXPORTER_NAO_IDENTIFICADO)]
+    top = ident.groupby(col_exporter)["volume"].sum().sort_values(ascending=False)
     return pd.Series({
         f"{prefix}_volume_t": float(g["volume"].sum()),
+        f"{prefix}_volume_export_t": float(g_exp["volume"].sum()),
+        f"{prefix}_volume_domestico_t": float(g_dom["volume"].sum()),
         f"{prefix}_fob_usd": float(g["fob"].sum()),
-        f"{prefix}_n_exporters": int(g[col_exporter].nunique()),
+        f"{prefix}_n_exporters": int(ident[col_exporter].nunique()),
         f"{prefix}_n_hubs": int(g["logistics_hub"].nunique()),
+        f"{prefix}_n_hubs_export": int(g_exp["logistics_hub"].nunique()),
         f"{prefix}_top_exporter": (top.index[0] if len(top) else None),
     })
+
+
+def _auditar_cadeia(df: pd.DataFrame, nome: str, col_exporter: str) -> None:
+    """Imprime a composicao export x domestico da cadeia -- VERIFICA em vez de supor."""
+    tot = df["volume"].sum()
+    if tot <= 0:
+        return
+    dom = df.loc[df[col_exporter] == EXPORTER_DOMESTICO, "volume"].sum()
+    anon = df.loc[df[col_exporter].isin(EXPORTER_NAO_IDENTIFICADO), "volume"].sum()
+    fob_dom = df.loc[df[col_exporter] == EXPORTER_DOMESTICO, "fob"].sum()
+    print(f"  [auditoria {nome}] volume total {tot/1e6:.2f} Mt")
+    print(f"    exportado           : {(tot-dom)/1e6:6.2f} Mt ({100*(tot-dom)/tot:5.1f}%)")
+    print(f"      dos quais anonimos: {anon/1e6:6.2f} Mt ({100*anon/tot:5.1f}%) -- export real, trader UNKNOWN")
+    print(f"    esmagado no Brasil  : {dom/1e6:6.2f} Mt ({100*dom/tot:5.1f}%) -- FOB somado = {fob_dom:.0f}")
+    if dom == 0:
+        print(f"    -> {nome} e export-only (nenhuma linha '{EXPORTER_DOMESTICO}') [confirmado]")
 
 
 def processar_soja(mapeamento: pd.DataFrame) -> pd.DataFrame:
@@ -112,6 +176,8 @@ def processar_soja(mapeamento: pd.DataFrame) -> pd.DataFrame:
     df = df.dropna(subset=["cd_mun"])
     df["cd_mun"] = df["cd_mun"].astype(int)
     df = df.rename(columns={"year": "ano"})
+
+    _auditar_cadeia(df, "soja", "exporter")
 
     agg = (
         df.groupby(["cd_mun", "ano"], group_keys=False)
@@ -155,6 +221,8 @@ def processar_boi(mapeamento: pd.DataFrame) -> pd.DataFrame:
     df["cd_mun"] = df["cd_mun"].astype(int)
     df = df.rename(columns={"year": "ano"})
 
+    _auditar_cadeia(df, "boi", "exporter")
+
     agg = (
         df.groupby(["cd_mun", "ano"], group_keys=False)
         .apply(lambda g: _agregar_grupo(g, "trase_boi", "exporter"), include_groups=False)
@@ -195,12 +263,22 @@ def main(force: bool = False) -> Path:
     cols_boi  = [c for c in painel.columns if c.startswith("trase_boi")]
     painel = painel[cols_principais + cols_soja + cols_boi].reset_index(drop=True)
 
+    # Consistencia: total == export + domestico, cadeia a cadeia (tolerancia de float)
+    for p in ("trase_soja", "trase_boi"):
+        soma = painel[f"{p}_volume_export_t"].fillna(0) + painel[f"{p}_volume_domestico_t"].fillna(0)
+        resid = (painel[f"{p}_volume_t"].fillna(0) - soma).abs().max()
+        assert resid < 1e-6, f"{p}: volume_t != export + domestico (residuo max {resid})"
+    print("\n[check] volume_t == volume_export_t + volume_domestico_t nas duas cadeias [OK]")
+
     painel.to_csv(SAIDA, index=False, encoding="utf-8")
     print(f"\n[ok] {SAIDA.name}")
     print(f"  shape: {painel.shape}")
     print(f"  munis: {painel['cd_mun'].nunique()}, anos: {painel['ano'].min()}-{painel['ano'].max()}")
-    print(f"  cobertura soja: {painel['trase_soja_volume_t'].notna().sum():,} celulas")
-    print(f"  cobertura boi:  {painel['trase_boi_volume_t'].notna().sum():,} celulas")
+    for p, rot in (("trase_soja", "soja"), ("trase_boi", "boi ")):
+        v, e = painel[f"{p}_volume_t"].sum(), painel[f"{p}_volume_export_t"].sum()
+        pct = 100 * e / v if v else float("nan")
+        print(f"  cobertura {rot}: {painel[f'{p}_volume_t'].notna().sum():,} celulas | "
+              f"{v/1e6:6.2f} Mt total, dos quais {pct:.1f}% exportado")
     return SAIDA
 
 

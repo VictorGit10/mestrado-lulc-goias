@@ -586,9 +586,16 @@ def load_trase() -> pd.DataFrame | None:
     zips de Trase.earth (CC BY 4.0) em data/raw/trase/. Retorna None se ainda
     não foi gerado — o painel pode ser construído sem Trase.
 
-    Cuidado analitico: Trase captura apenas fluxo exportador. Volume processado
-    domesticamente nao entra. Tratar como proxy de exposicao a cadeia
-    agroindustrial exportadora, nao de capacidade total.
+    Cuidado analitico (CORRIGIDO em 2026-07-17): a premissa antiga -- "Trase
+    captura apenas fluxo exportador" -- vale para o BOI mas e FALSA para a SOJA.
+    O dataset composite da soja cobre o fluxo total e etiqueta o esmagamento
+    domestico: 44,6% do volume de GO e 'PROCESSED DOMESTICALLY' (destino BRAZIL,
+    FOB=0). Por isso o painel carrega as tres colunas separadas:
+        trase_soja_volume_t           = total rastreado (export + domestico)
+        trase_soja_volume_export_t    = so exportacao  <- proxy de cadeia exportadora
+        trase_soja_volume_domestico_t = so esmagamento no Brasil
+    Use *_volume_export_t para "exposicao a cadeia exportadora"; *_volume_t NAO e
+    comparavel entre soja e boi. Ver Textos/pipelines/27_coleta_trase.md e #45.
     """
     arq = DIR_PROCESSED / "painel_trase.csv"
     if not arq.exists():
@@ -597,10 +604,12 @@ def load_trase() -> pd.DataFrame | None:
     df = pd.read_csv(arq, encoding="utf-8")
     # Colunas top_exporter/top_frigorifico ficam fora (são strings, viram texto livre)
     cols = ["cd_mun", "ano",
-            "trase_soja_volume_t", "trase_soja_fob_usd",
-            "trase_soja_n_exporters", "trase_soja_n_hubs",
-            "trase_boi_volume_t", "trase_boi_fob_usd",
-            "trase_boi_n_frigorificos", "trase_boi_n_hubs"]
+            "trase_soja_volume_t", "trase_soja_volume_export_t",
+            "trase_soja_volume_domestico_t", "trase_soja_fob_usd",
+            "trase_soja_n_exporters", "trase_soja_n_hubs", "trase_soja_n_hubs_export",
+            "trase_boi_volume_t", "trase_boi_volume_export_t",
+            "trase_boi_volume_domestico_t", "trase_boi_fob_usd",
+            "trase_boi_n_frigorificos", "trase_boi_n_hubs", "trase_boi_n_hubs_export"]
     out = df[cols]
     print(f"[trase] {len(out):,} linhas, anos {out['ano'].min()}-{out['ano'].max()}, munis {out['cd_mun'].nunique()}")
     return out

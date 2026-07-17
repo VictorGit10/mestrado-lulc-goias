@@ -6,7 +6,7 @@
 
 ## O que é
 
-Tabela wide única `cd_mun × ano` (9.840 linhas × ~157 colunas) que consolida todas as fontes prontas em formato pronto para regressão pooled, painel ou inferência espacial (Moran, LISA, `spreg`).
+Tabela wide única `cd_mun × ano` (9.840 linhas × 185 colunas, após remoção das colunas 100% NaN) que consolida todas as fontes prontas em formato pronto para regressão pooled, painel ou inferência espacial (Moran, LISA, `spreg`). O bloco `censo2017_*` foi ampliado em jul/2026 com a tabela SIDRA 6850 (calcário e orientação técnica) — ver Pipeline #40B.
 
 **Universo**: 246 municípios de Goiás (atual), 40 anos (1985–2024). Linha = município × ano.
 

@@ -45,8 +45,11 @@ PAREAMENTOS
     (soja tem fonte satélite E censo → validação cruzada embutida.)
 
 LIMITAÇÕES HONESTAS
-    - Trase rastreia SÓ o fluxo EXPORTADOR (#27): proxy de exposição à cadeia
-      exportadora, não de capacidade agroindustrial total (mercado interno fora).
+    - "Trase = só fluxo exportador" vale para o BOI, mas NÃO para a soja (#27):
+      44,6% do volume de soja de GO é `PROCESSED DOMESTICALLY`. Por isso os pares
+      de soja usam `trase_soja_volume_export_t` (exportação de fato) e há um par
+      de contraste com o esmagamento doméstico. Mesmo assim, a Trase mede FLUXO,
+      não capacidade agroindustrial instalada.
     - Janela curta (soja 19 anos, boi 12 anos — 2018 ausente na Trase, interpolado
       linearmente no Bloco A para não diferenciar através do vão) → baixo poder,
       sobretudo no agregado. O painel recupera poder pelo N municipal.
@@ -92,15 +95,29 @@ DIR_OUT.mkdir(parents=True, exist_ok=True)
 MAX_LAG = 4   # defasagens da CCF agregada
 
 # Pareamentos (rótulo, coluna_infra_Trase, coluna_lulc, cadeia)
+#
+# CORREÇÃO 2026-07-17 — o que mudou e por quê:
+#   A versão original pareava `trase_soja_volume_t`, que NÃO é volume exportado:
+#   44,6% dele é `PROCESSED DOMESTICALLY` (esmagamento no Brasil, FOB=0). Chamar
+#   isso de "infra exportadora" era impreciso, e o par mais forte (soja-SIDRA,
+#   β=+0,335) ficava em parte DEFINICIONAL — ~45% do regressor era o destino da
+#   própria soja cuja área plantada é a outra ponta do par.
+#   Agora os pares de soja usam `trase_soja_volume_export_t` (exportação de fato),
+#   e entra um par de CONTRASTE com `trase_soja_volume_domestico_t`: se o sinal
+#   antigo vinha do componente doméstico, ele aparece ali e não no exportado.
+#   O boi usa `_volume_export_t` também — idêntico a `_volume_t` por construção
+#   (cadeia export-only), mas assim o rótulo "exportado" é literalmente verdade
+#   nas duas cadeias e os dois números viram comparáveis.
 PARES = [
-    ("Soja: volume exportado × soja MapBiomas",   "trase_soja_volume_t", "lulc_soja_ha",          "soja"),
-    ("Soja: volume exportado × soja SIDRA",       "trase_soja_volume_t", "agri_soja_ha_plantada", "soja"),
-    ("Soja: volume exportado × agricultura LULC", "trase_soja_volume_t", "lulc_agricultura_ha",   "soja"),
-    ("Soja: nº hubs × soja MapBiomas",            "trase_soja_n_hubs",   "lulc_soja_ha",          "soja"),
-    ("Boi: volume exportado × pastagem LULC",     "trase_boi_volume_t",  "lulc_pastagem_ha",      "boi"),
-    ("Boi: volume exportado × rebanho bovino",    "trase_boi_volume_t",  "pec_bovinos_cab",       "boi"),
-    ("Boi: volume exportado × abate bovino",      "trase_boi_volume_t",  "abate_bovino_cab",      "boi"),
-    ("Boi: nº frigoríficos × rebanho bovino",     "trase_boi_n_frigorificos", "pec_bovinos_cab",  "boi"),
+    ("Soja: volume EXPORTADO × soja MapBiomas",     "trase_soja_volume_export_t",    "lulc_soja_ha",          "soja"),
+    ("Soja: volume EXPORTADO × soja SIDRA",         "trase_soja_volume_export_t",    "agri_soja_ha_plantada", "soja"),
+    ("Soja: volume EXPORTADO × agricultura LULC",   "trase_soja_volume_export_t",    "lulc_agricultura_ha",   "soja"),
+    ("Soja: esmagam. DOMÉSTICO × soja SIDRA",       "trase_soja_volume_domestico_t", "agri_soja_ha_plantada", "soja"),
+    ("Soja: nº hubs export × soja MapBiomas",       "trase_soja_n_hubs_export",      "lulc_soja_ha",          "soja"),
+    ("Boi: volume EXPORTADO × pastagem LULC",       "trase_boi_volume_export_t",     "lulc_pastagem_ha",      "boi"),
+    ("Boi: volume EXPORTADO × rebanho bovino",      "trase_boi_volume_export_t",     "pec_bovinos_cab",       "boi"),
+    ("Boi: volume EXPORTADO × abate bovino",        "trase_boi_volume_export_t",     "abate_bovino_cab",      "boi"),
+    ("Boi: nº frigoríficos × rebanho bovino",       "trase_boi_n_frigorificos",      "pec_bovinos_cab",       "boi"),
 ]
 
 
@@ -313,6 +330,56 @@ def bloco_b(df: pd.DataFrame) -> pd.DataFrame:
     return pd.DataFrame(linhas)
 
 
+def bloco_c(df: pd.DataFrame, b: pd.DataFrame) -> pd.DataFrame:
+    """Robustez dos termos DEFASADOS significativos (espírito #41 / D14).
+
+    Um termo de "liderança" só merece leitura se sobreviver a mudanças de escala.
+    O regressando aqui (Δ volume exportado municipal) é muito ruidoso — a alocação
+    por destino/trading oscila forte ano a ano —, então um p<0,05 com r²within ~0,005
+    é candidato natural a artefato de outlier. Reestimamos cada termo defasado
+    significativo sob:
+      - winsor : cauda cortada em 1%/99% (mata o efeito de outlier puro)
+      - log1p  : compressão de escala (mata o efeito de heterogeneidade multiplicativa)
+    Um termo que morre nas duas é FRÁGIL e não deve ser reportado como liderança.
+    """
+    from itertools import product
+
+    def _reestima(ci: str, cl: str, termo: str, transform: str) -> dict | None:
+        d = df[["cd_mun", "ano", ci, cl]].copy()
+        if transform == "log1p":
+            for c in (ci, cl):
+                d[c] = np.log1p(d[c].clip(lower=0))
+        elif transform == "winsor":
+            for c in (ci, cl):
+                lo, hi = d[c].quantile([0.01, 0.99])
+                d[c] = d[c].clip(lo, hi)
+        d = _zscore_painel(d, [ci, cl]).sort_values(["cd_mun", "ano"])
+        d["d_infra"] = d.groupby("cd_mun")[ci].diff()
+        d["d_lulc"] = d.groupby("cd_mun")[cl].diff()
+        d["d_infra_l1"] = d.groupby("cd_mun")["d_infra"].shift(1)
+        d["d_lulc_l1"] = d.groupby("cd_mun")["d_lulc"].shift(1)
+        if termo == "infra_lidera":
+            return _fe_um_termo(d, "d_lulc", "d_infra_l1")
+        return _fe_um_termo(d, "d_infra", "d_lulc_l1")
+
+    por_par = {rot: (ci, cl) for rot, ci, cl, _ in PARES}
+    sig = b[(b.termo.isin(["infra_lidera", "lulc_lidera"])) & (b.p < 0.05)]
+    linhas = []
+    for (_, r), transform in product(sig.iterrows(), ["bruto", "winsor", "log1p"]):
+        ci, cl = por_par[r["par"]]
+        v = _reestima(ci, cl, r["termo"], transform) if transform != "bruto" else {
+            "beta": r["beta"], "se": r["se"], "p": r["p"], "n": r["n"], "r2w": r["r2w"]}
+        if v:
+            linhas.append({"par": r["par"], "termo": r["termo"], "spec": transform, **v})
+    c = pd.DataFrame(linhas)
+    if len(c):
+        # sobrevive = significativo nas TRÊS specs
+        surv = (c.groupby(["par", "termo"])["p"]
+                 .apply(lambda s: bool((s < 0.05).all())).rename("sobrevive"))
+        c = c.merge(surv, on=["par", "termo"], how="left")
+    return c
+
+
 def veredito_b(b: pd.DataFrame) -> str:
     """Tally: quantos pares têm co-movimento contemporâneo sig vs liderança sig."""
     def n_sig(termo):
@@ -329,8 +396,8 @@ def veredito_b(b: pd.DataFrame) -> str:
 
 def fig_agregado(df: pd.DataFrame) -> None:
     import matplotlib.pyplot as plt
-    pares_fig = [("trase_soja_volume_t", "lulc_soja_ha", "Soja: infra exportadora × área (MapBiomas)", "#6a3d9a"),
-                 ("trase_boi_volume_t", "pec_bovinos_cab", "Boi: infra exportadora × rebanho", "#7a1f1f")]
+    pares_fig = [("trase_soja_volume_export_t", "lulc_soja_ha", "Soja: volume exportado × área (MapBiomas)", "#6a3d9a"),
+                 ("trase_boi_volume_export_t", "pec_bovinos_cab", "Boi: volume exportado × rebanho", "#7a1f1f")]
     fig, axes = plt.subplots(1, 2, figsize=(13.5, 5))
     for ax, (ci, cl, tit, cor) in zip(axes, pares_fig):
         g = serie_estadual(df, ci, cl)
@@ -421,6 +488,23 @@ def main() -> None:
         print(f"  {par:44s} {fmt('contemp')} | {fmt('infra_lidera')} | {fmt('lulc_lidera')}")
     print(f"  [OK] trase_lulc_painel.csv ({len(b)} linhas)")
     print("\n  VEREDITO: " + veredito_b(b))
+
+    print("\n[Bloco C] Robustez dos termos defasados significativos (espírito #41/D14):")
+    c = bloco_c(df, b)
+    if len(c):
+        c.to_csv(DIR_PROC / "trase_lulc_robustez_defasagem.csv", index=False, encoding="utf-8")
+        for (par, termo), sub in c.groupby(["par", "termo"], sort=False):
+            s = sub.set_index("spec")
+            det = " | ".join(
+                f"{sp} β={s.loc[sp,'beta']:+.3f}{'*' if s.loc[sp,'p'] < 0.05 else ' '}(p={s.loc[sp,'p']:g})"
+                for sp in ("bruto", "winsor", "log1p") if sp in s.index)
+            vd = "SOBREVIVE" if bool(sub["sobrevive"].iloc[0]) else "FRÁGIL — não reportar como liderança"
+            print(f"  {par} [{termo}]\n    {det}\n    -> {vd}")
+        n_surv = int(c.groupby(["par", "termo"])["sobrevive"].first().sum())
+        print(f"  [OK] trase_lulc_robustez_defasagem.csv — {n_surv} de "
+              f"{c.groupby(['par','termo']).ngroups} termos defasados sobrevivem às 3 specs")
+    else:
+        print("  (nenhum termo defasado significativo a estressar)")
 
     if not args.sem_figuras:
         print()
