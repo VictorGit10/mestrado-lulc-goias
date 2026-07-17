@@ -6,43 +6,54 @@ Mestrado/
 │   ├── README.md                     # Índice mestre
 │   ├── backlog.md                    # O que falta fazer
 │   ├── visao_geral/                  # Escopo, estrutura, como retomar
-│   ├── pipelines/                    # 23+ pipelines documentados
+│   ├── pipelines/                    # 49 pipelines documentados (#1–#49)
 │   ├── outputs/                      # Catálogo de gráficos, mapas, CSVs
 │   ├── metodologia/                  # Decisões transversais
 │   ├── referencia/                   # Ambiente, fontes, memórias
 │   └── _arquivo/                     # Histórico preservado
 │
-├── scripts/                          # Todos os pipelines Python
-│   ├── grafico_pastagem_pib_goias.py      # Pipeline #1
-│   ├── analise_expandida_goias.py         # Pipeline #2
-│   ├── coleta_sidra.py                    # Pipeline #3 + #7 + #15
-│   ├── pipeline_municipal.py              # Pipeline #4
-│   ├── analise_pastagem_soja.py           # Pipeline #5
-│   ├── coleta_sicor.py                    # Pipeline #6
-│   ├── analise_credito_uso_terra.py       # Pipeline #8
-│   ├── gerar_mapas_lulc_40anos.py         # Pipeline #9
-│   ├── gerar_mapas_lulc_gee_40anos.py     # Pipeline #10
-│   ├── gerar_gif_lulc.py                  # Pipeline #11 (estado)
-│   ├── gerar_gif_lulc_rio_verde.py        # Pipeline #11 (Rio Verde)
-│   ├── transicoes_mapbiomas.py            # Pipeline #12
-│   ├── visualizar_transicoes.py           # Pipeline #12 (visualizações)
-│   ├── coleta_idhm.py                     # Pipeline #13
-│   ├── fogo_mapbiomas.py                  # Pipeline #14
-│   ├── analise_safrinha.py                # Pipeline #15 (análise descritiva)
-│   ├── construir_painel_unificado.py      # Pipeline #16
-│   ├── calcular_taxas_lulc.py             # Pipeline #17
-│   ├── mapeamento_mesorregioes.py         # Pipeline #18
-│   ├── agregar_conversoes.py             # Pipeline #19
-│   ├── figuras_taxas.py                  # Pipeline #20
-│   ├── correlacoes_uf.py                 # Pipeline #21
-│   ├── correlacoes_painel.py             # Pipeline #22
-│   ├── piecewise_did.py                  # Pipeline #23
-│   ├── analise_transicoes.py             # Pipeline #25 (em andamento)
-│   ├── deteccao_quebras.py               # Pipeline #26
-│   ├── coleta_pib_uf_ipea.py            # PIB/VAB UF IPEA Data
+├── scripts/                          # Pipelines Python (#1–#49) — índice completo em narrativa_pipelines.md (Apêndice A)
+│   ├── grafico_pastagem_pib_goias.py      # #1
+│   ├── analise_expandida_goias.py         # #2
+│   ├── coleta_sidra.py                    # #3 + #7 + #15 (+ Censo 6850)
+│   ├── pipeline_municipal.py              # #4
+│   ├── analise_pastagem_soja.py           # #5
+│   ├── coleta_sicor.py                    # #6
+│   ├── analise_credito_uso_terra.py       # #8
+│   ├── gerar_mapas_lulc_40anos.py         # #9  (+ _gee_40anos #10, gif #11, *_rio_verde)
+│   ├── transicoes_mapbiomas.py            # #12 (+ visualizar_transicoes, agregar_conversoes #19)
+│   ├── coleta_idhm.py                     # #13
+│   ├── fogo_mapbiomas.py                  # #14 (+ analise_fogo)
+│   ├── analise_safrinha.py                # #15
+│   ├── construir_painel_unificado.py      # #16 (+ validar_painel_unificado)
+│   ├── calcular_taxas_lulc.py             # #17
+│   ├── mapeamento_mesorregioes.py         # #18
+│   ├── figuras_taxas.py                    # #20
+│   ├── correlacoes_uf.py                  # #21
+│   ├── correlacoes_painel.py             # #22
+│   ├── piecewise_did.py                  # #23
+│   ├── analise_espacial.py               # #24 (Moran/LISA/SAR-SEM)
+│   ├── construir_amc_goias.py            # #25 (AMC, D11) (+ verificar_amc_goias)
+│   ├── deteccao_quebras.py               # #26
+│   ├── coleta_trase.py                    # #27 (cadeia exportadora)
+│   ├── coleta_idade_pastagem.py          # #28 (+ analise_reserva_terra, bimodalidade_regional #28C)
+│   ├── periodizacao_multivariada.py      # #29a (+ _stars #29b, _transicoes #29c, verificacao_*/intensity_analysis #30/#31, config_periodos)
+│   ├── centro_massa.py                    # #32 (+ _pixel #43, _desagregado #44)
+│   ├── transicoes_regionais.py           # #33 (via analise_transicoes.py)
+│   ├── deslocamento_espacial.py          # #34
+│   ├── robustez_janelas.py               # #35 (+ robustez_janela_slope #36)
+│   ├── coleta_drivers_macro.py           # #37a (+ drive_comum #37b, drive_comum_amc #38)
+│   ├── fronteira_fechando.py             # #39 (+ fronteira_protecao #46, refino_protecao_pixel)
+│   ├── duas_logicas_pastagem.py          # #40 (+ duas_logicas_calcario_orientacao #40B)
+│   ├── fogo_lidera_fronteira.py          # #41
+│   ├── granger_reverso_norte_sul.py      # #42
+│   ├── analise_trase_lulc.py             # #45 (Eixo A)
+│   ├── custo_carbono_marcha.py           # #47 (D18) (+ validacao_prodes_mapbiomas #48)
+│   ├── painel_espacial_dinamico.py       # #49 (Eixo C1)
+│   ├── coleta_pib_uf_ipea.py             # PIB/VAB UF IPEA (insumo #21)
 │   ├── estimativa_abate_municipal.py      # Abate municipal estimado
-│   ├── auditoria_pib.py                  # Diagnóstico PIB
-│   └── _cartografia.py, _validar_sicor.py, _verificar_dados.py, validar_painel_unificado.py
+│   ├── _cartografia.py, auditoria_pib.py, _validar_sicor.py, _verificar_dados.py, _preview_mapa_2024.py, explorar_asset_*.py
+│   └── (scripts *_mg.py e config_mg.py = trabalho PARALELO de Minas Gerais — ver CLAUDE.md)
 │
 ├── data/
 │   ├── raw/                              # Dados brutos baixados das fontes
@@ -52,7 +63,7 @@ Mestrado/
 │   │   ├── idhm/                              # IDHM IPEA + Atlas Brasil 2021
 │   │   └── pib_uf_ipea/                       # PIB UF IPEA Data (JSONs)
 │   │
-│   └── processed/                       # Dados limpos, schema padronizado (~65 CSVs + 1 parquet)
+│   └── processed/                       # Dados limpos, schema padronizado (~159 CSVs + 3 parquets)
 │       ├── pastagem_goias_anual.csv          # UF — Pipeline #1
 │       ├── pib_goias_real.csv                # UF — Pipeline #1 (deflacionado)
 │       ├── cobertura_goias_grupos.csv        # UF — Pipeline #2
@@ -76,36 +87,30 @@ Mestrado/
 │       ├── mapeamento_mesorregioes.csv         # cd_mun → mesorregião — Pipeline #18
 │       ├── conversao_bruta_*.csv               # UF + municipal — Pipeline #19
 │       ├── decomposicao_origem.csv, fluxo_bruto_liquido.csv  # Pipeline #19
-│       ├── matriz_transicao_ato_I..III.csv      # 3 matrizes 6×6 por ATO — Pipeline #25
-│       ├── painel_unificado.parquet            # 9.840×66 — Pipeline #16
+│       ├── matriz_transicao_ato_I..III.csv      # 3 matrizes 6×6 por ATO — Pipeline #33 (analise_transicoes.py)
+│       ├── painel_unificado.parquet            # 9.840×185 — Pipeline #16
+│       ├── painel_amc_goias.parquet            # 166 AMCs — Pipeline #25 (longitudinal, D11)
 │       ├── pib_uf_ipea_goias.csv               # PIB/VAB agro UF IPEA (1985-2023)
 │       ├── sicor_painel_municipal.csv          # Crédito municipal consolidado
 │       ├── abate_*.csv                         # Abate bovino/suíno/frango
 │       └── ... (65+ CSVs no total)
 │
-└── outputs/                            # Gráficos, mapas, diagnósticos
-    ├── analises/                            # 22 PNGs descritivos — Pipelines #1,2,5,8,14,15,20
-    ├── mapas/                              # 40 coropléticos municipais — Pipeline #9
-    │   └── cobertura_{1985..2024}.png
-    ├── mapas_gee/                          # 40 rasters GEE + 40 raw — Pipeline #10
-    │   ├── cobertura_{1985..2024}.png
-    │   ├── _raw/raw_{1985..2024}.png
-    │   └── cobertura_1985_2024.gif
-    ├── mapas_gee_rio_verde/                 # 40+ rasters Rio Verde — Pipeline #10
-    ├── transicoes/                         # Heatmaps, mapas, Sankey — Pipelines #12, #25
-    │   ├── matriz_transicao_*.png
-    │   ├── mapa_estabilidade_*.png
-    │   ├── mapa_pastagem_agricultura_*.png
-    │   ├── mapa_transicao_dominante_*.png
-    │   ├── evolucao_transicoes.png
-    │   └── sankey_1985_2024.html
-    ├── taxas/                              # Figuras de taxas — Pipeline #20
-    ├── correlacoes/                         # Painel 2FE, DiD, quebras — Pipelines #21-23, #26
-    │   ├── painel_2fe.csv, painel_residuos.csv
-    │   ├── did_resultados.csv
-    │   ├── quebras_resultados.csv, quebras_vs_marcos.csv
-    │   └── uf_deltas.csv, uf_deltas_pre_ipea.csv
-    └── diagnosticos/                       # CSVs de validação e auditoria
+└── outputs/                            # Gráficos, mapas, diagnósticos (25 subpastas, uma por eixo)
+    ├── analises/                            # PNGs 01–28 descritivos — Pipelines #1,2,5,8,14,15
+    ├── mapas/ mapas_gee/ mapas_gee_rio_verde/   # coropléticos + rasters GEE + GIFs — #9, #10, #11
+    ├── transicoes/ transicoes_regionais/   # heatmaps, Sankey, mapas — #12, #33
+    ├── taxas/                              # figuras de taxas — #20
+    ├── correlacoes/                         # painel 2FE, DiD, quebras — #21-23, #26
+    ├── idade_pastagem/                      # bimodalidade da idade do pasto — #28, #28C
+    ├── centro_massa/ deslocamento/ robustez/    # marcha ao norte (Camadas 1/3) + robustez — #32,#34,#35,#36,#43,#44
+    ├── drive_comum/ drive_comum_amc/       # drivers macro (Camadas 4/5) — #37, #38
+    ├── fronteira_fechando/ fronteira_protecao/  # oferta + proteção — #39, #46
+    ├── duas_logicas/                        # geografia das duas lógicas — #40, #40B
+    ├── fogo_fronteira/ granger_reverso/     # fogo + Granger reverso — #41, #42
+    ├── trase_lulc/                          # Eixo A (Trase × LULC) — #45
+    ├── custo_carbono/ validacao_prodes/     # eixo ambiental (carbono + PRODES) — #47, #48
+    ├── espacial/                            # painel espacial dinâmico (Eixo C1) — #49
+    └── diagnosticos/                        # CSVs de validação e auditoria
 
 ├── Visualizacao/                         # Site scrollytelling (vanilla JS + D3.js)
 │   ├── index.html                           # Aplicação single-page

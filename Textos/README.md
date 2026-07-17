@@ -6,6 +6,9 @@ Dinâmica de uso e cobertura da terra em Goiás (1985–2024) e fatores socioeco
 
 - Acabou de chegar? → [visao_geral/escopo_dissertacao.md](visao_geral/escopo_dissertacao.md)
 - Retomando após pausa? → [visao_geral/como_retomar_trabalho.md](visao_geral/como_retomar_trabalho.md)
+- **O que sustenta a tese, e com que força?** → [indice_logico_pipelines.md](indice_logico_pipelines.md)
+- Como o trabalho foi construído? → [narrativa_pipelines.md](narrativa_pipelines.md)
+- Quero dominar os métodos → [guia_de_leitura.md](guia_de_leitura.md)
 - Procurando um gráfico/CSV específico? → [outputs/README.md](outputs/README.md)
 - Procurando um pipeline específico? → [pipelines/README.md](pipelines/README.md)
 - O que ainda falta fazer? → [backlog.md](backlog.md)
@@ -15,7 +18,7 @@ Dinâmica de uso e cobertura da terra em Goiás (1985–2024) e fatores socioeco
 | Pasta | Conteúdo |
 |---|---|
 | `visao_geral/` | Escopo, estrutura de diretórios, como retomar |
-| `pipelines/` | pipelines #1–#37 (1 arquivo cada) — ver [pipelines/README.md](pipelines/README.md) |
+| `pipelines/` | pipelines #1–#50 (+ #28C, #40B) — ver [pipelines/README.md](pipelines/README.md) |
 | `outputs/` | Catálogo de gráficos, mapas, CSVs — com interpretação |
 | `metodologia/` | Deflação, validação, glossário, decisões transversais |
 | `referencia/` | Ambiente Python, fontes, plano original, memórias |

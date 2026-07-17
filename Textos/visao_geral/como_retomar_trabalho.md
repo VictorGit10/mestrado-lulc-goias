@@ -5,52 +5,48 @@ Checklist para continuar a dissertação em qualquer sessão do Claude Code.
 ## 1. Ler a documentação
 
 1. [README.md](../README.md) — índice mestre.
-2. [escopo_dissertacao.md](escopo_dissertacao.md) — eixos e hipóteses.
-3. [backlog.md](../backlog.md) — o que falta fazer.
-4. [estrutura_diretorios.md](estrutura_diretorios.md) — estrutura atualizada do projeto.
+2. [narrativa_pipelines.md](../narrativa_pipelines.md) — a **história** de como o trabalho foi construído (fio condutor de todos os pipelines).
+3. [guia_de_leitura.md](../guia_de_leitura.md) — os **métodos** em linguagem simples (o que cada um faz, por que foi usado, o que não pode dizer).
+4. [pipelines/README.md](../pipelines/README.md) — ficha técnica de cada pipeline (#1–#49).
+5. [backlog.md](../backlog.md) — fios em aberto (modo **exploração**).
+6. [escopo_dissertacao.md](escopo_dissertacao.md) — escopo/hipóteses **iniciais** (a tese que de fato emergiu está na narrativa e no guia).
+7. [estrutura_diretorios.md](estrutura_diretorios.md) — estrutura do projeto.
 
 ## 2. Inspecionar dados
 
 ```bash
-ls data/processed/    # CSVs e parquets prontos (~65 arquivos)
-ls outputs/            # PNGs, mapas, diagnósticos
+ls data/processed/    # ~159 CSVs + 3 parquets (painel_unificado, painel_amc_goias, +MG paralelo)
+ls outputs/            # PNGs, mapas, diagnósticos (25 subpastas por eixo de análise)
 ls data/cache/         # Cache de requisições (sidra, sicor, gee)
 ```
 
-O painel unificado (`painel_unificado.parquet`, 9.840×66) consolida LULC + pecuária + lavouras + PIB + população + SICOR + Censo 2017 + IDH-M + fogo + taxas de variação + mesorregiões.
+Duas tabelas-mãe: `painel_unificado.parquet` (9.840×185, o **transversal** — 246 munis × 40 anos) e `painel_amc_goias.parquet` (166 AMCs, o **longitudinal** — território constante, D11). O primeiro consolida LULC + pecuária + lavouras + PIB + população + SICOR + Censo 2017 + IDH-M + fogo + Trase.
 
-## 3. Pipelines concluídos (26)
+## 3. Estado atual (jul/2026): 49 pipelines concluídos
 
-| # | Pipeline | Status |
+**Toda a infraestrutura empírica e a investigação Sul→Norte estão fechadas.** A dissertação está em **modo exploração** — a redação foi adiada **por opção** (será barata porque tudo está documentado em `Textos/`).
+
+| Fase | Pipelines | O que entregou |
 |---|---|---|
-| 1–8 | Coleta SIDRA/SICOR + análises descritivas | ✅ |
-| 9–11 | Cartografia (40 coropletas + 40 rasters GEE + 2 GIFs) | ✅ |
-| 12 | Matrizes de transição pixel-a-pixel via GEE (6 classes) | ✅ |
-| 13 | IDH-M via IPEA Data API (1991/2000/2010) | ✅ |
-| 14 | Fogo MapBiomas Collection 4 via GEE | ✅ |
-| 15 | Milho 1ª e 2ª safra (SIDRA 839) | ✅ |
-| 16 | Painel unificado (9.840×66, parquet + CSV) | ✅ |
-| 17 | Taxas de variação LULC (delta, slope, SE, aceleração) | ✅ |
-| 18 | Mapeamento de mesorregiões IBGE 2017 | ✅ |
-| 19 | Conversões brutas ano-a-ano (39 pares) | ✅ |
-| 20 | Figuras de taxas (7 PNGs) | ✅ |
-| 21 | Correlações UF Δ-vs-Δ (36 pares) | ✅ |
-| 22 | Painel municipal 2-way FE (16 modelos) | ✅ |
-| 23 | DiD piecewise GO vs MT/TO (36 modelos) | ✅ |
-| 26 | Detecção de quebras estruturais (sup-F + binary segmentation) | ✅ |
+| 0 — Primeira foto | #1, #2 | Séries estaduais (pastagem × PIB, rebanho, lotação) |
+| 1 — Fundação de dados | #3, #4, #6, #7, #13, #14, #15, #27 | Coletores municipais validados (SIDRA, MapBiomas, SICOR, fogo, Trase) |
+| 2 — Cartografia + transições | #5, #8, #9–#12, #19 | Mapas + matrizes de transição pixel-a-pixel |
+| 3 — Consolidação | #16, #17, #18, #20, #25 | Painel unificado, AMC, motor de taxas |
+| 4 — Inferência | #21, #22, #23, #24, #26 | Painel FE, DiD, autocorrelação espacial, quebras |
+| 5 — Periodização | #28, #28C, #29–#31 | 3 atos data-driven; bimodalidade da idade do pasto |
+| 6 — Marcha ao norte | #32–#42 | A tese Sul→Norte, testada e autocorrigida (5 camadas) |
+| 6 — Extensões | #43, #44, #40B, #45, #46, #47, #48, #49 | Robustez (MAUP/desagregação), Eixo A (Trase), eixo ambiental (proteção/carbono/PRODES), Eixo C1 (painel espacial) |
 
-**Em andamento**: Pipeline #25 (análise de transições 6×6 por ATO, decomposição, Sankey).
+Detalhe pipeline a pipeline em [pipelines/README.md](../pipelines/README.md); log cronológico em [backlog.md](../backlog.md).
 
-## 4. Decidir o próximo bloco
+## 4. O que explorar agora
 
-Ver [backlog.md](../backlog.md). Prioridades sugeridas:
+**A fase é exploração, não redação** — otimizar por *riqueza de história × viabilidade com o dado que já existe*, não por "fechar a dissertação". Os fios 1–6 do [backlog.md](../backlog.md) foram todos fechados, assim como os eixos A / ambiental / C1. Frentes possíveis (todas opcionais):
 
-1. **Escrita da dissertação** — infraestrutura empírica completa, falta prosa acadêmica.
-2. **Pipeline #24 — Análise espacial estatística** (Moran's I, LISA, spreg) — núcleo analítico faltante; painel unificado destrava.
-3. **Robustez DiD** — Event-study plot (β por ano relativo), placebo pré-marco.
-4. **Correção para testes múltiplos** nas quebras estruturais (Bonferroni/BH-FDR).
-5. **IDH-M 2021** — download manual do Atlas Brasil, integrar ao painel.
-6. **Infraestrutura agroindustrial** (SIGSIF, CONAB, DNIT) — coleta do zero.
+- **Eixo C2** — validar as quebras empíricas (1991/1999/2006) na literatura institucional (é leitura, não análise).
+- **Aptidão edafoclimática direta** como exposição no #38 (no lugar do proxy "% de área baseline").
+- **Micro-mistério 2001–05** — caracterizar o lado institucional (pré-Moratória da Soja 2006).
+- **Redação** — quando **você** decidir parar de explorar e escrever; a documentação é a rede de segurança que a torna barata.
 
 ## 5. Preferências
 

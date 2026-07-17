@@ -57,7 +57,7 @@ jupyter notebook notebooks/validacao_painel.ipynb
 
 ## Estado atual da validação (referência)
 
-Última execução em `painel_unificado.parquet` (9.840 × 157):
+Última execução em `painel_unificado.parquet` (9.840 × 185):
 
 ```
 OK                     1699   (95,6 %)

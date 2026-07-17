@@ -14,7 +14,7 @@ Pastas/arquivos do principal:
 - `Textos/` — documentação da dissertação (escopo, pipelines, metodologia, outputs).
 - `scripts/*.py` — pipelines de Goiás, **exceto os `*_mg.py`** (ver paralelo).
 - `data/`, `outputs/`, `notebooks/` — dados, resultados e cadernos (de Goiás).
-- `index.html` (raiz), `explicacao_atos.md`, `melhoriaemandamento.md`, `requirements.txt`.
+- `index.html` (raiz), `explicacao_atos.md`, `guia-github-pages-e-commits.md`, `requirements.txt`.
 
 ## Trabalhos paralelos — IGNORAR salvo pedido explícito
 

@@ -99,7 +99,7 @@ que já existe**. Nenhuma exige redação; todas são investigação.
 - [x] Pipeline #13 — IDH-M via IPEA Data API (1991/2000/2010)
 - [x] Pipeline #14 — Fogo MapBiomas Collection 4 via GEE (CSV + 5 PNGs)
 - [x] Pipeline #15 — Milho 1ª e 2ª safra (SIDRA 839, com análise descritiva)
-- [x] Pipeline #16 — Painel unificado (9.840×~200, parquet + CSV) com todas as lavouras, permanentes, mel, lã e ovinos tosquiados
+- [x] Pipeline #16 — Painel unificado (9.840×185, parquet + CSV) com todas as lavouras, permanentes, mel, lã e ovinos tosquiados
 - [x] Pipeline #17 — Taxas de variação LULC (delta, slope 5a, SE Newey-West, aceleração) — UF, municípios, mesorregiões
 - [x] Pipeline #18 — Mapeamento de mesorregiões IBGE 2017 (246 munis → 5 mesos)
 - [x] Pipeline #19 — Transições brutas ano-a-ano (39 pares via GEE + agregação UF/municipal)

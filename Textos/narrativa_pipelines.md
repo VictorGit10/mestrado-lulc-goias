@@ -29,7 +29,7 @@ para *descrever*. Organizamos isso em sete fases:
 | 3 | Consolidação | "Como pôr tudo numa tabela única e comparável?" | #16, #17, #18, #20, #25 |
 | 4 | Inferência estatística | "As associações resistem a controles sérios?" | #21, #22, #23, #24, #26 |
 | 5 | Periodização data-driven | "Quais são os 'atos' reais da série, sem chutar datas?" | #28, #29, #30, #31 |
-| 6 | A marcha ao norte (Sul→Norte) | "A fronteira se desloca? Como? Por quê?" | #32–#41, #28C, #42 |
+| 6 | A marcha ao norte + extensões | "A fronteira se desloca? Como? Por quê? E qual o custo ambiental?" | #32–#49, #28C, #40B |
 
 Cada fase abaixo abre com o *momento* em que ela surgiu, narra os pipelines que a compõem
 (incluindo os scripts auxiliares de coleta, validação e cartografia), e fecha com a transição
@@ -59,7 +59,7 @@ faz peças escritas em momentos diferentes conversarem entre si.
   os **246 municípios** atuais. Para análises **longitudinais** (1ª diferença, painel FE, DiD,
   tendências), as **166 Áreas Mínimas Comparáveis (AMC)** de território constante — porque 25%
   dos municípios goianos nasceram depois de 1985 e produziriam quedas espúrias.
-- **As decisões (D1–D16).** Ao longo do texto aparecem referências a decisões metodológicas
+- **As decisões (D1–D19).** Ao longo do texto aparecem referências a decisões metodológicas
   numeradas. Resumidas:
 
   | # | Decisão | Onde |
@@ -80,7 +80,9 @@ faz peças escritas em momentos diferentes conversarem entre si.
   | D14 | Em cross-section estadual, reportar a **parcial controlando latitude** antes de atribuir efeito próprio | #40, #28C |
   | D15 | Alinhamento `fogo(t) ↔ conv(origem=t)` como contemporâneo | #41 |
   | D16 | Lead-lag de séries AMC integradas exige Toda-Yamamoto + placebos (Granger ingênuo fabrica precedência espúria) | #42 |
-  | D17 | "Proteção" = malha vetorial de UCs (Proteção Integral × Uso Sustentável), proxy-teto no espírito da D13; refino pixel e PRODES/MMA pendentes | #46 |
+  | D17 | "Proteção" = malha vetorial de UCs (Proteção Integral × Uso Sustentável), proxy-teto no espírito da D13; PRODES validada (#48) e refino pixel fechados, MMA dispensada | #46 |
+  | D18 | Custo de carbono por diferença de estoque (IPCC Tier 1) × densidades de C do Cerrado por formação (biomassa AGB+BGB, 3 cenários); solo (SOC) fora da manchete | #47 |
+  | D19 | Todo ΔNorte de centroide vem com **IC95% por bootstrap de AMCs** (B=2000); um IC que inclui zero **nunca** é reportado como km (diga "ancorada") | #32, #44, #50 |
 
 - **Os atos (a régua narrativa).** A periodização data-driven (Fase 5) cristalizou três
   **atos** em `config_periodos.py`: **I — Pastagem como herança (1985–2000)**, **II — Expansão
@@ -174,11 +176,15 @@ intensificação pós-2010 (um segundo ciclo na mesma área, tipicamente após a
 Calcula a razão milho2/milho1 por município e período, antecipando o tema "intensificar em vez
 de expandir" que voltaria com força na Fase 6.
 
-**`coleta_trase.py` (#27)** integra os dados de cadeia produtiva exportadora da Trase.earth
-(soja 2004–2022, boi 2011–2023) agregados por município-ano, mapeando os nomes Trase
-(caixa-alta, sem acento) para `cd_mun`. A docstring é honesta sobre o limite: a Trase rastreia
-**só o fluxo exportador**, então é proxy de exposição à cadeia agroindustrial, não de
-capacidade total de abate/esmagamento.
+**`coleta_trase.py` (#27)** integra os dados de cadeia produtiva da Trase.earth (soja 2004–2022,
+boi 2011–2023) agregados por município-ano, mapeando os nomes Trase (caixa-alta, sem acento) para
+`cd_mun` — um de-para que acerta 100% (zero linhas órfãs em 646 mil). A docstring original declarava
+um limite que, dois meses depois, se revelou **falso para a soja**: a premissa "a Trase rastreia só
+o fluxo exportador" vale para o boi, mas **44,6% do volume de soja é `PROCESSED DOMESTICALLY`**
+(esmagamento no Brasil, destino BRAZIL, FOB = 0). Somar tudo devolvia **produção**, não
+infraestrutura — `trase_soja_volume_t` tem `r = 0,986` com a área plantada. O schema hoje separa
+`_volume_export_t` de `_volume_domestico_t`, e essa descoberta **corrigiu o #45** (Fase 6). É o
+lembrete de que uma premissa herdada da docstring é uma hipótese, não um fato.
 
 Dois auxiliares de coleta completam a fundação. **`coleta_pib_uf_ipea.py`** baixa as séries
 estaduais nativas do IPEA (PIB e VAB agropecuário, encadeadas pelas Contas Regionais), que
@@ -262,7 +268,7 @@ preciso **uma tabela única**, alinhada por `cd_mun × ano`, com tudo dentro.
 variação** (que é o que a teoria e a inferência realmente pedem).
 
 **`construir_painel_unificado.py` (#16)** consolida em uma tabela *wide* (`cd_mun × ano`,
-9.840 linhas × ~200 colunas) todas as fontes prontas: LULC, pecuária, lavouras, PIB,
+9.840 linhas × 185 colunas) todas as fontes prontas: LULC, pecuária, lavouras, PIB,
 população, SICOR, Censo 2017, IDH-M, fogo, Trase. A docstring é um pequeno tratado de honestidade
 metodológica: declara o universo (246 munis), a janela (1985–2024, com NaN onde a fonte não
 cobre), a deflação, o tratamento do Censo 2017 como atributo **estático**, e — o ponto
@@ -683,7 +689,7 @@ Três traços de método merecem registro, porque são o que dá credibilidade �
    desmontado como espúrio) não são fracassos escondidos — são a espinha dorsal da honestidade do
    trabalho. A regra D14 nasceu de uma autocorreção; a D16, de levar a sério uma ponta solta em
    vez de varrê-la para baixo do "N pequeno".
-2. **As decisões são explícitas e centralizadas.** As dezesseis decisões (D1–D16) e os atos
+2. **As decisões são explícitas e centralizadas.** As dezoito decisões (D1–D18) e os atos
    (`config_periodos.py`) garantem que peças escritas em meses diferentes usem a mesma régua —
    e que a régua possa ser defendida, não apenas usada.
 3. **Tudo é validado contra verdades independentes.** Os auxiliares de validação
@@ -698,16 +704,46 @@ replicado o achado na malha **AMC** (158 unidades, com ω² e permutação contr
 conclusão tenha sobrevivido; o mecanismo de transições do #33 segue, esse sim, em resolução
 mesorregional. São essas qualificações que transformam um conjunto de gráficos numa tese.
 
-**Duas extensões pós-fechamento (jul/2026).** Fechada a narrativa Sul→Norte, dois pipelines a
-prolongam por fora. O **#45** ativa o **Eixo A** — as colunas Trase (cadeia exportadora) que
-dormiam no painel desde o #27 — e pergunta se a infraestrutura de escoamento *lidera* a fronteira:
-a resposta é **não** — ela **co-move contemporaneamente** com a produção (4/8 pares no painel FE),
-sem precedência defasada robusta, um terceiro canal (depois de #34 e #37/#42) a confirmar
-"co-evolução sem líder temporal". O **#46** dá ao #39 a perna que faltava — a **proteção**: a
-marcha ao norte se dirige a Cerrado convertível que está **97% desprotegido** (a Proteção Integral
-cobre <3% em qualquer região e congelou após 2000), de modo que o teto de oferta do #39 é
-**físico, não institucional**. Este último abre, pela primeira vez, o **eixo ambiental** da
-dissertação — a conservação e, adiante, o custo de carbono/biodiversidade da reorganização.
+**Extensões (jul/2026): robustez da Camada 1 e três eixos novos.** Fechada a narrativa Sul→Norte
+(Fases 0–6), o trabalho a prolongou em duas direções — reforçando a Camada 1 e abrindo eixos por fora.
+
+*Robustez e desagregação da Camada 1.* O **#43** refez o centro de massa **pixel-a-pixel** (direto do
+raster, sem malha administrativa) e reencontrou a marcha ao norte a ~1–2 km do centroide-AMC do #32 —
+**o MAUP não é problema prático** para a figura-manchete. O **#44** abriu os *lumps* do #32: a soja é o
+lump agrícola (não lidera; valida raster×SIDRA, r=0,89) e a "muralha norte" da vegetação é **a floresta**
+(campo nativo e savânico recuaram ao norte), com controles limpos (área urbana parada, leite ancorado ao
+sul). O **#40B** generaliza a **D14**: calcário e orientação técnica (Censo 6850) descem ao Sul como o
+plantio direto, mas somem sob o gradiente 2D — a lição vale para manejo, insumo e instituição.
+
+*Eixo A — a cadeia exportadora (#45).* Ativa as colunas Trase (dormentes desde o #27) e pergunta se a
+infra de escoamento *lidera* a fronteira: **não**. E o pipeline virou, ele próprio, um caso de
+autocorreção. Na primeira versão (jul/2026) o veredito era "co-move contemporaneamente, sem liderar",
+apoiado num achado forte: `β = +0,335` entre volume de soja e área plantada. Ao documentar o #27, a
+**premissa sobre a variável** foi medida em vez de herdada — e `trase_soja_volume_t` não era volume
+exportado, era **produção** (44,6% dele é esmagamento doméstico; `r = 0,986` com a área plantada). O
+"achado" era a Trase batendo consigo mesma. Refeito com o volume **exportado** de fato, o β cai **9×
+para +0,037** (r²within 0,268 → 0,025), e um **Bloco C** de robustez (winsor/log1p, espírito do #41)
+derruba **os 3** termos defasados significativos — inclusive dois de "LULC lidera" com sinal negativo
+que, sem o teste, teriam virado alegação de liderança reversa. O veredito sai **mais forte**: a cadeia
+exportadora **não lidera nem co-move materialmente** — o único co-movimento de peso é
+`exportação ↔ abate` (β=+0,084), elo mecânico da própria cadeia. Terceiro canal (depois de #34 e
+#37/#42) a confirmar "co-evolução sem líder temporal", agora sem o falso positivo.
+
+*Eixo ambiental — conservação e carbono (#46, #47, #48).* O **#46** dá ao #39 a perna que faltava — a
+**proteção**: a marcha ao norte se dirige a Cerrado convertível que está **97% desprotegido** (a Proteção
+Integral cobre <3% e congelou após 2000), de modo que o teto de oferta do #39 é **físico, não
+institucional** (**D17**). O **#47** precifica o **custo de carbono da marcha** por diferença de estoque
+(IPCC Tier 1, **D18**): ~**973 Mt CO₂e** comprometidos, com a **floresta dominando a emissão** apesar de
+perder menos área que o savânico, e o centróide da perda marchando +98 km ao norte (amarra com o #39: o Sul
+fechou a fronteira). O **#48** **valida** a base de perda de vegetação contra o **PRODES/INPE** — no regime
+anual 2013–24 as duas fontes concordam (r=0,91) —, fechando a pendência PRODES da D17 (o refino pixel via GEE
+também foi concluído; as Áreas Prioritárias MMA foram dispensadas).
+
+*Eixo C1 — a robustez espacial (#49).* Por fim, o **#49** blinda o painel-manchete (#22) contra a
+autocorrelação espacial estrutural que o #24 detectou: num **painel espacial dinâmico** (Elhorst FE
+lag/error), os três canais (intensificação, crédito→pasto, substituição local) **sobrevivem** ao termo
+espacial — ρ/λ fortes e significativos confirmam o #24, mas os β quase não mudam. É a quarta régua de
+robustez, ao lado de tempo (D12), latitude (D14) e integração (D16).
 
 ---
 
@@ -730,7 +766,7 @@ Mapeamento completo de cada script não-MG à sua fase e função. (Os scripts `
 | `explorar_asset_fogo.py` | — | 1 | Sondagem dos assets de fogo (pré-#14) |
 | `analise_fogo.py` | 14 | 1 | Fogo: análise descritiva e cruzamentos |
 | `analise_safrinha.py` | 15 | 1 | Milho 1ª/2ª safra (intensificação) |
-| `coleta_trase.py` | 27 | 1 | Cadeia exportadora Trase (soja/boi) |
+| `coleta_trase.py` | 27 | 1 | Cadeia produtiva Trase (soja/boi); separa export × esmagamento doméstico |
 | `coleta_pib_uf_ipea.py` | — | 1 | PIB/VAB agro UF nativo IPEA (insumo do #21) |
 | `estimativa_abate_municipal.py` | — | 1 | Abate municipal estimado (rateio pelo rebanho) |
 | `analise_pastagem_soja.py` | 5 | 2 | Transição pasto↔soja (proxy de estoque) |
@@ -779,13 +815,19 @@ Mapeamento completo de cada script não-MG à sua fase e função. (Os scripts `
 | `drive_comum_amc.py` | 38 | 6 | Drive comum no painel AMC (driver × exposição) |
 | `fronteira_fechando.py` | 39 | 6 | Oferta de Cerrado convertível (D13) |
 | `duas_logicas_pastagem.py` | 40 | 6 | Geografia das duas lógicas do pasto (D14) |
+| `duas_logicas_calcario_orientacao.py` | 40B | 6 | Calcário + orientação técnica (Censo 6850) no arcabouço das duas lógicas — generaliza a D14 |
 | `fogo_lidera_fronteira.py` | 41 | 6 | Fogo como vanguarda da fronteira (D15) |
 | `bimodalidade_regional.py` | 28C | 6 | Bimodalidade é regional? Decomposição within/between (meso+AMC, D14) |
 | `granger_reverso_norte_sul.py` | 42 | 6 | O Granger reverso do #34 inverte a leitura? Estacionariedade + Toda-Yamamoto + placebos (D16) |
 | `centro_massa_pixel.py` | 43 | 6 | O centroide-AMC do #32 é artefato de malha (MAUP)? Centro de massa pixel-a-pixel |
 | `centro_massa_desagregado.py` | 44 | 6 | Abre os *lumps* do #32 (soja; veg. em 3 formações) + controles (leite, área urbana) |
-| `analise_trase_lulc.py` | 45 | 6 | Infra exportadora (Trase) segue ou lidera a expansão LULC? Cross-lagged em painel (D16) |
+| `analise_trase_lulc.py` | 45 | 6 | Cadeia exportadora (Trase) segue ou lidera a expansão LULC? Cross-lagged em painel (D16) + robustez das defasagens |
 | `fronteira_protecao.py` | 46 | 6 | A fronteira marcha para terra protegida ou desprotegida? Overlay UC×AMC sobre o #39 (D17) |
+| `refino_protecao_pixel.py` | 46 | 6 | Refino pixel do #46 via GEE (convertível 2024 × Proteção Integral no raster) |
+| `custo_carbono_marcha.py` | 47 | 6 | Custo de carbono da marcha (diferença de estoque IPCC Tier 1 × densidades por formação, D18) |
+| `validacao_prodes_mapbiomas.py` | 48 | 6 | Validação cruzada PRODES (INPE) × MapBiomas (fecha a pendência PRODES da D17) |
+| `painel_espacial_dinamico.py` | 49 | 6 | Painel espacial dinâmico (Elhorst FE lag/error): os canais do #22 sobrevivem ao espaço? |
+| `centro_massa_economico.py` | 50 | 6 | Centro de massa de crédito/valor (extensão do #32): crédito ~75 km ao sul da fronteira; valor ancorado; abate descartado |
 
 ## Apêndice B — Nota sobre os trabalhos paralelos (fora deste documento)
 

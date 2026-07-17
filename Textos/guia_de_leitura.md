@@ -70,7 +70,7 @@ ferramental que permitiu afirmá-la com honestidade.
 
 ## Parte 2 — A arquitetura: por que cada passo puxou o seguinte
 
-O trabalho tem **46 pipelines** (scripts de análise). Parece muito, mas eles não são avulsos:
+O trabalho tem **50 pipelines** (scripts de análise). Parece muito, mas eles não são avulsos:
 formam uma **escada**, do agregado ao detalhe e do descritivo ao causal. Entender a escada é
 entender por que cada peça existe. São sete degraus (a narrativa completa está em
 [`narrativa_pipelines.md`](narrativa_pipelines.md); aqui está o esqueleto).
@@ -93,7 +93,7 @@ Três hábitos da escada valem mais que qualquer resultado isolado, porque são 
    *refutada*, e essa refutação é o coração da tese.
 2. **A investigação se autocorrige.** Mais de uma vez, uma primeira leitura empolgada foi
    derrubada pela verificação do próprio autor no mesmo dia (o caso do "plantio direto", #40; o
-   "fogo lidera", #41). Isso gerou regras (as "Decisões" D1–D17) para não repetir o erro.
+   "fogo lidera", #41). Isso gerou regras (as "Decisões" D1–D19) para não repetir o erro.
 3. **Tudo é validado contra uma verdade independente.** Cada coletor tem um script que confere
    o total contra a fonte oficial. A soma dos municípios tem que bater com o estado. Se a lógica
    estivesse errada, os testes quebrariam alto.
@@ -383,14 +383,35 @@ longo do tempo**. É essa riqueza que o efeito fixo explora.
   Tudo calculado em **EPSG:5880** (uma projeção de área-igual, para que "km" signifique km de
   verdade).
 - **Seu resultado (a manchete):** de 1985 a 2024, o centro de massa subiu ao norte —
-  **pastagem +78 km, rebanho +67 km, agricultura +65 km** — enquanto a **vegetação natural
-  ficou quase parada (+8 km)**. A lavoura fica sempre ~120–130 km **ao sul** do pasto/rebanho
-  (o gradiente latitudinal persistente). E **só no Ato III (2020–24) a agricultura congela**
-  enquanto pasto e rebanho seguem subindo — o sinal mais limpo de deslocamento, e é recente.
+  **pastagem +78 km, rebanho +67 km, agricultura +65 km** — enquanto a **vegetação natural ficou
+  ancorada**. A lavoura fica sempre ~120–130 km **ao sul** do pasto/rebanho (o gradiente
+  latitudinal persistente). E **só no Ato III (2020–24) a agricultura congela** enquanto pasto e
+  rebanho seguem subindo — o sinal mais limpo de deslocamento, e é recente.
+- **A barra de erro (Decisão D19):** um centro de massa é uma estatística **pontual** — sem
+  margem de erro não dá para saber se um deslocamento pequeno é real ou ruído. Por isso o #32
+  ganhou um **bootstrap de AMCs**: reamostra as 166 AMCs **com reposição** (B = 2000), recomputa
+  o centro a cada vez, e reporta o IC95% do ΔNorte. É a **faixa sombreada** na figura de
+  latitude.
+
+  | Variável | ΔNorte | IC95% | Veredito |
+  |---|---|---|---|
+  | Pastagem | +77,6 km | [+54,7, +98,2] | robusto |
+  | Rebanho bovino | +66,9 km | [+47,2, +84,5] | robusto |
+  | Agricultura | +65,2 km | [+43,5, +94,6] | robusto |
+  | Vegetação natural | +7,6 km | **[−0,5, +15,6]** | **inclui zero** |
+
+  As três manchetes estão **longe de zero** — são sólidas. Mas o "+7,6 km" da vegetação **não é
+  distinguível de "não se moveu"**. Daí a regra **D19**: *um ΔNorte cujo IC inclui zero nunca é
+  reportado como km* — diga **"ancorada"**. Repare que isso **reforça** a sua leitura (a
+  vegetação não acompanhou a marcha); só proíbe vender os 7,6 km como se fossem deslocamento
+  medido. Pelo mesmo critério, a agricultura no Ato III (+0,2 km) está seguramente dentro do
+  ruído — o que é exatamente o que "congela" quer dizer.
 - **A armadilha:** um centro de massa é uma **média** — ele pode esconder o que acontece nas
-  pontas. Foi exatamente o que o #44 revelou: a "muralha norte" da vegetação (+8 km) era uma
-  *miragem de média* — a floresta ficou presa (+9 km), mas o campo nativo recuou forte ao norte
-  (+35 km). Média nenhuma dispensa abrir os componentes.
+  pontas. Foi o que o #44 revelou ao abrir a vegetação em três formações: a "muralha norte" é
+  **só a floresta** (+8,7 km, IC [+2,5, +15,1] — essa sim, presa), enquanto o **campo nativo
+  recuou ao norte** (+34,8 km, mas com IC larguíssimo — [+0,2, +79,9]: a *direção* é robusta, a
+  *magnitude* não) e a **savânica inclui zero** (+12,4 km, IC [−0,3, +23,3]). Média nenhuma
+  dispensa abrir os componentes — e componente nenhum dispensa a barra de erro.
 
 #### 1.7 Correlação de Pearson (r) e o p-valor
 
@@ -855,8 +876,11 @@ São as mais "técnicas", mas cada uma resolve um problema concreto do seu traba
   sem nenhuma unidade intermediária. No #43 você recalculou o centro de massa **pixel-a-pixel**,
   direto do raster de 30 m, sem passar pelas AMCs.
 - **Seu resultado:** concordância quase perfeita — `ΔN` pixel × AMC: pastagem **+79,2 vs +78 km**,
-  agricultura **+66,9 vs +65 km**, vegetação **+6,7 vs +8 km**. Diferenças de 1–2 km, irrelevantes.
-  **O MAUP não é problema prático para a figura-manchete.** Poder dizer isso na banca vale muito.
+  agricultura **+66,9 vs +65 km**, vegetação **+6,7 vs +7,6 km**. Diferenças de 1–2 km,
+  irrelevantes. **O MAUP não é problema prático para a figura-manchete.** Poder dizer isso na
+  banca vale muito. (Na vegetação a concordância é ainda menos informativa do que parece: pela
+  **D19** os dois números estão dentro do ruído de qualquer jeito — as duas malhas concordam em
+  que ela **não se moveu**.)
 - **A armadilha:** o teste vale para *esta* métrica (o centroide). MAUP pode afetar outras
   análises — não é um "selo" que se estende a tudo.
 
@@ -887,8 +911,10 @@ São as mais "técnicas", mas cada uma resolve um problema concreto do seu traba
   os rótulos (grupo, tempo, posição) para construir a distribuição do "acaso" e ver se o valor
   observado é extremo.
 - **Seu resultado:** aparece em vários pontos — bootstrap do IC na Intensity Analysis (#31),
-  permutação contra a inflação do η² (#28C), permutações do Moran's I (#24). É a "cola" que dá
-  p-valores honestos onde a teoria clássica não serve.
+  permutação contra a inflação do η² (#28C), permutações do Moran's I (#24), bootstrap de
+  permutação nas matrizes de transição (#29c). É a "cola" que dá p-valores honestos onde a teoria
+  clássica não serve. O caso mais consequente é o **bootstrap de AMCs** do #32 (reusado por #44 e
+  #50): é ele que põe IC95% em todo ΔNorte de centroide e sustenta a **D19** — ver 1.6.
 - **A armadilha:** reamostragem não cria informação — com N muito pequeno, o intervalo sai largo
   (honestamente largo). É uma virtude, não um defeito.
 
@@ -911,11 +937,14 @@ Ela se apoia em cinco pernas:
 
 | Perna | O que afirma | Pipelines | Força da evidência |
 |---|---|---|---|
-| **1. O padrão existe** | Tudo marchou ao norte; a lavoura fica ao sul do pasto; a vegetação ficou parada | #32, #43 (MAUP), #44 (desagregado) | **Forte** — robusto a malha e desagregação |
-| **2. O mecanismo local** | Sul: pasto→lavoura (intensifica); Norte: mata→pasto (fronteira) | #33, #28, #40, #28C | **Forte** — mas o gradiente é *no peso*, não causa |
-| **3. NÃO é deslocamento causal** | Sem precedência temporal, sem spillover direcional | #34, #42 (fecha a ponta solta) | **Forte** (nulo bem defendido) |
-| **4. O drive comum** | Câmbio (e, junto, crédito/preço) coordena; opera no rebanho de fronteira | #37, #38 | **Sugestiva** — câmbio tem estrutura; o gradiente não sobrevive ao FDR |
-| **5. O teto de oferta** | Sul bateu no estoque; Norte ainda tem Cerrado; 97% desprotegido | #39, #46 | **Forte no diagnóstico**, com proxy declarado (D13/D17) |
+| **1. O padrão existe** | Tudo marchou ao norte; a lavoura fica ao sul do pasto; a vegetação ficou **ancorada** | #32, #43 (MAUP), #44 (desagregado), D19 (IC) | **Forte** — robusto a malha, a desagregação e ao bootstrap |
+| **2. O mecanismo local** | Sul: pasto→lavoura (intensifica); Norte: mata→pasto (fronteira) | #33, #28, #22, #40, #28C, #40B, #49 | **Forte** — mas o gradiente é *no peso*, não causa |
+| **3. NÃO é deslocamento causal** | Sem precedência temporal, sem spillover direcional | #34, #42 (fecha a ponta solta), #45 (infra), #41 (fogo) | **Forte** (nulo bem defendido) |
+| **4. O drive comum** | Câmbio (e, junto, crédito/preço) coordena; opera no rebanho de fronteira | #37, #38, #50 (crédito não lidera) | **Sugestiva** — câmbio tem estrutura; o gradiente não sobrevive ao FDR |
+| **5. O teto de oferta** | Sul bateu no estoque; Norte ainda tem Cerrado; 97% desprotegido | #39, #46, #48 (valida PRODES), #47 (custo) | **Forte no diagnóstico**, com proxy declarado (D13/D17) |
+
+> Esta tabela é o esqueleto do [índice lógico](indice_logico_pipelines.md), que desce de cada
+> perna até os scripts e etiqueta cada pipeline por **papel** (manchete, robustez, autocorreção…).
 
 **O que você PODE afirmar** (com o texto adequado):
 
@@ -950,6 +979,21 @@ trabalho.
 **"Você diz 'marcha ao norte' — não é só efeito do desenho das suas unidades (AMC)?"**
 Não. O #43 refez o centro de massa **pixel-a-pixel**, sem nenhuma malha, e a concordância é de
 1–2 km (`+79 vs +78 km` no pasto). O MAUP foi testado e descartado para essa métrica.
+
+**"Um centro de massa é um ponto. Qual a incerteza dele? Como sei que +78 km não é ruído?"**
+Tem barra de erro, e ela é explícita (**D19**). Um **bootstrap de AMCs** (reamostragem com
+reposição, B=2000) dá o IC95% de cada ΔNorte: pastagem [+54,7, +98,2], rebanho [+47,2, +84,5],
+agricultura [+43,5, +94,6] — todos **longe de zero**. E eu aplico a régua contra mim mesmo: o IC
+da **vegetação natural inclui zero** ([−0,5, +15,6]), então eu **não** reporto "+7,6 km" — digo
+**"ancorada"**. A regra que adotei é: *ΔNorte com IC contendo zero nunca vira quilômetro no
+texto*. É por isso que a vegetação aparece como "ficou parada" e não como um número.
+
+**"O método do centro de massa é seu ou é padrão?"**
+É padrão, e não inventei nada. *Mean center* ponderado é o que o **US Census Bureau** publica como
+*mean center of population*, e o trio que uso (centro médio + centro mediano de Weiszfeld + elipse
+de desvio-padrão) é o toolset *Measuring Geographic Distributions* do **ArcGIS**. Tudo em projeção
+de área-igual (EPSG:5880). A implementação foi reproduzida do zero a partir do dado cru e bate ao
+decimal.
 
 **"Correlação não é causa. Como você sabe que o câmbio importa?"**
 Eu **não** afirmo causa estabelecida — afirmo indício. O câmbio é **exógeno** a Goiás (passou no
@@ -1006,6 +1050,8 @@ Uma linha por termo, para consulta rápida. O número remete ao verbete completo
 - **AMC (1.5):** unidades de território constante que neutralizam a criação de municípios.
 - **Centro de massa / Weiszfeld / elipse (1.6):** o "ponto de gravidade" do pasto por ano; a
   figura-manchete da marcha ao norte.
+- **D19 — IC do centroide (1.6):** todo ΔNorte vem com IC95% por bootstrap de AMCs; se o IC
+  inclui zero (o caso da vegetação), diga "ancorada", nunca o número em km.
 - **Pearson r + p-valor (1.7):** força da relação linear (−1 a 1) e chance de ser acaso.
 - **Confundidor (2.1):** terceiro fator que move duas variáveis e simula correlação causal.
 - **Granger (2.2):** o passado de x prevê y? Precedência preditiva, **não** causa.

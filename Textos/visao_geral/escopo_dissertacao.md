@@ -6,6 +6,8 @@
 
 **Programa**: Mestrado Profissional em Ciências Ambientais — CIAMB/UFG.
 
+> **Nota (jul/2026).** Este documento registra o **escopo e as hipóteses iniciais**. A investigação evoluiu: as hipóteses de "deslocamento" (iLUC intra-estadual) foram **testadas e refinadas/refutadas** (#34/#42), e a análise longitudinal passou a usar **166 Áreas Mínimas Comparáveis** (D11) ao lado dos 246 municípios. A **tese que de fato emergiu** — a "marcha ao norte" (reorganização espacial Sul→Norte sob drive comum + gradiente de aptidão + teto de oferta) — está em [narrativa_pipelines.md](../narrativa_pipelines.md) e [guia_de_leitura.md](../guia_de_leitura.md).
+
 ## Eixos de investigação
 
 ### 1. Dinâmica de Conversão (Uso e Cobertura)
@@ -22,6 +24,8 @@ Correlação das mudanças espaciais com:
 - Infraestrutura agroindustrial (frigoríficos, silos, malha viária)
 
 ## Hipóteses centrais
+
+> *Hipóteses **de partida**. Resultado após a Fase 6: a cadeia pasto→lavoura confirma-se no Sul (intensificação), mas o **deslocamento causal de uma região sobre a outra foi refutado** (#34/#42) — ver narrativa/guia.*
 
 - A pastagem funciona como estágio intermediário: floresta/cerrado → pastagem → lavoura.
 - Crédito rural e infraestrutura agroindustrial aceleram a conversão pastagem→soja.
