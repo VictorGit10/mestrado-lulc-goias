@@ -92,6 +92,10 @@ ARQ_GEOM   = DIR_PROCESSED / "amc_goias.gpkg"
 ARQ_ANUAL        = DIR_PROCESSED / "centro_massa_anual.csv"
 ARQ_ELIPSES      = DIR_PROCESSED / "centro_massa_elipses.csv"
 ARQ_DESLOCAMENTO = DIR_PROCESSED / "centro_massa_deslocamento.csv"
+ARQ_BOOTSTRAP    = DIR_PROCESSED / "centro_massa_bootstrap.csv"
+
+BOOT_B    = 2000   # nº de reamostras do bootstrap (IC do deslocamento/latitude)
+BOOT_SEED = 42     # semente p/ reprodutibilidade do bootstrap
 
 CRS_METRICO = 5880   # SIRGAS 2000 / Brasil Polyconic Albers (equal-area, metros)
 CRS_GEO     = 4674   # SIRGAS 2000 geográfico (para rótulos de lon/lat)
@@ -210,6 +214,100 @@ def calcular_centros_anuais(painel: pd.DataFrame) -> pd.DataFrame:
     df["lon_mean"], df["lat_mean"] = ll_mean[:, 0], ll_mean[:, 1]
     df["lon_med"],  df["lat_med"]  = ll_med[:, 0],  ll_med[:, 1]
     return df.sort_values(["variavel", "ano"]).reset_index(drop=True)
+
+
+# ---------------------------------------------------------------------------
+# 2b. Incerteza por BOOTSTRAP de AMCs (IC do deslocamento e banda de latitude)
+# ---------------------------------------------------------------------------
+# POR QUÊ: o centro médio é uma estatística PONTUAL; sem barra de erro não dá
+# para saber se um deslocamento pequeno (ex.: vegetação +8 km, ou o +0,2 km da
+# agricultura no Ato III) é distinguível de "não se moveu". O bootstrap reamostra
+# as 166 AMCs COM REPOSIÇÃO (B vezes) e recomputa o centro médio a cada vez; o
+# IC95% percentílico do deslocamento diz se ele sobrevive à composição de unidades.
+#
+# VETORIZAÇÃO: reamostrar AMCs com reposição equivale a sortear um vetor de
+# CONTAGENS ~ Multinomial(n, 1/n). O peso efetivo de cada AMC vira count·valor, e
+#     ȳ_b(t) = Σ_i count_i·w_i(t)·y_i / Σ_i count_i·w_i(t).
+# Empilhando as B contagens numa matriz C (B×n), tudo vira 2 produtos de matriz
+# por variável (C@(y·W) e C@W), sem laço sobre B. Só o centro MÉDIO recebe IC
+# (o mediano/Weiszfeld segue reportado como robustez ao cluster, não à amostra).
+
+def bootstrap_incerteza(painel: pd.DataFrame, col_por_chave: dict,
+                        rotulos: dict | None = None,
+                        B: int = BOOT_B, seed: int = BOOT_SEED) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """IC do centro médio por bootstrap de AMCs (resample c/ reposição).
+
+    col_por_chave: {chave -> coluna do painel}. rotulos: {chave -> rótulo} (opc.).
+    Retorna (banda, desloc):
+      banda  — (variavel, ano, lat_lo, lat_hi): faixa IC95% da latitude p/ figura.
+      desloc — (variavel, janela, dN_km, dN_lo, dN_hi, exclui_zero): IC95% do ΔNorte
+               (LÍQUIDO 1º→último ano disponível + cada ato com ambos os extremos).
+    """
+    rotulos = rotulos or {k: k for k in col_por_chave}
+    geo = painel.groupby("code_amc")[["cx", "cy"]].first()
+    codes = geo.index.to_numpy()
+    n = len(codes)
+    CX, CY = geo["cx"].to_numpy(), geo["cy"].to_numpy()
+    anos = np.sort(painel["ano"].unique())
+
+    rng = np.random.default_rng(seed)
+    counts = rng.multinomial(n, np.full(n, 1.0 / n), size=B).astype(float)  # B×n
+
+    banda_rows, desloc_rows = [], []
+    for chave, col in col_por_chave.items():
+        rot = rotulos.get(chave, chave)
+        wpiv = (painel.pivot_table(index="code_amc", columns="ano", values=col,
+                                   aggfunc="first")
+                      .reindex(index=codes, columns=anos))
+        W = wpiv.to_numpy()
+        W = np.where(np.isfinite(W) & (W > 0), W, 0.0)   # n×A ; NaN/≤0 → peso 0
+
+        CYW, CXW = CY[:, None] * W, CX[:, None] * W
+        DEN = counts @ W                                  # B×A
+        with np.errstate(invalid="ignore", divide="ignore"):
+            MY = (counts @ CYW) / DEN                      # B×A (metros, norte)
+            MX = (counts @ CXW) / DEN
+        # Ponto (sem bootstrap) = pesos reais (contagem unitária).
+        wsum = W.sum(axis=0)
+        with np.errstate(invalid="ignore", divide="ignore"):
+            MY_pt = CYW.sum(axis=0) / wsum                 # A (metros)
+
+        # Latitude de cada (b, ano) numa reprojeção só.
+        pts = np.column_stack([MX.ravel(), MY.ravel()])
+        finito = np.isfinite(pts).all(axis=1)
+        lat = np.full(pts.shape[0], np.nan)
+        if finito.any():
+            lat[finito] = metros_para_lonlat(pts[finito])[:, 1]
+        LAT = lat.reshape(B, len(anos))                    # B×A
+
+        anos_ok = anos[wsum > 0]
+        for j, ano in enumerate(anos):
+            if wsum[j] <= 0:
+                continue
+            lo, hi = np.nanpercentile(LAT[:, j], [2.5, 97.5])
+            banda_rows.append({"variavel": chave, "rotulo": rot, "ano": int(ano),
+                               "lat_lo": lo, "lat_hi": hi})
+
+        # Deslocamento ΔNorte (km) com IC — LÍQUIDO + cada ato disponível.
+        idx = {int(a): k for k, a in enumerate(anos)}
+        janelas = []
+        if len(anos_ok):
+            janelas.append(("LÍQUIDO", int(anos_ok.min()), int(anos_ok.max())))
+        for ato, info in ATOS.items():
+            ini, fim = info["inicio"], info["fim"]
+            if ini in anos_ok and fim in anos_ok:
+                janelas.append((f"Ato {ato}", ini, fim))
+        for nome, a0, a1 in janelas:
+            i0, i1 = idx[a0], idx[a1]
+            dN_b = (MY[:, i1] - MY[:, i0]) / 1000.0
+            dN_pt = (MY_pt[i1] - MY_pt[i0]) / 1000.0
+            lo, hi = np.nanpercentile(dN_b, [2.5, 97.5])
+            desloc_rows.append({"variavel": chave, "rotulo": rot, "janela": nome,
+                                "ano_ini": a0, "ano_fim": a1,
+                                "dN_km": dN_pt, "dN_lo": lo, "dN_hi": hi,
+                                "exclui_zero": bool(lo > 0 or hi < 0)})
+
+    return pd.DataFrame(banda_rows), pd.DataFrame(desloc_rows)
 
 
 # ---------------------------------------------------------------------------
@@ -464,9 +562,10 @@ def fig_elipses_por_ato(elipses: pd.DataFrame) -> None:
     print(f"[fig] {(DIR_OUT / 'elipses_por_ato.png').relative_to(ROOT)}")
 
 
-def fig_latitude(centros: pd.DataFrame) -> None:
+def fig_latitude(centros: pd.DataFrame, banda: pd.DataFrame | None = None) -> None:
     """Latitude (°) do centro médio vs ano — a narrativa N–S em uma figura.
-    Bandas de ato ao fundo; mediano em tracejado fino."""
+    Bandas de ato ao fundo; mediano em tracejado fino; faixa sombreada = IC95%
+    do centro médio por bootstrap de AMCs (se `banda` fornecida)."""
     import matplotlib.pyplot as plt
 
     fig, ax = plt.subplots(figsize=(11, 6))
@@ -483,14 +582,21 @@ def fig_latitude(centros: pd.DataFrame) -> None:
         g = centros[centros.variavel == chave].sort_values("ano")
         if g.empty:
             continue
+        if banda is not None:
+            b = banda[banda.variavel == chave].sort_values("ano")
+            if not b.empty:
+                ax.fill_between(b["ano"], b["lat_lo"], b["lat_hi"],
+                                color=cor, alpha=0.13, lw=0, zorder=1)
         ax.plot(g["ano"], g["lat_mean"], "-", color=cor, lw=2.0, label=rotulo, zorder=3)
         ax.plot(g["ano"], g["lat_med"], "--", color=cor, lw=0.9, alpha=0.5, zorder=2)
 
     ax.set_xlabel("Ano")
     ax.set_ylabel("Latitude do centro de massa (°, mais alto = mais ao norte)")
+    subt = ("linha cheia = centro médio; tracejado = centro mediano (robusto); "
+            "faixa = IC95% bootstrap" if banda is not None
+            else "linha cheia = centro médio; tracejado = centro mediano (robusto)")
     ax.set_title("Deslocamento norte–sul do centro de massa — Goiás 1985–2024 (AMC)\n"
-                 "linha cheia = centro médio; tracejado = centro mediano (robusto)",
-                 fontsize=12, loc="left")
+                 + subt, fontsize=12, loc="left")
     ax.legend(loc="best", frameon=True, fontsize=9, ncol=2)
     ax.grid(True, alpha=0.25)
     fig.tight_layout()
@@ -506,6 +612,8 @@ def fig_latitude(centros: pd.DataFrame) -> None:
 def main() -> None:
     ap = argparse.ArgumentParser(description="Pipeline #32 — centro de massa migratório")
     ap.add_argument("--sem-figuras", action="store_true", help="só CSVs, sem PNGs")
+    ap.add_argument("--sem-bootstrap", action="store_true",
+                    help="pula o IC por bootstrap (mais rápido)")
     args = ap.parse_args()
 
     print("=" * 70)
@@ -536,12 +644,28 @@ def main() -> None:
               f"ΔL = {r['dleste_km']:+6.1f} km | total {r['dtotal_km']:5.1f} km "
               f"| azimute {r['azimute_deg']:5.1f}°")
 
+    # Incerteza por bootstrap de AMCs (IC95% do ΔNorte + banda de latitude).
+    banda = None
+    if not args.sem_bootstrap:
+        col_por_chave = {k: v[0] for k, v in VARIAVEIS.items()}
+        rotulos = {k: v[1] for k, v in VARIAVEIS.items()}
+        banda, desloc_ic = bootstrap_incerteza(painel, col_por_chave, rotulos)
+        desloc_ic.to_csv(ARQ_BOOTSTRAP, index=False, encoding="utf-8")
+        print(f"[OK] {ARQ_BOOTSTRAP.relative_to(ROOT)}  ({len(desloc_ic)} linhas)")
+        print(f"\n[incerteza] IC95% do ΔNorte por bootstrap de AMCs "
+              f"(B={BOOT_B}); LÍQUIDO 1985→2024:")
+        liq_ic = desloc_ic[desloc_ic.janela == "LÍQUIDO"]
+        for _, r in liq_ic.iterrows():
+            marca = "≠0 robusto" if r["exclui_zero"] else "INCLUI 0 (dentro do ruído)"
+            print(f"  {r['rotulo']:18s} ΔN {r['dN_km']:+6.1f} km "
+                  f"| IC95% [{r['dN_lo']:+6.1f}, {r['dN_hi']:+6.1f}] | {marca}")
+
     if not args.sem_figuras:
         print()
         fig_overview(centros)
         fig_trajetorias(centros)
         fig_elipses_por_ato(elipses)
-        fig_latitude(centros)
+        fig_latitude(centros, banda)
 
     print("\n" + "=" * 70)
     print("CONCLUÍDO — Pipeline #32. Camada 1 (keystone) da narrativa Sul→Norte.")

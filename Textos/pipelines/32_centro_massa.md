@@ -7,6 +7,7 @@
 - `data/processed/centro_massa_anual.csv` — variável × ano: centro médio e mediano (em metros EPSG:5880 e em graus).
 - `data/processed/centro_massa_elipses.csv` — variável × ato: parâmetros da elipse de desvio-padrão.
 - `data/processed/centro_massa_deslocamento.csv` — variável × ato: deslocamento N–S e L–O (km), distância total e azimute.
+- `data/processed/centro_massa_bootstrap.csv` — variável × janela (LÍQUIDO + atos): ΔNorte pontual + **IC95%** (`dN_lo`/`dN_hi`) e flag `exclui_zero`, por bootstrap de AMCs.
 - `outputs/centro_massa/overview_posicoes.png` — mapa estadual, posição 1985 vs. 2024.
 - `outputs/centro_massa/trajetorias.png` — zoom pequeno-múltiplo na trajetória anual.
 - `outputs/centro_massa/elipses_por_ato.png` — elipses de dispersão por ato.
@@ -90,6 +91,24 @@ com semi-eixos = desvios-padrão ponderados das coordenadas rotacionadas. **Intu
 
 ---
 
+## Incerteza: o deslocamento sobrevive ao acaso amostral? (bootstrap)
+
+Um centro médio é uma estatística **pontual** — sem barra de erro não dá para saber se um deslocamento pequeno é real ou ruído. Por isso o pipeline faz um **bootstrap de AMCs**: reamostra as 166 AMCs **com reposição** (B = 2000 vezes), recomputa o centro médio a cada vez, e reporta o **IC95% percentílico** do ΔNorte 1985→2024. Isso testa a robustez à **composição das unidades espaciais** (e se materializa como a **faixa sombreada** na figura de latitude).
+
+| Variável | ΔNorte | IC95% (km) | Veredito |
+| :--- | :---: | :---: | :--- |
+| **Pastagem** | +77,6 km | **[+54,7, +98,2]** | deslocamento robusto |
+| **Rebanho bovino** | +66,9 km | **[+47,2, +84,5]** | deslocamento robusto |
+| **Agricultura** | +65,2 km | **[+43,5, +94,6]** | deslocamento robusto |
+| **Vegetação natural** | +7,6 km | **[−0,5, +15,6]** | **inclui zero — dentro do ruído** |
+
+**Leitura honesta**: as três manchetes (pasto, rebanho, agricultura marcham ao norte) são **estatisticamente sólidas** — o IC está longe de zero. Mas o "+7,6 km" da vegetação **não é distinguível de "não se moveu"** (o IC contém zero). Isso **reforça** — não enfraquece — a leitura de que a vegetação está **ancorada**; apenas significa que o número +7,6 km **não deve ser lido como deslocamento**, e que qualquer movimento pequeno em nível de ato (ex.: a agricultura no Ato III, +0,2 km) está seguramente dentro do ruído e nunca deve ser interpretado como valor. **Decisão D19** (ver abaixo).
+
+> [!NOTE]
+> O bootstrap incide sobre o centro **médio**. O centro **mediano** (Weiszfeld) continua reportado ao lado como robustez a um eixo *diferente* — o peso do cluster, não a amostra de unidades. As duas robustezas são complementares.
+
+---
+
 ## Como ler as figuras
 
 ### A. `overview_posicoes.png` — o panorama (1985 vs. 2024)
@@ -98,7 +117,7 @@ Cada variável aparece com a posição do centro de massa em **1985 (círculo va
 ![Posições 1985 vs 2024](../../outputs/centro_massa/overview_posicoes.png)
 
 ### B. `deslocamento_latitude.png` — a narrativa N–S em uma linha
-Latitude do centro de massa **ano a ano**. As bandas de fundo marcam os três atos. É aqui que se enxerga, de relance, o **gradiente estável** (as linhas nunca se cruzam: agricultura sempre embaixo) e a **desaceleração do Ato III** (a linha magenta achata enquanto laranja e vinho seguem subindo). Linha cheia = centro médio; tracejada = mediano (robusto).
+Latitude do centro de massa **ano a ano**. As bandas de fundo marcam os três atos. É aqui que se enxerga, de relance, o **gradiente estável** (as linhas nunca se cruzam: agricultura sempre embaixo) e a **desaceleração do Ato III** (a linha magenta achata enquanto laranja e vinho seguem subindo). Linha cheia = centro médio; tracejada = mediano (robusto); **faixa sombreada = IC95% do centro médio por bootstrap de AMCs** (a incerteza da posição a cada ano). Onde as faixas de duas variáveis não se sobrepõem, a diferença de latitude entre elas é robusta.
 
 ![Latitude no tempo](../../outputs/centro_massa/deslocamento_latitude.png)
 
@@ -114,21 +133,29 @@ Um painel por ato, com a elipse 1σ de cada variável em escala estadual. Vê-se
 
 ---
 
+## Método é padrão acadêmico?
+
+Sim. "Centro de massa / centro de gravidade ponderado" de uma distribuição ao longo do tempo é técnica estabelecida de estatística espacial: é exatamente o que o **US Census Bureau** publica como *mean center of population* (média das coordenadas ponderada pela população) e o que o toolset *Measuring Geographic Distributions* do **ArcGIS** implementa (mean center + median center + standard deviational ellipse). O trio usado aqui é esse. A implementação foi **auditada e reproduzida de forma independente** (reimplementação do zero a partir do parquet cru bate os ΔNorte ao decimal), e as manchetes passam no bootstrap. As checagens de corretude confirmadas: cálculo em projeção *equal-area* (`.to_crs(5880)` **antes** do `.centroid`), média ponderada `Σwx/Σw`, Weiszfeld com guard da singularidade, e ângulo da elipse = ângulo do eixo principal da matriz de 2º momento (com `max/min` dos semi-eixos, evitando trocar maior por menor).
+
 ## Decisões metodológicas
 
 - **Unidade = AMC (D11).** Território constante 1985–2024 (166 AMCs, Ehrl 2017) elimina o viés de emancipação que criaria saltos espúrios no centroide. Ver [25_amc_goias.md](25_amc_goias.md).
 - **CRS = EPSG:5880** (SIRGAS 2000 / Albers Brasil, *equal-area*). Centroides e distâncias são calculados em metros nessa projeção; para os rótulos de latitude/longitude, os pontos são reprojetados de volta para EPSG:4674.
 - **Vegetação natural** = floresta nativa + formação savânica + campo nativo (mesma composição de `pct_natural_lulc` no #16/#25).
 - **Pesos NaN/≤0 descartados** por variável-ano (uma AMC sem o dado simplesmente não entra naquele ano).
+- **D19 — quantificação de incerteza por bootstrap.** Todo deslocamento de centroide deve vir com **IC95% por bootstrap de AMCs** (resample com reposição, B=2000); um ΔNorte cujo IC **inclui zero** (vegetação; movimentos de ato pequenos) **não** pode ser reportado como número, só como "≈ ancorado / dentro do ruído". O bootstrap incide sobre o centro médio; o mediano segue como robustez ao cluster. Generaliza para o #44 e #50.
 
 ---
 
-## Limitações
+## Limitações (e como cada uma é mitigada ou declarada)
 
-- **É descritivo, não causal.** O centro de massa mostra *que* a distribuição se moveu, não *por que* nem *quem converteu quem*. O mecanismo local (Camada 2) e a defasagem econômica/spillover (Camada 3) exigem as próximas análises.
+- **É descritivo, não causal.** O centro de massa mostra *que* a distribuição se moveu, não *por que* nem *quem converteu quem*. Um único ponto-centro é uma redução drástica: distribuições diferentes podem ter o mesmo centro, e "o centro subiu" **não prova** "a fronteira foi empurrada". Por isso a leitura causal foi deliberadamente **recuada** para "reorganização" (Camadas 2/3, #33/#34), e não se afirma iLUC a partir do centroide.
+- **Aproximação do centroide-de-polígono.** Todo o valor de uma AMC é colocado no seu centroide **geométrico** — assume distribuição uniforme intra-AMC. Para as variáveis **com raster** (pasto, agricultura, vegetação) isso foi **testado** (#43, pixel-a-pixel: difere ~1–2 km). Para as variáveis **tabulares (rebanho, e no #50 crédito/VA)** é uma **aproximação não verificada por pixel** — declarada como tal; a ponte de credibilidade é a validação soja raster×SIDRA do #44 (concordam a ~7 km).
+- **Convenção da elipse (SDE).** Os semi-eixos são "1 desvio-padrão ponderado" dividindo por Σw, **sem o fator √2** que algumas implementações (ArcGIS/CrimeStat) adotam. Orientação e **comparação relativa** entre atos não mudam; só o **km absoluto** do eixo segue esta convenção — não compare o km absoluto com uma elipse gerada em outro software. A elipse é usada só descritivamente.
+- **Suporte variável.** Descartar AMCs com peso ≤0 faz o centroide mover-se quando o *suporte encolhe*, não só quando a massa migra — real para o campo nativo (#44; nº de AMCs cai 158→142), irrelevante para pasto/agricultura (presentes em toda parte).
 - **Albers preserva área, não distância.** Para o deslocamento N–S de dezenas a centenas de km dentro de GO, o erro de escala é pequeno e aceitável para leitura descritiva — mas as distâncias em km não são geodésicas exatas.
 - **Sensibilidade ao cluster.** O centro **médio** é puxado pela concentração de peso (Sudoeste para agricultura; Vale do Araguaia para pecuária). Isso é exatamente o fenômeno que se quer descrever — e por isso o centro **mediano** é reportado ao lado, como contraprova de robustez.
-- **Azimutes de movimentos minúsculos são ruído.** Ex.: agricultura no Ato III anda só 0,6 km — seu azimute (292°) não tem significado direcional; o que importa é que ela **parou**.
+- **Azimutes e ΔN de movimentos minúsculos são ruído.** Ex.: agricultura no Ato III anda só 0,6 km — seu azimute (292°) não tem significado direcional, e seu ΔN está dentro do IC do bootstrap; o que importa é que ela **parou**.
 
 ---
 

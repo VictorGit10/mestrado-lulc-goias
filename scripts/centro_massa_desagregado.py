@@ -177,8 +177,12 @@ def _fundo_atos(ax):
                 fontsize=8.5, color="0.45")
 
 
+# Âncoras de referência (não recebem faixa de IC para não poluir).
+ANCORAS = {"agricultura", "pastagem", "bovinos", "veg_natural"}
+
+
 def fig_grupo(df: pd.DataFrame, grupo: str, titulo: str, arquivo: str,
-              chaves: list[str]) -> None:
+              chaves: list[str], banda: pd.DataFrame | None = None) -> None:
     import matplotlib.pyplot as plt
     fig, ax = plt.subplots(figsize=(11, 6))
     _fundo_atos(ax)
@@ -187,6 +191,11 @@ def fig_grupo(df: pd.DataFrame, grupo: str, titulo: str, arquivo: str,
         g = df[df.variavel == chave].sort_values("ano")
         if g.empty:
             continue
+        if banda is not None and chave not in ANCORAS:
+            b = banda[banda.variavel == chave].sort_values("ano")
+            if not b.empty:
+                ax.fill_between(b["ano"], b["lat_lo"], b["lat_hi"],
+                                color=cor, alpha=0.13, lw=0, zorder=1)
         estilo = "--" if chave in ("agricultura", "veg_natural") else "-"
         lw = 1.4 if chave in ("agricultura", "veg_natural") else 2.1
         ax.plot(g["ano"], g["lat_mean"], estilo, color=cor, lw=lw,
@@ -205,6 +214,7 @@ def fig_grupo(df: pd.DataFrame, grupo: str, titulo: str, arquivo: str,
 def main() -> None:
     ap = argparse.ArgumentParser(description="Pipeline #44 — centro de massa desagregado + controles")
     ap.add_argument("--sem-figuras", action="store_true")
+    ap.add_argument("--sem-bootstrap", action="store_true", help="pula o IC por bootstrap")
     args = ap.parse_args()
 
     print("=" * 70)
@@ -257,23 +267,44 @@ def main() -> None:
             print(f"  {ano}: leite {le.loc[ano]:.2f}  rebanho {bo.loc[ano]:.2f}  "
                   f"Δ {(bo.loc[ano]-le.loc[ano])*111:+.0f} km")
 
+    # --- Incerteza por bootstrap de AMCs (IC95% do ΔNorte + banda de latitude) ---
+    banda = None
+    if not args.sem_bootstrap:
+        col_por_chave = {k: v[0] for k, v in VARS.items()}
+        rotulos = {k: v[1] for k, v in VARS.items()}
+        banda, desloc_ic = cm.bootstrap_incerteza(painel, col_por_chave, rotulos)
+        arq_boot = ROOT / "data" / "processed" / "centro_massa_desagregado_bootstrap.csv"
+        desloc_ic.to_csv(arq_boot, index=False, encoding="utf-8")
+        print(f"\n[incerteza] IC95% do ΔNorte por bootstrap de AMCs (B={cm.BOOT_B}); "
+              f"LÍQUIDO — foco nas formações e na soja:")
+        liq_ic = desloc_ic[desloc_ic.janela == "LÍQUIDO"]
+        for chave in ("soja_raster", "floresta", "savanica", "campo_nativo", "leite", "area_urbana"):
+            rr = liq_ic[liq_ic.variavel == chave]
+            if rr.empty:
+                continue
+            rr = rr.iloc[0]
+            marca = "≠0 robusto" if rr["exclui_zero"] else "INCLUI 0 (dentro do ruído)"
+            print(f"  {rr['rotulo']:28s} ΔN {rr['dN_km']:+6.1f} km "
+                  f"| IC95% [{rr['dN_lo']:+6.1f}, {rr['dN_hi']:+6.1f}] | {marca}")
+        print(f"[OK] {arq_boot.relative_to(ROOT)} ({len(desloc_ic)} linhas)")
+
     if not args.sem_figuras:
         print()
         fig_grupo(df, "soja",
                   "Soja isolada vs 'agricultura' (lump) — centro de massa, Goiás 1985–2024\n"
                   "roxo = soja (raster e SIDRA); tracejado magenta = agregado agrícola",
                   "desagregado_soja.png",
-                  ["agricultura", "soja_raster", "soja_sidra", "pastagem"])
+                  ["agricultura", "soja_raster", "soja_sidra", "pastagem"], banda=banda)
         fig_grupo(df, "veg",
                   "Vegetação natural aberta em formações — centro de massa, Goiás 1985–2024\n"
                   "tracejado verde = lump; savânica = substrato da fronteira; floresta = mata de galeria",
                   "desagregado_vegetacao.png",
-                  ["veg_natural", "floresta", "savanica", "campo_nativo", "pastagem"])
+                  ["veg_natural", "floresta", "savanica", "campo_nativo", "pastagem"], banda=banda)
         fig_grupo(df, "controle",
                   "Controles: leite e área urbana vs a fronteira — centro de massa, Goiás 1985–2024\n"
                   "se leite/urbano NÃO sobem com pasto/boi, a marcha ao norte é específica da fronteira",
                   "desagregado_controle.png",
-                  ["bovinos", "pastagem", "leite", "area_urbana", "agricultura"])
+                  ["bovinos", "pastagem", "leite", "area_urbana", "agricultura"], banda=banda)
 
     print("\n" + "=" * 70)
     print("CONCLUÍDO — Pipeline #44 (extensão desagregada do #32).")
