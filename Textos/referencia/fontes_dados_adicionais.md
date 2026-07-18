@@ -18,6 +18,7 @@ Tabela extraída do `SugestaoClaude.md` original (preservado em [_arquivo/sugest
 | CONAB SISDEP | Silos e armazéns por município, capacidade estática | `sisdep.conab.gov.br` |
 | DNIT/SNV | Malha rodoviária pavimentada | `gov.br/dnit` |
 | PNUD Atlas Brasil | IDH-M 1991, 2000, 2010, 2021 | `atlasbrasil.org.br` |
+| **FIRJAN IFDM** (Pipeline #51) | Índice de Desenvolvimento Municipal, **Nova Série Histórica municipal 2013–2023** (anual; 4 dimensões: Geral/Emprego&Renda/Educação/Saúde). **Alcança o Ato III** — reabre o eixo de desenvolvimento que o IDH-M (só 1991/2000/2010) não cobre. Série nova ≠ emendável com a antiga 2005–16. | XLSX direto: `firjan.com.br/data/files/09/42/7A/34/0EFA6910734FAA69D8284EA8/Serie-Historica-IFDM-2013-a-2023.xlsx`. Coletor: `scripts/coleta_firjan_ifdm.py` → `data/processed/ifdm_goias_municipal.csv`. Chave `COD_MUNIC` (6 díg.) → `cd_mun` via `//10`. |
 | Censos demográficos | População rural/urbana 1991–2022 | `sidrapy` tabelas 200, 6579 |
 | CAR/SICAR | Limites prediais + reserva legal declarada | `sicar.gov.br` |
 | ANA / OttoBacias | Recorte hidrográfico alternativo ao municipal | `metadados.snirh.gov.br` |

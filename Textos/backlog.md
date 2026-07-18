@@ -60,19 +60,18 @@ que já existe**. Nenhuma exige redação; todas são investigação.
    Δlog estacionários não absorvem tendência espúria I(2) — não é robustez. **D16**: para séries de área/rebanho
    AMC (integradas), Granger ingênuo em 1ª dif fabrica precedência espúria; exigir TY + placebos antes de ler
    lead-lag como causal (ressalva retroativa ao #34/#41). **Reforça** (não derruba) o #34. Detalhe em "Já feito".
-6. ~~**Crescimento sem desenvolvimento?**~~ — ❌ **DESCARTADO (2026-06-08)**. A pergunta é boa
-   (espelho socioeconômico dos "dois Goiáses": Sul intensificação × Norte fronteira no
-   desenvolvimento humano), mas **inviável com o dado existente**. O IDH-M municipal
-   ([#13](pipelines/13_idhm.md)) só existe para **1991/2000/2010** (Censos); pós-2010 é
-   **inexistente** — limitação **metodológica, não de acesso** (confirmado nas fontes oficiais
-   Atlas Brasil/IPEA/PNUD/FJP em 2026-06-08; o "IDHM 2021" da imprensa é o **Radar IDHM estadual**
-   /PNAD, não municipal). Logo o eixo de *desenvolvimento* trava em 2010 e **não alcança o Ato III
-   (2020-24)**, justo onde a divergência Sul/Norte é mais limpa (#32); sobraria só o decênio de
-   *onset* do boom (2000-2010) — sem ganho que justifique o esforço. *O painel já tem o eixo de
-   crescimento (PIB pc/VA agro municipais 2002-2021), só falta o de desenvolvimento.* Reabrir
-   apenas se: (a) o Censo 2022 for processado em IDH-M municipal (sem prazo), ou (b) via proxy —
-   FIRJAN IFDM 2005-16 / indicadores do universo do Censo 2022. **Corrige a nota anterior** ("2021
-   é coleta trivial pendente"), que se contradizia com o próprio #13.
+6. ~~**Crescimento sem desenvolvimento?**~~ — ✅ **REABERTO E FEITO (2026-07-18, [#51](pipelines/51_crescimento_sem_desenvolvimento.md))**.
+   O descarte de 08/jun repousava em "sem índice de desenvolvimento municipal pós-2010" — **razão
+   obsoleta**: o **FIRJAN IFDM** tem Nova Série Histórica **municipal 2013–2023** (alcança o Ato III).
+   `coleta_firjan_ifdm.py` + `crescimento_sem_desenvolvimento.py`. **Achado**: a fronteira **Norte
+   cresceu ~3× mais em área** que o Sul (Δlog +1,02 vs +0,24) mas o **ganho de IFDM foi idêntico**
+   (ΔNorte−Sul +0,008, IC inclui 0) e o Norte **permanece −0,084 abaixo** do Sul (robusto). No
+   município, o crescimento é **desacoplado** do desenvolvimento (área: r=−0,04, painel r²within≈0;
+   VA agro: r=0,13 fraco). Transforma a assinatura espacial do #50 (valor ancorado no Sul) em
+   **medição direta**. *Corrige a nota do descarte anterior — a proxy sugerida (FIRJAN) resultou 2013–2023,
+   não 2005–16.* Detalhe abaixo em "Já feito" e no doc do #51.
+   > *(Histórico: DESCARTADO em 2026-06-08 por falta de IDH-M municipal pós-2010 — o IDH-M do #13
+   > só existe 1991/2000/2010. A verificação de 18/jul localizou o IFDM 2013–2023 e reabriu o fio.)*
 
 - **Bônus / micro-mistério**: o [#29](pipelines/29_triangulacao_periodizacao.md) viu uma
   sub-fase **2001–05** com perda de veg natural **5× mais intensa** (p=0,0008) que não virou

@@ -67,6 +67,7 @@ Pipelines **#1–#50 (+ #28C, #40B)** documentados aqui — **51 arquivos** de d
 | 48 | [48_validacao_prodes.md](48_validacao_prodes.md) | `validacao_prodes_mapbiomas.py` | Validação cruzada PRODES (INPE) × MapBiomas — concordam no regime anual 2013–24 (r=0,91); fecha a pendência PRODES da D17 | 2013–2024 | UF (GO) | ✅ |
 | 49 | [49_painel_espacial_dinamico.md](49_painel_espacial_dinamico.md) | `painel_espacial_dinamico.py` | Painel espacial dinâmico (Elhorst FE lag/error): os 3 canais do #22/#34 sobrevivem ao termo espacial (Eixo C1) | 1985–2024 | AMC (166) | ✅ |
 | 50 | [50_centro_massa_economico.md](50_centro_massa_economico.md) | `centro_massa_economico.py` | Centro de massa de crédito/valor (extensão #32): crédito ~75 km ao sul da fronteira (consolida, não lidera); VA agro ancorado enquanto a área marcha; abate descartado (derivado do rebanho) | 2002–2024 | AMC (166) | ✅ |
+| 51 | [51_crescimento_sem_desenvolvimento.md](51_crescimento_sem_desenvolvimento.md) | `coleta_firjan_ifdm.py` + `crescimento_sem_desenvolvimento.py` | Crescimento × desenvolvimento (IFDM FIRJAN 2013–2023): a fronteira Norte cresce ~3× mais em área mas ganha IFDM igual e fica −0,08 abaixo do Sul; crescimento desacoplado do desenvolvimento (área r²within≈0). Reabre o fio "crescimento sem desenvolvimento" e mede o que o #50 só viu no espaço | 2013–2023 | Município (246) | ✅ |
 
 ## Como os pipelines se cruzam
 
