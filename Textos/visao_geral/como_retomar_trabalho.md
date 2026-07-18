@@ -41,9 +41,9 @@ Detalhe pipeline a pipeline em [pipelines/README.md](../pipelines/README.md); lo
 
 ## 4. O que explorar agora
 
-**A fase é exploração, não redação** — otimizar por *riqueza de história × viabilidade com o dado que já existe*, não por "fechar a dissertação". Os fios 1–6 do [backlog.md](../backlog.md) foram todos fechados, assim como os eixos A / ambiental / C1. Frentes possíveis (todas opcionais):
+**A fase é exploração, não redação** — otimizar por *riqueza de história × viabilidade com o dado que já existe*, não por "fechar a dissertação". Os fios 1–6 do [backlog.md](../backlog.md) foram todos fechados, assim como os eixos A / ambiental / **C (C1 + C2)**. Frentes possíveis (todas opcionais):
 
-- **Eixo C2** — validar as quebras empíricas (1991/1999/2006) na literatura institucional (é leitura, não análise).
+- ✅ **Eixo C2 — FECHADO (2026-07-18)**: validação das quebras empíricas (1991/1999/2006) na literatura, em [metodologia/validacao_quebras_literatura.md](../metodologia/validacao_quebras_literatura.md). As três viram evidência de apoio (Collor/crédito; câmbio 1999; Moratória da Soja).
 - **Aptidão edafoclimática direta** como exposição no #38 (no lugar do proxy "% de área baseline").
 - **Micro-mistério 2001–05** — caracterizar o lado institucional (pré-Moratória da Soja 2006).
 - **Redação** — quando **você** decidir parar de explorar e escrever; a documentação é a rede de segurança que a torna barata.

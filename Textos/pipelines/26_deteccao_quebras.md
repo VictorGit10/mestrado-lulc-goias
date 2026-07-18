@@ -72,12 +72,20 @@ Tolerância para coincidência marco × quebra: ±2 anos.
 
 ## Quebras data-driven SEM marco teórico próximo
 
+> **Validadas na literatura (Eixo C2, 2026-07-18)** — ver
+> [metodologia/validacao_quebras_literatura.md](../metodologia/validacao_quebras_literatura.md).
+> As três deixaram de ser "hipótese a investigar" e viraram evidência de apoio: nenhuma ameaça a
+> periodização; 1999 e 2006 são quebras do **controle** que reforçam o desenho.
+
 - **1991** (GO pastagem F=15,6; TO pastagem F=18,5): inflexão pré-Real,
   possivelmente fim do ciclo POLOCENTRO/PRODECER ou efeito Plano Collor.
+  **→ C2: confirmado** (Collor + fim do ciclo de crédito subsidiado); é a "órfã" do #37.
 - **1999** (TO agricultura F=59,4): coincide com flexibilização cambial
-  (regime de câmbio flutuante, jan/1999). Hipótese a investigar.
+  (regime de câmbio flutuante, jan/1999). **→ C2: confirmado** — dianteira do drive comum (câmbio→soja),
+  primeiro no controle TO (mais elástico à exportação); GO só quebra em 2001.
 - **2006** (TO veg_nat F=10,6): coincide com a Moratória da Soja Amazônia.
-  TO tem ~8% Amazônia. Hipótese plausível, ausente em GO (100% Cerrado).
+  TO tem ~8% Amazônia. **→ C2: confirmado** — choque amazônico que valida o uso de TO como controle (#23);
+  ausente em GO (100% Cerrado), como esperado.
 
 ## Implicações para a dissertação
 
