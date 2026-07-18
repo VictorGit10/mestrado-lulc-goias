@@ -745,6 +745,16 @@ lag/error), os três canais (intensificação, crédito→pasto, substituição 
 espacial — ρ/λ fortes e significativos confirmam o #24, mas os β quase não mudam. É a quarta régua de
 robustez, ao lado de tempo (D12), latitude (D14) e integração (D16).
 
+*Extensão socioeconômica — crescimento sem desenvolvimento (#51).* O **#51** reabre o fio que estava
+descartado por falta de dado (o IDH-M municipal morre em 2010) e o mede com o **IFDM (FIRJAN) municipal
+2013–2023**, que alcança o Ato III. Transforma a assinatura *espacial* do #50 (valor ao sul, área ao
+norte) em **medição direta**: a fronteira Norte **quase dobrou a área agrícola** (+93% vs +14% no Sul),
+mas o **ganho de desenvolvimento foi idêntico** ao do Sul e o Norte **permanece −0,08 abaixo** — o vão
+**não fecha**. O motor da fronteira (expansão de área) é **desacoplado** do desenvolvimento (r≈0), e só o
+*valor* agropecuário rende um dividendo modesto (r=0,21). É **descritivo/associativo** (D14) e **invariante
+a município↔AMC**. Como a janela 2013–2023 tem os 246 municípios estáveis, a análise é municipal (a
+motivação do AMC/D11 não se aplica); a robustez-AMC embutida no pipeline confirma a invariância.
+
 ---
 
 ## Apêndice A — Índice de todos os scripts (trabalho principal)
@@ -828,6 +838,7 @@ Mapeamento completo de cada script não-MG à sua fase e função. (Os scripts `
 | `validacao_prodes_mapbiomas.py` | 48 | 6 | Validação cruzada PRODES (INPE) × MapBiomas (fecha a pendência PRODES da D17) |
 | `painel_espacial_dinamico.py` | 49 | 6 | Painel espacial dinâmico (Elhorst FE lag/error): os canais do #22 sobrevivem ao espaço? |
 | `centro_massa_economico.py` | 50 | 6 | Centro de massa de crédito/valor (extensão do #32): crédito ~75 km ao sul da fronteira; valor ancorado; abate descartado |
+| `coleta_firjan_ifdm.py` + `crescimento_sem_desenvolvimento.py` | 51 | 6 | Crescimento × desenvolvimento (IFDM 2013–2023): Norte quase dobra a área mas ganha IFDM igual e fica −0,08 abaixo; expansão de área desacoplada do desenvolvimento; invariante município↔AMC |
 
 ## Apêndice B — Nota sobre os trabalhos paralelos (fora deste documento)
 

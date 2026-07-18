@@ -158,7 +158,10 @@ Volume **exportado** (normalizado) × uso da terra (normalizado) para soja e boi
 - **Trase mede FLUXO, não capacidade instalada.** Silos, esmagadoras e frigoríficos com SIF
   exigiriam CONAB SISDEP / SIGSIF-MAPA. Esse ângulo — que poderia dar liderança onde o fluxo não dá
   — segue nas coletas pendentes do backlog. **É a ressalva mais importante deste pipeline**: o nulo
-  aqui é sobre *fluxo exportador*, não sobre *infraestrutura física*.
+  aqui é sobre *fluxo exportador*, não sobre *infraestrutura física*. **Viabilidade verificada
+  (2026-07-18)**: o **CONAB SISDEP** tem série histórica de capacidade estática por município; o
+  **CNPJ/Receita** reconstrói contagem anual de frigoríficos (CNAE 1011-2) e silos (5211-7). Detalhe e
+  trade-offs (provável nulo, defensivo) em [backlog.md](../backlog.md) → "Frentes de expansão opcionais".
 - **Janela curta** (soja 19 anos, boi 12 sem 2018) → baixo poder, sobretudo no agregado (Bloco A). O painel recupera poder pelo N municipal, mas o T ainda é curto para defasagens longas.
 - **Precedência preditiva, não causalidade** (D16 aplicada). O agregado é diagnóstico.
 - **Efeitos minúsculos.** Mesmo os contemporâneos significativos têm r²within ≤ 0,034. A leitura

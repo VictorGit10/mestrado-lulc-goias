@@ -7,7 +7,7 @@ Checklist para continuar a dissertação em qualquer sessão do Claude Code.
 1. [README.md](../README.md) — índice mestre.
 2. [narrativa_pipelines.md](../narrativa_pipelines.md) — a **história** de como o trabalho foi construído (fio condutor de todos os pipelines).
 3. [guia_de_leitura.md](../guia_de_leitura.md) — os **métodos** em linguagem simples (o que cada um faz, por que foi usado, o que não pode dizer).
-4. [pipelines/README.md](../pipelines/README.md) — ficha técnica de cada pipeline (#1–#49).
+4. [pipelines/README.md](../pipelines/README.md) — ficha técnica de cada pipeline (#1–#51).
 5. [backlog.md](../backlog.md) — fios em aberto (modo **exploração**).
 6. [escopo_dissertacao.md](escopo_dissertacao.md) — escopo/hipóteses **iniciais** (a tese que de fato emergiu está na narrativa e no guia).
 7. [estrutura_diretorios.md](estrutura_diretorios.md) — estrutura do projeto.
@@ -22,7 +22,7 @@ ls data/cache/         # Cache de requisições (sidra, sicor, gee)
 
 Duas tabelas-mãe: `painel_unificado.parquet` (9.840×185, o **transversal** — 246 munis × 40 anos) e `painel_amc_goias.parquet` (166 AMCs, o **longitudinal** — território constante, D11). O primeiro consolida LULC + pecuária + lavouras + PIB + população + SICOR + Censo 2017 + IDH-M + fogo + Trase.
 
-## 3. Estado atual (jul/2026): 49 pipelines concluídos
+## 3. Estado atual (jul/2026): 51 pipelines concluídos
 
 **Toda a infraestrutura empírica e a investigação Sul→Norte estão fechadas.** A dissertação está em **modo exploração** — a redação foi adiada **por opção** (será barata porque tudo está documentado em `Textos/`).
 
@@ -35,16 +35,18 @@ Duas tabelas-mãe: `painel_unificado.parquet` (9.840×185, o **transversal** —
 | 4 — Inferência | #21, #22, #23, #24, #26 | Painel FE, DiD, autocorrelação espacial, quebras |
 | 5 — Periodização | #28, #28C, #29–#31 | 3 atos data-driven; bimodalidade da idade do pasto |
 | 6 — Marcha ao norte | #32–#42 | A tese Sul→Norte, testada e autocorrigida (5 camadas) |
-| 6 — Extensões | #43, #44, #40B, #45, #46, #47, #48, #49 | Robustez (MAUP/desagregação), Eixo A (Trase), eixo ambiental (proteção/carbono/PRODES), Eixo C1 (painel espacial) |
+| 6 — Extensões | #43, #44, #40B, #45, #46, #47, #48, #49, #50, #51 | Robustez (MAUP/desagregação), Eixo A (Trase), eixo ambiental (proteção/carbono/PRODES), Eixo C1 (painel espacial), centro de massa econômico (#50), crescimento × desenvolvimento IFDM (#51) |
 
 Detalhe pipeline a pipeline em [pipelines/README.md](../pipelines/README.md); log cronológico em [backlog.md](../backlog.md).
 
 ## 4. O que explorar agora
 
-**A fase é exploração, não redação** — otimizar por *riqueza de história × viabilidade com o dado que já existe*, não por "fechar a dissertação". Os fios 1–6 do [backlog.md](../backlog.md) foram todos fechados, assim como os eixos A / ambiental / **C (C1 + C2)**. Frentes possíveis (todas opcionais):
+**A fase é exploração, não redação** — otimizar por *riqueza de história × viabilidade com o dado que já existe*, não por "fechar a dissertação". Os fios 1–6 do [backlog.md](../backlog.md) foram todos fechados (o fio 6 foi **reaberto e feito** como #51), assim como os eixos A / ambiental / **C (C1 + C2)**. Frentes possíveis (todas opcionais):
 
 - ✅ **Eixo C2 — FECHADO (2026-07-18)**: validação das quebras empíricas (1991/1999/2006) na literatura, em [metodologia/validacao_quebras_literatura.md](../metodologia/validacao_quebras_literatura.md). As três viram evidência de apoio (Collor/crédito; câmbio 1999; Moratória da Soja).
-- **Aptidão edafoclimática direta** como exposição no #38 (no lugar do proxy "% de área baseline").
+- ✅ **Crescimento sem desenvolvimento — FEITO (2026-07-18, [#51](../pipelines/51_crescimento_sem_desenvolvimento.md))**: reabriu o fio 6 com o IFDM (FIRJAN) municipal 2013–2023. Norte quase dobra a área mas ganha IFDM igual e fica −0,08 abaixo; expansão de área desacoplada do desenvolvimento.
+- ⏳ **Aptidão edafoclimática direta como exposição no #38** (ataca a perna 4, a mais fraca) — *viabilidade verificada*: shapefile de aptidão do **MacroZAEE-GO** baixável no SIEG; agregar às AMCs por zonal-stats. Ver [backlog.md](../backlog.md) → "Frentes de expansão opcionais".
+- ⏳ **Capacidade instalada da cadeia (CONAB SISDEP / SIGSIF / CNPJ)** para a ressalva do #45 (Trase mede fluxo, não capacidade) — *viabilidade verificada*: SISDEP tem série histórica; CNPJ reconstrói contagem anual de frigoríficos/silos. Ver backlog. Provável nulo (defensivo).
 - **Micro-mistério 2001–05** — caracterizar o lado institucional (pré-Moratória da Soja 2006).
 - **Redação** — quando **você** decidir parar de explorar e escrever; a documentação é a rede de segurança que a torna barata.
 

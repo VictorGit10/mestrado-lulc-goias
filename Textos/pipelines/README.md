@@ -1,6 +1,6 @@
 # Pipelines — índice
 
-Pipelines **#1–#50 (+ #28C, #40B)** documentados aqui — **51 arquivos** de doc (48 números de #1 a #50 exceto #30 e #31; mais #28C, #40B e a leitura crítica complementar [28_idade_pastagem_critica.md](28_idade_pastagem_critica.md)): o **#30** e o **#31** vivem dentro do [#29](29_triangulacao_periodizacao.md). Cada arquivo descreve **processo** (o que faz, como rodar, decisões metodológicas, validações, limitações). Para descrição dos **produtos** (PNGs, CSVs com interpretação para redação), ver [outputs/](../outputs/).
+Pipelines **#1–#51 (+ #28C, #40B)** documentados aqui — **52 arquivos** de doc (49 números de #1 a #51 exceto #30 e #31; mais #28C, #40B e a leitura crítica complementar [28_idade_pastagem_critica.md](28_idade_pastagem_critica.md)): o **#30** e o **#31** vivem dentro do [#29](29_triangulacao_periodizacao.md). Cada arquivo descreve **processo** (o que faz, como rodar, decisões metodológicas, validações, limitações). Para descrição dos **produtos** (PNGs, CSVs com interpretação para redação), ver [outputs/](../outputs/).
 
 > **O número é identidade, não ordem de leitura.** Ele registra *quando* o pipeline nasceu — é
 > um handle permanente (aparece em ~1.050 referências cruzadas, nas docstrings, na memória do

@@ -6,13 +6,13 @@ Mestrado/
 │   ├── README.md                     # Índice mestre
 │   ├── backlog.md                    # O que falta fazer
 │   ├── visao_geral/                  # Escopo, estrutura, como retomar
-│   ├── pipelines/                    # 49 pipelines documentados (#1–#49)
+│   ├── pipelines/                    # pipelines documentados (#1–#51, + #28C, #40B)
 │   ├── outputs/                      # Catálogo de gráficos, mapas, CSVs
 │   ├── metodologia/                  # Decisões transversais
 │   ├── referencia/                   # Ambiente, fontes, memórias
 │   └── _arquivo/                     # Histórico preservado
 │
-├── scripts/                          # Pipelines Python (#1–#49) — índice completo em narrativa_pipelines.md (Apêndice A)
+├── scripts/                          # Pipelines Python (#1–#51) — índice completo em narrativa_pipelines.md (Apêndice A)
 │   ├── grafico_pastagem_pib_goias.py      # #1
 │   ├── analise_expandida_goias.py         # #2
 │   ├── coleta_sidra.py                    # #3 + #7 + #15 (+ Censo 6850)
@@ -50,6 +50,9 @@ Mestrado/
 │   ├── analise_trase_lulc.py             # #45 (Eixo A)
 │   ├── custo_carbono_marcha.py           # #47 (D18) (+ validacao_prodes_mapbiomas #48)
 │   ├── painel_espacial_dinamico.py       # #49 (Eixo C1)
+│   ├── centro_massa_economico.py         # #50 (centro de massa crédito/valor)
+│   ├── coleta_firjan_ifdm.py             # #51 coleta (IFDM FIRJAN 2013–2023)
+│   ├── crescimento_sem_desenvolvimento.py # #51 (crescimento × desenvolvimento; reabre fio 6)
 │   ├── coleta_pib_uf_ipea.py             # PIB/VAB UF IPEA (insumo #21)
 │   ├── estimativa_abate_municipal.py      # Abate municipal estimado
 │   ├── _cartografia.py, auditoria_pib.py, _validar_sicor.py, _verificar_dados.py, _preview_mapa_2024.py, explorar_asset_*.py

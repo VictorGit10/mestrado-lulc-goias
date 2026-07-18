@@ -70,7 +70,7 @@ ferramental que permitiu afirmá-la com honestidade.
 
 ## Parte 2 — A arquitetura: por que cada passo puxou o seguinte
 
-O trabalho tem **50 pipelines** (scripts de análise). Parece muito, mas eles não são avulsos:
+O trabalho tem **51 pipelines** (scripts de análise). Parece muito, mas eles não são avulsos:
 formam uma **escada**, do agregado ao detalhe e do descritivo ao causal. Entender a escada é
 entender por que cada peça existe. São sete degraus (a narrativa completa está em
 [`narrativa_pipelines.md`](narrativa_pipelines.md); aqui está o esqueleto).
@@ -969,6 +969,20 @@ Ela se apoia em cinco pernas:
   confirma, não que o fenômeno inexista.
 - Que "plantio direto explica a idade do pasto" — foi o overclaim que você mesmo derrubou (#40):
   era confundidor de latitude.
+
+**Um corolário socioeconômico (fora das cinco pernas): crescimento sem desenvolvimento (#51).**
+O #50 mostrou, *sem* índice de desenvolvimento, que o valor fica ao sul enquanto a área marcha ao
+norte. O **#51** põe um número nisso com o **IFDM (FIRJAN) municipal 2013–2023** — o índice que o
+IDH-M (só 1991/2000/2010) não dava. A fronteira Norte **quase dobrou a área agrícola** (+93% vs +14%
+no Sul) mas **ganhou desenvolvimento igual** ao Sul e **permanece −0,08 abaixo** (o vão não fecha);
+o **motor da fronteira — a expansão de área — é desacoplado** do desenvolvimento (r≈0, até negativo
+controlando latitude; painel r²within≈0), enquanto o **valor** agropecuário rende só um dividendo
+modesto (r=0,21). **Força: descritiva/associativa** (D14; não causal), mas robusta: **invariante a
+município↔AMC**. Duas lições de método reutilizáveis vieram daí: (i) para crescimento regional, use o
+**agregado** (log da soma), não a **média de log-ratios** — esta infla regiões de base pequena (foi o
+que corrigiu "3× mais" para "quase dobrou"); (ii) num teste de desacoplamento, **case a janela** dos
+dois lados (aqui 2013→2021). Como frasear: "o crescimento **não fecha o vão** nem compra
+desenvolvimento **extra**" — **não** "não houve desenvolvimento" (o IFDM subiu em toda parte, +0,14).
 
 ---
 
