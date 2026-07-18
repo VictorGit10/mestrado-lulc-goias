@@ -28,6 +28,8 @@
 
   <link rel="stylesheet" href="assets/css/reserva.css?v=1">
 
+  <link rel="stylesheet" href="assets/css/marchamap.css?v=1">
+
 
 </head>
 
@@ -874,6 +876,45 @@
         constroem e testam essa afirmação.
       </p>
     </div>
+
+    <!-- #32 interativo — mapa animado da marcha + faixa latitude-tempo (marcha-mapa.js).
+         Progressive enhancement: sem d3/JS fica hidden e o scrollytelling de PNGs abaixo assume. -->
+    <section id="marcha-mapa-bloco" class="marchamap" hidden
+             aria-label="Mapa animado do centro de massa, 1985 a 2024">
+      <div class="marchamap-head">
+        <h3 class="marchamap-titulo">O centro de massa em movimento, 1985 → 2024</h3>
+        <p class="marchamap-sub">
+          Cada ponto é o centro de gravidade de um uso da terra no estado — a média
+          das posições das 166 AMCs, ponderada pela quantidade da variável ali. Aperte
+          <em>reproduzir</em> (ou arraste a faixa) e veja os quatro centros caminharem
+          ao norte ao longo de 40 anos. À direita, a mesma marcha lida como latitude,
+          ano a ano.
+        </p>
+      </div>
+      <div class="marchamap-grid">
+        <figure class="marchamap-painel">
+          <div id="marchamap-mapa" class="marchamap-mapa" role="img"
+               aria-label="Recorte central de Goiás com o centro de massa de agricultura, pastagem, rebanho e vegetação natural caminhando ao norte de 1985 a 2024"></div>
+          <div class="marchamap-controles">
+            <button type="button" id="marchamap-play" class="marchamap-btn"
+                    aria-pressed="false">▶ Reproduzir</button>
+            <input type="range" id="marchamap-slider" class="marchamap-slider"
+                   aria-label="Ano" value="1985" step="1">
+            <span id="marchamap-ano" class="marchamap-ano">1985</span>
+          </div>
+          <div id="marchamap-legenda" class="marchamap-legenda"></div>
+          <label class="marchamap-check">
+            <input type="checkbox" id="marchamap-elipse"> mostrar a dispersão (elipse 1σ do ato)
+          </label>
+        </figure>
+        <figure class="marchamap-painel">
+          <figcaption class="marchamap-cap">Latitude do centro, ano a ano — mais alto = mais ao norte</figcaption>
+          <div id="marchamap-strip" class="marchamap-strip" role="img"
+               aria-label="Latitude do centro de massa de cada variável por ano, 1985 a 2024, com as faixas dos três atos"></div>
+          <p id="marchamap-nota" class="marchamap-nota"></p>
+        </figure>
+      </div>
+    </section>
 
     <!-- Scrolly da marcha: figura-âncora fixa + passos (marcha.js) -->
     <div class="marcha-scrolly" id="marcha-scrolly">
@@ -2163,6 +2204,8 @@
 <script src="assets/js/secoes.js?v=1"></script>
 
 <script src="assets/js/marcha.js?v=1"></script>
+
+<script src="assets/js/marcha-mapa.js?v=1"></script>
 
 <script src="assets/js/sankey.js?v=3"></script>
 

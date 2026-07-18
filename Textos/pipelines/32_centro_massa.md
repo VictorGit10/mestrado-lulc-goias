@@ -165,3 +165,22 @@ O #32 entrega a **Camada 1** (o panorama). O achado afina o foco das próximas:
 
 1. **Camada 2 — Mecanismo** (transições por mesorregião × ato, #12/#19/#28): testar se o **Sul converte pasto jovem** (reserva de curto prazo — #28 mostra mediana de 9 anos) enquanto o **Norte/Noroeste suprime vegetação ou converte pasto antigo** (mediana de 20 anos). Focar o recorte **2020–2024**, onde o deslocamento é mais limpo.
 2. **Camada 3 — Econômica** (lead-lag + spillover espacial no painel AMC, #22/#24): testar se $\Delta\text{agricultura}_{t-1,\,\text{sul}} \rightarrow \Delta\text{rebanho}_{t,\,\text{norte}}$ — a agricultura no sul **antecede** o avanço da pecuária no norte? Há spillover dos vizinhos?
+
+---
+
+## Visualização interativa (Movimento III do site)
+
+Além das quatro figuras estáticas (`outputs/centro_massa/*.png`, servidas no scrollytelling da "marcha ao norte"), o #32 ganhou uma **peça interativa** — o bloco-herói do Movimento III em `Visualizacao/index.html`. Ela anima os quatro centros de massa **caminhando ano a ano** de 1985 a 2024.
+
+**Arquivos**
+- `scripts/exportar_marcha_viz.py` — reempacota `data/processed/centro_massa_*.csv` (anual, deslocamento, bootstrap, elipses) num único `Visualizacao/assets/data/marcha_centro_massa.json` (~64 KB). **Não recomputa nada** (sem GEE, sem parquet): é reprodutível a partir dos CSVs versionados. As elipses SDE são amostradas na fronteira em **coordenadas métricas** (EPSG:5880, onde `theta` e os semi-eixos foram calculados) e reprojetadas para lon/lat via geopandas — assim o d3 as desenha na mesma projeção do mapa **sem misturar referenciais de ângulo**.
+- `Visualizacao/assets/js/marcha-mapa.js` — o componente (vanilla + d3 v7 já vendorizado; namespace `GO40.marchaMapa`). *Progressive enhancement*: sem JS/d3 o bloco fica `hidden` e o scrollytelling de PNGs assume.
+- `Visualizacao/assets/css/marchamap.css` — estilos.
+
+**O que a peça mostra** (dois painéis sincronizados):
+- **Mapa animado** — a malha das AMCs ao fundo; os quatro centros com **rastro** que cresce, ponto de partida (1985, vazado) e cabeça (ano corrente); **play/pausa + slider**; toggle da **elipse 1σ do ato**. *Honestidade de escala*: a marcha líquida é ~80 km num estado de ~700 km, então o mapa **dá zoom na nuvem de trajetórias** e compensa com (a) um **localizador** do recorte sobre Goiás inteiro e (b) uma **barra de escala** em km — o leitor nunca confunde o zoom com a escala real.
+- **Faixa latitude-tempo** — a versão viva de `deslocamento_latitude.png`: latitude de cada centro ano a ano, bandas dos três atos, e uma **linha-scan** que varre o tempo junto com a animação. É onde o **gradiente persistente** (~1,2°) e a **desaceleração do Ato III** se leem de relance. Arrastar a faixa faz *scrub* do ano (controla os dois painéis).
+
+**Por que d3, e não Mapbox/MapLibre.** A peça é 100% self-contained (roda no GitHub Pages, tudo vendorizado, offline-reprodutível) e são só 4 trajetórias de 40 pontos — d3 sobra. Mapbox foi **descartado**: exige *access token* e chamadas aos servidores da Mapbox (*map loads* cobrados), o que amarraria a dissertação a um serviço pago e quebraria o modelo offline; e, com deslocamento tão pequeno, um basemap de satélite bonito **ofuscaria um sinal pequeno-porém-robusto**.
+
+> **Possibilidade documentada — MapLibre GL JS.** Se algum dia se quiser um **mapa-base real** (satélite/terreno para *grounding* geográfico, câmera 3D/`flyTo`, ou trilhas animadas via deck.gl `TripsLayer`), o caminho correto é o **MapLibre GL JS** — o fork *open-source* do Mapbox GL JS, **sem token e sem cobrança**, que pode inclusive auto-hospedar/embutir um raster estático de satélite de Goiás. Ele entrega a mesma renderização WebGL, vetor-tiles e 3D sem prender a viz a um provedor pago. **Não Mapbox** (token + *map loads* cobrados). Mesmo assim, vale o alerta de "mapa-vaidade": em escala estadual, imagem de satélite tende a afogar uma marcha de ~80 km — por isso o padrão fica em d3, e o MapLibre é *opt-in* só se o objetivo passar a ser contexto geográfico, não a métrica do deslocamento.
