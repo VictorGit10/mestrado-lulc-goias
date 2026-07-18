@@ -106,6 +106,13 @@ Decomposição do Δ do fluxo de conversão de vegetação (Mha/ano):
   Sul despenca −88% no Ato III).
 - **Norte**: **fronteira ativa** — estoque declinante mas convertido a taxa **crescente**.
 
+> **Ressalva de rótulo.** "Efeito-demanda (Δhazard)" é um **atalho de nomenclatura**: o *hazard*
+> (fluxo/estoque) capta tudo o que não é o volume do estoque — inclui propensão a converter
+> (demanda), mas também **atrito de proteção**, custo de acesso e giro à intensificação. É a
+> parcela **não** explicada pela oferta, não demanda pura medida. A inferência de que a
+> desaceleração do Sul é oferta, e não demanda fraca, não repousa neste rótulo, e sim no teste
+> hazard-plano (B2) somado à demanda macro **subindo** no Ato III (item 4).
+
 ### 4. A demanda NÃO esfriou no Ato III — reforça a leitura de oferta no Sul
 
 Níveis médios dos drivers (#37) por ato: câmbio real 134,5→**169,0**; preço recebido soja

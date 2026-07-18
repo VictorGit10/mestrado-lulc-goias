@@ -87,7 +87,7 @@ A contagem engana; o que importa é a **magnitude**. Os cinco contemporâneos si
 
 | Par | β | r²within | Leitura |
 |---|---|---|---|
-| **Boi: exportado × abate bovino** | **+0,084** | 0,034 | **o único material** — e parcialmente *definicional* (a exportação sai do abate) |
+| **Boi: exportado × abate bovino** | **+0,084** | 0,034 | **o único material** — mas *definicional*: a exportação sai do abate, que por sua vez é **modelado do rebanho** (ver limitações) |
 | Soja: exportado × área plantada SIDRA | +0,037 | 0,025 | trivial (era +0,335 antes da correção) |
 | Boi: exportado × rebanho bovino | −0,029 | 0,015 | trivial; sinal sensato (exportar puxa o rebanho em pé para baixo) |
 | Soja: **esmagamento doméstico** × SIDRA | +0,013 | 0,007 | trivial — o contraste **não** resgata o sinal antigo |
@@ -149,8 +149,12 @@ Volume **exportado** (normalizado) × uso da terra (normalizado) para soja e boi
 - **"Trase = fluxo exportador apenas" vale para o BOI, não para a soja** (#27) — foi o erro
   corrigido em jul/2026. Hoje os pares de soja usam `trase_soja_volume_export_t`; **não** use
   `trase_soja_volume_t` (é produção, r=0,986 com a área plantada).
-- O co-movimento `boi × abate` — o único material que resta — é parcialmente **definicional**: a
-  exportação é um recorte do abate. Não é evidência de relação com a terra.
+- O co-movimento `boi × abate` — o único material que resta — é **definicional** por dois motivos:
+  (i) a exportação é um recorte do abate; (ii) o próprio `abate_bovino_cab` **não é medido no
+  município** — é estimado como `(rebanho_muni/rebanho_UF) × abate_UF` com taxa de abate **constante
+  por ano** (`estimativa_abate_municipal.py`), de modo que num painel com FE de ano ele é o **rebanho
+  reescalado** (r_within-ano ≈ 1,0). Não é medida independente nem evidência de relação com a terra —
+  é o mesmo motivo pelo qual o #50 o descartou como comparação circular.
 - **Trase mede FLUXO, não capacidade instalada.** Silos, esmagadoras e frigoríficos com SIF
   exigiriam CONAB SISDEP / SIGSIF-MAPA. Esse ângulo — que poderia dar liderança onde o fluxo não dá
   — segue nas coletas pendentes do backlog. **É a ressalva mais importante deste pipeline**: o nulo

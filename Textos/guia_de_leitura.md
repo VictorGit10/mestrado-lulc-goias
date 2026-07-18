@@ -385,8 +385,9 @@ longo do tempo**. É essa riqueza que o efeito fixo explora.
 - **Seu resultado (a manchete):** de 1985 a 2024, o centro de massa subiu ao norte —
   **pastagem +78 km, rebanho +67 km, agricultura +65 km** — enquanto a **vegetação natural ficou
   ancorada**. A lavoura fica sempre ~120–130 km **ao sul** do pasto/rebanho (o gradiente
-  latitudinal persistente). E **só no Ato III (2020–24) a agricultura congela** enquanto pasto e
-  rebanho seguem subindo — o sinal mais limpo de deslocamento, e é recente.
+  latitudinal persistente). E **só no Ato III (2020–24) a agricultura praticamente estaciona**
+  (avança só +0,2 km, dentro do ruído do bootstrap — é desaceleração recente, não reversão)
+  enquanto pasto e rebanho seguem subindo — o sinal mais limpo de deslocamento, e é recente.
 - **A barra de erro (Decisão D19):** um centro de massa é uma estatística **pontual** — sem
   margem de erro não dá para saber se um deslocamento pequeno é real ou ruído. Por isso o #32
   ganhou um **bootstrap de AMCs**: reamostra as 166 AMCs **com reposição** (B = 2000), recomputa
@@ -405,7 +406,7 @@ longo do tempo**. É essa riqueza que o efeito fixo explora.
   reportado como km* — diga **"ancorada"**. Repare que isso **reforça** a sua leitura (a
   vegetação não acompanhou a marcha); só proíbe vender os 7,6 km como se fossem deslocamento
   medido. Pelo mesmo critério, a agricultura no Ato III (+0,2 km) está seguramente dentro do
-  ruído — o que é exatamente o que "congela" quer dizer.
+  ruído — o que é exatamente o que "praticamente estaciona" quer dizer.
 - **A armadilha:** um centro de massa é uma **média** — ele pode esconder o que acontece nas
   pontas. Foi o que o #44 revelou ao abrir a vegetação em três formações: a "muralha norte" é
   **só a floresta** (+8,7 km, IC [+2,5, +15,1] — essa sim, presa), enquanto o **campo nativo

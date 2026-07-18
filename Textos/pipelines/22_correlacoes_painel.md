@@ -83,7 +83,7 @@ Todos ≤ 1,55. Sem multicolinearidade preocupante.
 ### Implicação
 
 - O R² within do multivariado é 1,5× a 2,4× o do univariado em pastagem e agricultura. Substancial, mas ainda modesto — confirma que **dinâmica intra-municipal** captura a maior parte da variação de Δlulc, com socioeconômicos explicando ~10–15% adicional.
-- A **decomposição do canal** muda interpretação: para pastagem, SICOR (não VA agro) é o vetor causal mais forte; VA agro é proxy de algo capturado pelo crédito. Para agricultura, VA agro mantém a posição central — **a intensificação é o resultado consistente da dissertação**.
+- A **decomposição do canal** muda interpretação: para pastagem, SICOR (não VA agro) é o **canal associado mais forte** — o preditor mais robusto da retração; VA agro perde significância quando se controla por SICOR. Para agricultura, VA agro mantém a posição central — **a intensificação é o resultado consistente da dissertação**. *(Leitura **associativa**, não causal: um painel 2FE com cluster identifica associação condicional, não efeito causal — o crédito pode **responder** ao plano de conversão tanto quanto antecedê-lo. "Canal mais forte" = preditor mais robusto, não "vetor causal".)*
 
 ## Robustez — Áreas Mínimas Comparáveis (D11, 2026-06-04)
 
