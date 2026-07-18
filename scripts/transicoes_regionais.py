@@ -295,6 +295,10 @@ def fig_dominante_grid(dom: pd.DataFrame, ordem: list[str]) -> None:
                        fontsize=10)
     ax.set_yticks(np.arange(len(ordem)) + 0.5)
     ax.set_yticklabels([m.replace(" Goiano", "") for m in ordem_norte_cima], fontsize=10)
+    # O eixo-y do matplotlib cresce para cima, então i=0 (Norte) cairia na base.
+    # Invertê-lo põe Norte no topo (estilo mapa), alinhando com as anotações
+    # NORTE/SUL abaixo (que são fixas em transAxes) e com a leitura "marcha ao norte".
+    ax.invert_yaxis()
     ax.text(-0.06, 0.98, "NORTE", transform=ax.transAxes, fontsize=9, color="0.4", va="top")
     ax.text(-0.06, 0.02, "SUL", transform=ax.transAxes, fontsize=9, color="0.4", va="bottom")
     for s in ax.spines.values():

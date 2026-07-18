@@ -245,24 +245,34 @@ def fig_cobertura(df: pd.DataFrame) -> None:
 def fig_gap(df: pd.DataFrame, reg: pd.DataFrame) -> None:
     import matplotlib.pyplot as plt
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(13.5, 5))
-    # esquerda: estoque convertível por faixa de latitude, empilhando protegido/desprotegido
-    faixa = (df.groupby("faixa_lat", observed=True).agg(
+    # Os dois painéis usam a MESMA partição regional (coluna 'regiao'), na mesma
+    # ordem Sul→Norte, para que os percentuais coincidam entre eles. (Antes a
+    # esquerda agrupava por tercis de latitude 'faixa_lat' e a direita por 'regiao':
+    # mesmos rótulos "Sul/Centro/Norte", conjuntos de AMCs diferentes → discrepância
+    # de ~1 ponto por região.)
+    ordem_reg = ["Sul", "Centro", "Norte"]
+    # esquerda: estoque convertível por região, empilhando protegido/desprotegido
+    faixa = (df.groupby("regiao", observed=True).agg(
                 conv=("estoque_refinada_ha", lambda s: s.sum() / 1e6),
                 desp=("conv_desprotegido_ha", lambda s: s.sum() / 1e6)).reset_index())
+    faixa["regiao"] = pd.Categorical(faixa["regiao"], categories=ordem_reg, ordered=True)
+    faixa = faixa.sort_values("regiao").reset_index(drop=True)
     faixa["prot"] = faixa["conv"] - faixa["desp"]
     x = np.arange(len(faixa))
     ax1.bar(x, faixa["desp"], color="#c44e00", label="convertível DESPROTEGIDO")
     ax1.bar(x, faixa["prot"], bottom=faixa["desp"], color="#1b7837", label="convertível sob Proteção Integral")
-    ax1.set_xticks(x); ax1.set_xticklabels(faixa["faixa_lat"])
+    ax1.set_xticks(x); ax1.set_xticklabels(faixa["regiao"].astype(str))
     ax1.set_ylabel("Cerrado convertível remanescente (Mha)")
     ax1.set_title("Onde resta o convertível — e quanto é desprotegido", fontsize=11, loc="left")
     ax1.legend(fontsize=8.5)
     for i, r in faixa.iterrows():
         if r["conv"] > 0:
             ax1.text(i, r["conv"] + 0.02, f"{100*r['desp']/r['conv']:.0f}% desprot.", ha="center", fontsize=8.5)
-    # direita: % desprotegido por região
-    r = reg.sort_values("pct_conv_desprotegido")
-    ax2.barh(r["regiao"], r["pct_conv_desprotegido"] * 100, color="#c44e00")
+    # direita: % desprotegido por região (mesma ordem geográfica Sul→Norte, Norte no topo)
+    r = reg.copy()
+    r["regiao"] = pd.Categorical(r["regiao"], categories=ordem_reg, ordered=True)
+    r = r.sort_values("regiao")
+    ax2.barh(r["regiao"].astype(str), r["pct_conv_desprotegido"] * 100, color="#c44e00")
     for i, row in enumerate(r.itertuples()):
         ax2.text(row.pct_conv_desprotegido * 100 - 2, i,
                  f"{row.pct_conv_desprotegido*100:.0f}%", va="center", ha="right",

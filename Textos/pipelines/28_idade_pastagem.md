@@ -46,7 +46,7 @@ Consome `pastagem_idade_conversao.csv` e produz:
 
 | Output | Conteúdo |
 |---|---|
-| `distribuicao_global.png` | Histograma de idade na conversão, separando censurados à esquerda |
+| `distribuicao_global.png` | Histograma de idade na conversão, separando censurados à esquerda. **Lê como unimodal** (pico jovem + cauda longa dominam) — usar para a censura, **não** como prova da bimodalidade; para os dois modos ver `bimodalidade_unidade_ato.png` (#28C) |
 | `distribuicao_por_ato.png` | 5 painéis por ATO político (I–V), 1985–2024 |
 | `distribuicao_por_mesorregiao.png` | 5 painéis por mesorregião IBGE 2017 |
 | `coortes_vegnat_pastagem_agric.png` | Compara `veg.nat → pastagem → agric` vs `agric → pastagem → agric` (rotação) vs `outros` |
@@ -71,6 +71,8 @@ A transição mostra uma consolidação clara: nos anos iniciais (Ato I), conver
 > [!IMPORTANT]
 > A bimodalidade do período recente foi testada formalmente através do **Ajuste de Modelo de Mistura Gaussiana (GMM) de 1 vs 2 componentes**.
 > O modelo bimodal (2 componentes) foi selecionado com evidência **estatisticamente inquestionável** sobre o modelo unimodal.
+
+**Figura da bimodalidade:** a prova *visual* dos dois modos está em `outputs/idade_pastagem/bimodalidade_unidade_ato.png` (Pipeline #28C) — 15 painéis (5 mesorregiões × 3 recortes) com as duas componentes GMM tracejadas e o marcador ● *bimodal*. O histograma global `distribuicao_global.png` **não** revela os dois modos sozinho: o pico jovem e a cauda longa o fazem parecer unimodal. Ao apresentar a Perna 2, use a figura do #28C, não o histograma global.
 
 No **Ato III (2020–2024)**, o GMM unidimensional das idades não-censuradas revelou os seguintes parâmetros:
 *   **Componente Jovem**: $\mu_1 = 4,7$ anos | Peso ($w_1$) = **55,3%**
