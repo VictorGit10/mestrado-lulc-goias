@@ -6,8 +6,9 @@ Dinâmica de uso e cobertura da terra em Goiás (1985–2024) e fatores socioeco
 
 - Acabou de chegar? → [visao_geral/escopo_dissertacao.md](visao_geral/escopo_dissertacao.md)
 - Retomando após pausa? → [visao_geral/como_retomar_trabalho.md](visao_geral/como_retomar_trabalho.md)
+- **Quer a história do trabalho, do começo ao fim (o ensaio)?** → [ensaio_a_investigacao.md](ensaio_a_investigacao.md)
 - **O que sustenta a tese, e com que força?** → [indice_logico_pipelines.md](indice_logico_pipelines.md)
-- Como o trabalho foi construído? → [narrativa_pipelines.md](narrativa_pipelines.md)
+- Como o trabalho foi construído (tour fase a fase)? → [narrativa_pipelines.md](narrativa_pipelines.md)
 - Quero dominar os métodos → [guia_de_leitura.md](guia_de_leitura.md)
 - Procurando um gráfico/CSV específico? → [outputs/README.md](outputs/README.md)
 - Procurando um pipeline específico? → [pipelines/README.md](pipelines/README.md)

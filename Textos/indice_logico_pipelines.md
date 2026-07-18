@@ -31,14 +31,19 @@ apresentação se faz em ordem lógica. São dois documentos, e este é o segund
 O padrão `#28C` e `#40B` já era a solução certa: **sufixo** para inserir no lugar lógico sem
 mexer na identidade.
 
-### A divisão de trabalho entre os quatro documentos
+### A divisão de trabalho entre os cinco documentos
 
 | Documento | Eixo | Responde |
 |---|---|---|
 | [`pipelines/README.md`](pipelines/README.md) | Cronológico | "O que é o #38 e como rodo?" |
-| [`narrativa_pipelines.md`](narrativa_pipelines.md) | Cronológico-narrativo | "Como o trabalho foi construído?" |
+| [`narrativa_pipelines.md`](narrativa_pipelines.md) | Cronológico-narrativo | "Como o trabalho foi construído (tour fase a fase)?" |
 | [`guia_de_leitura.md`](guia_de_leitura.md) | Por método | "O que é Toda-Yamamoto e por que usei?" |
+| [`ensaio_a_investigacao.md`](ensaio_a_investigacao.md) | Narrativo-ensaístico | "Qual é a *história* do trabalho, e por que ela importa?" |
 | **este documento** | **Lógico** | **"O que sustenta a tese, e com que força?"** |
+
+> O **ensaio** é o único feito para ser lido de cabo a rabo, uma vez, como uma história — ele
+> funde a cronologia da narrativa, a lógica deste índice e a profundidade do guia num só texto
+> corrido. Os outros quatro são obras de consulta.
 
 ---
 
