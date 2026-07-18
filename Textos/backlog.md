@@ -63,13 +63,13 @@ que já existe**. Nenhuma exige redação; todas são investigação.
 6. ~~**Crescimento sem desenvolvimento?**~~ — ✅ **REABERTO E FEITO (2026-07-18, [#51](pipelines/51_crescimento_sem_desenvolvimento.md))**.
    O descarte de 08/jun repousava em "sem índice de desenvolvimento municipal pós-2010" — **razão
    obsoleta**: o **FIRJAN IFDM** tem Nova Série Histórica **municipal 2013–2023** (alcança o Ato III).
-   `coleta_firjan_ifdm.py` + `crescimento_sem_desenvolvimento.py`. **Achado**: a fronteira **Norte
-   cresceu ~3× mais em área** que o Sul (Δlog +1,02 vs +0,24) mas o **ganho de IFDM foi idêntico**
-   (ΔNorte−Sul +0,008, IC inclui 0) e o Norte **permanece −0,084 abaixo** do Sul (robusto). No
-   município, o crescimento é **desacoplado** do desenvolvimento (área: r=−0,04, painel r²within≈0;
-   VA agro: r=0,13 fraco). Transforma a assinatura espacial do #50 (valor ancorado no Sul) em
-   **medição direta**. *Corrige a nota do descarte anterior — a proxy sugerida (FIRJAN) resultou 2013–2023,
-   não 2005–16.* Detalhe abaixo em "Já feito" e no doc do #51.
+   `coleta_firjan_ifdm.py` + `crescimento_sem_desenvolvimento.py`. **Achado** (auditado): a fronteira
+   **Norte quase dobrou a área agrícola** (agregado +93% vs +14% no Sul; VA agro cresceu parecido em
+   todas as regiões) mas o **ganho de IFDM foi idêntico** (ΔNorte−Sul +0,009, IC inclui 0) e o Norte
+   **permanece −0,083 abaixo** do Sul (robusto). O crescimento por **expansão de área** é **desacoplado**
+   do desenvolvimento (r=−0,02, painel r²within≈0); o VA agro tem dividendo modesto (r=0,21). **Invariante
+   município↔AMC** (Bloco E). Transforma a assinatura espacial do #50 em **medição direta**. *Corrige a nota
+   do descarte anterior — a proxy sugerida (FIRJAN) resultou 2013–2023, não 2005–16.* Detalhe no doc do #51.
    > *(Histórico: DESCARTADO em 2026-06-08 por falta de IDH-M municipal pós-2010 — o IDH-M do #13
    > só existe 1991/2000/2010. A verificação de 18/jul localizou o IFDM 2013–2023 e reabriu o fio.)*
 

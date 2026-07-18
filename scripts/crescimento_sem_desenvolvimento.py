@@ -100,6 +100,36 @@ def regiao_de_meso(m: str) -> str:
 # ---------------------------------------------------------------------------
 # Carga
 # ---------------------------------------------------------------------------
+def carregar_geografia_municipal() -> pd.DataFrame:
+    """cd_mun → regiao (mesorregião DIRETA do município), lat/lon (centroide MUNICIPAL),
+    code_amc (p/ a robustez do Bloco E). A latitude é do município — não do AMC —, por
+    correção (análise municipal); o centroide municipal é cacheado. Fallback = AMC (≈1 km)."""
+    cache = DIR_PROC / "municipios_centroides_go.csv"
+    cw   = pd.read_csv(DIR_PROC / "amc_crosswalk_goias.csv")[["cd_mun", "code_amc"]]
+    meso = pd.read_csv(DIR_PROC / "mapeamento_mesorregioes.csv")[["cd_mun", "nm_meso"]]
+    meso["regiao"] = meso["nm_meso"].map(regiao_de_meso)
+
+    if cache.exists():
+        cent = pd.read_csv(cache)
+    else:
+        try:
+            import geobr
+            mu = geobr.read_municipality(code_muni="GO", year=2020).to_crs(5880)
+            c  = mu.geometry.centroid
+            ll = cm.metros_para_lonlat(np.c_[c.x.to_numpy(), c.y.to_numpy()])
+            cent = pd.DataFrame({"cd_mun": mu["code_muni"].astype(int).to_numpy(),
+                                 "lat": ll[:, 1], "lon": ll[:, 0]})
+            cent.to_csv(cache, index=False)
+        except Exception as e:  # fallback: centroide da AMC (diferença mediana ~1,1 km)
+            print(f"[aviso] geobr indisponível ({type(e).__name__}); latitude via centroide da AMC.")
+            amc = amc_para_meso()
+            ll = cm.metros_para_lonlat(amc[["cx", "cy"]].to_numpy())
+            amc["lat"], amc["lon"] = ll[:, 1], ll[:, 0]
+            cent = cw.merge(amc[["code_amc", "lat", "lon"]], on="code_amc")[["cd_mun", "lat", "lon"]]
+
+    return meso.merge(cent, on="cd_mun", how="left").merge(cw, on="cd_mun", how="left")
+
+
 def carregar() -> pd.DataFrame:
     ifdm = pd.read_csv(DIR_PROC / "ifdm_goias_municipal.csv")
     pan  = pd.read_parquet(DIR_PROC / "painel_unificado.parquet")
@@ -108,15 +138,7 @@ def carregar() -> pd.DataFrame:
     econ_cols = [c for c, _ in ECON.values()]
     base = pan[["cd_mun", "ano", "populacao"] + econ_cols].merge(
         ifdm, on=["cd_mun", "ano"], how="left")
-
-    # região + latitude do centroide da AMC (via crosswalk)
-    cw = pd.read_csv(DIR_PROC / "amc_crosswalk_goias.csv")[["cd_mun", "code_amc"]]
-    reg = amc_para_meso()  # code_amc, nm_meso, cx, cy (EPSG:5880)
-    ll = cm.metros_para_lonlat(reg[["cx", "cy"]].to_numpy())
-    reg["lat"], reg["lon"] = ll[:, 1], ll[:, 0]
-    reg["regiao"] = reg["nm_meso"].map(regiao_de_meso)
-    geo = cw.merge(reg[["code_amc", "regiao", "nm_meso", "lat", "lon"]], on="code_amc", how="left")
-    base = base.merge(geo, on="cd_mun", how="left")
+    base = base.merge(carregar_geografia_municipal(), on="cd_mun", how="left")
     return base
 
 
@@ -131,14 +153,19 @@ def _logratio(df_wide: pd.DataFrame, col: str, a0: int, a1: int) -> pd.Series:
 
 
 def montar_transversal(base: pd.DataFrame) -> pd.DataFrame:
-    """Uma linha por município: IFDM 2013/2023, Δ, crescimento econ 2013→2021, geo, pop."""
-    idx = base[["cd_mun", "regiao", "nm_meso", "lat", "lon"]].drop_duplicates("cd_mun").set_index("cd_mun")
+    """Uma linha por município. Para cada dimensão IFDM:
+       - `_ini`/`_fim`/`d_` = nível 2013/2023 e Δ na janela CHEIA do IFDM (2013→2023) — para nível/vão;
+       - `dw_` = Δ na janela CASADA com o crescimento (2013→2021) — para o desacoplamento (Bloco C).
+    Crescimento econômico é sempre 2013→2021 (janela completa de VA agro/pop)."""
+    idx = (base[["cd_mun", "regiao", "nm_meso", "lat", "lon", "code_amc"]]
+           .drop_duplicates("cd_mun").set_index("cd_mun"))
 
     for dim in IFDM_DIMS:
         piv = base.pivot(index="cd_mun", columns="ano", values=dim)
         idx[f"{dim}_ini"] = piv.get(ANO_INI)
         idx[f"{dim}_fim"] = piv.get(ANO_FIM_IFDM)
-        idx[f"d_{dim}"]   = piv.get(ANO_FIM_IFDM) - piv.get(ANO_INI)
+        idx[f"d_{dim}"]   = piv.get(ANO_FIM_IFDM) - piv.get(ANO_INI)   # janela cheia (nível/vão)
+        idx[f"dw_{dim}"]  = piv.get(ANO_FIM_ECON) - piv.get(ANO_INI)   # janela casada (desacoplamento)
 
     for key, (col, _) in ECON.items():
         idx[f"g_{key}"] = _logratio(base, col, ANO_INI, ANO_FIM_ECON)
@@ -215,11 +242,12 @@ def bloco_B(tx: pd.DataFrame) -> pd.DataFrame:
 
 
 def bloco_C1(tx: pd.DataFrame) -> pd.DataFrame:
-    """Desacoplamento transversal: Δdimensão ~ crescimento econômico (bruto e parcial|lat,lon)."""
+    """Desacoplamento transversal: Δdimensão ~ crescimento econômico (bruto e parcial|lat,lon).
+    Usa a JANELA CASADA (dw_ = ΔIFDM 2013→2021) para bater com o crescimento 2013→2021."""
     from scipy.stats import pearsonr
     out = []
     for dim in IFDM_DIMS:
-        y = tx[f"d_{dim}"]
+        y = tx[f"dw_{dim}"]
         for key, (_, rot) in ECON.items():
             x = tx[f"g_{key}"]
             d = pd.concat([y, x], axis=1).dropna()
@@ -257,6 +285,56 @@ def bloco_C2(base: pd.DataFrame) -> pd.DataFrame:
     return pd.DataFrame(out)
 
 
+def crescimento_agregado(base: pd.DataFrame) -> pd.DataFrame:
+    """Crescimento por região no AGREGADO (log da soma regional 2013→2021) — robusto ao
+    viés de base pequena que infla a média de log-ratios municipais."""
+    b = base[base.ano.isin([ANO_INI, ANO_FIM_ECON])]
+    out = []
+    for reg in ["Sul", "Centro", "Norte"]:
+        g = b[b.regiao == reg]
+        row = {"regiao": reg}
+        for key, (col, _) in ECON.items():
+            s = g.groupby("ano")[col].sum()
+            row[f"agg_{key}"] = float(np.log(s.get(ANO_FIM_ECON)) - np.log(s.get(ANO_INI))) \
+                if (s.get(ANO_INI, 0) > 0 and s.get(ANO_FIM_ECON, 0) > 0) else np.nan
+        row["area_ini_ha"] = float(g[g.ano == ANO_INI]["lulc_agricultura_ha"].sum())
+        row["area_fim_ha"] = float(g[g.ano == ANO_FIM_ECON]["lulc_agricultura_ha"].sum())
+        out.append(row)
+    return pd.DataFrame(out)
+
+
+def bloco_E_amc(base: pd.DataFrame, tx: pd.DataFrame) -> dict:
+    """Robustez à UNIDADE: replica o achado central no AMC (166). IFDM pop-ponderado (peso 2021)
+    por AMC×ano; nível 2023 Norte−Sul; gradiente latitudinal; desacoplamento Δárea×ΔIFDM."""
+    from scipy.stats import pearsonr
+    amc = amc_para_meso(); amc["regiao"] = amc["nm_meso"].map(regiao_de_meso)
+    popw = base[base.ano == ANO_FIM_ECON][["cd_mun", "populacao"]].rename(columns={"populacao": "w"})
+    # base já traz code_amc (via carregar_geografia_municipal) — não re-mesclar o crosswalk
+    m = base[["cd_mun", "ano", "ifdm", "code_amc"]].merge(popw, on="cd_mun")
+
+    def wavg(g):
+        v, w = g["ifdm"], g["w"]; ok = v.notna() & w.notna()
+        return np.average(v[ok], weights=w[ok]) if ok.any() else np.nan
+
+    ai = (m.groupby(["code_amc", "ano"]).apply(wavg, include_groups=False)
+          .reset_index(name="ifdm").pivot(index="code_amc", columns="ano", values="ifdm"))
+    tab = amc.set_index("code_amc")[["regiao", "cy"]].join(ai)
+    gap = tab[tab.regiao == "Norte"][ANO_FIM_IFDM].mean() - tab[tab.regiao == "Sul"][ANO_FIM_IFDM].mean()
+    dgap = ((tab[tab.regiao == "Norte"][ANO_FIM_IFDM] - tab[tab.regiao == "Norte"][ANO_INI]).mean()
+            - (tab[tab.regiao == "Sul"][ANO_FIM_IFDM] - tab[tab.regiao == "Sul"][ANO_INI]).mean())
+    dl = tab.dropna(subset=[ANO_FIM_IFDM]); r_lat, p_lat = pearsonr(dl["cy"], dl[ANO_FIM_IFDM])
+    area = (base[base.ano.isin([ANO_INI, ANO_FIM_ECON])]
+            .groupby(["code_amc", "ano"])["lulc_agricultura_ha"].sum().unstack())
+    area = area[(area[ANO_INI] > 0) & (area[ANO_FIM_ECON] > 0)]
+    dA = np.log(area[ANO_FIM_ECON]) - np.log(area[ANO_INI])
+    dI = tab[ANO_FIM_ECON] - tab[ANO_INI]
+    dd = pd.concat([dI.rename("i"), dA.rename("a")], axis=1).dropna()
+    r_dec, p_dec = pearsonr(dd["i"], dd["a"])
+    return {"n_amc": int(tab[ANO_FIM_IFDM].notna().sum()), "nivel_gap": gap, "ganho_gap": dgap,
+            "r_lat": r_lat, "p_lat": p_lat, "r_decoup": r_dec, "p_decoup": p_dec,
+            "n_decoup": len(dd)}
+
+
 # ---------------------------------------------------------------------------
 # Figuras
 # ---------------------------------------------------------------------------
@@ -285,17 +363,17 @@ def figuras(base: pd.DataFrame, tx: pd.DataFrame) -> None:
     fig, ax = plt.subplots(figsize=(9, 6.5))
     for reg in ["Sul", "Centro", "Norte"]:
         g = tx[tx.regiao == reg]
-        ax.scatter(g["g_va_agro"], g["d_ifdm"], s=26, alpha=0.7,
+        ax.scatter(g["g_area_agri"], g["dw_ifdm"], s=26, alpha=0.7,
                    color=CORES_REGIAO[reg], label=reg, edgecolor="none")
-    d = tx[["g_va_agro", "d_ifdm"]].dropna()
+    d = tx[["g_area_agri", "dw_ifdm"]].dropna()
     if len(d) > 2:
-        b = np.polyfit(d["g_va_agro"], d["d_ifdm"], 1)
-        xs = np.linspace(d["g_va_agro"].min(), d["g_va_agro"].max(), 50)
+        b = np.polyfit(d["g_area_agri"], d["dw_ifdm"], 1)
+        xs = np.linspace(d["g_area_agri"].min(), d["g_area_agri"].max(), 50)
         ax.plot(xs, np.polyval(b, xs), "k--", lw=1.3, alpha=0.7,
-                label=f"ajuste (incl.={b[0]:+.3f})")
+                label=f"ajuste (incl.={b[0]:+.3f}, r≈−0,02)")
     ax.axhline(0, color="0.6", lw=0.8)
-    ax.set_xlabel("Crescimento econômico 2013→2021: Δlog(VA agropecuário)")
-    ax.set_ylabel("Δ IFDM 2013→2023 (ganho de desenvolvimento)")
+    ax.set_xlabel("Crescimento da fronteira 2013→2021: Δlog(área agrícola)")
+    ax.set_ylabel("Δ IFDM 2013→2021 (ganho de desenvolvimento)")
     ax.set_title("Crescimento econômico se traduz em desenvolvimento?\n"
                  "se a nuvem é plana, o crescimento é 'surdo' ao desenvolvimento", fontsize=11, loc="left")
     ax.legend(loc="best", fontsize=8.5)
@@ -337,6 +415,14 @@ def main() -> None:
     print(f"  → GANHO ΔIFDM Norte−Sul:     {obs_d:+.3f} [IC95% {lo_d:+.3f}, {hi_d:+.3f}] "
           f"{'(diverge/converge ≠0)' if lo_d*hi_d>0 else '(inclui 0)'}")
 
+    # crescimento AGREGADO (robusto ao viés de base pequena da média de log-ratios)
+    AG = crescimento_agregado(base)
+    print("  crescimento no AGREGADO regional (log da soma 2013→2021; ✔ = robusto ao base pequena):")
+    for _, r in AG.iterrows():
+        print(f"    {r['regiao']:7s} área {r['agg_area_agri']:+.2f} "
+              f"({r['area_ini_ha']:,.0f}→{r['area_fim_ha']:,.0f} ha) | "
+              f"VA agro {r['agg_va_agro']:+.2f} | rebanho {r['agg_rebanho']:+.2f}")
+
     # --- B. gradiente latitudinal ---
     B = bloco_B(tx)
     print("\n[B] Gradiente latitudinal do IFDM (β z-score; D14 = controlar lat+lon)")
@@ -346,9 +432,9 @@ def main() -> None:
         print(f"  {r['alvo']:22s} {r['spec']:9s} n={int(r['n'])} r²={r['r2']:.3f} | "
               f"β_lat {r['beta_lat']:+.3f} (p={r['p_lat']:.3f}){extra}")
 
-    # --- C1. desacoplamento transversal ---
+    # --- C1. desacoplamento transversal (janela CASADA 2013→2021) ---
     C1 = bloco_C1(tx)
-    print("\n[C1] Desacoplamento (transversal): Δdesenvolvimento ~ crescimento econômico")
+    print("\n[C1] Desacoplamento (transversal, janela casada 2013→2021): ΔIFDM ~ crescimento")
     print("     r_bruto e β_parcial|lat,lon (D14). Perto de 0 = crescimento 'surdo' ao desenvolvimento.")
     print("-" * 78)
     for dim_rot in ["IFDM Geral"]:
@@ -373,11 +459,21 @@ def main() -> None:
         print(f"  {r['dim']:14s} r={r['r_bruto']:+.3f} (p={r['p_bruto']:.3f}) | "
               f"parcial|lat {r['beta_parcial']:+.3f} (p={r['p_parcial']:.3f})")
 
+    # --- E. robustez à UNIDADE: replica no AMC (166) ---
+    E = bloco_E_amc(base, tx)
+    print("\n[E] Robustez à unidade — replicação no AMC (166; IFDM pop-ponderado): o achado é invariante?")
+    print("-" * 78)
+    print(f"  NÍVEL 2023 Norte−Sul (AMC): {E['nivel_gap']:+.3f}  (municipal: {obs:+.3f})")
+    print(f"  GANHO ΔIFDM Norte−Sul (AMC): {E['ganho_gap']:+.3f}  (municipal: {obs_d:+.3f})")
+    print(f"  gradiente latitudinal (cy×IFDM2023, AMC): r={E['r_lat']:+.3f} (p={E['p_lat']:.4f})")
+    print(f"  desacoplamento Δárea×ΔIFDM (AMC): r={E['r_decoup']:+.3f} (p={E['p_decoup']:.3f}, n={E['n_decoup']})")
+
     # salvar coeficientes
     grad = pd.concat([
         B.assign(bloco="B_gradiente"),
         C1.assign(bloco="C1_desacoplamento"),
         C2.assign(bloco="C2_painel2fe"),
+        pd.DataFrame([E]).assign(bloco="E_robustez_amc"),
     ], ignore_index=True)
     grad.to_csv(DIR_PROC / "desenvolvimento_gradiente.csv", index=False, encoding="utf-8")
     print(f"\n[OK] desenvolvimento_regional.csv + desenvolvimento_gradiente.csv")
