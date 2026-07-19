@@ -48,7 +48,7 @@ Regressão em painel com efeitos fixos de entidade (município) e tempo (ano) pa
 | Δ Pastagem | Δ SICOR | 2013–2021 | −0,0034 | 0,0000 | 0,049 | Crédito rural associado a retração de pastagem (possível transição para agricultura) |
 | Δ Pastagem | Δ SICOR | 2002–2023 | −0,0029 | 0,0000 | 0,030 | Robusto na janela estendida |
 | Δ Pastagem | Δ Bovinos | 2002–2023 | ≈0 | 0,0042 | 0,021 | Significativo mas efeito praticamente nulo |
-| Δ Pastagem | Δ VA agro | 2013–2021 | −0,0015 | 0,0334 | 0,022 | Crescimento do VA agro → retração de pastagem |
+| Δ Pastagem | Δ VA agro | 2013–2021 | −0,0015 | 0,0334 | 0,022 | Crescimento do VA agro associado a retração de pastagem |
 | Δ Agricultura | Δ VA agro | 2013–2021 | −0,0035 | 0,0000 | 0,105 | VA cresce sem expansão de área → intensificação |
 | Δ Agricultura | Δ VA agro | 2002–2023 | −0,0040 | 0,0000 | 0,047 | Robusto na janela estendida |
 
@@ -73,7 +73,7 @@ Variante sem SICOR (janela estendida 2002–2023, mais N):
 
 ### β multivariados significativos (p<0,05)
 
-- **Δ Pastagem ~ Δ SICOR**: β=−0,0030, p<0,001 (com VA agro+Bovinos+Fogo no modelo) — **SICOR é o canal dominante de retração de pastagem**; VA agro perde significância (p=0,15) quando se controla por SICOR.
+- **Δ Pastagem ~ Δ SICOR**: β=−0,0030, p<0,001 (com VA agro+Bovinos+Fogo no modelo) — **SICOR é o canal dominante de retração de pastagem** — **na janela plena com SICOR (2013–2021), ~8 anos, não nos 40**; VA agro perde significância (p=0,15) quando se controla por SICOR.
 - **Δ Agricultura ~ Δ VA agro**: β=−0,0035, p<0,001 (com SICOR, com Soja, com Bovinos); β=−0,0029, p=0,012 sem SICOR (N=3.339) — **achado de intensificação sobrevive a todos os controles**.
 
 ### VIFs
@@ -112,7 +112,7 @@ estimativas municipais.
 
 **Implicação para a redação**: a AMC é a unidade defensável para os resultados
 longitudinais (responde à crítica de comparabilidade), e o re-teste **confirma**
-que os achados-chave — crédito→retração de pastagem e VA agro→intensificação da
+que os achados-chave — crédito associado a retração de pastagem e VA agro a intensificação da
 agricultura — não eram artefatos da malha municipal.
 
 Saídas AMC: `painel_2fe_amc.csv`, `painel_residuos_amc.csv`,

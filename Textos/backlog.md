@@ -84,30 +84,70 @@ que já existe**. Nenhuma exige redação; todas são investigação.
 ### Frentes de expansão opcionais — viabilidade VERIFICADA (2026-07-18)
 
 Três extensões foram avaliadas quanto a *dado existe / é acessível / o ganho justifica o trabalho*.
-A de **desenvolvimento** já foi feita (#51, ver fio 6). Restam duas, ambas com fonte confirmada:
+**As três foram feitas**: **desenvolvimento** (#51, ver fio 6), **aptidão edafoclimática** (#52) e
+**capacidade instalada** (#53, 2026-07-18 — na forma viável de centroide; ver "Já feito"). Resta só
+**uma pendência de refino**:
 
-1. **Aptidão edafoclimática direta como exposição no #38** (ataca a **perna 4**, a mais fraca — o
-   "drive comum × gradiente de aptidão", hoje *sugestivo*). O #38 usa hoje "% de área baseline" como
-   proxy de aptidão, que é **mecanicamente complementar** (`fronteira ≈ −aptidão`); uma camada de
-   aptidão de solo/clima é uma exposição **exógena e não-complementar**.
-   - **Dado (verificado)**: o **MacroZAEE-GO** (Macrozoneamento Agroecológico e Econômico de Goiás)
-     produziu um **"Mapa de Aptidão Agrícola das Terras"** em **shapefile**, baixável no **SIEG**
-     (`www2.sieg.go.gov.br/post/ver/185411/macrozaee`; mapa interativo `zee.go.gov.br/macro-zaee`).
-     Escala 1:250.000–1:1.000.000 — adequada p/ agregar às 166 AMCs por zonal-stats (reusa #43/#46).
-   - **Esforço**: médio (download + zonal-stats + re-rodar #38). **Ganho**: melhora a *identificação*
-     (exposição limpa); mas o teto de poder do #38 é temporal (driver varia 40×). Realista: um
-     *sugestivo mais firme*, talvez FDR-survivor — não garante "estabelecido".
-2. **Capacidade instalada da cadeia (CONAB SISDEP / SIGSIF / CNPJ)** para a **ressalva mais importante
-   do #45** (Trase mede **fluxo**, não **capacidade instalada** — silos/frigoríficos poderiam liderar
-   onde o fluxo não lidera).
-   - **Dado (verificado)**: **CONAB SISDEP** tem **série histórica de capacidade estática** por
-     município (`portaldeinformacoes.conab.gov.br/download-arquivos.html`); **CNPJ/Receita** (já no
-     `fontes_dados_adicionais.md`) reconstrói contagem anual de frigoríficos (CNAE 1011-2) e armazéns
-     (5211-7) por município via `data_abertura`; **SIGSIF-MAPA** dá os frigoríficos SIF atuais.
-   - **Esforço**: médio (SISDEP leve; CNPJ = engenharia de dado pesada). **Ganho**: majoritariamente
-     **defensivo** — dado que *tudo co-move sem liderar* (#34/#37/#42/#45), o mais provável é
-     confirmar o nulo com mais rigor ("nem a capacidade instalada lidera"). Bom p/ blindar a banca,
-     improvável de gerar achado positivo. Valem as ressalvas D16 (I(2)/Toda-Yamamoto).
+> **Pendência de refino do #52 — MacroZAEE-GO (IMB/SIEG).** O #52 foi feito com o mapa **nacional** da
+> Embrapa (1:500k, fetchável por WFS). O refino é trocá-lo pela aptidão **estadual** do MacroZAEE-GO
+> (1:250k, fonte oficial de Goiás, mais defensável na banca). **Bloqueio**: não é fetchável deste
+> ambiente — o portal do SIEG tem cert TLS quebrado (`no-sni.goias.gov.br`) e os hosts derrubam conexão
+> automática; não está nos GeoServers estaduais alcançáveis (só solos IBGE + zoneamentos de UC).
+> **Caminho**: download manual em `goias.gov.br/imb/download-de-arquivos-sig-shapefile/` → "SIG do
+> MacroZAEE", arquivo em `data/raw/aptidao/`, remapear a legenda própria (não é Ramalho Filho & Beek);
+> a pipeline 52A isola a fonte em `baixar_aptidao()`/`preparar_aptidao()` (troca de baixo custo).
+> **Ganho: defensabilidade da versão escrita, não novo resultado** — o #52 já mostrou que o achado se
+> sustenta e o gargalo que resta é **temporal** (driver varia ~40×), que um mapa mais fino não move.
+
+#### Endurecimento do drive comum (positivo da Perna 3) — opção (B) FEITA (#54, 2026-07-18); opção (A) segue em aberto
+
+> **Nota de estrutura (jul/2026)**: o *drive comum* deixou de ser a "perna 4" e virou o **positivo da
+> Perna 3** ("reorganização coordenada, não deslocamento") quando o #54 calibrou sua significância para
+> baixo; o teto de oferta passou a ser a Perna 4. Ver [`indice_logico_pipelines.md`](indice_logico_pipelines.md).
+
+O **drive comum** foi endurecido pela **opção (B)** (defensabilidade sem dado novo, [#54](pipelines/54_defensabilidade_perna4.md)):
+o desenho do #38/#52 foi **nomeado como shift-share** e rodou a **inferência correta** (permutação do
+shifter) + bateria de especificidade (placebos de desfecho, lead, jackknife). **Resultado honesto**: o
+p clusterizado (~0,03) era **otimista**; a permutação dá **p≈0,07–0,13 (não significante a 5%)**, mas o
+padrão é **específico e robusto** (placebos nulos, lead limpo, sinal 100% estável no jackknife). Veredito:
+**mais defensável, menos significante — "corroborante, não estabelecido"**. Fecha a opção (B).
+
+> **Único caminho restante para "estabelecido" — opção (A), fio NOVO (não refinamento).** O teto é
+> **estrutural**: um único shifter nacional sobre **N efetivo = 38 anos**. Levantá-lo exige uma nova
+> **fonte de variação espaço-temporal**, não mais camadas estáticas: (i) um **shifter com variação de
+> painel** — custo de acesso a mercado (distância ao porto × diesel), a chegada da **Ferrovia
+> Norte-Sul**, ou um **choque climático** (SPI/anomalia de chuva por município × ano); ou (ii) um **IV
+> para o câmbio** (juros externos, DXY). É **outro canal causal** (não o "drive comum" cambial) e **dado
+> novo** — abre frente, não fecha o drive comum. Registrado como pendência de escopo; não priorizado.
+
+> **Decisão de escopo (2026-07-19): a opção (A) NÃO é pendência de completude.** Avaliou-se se o
+> trabalho "fica incompleto" sem ela: **não**. A opção (A) responderia sobre o **mecanismo** ("o
+> gradiente medeia choques exógenos?"), não sobre o câmbio — a alegação cambial específica é
+> **estruturalmente irrespondível** com dado existente: todas as rotas de fuga falham (mais AMCs, mais
+> drivers anuais, frequência maior, IV, esperar — tabela na adenda do
+> [#54](pipelines/54_defensabilidade_perna4.md)). O que a completude exige é **textual**: manchetes
+> coerentes com "corroborante, não estabelecido", nunca p=0,026/0,031 como significância. Standing sem
+> significância vem de três caminhos documentados na mesma adenda: triangulação de mecanismo,
+> literatura carregando o nível (câmbio→agro nacional), e a leitura correta da bateria de
+> especificidade.
+
+1. ~~**Capacidade instalada da cadeia (CONAB SISDEP / SIGSIF / CNPJ)** para a ressalva do #45~~ —
+   ✅ **FEITO na forma viável (2026-07-18, [#53](pipelines/53_centro_massa_capacidade.md))**, e a
+   avaliação da forma completa fica **registrada e fechada** aqui:
+   - **O que era viável e foi feito**: o **cadastro de armazéns da CONAB** (`ArmazensCadastrados.txt`,
+     download direto, **fetchável** — ao contrário do MacroZAEE) dá capacidade estática + município +
+     lat/lon. Virou o **centroide de capacidade** do #53: a capacidade é a camada **mais ao sul de
+     todas** (~150 km ao sul do pasto, ~83 km ao sul até do crédito) ⇒ *nem a capacidade instalada
+     lidera* — fecha a metade **"silos"** da ressalva, descritivamente.
+   - **Correção de registro**: dizia-se que o SISDEP tinha "série histórica de capacidade estática
+     **por município**". **Falso** — a série histórica da CONAB é por **UF** (2005–2026); a
+     granularidade municipal existe só no **cadastro atual** (snapshot, sem data). Por isso a frente
+     virou **centroide** (posição), não teste de liderança temporal (que exigiria município × ano).
+   - **O que NÃO foi feito, e por quê**: (a) a metade **"frigoríficos"** (abate) exigiria **SIGSIF/SIF**
+     — **descartado** (item 7, acesso via LAI incerto) e o abate modelado é circular (#50); (b) o teste
+     de **liderança temporal** exigiria município × ano, só reconstruível via **CNPJ** — **descartado**
+     (item 6, engenharia pesada) e, mesmo feito, cairia na armadilha **D16** (I(2)/Toda-Yamamoto) com
+     provável nulo. **Ganho realizado = defensivo** (blinda a banca), como previsto; sem achado novo.
 
 ## Já feito
 
@@ -170,6 +210,8 @@ A de **desenvolvimento** já foi feita (#51, ver fio 6). Restam duas, ambas com 
 - [x] **Pipeline #50 — Centro de massa econômico/agroindustrial** (2026-07-16) — `scripts/centro_massa_economico.py`. Extensão do #32 ao mundo do dinheiro/valor: o centroide do **crédito (SICOR)** fica ~75 km **ao sul** da pastagem (consolida a massa, não lidera a fronteira, coerente com crédito endógeno #37/#38); o **valor** (VA agro, PIB) fica ancorado ao centro-sul enquanto a **área** marcha ao norte (vão alarga ~84→~101 km) = assinatura espacial de "crescimento sem desenvolvimento" **sem** precisar de IDH; **abate descartado** (derivado do rebanho por construção, r_within-ano=1,0). IC95% por bootstrap de AMCs (D19). Doc `pipelines/50_centro_massa_economico.md`.
 - [x] **Pipeline #51 — Crescimento × desenvolvimento (IFDM 2013–2023)** (2026-07-18) — `scripts/coleta_firjan_ifdm.py` + `crescimento_sem_desenvolvimento.py`. **Reabre o fio 6** (descartado por falta de IDH-M pós-2010) com o **IFDM FIRJAN municipal 2013–2023**, que alcança o Ato III. Transforma a assinatura espacial do #50 em **medição**: a fronteira **Norte quase dobrou a área agrícola** (+93% vs +14% no Sul; VA agro cresceu parecido entre regiões) mas o **ganho de IFDM foi idêntico** ao do Sul (ΔNorte−Sul +0,009, IC inclui 0) e o Norte **permanece −0,083 abaixo** (robusto). Gradiente latitudinal **forte no nível** (r²=0,25, sobrevive a lon), **nulo no ganho** (D14) = vão estável. **Desacoplamento**: a expansão de área (motor da fronteira) tem r=−0,02 e painel 2FE r²within≈0; o VA agro só r=0,21 modesto; educação a + desacoplada. **Invariante município↔AMC** (Bloco E). **Auditado** (pedido do usuário): sem bugs; município é a unidade correta p/ 2013–23 (246 estáveis). Ressalvas: IFDM≠IDH-M; subiu em toda parte (+0,14) → "não fecha o vão"; associativo (D14). Doc `pipelines/51_crescimento_sem_desenvolvimento.md`.
 - [x] **Pipeline #49 (Eixo C1) — Painel espacial dinâmico: os canais do #22 sobrevivem ao espaço?** (2026-07-16) — `scripts/painel_espacial_dinamico.py`. Fecha o **Eixo C1** do backlog: o #24 achou autocorrelação espacial **estrutural** (115/140 resíduos com Moran sig.), mas o painel-manchete (#22) é 2-way FE **sem termo espacial** e o #24 só modelou o espaço numa seção transversal (2020). Re-estima 3 canais substantivos num **painel espacial dinâmico** (Elhorst FE spatial lag/error via `spreg.Panel_FE_Lag/Error`) sobre as 166 AMCs, comparando o β **antes** (OLS within 2-way, SE cluster/AMC ≈ #22) e **depois** do termo espacial. **Método**: como o `spreg.Panel_FE_*` faz FE só de entidade, faço **time-demean manual** antes (= 2-way within em painel balanceado, absorve γ_t como no #38); formato time-major; W na ordem `code_amc`. Modelos: **M1** Δagric~ΔVAagro (2003–21), **M2** Δpasto~ΔSICOR+ΔVAagro (2014–21), **M3** Δpasto~Δagric (1986–2024, painel longo, Queen+KNN-8). **ACHADO — os três canais SOBREVIVEM**: dependência espacial forte e sig. em toda parte (ρ +0,35–0,53, λ +0,37–0,56; todos os LM lag/error/robustos p<0,001, confirma o #24) **mas** os β substantivos quase não se movem — M1 intensificação −0,0047→−0,0046 (error), M2 SICOR −0,0040→−0,0035 (lag, atenua 12%, segue p<0,001), M3 substituição −0,546→−0,536 (Queen)/−0,549 (KNN-8), atenuação máx ~12%. Leitura fina: M1/M3 o robusto-LM prefere **error** (OLS não-viesado, só ineficiente → β_OLS≈β_error, prova que o #22 já era não-enviesado); M2 prefere **lag** (spillover no desfecho, OLS seria viesado) e mesmo aí o SICOR sobrevive. AIC corrobora a forma. **Veredito**: intensificação, crédito→retração e substituição local **não dependem de ter ignorado o espaço** — #22/#34 blindados; a 4ª régua de robustez (espacial) junta-se às de tempo (D12), latitude (D14) e integração (D16). Caveats: 1 AMC-ilha (143), janela curta em M2, FE-2vias por demeaning sequencial (correto em painel balanceado), não é SDM completo (SLX já no #34). Saídas: `data/processed/painel_espacial_dinamico.csv` + `outputs/espacial/painel_espacial_beta.png`. Doc `pipelines/49_painel_espacial_dinamico.md`.
+- [x] **Pipeline #52 — Aptidão edafoclimática exógena como exposição no #38** (2026-07-18) — `scripts/aptidao_edafo_exposicao.py` (52A) + `aptidao_edafo_drive38.py` (52B). Realiza a frente de expansão da **perna 4** (a mais fraca): troca o proxy de área do #38 ("% baseline", mecanicamente complementar `fronteira≈−aptidão` e semi-endógeno) por uma **aptidão edafoclimática física exógena**. **Dado**: camada nacional da **Embrapa** `geonode:aptidao_agr_bra` (Aptidão Agrícola das Terras do Brasil, 1:500k) puxada por **WFS** (8.284 polígonos em GO; `simb_apt` = grupo Ramalho Filho & Beek, dígito-líder 1 boa→6 preservação; score=7−grupo; 22% sem grupo=água/urbano excluídos), agregada às 166 AMCs por **zonal-stats área-ponderada** em EPSG:5880 (reusa o overlay do #46) → z-score = `exp_apt_edafo`. **52A (validação, descritiva)**: a aptidão exógena **REPRODUZ o gradiente Sul→Norte** — r(latitude)=−0,44 (p<0,0001); média **Sul 4,69 > Centro 4,47 > Norte 4,17** (monotônica); r(exp_apt_agri atual do #38)=+0,30 Pearson/+0,42 Spearman (**moderada** = carrega info própria, não é clone); r(exp_fronteira)=−0,69. A premissa "Sul apto/Norte fronteira" **deixa de ser assumida e vira medida**. **52B (a exposição no #38, importa `drive_comum_amc` integral)**: (1) o único achado com standing do #38 (câmbio×fronteira→rebanho β=+0,028 p=0,031) **reaparece como espelho EXÓGENO** câmbio×aptidão→rebanho **β=−0,033 p=0,026 (lag1)** — ligeiramente mais firme e **sem** a complementaridade mecânica (aptidão física não é *share*); nulos de área seguem nulos. (2) Grade honesta de **192** (4 exposições): **2 sobrevivem ao FDR** (crédito×aptidão_edafo→veg lag0 p_fdr=0,042 NOVO; câmbio×aptidão_agri→rebanho lag0 p_fdr=0,042) — **mas é a sensibilidade ao tamanho da família do Achado #2 do #38 cortando a favor** (o *cell* que morria em 144 ressuscita em 192 porque a nova exposição soma um 2º *p* minúsculo que se reforça no step-up BH); não é replicação independente. **Veredito**: perna 4 de "sugestiva" → "sugestiva mais firme/mais defensável", **não estabelecida** — ganho é de **identificação** (remove a objeção de complementaridade), não de **poder** (teto temporal do #38, driver varia ~40×, intacto; um IV p/ o câmbio seria o próximo passo). Saídas: `aptidao_edafo_amc.csv`, `drive_amc_apt_{confirmatorio,exploratorio}.csv` + 2 PNGs em `outputs/aptidao_edafo/`. Doc `pipelines/52_aptidao_edafoclimatica.md`. **Pendência**: refino com o MacroZAEE-GO estadual (não fetchável deste ambiente — ver "Frentes de expansão opcionais").
+- [x] **Pipeline #53 — Centro de massa da capacidade instalada de armazenagem (CONAB)** (2026-07-18) — `scripts/centro_massa_capacidade.py`. **Fecha a metade "silos" da ressalva do #45** (Trase mede fluxo, não capacidade instalada) pelo eixo espacial do #50, reusando **integralmente a máquina do #32** (mean/median center, EPSG:5880). **Dado**: cadastro de armazéns da CONAB (`ArmazensCadastrados.txt`, download direto — **fetchável**, ao contrário do MacroZAEE), 1.135 armazéns em GO, 18,5 Mt de capacidade estática, com `cod_ibge` + capacidade + **lat/lon**. Centroide calculado por **ponto** (coords reais dos armazéns — vantagem única deste dado) e por **AMC** (crosswalk `cod_ibge→code_amc`, comparável ao #50); os dois **coincidem** (Δ 0,3 km, valida a agregação); IC95% por **bootstrap de armazéns** (B=2000). **Achado**: a capacidade de armazenagem é a camada **mais ao sul de todas** — centroide em **−17,24°** (mediano −17,48°, IC95% [−17,32, −17,15]): **−151,7 km** vs pasto (2024), **−146,9 km** vs rebanho, **−83,0 km até vs o crédito** (SICOR 2024, que o #50 já achara consolidador), −42,1 km vs VA agro, e **só −16,4 km** vs a agricultura (colada ao núcleo de lavoura do sudoeste, o cinturão Rio Verde/Jataí/Cristalina). ⇒ *nem a capacidade instalada está na dianteira; consolida o núcleo, mais fundo até que o crédito* — terceiro objeto (após crédito #50 e fluxo #45) a mostrar infra que acompanha/consolida, não puxa. **Contexto temporal** (série UF da CONAB, **não** espacial): capacidade de GO +66% (11,2 Mt 2005 → 18,5 Mt 2026). **Escopo honesto**: só **grãos** (a metade "frigoríficos/abate" segue sem dado — SIGSIF descartado, abate circular no #50); **descritivo/snapshot** (a série é por UF, não municipal — corrige o registro do backlog que dizia "por município"). Saídas: `centro_massa_capacidade.csv`, `centro_massa_capacidade_vaos.csv`, `centro_massa_capacidade_uf_serie.csv` + 2 PNGs (`outputs/centro_massa/`). Doc `pipelines/53_centro_massa_capacidade.md`. **Não muda conclusões — fecha a frente de expansão de capacidade instalada** (ver "Frentes de expansão opcionais").
 
 ## Em andamento (2026-05-15)
 
@@ -267,7 +309,7 @@ Generaliza o motor do #28 (amostragem + stack 40 bandas + run-length local) de U
 | 1 | ~~Censo Agro 6850 (calcário)~~ | — | Insumo de correção de solo, proxy intensificação | — | ✅ **FEITO 2026-07-16** (6850) |
 | 2 | ~~Censo Agro orientação técnica~~ | — | Proxy capacitação/extensão rural | — | ✅ **FEITO 2026-07-16** (6850, class 12567 — mesma tabela) |
 | 3 | ~~IDH-M 2021 (Atlas Brasil PNUD)~~ | — | **INEXISTENTE** — IDHM municipal pós-2010 não existe (limitação metodológica, não de acesso; ver #13 e fio #6) | — | **descartado 2026-06-08** |
-| 4 | CONAB SISDEP (armazéns 2006+) | 3-5 dias | Capacidade armazenagem, proxy logística pós-colheita | Médio | |
+| 4 | ~~CONAB SISDEP (armazéns)~~ | — | Capacidade armazenagem, proxy logística pós-colheita | — | ✅ **FEITO 2026-07-18** (#53: cadastro de armazéns → centroide; capacidade ~150 km ao sul do pasto) |
 | 5 | DNIT/SNV (rodovias 2013+) | ~1 semana | Distância à BR pavimentada + densidade rodoviária | Médio (pré-2013 só gROADS/OSM) | |
 | 6 | CNPJ Receita Federal (1985-2024) | 1-2 semanas | Capacidade industrial doméstica anual, complementa Trase | Alto (não diferencia SIF/SIE/SIM, big files) | **descartado 2026-05-15** |
 | 7 | SIGSIF/MAPA (frigoríficos federais hist.) | dias-meses | Flag tem_sif por município | Alto (LAI pode demorar) | **descartado 2026-05-15** |

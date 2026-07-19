@@ -70,7 +70,7 @@ ferramental que permitiu afirmá-la com honestidade.
 
 ## Parte 2 — A arquitetura: por que cada passo puxou o seguinte
 
-O trabalho tem **51 pipelines** (scripts de análise). Parece muito, mas eles não são avulsos:
+O trabalho tem **54 pipelines** (scripts de análise). Parece muito, mas eles não são avulsos:
 formam uma **escada**, do agregado ao detalhe e do descritivo ao causal. Entender a escada é
 entender por que cada peça existe. São sete degraus (a narrativa completa está em
 [`narrativa_pipelines.md`](narrativa_pipelines.md); aqui está o esqueleto).
@@ -93,7 +93,7 @@ Três hábitos da escada valem mais que qualquer resultado isolado, porque são 
    *refutada*, e essa refutação é o coração da tese.
 2. **A investigação se autocorrige.** Mais de uma vez, uma primeira leitura empolgada foi
    derrubada pela verificação do próprio autor no mesmo dia (o caso do "plantio direto", #40; o
-   "fogo lidera", #41). Isso gerou regras (as "Decisões" D1–D19) para não repetir o erro.
+   "fogo lidera", #41). Isso gerou regras (as "Decisões" D1–D20) para não repetir o erro.
 3. **Tudo é validado contra uma verdade independente.** Cada coletor tem um script que confere
    o total contra a fonte oficial. A soma dos municípios tem que bater com o estado. Se a lógica
    estivesse errada, os testes quebrariam alto.
@@ -279,7 +279,7 @@ longo do tempo**. É essa riqueza que o efeito fixo explora.
   **Formoso 2013 vs. Formoso 2015** (dentro), e **combina** essas comparações internas. Guardar
   essa frase — "é uma média de comparações de cada um consigo mesmo" — é entender o método.
 - **Seu resultado, e a interpretação certa × errada:** no painel multivariado (#22), o **crédito
-  SICOR é o canal dominante de retração da pastagem**: `β ≈ −0,003, p < 0,001` (bate com
+  SICOR é o canal dominante de retração da pastagem** (na janela com SICOR, **2013–2021** — ~8 anos, não os 40): `β ≈ −0,003, p < 0,001` (bate com
   `painel_multivariada.csv`). O que esse número **NÃO** quer dizer: *"municípios com mais
   crédito têm menos pasto"* (essa seria a leitura transversal, ingênua, contaminada por
   confundidor). O que ele **quer** dizer: *dentro de um mesmo município, nos anos em que o
@@ -897,7 +897,7 @@ São as mais "técnicas", mas cada uma resolve um problema concreto do seu traba
   inviabilizaria o câmbio nominal histórico — por isso cobre 1980–2024 sem buraco.
 - **Seu resultado:** é a única variável macro que sobrevive com estrutura no #37 (reaparece em
   duas margens independentes) e a que ancora a hipótese confirmatória do #38 (`câmbio × fronteira
-  → rebanho`, `p = 0,031`). O "preço recebido" que você construiu é literalmente
+  → rebanho`, `p = 0,031` — mas veja o #54: sob a permutação correta isso vira ≈0,07–0,13, **não** significante; é **corroborante, não estabelecido**). O "preço recebido" que você construiu é literalmente
   `preço_internacional × câmbio` — e quem carrega o sinal é o **fator câmbio**.
 - **A armadilha:** câmbio é exógeno a Goiás (bom para causalidade), mas o "crédito" que o
   acompanha é **endógeno** (a política responde ao ciclo) — por isso o crédito entra como
@@ -919,6 +919,46 @@ São as mais "técnicas", mas cada uma resolve um problema concreto do seu traba
 - **A armadilha:** reamostragem não cria informação — com N muito pequeno, o intervalo sai largo
   (honestamente largo). É uma virtude, não um defeito.
 
+#### 3.15 Shift-share (Bartik) e a permutação do *shifter* (#54)
+
+- **O que é um shift-share.** Muita análise de "choque comum × exposição local" tem a mesma forma:
+  um **empurrão** que é igual para todo mundo num dado ano (o *shift* — aqui, o câmbio nacional) é
+  multiplicado por uma **fatia** que varia entre lugares (a *share* — aqui, a aptidão de cada AMC).
+  O regressor do #38/#52 (`câmbio_t × aptidão_i`) **é exatamente isso** — um shift-share, ou desenho
+  de *Bartik*. Reconhecer o nome importa porque existe uma literatura (Adão-Kolesár-Morales 2019;
+  Borusyak-Hull-Jaravel 2022) que diz **como fazer o teste estatístico certo** para essa forma.
+- **A pegadinha central (por que o p clusterizado mente aqui).** O erro-padrão que o #38/#52
+  reportou é **clusterizado por ano** (ver 1.3) — ele reconhece que as AMCs de um mesmo ano
+  compartilham o choque. Parece honesto, mas ainda é **otimista** num caso específico: quando o
+  *shift* é **uma única série nacional**. O motivo intuitivo: por mais que você tenha 6.600 linhas
+  (166 AMCs × 38 anos), a informação que **identifica** o efeito vem de quantas vezes o **empurrão**
+  de fato mudou — e isso é **38 anos**, não 6.600. Você está aprendendo com **~38 choques**, e o
+  erro-padrão clusterizado não desconta isso o bastante. É o "teto temporal" que o #38/#52 já
+  citavam, agora **com nome e com correção**.
+- **A correção: permutar o *shifter*.** Em vez de confiar na fórmula, você **testa por
+  reamostragem** (é a ideia da 3.14, aplicada ao shift-share). Sob a hipótese nula "o câmbio não bate
+  diferente ao longo da aptidão", **qual ano recebeu qual choque cambial é troca-livre**. Então você
+  **embaralha a série do câmbio entre os anos**, mantém a aptidão de cada AMC fixa, recalcula o `β`, e
+  repete milhares de vezes → uma distribuição do `β` "por acaso". O p = quantas vezes o acaso deu um
+  `β` tão grande quanto o real. Duas versões: **naive** (embaralha livre) e **circular** (só *gira* a
+  série, o que **preserva a autocorrelação** do câmbio — o câmbio de um ano parece o do seguinte; é a
+  versão mais honesta para série macro). No #54, o `β` **não muda** (é o mesmo estimador), mas o p sai
+  de **~0,03 para ≈0,07–0,13**: o achado do rebanho **deixa de ser significante a 5%**.
+- **O que o método NÃO diz.** A permutação **não** diz que o efeito é zero — o `β` continua lá, com o
+  sinal certo, na cauda da distribuição nula (~87º percentil). Ela diz que, **com só ~38 choques**,
+  não dá para separar esse gradiente do acaso ao nível convencional. Vira **"corroborante, não
+  estabelecido"** — e o que segura o padrão como real (não ruído) é a **especificidade** que o #54
+  também testou: placebos de desfecho nulos (o efeito é do *rebanho*, não aparece na área urbana nem
+  na água), sem antecipação (um câmbio *futuro* não "prevê" o rebanho de hoje) e robusto a dropar
+  qualquer ano (nenhuma desvalorização isolada carrega o resultado). Levantar o teto de vez pediria
+  outro tipo de dado — um choque que varie **no espaço e no tempo** (frete, ferrovia, clima) ou um IV
+  para o câmbio (a "opção A", um fio novo). **Mas atenção ao alcance**: mesmo a opção A responderia
+  sobre o **mecanismo** ("o gradiente de aptidão medeia choques exógenos?"), não sobre o câmbio em
+  si — a pergunta "foi *o câmbio*?" é **estruturalmente irrespondível** com dado existente (o desfecho
+  é anual, o choque é nacional, e nada multiplica as ~38 realizações; um IV resolveria exogeneidade,
+  não poder). Isso não é um buraco na tese: é um limite **nomeado, medido e corretamente rebaixado**
+  para "corroborante" — ver a adenda do [#54](pipelines/54_defensabilidade_perna4.md).
+
 ---
 
 ## Parte 4 — Os resultados reais, honestos
@@ -934,15 +974,14 @@ perna — é isso que uma banca respeita.
 > um **gradiente de aptidão**, e limitada por um **teto de oferta** de terra convertível — e
 > **não** um deslocamento causal de uma região sobre a outra.
 
-Ela se apoia em cinco pernas:
+Ela se apoia em quatro pernas:
 
 | Perna | O que afirma | Pipelines | Força da evidência |
 |---|---|---|---|
 | **1. O padrão existe** | Tudo marchou ao norte; a lavoura fica ao sul do pasto; a vegetação ficou **ancorada** | #32, #43 (MAUP), #44 (desagregado), D19 (IC) | **Forte** — robusto a malha, a desagregação e ao bootstrap |
 | **2. O mecanismo local** | Sul: pasto→lavoura (intensifica); Norte: mata→pasto (fronteira) | #33, #28, #22, #40, #28C, #40B, #49 | **Forte** — mas o gradiente é *no peso*, não causa |
-| **3. NÃO é deslocamento causal** | Sem precedência temporal, sem spillover direcional | #34, #42 (fecha a ponta solta), #45 (infra), #41 (fogo) | **Forte** (nulo bem defendido) |
-| **4. O drive comum** | Câmbio (e, junto, crédito/preço) coordena; opera no rebanho de fronteira | #37, #38, #50 (crédito não lidera) | **Sugestiva** — câmbio tem estrutura; o gradiente não sobrevive ao FDR |
-| **5. O teto de oferta** | Sul bateu no estoque; Norte ainda tem Cerrado; 97% desprotegido | #39, #46, #48 (valida PRODES), #47 (custo) | **Forte no diagnóstico**, com proxy declarado (D13/D17) |
+| **3. Reorganização coordenada, não deslocamento** | *Negativo:* sem precedência temporal, sem spillover direcional. *Positivo:* coordenada por um **drive macro comum** (câmbio o candidato), não por causação local | *Negativo:* #34, #42, #45, #53, #41 · *Positivo:* #37, #38, #52 (aptidão exógena), #54 (inferência), #50 (crédito não lidera) | **Forte no negativo** (nulo bem defendido); **corroborante no positivo** — o #54 mostrou que o p clusterizado (~0,03) era otimista, a permutação do shifter dá **p≈0,07–0,13 (não sig. a 5%)**; o que sustenta o drive comum é a **especificidade** (placebos/lead/jackknife), não a significância |
+| **4. O teto de oferta** | Sul bateu no estoque; Norte ainda tem Cerrado; 97% desprotegido | #39, #46, #48 (valida PRODES), #47 (custo) | **Forte no diagnóstico**, com proxy declarado (D13/D17) |
 
 > Esta tabela é o esqueleto do [índice lógico](indice_logico_pipelines.md), que desce de cada
 > perna até os scripts e etiqueta cada pipeline por **papel** (manchete, robustez, autocorreção…).
@@ -953,24 +992,26 @@ Ela se apoia em cinco pernas:
 - Que os **dois mecanismos** (intensificação/fronteira) são reais e geograficamente segregados
   (Perna 2), com a ressalva de que a geografia **modula o peso**, não causa a bimodalidade.
 - Que a hipótese de **deslocamento causal (iLUC intra-estadual) foi testada e refutada** (Perna
-  3) — e que isso é força, não fraqueza.
-- Que o **câmbio** é o driver macro com estrutura mais consistente (Perna 4), materializado no
-  **rebanho de fronteira** — como **indício sugestivo**.
+  3, o negativo) — e que isso é força, não fraqueza.
+- Que o **câmbio** é o driver macro com estrutura mais consistente (Perna 3, o positivo),
+  materializado no **rebanho de fronteira** — como **indício corroborante, não estabelecido** (p de
+  permutação ≈0,07–0,13; o que o sustenta é a especificidade, não a significância).
 - Que a desaceleração do Sul é compatível com **restrição de oferta** (terra acabando), não
-  demanda fraca (Perna 5), e que a terra que resta está **97% desprotegida** — logo o teto é
+  demanda fraca (Perna 4), e que a terra que resta está **97% desprotegida** — logo o teto é
   **físico/econômico, não institucional**.
 
 **O que você NÃO pode afirmar** (e deve dizer que não afirma):
 
 - Que "a lavoura do Sul empurrou o pasto para o Norte" (deslocamento causal). Refutado.
-- Que o câmbio **causa** o gradiente de forma estabelecida — é sugestivo, não provado (não
-  sobrevive ao FDR).
+- Que o câmbio **causa** o gradiente, nem que ele é **estatisticamente significante** — sob a
+  inferência correta (permutação do shifter, #54) o p é ≈0,07–0,13, não significante a 5%; é
+  corroborante, não provado.
 - Que o iLUC **não existe** em Goiás — você afirma que *o canal intra-estadual testado* não se
   confirma, não que o fenômeno inexista.
 - Que "plantio direto explica a idade do pasto" — foi o overclaim que você mesmo derrubou (#40):
   era confundidor de latitude.
 
-**Um corolário socioeconômico (fora das cinco pernas): crescimento sem desenvolvimento (#51).**
+**Um corolário socioeconômico (fora das quatro pernas): crescimento sem desenvolvimento (#51).**
 O #50 mostrou, *sem* índice de desenvolvimento, que o valor fica ao sul enquanto a área marcha ao
 norte. O **#51** põe um número nisso com o **IFDM (FIRJAN) municipal 2013–2023** — o índice que o
 IDH-M (só 1991/2000/2010) não dava. A fronteira Norte **quase dobrou a área agrícola** (+93% vs +14%
@@ -1011,11 +1052,39 @@ de área-igual (EPSG:5880). A implementação foi reproduzida do zero a partir d
 decimal.
 
 **"Correlação não é causa. Como você sabe que o câmbio importa?"**
-Eu **não** afirmo causa estabelecida — afirmo indício. O câmbio é **exógeno** a Goiás (passou no
-placebo de exogeneidade, #37), é a única variável macro que reaparece em margens independentes, e
-a hipótese confirmatória pré-registrada (câmbio × fronteira → rebanho) deu `p = 0,031`. Mas sou
-explícito: a grade exploratória completa **não sobrevive ao FDR**, então é "sugestivo, não
-estabelecido".
+Eu **não** afirmo causa estabelecida — afirmo indício **corroborante**, e sou eu quem aperta o
+parafuso contra mim mesmo. O câmbio é **exógeno** a Goiás (passou no placebo de exogeneidade, #37) e
+é a única variável macro que reaparece em margens independentes. A hipótese confirmatória (câmbio ×
+fronteira → rebanho) deu `p = 0,031`, e eu ataquei esse número por **dois flancos**. Primeiro a
+**identificação** (#52): a exposição do #38 era um proxy de área mecanicamente complementar
+(`fronteira ≈ −aptidão`); troquei-a por uma **aptidão edafoclimática física exógena** (Embrapa, via
+WFS) e o achado do rebanho **reaparece sem a complementaridade** (β=−0,033) — a premissa "Sul apto /
+Norte fronteira" deixa de ser assumida e vira **medida** (r_lat=−0,44). Segundo, e mais importante, a
+**inferência** (#54): meu desenho é um **shift-share** (choque nacional × fatia local), e para esse
+desenho o erro-padrão clusterizado é **otimista** quando há **um único choque nacional** (Adão-Kolesár-
+Morales 2019). Então rodei a inferência certa — **permutação do câmbio entre os anos** — e ela mostra
+que o p honesto é **≈0,07 a 0,13, não 0,03**: com só ~38 choques, **não é significante a 5%**. Ou
+seja: eu **não** reporto o `p=0,03` como significância; reporto o de permutação e chamo a perna de
+**"corroborante, não estabelecida"**. O que me faz crer que o padrão é **real e não ruído** não é o
+p, é a **especificidade** (#54): o efeito aparece **só no rebanho** (placebos de área urbana e água
+dão nulo), **não é antecipatório** (um câmbio *futuro* não prevê o rebanho de hoje) e **não depende de
+nenhum ano isolado** (jackknife estável, nem 1999/2015 carregam sozinhos). Para cruzar de
+"corroborante" a "estabelecido" eu precisaria de outro dado — um choque que varie no espaço e no tempo
+(frete, ferrovia, clima) ou um IV para o câmbio —, e digo isso na dissertação em vez de superafirmar.
+
+**"O Trase mede só fluxo exportador. E a capacidade instalada (silos, frigoríficos) — não pode ela
+estar liderando a fronteira?"**
+Testei pela metade viável e o veredito reforça o resto (#53). O cadastro de armazéns da **CONAB**
+(fetchável por download direto) dá a **capacidade estática por município** com coordenadas; pus o
+seu **centro de massa** na mesma régua de latitude do #32/#50, e ele é a camada **mais ao sul de
+todas** — ~150 km ao sul do pasto e **~83 km ao sul até do crédito**, colado ao núcleo de lavoura
+do sudoeste. Ou seja, a infraestrutura física **consolida o núcleo, não lidera** — como o crédito
+(#50) e o fluxo exportador (#45). Duas honestidades: (a) é **capacidade de grãos** — a metade
+"frigoríficos/abate" continua sem dado acessível (SIGSIF descartado; o abate municipal é modelado
+do rebanho, circular, ver #50); (b) é **posição atual**, não teste de liderança temporal — a série
+histórica da CONAB é estadual (por UF), não municipal, então não dá para rodar precedência (só o
+CNPJ daria município × ano, e é engenharia pesada já descartada). É defensivo, como eu previa: fecha
+a ressalva pela posição, sem inventar um teste que o dado não sustenta.
 
 **"Por que a periodização é 1985-2000 / 2001-2019 / 2020-2024, e não outra?"**
 Não escolhi as datas — os dados escolheram. Três métodos independentes (sup-F multivariado, STARS,
@@ -1043,7 +1112,7 @@ sobreviveu. O mecanismo de transições do #33, esse sim, fica em resolução me
 
 **As limitações que você deve carregar com honestidade (declará-las é força):**
 
-1. O drive comum está **inferido/sugerido**, não provado (Perna 4).
+1. O drive comum está **corroborado, não estabelecido** — não significante sob a inferência correta (permutação, #54: p≈0,07–0,13); é o positivo da Perna 3.
 2. A desaceleração do Ato III tem só **4-5 anos** de dados — é recente e ainda pode mudar.
 3. "Terra convertível" e "proteção" são **proxies com teto** (D13/D17), sem CAR/PRODES pixel.
 4. O iLUC intra-estadual foi refutado **no canal testado** — não é uma prova de que não exista
@@ -1097,6 +1166,9 @@ Uma linha por termo, para consulta rápida. O número remete ao verbete completo
 - **MAUP (3.12):** o resultado depende do recorte? Testado e descartado no centro de massa.
 - **REER (3.13):** câmbio real efetivo; maior = mais competitivo; o driver-âncora da tese.
 - **Bootstrap / permutação (3.14):** simular a incerteza reembaralhando os dados.
+- **Shift-share / Bartik + permutação do shifter (3.15):** desenho "choque nacional × fatia local"
+  (câmbio × aptidão); o erro-padrão clusterizado é **otimista** com um só choque nacional, então o
+  p honesto vem de **embaralhar o câmbio entre os anos** (#54: sai de ~0,03 para ≈0,07–0,13).
 
 ---
 

@@ -1,7 +1,7 @@
 # Pipeline #29 — Triangulação para periodização data-driven
 
 **Scripts**: `periodizacao_multivariada.py` (#29a), `periodizacao_stars.py` (#29b), `periodizacao_transicoes.py` (#29c)
-**Verificação**: `verificacao_periodizacao.py` (#30), `intensity_analysis.py` (#31)
+**Verificação**: `verificacao_periodizacao.py` (#30), `intensity_analysis.py` (#31), `verificacao_intensity.py` (#31 — sensibilidade de corte + bootstrap da sub-fase 2005/2006)
 **Status**: ✅ executado (2026-05-19)
 **Depende de**: #17 (`taxas_lulc_goias.csv`), #19 (`conversao_bruta_goias.csv`), #26 (quebras univariadas)
 
@@ -150,6 +150,14 @@ STARS com parâmetros primários (l=5, α=0.05) detecta 2004/2006 → consistent
 | P2 vs P3 (agricultura) | 0.98 | 0.956 | Não |
 
 **Efeito de 2004**: taxa 0.0179 (pico da série inteira). Removendo 2004, P2 vs P3 perde significância (p=0.189).
+
+> **Rastreabilidade (corrigido em jul/2026).** Os números desta tabela saem de
+> `intensity_analysis.py::diagnostico_p2_p3`, que testa as **sub-fases** 2001-05 vs 2006-19 (a
+> fronteira-candidata 2005/2006). Um bug passava `ATOS_FLAT` a essa função, fazendo-a recomputar
+> **Ato II vs Ato III** (ratio 1,89, p=0,0003) e imprimir "2005/2006 justificada" — o oposto da
+> decisão do #29. Corrigido para a sub-fase, o output volta a bater com esta tabela (ratio 1,25,
+> p=0,060). A **sensibilidade ao corte** (2003-2007) e o **bootstrap** da diferença ficam em
+> `verificacao_intensity.py` (corte 2005 → ratio 1,26, n_P2=4; já NS no corte 2006).
 
 **Bootstrap (10.000 reamostragens)**:
 - IC 95% para diferença P2-P3 (taxa total): [0.0007, 0.0055] → **não contém zero**

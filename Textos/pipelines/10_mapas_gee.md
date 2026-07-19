@@ -9,14 +9,16 @@
 
 Conecta ao Google Earth Engine, baixa o raster oficial do MapBiomas Coleção 10.1 (asset `projects/mapbiomas-public/assets/brazil/lulc/collection10_1/mapbiomas_brazil_collection10_1_coverage_v1`), recorta pelo polígono de Goiás (via `geobr.read_state`) e gera 40 PNGs em **resolução nativa 30m** (downsampled para 2048px de largura no thumbnail).
 
-Mesmo conjunto de **8 classes agregadas** do Pipeline #9 — paleta consistente entre coroplético e raster, facilita comparação visual entre as duas representações.
+Agrega os ~22 IDs MapBiomas em **6 grupos** (Vegetação Natural, Pastagem, Agricultura, Água, Área Urbana, Outros) — o mesmo agrupamento do #17. Silvicultura (9), dendê (35) e afins entram em "Agricultura"; mineração (30) em "Outros"; o **Mosaico (ID 21)** e quaisquer IDs não mapeados ficam transparentes.
+
+> ⚠️ **A paleta NÃO é idêntica à do #9, classe-a-classe.** O #9 usa **8 classes** com "Soja" como classe própria (rosa `#FF69B4`); o #10 funde soja e todas as lavouras em "Agricultura" (o **mesmo rosa** `#FF69B4`). A mesma cor significa coisas diferentes nas duas figuras — a comparação visual é possível, mas **não é sobreposição 1:1**. Ao colocar #9 e #10 lado a lado na dissertação, declarar o agrupamento de cada uma.
 
 ## Pipeline interno por ano
 
 1. `ee.Image(ASSET).select(f'classification_{ano}')` — banda do ano
 2. `.clip(geom_GO)` — recorte
-3. `.remap(from_ids, to_ids, 0)` + `.selfMask()` — agrega 22→8 classes, mascara o que não interessa
-4. `getThumbURL({'dimensions': 2048, 'palette': [...8 cores], 'min': 1, 'max': 8})` — gera URL do PNG
+3. `.remap(from_ids, to_ids, 0)` + `.selfMask()` — agrega ~22→**6 grupos**, mascara o que vira 0
+4. `getThumbURL({'dimensions': 2048, 'palette': [...6 cores], 'min': 1, 'max': 6})` — gera URL do PNG
 5. `requests.get()` baixa raw em `outputs/mapas_gee/_raw/raw_{ANO}.png`
 6. matplotlib compõe título + legenda + scalebar sobre o raw → `outputs/mapas_gee/cobertura_{ANO}.png`
 
@@ -49,7 +51,7 @@ python "scripts/gerar_mapas_lulc_gee_40anos.py"
 - **Tier noncommercial GEE**. Projeto Cloud `extreme-height-447417-a9` precisa ser registrado em https://code.earthengine.google.com/register como "Noncommercial or Academic" — uso acadêmico é gratuito; sem registro, o tier comercial cobra (consumo deste pipeline é trivial mas registrar é obrigatório por política).
 - **Geometria de Goiás vem do `geobr`**, não do `FAO/GAUL` no GEE. Razão: contornos IBGE oficiais > generalizados internacionais, e mantém consistência com Pipeline #9.
 - **Aproximação da escala**: o thumbnail é gerado em EPSG:4326 (graus); `metros_por_pixel` calculado pela bbox em EPSG:5880 dá uma boa aproximação para Goiás (latitudes -19° a -12°). Erro <2% nos extremos.
-- **selfMask** (vs `updateMask(neq(0))`): mascara pixels com valor 0 do remap → áreas residuais (silvicultura, mosaico, mineração, etc.) ficam transparentes ao invés de pretas.
+- **selfMask** (vs `updateMask(neq(0))`): mascara pixels com valor 0 do remap → apenas o **Mosaico (ID 21)** e IDs fora dos 6 grupos ficam transparentes ao invés de pretos. Silvicultura (9), dendê (35) e mineração (30) **não** são mascaradas — entram em "Agricultura"/"Outros".
 
 ## Validação visual
 

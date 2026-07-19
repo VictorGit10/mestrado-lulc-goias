@@ -59,7 +59,7 @@ faz peças escritas em momentos diferentes conversarem entre si.
   os **246 municípios** atuais. Para análises **longitudinais** (1ª diferença, painel FE, DiD,
   tendências), as **166 Áreas Mínimas Comparáveis (AMC)** de território constante — porque 25%
   dos municípios goianos nasceram depois de 1985 e produziriam quedas espúrias.
-- **As decisões (D1–D19).** Ao longo do texto aparecem referências a decisões metodológicas
+- **As decisões (D1–D20).** Ao longo do texto aparecem referências a decisões metodológicas
   numeradas. Resumidas:
 
   | # | Decisão | Onde |
@@ -83,6 +83,7 @@ faz peças escritas em momentos diferentes conversarem entre si.
   | D17 | "Proteção" = malha vetorial de UCs (Proteção Integral × Uso Sustentável), proxy-teto no espírito da D13; PRODES validada (#48) e refino pixel fechados, MMA dispensada | #46 |
   | D18 | Custo de carbono por diferença de estoque (IPCC Tier 1) × densidades de C do Cerrado por formação (biomassa AGB+BGB, 3 cenários); solo (SOC) fora da manchete | #47 |
   | D19 | Todo ΔNorte de centroide vem com **IC95% por bootstrap de AMCs** (B=2000); um IC que inclui zero **nunca** é reportado como km (diga "ancorada") | #32, #44, #50 |
+  | D20 | Para um desenho **shift-share** (choque nacional × exposição local) com **um único shifter**, o SE clusterizado é **otimista** (AKM 2019); a inferência correta é **permutação do shifter** (naive + circular), reportada junto com a bateria de placebos/lead/jackknife | #54 |
 
 - **Os atos (a régua narrativa).** A periodização data-driven (Fase 5) cristalizou três
   **atos** em `config_periodos.py`: **I — Pastagem como herança (1985–2000)**, **II — Expansão
@@ -333,7 +334,7 @@ pequeno e nenhum controle de heterogeneidade: é só o primeiro degrau.
 fixo do lugar) e de ano (absorve choques comuns), SE clusterizado. O achado robusto é a
 **intensificação**: Δagricultura × ΔVA agro sobrevive a todas as variantes; e, no modelo
 multivariado, o **SICOR aparece como canal dominante de retração da pastagem** (β≈−0,003,
-p<0,001). Os resíduos deste painel não são jogados fora — viram insumo do #24.
+p<0,001, na janela com SICOR 2013–2021 — ~8 anos, não os 40). Os resíduos deste painel não são jogados fora — viram insumo do #24.
 
 **`piecewise_did.py` (#23)** monta o quase-experimento (D9): Goiás como tratado, Mato Grosso e
 Tocantins (mesmo bioma Cerrado) como controles, em janelas de ±5 anos ao redor de cada marco.
@@ -689,7 +690,7 @@ Três traços de método merecem registro, porque são o que dá credibilidade �
    desmontado como espúrio) não são fracassos escondidos — são a espinha dorsal da honestidade do
    trabalho. A regra D14 nasceu de uma autocorreção; a D16, de levar a sério uma ponta solta em
    vez de varrê-la para baixo do "N pequeno".
-2. **As decisões são explícitas e centralizadas.** As dezoito decisões (D1–D18) e os atos
+2. **As decisões são explícitas e centralizadas.** As vinte decisões (D1–D20) e os atos
    (`config_periodos.py`) garantem que peças escritas em meses diferentes usem a mesma régua —
    e que a régua possa ser defendida, não apenas usada.
 3. **Tudo é validado contra verdades independentes.** Os auxiliares de validação
@@ -733,7 +734,7 @@ exportadora **não lidera nem co-move materialmente** — o único co-movimento 
 **proteção**: a marcha ao norte se dirige a Cerrado convertível que está **97% desprotegido** (a Proteção
 Integral cobre <3% e congelou após 2000), de modo que o teto de oferta do #39 é **físico, não
 institucional** (**D17**). O **#47** precifica o **custo de carbono da marcha** por diferença de estoque
-(IPCC Tier 1, **D18**): ~**973 Mt CO₂e** comprometidos, com a **floresta dominando a emissão** apesar de
+(IPCC Tier 1, **D18**): ~**973 Mt CO₂e** comprometidos (faixa dos cenários de densidade: 751–1208), com a **floresta dominando a emissão** apesar de
 perder menos área que o savânico, e o centróide da perda marchando +98 km ao norte (amarra com o #39: o Sul
 fechou a fronteira). O **#48** **valida** a base de perda de vegetação contra o **PRODES/INPE** — no regime
 anual 2013–24 as duas fontes concordam (r=0,91) —, fechando a pendência PRODES da D17 (o refino pixel via GEE
@@ -754,6 +755,61 @@ mas o **ganho de desenvolvimento foi idêntico** ao do Sul e o Norte **permanece
 *valor* agropecuário rende um dividendo modesto (r=0,21). É **descritivo/associativo** (D14) e **invariante
 a município↔AMC**. Como a janela 2013–2023 tem os 246 municípios estáveis, a análise é municipal (a
 motivação do AMC/D11 não se aplica); a robustez-AMC embutida no pipeline confirma a invariância.
+
+*Extensão de identificação — a aptidão exógena no drive comum (#52).* A metade mais fraca da tese — o
+**drive comum** (#37/#38), hoje o *positivo* da perna 3 (ver nota abaixo) — tinha um flanco declarado:
+a exposição do #38 era um **proxy de área** mecanicamente complementar (`fronteira ≈ −aptidão`) e
+semi-endógeno. O **#52** troca-o por uma **aptidão
+edafoclimática física exógena** — a camada nacional da **Embrapa** (`geonode:aptidao_agr_bra`, 1:500k),
+puxada por **WFS** e agregada às 166 AMCs pelo overlay do #46. Duas etapas: **52A** valida antes de
+testar — a aptidão física **reproduz** o gradiente Sul→Norte (r_lat=−0,44; Sul 4,69 > Centro 4,47 >
+Norte 4,17), então a premissa "Sul apto / Norte fronteira" **deixa de ser assumida e vira medida**; a
+correlação **moderada** (+0,30) com a exposição do #38 mostra que a aptidão carrega informação própria,
+não é clone. **52B** entra a aptidão no teste do #38 e o achado-manchete reaparece **sem a
+complementaridade mecânica** (câmbio × aptidão → rebanho, β=−0,033, p=0,026 clusterizado). O ganho é
+de **identificação**, não de poder — o teto temporal do #38 (o driver varia só ~40×) segue intacto.
+Pendência: refino com o MacroZAEE-GO estadual, **não fetchável** deste ambiente (cert TLS do SIEG).
+
+*Extensão de inferência — o drive comum sob a régua certa (#54).* Restava a pergunta "dá para dar mais
+força ao drive comum?". A resposta honesta veio do **#54**, que nomeia o desenho do #38/#52 pelo que ele é
+— um **shift-share** (choque nacional do câmbio × fatia local de aptidão) — e roda a **inferência
+desenhada para esse caso**. O golpe central é a **permutação do shifter** (embaralhar o câmbio entre
+os anos, mantendo a aptidão fixa): ela revela que o erro-padrão **clusterizado** do #38/#52 era
+**otimista** para um único choque nacional (resultado de Adão-Kolesár-Morales), e que o p honesto sai
+de ~0,03 para **≈0,07 (naive) a 0,13 (rotação circular): não significante a 5%**. O `β` não muda — a
+permutação troca o *p*, não o estimador. Em contrapartida, o padrão **passa na especificidade**:
+placebos de desfecho nulos (câmbio × aptidão → área urbana / água), **sem antecipação** (um câmbio
+futuro não prevê o rebanho de hoje) e **jackknife estável** (nenhuma desvalorização isolada carrega o
+resultado). O veredito do drive comum fica então mais preciso: **"corroborante, não estabelecido" — mais
+defensável (inferência correta + especificidade demonstrada), menos significante**. Cruzar para
+"estabelecido" pediria a **opção A** — um choque que varie no espaço e no tempo (frete, ferrovia,
+clima) ou um IV para o câmbio —, que é fio novo, não refinamento. E note o alcance dessa opção: ela
+responderia sobre o **mecanismo** (o gradiente medeia choques exógenos?), não sobre o câmbio em si —
+a alegação cambial específica é **estruturalmente irrespondível** com dado existente (um choque
+nacional anual só tem ~38 realizações, e nenhuma rota de fuga levanta esse teto), e o trabalho **não
+fica incompleto** sem essa expansão; o requisito de completude é textual, não empírico (ver a adenda
+de 2026-07-19 no [#54](pipelines/54_defensabilidade_perna4.md)).
+
+> **Nota de estrutura (jul/2026).** À luz do #54, o *drive comum* deixou de ser uma perna própria (era
+> a "perna 4") e passou a ser o **positivo da Perna 3** — *"reorganização coordenada, não deslocamento
+> causal"*. O negativo (não é deslocamento, forte) e o positivo (é coordenação por macro comum,
+> corroborante) são as duas metades de uma afirmação só; o teto de oferta, antes perna 5, é agora a
+> **Perna 4**. Ver [`indice_logico_pipelines.md`](indice_logico_pipelines.md).
+
+*Extensão de infraestrutura — a capacidade instalada não lidera (#53).* O #45 fechou o Eixo A com a
+cadeia exportadora **acompanhando, não liderando** a fronteira, mas deixou uma ressalva honesta: o Trase
+mede **fluxo**, não **capacidade instalada** — silos/frigoríficos poderiam estar na dianteira onde o
+fluxo não está. O **#53** responde pela metade "silos", reusando integral a máquina do #32: o centroide
+da **capacidade estática de armazenagem** (CONAB, `ArmazensCadastrados.txt` — **fetchável** por download
+direto, ao contrário do MacroZAEE; 1.135 armazéns, 18,5 Mt) é a camada **mais ao sul de todas** — ~150 km
+ao sul do pasto/rebanho, **~83 km ao sul até do crédito** (que o #50 já achara consolidador) e colada ao
+núcleo de lavoura do sudoeste (−16 km da agricultura). Como o cadastro traz **coordenadas de ponto**, o
+centroide é calculado por ponto e por AMC e os dois **coincidem** (Δ 0,3 km); IC95% por bootstrap de
+armazéns. Leitura: *nem a capacidade instalada está na dianteira; ela consolida o núcleo, mais fundo até
+que o crédito* — terceiro objeto (após crédito #50 e fluxo #45) a sustentar "co-evolução sem líder"
+(Perna 3), agora pela infraestrutura física. É **descritivo/snapshot** (a série histórica da CONAB é por
+UF, não municipal) e cobre só **grãos** — a metade "frigoríficos/abate" segue sem dado acessível (SIGSIF
+descartado, abate circular no #50).
 
 ---
 
@@ -839,6 +895,9 @@ Mapeamento completo de cada script não-MG à sua fase e função. (Os scripts `
 | `painel_espacial_dinamico.py` | 49 | 6 | Painel espacial dinâmico (Elhorst FE lag/error): os canais do #22 sobrevivem ao espaço? |
 | `centro_massa_economico.py` | 50 | 6 | Centro de massa de crédito/valor (extensão do #32): crédito ~75 km ao sul da fronteira; valor ancorado; abate descartado |
 | `coleta_firjan_ifdm.py` + `crescimento_sem_desenvolvimento.py` | 51 | 6 | Crescimento × desenvolvimento (IFDM 2013–2023): Norte quase dobra a área mas ganha IFDM igual e fica −0,08 abaixo; expansão de área desacoplada do desenvolvimento; invariante município↔AMC |
+| `aptidao_edafo_exposicao.py` + `aptidao_edafo_drive38.py` | 52 | 6 | Aptidão edafoclimática exógena (Embrapa 1:500k, WFS) como exposição no #38: a aptidão física reproduz o gradiente Sul→Norte (52A) e o achado do rebanho reaparece sem a complementaridade mecânica (52B); fortalece a identificação do drive comum (positivo da perna 3), não o poder |
+| `centro_massa_capacidade.py` | 53 | 6 | Centro de massa da capacidade instalada de armazenagem (CONAB): a capacidade é a camada mais ao sul de todas (~150 km ao sul do pasto, ~83 km ao sul até do crédito) → fecha a metade "silos" da ressalva do #45; ponto+AMC coincidem, IC por bootstrap de armazéns |
+| `defensabilidade_perna4.py` | 54 | 6 | Endurecimento shift-share do drive comum (opção B): permutação do shifter (câmbio) mostra que o p clusterizado do #38/#52 era otimista — sai de ~0,03 para ≈0,07–0,13 (não significante a 5%); placebos/lead/jackknife seguram a especificidade. "Corroborante, não estabelecido"; funde o drive comum ao positivo da perna 3 |
 
 ## Apêndice B — Nota sobre os trabalhos paralelos (fora deste documento)
 

@@ -8,6 +8,7 @@
 pandas>=2.2
 numpy>=2.0
 openpyxl>=3.1          # leitura de .xlsx (MapBiomas, IDHM)
+xlrd>=2.0              # leitura de .xls binário (BIFF) — série de capacidade CONAB (#53)
 
 # --- Plotting ---
 matplotlib>=3.9

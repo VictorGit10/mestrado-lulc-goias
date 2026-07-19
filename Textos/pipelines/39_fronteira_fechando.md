@@ -77,6 +77,7 @@ Painel 2-way FE (z-score; N≈6.400; cluster entidade+ano):
 | Spec | Regressor | β | p | Leitura |
 |---|---|---|---|---|
 | B1 fluxo ~ estoque | estoque_{t−1} | **+2,76** | <0,001 | conversão escala com a oferta disponível |
+| B1q fluxo ~ estoque + estoque² | estoque²_{t−1} | +0,05 | 0,92 | **n.s.** — sem curvatura: a conversão **não satura** quando o estoque rareia |
 | B2a hazard ~ estoque | estoque_{t−1} | −0,32 | 0,092 | (marginal) estoque-rico converte um pouco menos por unidade |
 | B2b hazard ~ depleção | depleção_{t−1} | −0,02 | 0,48 | **n.s.** — hazard não cai com a depleção (sem atrito claro) |
 | B3 fluxo ~ estoque + demanda | estoque_{t−1} | **+2,76** | <0,001 | sobrevive a controlar câmbio/preço/crédito (#37) |
@@ -85,13 +86,14 @@ Painel 2-way FE (z-score; N≈6.400; cluster entidade+ano):
 > grande do estoque é em parte definicional. O teste informativo é o **hazard** (B2): a taxa de
 > conversão *por unidade de estoque* **não** sobe com a depleção — ou seja, o remanescente não é
 > convertido mais rápido nem trava por atrito. A conversão é, em primeira ordem, **paced pela
-> oferta** (fluxo ≈ estoque × taxa ~constante).
+> oferta** (fluxo ≈ estoque × taxa ~constante). A spec quadrática **B1q** confirma: o termo estoque²
+> é **n.s.** (p=0,92) — não há saturação nem colapso quando o estoque rareia, coerente com o hazard plano.
 
 ### 3. A desaceleração Ato II→III é regional, não estadual — a fronteira **migrou**, não fechou
 
 Decomposição do Δ do fluxo de conversão de vegetação (Mha/ano):
 
-| Região | fluxo II | fluxo III | Δfluxo | efeito-OFERTA (Δestoque) | efeito-DEMANDA (Δhazard) |
+| Região | fluxo II | fluxo III | Δfluxo | efeito-OFERTA (Δestoque) | efeito-residual (Δhazard) |
 |---|---|---|---|---|---|
 | Goiás (total) | 0,071 | 0,072 | **+0,001** | −0,007 | +0,008 |
 | **Sul** | 0,015 | 0,010 | **−0,006** | −0,001 | **−0,005** |
@@ -99,17 +101,17 @@ Decomposição do Δ do fluxo de conversão de vegetação (Mha/ano):
 | **Norte** | 0,029 | 0,033 | **+0,004** | −0,003 | **+0,007** |
 
 - **Estado**: o fluxo de conversão de vegetação **não desacelerou** (0,071→0,072) — o efeito-oferta
-  (estoque encolhendo, negativo em toda parte) é **compensado** pelo efeito-demanda (hazard subindo
+  (estoque encolhendo, negativo em toda parte) é **compensado** pelo efeito-residual (hazard subindo
   no Centro/Norte). A fronteira **relocou ao norte**.
 - **Sul**: único onde o fluxo **caiu**, por estoque baixo **e** hazard caindo (0,012→0,008) — a
   assinatura de **fronteira fechada + giro à intensificação** (coerente com #33: `pasto→agric` do
   Sul despenca −88% no Ato III).
 - **Norte**: **fronteira ativa** — estoque declinante mas convertido a taxa **crescente**.
 
-> **Ressalva de rótulo.** "Efeito-demanda (Δhazard)" é um **atalho de nomenclatura**: o *hazard*
-> (fluxo/estoque) capta tudo o que não é o volume do estoque — inclui propensão a converter
-> (demanda), mas também **atrito de proteção**, custo de acesso e giro à intensificação. É a
-> parcela **não** explicada pela oferta, não demanda pura medida. A inferência de que a
+> **Ressalva de rótulo.** Chamamos a coluna de **"efeito-residual (Δhazard)"** justamente porque
+> **não** é demanda pura medida: o *hazard* (fluxo/estoque) capta tudo o que não é o volume do
+> estoque — inclui propensão a converter (demanda), mas também **atrito de proteção**, custo de
+> acesso e giro à intensificação. É a parcela **não** explicada pela oferta. A inferência de que a
 > desaceleração do Sul é oferta, e não demanda fraca, não repousa neste rótulo, e sim no teste
 > hazard-plano (B2) somado à demanda macro **subindo** no Ato III (item 4).
 

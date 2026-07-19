@@ -28,7 +28,7 @@ Se a narrativa Sul→Norte só aparece quando se usa exatamente os atos (1985–
 | Esquema | Janelas | Papel |
 |---|---|---|
 | **Contínua** (anual) + **Janela única** (1985–2024) | 40 pontos / 1 bloco | espinha dorsal + resumo |
-| **Atos** (data-driven, #29) | 3 (16/19/5 anos) | **linha de base** testada |
+| **Atos** (data-driven, #29) | 3 (16/19/5 anos-calendário = 15/18/4 transições ano-a-ano, o divisor das taxas) | **linha de base** testada |
 | **Grade 5 anos** | 8 blocos de 5 anos | régua regular exógena |
 | **Décadas** | 4 blocos de 10 anos | régua regular grossa |
 

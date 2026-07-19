@@ -390,9 +390,19 @@ def main():
                   f"ganho/uniform={row['ganho_vs_uniform']:.2f}")
 
     # ── Diagnostico focal P2 vs P3 ──
+    # As SUB-FASES em torno da fronteira-candidata 2005/2006 — NÃO os Atos.
+    # Passar ATOS_FLAT aqui (II=2001-2019, III=2020-2024) fazia o diagnóstico
+    # recomputar Ato II vs Ato III (a fronteira 2019/2020, forte) e concluir
+    # erradamente que "2005/2006 se justifica". A pergunta correta é a sub-fase;
+    # a sensibilidade ao corte e o bootstrap estão em verificacao_intensity.py.
+    subfases_p2p3 = {
+        "I":   (1985, 2000, "P1 (1985-2000)"),
+        "II":  (2001, 2005, "P2 (2001-2005)"),
+        "III": (2006, 2019, "P3 (2006-2019)"),
+    }
     print("\n4. DIAGNOSTICO FOCAL: P2 (2001-2005) vs P3 (2006-2019)")
     print("-" * 50)
-    diag = diagnostico_p2_p3(df, periodos)
+    diag = diagnostico_p2_p3(df, subfases_p2p3)
 
     r = diag["p2_vs_p3"]
     print(f"  Taxa media P2: {r['media_p2']:.6f} (std={r['std_p2']:.6f})")
@@ -445,15 +455,16 @@ def main():
 
     # ── Conclusao ──
     print("\n" + "=" * 70)
-    print("CONCLUSÃO DO DIAGNÓSTICO")
+    print("CONCLUSÃO DO DIAGNÓSTICO (fronteira-candidata 2005/2006)")
     print("=" * 70)
     p_p2p3 = r['mann_whitney_p']
-    if p_p2p3 < 0.05:
-        print(f"  P2 e P3 são ESTATISTICAMENTE DIFERENTES (p={p_p2p3:.4f})")
-        print(f"  → A fronteira 2005/2006 é justificada: taxas de mudança diferem.")
-    else:
-        print(f"  P2 e P3 NÃO são estatisticamente diferentes (p={p_p2p3:.4f})")
-        print(f"  → A fronteira 2005/2006 é questionável: intensidade de mudança similar.")
+    print(f"  P2 (2001-2005) vs P3 (2006-2019): ratio={r['ratio_p2_p3']:.2f}, "
+          f"Mann-Whitney p={p_p2p3:.4f}")
+    print("  → Diferença de taxa TOTAL marginal e sensível ao corte (cf. "
+          "verificacao_intensity.py: NS em 2006, some sem 2004). A diferença P2/P3 é "
+          "sobretudo COMPOSICIONAL (perda de veg_nat), não de intensidade agregada.")
+    print("  → Decisão (#29): 2005/2006 permanece como NOTA METODOLÓGICA, não como "
+          "fronteira de período.")
 
     p_sem = o['p2_sem2004_vs_p3_p']
     if p_sem < 0.05:

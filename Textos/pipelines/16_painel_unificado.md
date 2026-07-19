@@ -58,11 +58,15 @@ python scripts/construir_painel_unificado.py
 
 7. **4 categorias de pecuária**: bovinos, suínos, galináceos (PPM 3939) + ovinos tosquiados (PPM 95). Equino, bubalino, ovino, caprino permanecem disponíveis no CSV bruto `sidra_ppm3939_rebanhos.csv` mas não entram no painel unificado. Mel e lã (PPM 74) também disponíveis como colunas isoladas (`pec_mel_kg`, `pec_la_kg`).
 
+    > ⚠️ **`taxa_abate_{bovino,suino,frango}` é sintético — não usar como regressor.** É estimado por `estimativa_abate_municipal.py` como `abate_muni = (rebanho_muni / rebanho_UF) × abate_UF`: uma **taxa estadual constante por ano** reescalada pelo rebanho municipal. Em qualquer painel com efeito de ano fixo isso é o rebanho reescalado (r_within-ano ≈ 1,0 por álgebra) — circular. Entra no painel só como conveniência descritiva; é **descartado como regressor** no #45 e no #50, e por não ser medição independente não figura na tabela de blocos acima.
+
 8. **SICOR 2025–2026 EXCLUÍDOS** (parciais). Quem precisar usar `sicor_painel_municipal.csv`.
 
 9. **Histórico Goiás × Tocantins**: pré-1989, agregados estaduais externos (ex.: `rebanho_bovino_goias.csv`) frequentemente incluem TO (criado em 1988). O painel cobre só os 246 munis de GO atual — divergência ~19% no batimento pré-1989 é **conceitualmente correta**. Pós-1989 o batimento é exato.
 
-10. **LULC agrupada por tema**: `lulc_agricultura_ha` soma TODAS as lavouras MapBiomas (soja + cana + algodão + arroz + café + citrus + outras temporárias + outras perenes). `lulc_soja_ha` permanece desagregada por ser cultura central da dissertação. `lulc_area_total_ha` = soma de todas as classes (proxy da área do município).
+10. **LULC agrupada por tema**: `lulc_agricultura_ha` soma as **8 lavouras** MapBiomas — soja (39) + cana (20) + algodão (62) + arroz (40) + café (46) + citrus (47) + outras temporárias (41) + outras perenes (48). `lulc_soja_ha` permanece desagregada por ser cultura central da dissertação. `lulc_area_total_ha` = soma de todas as classes (proxy da área do município).
+
+    > ⚠️ **Esta "agricultura" NÃO é a mesma do #17.** A coluna `agricultura` do #17 (base dos `agricultura_slope_5a*`) usa **12 IDs** — as 8 acima **+ silvicultura (9) + lavoura temporária genérica (19) + dendê (35) + lavoura perene genérica (36)**. São agregados distintos: `lulc_agricultura_ha` (#16, **nível**) é lavoura-específica; `agricultura` (#17, **taxa**) é mais ampla (inclui silvicultura, que discutivelmente nem é lavoura). **Não cruzar `lulc_agricultura_ha` (#16) com `agricultura_slope_5a*` (#17) numa mesma regressão como se fossem a mesma definição.** Em GO a diferença numérica é pequena (silvicultura/dendê/genéricas são áreas menores), mas não foi quantificada. Fix futuro possível: fatorar as duas listas num módulo único. Ver #17 D1.
 
 11. **IDH-M parcialmente preenchido, Fogo pendente**: colunas `idhm*` preenchidas para 1991/2000/2010 via IPEA Data API (Pipeline #13, 738 de 9.840 linhas). IDHM municipal pós-2010 não existe (PNAD Contínua só desagrega para estado/RM/RIDE; próxima atualização municipal depende do processamento do Censo 2022 por IPEA/PNUD/FJP). Colunas `fogo_*` ainda NaN — aguardam Pipeline #14.
 

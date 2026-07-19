@@ -40,7 +40,7 @@ Para enxergar isso, decompomos cada hectare que mudou de uso em uma **transiçã
 4. **Cruzamento com #28**: idade mediana do pasto **no momento da conversão para agricultura**, por mesorregião — conecta o fluxo `pasto→agric` à idade do pasto consumido.
 
 > [!IMPORTANT]
-> **Tudo é reportado em taxa anual (Mha/ano).** Os atos têm durações muito diferentes (I = 15 anos, II = 18, III = 4). Comparar o **total** em Mha entre atos enganaria — o Ato III pareceria minúsculo só por ser curto. A taxa anual (total ÷ nº de anos) é o que se compara entre períodos.
+> **Tudo é reportado em taxa anual (Mha/ano).** Os atos têm durações muito diferentes: I = 15, II = 18, III = 4 **transições ano-a-ano** (= fim − início; em anos-calendário inclusivos seriam 16/19/5). A matriz cobre transições consecutivas, então o divisor da taxa é o nº de **transições** (fim − início), não o de anos-calendário. Comparar o **total** em Mha entre atos enganaria — o Ato III pareceria minúsculo só por ser curto.
 
 ---
 

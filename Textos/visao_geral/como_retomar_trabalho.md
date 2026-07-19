@@ -7,7 +7,7 @@ Checklist para continuar a dissertação em qualquer sessão do Claude Code.
 1. [README.md](../README.md) — índice mestre.
 2. [narrativa_pipelines.md](../narrativa_pipelines.md) — a **história** de como o trabalho foi construído (fio condutor de todos os pipelines).
 3. [guia_de_leitura.md](../guia_de_leitura.md) — os **métodos** em linguagem simples (o que cada um faz, por que foi usado, o que não pode dizer).
-4. [pipelines/README.md](../pipelines/README.md) — ficha técnica de cada pipeline (#1–#51).
+4. [pipelines/README.md](../pipelines/README.md) — ficha técnica de cada pipeline (#1–#54).
 5. [backlog.md](../backlog.md) — fios em aberto (modo **exploração**).
 6. [escopo_dissertacao.md](escopo_dissertacao.md) — escopo/hipóteses **iniciais** (a tese que de fato emergiu está na narrativa e no guia).
 7. [estrutura_diretorios.md](estrutura_diretorios.md) — estrutura do projeto.
@@ -22,7 +22,7 @@ ls data/cache/         # Cache de requisições (sidra, sicor, gee)
 
 Duas tabelas-mãe: `painel_unificado.parquet` (9.840×185, o **transversal** — 246 munis × 40 anos) e `painel_amc_goias.parquet` (166 AMCs, o **longitudinal** — território constante, D11). O primeiro consolida LULC + pecuária + lavouras + PIB + população + SICOR + Censo 2017 + IDH-M + fogo + Trase.
 
-## 3. Estado atual (jul/2026): 51 pipelines concluídos
+## 3. Estado atual (jul/2026): 54 pipelines concluídos
 
 **Toda a infraestrutura empírica e a investigação Sul→Norte estão fechadas.** A dissertação está em **modo exploração** — a redação foi adiada **por opção** (será barata porque tudo está documentado em `Textos/`).
 
@@ -35,7 +35,7 @@ Duas tabelas-mãe: `painel_unificado.parquet` (9.840×185, o **transversal** —
 | 4 — Inferência | #21, #22, #23, #24, #26 | Painel FE, DiD, autocorrelação espacial, quebras |
 | 5 — Periodização | #28, #28C, #29–#31 | 3 atos data-driven; bimodalidade da idade do pasto |
 | 6 — Marcha ao norte | #32–#42 | A tese Sul→Norte, testada e autocorrigida (5 camadas) |
-| 6 — Extensões | #43, #44, #40B, #45, #46, #47, #48, #49, #50, #51 | Robustez (MAUP/desagregação), Eixo A (Trase), eixo ambiental (proteção/carbono/PRODES), Eixo C1 (painel espacial), centro de massa econômico (#50), crescimento × desenvolvimento IFDM (#51) |
+| 6 — Extensões | #43, #44, #40B, #45, #46, #47, #48, #49, #50, #51, #52, #53, #54 | Robustez (MAUP/desagregação), Eixo A (Trase), eixo ambiental (proteção/carbono/PRODES), Eixo C1 (painel espacial), centro de massa econômico (#50), crescimento × desenvolvimento IFDM (#51), aptidão exógena no #38 (#52), capacidade de armazenagem (#53), endurecimento shift-share do drive comum (#54) |
 
 Detalhe pipeline a pipeline em [pipelines/README.md](../pipelines/README.md); log cronológico em [backlog.md](../backlog.md).
 
@@ -45,8 +45,9 @@ Detalhe pipeline a pipeline em [pipelines/README.md](../pipelines/README.md); lo
 
 - ✅ **Eixo C2 — FECHADO (2026-07-18)**: validação das quebras empíricas (1991/1999/2006) na literatura, em [metodologia/validacao_quebras_literatura.md](../metodologia/validacao_quebras_literatura.md). As três viram evidência de apoio (Collor/crédito; câmbio 1999; Moratória da Soja).
 - ✅ **Crescimento sem desenvolvimento — FEITO (2026-07-18, [#51](../pipelines/51_crescimento_sem_desenvolvimento.md))**: reabriu o fio 6 com o IFDM (FIRJAN) municipal 2013–2023. Norte quase dobra a área mas ganha IFDM igual e fica −0,08 abaixo; expansão de área desacoplada do desenvolvimento.
-- ⏳ **Aptidão edafoclimática direta como exposição no #38** (ataca a perna 4, a mais fraca) — *viabilidade verificada*: shapefile de aptidão do **MacroZAEE-GO** baixável no SIEG; agregar às AMCs por zonal-stats. Ver [backlog.md](../backlog.md) → "Frentes de expansão opcionais".
-- ⏳ **Capacidade instalada da cadeia (CONAB SISDEP / SIGSIF / CNPJ)** para a ressalva do #45 (Trase mede fluxo, não capacidade) — *viabilidade verificada*: SISDEP tem série histórica; CNPJ reconstrói contagem anual de frigoríficos/silos. Ver backlog. Provável nulo (defensivo).
+- ✅ **Aptidão edafoclimática como exposição no #38 — FEITO (2026-07-18, [#52](..\pipelines\52_aptidao_edafoclimatica.md))**: troca o proxy de área do #38 por uma aptidão física **exógena** (Embrapa 1:500k, via WFS). A aptidão medida **reproduz** o gradiente Sul→Norte (r_lat=−0,44); o achado do rebanho reaparece **sem a complementaridade** (câmbio×aptidão→rebanho β=−0,033, p=0,026 clusterizado) e beira o FDR. Ganho de **identificação**. **Ler junto com o #54** (a inferência correta calibra o p para baixo). **Pendência de refino**: MacroZAEE-GO estadual (1:250k, mais defensável na banca) **não é fetchável** deste ambiente (cert TLS do SIEG) → download manual no IMB/SIEG + remapear legenda; ver [backlog.md](../backlog.md) → "Frentes de expansão opcionais".
+- ✅ **Endurecimento shift-share do drive comum (opção B) — FEITO (2026-07-18, [#54](../pipelines/54_defensabilidade_perna4.md))**: nomeia o desenho do #38/#52 como shift-share e roda a **inferência correta**. **Mudança de estrutura**: com a significância calibrada para baixo, o drive comum deixou de ser perna própria e virou o **positivo da Perna 3** ("reorganização coordenada, não deslocamento"); o teto de oferta passou a ser a Perna 4. A **permutação do shifter** (câmbio embaralhado, aptidão fixa) revela que o p clusterizado (~0,03) era **otimista** — sai para **≈0,07 (naive) a 0,13 (rotação circular): não significante a 5%**. Mas o padrão **passa na especificidade**: placebos de desfecho nulos (câmbio×aptidão→urbano/água), lead limpo (sem antecipação) e jackknife estável (sinal 100%, nenhum ano isolado carrega). **Veredito: "corroborante, não estabelecido" — mais defensável, menos significante.** Sair para "estabelecido" só pela **opção (A)** (shifter espaço-temporal: frete/ferrovia/clima, ou IV do câmbio = fio novo); ver backlog → "Endurecimento da perna 4".
+- ✅ **Capacidade instalada da cadeia — FEITO na forma viável (2026-07-18, [#53](../pipelines/53_centro_massa_capacidade.md))**: o cadastro de armazéns da CONAB (fetchável, ao contrário do MacroZAEE) virou um **centroide de capacidade** — a camada **mais ao sul de todas** (~150 km ao sul do pasto, ~83 km ao sul até do crédito), fechando a metade "silos" da ressalva do #45 (capacidade consolida o núcleo, não lidera). A metade "frigoríficos" (SIGSIF) e o teste de liderança temporal (CNPJ município×ano) seguem descartados por acesso/esforço; ganho realizado = defensivo, como previsto. Ver backlog → "Frentes de expansão opcionais".
 - **Micro-mistério 2001–05** — caracterizar o lado institucional (pré-Moratória da Soja 2006).
 - **Redação** — quando **você** decidir parar de explorar e escrever; a documentação é a rede de segurança que a torna barata.
 

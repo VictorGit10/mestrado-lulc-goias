@@ -2,7 +2,7 @@
 
 > **O que é este documento.** O `pipelines/README.md` lista os pipelines na ordem em que
 > **nasceram**; este lista na ordem em que a tese **se sustenta**. É a mesma coleção, lida por
-> outro eixo. Entre pelas **5 pernas de evidência** (Parte 4 do
+> outro eixo. Entre pelas **4 pernas de evidência** (Parte 4 do
 > [`guia_de_leitura.md`](guia_de_leitura.md)) e desça até os scripts.
 >
 > **Use este documento quando** precisar apresentar o trabalho, preparar a defesa, ou responder
@@ -51,7 +51,7 @@ mexer na identidade.
 
 Cada pipeline recebe três etiquetas. Elas não substituem o número — convivem com ele.
 
-**Perna (1–5)** — qual afirmação da tese o pipeline sustenta. Nem todo pipeline tem uma: a
+**Perna (1–4)** — qual afirmação da tese o pipeline sustenta. Nem todo pipeline tem uma: a
 fundação de dados sustenta *todas*, e por isso nenhuma em particular.
 
 **Fase (0–6)** — em que momento da construção nasceu. É a coordenada da
@@ -75,7 +75,7 @@ de estresse?*
 
 ---
 
-# Parte 1 — Entrada pelas 5 pernas
+# Parte 1 — Entrada pelas 4 pernas
 
 **A afirmação central:**
 
@@ -129,7 +129,7 @@ mistura, não **causa** os modos.
 |---|---|---|
 | **Manchete** | **#33** `transicoes_regionais.py` | Recorta as conversões brutas por mesorregião × ato. `veg→pasto` é a transição-mãe pervasiva; `pasto→agric` só *lidera* no Sul+Centro no Ato II. O deslocamento aparece no **balanço líquido** |
 | **Manchete** | **#28** `coleta_idade_pastagem.py` + `analise_reserva_terra.py` | A idade do pasto na conversão é **bimodal** (~5 anos e ~22/35 anos) = dois mecanismos coexistindo. ~78 mil pixels |
-| **Manchete** | **#22** `correlacoes_painel.py` | Painel 2-way FE: a **substituição local** é forte (onde a lavoura entra, o pasto sai *localmente*) e o SICOR é o canal dominante de retração |
+| **Manchete** | **#22** `correlacoes_painel.py` | Painel 2-way FE: a **substituição local** é forte (onde a lavoura entra, o pasto sai *localmente*) e o SICOR é o canal dominante de retração — **na janela com SICOR (2013–2021), ~8 anos**, não nos 40 |
 | **Autocorreção** | **#40** `duas_logicas_pastagem.py` | Espacializa as duas lógicas (Rotação no Sul × Oportunístico no Norte). **Derrubou o próprio overclaim no mesmo dia**: o cruzamento com plantio direto some sob o gradiente 2D → **D14** |
 | **Autocorreção** | **#28C** `bimodalidade_regional.py` | A bimodalidade é *regionalmente causada*? **Não.** A região explica 2,5% (meso) / 7,3% (AMC, líquido de acaso); o tempo explica 20%; **73–77% mora dentro** das células |
 | **Autocorreção** | **#40B** `duas_logicas_calcario_orientacao.py` | Generaliza a D14: calcário e orientação técnica também somem sob o gradiente 2D. A lição vale para manejo, insumo e instituição |
@@ -146,58 +146,78 @@ latitude). A frase certa é **"gradiente regional no *peso* da mistura"**.
 
 ---
 
-## Perna 3 — NÃO é deslocamento causal
+## Perna 3 — Reorganização coordenada, não deslocamento causal
 
-> **Afirma:** a hipótese-mãe — *a lavoura do Sul empurra o pasto para o Norte* (iLUC
-> intra-estadual) — foi **testada e refutada**. Não há precedência temporal em direção nenhuma,
-> nem spillover direcional.
+> **Afirma (o negativo, forte):** a hipótese-mãe — *a lavoura do Sul empurra o pasto para o Norte*
+> (iLUC intra-estadual) — foi **testada e refutada no canal testado**. A precedência temporal não
+> aparece (Granger nulo, **mas de baixo poder** — N≈38); e o spillover direcional, onde estimável,
+> saiu **significativo no sentido oposto** ao previsto (θ=−0,16, p=0,02). É o spillover de sinal
+> trocado — não o nulo do Granger — que carrega a refutação.
+> **Afirma (o positivo, corroborante):** o que coordena os dois mecanismos e dá o **compasso
+> temporal** da marcha é um impulso **macro comum**, com o câmbio real (REER) como candidato mais
+> forte — mas isso é **corroborante, não estabelecido**.
 
-**Força: forte** (um nulo bem defendido). É a perna que dá credibilidade ao trabalho inteiro,
-porque foi o autor quem perseguiu a hipótese que mais o favoreceria e a derrubou.
+**Força: forte no negativo, corroborante no positivo.** O negativo (um nulo bem defendido) é a
+perna que dá credibilidade ao trabalho inteiro — foi o autor quem perseguiu a hipótese que mais o
+favoreceria e a derrubou. O positivo é a parte mais fraca: sob a inferência correta (permutação do
+shifter, #54) o achado-manchete do drive comum sai de p~0,03 para ≈0,07–0,13 (não significante a
+5%); o que o sustenta é a **especificidade** (placebos nulos, sem antecipação, jackknife estável),
+não a significância.
+
+> **Por que uma perna só** (antes de jul/2026 eram as pernas 3 e 4 separadas). O negativo abre a
+> pergunta "então o que é?"; o positivo a responde — *reorganização coordenada por um drive macro
+> comum, não causação local*. Uni-los mantém cada metade honesta sobre o que carrega e evita tratar
+> o drive comum como um pilar independente que ele (ainda) não é. Fundidas quando o #54 calibrou a
+> significância do drive comum para baixo.
+
+**O negativo — não é deslocamento causal (forte):**
 
 | Papel | Pipeline | O que entrega |
 |---|---|---|
-| **Manchete (nulo)** | **#34** `deslocamento_espacial.py` | O teste formal, em **tempo contínuo**. (a) Sem precedência: Granger ΔAgric_Sul → ΔPasto_Norte **p=0,97**. (b) Sem spillover direcional: θ=−0,16, **oposto** do previsto. (c) Mas substituição local forte: β=−0,52 |
+| **Manchete (nulo)** | **#34** `deslocamento_espacial.py` | O teste formal, em **tempo contínuo**. (a) Sem precedência: Granger ΔAgric_Sul → ΔPasto_Norte **p=0,97** (nulo de **baixo poder** — N≈38; poder ~48% p/ efeito moderado, ~93% p/ grande, sim. Monte Carlo). (b) Spillover direcional **significativo e de sinal trocado**: θ=−0,16, **p=0,02**, oposto ao previsto — **é ele que refuta, não o nulo do Granger**. (c) Substituição local forte: β=−0,52 |
 | **Autocorreção** | **#42** `granger_reverso_norte_sul.py` | **A peça-modelo do conjunto.** O #34 deixou uma ponta: o teste *reverso* deu p=0,0007 — que, se real, inverteria a tese. O #42 provou que é **regressão espúria**: `pasto_Norte` é I(2), `agric_Sul` é I(0), ordens diferentes nem cointegram; **Toda-Yamamoto zera as duas direções**; e os **placebos** mostram que o Norte "lidera" até o pasto do próprio Sul → **D16** |
 | **Extensão + Autocorreção** | **#45** `analise_trase_lulc.py` | Terceiro canal a confirmar co-evolução sem líder: a cadeia exportadora **não lidera** (0/3 termos defasados sobrevivem à robustez) **nem co-move materialmente**. Em jul/2026 derrubou o próprio achado-manchete ao descobrir que o regressor era produção disfarçada (β +0,335 → +0,037) |
+| **Extensão** | **#53** `centro_massa_capacidade.py` | Fecha a ressalva do #45 pelo lado da **capacidade instalada**: o centroide da capacidade de armazenagem (CONAB) é a camada **mais ao sul de todas** (~150 km ao sul do pasto, ~83 km ao sul até do crédito) — a infraestrutura física **consolida o núcleo, não lidera**. Metade "silos"; a "frigoríficos" segue sem dado |
 | **Adjacente** | **#41** `fogo_lidera_fronteira.py` | O fogo é vanguarda **geográfica** (ao norte da conversão em 39/39 anos) mas **não lidera no tempo** — coerente com o veredito de co-evolução |
 
-**O que esta perna NÃO permite dizer:** que o iLUC **não existe** em Goiás. Afirma-se que **o
-canal intra-estadual testado** não se confirma. E note a **simetria honesta** do #42: o
-Toda-Yamamoto zerar as duas direções também impede reivindicar que "o Sul lidera". O veredito é
-**sem líder**, não *o Sul lidera*.
-
-**Ler a fundo:** [`34_deslocamento_espacial.md`](pipelines/34_deslocamento_espacial.md) →
-[`42_granger_reverso_norte_sul.md`](pipelines/42_granger_reverso_norte_sul.md)
-
----
-
-## Perna 4 — O drive comum
-
-> **Afirma:** o que coordena os dois mecanismos é um impulso macro comum, com o **câmbio real
-> (REER) na dianteira** — materializado no **rebanho de fronteira**.
-
-**Força: sugestiva.** É a perna mais fraca, e o documento deve dizê-lo. O câmbio tem estrutura;
-o gradiente **não sobrevive ao FDR**.
+**O positivo — o drive comum coordena o tempo (corroborante, não estabelecido):**
 
 | Papel | Pipeline | O que entrega |
 |---|---|---|
 | **Manchete (fraca)** | **#37** `coleta_drivers_macro.py` + `drive_comum.py` | Testa o drive comum na série UF/anual (N≈38). **~7 hits em ~135 testes ≈ acaso; nada sobrevive à correção de multiplicidade.** Só o **câmbio** tem estrutura (reaparece em duas margens). Passa no placebo de exogeneidade. Bônus: a quebra órfã de 1991 ganha nome — colapso de crédito do Plano Collor |
 | **Manchete (fraca)** | **#38** `drive_comum_amc.py` | Muda a unidade para o painel AMC (~6.600 obs) e testa **driver × exposição baseline**. A hipótese confirmatória `câmbio × fronteira → rebanho` confirma a direção (**p=0,031**), mas a grade exploratória (144 testes) **não devolve nenhum sobrevivente do FDR**. A área LULC é **nulo robusto** |
+| **Extensão (identificação)** | **#52** `aptidao_edafo_exposicao.py` + `aptidao_edafo_drive38.py` | Troca o proxy de área do #38 por uma aptidão edafoclimática **exógena** (Embrapa 1:500k, WFS). **52A**: a aptidão física **reproduz** o gradiente Sul→Norte (r_lat=−0,44; Sul 4,69>Centro 4,47>Norte 4,17) — a premissa vira **medida**, não assumida; correlação **moderada** (+0,30) com a exposição do #38 = carrega info própria. **52B**: o achado do #38 reaparece **sem a complementaridade mecânica** (câmbio×aptidão→rebanho **β=−0,033, p=0,026**) e a grade honesta de 192 devolve **2 sobreviventes do FDR** — mas via a **mesma fragilidade de tamanho de família** do Achado #2 do #38. Fortalece a **identificação**, não o poder |
+| **Endurecimento (inferência)** | **#54** `defensabilidade_perna4.py` | **Opção B — nomeia o desenho como shift-share e roda a inferência correta.** A **permutação do shifter** (câmbio embaralhado, aptidão fixa) revela que o SE clusterizado do #38/#52 era **otimista**: o p do achado-manchete sai de ~0,03 para **≈0,07 (naive) a 0,13 (rotação circular) = não significante a 5%** (o β *within* reproduz o PanelOLS; só o p muda). Em troca, a **especificidade** segura o padrão: **placebos nulos** (câmbio×aptidão→urbano/água, p>0,24), **lead limpo** para o headline exógeno (p=0,11), **jackknife estável** (sinal 100%, nenhum ano isolado). Menos significante, mais defensável |
 | **Extensão** | **#50** `centro_massa_economico.py` | O centroide do **crédito** fica ~75 km **ao sul** da pastagem: o crédito **consolida a massa instalada, não lidera a fronteira** — o que *casa* com o crédito ser endógeno (#37/#38) |
 | **Extensão** | **#51** `crescimento_sem_desenvolvimento.py` | Põe um **número** no "crescimento sem desenvolvimento" do #50 (IFDM 2013–2023): a fronteira **Norte quase dobra a área** (+93% vs +14% no Sul) mas ganha desenvolvimento **igual** ao Sul e fica **−0,08 abaixo** (robusto, invariante município↔AMC); a **expansão de área é desacoplada** do desenvolvimento (r≈0, painel r²within≈0), o VA agro tem dividendo modesto (r=0,21). Reabre o fio descartado por falta de dado |
 
-**O que esta perna NÃO permite dizer:** que o câmbio **causa** o gradiente. É **indício
-sugestivo, não achado estabelecido** — e essa distinção deve aparecer na redação. O antigo
-"sobrevivente" do #38 (`câmbio × aptidão`) morreu quando a grade foi ampliada (p_fdr 0,042 →
-0,063): era frágil ao tamanho da família.
+**O que esta perna NÃO permite dizer.** No **negativo**: que o iLUC **não existe** em Goiás —
+afirma-se que o **canal intra-estadual testado** não se confirma; e a simetria honesta do #42
+(Toda-Yamamoto zera as duas direções) também impede reivindicar que "o Sul lidera" → o veredito é
+**sem líder**. No **positivo**: que o câmbio **causa** o gradiente, nem que ele é
+**estatisticamente significante** — a redação **não** deve reportar "p=0,026/0,031" como
+significância; deve reportar o **p de permutação** (≈0,07–0,13) e chamar o drive comum de
+**corroborante**. Dois refinamentos sustentam a honestidade do positivo: o **#52** (identificação —
+troca o proxy de área por uma aptidão exógena e tira a objeção de complementaridade mecânica) e o
+**#54** (inferência — a permutação do shifter mostra que o SE clusterizado era otimista para um
+shift-share de um só shifter nacional; o que segura o padrão é a **especificidade**, não a
+significância).
 
-**Ler a fundo:** [`37_drive_comum.md`](pipelines/37_drive_comum.md) →
-[`38_drive_comum_amc.md`](pipelines/38_drive_comum_amc.md)
+O **teto de poder temporal** está agora **quantificado**: N efetivo = **38 anos**, um único driver
+nacional. Nenhuma exposição melhor ou mais AMCs o levantam (o #52 mostrou; o #54 mediu). Sair de
+"corroborante" para "estabelecido" pediria a **opção (A)** — um shifter com variação
+espaço-temporal (frete/ferrovia, choque climático) ou um IV para o câmbio, que é **fio novo**.
+
+**Ler a fundo:** o negativo — [`34_deslocamento_espacial.md`](pipelines/34_deslocamento_espacial.md) →
+[`42_granger_reverso_norte_sul.md`](pipelines/42_granger_reverso_norte_sul.md); o positivo —
+[`37_drive_comum.md`](pipelines/37_drive_comum.md) →
+[`38_drive_comum_amc.md`](pipelines/38_drive_comum_amc.md) →
+[`52_aptidao_edafoclimatica.md`](pipelines/52_aptidao_edafoclimatica.md) →
+[`54_defensabilidade_perna4.md`](pipelines/54_defensabilidade_perna4.md)
 
 ---
 
-## Perna 5 — O teto de oferta
+## Perna 4 — O teto de oferta
 
 > **Afirma:** o Sul bateu no estoque de Cerrado convertível; o Norte ainda tem. A desaceleração
 > do Sul ocorreu **sob demanda forte** — assinatura de restrição de **oferta**, não de demanda
@@ -210,7 +230,7 @@ sugestivo, não achado estabelecido** — e essa distinção deve aparecer na re
 | **Manchete** | **#39** `fronteira_fechando.py` | Veredito **escalonado**: no estado a fronteira **não** fechou (resta ~60%; só **migrou ao norte**); **no Sul fechou** (estoque a 53% de 1985, hazard caindo). A decomposição `Δfluxo = h̄·Δestoque + estoquē·Δhazard` separa "acabou a terra" de "acabou a vontade" → **D13** |
 | **Extensão** | **#46** `fronteira_protecao.py` | Adiciona a camada que o #39 deixou de fora. **97% do convertível remanescente (6,35 de 6,56 Mha) está desprotegido**; a Proteção Integral cobre <3% e congelou após 2000 → **D17** |
 | **Validação externa** | **#48** `validacao_prodes_mapbiomas.py` | Valida a base de perda de vegetação contra o **PRODES/INPE**: no regime anual 2013–24 as fontes concordam (**r=0,91**). Fecha a pendência PRODES da D17 |
-| **Extensão** | **#47** `custo_carbono_marcha.py` | O **custo** da marcha: ~**973 Mt CO₂e**. A **floresta domina a emissão** apesar de perder 2,6× menos área que o savânico. O centróide da perda marcha +98 km ao norte — amarra com o #39 |
+| **Extensão** | **#47** `custo_carbono_marcha.py` | O **custo** da marcha: ~**973 Mt CO₂e** (faixa de cenários de densidade: **751–1208**). A **floresta domina a emissão** apesar de perder 2,6× menos área que o savânico. O centróide da perda marcha +98 km ao norte — amarra com o #39 |
 
 **O que esta perna NÃO permite dizer:** que se conhece o estoque **cadastral**. "Terra
 convertível" e "proteção" são **proxies com teto** declarados (D13/D17) — MapBiomas + malha
@@ -243,6 +263,11 @@ só: **uma manchete e as três peças que a defendem e a estendem.**
  │                                                Crédito ~75 km ao SUL · valor ancorado
  │                                                Abate TESTADO E DESCARTADO (circular)
  │
+ ├─ #53  centro_massa_capacidade.py  EXTENSÃO     "E a capacidade física (silos)?"
+ │                                                A camada MAIS ao sul de todas: ~150 km ao
+ │                                                sul do pasto, ~83 km ao sul até do crédito
+ │                                                Fecha a metade "silos" da ressalva do #45
+ │
  └─ D19  bootstrap_incerteza()       AUTOCORREÇÃO "Qual a incerteza de cada ΔNorte?"
                                                   IC95% por bootstrap → veg inclui zero
 ```
@@ -265,6 +290,7 @@ agricultura, rebanho, vegetação natural), a família produziu:
 | Crédito custeio × investimento | #50 | Ambos ~75 km ao sul do pasto. O **investimento é ~27 km ao norte do custeio** (capex inclina à fronteira) |
 | VA agropecuário / PIB | #50 | **Ancorados** enquanto a área marcha → o vão valor↔pasto **alarga** (−84 → −101 km). É "crescimento sem desenvolvimento na ponta" **sem precisar de IDH-M** |
 | Abate bovino | #50 | **Descartado.** É modelado do rebanho (`abate=(rebanho_muni/rebanho_UF)×abate_UF`) → centroide idêntico por construção. Comparação circular |
+| Capacidade de armazenagem | #53 | A **mais austral** de todas (−17,24°): ~150 km ao sul do pasto, **~83 km ao sul até do crédito**, colada à lavoura (−16 km). Fecha a metade "silos" da ressalva do #45 — a capacidade física consolida, não lidera |
 | Fogo em vegetação | #41 | Vanguarda **geográfica**: ao norte da conversão em 39/39 anos (+73 km) |
 | Perda de carbono | #47 | Marcha +98 km ao norte |
 
@@ -306,7 +332,7 @@ não.
 | # | Script | Papel | O achado |
 |---|---|---|---|
 | #21 | `correlacoes_uf.py` | Manchete fraca | Correlações UF em 1ª diferença + HAC (D7). N pequeno, sem controles |
-| #22 | `correlacoes_painel.py` | Manchete | **O cavalo de batalha** — 2-way FE (D8). Intensificação robusta; SICOR dominante |
+| #22 | `correlacoes_painel.py` | Manchete | **O cavalo de batalha** — 2-way FE (D8). Intensificação robusta; SICOR dominante (na janela 2013–2021) |
 | #23 | `piecewise_did.py` | Manchete (nulo) | **Só `Vegetação × 1995 vs TO` sobrevive** a parallel-trends + placebo. O Código Florestal não |
 | #24 | `analise_espacial.py` | Diagnóstico | **115 de 140 resíduos** têm Moran's I significativo → o espaço é estrutural |
 | #26 | `deteccao_quebras.py` | Manchete | Quebras data-driven: **2001 (F=62,2)** e **2020 (F=21,5)**. O Código Florestal **não produz quebra** |
@@ -379,9 +405,9 @@ colunas são a ordem lógica.
 | 34 | `deslocamento_espacial.py` | **Manchete (nulo)** | **3** | 6 | Deslocamento |
 | 35 | `robustez_janelas.py` | Robustez | 1, 2 | 6 | Robustez |
 | 36 | `robustez_janela_slope.py` | Robustez | — (defende #17) | 6 | Robustez |
-| 37 | `coleta_drivers_macro.py` + `drive_comum.py` | Manchete (fraca) | **4** | 6 | Drive comum |
-| 38 | `drive_comum_amc.py` | Manchete (fraca) | **4** | 6 | Drive comum |
-| 39 | `fronteira_fechando.py` | **Manchete** | **5** | 6 | Oferta |
+| 37 | `coleta_drivers_macro.py` + `drive_comum.py` | Manchete (fraca) | **3** | 6 | Drive comum |
+| 38 | `drive_comum_amc.py` | Manchete (fraca) | **3** | 6 | Drive comum |
+| 39 | `fronteira_fechando.py` | **Manchete** | **4** | 6 | Oferta |
 | 40 | `duas_logicas_pastagem.py` | Manchete + **Autocorreção** | **2** | 6 | Idade do pasto |
 | 40B | `duas_logicas_calcario_orientacao.py` | **Autocorreção** | **2** | 6 | Idade do pasto |
 | 41 | `fogo_lidera_fronteira.py` | **Autocorreção** | 1, 3 | 6 | Fogo |
@@ -389,15 +415,19 @@ colunas são a ordem lógica.
 | 43 | `centro_massa_pixel.py` | Robustez (MAUP) | **1** | 6 | **Centro de massa** |
 | 44 | `centro_massa_desagregado.py` | **Autocorreção** | **1** | 6 | **Centro de massa** |
 | 45 | `analise_trase_lulc.py` | Extensão (Eixo A) + **Autocorreção** | **3** | 6 | Deslocamento |
-| 46 | `fronteira_protecao.py` | Extensão | **5** | 6 | Oferta |
-| 47 | `custo_carbono_marcha.py` | Extensão (Eixo ambiental) | 5 (consequência) | 6 | Ambiental |
-| 48 | `validacao_prodes_mapbiomas.py` | **Validação externa** | **5** | 6 | Ambiental |
+| 46 | `fronteira_protecao.py` | Extensão | **4** | 6 | Oferta |
+| 47 | `custo_carbono_marcha.py` | Extensão (Eixo ambiental) | 4 (consequência) | 6 | Ambiental |
+| 48 | `validacao_prodes_mapbiomas.py` | **Validação externa** | **4** | 6 | Ambiental |
 | 49 | `painel_espacial_dinamico.py` | Robustez (Eixo C1) | 2, 3 | 6 | Inferência |
-| 50 | `centro_massa_economico.py` | Extensão | 4 | 6 | **Centro de massa** |
+| 50 | `centro_massa_economico.py` | Extensão | 3 | 6 | **Centro de massa** |
+| 51 | `crescimento_sem_desenvolvimento.py` | Extensão | 3 | 6 | **Centro de massa** |
+| 52 | `aptidao_edafo_exposicao.py` + `aptidao_edafo_drive38.py` | Extensão (identificação) | 3 | 6 | Drive comum |
+| 53 | `centro_massa_capacidade.py` | Extensão | 3 | 6 | **Centro de massa** |
+| 54 | `defensabilidade_perna4.py` | Robustez (inferência) | 3 | 6 | Drive comum |
 
-**Contagem por papel** (52 linhas; o #40 e o #45 contam duas vezes — são manchete/extensão *e*
-autocorreção): 12 manchetes · 8 coletores · **7 autocorreções** · 7 infraestrutura · 6 robustez ·
-4 cartografia · 4 extensões · 2 foto inicial · 1 validação externa · 1 primeira leitura ·
+**Contagem por papel** (56 linhas; o #40 e o #45 contam duas vezes — são manchete/extensão *e*
+autocorreção): 12 manchetes · 8 coletores · **7 autocorreções** · 7 infraestrutura · 7 extensões ·
+7 robustez · 4 cartografia · 2 foto inicial · 1 validação externa · 1 primeira leitura ·
 1 diagnóstico · 1 superado.
 
 > As **7 autocorreções** (#28C, #40, #40B, #41, #42, #44, #45 + a D19) são o ativo mais raro do
@@ -409,7 +439,7 @@ autocorreção): 12 manchetes · 8 coletores · **7 autocorreções** · 7 infra
 
 Não existe "a" ordem. Existe a ordem **para quê**.
 
-**Para a banca (o caminho crítico, ~1h).** As 5 pernas da Parte 1, nesta ordem, lendo só as
+**Para a banca (o caminho crítico, ~1h).** As 4 pernas da Parte 1, nesta ordem, lendo só as
 manchetes e as autocorreções: #32 → #33 → **#34** → #42 → #37/#38 → #39. O #34 e o #42 são o
 coração: é onde a tese é testada contra si mesma.
 

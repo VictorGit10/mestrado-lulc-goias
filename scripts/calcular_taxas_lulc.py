@@ -192,9 +192,10 @@ def computar_taxas(grupo_df: pd.DataFrame) -> pd.DataFrame:
         result[f"{g}_slope_5a_trail"] = slopes_trail
         result[f"{g}_slope_se_nw"] = se_nw
 
-        # Slope centrada (t-2..t+2)
-        slopes_centr, _ = rolling_slope_hac_centr(pd.Series(area_mha), window=JANELA)
+        # Slope centrada (t-2..t+2) — guarda o SE próprio (não reutilizar o do trail)
+        slopes_centr, se_centr = rolling_slope_hac_centr(pd.Series(area_mha), window=JANELA)
         result[f"{g}_slope_5a_centr"] = slopes_centr
+        result[f"{g}_slope_5a_centr_se"] = se_centr
 
         # Aceleração
         trail = pd.Series(slopes_trail)

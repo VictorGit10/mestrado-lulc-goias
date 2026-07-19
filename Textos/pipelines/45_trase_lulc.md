@@ -156,12 +156,18 @@ Volume **exportado** (normalizado) × uso da terra (normalizado) para soja e boi
   reescalado** (r_within-ano ≈ 1,0). Não é medida independente nem evidência de relação com a terra —
   é o mesmo motivo pelo qual o #50 o descartou como comparação circular.
 - **Trase mede FLUXO, não capacidade instalada.** Silos, esmagadoras e frigoríficos com SIF
-  exigiriam CONAB SISDEP / SIGSIF-MAPA. Esse ângulo — que poderia dar liderança onde o fluxo não dá
-  — segue nas coletas pendentes do backlog. **É a ressalva mais importante deste pipeline**: o nulo
-  aqui é sobre *fluxo exportador*, não sobre *infraestrutura física*. **Viabilidade verificada
-  (2026-07-18)**: o **CONAB SISDEP** tem série histórica de capacidade estática por município; o
-  **CNPJ/Receita** reconstrói contagem anual de frigoríficos (CNAE 1011-2) e silos (5211-7). Detalhe e
-  trade-offs (provável nulo, defensivo) em [backlog.md](../backlog.md) → "Frentes de expansão opcionais".
+  exigiriam CONAB / SIGSIF-MAPA. Esse ângulo — que poderia dar liderança onde o fluxo não dá — era
+  **a ressalva mais importante deste pipeline**: o nulo aqui é sobre *fluxo exportador*, não sobre
+  *infraestrutura física*. **ENDEREÇADO na metade "silos" (2026-07-18, [#53](53_centro_massa_capacidade.md))**:
+  o cadastro de armazéns da **CONAB** (`ArmazensCadastrados.txt`, fetchável) virou um **centroide de
+  capacidade** — a capacidade estática de armazenagem é a camada **mais ao sul de todas** (~150 km ao
+  sul do pasto, ~83 km ao sul até do crédito), colada ao núcleo de lavoura ⇒ *nem a capacidade
+  instalada lidera; consolida o núcleo*. Reforça o nulo pela infraestrutura física. **Correção**: ao
+  contrário do que se registrou, a CONAB **não** tem série de capacidade *por município* ao longo do
+  tempo — a granularidade municipal existe só no cadastro **atual** (snapshot), e a série histórica é
+  por **UF**; por isso o #53 é posição (centroide), não teste de liderança temporal. A metade
+  **"frigoríficos/abate"** segue aberta (SIGSIF descartado; o CNPJ município×ano é engenharia pesada
+  já descartada). Ver [backlog.md](../backlog.md) → "Frentes de expansão opcionais".
 - **Janela curta** (soja 19 anos, boi 12 sem 2018) → baixo poder, sobretudo no agregado (Bloco A). O painel recupera poder pelo N municipal, mas o T ainda é curto para defasagens longas.
 - **Precedência preditiva, não causalidade** (D16 aplicada). O agregado é diagnóstico.
 - **Efeitos minúsculos.** Mesmo os contemporâneos significativos têm r²within ≤ 0,034. A leitura

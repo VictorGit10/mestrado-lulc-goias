@@ -11,6 +11,19 @@
 
 ---
 
+> **Atualização (2026-07-18).** Os dois flancos abertos na Limitações abaixo foram trabalhados: **#52**
+> troca a exposição "% de área baseline" por uma **aptidão edafoclimática física exógena** (Embrapa,
+> via WFS — o MacroZAEE-GO citado abaixo **não** se mostrou fetchável, ver #52) e o achado-manchete
+> (câmbio × fronteira → rebanho) reaparece **sem a complementaridade mecânica** (β=−0,033, p=0,026).
+> **#54** nomeia este desenho como **shift-share** e roda a **inferência correta** (permutação do
+> shifter): o `p=0,031` acima é o SE **clusterizado**, que é **otimista** para um único choque
+> nacional — a permutação dá **p≈0,07–0,13, não significante a 5%**. O padrão sobrevive na
+> **especificidade** (placebos nulos, sem antecipação, jackknife estável), não na significância.
+> Veredito final: **"corroborante, não estabelecido"** — mais firme na identificação (#52), mais
+> honesto na inferência (#54), ainda não "estabelecido". Ver
+> [`52_aptidao_edafoclimatica.md`](52_aptidao_edafoclimatica.md) e
+> [`54_defensabilidade_perna4.md`](54_defensabilidade_perna4.md).
+
 ## Pergunta de pesquisa
 
 O #37 mostrou que a série UF/anual não tem poder para testar o drive comum (N≈38, ~7 hits em ~135 testes ≈ acaso). O driver é **nacional** — num dado ano é o mesmo número para as 166 AMCs —, então não adianta perguntar "o driver mexe o LULC?" no agregado. A pergunta com poder é outra:
@@ -119,7 +132,7 @@ Linhas = driver × exposição; colunas = desfecho; cor = t-stat da interação 
 - **A "coerência de sinais" (#3) não é replicação independente** — as três exposições são complementares (fronteira ≈ −aptidão) e `preço recebido` contém o câmbio. É **um** gradiente visto de ângulos ligados, não vários achados convergentes.
 - **Identifica gradiente, não nível**: o γ_t absorve o efeito médio do driver. "1 DP de câmbio → X" no agregado **não** sai daqui (sai, fraco, do #37).
 - **Crédito é parcialmente endógeno** (mesma ressalva do #37); entra como contexto.
-- **Exposição em % de área baseline** é um proxy de aptidão, não aptidão edafoclimática direta. Um próximo passo seria usar aptidão agronômica (ex.: zoneamento) como exposição instrumental. **Viabilidade verificada (2026-07-18)**: o **MacroZAEE-GO** tem um **Mapa de Aptidão Agrícola das Terras** em shapefile, baixável no SIEG (`www2.sieg.go.gov.br/post/ver/185411/macrozaee`) — agregável às AMCs por zonal-stats. Detalhe e trade-offs em [backlog.md](../backlog.md) → "Frentes de expansão opcionais".
+- **Exposição em % de área baseline** é um proxy de aptidão, não aptidão edafoclimática direta. **Feito (2026-07-18, [#52](52_aptidao_edafoclimatica.md))**: o passo seguinte, aptidão física como exposição, foi realizado com a camada nacional da **Embrapa** (via WFS) — o **MacroZAEE-GO** estadual (SIEG), citado aqui como a fonte planejada, mostrou-se **não fetchável** deste ambiente (cert TLS quebrado) e ficou como pendência de refino; ver [backlog.md](../backlog.md) → "Frentes de expansão opcionais".
 
 ## Como rodar
 

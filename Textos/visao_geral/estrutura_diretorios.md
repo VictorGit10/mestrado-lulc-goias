@@ -6,13 +6,13 @@ Mestrado/
 │   ├── README.md                     # Índice mestre
 │   ├── backlog.md                    # O que falta fazer
 │   ├── visao_geral/                  # Escopo, estrutura, como retomar
-│   ├── pipelines/                    # pipelines documentados (#1–#51, + #28C, #40B)
+│   ├── pipelines/                    # pipelines documentados (#1–#54, + #28C, #40B)
 │   ├── outputs/                      # Catálogo de gráficos, mapas, CSVs
 │   ├── metodologia/                  # Decisões transversais
 │   ├── referencia/                   # Ambiente, fontes, memórias
 │   └── _arquivo/                     # Histórico preservado
 │
-├── scripts/                          # Pipelines Python (#1–#51) — índice completo em narrativa_pipelines.md (Apêndice A)
+├── scripts/                          # Pipelines Python (#1–#54) — índice completo em narrativa_pipelines.md (Apêndice A)
 │   ├── grafico_pastagem_pib_goias.py      # #1
 │   ├── analise_expandida_goias.py         # #2
 │   ├── coleta_sidra.py                    # #3 + #7 + #15 (+ Censo 6850)
@@ -53,6 +53,10 @@ Mestrado/
 │   ├── centro_massa_economico.py         # #50 (centro de massa crédito/valor)
 │   ├── coleta_firjan_ifdm.py             # #51 coleta (IFDM FIRJAN 2013–2023)
 │   ├── crescimento_sem_desenvolvimento.py # #51 (crescimento × desenvolvimento; reabre fio 6)
+│   ├── aptidao_edafo_exposicao.py        # #52A (aptidão exógena Embrapa/WFS + validação)
+│   ├── aptidao_edafo_drive38.py          # #52B (aptidão exógena no drive comum do #38)
+│   ├── centro_massa_capacidade.py        # #53 (centro de massa da capacidade CONAB)
+│   ├── defensabilidade_perna4.py         # #54 (endurecimento shift-share do drive comum)
 │   ├── coleta_pib_uf_ipea.py             # PIB/VAB UF IPEA (insumo #21)
 │   ├── estimativa_abate_municipal.py      # Abate municipal estimado
 │   ├── _cartografia.py, auditoria_pib.py, _validar_sicor.py, _verificar_dados.py, _preview_mapa_2024.py, explorar_asset_*.py
@@ -98,21 +102,24 @@ Mestrado/
 │       ├── abate_*.csv                         # Abate bovino/suíno/frango
 │       └── ... (65+ CSVs no total)
 │
-└── outputs/                            # Gráficos, mapas, diagnósticos (25 subpastas, uma por eixo)
+└── outputs/                            # Gráficos, mapas, diagnósticos (27 subpastas, uma por eixo)
     ├── analises/                            # PNGs 01–28 descritivos — Pipelines #1,2,5,8,14,15
     ├── mapas/ mapas_gee/ mapas_gee_rio_verde/   # coropléticos + rasters GEE + GIFs — #9, #10, #11
     ├── transicoes/ transicoes_regionais/   # heatmaps, Sankey, mapas — #12, #33
     ├── taxas/                              # figuras de taxas — #20
     ├── correlacoes/                         # painel 2FE, DiD, quebras — #21-23, #26
     ├── idade_pastagem/                      # bimodalidade da idade do pasto — #28, #28C
-    ├── centro_massa/ deslocamento/ robustez/    # marcha ao norte (Camadas 1/3) + robustez — #32,#34,#35,#36,#43,#44
+    ├── centro_massa/ deslocamento/ robustez/    # marcha ao norte (Camadas 1/3) + robustez — #32,#34,#35,#36,#43,#44,#50,#53
     ├── drive_comum/ drive_comum_amc/       # drivers macro (Camadas 4/5) — #37, #38
+    ├── aptidao_edafo/                       # aptidão exógena no drive comum — #52
     ├── fronteira_fechando/ fronteira_protecao/  # oferta + proteção — #39, #46
     ├── duas_logicas/                        # geografia das duas lógicas — #40, #40B
     ├── fogo_fronteira/ granger_reverso/     # fogo + Granger reverso — #41, #42
     ├── trase_lulc/                          # Eixo A (Trase × LULC) — #45
     ├── custo_carbono/ validacao_prodes/     # eixo ambiental (carbono + PRODES) — #47, #48
     ├── espacial/                            # painel espacial dinâmico (Eixo C1) — #49
+    ├── desenvolvimento/                     # crescimento × IFDM — #51
+    ├── defensabilidade_perna4/              # bateria de inferência do drive comum — #54
     └── diagnosticos/                        # CSVs de validação e auditoria
 
 ├── Visualizacao/                         # Site scrollytelling (vanilla JS + D3.js)

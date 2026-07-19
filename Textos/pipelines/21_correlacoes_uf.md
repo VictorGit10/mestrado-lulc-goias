@@ -32,18 +32,23 @@ Para cada par: slope LULC × Δ socioeconômico e Δ LULC × Δ socioeconômico,
 
 | Arquivo | Conteúdo |
 |---------|----------|
-| `outputs/correlacoes/uf_deltas.csv` | Tabela com 36 pares: pearson_r, pearson_p, spearman_rho, spearman_p, n_obs |
+| `outputs/correlacoes/uf_deltas.csv` | Tabela com 36 pares: pearson_r, pearson_p, **pearson_p_fdr** (Benjamini-Hochberg), spearman_rho, spearman_p, n_obs |
 | `outputs/correlacoes/uf_scatter_*.png` | 6 scatter plots com reta de regressão HAC |
 
 ## Resultados principais
 
-Apenas 1 par significativo a 5% (36 testados):
+Dos **36 pares** testados, **2** cruzam p<0,05 sem correção — mas isso é **exatamente o esperado por acaso**: com 36 testes a α=0,05, ~1,8 falso-positivo é o previsto sob H0.
 
-| Par | Métrica | Lag | r | p | Interpretação |
-|-----|---------|-----|---|---|---------------|
-| Δ Agricultura × Δ Soja (ton) | delta vs delta | 0 | −0,303 | 0,022 | Anos de expansão agrícola não coincidem com saltos de produção sojeira (composição de culturas ou efeito área vs produtividade) |
+| Par | Métrica | Lag | r | p | q (FDR-BH) |
+|-----|---------|-----|---|---|-----------|
+| Δ Agricultura × Δ Soja (ton) | delta vs delta | 0 | −0,303 | 0,022 | 0,585 |
+| Δ Veg. natural × Δ PIB real | delta vs delta | 1 | +0,317 | 0,047 | 0,585 |
 
-**Limitação**: N = 11 para pares com SICOR (janela 2013–2023), insuficiente para detectar efeitos moderados.
+**Nenhum par sobrevive à correção de multiplicidade (Benjamini-Hochberg): q ≈ 0,59 em ambos, muito acima de 0,05.**
+
+**Leitura correta — este pipeline é evidência _negativa_.** No nível UF e em primeiras diferenças, **nenhuma** associação LULC×socioeconômica robusta emerge. O r=−0,303 **não** deve ser lido substantivamente: a hipótese "composição de culturas / efeito área vs produtividade" seria super-leitura de ruído — 1 a 2 hits em 36 é o piso do acaso, não um achado. A **ausência** de sinal ao nível estadual é, ela própria, o resultado, e é o que motiva descer ao **painel municipal (#22)**, onde há N (246 munis × anos) para detectar efeitos moderados que o agregado UF (N=11–39, série curta) não alcança.
+
+**Limitação**: N = 11 para pares com SICOR (janela 2013–2023) e N = 11–39 nos demais — série curta em que o regime assintótico do Pearson+HAC é frágil e um único outlier move o r. Poder baixo para efeitos moderados; a leitura defensável é a ausência de associação forte, não a estimativa pontual de nenhum r individual.
 
 ## Como rodar
 

@@ -37,6 +37,8 @@ Mapeamento idêntico a `gerar_mapas_lulc_gee_40anos.py`:
 
 Mosaico (ID 21) excluído. Campo Alagado (ID 11) em "Outros", não em "Vegetação Natural".
 
+> ⚠️ **Divergência declarada com o #16.** Este agrupamento (12 IDs para "Agricultura", idêntico ao #10) **não** é o mesmo de `lulc_agricultura_ha` no painel do #16, que soma só as **8 lavouras específicas** (20, 39, 40, 41, 46, 47, 48, 62 — **sem** silvicultura 9, temporária genérica 19, dendê 35, perene genérica 36). Os `agricultura_slope_5a*` (taxa) derivam da definição de 12 IDs **daqui**; `lulc_agricultura_ha` (nível) do #16 usa 8. **Não misturar as duas colunas numa regressão como se fossem idênticas.** (Fix futuro possível: fatorar `GRUPOS_LULC` num módulo único importado por ambos.)
+
 ### D2 — Fonte de dados
 
 Consome `mapbiomas_munis_goias.csv` (não `painel_unificado.parquet`), agregando pelos IDs para os 6 grupos. Isso garante coerência com os mapas GEE e as matrizes de transição.

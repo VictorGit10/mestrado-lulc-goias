@@ -100,7 +100,7 @@ Coeficiente θ do termo de vizinhança (W·Δagric), IC95%. O deslocamento previ
 
 ## Limitações
 
-- **N pequeno no lead-lag** (39 primeiras diferenças, agregado regional) → baixo poder do Granger; o reverso significativo deve ser lido como sugestivo, não firme.
+- **N pequeno no lead-lag** (39 primeiras diferenças, agregado regional) → **baixo poder do Granger, agora quantificado**. Simulação Monte Carlo do próprio teste (`grangercausalitytests`, ssr F, T=38, em `scripts/_poder_granger_deslocamento.py`): tamanho do teste 5% no nulo, mas o poder é só **~48% para um efeito moderado** (correlação parcial ≈0,3) e **~93% para um grande** (≈0,5). **Consequência**: o nulo forward (p=0,97) é fraco *por si só* — não *refuta*, apenas *não corrobora* — e o reverso significativo deve ser lido como sugestivo, não firme. O que sustenta a leitura de **não-deslocamento causal** é o **spillover direcional de sinal trocado** (θ=−0,16, **p=0,02**, oposto ao previsto, Parte B, item 3) somado ao **Toda-Yamamoto** (#42), não este Granger agregado.
 - **Teste espacial é local e contemporâneo** (vizinhos imediatos, mesmo ano). **Não descarta** deslocamento de longo alcance ou de defasagem muito longa — apenas mostra que a assinatura local/direcional esperada **não aparece**.
 - **O drive comum é inferido, não testado.** Atribuir o co-movimento ao boom/crédito é a leitura mais parcimoniosa; provar exigiria instrumentos de preço/crédito (fora do escopo).
 - **Agregação regional e de AMC** suaviza heterogeneidade interna; um deslocamento muito localizado poderia escapar das duas escalas (mas as duas concordam no nulo).

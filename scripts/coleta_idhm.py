@@ -208,6 +208,48 @@ def _ler_basedosdados(caminho: Path) -> pd.DataFrame:
     return df
 
 
+def _mapa_cd6_para_cd7() -> dict[int, int]:
+    """Mapa código IBGE de 6→7 dígitos para os municípios de GO.
+
+    O 7º dígito do código IBGE é um verificador que **não tem fórmula pública
+    confiável**: reconstruí-lo aritmeticamente produz DV errado (ex.: o prefixo
+    520870 → 5208707 na tabela oficial, e não 5208700 como daria um mód-10/mód-11).
+    Por isso nunca calculamos o DV — buscamos o código de 7 dígitos numa fonte
+    oficial (centróides dos 246 municípios de GO) e derivamos o prefixo de 6
+    dígitos por divisão inteira (cd7 // 10).
+    """
+    fonte = DIR_PROCESSED / "municipios_centroides_go.csv"
+    if not fonte.exists():
+        return {}
+    codigos = pd.read_csv(fonte, usecols=["cd_mun"])["cd_mun"].dropna().astype(int)
+    return {int(c) // 10: int(c) for c in codigos}
+
+
+def _expandir_cd6_para_cd7(df: pd.DataFrame, mask_6: pd.Series) -> pd.DataFrame:
+    """Converte códigos municipais de 6→7 dígitos por lookup (nunca por cálculo de DV).
+
+    Só atua nas linhas de `mask_6`. Códigos sem correspondência viram <NA>
+    (falham no merge de forma visível) em vez de receber um DV inventado.
+    """
+    mapa = _mapa_cd6_para_cd7()
+    if not mapa:
+        print(
+            "  [AVISO] Há códigos de 6 dígitos, mas a tabela de referência "
+            "(data/processed/municipios_centroides_go.csv) não foi encontrada. "
+            "Mantidos com 6 dígitos — não casarão com o painel de 7 dígitos. "
+            "Rode antes o pipeline que gera os centróides de GO."
+        )
+        return df
+    cd6 = df.loc[mask_6, "cd_mun"].astype(int)
+    convertidos = cd6.map(mapa).astype("Int64")
+    faltando = sorted(cd6[convertidos.isna()].unique().tolist())
+    if faltando:
+        print(f"  [AVISO] {len(faltando)} código(s) de 6 dígitos sem correspondência "
+              f"7-dígitos (viram <NA>): {faltando}")
+    df.loc[mask_6, "cd_mun"] = convertidos
+    return df
+
+
 def _normalizar_colunas(df: pd.DataFrame) -> pd.DataFrame:
     """Normaliza nomes de colunas para o schema canônico."""
     rename = {}
@@ -229,12 +271,7 @@ def _normalizar_colunas(df: pd.DataFrame) -> pd.DataFrame:
         df["cd_mun"] = pd.to_numeric(df["cd_mun"], errors="coerce").astype("Int64")
         mask_6 = df["cd_mun"].astype(str).str.len() == 6
         if mask_6.any():
-            def _dv_7dig(cd6: int) -> int:
-                s = str(cd6)
-                resto = sum(int(s[i]) * (7 - i) for i in range(6)) % 10
-                dv = 0 if resto == 0 else 10 - resto
-                return cd6 * 10 + dv
-            df.loc[mask_6, "cd_mun"] = df.loc[mask_6, "cd_mun"].apply(_dv_7dig)
+            df = _expandir_cd6_para_cd7(df, mask_6)
 
     if "ano" in df.columns:
         df["ano"] = pd.to_numeric(df["ano"], errors="coerce").astype("Int64")

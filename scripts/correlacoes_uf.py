@@ -30,6 +30,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import statsmodels.api as sm
+from statsmodels.stats.multitest import multipletests
 
 ROOT = Path(__file__).resolve().parent.parent
 DIR_DATA = ROOT / "data" / "processed"
@@ -204,22 +205,39 @@ def main() -> None:
 
     results_df = pd.DataFrame(results)
 
+    # Correção de multiplicidade (Benjamini-Hochberg) sobre os p de Pearson.
+    # Com ~36 testes a α=0,05, ~1,8 falso-positivo é esperado sob H0; sem FDR
+    # um único "significativo" é indistinguível de ruído (ver doc #21).
+    results_df["pearson_p_fdr"] = np.nan
+    mask_valid = results_df["pearson_p"].notna()
+    if mask_valid.any():
+        _, p_fdr, _, _ = multipletests(
+            results_df.loc[mask_valid, "pearson_p"].to_numpy(),
+            alpha=0.05, method="fdr_bh",
+        )
+        results_df.loc[mask_valid, "pearson_p_fdr"] = p_fdr
+
     # Salvar tabela
     out_csv = DIR_OUT / "uf_deltas.csv"
     results_df.to_csv(out_csv, index=False)
     print(f"OK: {out_csv.name} ({len(results_df)} pares)")
 
-    # ── Resumo ──
-    print("\n=== Correlações significativas (p < 0.05) ===")
-    sig = results_df[(results_df["pearson_p"] < 0.05) & results_df["pearson_r"].notna()]
-    if len(sig) > 0:
-        for _, row in sig.iterrows():
-            print(f"  {row['lulc_classe']:20s} × {row['socio_var']:25s} "
-                  f"lag={row['lag']} "
-                  f"r={row['pearson_r']:+.3f} p={row['pearson_p']:.3f} "
-                  f"({row['metrica_lulc']} vs {row['metrica_socio']})")
-    else:
-        print("  Nenhuma correlação significativa encontrada.")
+    # ── Resumo (com correção de multiplicidade) ──
+    n_testes = int(results_df["pearson_p"].notna().sum())
+    sig_bruto = results_df[(results_df["pearson_p"] < 0.05) & results_df["pearson_r"].notna()]
+    sig_fdr = results_df[(results_df["pearson_p_fdr"] < 0.05) & results_df["pearson_r"].notna()]
+
+    print(f"\n=== Multiplicidade: {n_testes} testes de Pearson ===")
+    print(f"  p<0,05 SEM correção: {len(sig_bruto)} "
+          f"(esperado ~{0.05 * n_testes:.1f} por acaso sob H0)")
+    for _, row in sig_bruto.iterrows():
+        print(f"    [bruto] {row['lulc_classe']:18s} × {row['socio_var']:24s} "
+              f"lag={row['lag']} r={row['pearson_r']:+.3f} "
+              f"p={row['pearson_p']:.3f} q_fdr={row['pearson_p_fdr']:.3f}")
+    print(f"  Sobrevivem ao FDR-BH (q<0,05): {len(sig_fdr)}")
+    if len(sig_fdr) == 0:
+        print("    Nenhuma correlação sobrevive à correção de multiplicidade — "
+              "ausência de associação robusta ao nível UF (evidência negativa).")
 
     # ── Figuras ──
     print("\nGerando scatter plots...")

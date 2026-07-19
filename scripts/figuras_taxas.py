@@ -102,10 +102,10 @@ def fig_slope_uf(taxas: pd.DataFrame):
         ax = axes[i]
         anos = taxas["ano"].values
         slope = taxas[f"{g}_slope_5a_centr"].values
-        se = taxas[f"{g}_slope_se_nw"].values
 
-        # Faixa de confiança (usando SE do trail como aproximação)
-        se_plot = taxas[f"{g}_slope_se_nw"].values
+        # Faixa de confiança do próprio slope centrado (SE HAC da janela centrada,
+        # não mais o SE do trail — ver #17/#20: o SE centrado passou a ser salvo)
+        se_plot = taxas[f"{g}_slope_5a_centr_se"].values
         upper = slope + 1.96 * se_plot
         lower = slope - 1.96 * se_plot
 
