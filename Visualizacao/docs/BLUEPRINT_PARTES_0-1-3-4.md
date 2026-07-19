@@ -11,9 +11,11 @@
 
 ---
 
-## PARTE 0 · Abertura (hero) — entrega a tese + planta a virada
+## PARTE 0 · Abertura (hero) — entrega o fenômeno + a virada
 
-*Decisão travada: o hero entrega o destino; o suspense fica no "por quê".*
+*Decisão travada: o hero entrega o **fenômeno + a virada** (a marcha e o "a explicação
+óbvia está errada"), **não o veredito** (as 4 pernas ficam para a Parte 2). O suspense fica
+no "por quê".*
 
 **Sobrelinha (eyebrow)**
 > Dissertação CIAMB-UFG · Goiás · 1985–2024
@@ -243,3 +245,17 @@ moldura e a nova organização; as exposições de método já existem no site.*
         ↓
 4 · A oficina  ── periodização · robustez · painel · decisões · limites
 ```
+
+### Navegação — o rail lateral (a tarefa que falta na moldura)
+
+Um scroll único com a Parte 2 (4 pernas densas) e a Parte 4 (a oficina) é longo demais
+para depender só da rolagem. Entra um **rail lateral fixo**, visível a partir do início da
+Parte 1 (não no hero, para não competir com a abertura):
+
+- **Conteúdo:** as 4 partes (0–4), com as **4 pernas** aninhadas sob a Parte 2.
+- **Comportamento:** marca a seção/perna atual conforme o scroll; clique salta direto ao
+  veredito (Parte 3) ou à oficina (Parte 4) sem rolar tudo.
+- **Por que é inegociável:** sem ele, o leitor que veio pela tese pode nunca chegar ao selo
+  de credibilidade (Parte 3) nem descobrir que a oficina existe — dissolver as abas sem
+  rail é um regresso de UX. É peça de moldura, não de conteúdo; entra no mesmo passo do
+  "scroll único".

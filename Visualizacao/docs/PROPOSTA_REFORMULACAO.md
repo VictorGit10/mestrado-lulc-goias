@@ -16,7 +16,10 @@
 
 **A ideia numa frase:** transformar o site de um *catálogo de achados em três
 movimentos* numa **história de detetive em três partes que termina nas 4 pernas** —
-onde o leitor descobre a tese junto com a investigação, em vez de recebê-la pronta.
+onde o leitor descobre o **veredito** (as 4 pernas) junto com a investigação, em vez de
+recebê-lo pronto. O hero entrega o **fenômeno + a virada** (a marcha e o "a explicação
+óbvia está errada"), **não o veredito**: o suspense fica no *por quê*, e é o que se
+descobre na Parte 2. (Analogia de detetive: o hero dá o crime, não a solução.)
 
 **O que se mantém (inegociável):**
 - O **scroll dos 40 anos de mapa** (`timeline.js` + seção `story`) — abre a peça.
@@ -102,9 +105,18 @@ autocorreções são o motivo para confiar nele.
 ## 4. Nova estrutura — seção a seção
 
 **Decisão travada:** é **um scroll único e contínuo** (as abas *Narrativa | Métodos*
-somem). A história corre de cima a baixo — Partes 0→3 — e **"A oficina"** (era
+somem). A história corre de cima a baixo — Partes 0→4 — e **"A oficina"** (era
 *Métodos*) fecha como a **Parte 4**, um apêndice no fim do mesmo scroll para quem
 quiser descer até a metodologia.
+
+**Navegação (a tarefa que falta):** um scroll único com a Parte 2 (4 pernas densas) e a
+Parte 4 (a oficina) é longo demais para depender só da rolagem — o leitor que veio pelo
+veredito corre o risco de não chegar à Parte 3 (o selo de credibilidade) nem de saber que
+a oficina existe. Entra um **rail lateral fixo** (sumário/ToC com as 4 partes e, sob a
+Parte 2, as 4 pernas), visível a partir do início da Parte 1: marca a posição atual,
+permite saltar direto ao veredito ou à oficina, e é o que torna o "scroll único"
+ navegável em vez de exaustivo. É barato e essencial — sem ele, dissolver as abas é um
+ regresso.
 
 ### PARTE 0 · Abertura (hero) — a promessa + a virada
 **Decisão travada:** o hero **entrega a tese logo** (a marcha + a virada iLUC); o
@@ -181,6 +193,11 @@ frase**, contadas como descoberta:
   sobre um **gradiente de aptidão** — rotulado sem exagero como *"corroborante, não
   estabelecido"* (#37/#38/#52/#54; p de permutação ≈0,07–0,13, não significante a 5%).
 - É a seção que mais precisa da **voz narrativa** (puxar direto da `narrativa`/`ensaio`).
+- **Compensa a falta de interativa** com um **esquema estático de 2 painéis** para o #42: a
+  regressão espúria tem um visual canônico — duas séries lisas que correlacionam por
+  construção (o pasto do Norte "antecipa" até o pasto do próprio Sul, que nenhum
+  mecanismo econômico explicaria). Um desenho pequeno torna o "espúrio" visível sem
+  precisar de palavras técnicas; soma-se às figuras #34/#42, não as substitui.
 
 **Perna 4 — Por que desacelerou? → Bateu no teto de oferta.**
 - A fronteira **persegue o Cerrado convertível que só resta no norte**; o Sul fechou a
@@ -244,7 +261,8 @@ frase**, contadas como descoberta:
 
 ## 7. Decisões (fechadas em jul/2026)
 
-1. **Hero:** ✅ **entrega a tese logo** (a marcha + a virada iLUC). O suspense fica no
+1. **Hero:** ✅ **entrega o fenômeno + a virada** (a marcha + "a explicação óbvia está
+   errada"), **não o veredito** (as 4 pernas ficam para a Parte 2). O suspense fica no
    "por quê", não no "o quê".
 2. **Estrutura:** ✅ **scroll único e contínuo** — as abas somem; a oficina vira a
    Parte 4, no fim do mesmo scroll.
@@ -253,6 +271,14 @@ frase**, contadas como descoberta:
 4. **Idade do pasto:** ✅ **re-cablear, não simplificar** — mapa e histograma passam a
    conversar (selecionar região redesenha o histograma, que segue bimodal), para que a
    interação *seja* o argumento #28C. Detalhe na Perna 2 acima.
+5. **Navegação:** ✅ **rail lateral fixo** (ToC: 4 partes + as 4 pernas sob a Parte 2),
+   visível a partir da Parte 1, marcando posição e permitindo saltar ao veredito/oficina.
+   Scroll único longo demais para depender só da rolagem — sem ele, dissolver as abas é
+   um regresso.
+6. **Perna 3 sem interativa:** ✅ **um esquema estático de 2 painéis** para o #42 (regressão
+   espúria: duas séries lisas que correlacionam por construção) — compensa o fato de a
+   perna-clímax ser a mais textual e a única sem peça interativa. Não substitui as figuras
+   #34/#42; soma-se a elas.
 
 ### Próximo passo sugerido
 Detalhar o **blueprint da Parte 2 em nível de copy** (título, pergunta de abertura,

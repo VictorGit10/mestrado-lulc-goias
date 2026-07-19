@@ -122,10 +122,26 @@ explica a idade do pasto — era confundidor de latitude. A frase certa é sempr
 ## Perna 3 — É a lavoura do Sul empurrando o Norte? *(o clímax)*
 
 🎞️ Ancora nas figuras do #34 (lead-lag / spillover direcional) e no painel de
-autocorreção do #42. Sem interativa nova — é a perna da **voz narrativa**.
+autocorreção do #42. É a única perna sem peça interativa — compensa com um **esquema
+estático de 2 painéis** (ver abaixo) além das figuras, e com a **voz narrativa**.
 🔗 #34 (o teste formal, nulo) · #42 (o Granger reverso, espúrio — a peça-modelo) ·
 #37/#38/#52/#54 (o drive comum, corroborante) · #41 (fogo, vanguarda geográfica não
 temporal).
+
+**Esquema estático do #42 (mini-figura, 2 painéis)** — *(não é copy, é direção visual; o
+desenho final vive no HTML, mas o conceito congela aqui porque é o que torna "espúrio"
+visível sem jargão).*
+- *Painel A — o "resultado que invertia a tese":* duas linhas suaves e paralelas subindo
+  juntas (Norte pasto, Sul pasto), com uma seta "antecede?" apontando do Norte para o Sul.
+  Legenda curta: *"Rodado ao contrário, o teste dava significativo — o Norte 'anteciparia'
+  o Sul."*
+- *Painel B — a prova de que é espúrio:* as mesmas duas linhas, agora com uma terceira
+  igualmente lisa e sem relação (ex.: consumo de cerveja per capita, marcado como "qualquer
+  série nortenha suave"), também "antecipando" o Sul. Legenda: *"Qualquer série lisa
+  'prevê' qualquer outra — até o pasto do Sul por ele mesmo. Com o método certo para séries
+  integradas (Toda-Yamamoto), a precedência some nas duas direções."*
+- A mini-figura carrega a ideia que o corpo da perna já explica em texto: dá ao leitor um
+  *aha* visual no ponto mais denso da peça. Repete o tom dos outros "o que isto NÃO diz".
 
 **PERGUNTA**
 > Então foi a lavoura do Sul que empurrou o pasto e o boi para o Norte?
@@ -232,6 +248,14 @@ banca fosse.**
   (#32); gradiente ~120–130 km (#32); idade ~5 e ~22/35 anos, Sul ~9 / Norte ~20 (#28);
   η² região 2,5%/7,3%, tempo 20%, 34/36 AMCs (#28C); estoque estadual ~60%, Sul ~53%
   (#39); 97% desprotegido (#46); ~973 Mt CO₂e (#47).
-- **A Perna 3 é a única sem interativa nova** — compensar com ritmo de texto e as duas
-  figuras (#34 e #42). É a perna que mais se beneficia de puxar frases direto do
-  `ensaio_a_investigacao.md`.
+- **A Perna 3 é a única sem interativa nova** — compensar com o esquema estático de 2
+  painéis (ver acima) e as figuras #34/#42. É a perna que mais se beneficia de puxar frases
+  direto do `ensaio_a_investigacao.md`.
+- **Viabilidade da Perna 2 (checar antes de tratar como herói):** o redesenho do
+  histograma ao selecionar uma região só fica instantâneo se as distribuições de idade
+  **por AMC** estiverem **pré-computadas** (são ~78 mil pontos). Pré-calcular os histogramas
+  binned por AMC (e por região agregada) ao build, e ao selecionar só ler o bin-array
+  correspondente — não reamostrar 78k pontos ao vivo. Confirmar que os 78k pontos cobrem as
+  36 AMCs com N razoável por AMC; se alguma AMC ficar rasa, fallback para o agregado da
+  mesorregião. **Decidir isto antes de comprometer a peça como hero da Perna 2** — se a
+  pré-computação não for viável, o "aha" do redesenho borra e a peça perde a aposta.
