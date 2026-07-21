@@ -203,6 +203,15 @@ Implementado em [`scripts/estatistica_ponderada.py`](../../scripts/estatistica_p
 (`python scripts/estatistica_ponderada.py` roda a suíte). Inclui GMM ponderado por
 EM, porque `sklearn.mixture.GaussianMixture` não aceita `sample_weight`.
 
+**Complemento de 21/jul (ver §7.2):** o contrato vale por **módulo**, não por
+repositório. Um pipeline que faz a própria conta com peso — η², ω², coeficiente de
+Sarle, permutação — precisa da própria suíte, porque a suíte do
+`estatistica_ponderada.py` não o cobre e passa mesmo enquanto ele erra. Segundo
+ponto de contrato em
+[`scripts/bimodalidade_regional.py`](../../scripts/bimodalidade_regional.py)
+(`--testar`), que inclui um caso que só existe sob peso: sob H₀, o piso empírico da
+permutação tem que reproduzir o analítico (k−1)/(W−1).
+
 ---
 
 ## 5. Receita — quando trocar amostra por censo
@@ -246,6 +255,9 @@ não.
    (480 mil e 955 mil px) — é ausência real de conversão, no Vão do Paranã.
 6. **Números do documento conferidos contra o dado, por script** — não por
    leitura. (20 de 20 conferem.)
+7. **Callers enumerados ao trocar o default de uma função de carga.**
+   `grep -rn "carregar(" scripts/` — quem chama sem argumento herda a estrutura
+   nova em silêncio. Foi o passo que faltou e produziu o §7.2.
 
 ---
 
@@ -272,13 +284,136 @@ Trocar amostra por censo não é só ganho:
 
 ---
 
-## 7. Efeito colateral em outro pipeline
+## 7. Efeitos colaterais em outros pipelines
 
-O `export_idade_histograma_regional.py` (#28C) tinha escolhido operar em
-**mesorregiões** em vez de AMCs porque só 36 de 158 AMCs tinham n≥100 pixels
-não-censurados. Com o censo, **164 de 164 passam**. A restrição que motivou a
-escolha desapareceu; a decisão de qual malha o site expõe virou editorial, não
-técnica. Ambos os blocos continuam exportados.
+### 7.1 Restrição que evaporou (`export_idade_histograma_regional.py`)
+
+O exportador da viz (tooling do #28/#28C, sem número próprio) tinha escolhido
+operar em **mesorregiões** em vez de AMCs porque só 36 de 158 AMCs tinham n≥100
+pixels não-censurados. Com o censo, **164 de 164 passam**. A restrição que
+motivou a escolha desapareceu; a decisão de qual malha o site expõe virou
+editorial, não técnica. Ambos os blocos continuam exportados.
+
+### 7.2 O #28C quebrou em silêncio — e é a lição mais transferível daqui
+
+Descoberto em **21/jul/2026**, na auditoria do próprio commit do censo.
+
+`carregar()` passou a **defaultar para `"censo"`**. O `bimodalidade_regional.py`
+(#28C) chamava `carregar()` sem argumento e **não era peso-aware**: nenhuma das
+suas estatísticas (η², ω², BC de Sarle, permutação, GMM, mediana, filtro de n)
+consumia a coluna `peso`. Da noite para o dia ele passou a ler **396.787 células
+como 396.787 pixels de peso igual**, sobreponderando brutalmente as combinações
+raras. E não falhou: rodou, escreveu CSVs, imprimiu um veredito.
+
+O efeito no achado central:
+
+| Mesorregião | Mediana sem peso (o que sairia) | Mediana com peso (correto) |
+|---|---|---|
+| Sul | 10 | 9 |
+| Centro | 10 | 9 |
+| Leste | 11 | 10 |
+| Noroeste | 12 | **16** |
+| Norte | 12 | **16** |
+
+**O gradiente Sul→Norte desaparecia** — o próprio achado que o #28/#40 sustentam.
+Um leitor cuidadoso teria concluído que a geografia não organiza nada, e o número
+não teria nenhuma marca de estar errado.
+
+Três lições, nesta ordem de importância:
+
+1. **Mudar o default de uma função de carga é uma mudança de contrato, não de
+   conveniência.** `carregar(fonte="censo")` parece inofensivo e é o valor certo
+   para o caller que você está editando. Mas todo caller que *não* passou o
+   argumento herdou uma estrutura de dados diferente — linha = célula, não
+   observação — sem uma linha de diff que o denuncie. Ao trocar um default,
+   enumere os callers: `grep -rn "carregar(" scripts/`.
+2. **Tabela de contingência é um tipo diferente de DataFrame, e o sistema de
+   tipos não sabe disso.** Uma função que recebe "um DataFrame com idade" não
+   consegue distinguir 400 mil pixels de 400 mil células. A defesa barata é
+   sempre imprimir **linhas e eventos lado a lado** (o #28C agora faz isso, e
+   aborta se `fonte=censo` e Σpeso == nº de linhas).
+3. **O contrato D24 precisa cobrir cada módulo que faz estatística, não só o
+   módulo de estatística.** `estatistica_ponderada.testa_equivalencia()` passava
+   — e passava honestamente — enquanto o #28C calculava η² com `.mean()` puro,
+   porque o #28C não usava aquele módulo. Cada lugar que faz conta com peso
+   precisa do seu próprio teste de redução a peso=1
+   (`bimodalidade_regional.py --testar`).
+
+Reparado no mesmo dia: todas as estatísticas do #28C foram reescritas com peso,
+a permutação passou a operar no **nível do evento** (hipergeométrico multivariado
+com tamanhos de grupo fixos — embaralhar linhas, sob censo, permutaria blocos de
+pixels e testaria uma nula mais frouxa), e os CSVs passaram a gravar a coluna
+`fonte`. O veredito do #28C **não mudou** (a geografia modula o peso, não cria os
+modos), e agora ele é sustentado por estabilidade censo × amostra em vez de por
+um p-valor degenerado.
+
+### 7.3 O #33 e a censura — quando a resposta certa é "não agregue"
+
+Também em 21/jul, ao migrar o último consumidor do #28 (`transicoes_regionais.py`,
+#33), a pergunta parecia binária: a mediana de idade deve **incluir** ou
+**excluir** os pixels censurados? As duas respostas estavam erradas, e a razão é
+transferível.
+
+**A censura não mede idade — mede horizonte.** Um pixel é censurado quando sua
+fase de pastagem alcança 1985, e aí a idade gravada é exatamente `ano − 1985`
+(invariante conferida: 0 violações em 44,6 M de eventos). Logo a taxa de censura
+é governada por **quando** a região converteu:
+
+| meso | censura | ano mediano de conversão | horizonte |
+|---|---|---|---|
+| Sul | **70,9%** | 2002 | 17a |
+| Centro | 70,9% | 2008 | 23a |
+| Leste | 36,8% | 2007 | 22a |
+| Noroeste | 52,0% | 2013 | 28a |
+| Norte | **41,9%** | 2014 | 29a |
+
+A censura é **maior no Sul**, não no Norte — o inverso da intuição, e o inverso
+do que a hipótese "o Norte tem pasto mais velho, logo mais censura" prevê. Com
+isso, **42,6%** dos censurados do Sul têm limite inferior ≤10 anos (contra 7,9%
+no Norte): pasto anterior a 1985 gravado como "5 anos". Somando que o Ato I
+(horizonte 1–15a, 45–84% de censura) pesa **45,3%** dos eventos no Sul e
+**12,4%** no Norte, o agregado 1986–2024 era uma média ponderada de artefato de
+horizonte, com pesos que variam por região — incomparável entre regiões.
+
+**A saída não é escolher entre incluir e excluir; é estratificar e rotular.**
+Duas ferramentas resolveram:
+
+1. **A mediana face value é sempre um limite inferior válido** da mediana
+   verdadeira — sem nenhuma hipótese. Cada censurado é um limite inferior, e
+   trocar valores por outros maiores só empurra o quantil para cima ou o mantém.
+2. **Ela é EXATA quando todo censurado está acima dela**, porque aí a correção
+   não a atravessa. Este é um teste sobre o **dado**, não uma regra por período.
+
+Aplicado ao #28: identificado nas 5 mesorregiões **só no Ato III** (horizonte
+35–39a). E o Kaplan-Meier concorda com a face value nas 5 células, confirmando
+que ali a censura não morde. Nos Atos I e II, 10 das 15 células ficam entre
+"limite inferior" e "não informativa". Resultado: `idade_pasto_mediana_a` fica
+**vazia** onde não é medição, e o limite inferior sai à parte, rotulado.
+
+Duas lições gerais:
+
+- **Kaplan-Meier não era a resposta.** A validade do KM exige censura
+  independente da duração; aqui a censura *é* o horizonte, que correlaciona com
+  a idade exatamente porque regiões diferentes converteram em épocas diferentes.
+  Onde o KM mais "corrigiria" (Ato II, Sul: 20a → 33a) é onde ele é menos
+  confiável. Ele entrou como **sensibilidade**, nunca como o número reportado.
+- **Um limite inferior rotulado vale mais que um ponto estimado sem hipótese
+  que o sustente.** A tentação era publicar o número do KM e seguir; o honesto
+  foi publicar 5 medições e 10 rótulos de "não medido".
+
+⚠️ Consequência para leitura cruzada: o **#28C** roda só sobre não-censurados —
+correto para uma análise de *forma* (a pilha de censura corromperia o GMM), mas
+isso descreve a subpopulação observável, não a idade do pasto convertido. A
+**ordenação** é robusta nas PONTAS e instável no meio: Sul e Leste ficam sempre no
+extremo jovem, Noroeste e Norte sempre no velho, mas o **Centro Goiano** vai de 1º
+mais jovem (#28C, 9a) a 4º (#33 Ato III, 28a). Não é contradição — é o efeito
+esperado de 70,9% de censura: o subconjunto não-censurado do Centro é pequeno e
+selecionado-jovem. Os **níveis** não são comparáveis entre #28C e #33 em nenhuma
+das cinco.
+
+⚠️ Uma versão anterior desta nota afirmava "a ordenação é robusta a todos os
+estimadores". Era overclaim — verdadeiro para 4 das 5 mesorregiões, não para o
+Centro. Corrigido em 21/jul.
 
 ---
 
@@ -290,6 +425,9 @@ técnica. Ambos os blocos continuam exportados.
 | `scripts/baixa_export_drive.py` | Download (reusa o refresh token do GEE, que já tem escopo Drive) |
 | `scripts/processa_cubo_idade.py` | Censo em janelas → tabela de contingência |
 | `scripts/estatistica_ponderada.py` | Estatística com peso + suíte do contrato (D24) |
+| `scripts/bimodalidade_regional.py` | #28C — η²/ω²/Sarle/permutação com peso + 2ª suíte D24 (`--testar`); ver §7.2 |
+| `scripts/export_idade_histograma_regional.py` | Export da viz por região (meso + AMC) |
+| `scripts/transicoes_regionais.py` | #33 — idade por meso×ato com rótulo de identificação; ver §7.3 |
 | `scripts/analise_reserva_terra.py` | Análise, `--fonte censo\|amostra` |
 | `scripts/compara_censo_amostra.py` | Confronto em dois níveis (§3) |
 | `scripts/fig_sintese_idade_atos.py` | Figura do site (antes era PNG órfão sem script) |

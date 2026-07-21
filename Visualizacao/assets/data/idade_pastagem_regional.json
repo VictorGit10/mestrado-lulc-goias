@@ -1,6 +1,6 @@
 {
   "meta": {
-    "fonte": "pastagem_idade_conversao.csv (#28A) + config_periodos + amc_crosswalk (#25)",
+    "fonte": "pastagem_idade_censo.parquet (#28 censo) + config_periodos + amc_crosswalk (#25)",
     "gerado_por": "scripts/export_idade_histograma_regional.py",
     "malha_interativa": "mesorregiao (Opção A)",
     "bins": [

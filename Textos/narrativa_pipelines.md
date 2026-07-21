@@ -462,8 +462,12 @@ transição-mãe de Goiás é `veg→pasto` (pervasiva); `pasto→agric` só *li
 Ato II (o boom). O deslocamento aparece no **balanço líquido**: no Ato II o Sul *perde* pasto
 líquido (−0,57 Mha) e ganha agricultura, enquanto Norte/Noroeste ganham pasto. No Ato III o
 `pasto→agric` do Sul **despenca −88%** (e a agricultura desacelera, fechando com o #32),
-enquanto o `veg→pasto` do Norte persiste. A idade do pasto (#28) costura tudo: Sul 9 anos
-(reserva jovem) → Norte 20 anos (fronteira).
+enquanto o `veg→pasto` do Norte persiste. A idade do pasto (#28) costura tudo — mas só onde é
+mensurável: no **Ato III**, Sul **16 anos** (reserva comparativamente jovem) → Norte **27** /
+Noroeste **31 anos** (fronteira). Nos Atos I e II a censura à esquerda consome a mediana
+(o Sul tem 70,9% de censura porque converteu cedo, não porque tem pasto velho), então
+**não** há série temporal de idade a narrar — só o corte transversal recente.
+Revisado em 21/jul/2026; ver §7.3 de `metodologia/censo_vs_amostra.md`.
 
 ### Camada 3 — É deslocamento causal? `deslocamento_espacial.py` (#34)
 

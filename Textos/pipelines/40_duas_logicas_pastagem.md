@@ -85,7 +85,8 @@ A contribuição sólida do #40 é **espacializar** a bimodalidade do #28: cada 
 recebe sua mistura de mecanismos. **Rotação (jovem ≤8a) domina Sul/Centro; Oportunístico
 (antigo ≥20a) concentra-se no Norte** (mapa AMC). É o gradiente de mesorregião do #28
 (Sul 9a → Norte 16a, não-censurado) em resolução fina, alinhado ao eixo Sul→Norte de
-#32/#39:
+#32/#39. ⚠️ Esta página mede **peso da mistura**, não idade — ver
+["O que a família da idade estabelece"](28_idade_pastagem.md#o-que-a-família-da-idade-estabelece):
 
 - índice jovem↔antigo × latitude: **r = −0,236** (p=0,002, n=164 AMCs)
 - idade mediana × latitude: r = +0,176 (p=0,024)

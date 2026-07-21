@@ -5,6 +5,95 @@
 **Status**: ✅ Censo de pixels concluído (2026-07-21). Sub-pipeline C (aba na `Visualizacao/`) atualizado.
 **Outputs**: `data/processed/pastagem_idade_censo.parquet` (**44.639.028 eventos de conversão**), 9 PNGs em `outputs/idade_pastagem/`, 3 JSONs em `Visualizacao/assets/data/`.
 
+---
+
+# O que a família da idade estabelece
+
+*Seção-hub (21/jul/2026). Se você só vai ler uma coisa sobre idade da pastagem,
+leia isto. `#28C`, `#33` e `#40` apontam para cá em vez de cada um repetir suas
+próprias ressalvas. O histórico de por que os números mudaram está no bloco
+seguinte e em [`censo_vs_amostra.md`](../metodologia/censo_vs_amostra.md) — é
+registro forense para banca, não leitura necessária para entender o achado.*
+
+## Primeiro: três coisas diferentes se chamam "idade do pasto"
+
+Quase toda contradição aparente nesta família vem de cruzar duas destas. São
+quantidades distintas, cada uma legítima para uma pergunta. **Nunca citar uma no
+lugar da outra.**
+
+| | responde | onde | censurados |
+|---|---|---|---|
+| **Forma** | *existem dois mecanismos?* | #28, #28C | **exclui** — a pilha de censura no horizonte quebraria o GMM |
+| **Nível** | *quão velho é o pasto convertido aqui?* | #33 (Ato III) | **inclui**, e só onde é identificável |
+| **Peso** | *qual mecanismo domina onde?* | #40 (índice jovem) | mistura, não idade |
+
+Os **níveis** não são comparáveis entre #28C e #33 — o #28C descreve a
+subpopulação observável. A **ordenação** é robusta nas pontas (Sul e Leste
+jovens, Noroeste e Norte velhos) e **instável no Centro Goiano**, que tem 70,9%
+de censura e por isso um não-censurado pequeno e selecionado-jovem.
+
+## O achado
+
+Dois mecanismos de conversão pasto → lavoura **coexistem em toda parte** de Goiás:
+
+- **Giro** (μ₁ ≈ **4,4 anos**) — pasto em rotação ativa: ILP, ou pasto como etapa
+  antes da lavoura.
+- **Reserva** (μ₂ ≈ **22,9 anos**) — pasto antigo sendo capitalizado, a "reserva
+  de terra" acionada.
+
+E o balanço entre eles pende em dois eixos: no **espaço** (Sul/Leste → giro;
+Noroeste/Norte → reserva) e no **tempo** (giro ganhando peso, w₁ de 31,5% em
+2016–24 para 51,5% em 2020–24 — alcança a reserva, não a supera).
+
+> **O ponto que merece o centro da dissertação: a mudança é temporal, não
+> geográfica.** O tempo explica **19,6%** da separação jovem/velho contra
+> **1,3%** do espaço (mesorregião), e **cada** unidade é bimodal por dentro —
+> 5/5 mesorregiões e 162/164 AMCs. Ou seja, a leitura intuitiva de "dois
+> Goiáses, cada um com sua lógica" **é falsa**: todo lugar faz as duas coisas, e
+> o que está mudando é o balanço, virando para o giro em todo o estado ao mesmo
+> tempo, com inclinação latitudinal. O que a fronteira do Norte tem de diferente
+> não é uma lógica própria — é mais pasto velho a capitalizar e mais Cerrado
+> restante (#39).
+
+## O que sobreviveu a cinco rodadas de correção
+
+Envelope amostral, classe 21, migração para censo, bug de peso do #28C e censura
+do #33 — cinco episódios com métodos e dados diferentes. Não moveram:
+
+| | |
+|---|---|
+| Bimodalidade existe | μ₁ ≈ 4,4a e μ₂ ≈ 22,9a, estáveis em 4 janelas |
+| Não é composição regional | 5/5 mesos e 162/164 AMCs bimodais **por dentro** |
+| Tempo ≫ espaço | 19,6% × 1,3% da separação jovem/velho |
+| Modo jovem ganha peso | w₁ 31,5% → 51,5% |
+| Gradiente nas pontas | Sul/Leste jovens × Noroeste/Norte velhos, em todo estimador |
+
+## O que foi aposentado — não citar
+
+1. ~~"A rotação está se tornando dominante"~~ → **alcança o empate** (51,5% ×
+   48,5%). Morreu na migração para censo.
+2. ~~Idade mediana por mesorregião agregando 1986–2024~~ (era "Sul 9a → Norte
+   20a", no #33) → **não identificada**: a censura mede horizonte, não idade, e é
+   maior no Sul (70,9%) que no Norte (41,9%) porque o Sul converteu cedo.
+   Identificado só no **Ato III**: Sul 16a · Leste 16a · Norte 27a · Centro 28a ·
+   Noroeste 31a.
+3. ~~"Sem efeito próprio do no-till"~~ (#40) → **não estabelecido**. Era
+   atenuação por erro de medida: nos mesmos municípios, p vai de 0,413 a 0,031
+   com a idade medida pelo censo.
+
+## Limites estruturais — permanentes, não pendências
+
+- **Censura à esquerda de 64,1%.** É o início da série MapBiomas (1985), não
+  defeito de método. Não há o que corrigir.
+- **Não existe série temporal de idade na conversão.** Atos I e II não são
+  identificáveis (horizonte curto demais); só o corte transversal recente é
+  mensurável. Portanto **não afirmar** que a idade do pasto convertido subiu ou
+  caiu ao longo do tempo.
+- **Erro de classificação do MapBiomas** passou a ser a maior incerteza restante,
+  já que o erro amostral saiu de cena com o censo.
+
+---
+
 > ## Reconstrução de 2026-07-21 — de amostra para censo
 >
 > O #28 deixou de ser amostra (2.000 px/ano) e passou a ser **censo**: todos os

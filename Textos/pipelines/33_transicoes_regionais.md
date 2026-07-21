@@ -6,6 +6,7 @@
 **Outputs**:
 - `data/processed/transicoes_regionais_matrizes.csv` — matriz 6×6 (mesorregião × ato), formato longo.
 - `data/processed/transicoes_regionais_fluxos_chave.csv` — fluxos-chave + balanço líquido + idade do pasto, por mesorregião × ato.
+- `data/processed/transicoes_regionais_idade.csv` — idade do pasto por mesorregião × ato **com rótulo de identificação** (`exata` / `limite_inferior` / `nao_informativa`), censura % e Kaplan-Meier de sensibilidade.
 - `data/processed/transicoes_regionais_dominante.csv` — conversão dominante por mesorregião × ato.
 - `outputs/transicoes_regionais/fluxos_chave.png` — barras pasto→agric vs veg→pasto, Sul→Norte, por ato.
 - `outputs/transicoes_regionais/dominante_grid.png` — grade mesorregião × ato da conversão dominante.
@@ -72,14 +73,49 @@ Em taxa anual, no Ato III (2020–2024):
 
 O mecanismo, portanto, **explica** o comportamento do centroide período a período.
 
-### 5. A idade do pasto (#28) sela a leitura
-Idade mediana do pasto na conversão para agricultura, por mesorregião:
+### 5. A idade do pasto (#28) sela a leitura — mas só no Ato III
 
-| Sul | Leste | Centro | Noroeste | Norte |
-| :---: | :---: | :---: | :---: | :---: |
-| **9 anos** | 12 | 15 | **20** | **20** |
+> **♻️ Revisado em 21/jul/2026.** A versão anterior desta seção publicava uma
+> idade mediana agregada 1986–2024 por mesorregião (**Sul 9 · Leste 12 · Centro
+> 15 · Noroeste 20 · Norte 20**). Esse número **foi retirado**: ele não estimava
+> nenhuma quantidade bem definida. Detalhe completo na nota de método de
+> `scripts/transicoes_regionais.py` e no §7.3 de
+> [`censo_vs_amostra.md`](../metodologia/censo_vs_amostra.md).
+>
+> Em resumo: um pixel é censurado quando sua fase de pastagem alcança 1985, e aí
+> a idade gravada é `ano − 1985` — um **limite inferior**, não uma medição. Logo
+> a censura mede o **horizonte de observação**, que depende de *quando* a região
+> converteu. O Sul converteu cedo e tem **70,9%** de censura; o Norte converteu
+> tarde e tem **41,9%**. A censura é maior no Sul, não no Norte. Como 42,6% dos
+> censurados do Sul têm limite inferior ≤10 anos (7,9% no Norte) e o Ato I pesa
+> 45,3% dos eventos no Sul contra 12,4% no Norte, o agregado era uma média de
+> artefato de horizonte com pesos que variam por região.
 
-No **Sul**, a lavoura consome pasto **jovem** — coerente com "pasto-reserva" deixado de propósito para virar lavoura (hipótese do #28). No **Norte**, o pasto é **antigo** (20 anos), e a ação ali é `veg→pasto` (fronteira nova), não conversão para lavoura. (O **Leste** é um pouco mais jovem que a posição sugere — é o Entorno do DF, que tem dinamismo agrícola próprio.)
+Com estratificação por ato, a idade só é **identificada no Ato III** (horizonte
+35–39 anos, censura inteiramente acima da mediana). Ali a mediana observada é
+exata — e o Kaplan-Meier concorda com ela nas cinco mesorregiões, confirmando
+que a censura não morde:
+
+| | Sul | Leste | Centro | Norte | Noroeste |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **Ato III (2020–24)** | **16a** | 16a | 28a | **27a** | **31a** |
+| censura | 29,3% | 21,0% | 41,9% | 32,0% | 39,5% |
+
+O gradiente sobrevive onde é mensurável: no **Sul** a lavoura consome pasto
+comparativamente **jovem** (16a) — coerente com "pasto-reserva" (#28) — e no
+**Noroeste/Norte** o pasto convertido é **antigo** (31a/27a), com a ação
+principal em `veg→pasto` (fronteira nova). O **Leste** segue mais jovem que a
+posição sugere (Entorno do DF, dinamismo próprio).
+
+**Ato I e Ato II não entram**: 10 das 15 células ficam entre "limite inferior" e
+"não informativa" (censura ≥50%). O CSV
+`transicoes_regionais_idade.csv` traz as 15 com rótulo de identificação, e a
+coluna `idade_pasto_mediana_a` do `fluxos_chave.csv` fica **vazia** onde o
+número não é medição — de propósito, para não ser plotado como se fosse.
+
+⚠️ Esta página mede **nível**, não forma: **não cruzar com os números do #28C**,
+que roda só sobre não-censurados. Ver
+["O que a família da idade estabelece"](28_idade_pastagem.md#o-que-a-família-da-idade-estabelece).
 
 ---
 
@@ -112,6 +148,7 @@ Grade mesorregião (Norte em cima) × ato. Cada célula traz a conversão líder
 - **Descritivo, não causal.** Mostra a **coincidência espacial** do mecanismo (Sul perde pasto / Norte ganha), não prova que um *causa* o outro. A defasagem e o spillover formal são a **Camada 3** (#22/#24 — `Δagric_sul,t-1 → Δrebanho_norte,t`).
 - **Fluxo bruto carrega ruído de classificação.** Transições anuais incluem oscilação de classificação do MapBiomas (*flicker*); o balanço líquido e a agregação por ato amortecem, mas não eliminam.
 - **Idade do #28 é só do canal `pasto→agric`.** Mede a idade do pasto que virou lavoura — não descreve o pasto que persiste nem o que veio de `veg→pasto`.
+- **A idade só é mensurável no Ato III** (5 de 15 células meso×ato). Nos Atos I e II a censura à esquerda consome a mediana: no Ato I o horizonte é de 1–15 anos com 45–84% de censura, então o número reportado seria o horizonte, não a idade. Isso limita a leitura temporal do canal `pasto→agric`: **não** se pode afirmar, com este dado, que a idade do pasto convertido subiu ou caiu ao longo dos atos — só descrever o corte transversal recente.
 
 ---
 

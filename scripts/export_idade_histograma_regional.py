@@ -33,7 +33,7 @@ pastagem não está truncada em 1985). `n_censurado` vem reportado à parte por
 célula, para o site poder ser honesto sobre a cobertura.
 
 ENTRADAS
-    data/processed/pastagem_idade_conversao.csv      (#28A)
+    data/processed/pastagem_idade_censo.parquet      (#28 censo, via carregar("censo"))
     data/processed/amc_crosswalk_goias.csv           (#25, p/ o bloco AMC)
 
 SAÍDA
@@ -184,7 +184,7 @@ def main() -> None:
 
     saida = {
         "meta": {
-            "fonte": "pastagem_idade_conversao.csv (#28A) + config_periodos + amc_crosswalk (#25)",
+            "fonte": "pastagem_idade_censo.parquet (#28 censo) + config_periodos + amc_crosswalk (#25)",
             "gerado_por": "scripts/export_idade_histograma_regional.py",
             "malha_interativa": "mesorregiao (Opção A)",
             "bins": BINS.astype(int).tolist(),

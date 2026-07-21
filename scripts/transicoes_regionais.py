@@ -29,15 +29,64 @@ Re-corta as conversões brutas ano-a-ano (`conversao_bruta_municipal.csv`, do
      conecta o fluxo pasto→agric à idade do pasto convertido.
   5. Foco no Ato III (2020-24), o recorte mais limpo de deslocamento (#32).
 
+NOTA DE MÉTODO (21/jul/2026) — POR QUE NÃO EXISTE MAIS UMA IDADE "GERAL"
+-------------------------------------------------------------------------
+Este script reportava uma idade mediana do pasto por mesorregião, agregando
+1986-2024 e contando os pixels censurados a face value. Esse número foi
+REMOVIDO, não corrigido: ele não estima nenhuma quantidade bem definida.
+
+A razão. Um pixel é censurado quando sua fase de pastagem alcança 1985 — e aí a
+idade gravada é exatamente `ano − 1985`, um LIMITE INFERIOR (invariante conferida:
+0 violações no censo). Logo a censura não mede quão velho é o pasto: mede o
+HORIZONTE de observação, que depende de QUANDO a região converteu.
+
+    meso          censura   ano mediano de conversão   horizonte
+    Sul             70,9%            2002                 17a
+    Centro          70,9%            2008                 23a
+    Leste           36,8%            2007                 22a
+    Noroeste        52,0%            2013                 28a
+    Norte           41,9%            2014                 29a
+
+A censura é MAIOR no Sul, não no Norte — o inverso da intuição. E como o Sul
+converteu cedo, 42,6% dos seus pixels censurados têm limite inferior ≤10 anos
+(contra 7,9% no Norte): pasto anterior a 1985 gravado como "5 anos". Somando
+isso ao fato de o Ato I (horizonte 1-15a, 45-84% de censura) pesar 45,3% dos
+eventos no Sul e 12,4% no Norte, o agregado vira uma média ponderada de artefato
+de horizonte, com pesos que variam por região. Não é comparável entre regiões.
+
+O QUE ENTRA NO LUGAR
+    • Estatística por mesorregião × ATO (o horizonte fica quase constante dentro
+      do ato) — `idade_por_meso_ato()`.
+    • Cada célula é rotulada por IDENTIFICAÇÃO, derivada do dado e não do ato:
+      a mediana face value é sempre um limite inferior válido da mediana
+      verdadeira (trocar limites inferiores por valores maiores só empurra o
+      quantil para cima); quando ALÉM DISSO todo censurado está acima dela, a
+      troca não a move e ela é EXATA.
+    • Só as células `exata` alimentam `idade_pasto_mediana_a`. As demais saem em
+      `idade_pasto_limite_inf_a` com rótulo, para ninguém plotar limite inferior
+      como medição.
+
+Na prática isso dá: Ato III identificado nas 5 mesorregiões (horizonte 35-39a,
+censura toda acima da mediana — Kaplan-Meier concorda com a face value nas 5,
+confirmando que ali a censura não morde); Ato II e Ato I majoritariamente não
+identificados. O gradiente Sul→Norte sobrevive onde é mensurável: no Ato III,
+Sul 16a → Norte 27a (Noroeste 31a).
+
+⚠️ Não cruzar estes números com os do #28C, que roda só sobre NÃO-censurados
+(correto para o que ele faz — a pilha de censura corromperia o GMM — mas isso
+descreve a subpopulação observável, não a idade do pasto convertido). A
+ORDENAÇÃO Sul→Norte é robusta aos dois; os NÍVEIS não são comparáveis.
+
 ENTRADAS
     data/processed/conversao_bruta_municipal.csv   (#19, 235.948 linhas)
     data/processed/mapeamento_mesorregioes.csv     (#18)
-    data/processed/pastagem_idade_conversao.csv    (#28, idade por mesorregião)
+    data/processed/pastagem_idade_censo.parquet    (#28 censo, via analise_reserva_terra)
 
 SAÍDAS
     data/processed/transicoes_regionais_matrizes.csv     (meso×ato: 6×6 long)
     data/processed/transicoes_regionais_fluxos_chave.csv (meso×ato: fluxos + idade)
     data/processed/transicoes_regionais_dominante.csv    (meso×ato: top conversão)
+    data/processed/transicoes_regionais_idade.csv        (meso×ato: idade + identificação)
     outputs/transicoes_regionais/fluxos_chave.png        (barras Sul→Norte por ato)
     outputs/transicoes_regionais/dominante_grid.png      (grade meso×ato)
     Visualizacao/assets/data/sankey_regional.json        (mini-Sankey por meso×ato)
@@ -67,6 +116,8 @@ from config_periodos import ATOS, CORES_ATO  # noqa: E402
 from analise_transicoes import (  # noqa: E402  (reusa a maquinaria do #25)
     GRUPOS, GRUPO_LABEL, GRUPO_COR, matriz_ato, fluxo_bruto_liquido, sankey_json,
 )
+from analise_reserva_terra import carregar as carregar_idade    # noqa: E402
+from estatistica_ponderada import mediana as mediana_p          # noqa: E402
 
 ROOT          = Path(__file__).resolve().parent.parent
 DIR_PROC      = ROOT / "data" / "processed"
@@ -77,7 +128,11 @@ for d in (DIR_OUT,):
 
 ARQ_CONV  = DIR_PROC / "conversao_bruta_municipal.csv"
 ARQ_MESO  = DIR_PROC / "mapeamento_mesorregioes.csv"
-ARQ_IDADE = DIR_PROC / "pastagem_idade_conversao.csv"
+
+# Fração de censura a partir da qual a mediana observada deixa de informar: com
+# metade ou mais dos eventos censurados, o quantil 0,5 cai DENTRO da massa
+# censurada e o número passa a rastrear o horizonte de observação, não a idade.
+CENSURA_INFORMATIVA_MAX = 0.50
 
 # Fluxos-chave para o teste de mecanismo (orig, dest, rótulo).
 FLUXOS_CHAVE = [
@@ -97,7 +152,13 @@ MESO_ORDER_FALLBACK = ["Sul Goiano", "Leste Goiano", "Centro Goiano",
 # ---------------------------------------------------------------------------
 
 def carregar() -> tuple[pd.DataFrame, pd.DataFrame, list[str]]:
-    """Conversões municipais com mesorregião anexada; idade #28; ordem Sul→Norte."""
+    """Conversões municipais com mesorregião anexada; idade #28 (CENSO); ordem Sul→Norte.
+
+    A idade vem do censo de pixels do #28 (`carregar("censo")` do
+    `analise_reserva_terra`), que devolve tabela de contingência: 1 linha = 1
+    célula, coluna `peso` = nº de pixels. Toda estatística daqui em diante é
+    ponderada — ver D24 em `Textos/metodologia/censo_vs_amostra.md`.
+    """
     conv = pd.read_csv(ARQ_CONV)
     meso = pd.read_csv(ARQ_MESO)[["cd_mun", "nm_meso"]]
     conv = conv.merge(meso, on="cd_mun", how="left")
@@ -106,10 +167,15 @@ def carregar() -> tuple[pd.DataFrame, pd.DataFrame, list[str]]:
         print(f"[carga] {sem_meso} linhas sem mesorregião (descartadas)")
     conv = conv.dropna(subset=["nm_meso"])
 
-    idade = pd.read_csv(ARQ_IDADE).dropna(subset=["mesorregiao"])
+    idade = carregar_idade("censo")
+    idade = idade[idade["mesorregiao"].notna() & (idade["mesorregiao"] != "")].copy()
+    print(f"[carga] idade #28: {idade['peso'].sum():,.0f} eventos em {len(idade):,} células")
 
-    # Ordem Sul→Norte pela latitude média dos pixels de conversão do #28.
-    lat = idade.groupby("mesorregiao")["lat"].mean().sort_values()  # menor lat = sul
+    # Ordem Sul→Norte pela latitude média PONDERADA dos pixels de conversão do #28.
+    # (Verificado em 21/jul/2026: a ordem é idêntica na amostra e no censo.)
+    lat = (idade.assign(_x=idade["lat_media"] * idade["peso"])
+                .groupby("mesorregiao")["_x"].sum()
+           / idade.groupby("mesorregiao")["peso"].sum()).sort_values()
     ordem = [m for m in lat.index if m in conv["nm_meso"].unique()]
     faltando = [m for m in conv["nm_meso"].unique() if m not in ordem]
     ordem += faltando
@@ -155,23 +221,80 @@ def matrizes_para_long(mats: dict) -> pd.DataFrame:
 # 3. Fluxos-chave + balanço + idade do pasto (#28)
 # ---------------------------------------------------------------------------
 
-def idade_mediana_por_meso(idade: pd.DataFrame) -> pd.DataFrame:
-    """Idade mediana do pasto na conversão p/ agricultura, por meso (e meso×ato)."""
-    geral = idade.groupby("mesorregiao")["idade_pastagem_anos"].median()
-    # Por ato (ano_conversao dentro das fronteiras do ato).
-    def ato_de(ano):
-        for a, info in ATOS.items():
-            if info["inicio"] <= ano <= info["fim"]:
-                return a
-        return None
-    idade = idade.copy()
-    idade["ato"] = idade["ano_conversao"].map(ato_de)
-    por_ato = (idade.dropna(subset=["ato"])
-               .groupby(["mesorregiao", "ato"])["idade_pastagem_anos"].median())
-    return geral, por_ato
+def km_mediana(d: np.ndarray, obs: np.ndarray, w: np.ndarray) -> tuple[float, bool]:
+    """Mediana de Kaplan-Meier ponderada. `obs` = True se a idade é exata.
+
+    Só entra como SENSIBILIDADE, nunca como o número reportado: a validade do KM
+    exige censura independente da duração, e aqui a censura é o horizonte
+    (ano − 1985), que correlaciona com a idade justamente porque regiões
+    diferentes converteram em épocas diferentes. Ver a nota de método no topo.
+
+    Devolve (mediana, identificada). Não-identificada = a curva nunca cruza 0,5
+    dentro do horizonte observável.
+    """
+    d = np.asarray(d, float); obs = np.asarray(obs, bool); w = np.asarray(w, float)
+    S = 1.0
+    for t in np.unique(d[obs]):
+        risco = w[d >= t].sum()
+        if risco <= 0:
+            continue
+        S *= (1 - w[(d == t) & obs].sum() / risco)
+        if S <= 0.5:
+            return float(t), True
+    return float("nan"), False
 
 
-def fluxos_chave(mats: dict, idade_geral, idade_ato) -> pd.DataFrame:
+def idade_por_meso_ato(idade: pd.DataFrame) -> pd.DataFrame:
+    """Idade do pasto na conversão por mesorregião × ato, com identificação explícita.
+
+    NÃO devolve mais um agregado 1986-2024 (ver nota de método no topo do módulo):
+    aquele número misturava três regimes de horizonte e era arrastado pelo Ato I,
+    que pesa 45% no Sul e 12% no Norte.
+
+    Para cada célula devolve:
+      mediana_a       mediana PONDERADA com censurados a face value
+      exata           True se todo censurado está ACIMA da mediana
+      censura_pct     % de eventos censurados
+      km_a            mediana de Kaplan-Meier (sensibilidade)
+      interpretacao   'exata' | 'limite_inferior' | 'nao_informativa'
+
+    A mediana face value é SEMPRE um limite inferior válido da mediana verdadeira,
+    sem nenhuma hipótese: cada valor censurado é um limite inferior, e trocar
+    valores por outros maiores só empurra o quantil para cima ou o mantém. Quando
+    além disso todo censurado está acima dela, a troca não a move — e aí ela é
+    EXATA, não um limite. É esse teste que decide o rótulo, não o número do ato.
+    """
+    linhas = []
+    for (meso, ato), s in idade.dropna(subset=["ato"]).groupby(
+            ["mesorregiao", "ato"], observed=True):
+        v = s["idade_pastagem_anos"].to_numpy(float)
+        w = s["peso"].to_numpy(float)
+        cens = s["censurado"].to_numpy(bool)
+        W = w.sum()
+        if W <= 0:
+            continue
+        med = mediana_p(v, w)
+        tx = w[cens].sum() / W
+        # Exata sse nenhum censurado pode "atravessar" a mediana ao ser corrigido.
+        exata = (not cens.any()) or (v[cens].min() > med)
+        km, km_ident = km_mediana(v, ~cens, w)
+        if exata:
+            interp = "exata"
+        elif tx >= CENSURA_INFORMATIVA_MAX:
+            interp = "nao_informativa"
+        else:
+            interp = "limite_inferior"
+        linhas.append({
+            "mesorregiao": meso, "ato": ato, "n_eventos": int(round(W)),
+            "mediana_a": med, "exata": bool(exata),
+            "censura_pct": round(tx * 100, 1),
+            "km_a": km if km_ident else np.nan,
+            "interpretacao": interp,
+        })
+    return pd.DataFrame(linhas).set_index(["mesorregiao", "ato"])
+
+
+def fluxos_chave(mats: dict, idade_tab: pd.DataFrame) -> pd.DataFrame:
     """Por meso×ato: fluxos-chave + balanço líquido de pasto/agric + idade #28.
 
     Os atos têm durações MUITO diferentes (I=15a, II=18a, III=4a), então o total
@@ -195,7 +318,23 @@ def fluxos_chave(mats: dict, idade_geral, idade_ato) -> pd.DataFrame:
             reg[f"net_{g}/ano"] = round((ganhos - perdas) / n_anos, 5)
         reg["conversao_total"] = round(
             float(m.values.sum() - np.trace(m.values)), 4)
-        reg["idade_pasto_mediana_a"] = round(float(idade_ato.get((meso, ato), np.nan)), 1)
+        # Idade do pasto: só vira NÚMERO REPORTÁVEL quando é exata. Nos demais
+        # casos a coluna fica vazia de propósito e o limite inferior vai à parte,
+        # rotulado — para ninguém plotar limite inferior como se fosse medição.
+        r = idade_tab.loc[(meso, ato)] if (meso, ato) in idade_tab.index else None
+        if r is not None:
+            reg["idade_pasto_mediana_a"] = round(float(r["mediana_a"]), 1) if r["exata"] else np.nan
+            reg["idade_pasto_limite_inf_a"] = round(float(r["mediana_a"]), 1)
+            reg["idade_pasto_censura_pct"] = float(r["censura_pct"])
+            reg["idade_pasto_interpretacao"] = r["interpretacao"]
+            reg["idade_pasto_km_a"] = (round(float(r["km_a"]), 1)
+                                       if pd.notna(r["km_a"]) else np.nan)
+        else:
+            reg["idade_pasto_mediana_a"] = np.nan
+            reg["idade_pasto_limite_inf_a"] = np.nan
+            reg["idade_pasto_censura_pct"] = np.nan
+            reg["idade_pasto_interpretacao"] = "sem_dado"
+            reg["idade_pasto_km_a"] = np.nan
         linhas.append(reg)
     return pd.DataFrame(linhas)
 
@@ -223,10 +362,13 @@ def dominante(mats: dict) -> pd.DataFrame:
 # 4. Figuras
 # ---------------------------------------------------------------------------
 
-def fig_fluxos_chave(fluxos: pd.DataFrame, ordem: list[str],
-                     idade_geral: pd.Series) -> None:
+def fig_fluxos_chave(fluxos: pd.DataFrame, ordem: list[str]) -> None:
     """Barras agrupadas pasto→agric vs veg→pasto, por mesorregião (Sul→Norte),
-    em painéis por ato. Anota a idade mediana do pasto (#28) sob cada meso."""
+    em painéis por ato.
+
+    Recebia `idade_geral` e nunca a usava (a docstring prometia uma anotação que
+    o código não fazia). O parâmetro morto foi removido junto com o agregado.
+    """
     import matplotlib.pyplot as plt
 
     atos = list(ATOS.keys())
@@ -334,7 +476,7 @@ def salvar_sankeys(mats: dict) -> None:
 # Pipeline principal
 # ---------------------------------------------------------------------------
 
-def resumo_mecanismo(fluxos: pd.DataFrame, ordem: list[str], idade_geral: pd.Series) -> None:
+def resumo_mecanismo(fluxos: pd.DataFrame, ordem: list[str], idade_tab: pd.DataFrame) -> None:
     """Teste explícito: Sul vs Norte/Noroeste em pasto→agric e veg→pasto."""
     sul = ordem[0]
     norte = ordem[-2:]   # as duas mais ao norte
@@ -346,9 +488,24 @@ def resumo_mecanismo(fluxos: pd.DataFrame, ordem: list[str], idade_geral: pd.Ser
         pa_norte = f.reindex(norte)["pasto→agric/ano"].sum()
         print(f"  Ato {ato}: {sul} pasto→agric={pa_sul:.4f} | "
               f"Norte+Noroeste veg→pasto={vp_norte:.4f} vs pasto→agric={pa_norte:.4f}")
-    print("\n[mecanismo] idade mediana do pasto na conversão (#28), por meso:")
-    for m in ordem:
-        print(f"  {m:18s} {idade_geral.get(m, float('nan')):.0f} anos")
+    print("\n[mecanismo] idade do pasto na conversão (#28 censo), por meso × ato.")
+    print("  Sem agregado 1986-2024: ele misturava horizontes e era arrastado pelo")
+    print("  Ato I (45% dos eventos no Sul, 12% no Norte). Ver nota de método.")
+    for ato in ATOS:
+        marca = {"exata": "", "limite_inferior": "≥", "nao_informativa": "~"}
+        print(f"\n  Ato {ato} ({ATOS[ato]['inicio']}–{ATOS[ato]['fim']}):")
+        for m in ordem:
+            if (m, ato) not in idade_tab.index:
+                continue
+            r = idade_tab.loc[(m, ato)]
+            s = f"{marca[r['interpretacao']]}{r['mediana_a']:.0f}a"
+            nota = {"exata": "identificada",
+                    "limite_inferior": "limite inferior",
+                    "nao_informativa": "NÃO INFORMATIVA (censura ≥50%)"}[r["interpretacao"]]
+            print(f"    {m:18s} {s:>6s}  censura {r['censura_pct']:4.1f}%  — {nota}")
+    n_ex = int(idade_tab["exata"].sum())
+    print(f"\n  {n_ex} de {len(idade_tab)} células com idade identificada; "
+          f"as demais NÃO devem ser reportadas como medição.")
 
 
 def main() -> None:
@@ -364,10 +521,12 @@ def main() -> None:
     mats = matrizes_regionais(conv, ordem)
     print(f"[matrizes] {len(mats)} combinações meso×ato")
 
-    idade_geral, idade_ato = idade_mediana_por_meso(idade)
+    idade_tab = idade_por_meso_ato(idade)
     long = matrizes_para_long(mats)
-    fluxos = fluxos_chave(mats, idade_geral, idade_ato)
+    fluxos = fluxos_chave(mats, idade_tab)
     dom = dominante(mats)
+    idade_tab.reset_index().to_csv(
+        DIR_PROC / "transicoes_regionais_idade.csv", index=False, encoding="utf-8")
 
     long.to_csv(DIR_PROC / "transicoes_regionais_matrizes.csv", index=False, encoding="utf-8")
     fluxos.to_csv(DIR_PROC / "transicoes_regionais_fluxos_chave.csv", index=False, encoding="utf-8")
@@ -375,12 +534,13 @@ def main() -> None:
     print(f"\n[OK] transicoes_regionais_matrizes.csv  ({len(long)} linhas)")
     print(f"[OK] transicoes_regionais_fluxos_chave.csv ({len(fluxos)} linhas)")
     print(f"[OK] transicoes_regionais_dominante.csv  ({len(dom)} linhas)")
+    print(f"[OK] transicoes_regionais_idade.csv  ({len(idade_tab)} linhas)")
 
-    resumo_mecanismo(fluxos, ordem, idade_geral)
+    resumo_mecanismo(fluxos, ordem, idade_tab)
 
     if not args.sem_figuras:
         print()
-        fig_fluxos_chave(fluxos, ordem, idade_geral)
+        fig_fluxos_chave(fluxos, ordem)
         fig_dominante_grid(dom, ordem)
         salvar_sankeys(mats)
 
