@@ -253,9 +253,10 @@ banca fosse.**
   direto do `ensaio_a_investigacao.md`.
 - **Viabilidade da Perna 2 (checar antes de tratar como herói):** o redesenho do
   histograma ao selecionar uma região só fica instantâneo se as distribuições de idade
-  **por AMC** estiverem **pré-computadas** (são ~78 mil pontos). Pré-calcular os histogramas
-  binned por AMC (e por região agregada) ao build, e ao selecionar só ler o bin-array
-  correspondente — não reamostrar 78k pontos ao vivo. Confirmar que os 78k pontos cobrem as
-  36 AMCs com N razoável por AMC; se alguma AMC ficar rasa, fallback para o agregado da
-  mesorregião. **Decidir isto antes de comprometer a peça como hero da Perna 2** — se a
+  **por AMC** estiverem **pré-computadas**. Com o censo (21/jul/2026) isso deixou de ser
+  opcional: são 44,6 milhões de eventos, impensável no browser. Mas ficou também **trivial**,
+  porque o censo já vem como tabela de contingência `(ano, muni, idade, classe) → n_pixels`
+  — o histograma por AMC é uma soma de pesos, não uma reamostragem. A preocupação original
+  ("alguma AMC pode ficar rasa e precisar de fallback para a mesorregião") **caducou**: no
+  censo, 0% dos municípios têm menos de 20 pixels não-censurados, contra 44% na amostra. **Decidir isto antes de comprometer a peça como hero da Perna 2** — se a
   pré-computação não for viável, o "aha" do redesenho borra e a peça perde a aposta.

@@ -2,6 +2,29 @@
 
 Documento complementar a [28_idade_pastagem.md](28_idade_pastagem.md). Explica o método de forma didática, aponta fragilidades, e propõe o que falta para responder plenamente à pergunta de pesquisa.
 
+> ## ⚠️ Estado desta página (21/jul/2026)
+>
+> **O #28 deixou de ser amostra e virou censo.** Esta página foi escrita quando
+> o pipeline amostrava 2.000 px/ano e boa parte das suas críticas **já foi
+> resolvida**. O que mudou:
+>
+> | Crítica original | Estado |
+> |---|---|
+> | §4-B "falta testar bimodalidade formalmente" | ✅ Feito (GMM 1 vs 2 comp.) |
+> | §4-A "falta classificar pixels por mecanismo" | ✅ Feito (§4 do doc principal) |
+> | §5 "amostra é 0,35% da área; dados completos seriam ~5 GB, inviável local" | ✅ **Superado.** O cubo comprime 18,8× → 1,5 GB, e o processamento em janelas usa ~500 MB de RAM. O censo tem **44.639.028 eventos** |
+> | §6-Mapa 1 "coroplético municipal" | ✅ Feito; agora com 0% dos munis abaixo de 20 px |
+> | §7.3 "amostragem estratificada distorce contagens" | ✅ Moot — não há mais amostragem |
+> | §7.6 "Sul Goiano domina a amostra (65,5%)" | ⚠️ Continua, mas é **fato do fenômeno**, não viés amostral: o Sul concentra 64,4% da conversão real |
+> | §4-C "Kaplan-Meier trataria a censura formalmente" | ⏳ Ainda em aberto, e agora viável com o censo |
+> | §4-E "decompor o salto 2020→2022" | ⏳ Ainda em aberto |
+> | §7.1 "não há identificação causal" | ⏳ Continua verdade — o censo remove erro amostral, não estabelece causalidade |
+>
+> **Dois bugs foram encontrados depois que esta página foi escrita**, nenhum
+> deles apontado aqui: o **envelope amostral** (43,7% dos pixels fora de Goiás)
+> e a **classe 21 ausente do `GRUPO_MAP`** (que inflava a censura em ~11 pontos).
+> Ver o cabeçalho do [doc principal](28_idade_pastagem.md).
+
 ---
 
 ## 1. O que foi feito, passo a passo
@@ -31,6 +54,8 @@ Para cada ano `t` entre 1986 e 2024 (39 anos):
 
 **Resultado final**: 78.000 linhas (2.000 pixels × 39 anos), cada uma com `ano_conversao`, `idade_pastagem_anos`, `classe_antes_id`, `origem_anterior`, `cd_mun`, `mesorregiao`, `lon`, `lat`.
 
+> **Correção (jul/2026):** a amostragem usa o **retângulo envolvente** de GO, então **34.049 das 78.000 linhas (44%) caem fora do estado** (`cd_mun == 0`). O `carregar()` passou a filtrar `cd_mun != 0`; a análise vale sobre as **43.951 linhas de Goiás**. Os números desta página já refletem o recorte estadual.
+
 ### Etapa 2 — Análise descritiva
 
 Histogramas agregando esses 78k pixels por ATO político, por mesorregião e por origem anterior. Medianas, percentis (P10, P90), e scatter com Δ SICOR/Δ VA agro municipais.
@@ -47,7 +72,16 @@ Histogramas agregando esses 78k pixels por ATO político, por mesorregião e por
 - Se esse pixel virou agricultura em 1986, eu só sei dizer "tinha pelo menos 1 ano de pasto". Pode ter tido 50 anos. A idade verdadeira está escondida.
 - Esses pixels recebem `origem_anterior = censurado_esquerda` e `idade_pastagem_anos` representa a idade **mínima possível**, não a real.
 
-A censura é massiva: 66% dos 78k pixels são censurados, e quase todos eles estão nos anos iniciais (em 1986, 100% são censurados; em 2024, só 12%). Por isso o resumo executivo só olha os 26.427 **não-censurados**.
+A censura é grande: **64,1% dos 44.639.028 eventos do censo**, e quase todos nos anos iniciais (em 1986, 100%; em 2024, ~4%). O resumo executivo olha os **16.004.530** não-censurados.
+
+> **Correção (21/jul/2026):** versões anteriores desta página diziam 74,9% e
+> 11.035 não-censurados. Ambos estavam errados por **dois** motivos somados:
+> o envelope amostral (43,7% dos pixels fora de Goiás) e — mais grave — a
+> classe 21 (Mosaico de Usos) ausente do `GRUPO_MAP`, que fazia um
+> `.fillna("censurado_esquerda")` rotular como "idade desconhecida" pixels cuja
+> idade era perfeitamente conhecida. Só a classe 21 respondia por 11 pontos
+> percentuais de censura fantasma. **Censura é decidida pelo índice** (a fase de
+> pastagem alcança 1985), nunca por falha de lookup.
 
 ---
 
@@ -154,16 +188,15 @@ Três tipos de mapa fazem sentido:
 
 ## 7. Fragilidades honestas da análise atual
 
-1. **Não há identificação causal** — só descrição. Não dá pra dizer "X causa Y", só "X e Y andam juntos".
-2. **Censura subutilizada** — 66% dos pixels foram excluídos das análises principais. Kaplan-Meier reaproveitaria essa informação.
-3. **Amostragem estratificada por idade** distorce contagens — não dá pra ler proporção direta do histograma. Cada "pico" do histograma é proporcional ao número amostrado naquele bin, não à prevalência real.
-
-   > Nota técnica: na implementação atual, `stratifiedSample` é chamado com classe única (a máscara P→A é 1 onde houve conversão e mascarada onde não), então **não há estratificação efetiva por bin de idade** — todos os pixels têm a mesma probabilidade de seleção. Mas a documentação anterior sugeria estratificação por idade. **Esta é uma inconsistência que deve ser corrigida**.
-
-4. **MapBiomas tem incerteza de classificação** — pixels podem oscilar entre pastagem/outros por ruído, criando "idades curtas" artificiais. Os 7a de 2022 podem ser parcialmente isso.
+1. **Não há identificação causal** — só descrição. Não dá pra dizer "X causa Y", só "X e Y andam juntos". **Continua verdade com o censo**: censo elimina erro amostral, não estabelece causalidade.
+2. **Censura subutilizada** — 64,1% dos eventos ficam fora das análises principais. Kaplan-Meier reaproveitaria essa informação, e agora é viável com o censo. **Nota importante: o censo NÃO reduz a censura** — ela é limite da série MapBiomas (começa em 1985), não do tamanho da amostra.
+3. ~~**Amostragem estratificada distorce contagens**~~ — **resolvido**: não há mais amostragem. (A nota técnica original também estava certa: `stratifiedSample` com classe única não estratificava por idade; era uma inconsistência da documentação, não do código.)
+4. **MapBiomas tem incerteza de classificação** — pixels podem oscilar entre pastagem/outros por ruído, criando "idades curtas" artificiais. **Esta é a fragilidade que mais importa agora**, porque é a única grande que o censo não toca: censo remove erro amostral, não erro de medida.
 5. **Conceito de "premeditado vs oportunístico" não é diretamente observável** — só inferimos. Sem dado de propriedade (CAR) e intenção do produtor, é leitura interpretativa.
-6. **Sul Goiano domina a amostra** (37%) — risco de extrapolar achados regionais como se fossem estaduais.
+6. **Sul Goiano concentra 64,4% das conversões** — com o censo isso deixou de ser risco amostral e virou **fato do fenômeno**. O risco que resta é retórico: não apresentar achado do Sul como se fosse estadual.
 7. **Cruzamento com SICOR/VA agro foi limitado** — só Δ contemporâneo, sem lags. Lags 1-3 anos seriam mais sensatos (decisão de converter leva tempo).
+8. **Eventos não são independentes** — 1,064 conversões por pixel distinto. Irrelevante para descrição, relevante para qualquer erro-padrão.
+9. **ΔBIC deixou de ser informativo** — com n na casa dos milhões, seleção de modelo por BIC é degenerada. A robustez da bimodalidade vem da **estabilidade dos modos entre janelas**, não do ΔBIC.
 
 ---
 

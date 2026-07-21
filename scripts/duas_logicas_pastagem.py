@@ -27,6 +27,7 @@ Saídas:
 """
 from __future__ import annotations
 
+import argparse
 import sys
 from pathlib import Path
 
@@ -44,7 +45,10 @@ from scipy.stats import pearsonr, spearmanr
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 
+from estatistica_ponderada import mediana as _mediana_p, media as _media_p
+
 CSV_IDADE = ROOT / "data" / "processed" / "pastagem_idade_conversao.csv"
+CENSO_IDADE = ROOT / "data" / "processed" / "pastagem_idade_censo.parquet"
 CSV_CROSSWALK = ROOT / "data" / "processed" / "amc_crosswalk_goias.csv"
 CSV_MESO = ROOT / "data" / "processed" / "mapeamento_mesorregioes.csv"
 GPKG_AMC = ROOT / "data" / "processed" / "amc_goias.gpkg"
@@ -68,6 +72,7 @@ COR_MEC = {
     "Rotação": "#d95f02",
     "Premeditado curto": "#e7c019",
     "Oportunístico clássico": "#1b6e3d",
+    "Mosaico de usos": "#c98a3a",
     "Ambíguo / Outro": "#bdbdbd",
 }
 COR_TIPO = {
@@ -88,15 +93,52 @@ def classificar_mecanismo(df: pd.DataFrame) -> pd.DataFrame:
     antigo = df["idade_pastagem_anos"] >= ANTIGO_MIN
     vn = df["origem_anterior"] == "vegetacao_natural"
     ag = df["origem_anterior"] == "agricultura"
+    mo = df["origem_anterior"] == "mosaico"
     df.loc[nc & jovem & vn, "mecanismo"] = "Premeditado curto"
     df.loc[nc & jovem & ag, "mecanismo"] = "Rotação"
     df.loc[nc & antigo & vn, "mecanismo"] = "Oportunístico clássico"
+    # Mosaico de Usos (classe 21) tem categoria PRÓPRIA, igual ao #28 §4. Até
+    # 21/jul/2026 a classe faltava no GRUPO_MAP da coleta e esses pixels vinham
+    # rotulados como censurados — o #40 simplesmente não os via (−31% dos
+    # não-censurados). Diluí-los em "Ambíguo" reintroduziria o mesmo apagamento
+    # por outro caminho: são ~12% das conversões e a categoria mais próxima do
+    # mecanismo de rotação, justamente o que este pipeline tenta espacializar.
+    df.loc[nc & mo, "mecanismo"] = "Mosaico de usos"
     df.loc[df["censurado"], "mecanismo"] = "Censurado à esquerda"
     return df
 
 
-def carregar() -> pd.DataFrame:
-    df = pd.read_csv(CSV_IDADE, dtype={"cd_mun": "int64"})
+def carregar(fonte: str = "censo") -> pd.DataFrame:
+    """Devolve sempre um DataFrame com coluna `peso`, venha de onde vier.
+
+    `fonte="censo"`   → censo de pixels do #28; peso = n_pixels da célula, e
+                        lat/lon = centroide EXATO dos pixels daquela célula
+                        (`lat_media`/`lon_media`, ver docstring do
+                        processa_cubo_idade). Não é o centroide do município.
+    `fonte="amostra"` → amostra legada do #28A; peso = 1, lat/lon do pixel.
+
+    A amostra é lida com as duas correções de 21/jul/2026 aplicadas em memória
+    (filtro `cd_mun != 0` do envelope e relabel da classe 21), porque o CSV em
+    disco é anterior a elas. Sem isso, `--fonte amostra` mediria os bugs.
+    """
+    if fonte == "censo":
+        if not CENSO_IDADE.exists():
+            sys.exit(f"Censo não encontrado: {CENSO_IDADE}\n"
+                     f"Rode: python scripts/processa_cubo_idade.py --shards data/raw/cubo_go")
+        df = pd.read_parquet(CENSO_IDADE).rename(
+            columns={"n_pixels": "peso", "lat_media": "lat", "lon_media": "lon"})
+        if "lat" not in df.columns:
+            sys.exit("Censo sem lat_media/lon_media — reprocesse o cubo "
+                     "(processa_cubo_idade.py foi atualizado para acumulá-los)")
+        df["peso"] = df["peso"].astype("float64")
+    elif fonte == "amostra":
+        df = pd.read_csv(CSV_IDADE, dtype={"cd_mun": "int64"})
+        df = df[df["cd_mun"] != 0].copy()
+        df.loc[df["classe_antes_id"] == 21, "origem_anterior"] = "mosaico"
+        df["peso"] = 1.0
+    else:
+        sys.exit(f"fonte desconhecida: {fonte!r} (use 'censo' ou 'amostra')")
+
     df["censurado"] = df["origem_anterior"] == "censurado_esquerda"
     cw = pd.read_csv(CSV_CROSSWALK, dtype={"cd_mun": "int64"})[["cd_mun", "code_amc"]]
     meso = pd.read_csv(CSV_MESO, dtype={"cd_mun": "int64"})[["cd_mun", "nm_meso"]]
@@ -114,38 +156,50 @@ def agregar_mix(df: pd.DataFrame, chave: str, janela: tuple[int, int],
     sub = df[(df["ano_conversao"] >= a) & (df["ano_conversao"] <= b) & (~df["censurado"])]
     linhas = []
     for uni, g in sub.groupby(chave):
-        n = len(g)
-        if n == 0:
+        w = g["peso"].to_numpy(float)
+        n = float(w.sum())
+        if n <= 0:
             continue
-        idade = g["idade_pastagem_anos"]
-        pct = lambda m: float((g["mecanismo"] == m).mean())  # noqa: E731
-        pct_jovem = float((idade <= JOVEM_MAX).mean())
-        pct_antigo = float((idade >= ANTIGO_MIN).mean())
+        idade = g["idade_pastagem_anos"].to_numpy(float)
+        # Toda proporção é massa-de-peso / massa-total. Com peso=1 (amostra)
+        # reduz exatamente ao `.mean()` de antes — é o contrato do D24 que
+        # permite comparar as duas fontes sem trocar de implementação.
+        quota = lambda m: float(w[(g["mecanismo"] == m).to_numpy()].sum() / n)  # noqa: E731
+        pct_jovem = float(w[idade <= JOVEM_MAX].sum() / n)
+        pct_antigo = float(w[idade >= ANTIGO_MIN].sum() / n)
         mec = {
-            "Rotação": pct("Rotação"),
-            "Premeditado curto": pct("Premeditado curto"),
-            "Oportunístico clássico": pct("Oportunístico clássico"),
+            "Rotação": quota("Rotação"),
+            "Premeditado curto": quota("Premeditado curto"),
+            "Oportunístico clássico": quota("Oportunístico clássico"),
         }
         dominante = max(mec, key=mec.get)
-        # "misto" quando o líder não destaca (ambíguo é a pluralidade real)
-        if mec[dominante] < 0.30 or pct("Ambíguo / Outro") > mec[dominante]:
+        # "misto" quando o líder não destaca (ambíguo é a pluralidade real).
+        # REGRA INALTERADA na migração para o censo, de propósito: o mosaico
+        # entra no DENOMINADOR (era censurado antes, logo invisível), mas não
+        # no teste de dominância. Mudar dado e regra juntos tornaria o diff
+        # ininterpretável. Revisar a regra é decisão separada.
+        if mec[dominante] < 0.30 or quota("Ambíguo / Outro") > mec[dominante]:
             dominante = "Misto"
         linhas.append({
             chave: uni,
             "n_nc": n,
-            "lat_centroide": float(g["lat"].mean()),  # média dos pixels (− = Sul)
-            "lon_centroide": float(g["lon"].mean()),
-            "idade_mediana": float(idade.median()),
-            "idade_media": float(idade.mean()),
+            "n_celulas": int(len(g)),  # censo: células agregadas; amostra: pixels
+            "lat_centroide": float(np.average(g["lat"], weights=w)),  # − = Sul
+            "lon_centroide": float(np.average(g["lon"], weights=w)),
+            "idade_mediana": _mediana_p(idade, w),
+            "idade_media": _media_p(idade, w),
             "pct_jovem": pct_jovem,
             "pct_antigo": pct_antigo,
             "indice_jovem": pct_jovem - pct_antigo,  # ∈ [-1,1]; + = lógica jovem
             "pct_rotacao": mec["Rotação"],
             "pct_premeditado": mec["Premeditado curto"],
             "pct_oportunistico": mec["Oportunístico clássico"],
-            "pct_ambiguo": pct("Ambíguo / Outro"),
-            "pct_origem_vegnat": float((g["origem_anterior"] == "vegetacao_natural").mean()),
-            "pct_origem_agric": float((g["origem_anterior"] == "agricultura").mean()),
+            "pct_mosaico": quota("Mosaico de usos"),
+            "pct_ambiguo": quota("Ambíguo / Outro"),
+            "pct_origem_vegnat": float(
+                w[(g["origem_anterior"] == "vegetacao_natural").to_numpy()].sum() / n),
+            "pct_origem_agric": float(
+                w[(g["origem_anterior"] == "agricultura").to_numpy()].sum() / n),
             "mecanismo_dominante": dominante,
         })
     out = pd.DataFrame(linhas)
@@ -247,8 +301,16 @@ def fig_mapas_amc(amc_mix: pd.DataFrame) -> None:
     plt.close(fig)
 
 
-def fig_pixels_mecanismo(df: pd.DataFrame) -> None:
-    """Textura fina: pixels não-censurados coloridos por mecanismo."""
+def fig_pixels_mecanismo(df: pd.DataFrame, fonte: str = "censo") -> None:
+    """Conversões não-censuradas por mecanismo, no espaço.
+
+    Com `fonte="amostra"` cada ponto é um pixel e a figura tem textura fina.
+    Com `fonte="censo"` cada ponto é uma CÉLULA `(ano, muni, idade, classe)`
+    posicionada no centroide exato dos seus pixels, com área ∝ nº de pixels.
+    A tabela de contingência não guarda a coordenada individual, então a textura
+    intramunicipal se perde — é o preço do censo, e está dito no título em vez
+    de ser disfarçado com pontos que fingem ser pixels.
+    """
     g = _carregar_geo_amc()
     contorno = g.dissolve().boundary
     a, b = JANELA_PRIMARIA
@@ -260,11 +322,19 @@ def fig_pixels_mecanismo(df: pd.DataFrame) -> None:
     ordem = ["Oportunístico clássico", "Premeditado curto", "Rotação"]
     for mec in ordem:
         s = sub[sub["mecanismo"] == mec]
-        ax.scatter(s["lon"], s["lat"], s=5, alpha=0.45, color=COR_MEC[mec],
-                   label=f"{mec} (n={len(s):,})", edgecolors="none")
+        if fonte == "censo":
+            # área ∝ peso, normalizada para o maior ponto ficar legível
+            tam = 2.0 + 60.0 * (s["peso"] / max(sub["peso"].max(), 1.0)) ** 0.5
+            rot = f"{mec} (n={s['peso'].sum():,.0f} px)"
+        else:
+            tam, rot = 5, f"{mec} (n={len(s):,})"
+        ax.scatter(s["lon"], s["lat"], s=tam, alpha=0.45, color=COR_MEC[mec],
+                   label=rot, edgecolors="none")
     ax.legend(loc="lower left", fontsize=9, markerscale=2.5, framealpha=0.9)
-    ax.set_title(f"Pixels de conversão pasto→agricultura por mecanismo ({a}–{b})\n"
-                 "cada ponto = pixel amostrado não-censurado", fontsize=11)
+    sub_t = ("cada ponto = célula do censo (área ∝ nº de pixels)" if fonte == "censo"
+             else "cada ponto = pixel amostrado não-censurado")
+    ax.set_title(f"Conversão pasto→agricultura por mecanismo ({a}–{b})\n{sub_t}",
+                 fontsize=11)
     ax.set_xlabel("Longitude"); ax.set_ylabel("Latitude")
     ax.set_aspect("equal")
     fig.tight_layout()
@@ -421,11 +491,21 @@ def robustez_confounder_fluxo(mun_mix: pd.DataFrame, nt: pd.DataFrame):
                 continue
             r, p = pearsonr(s[var], s["idade_mediana"])
             rp, pp, n = _partial_corr(var, "idade_mediana", lat, s)
+            # Controle 2D TAMBÉM para o fluxo. Até 21/jul/2026 o bloco de
+            # estrutura levava lat+lon e o de fluxo só lat — e a conclusão
+            # ("estrutura > fluxo não se sustenta; o fluxo tem sinal próprio")
+            # saía da comparação entre os dois. Controles diferentes nos dois
+            # lados favorecem o lado menos controlado por construção.
+            rpll, ppll, _ = _partial_corr_multi(var, "idade_mediana",
+                                                ["lat_centroide", "lon_centroide"], s)
             flux.append({"bloco": "fluxo_mesmo_recorte",
                          "estrutural": f"{col} ({lab})", "desfecho": "idade_mediana",
                          "r_bruto": round(r, 4), "p_bruto": round(p, 4),
                          "r_parcial_lat": round(rp, 4) if rp == rp else np.nan,
-                         "p_parcial": round(pp, 4) if pp == pp else np.nan, "n": len(s)})
+                         "p_parcial": round(pp, 4) if pp == pp else np.nan,
+                         "r_parcial_latlon": round(rpll, 4) if rpll == rpll else np.nan,
+                         "p_parcial_latlon": round(ppll, 4) if ppll == ppll else np.nan,
+                         "n": len(s)})
     return pd.DataFrame(parc), pd.DataFrame(flux)
 
 
@@ -521,11 +601,20 @@ def kmeans_robustez(mun_mix: pd.DataFrame, nt: pd.DataFrame) -> pd.DataFrame:
 
 # ─────────────────────────────── MAIN ───────────────────────────────────────
 def main() -> None:
-    print(f"Lendo {CSV_IDADE.name} + crosswalks...")
-    df = carregar()
+    p = argparse.ArgumentParser(description="Pipeline #40 — as duas lógicas da pastagem")
+    p.add_argument("--fonte", choices=["censo", "amostra"], default="censo",
+                   help="censo de pixels (padrão) ou amostra legada do #28A")
+    args = p.parse_args()
+    # A amostra escreve com sufixo para não sobrescrever os CSVs canônicos —
+    # assim as duas fontes coexistem e a comparação fica possível.
+    suf = "" if args.fonte == "censo" else "_amostra"
+
+    print(f"Fonte: {args.fonte} | lendo + crosswalks...")
+    df = carregar(args.fonte)
     cw = pd.read_csv(CSV_CROSSWALK, dtype={"cd_mun": "int64"})
     nt = carregar_plantio_direto()
-    print(f"  {len(df):,} pixels | {df['cd_mun'].nunique()} munis | "
+    print(f"  {len(df):,} linhas | {df['peso'].sum():,.0f} pixels | "
+          f"{df['cd_mun'].nunique()} munis | "
           f"no-till 2017 em {nt['pct_pd_area'].notna().sum()} munis")
 
     # ── A. Agregação ─────────────────────────────────────────────────────────
@@ -536,14 +625,14 @@ def main() -> None:
     print(f"  AMC: {amc_mix['confiavel'].sum()}/{len(amc_mix)} confiáveis (≥{MIN_PX_AMC}px)")
     print(f"  Municípios: {mun_mix['confiavel'].sum()}/{len(mun_mix)} confiáveis (≥{MIN_PX_MUN}px)")
 
-    amc_mix.to_csv(DIR_PROC / "duas_logicas_amc.csv", index=False, float_format="%.4f")
+    amc_mix.to_csv(DIR_PROC / f"duas_logicas_amc{suf}.csv", index=False, float_format="%.4f")
     mun_mix_out = mun_mix.merge(nt, on="cd_mun", how="left")
-    mun_mix_out.to_csv(DIR_PROC / "duas_logicas_municipal.csv", index=False, float_format="%.4f")
+    mun_mix_out.to_csv(DIR_PROC / f"duas_logicas_municipal{suf}.csv", index=False, float_format="%.4f")
 
     # ── B. Mapas ─────────────────────────────────────────────────────────────
     print("\nGerando mapas espaciais...")
     fig_mapas_amc(amc_mix)
-    fig_pixels_mecanismo(df)
+    fig_pixels_mecanismo(df, args.fonte)
     fig_gradiente_latitude(amc_mix, nt, cw)
 
     # ── C. Cruzamento com plantio direto ─────────────────────────────────────
@@ -562,14 +651,14 @@ def main() -> None:
                         "r_notill_idade": r, "p_notill_idade": p,
                         "r_notill_rotacao": rr, "p_notill_rotacao": pr})
     cruz.attrs["robustez"] = rob
-    cruz.to_csv(DIR_PROC / "duas_logicas_cruzamento.csv", index=False, float_format="%.4f")
+    cruz.to_csv(DIR_PROC / f"duas_logicas_cruzamento{suf}.csv", index=False, float_format="%.4f")
     fig_cruzamento(mun_mix, nt)
 
     # ── C2. VERIFICAÇÃO crítica: confundidor latitude + fluxo no mesmo recorte ──
     print("\nVerificando confundidor (latitude) e comparação justa com fluxo...")
     parc, flux = robustez_confounder_fluxo(mun_mix, nt)
     rob_full = pd.concat([parc, flux], ignore_index=True)
-    rob_full.to_csv(DIR_PROC / "duas_logicas_robustez.csv", index=False)
+    rob_full.to_csv(DIR_PROC / f"duas_logicas_robustez{suf}.csv", index=False)
 
     # ── D. Tipologia ─────────────────────────────────────────────────────────
     print("\nMontando tipologia 'carreira da terra'...")
@@ -613,16 +702,61 @@ def main() -> None:
         print(f"    × {r['desfecho']:18s} bruto {r['r_bruto']:+.2f} → |lat "
               f"{r['r_parcial_lat']:+.2f} (p={r['p_parcial']:.3f}) → |lat+lon "
               f"{r['r_parcial_latlon']:+.2f} (p={r['p_parcial_latlon']:.3f}){flag}")
-    print("(2) FLUXO no MESMO recorte transversal (× idade mediana):")
+    print("(2) FLUXO no MESMO recorte transversal e sob o MESMO controle 2D (× idade mediana):")
     for _, r in flux.iterrows():
-        print(f"    {r['estrutural']:32s} bruto {r['r_bruto']:+.2f} (p={r['p_bruto']:.3f}) "
-              f"| parcial|lat {r['r_parcial_lat']:+.2f} (p={r['p_parcial']:.3f}) | n={r['n']}")
-    print("\nLEITURA HONESTA: o no-till co-localiza com a lógica jovem, mas é o gradiente")
-    print("espacial compartilhado — controlando lat+lon (gradiente 2D), NENHUM par sobrevive")
-    print("(idade cai de −0,37 → −0,22|lat → −0,15|lat+lon, NS). Não há efeito próprio do no-till.")
-    print("O fluxo tampouco é nulo neste recorte (o nulo do #28 era painel (muni,ano)).")
-    print("Logo: 'estrutura > fluxo' NÃO se sustenta; o achado robusto é a SEGREGAÇÃO ESPACIAL")
-    print("das duas lógicas ao longo do gradiente de aptidão (não um efeito próprio do no-till).")
+        f2 = "" if (r["p_parcial_latlon"] == r["p_parcial_latlon"]
+                    and r["p_parcial_latlon"] < 0.05) else "  ← some no 2D"
+        print(f"    {r['estrutural']:32s} bruto {r['r_bruto']:+.2f} → |lat "
+              f"{r['r_parcial_lat']:+.2f} (p={r['p_parcial']:.3f}) → |lat+lon "
+              f"{r['r_parcial_latlon']:+.2f} (p={r['p_parcial_latlon']:.3f}) "
+              f"n={r['n']}{f2}")
+    # O veredito é DERIVADO do que rodou, não escrito à mão. Até 21/jul/2026
+    # estas linhas eram texto fixo ("NENHUM par sobrevive", com os números da
+    # amostra embutidos) — uma conclusão que a própria execução não podia
+    # desmentir. Com o censo os números mudaram e o texto fixo passou a
+    # contradizer a tabela impressa logo acima.
+    p2 = parc["p_parcial_latlon"]
+    n_sobrevive = int((p2 < 0.05).sum())
+    n_limiar = int(((p2 >= 0.05) & (p2 < 0.10)).sum())
+    idade = parc[parc["desfecho"] == "idade_mediana"]
+    tr = idade.iloc[0] if len(idade) else parc.iloc[0]
+    print("\nLEITURA (derivada dos números acima):")
+    print(f"  n = {int(tr['n']) if 'n' in tr else '?'} municípios | pares testados: {len(parc)}")
+    print(f"  × {tr['desfecho']}: bruto {tr['r_bruto']:+.2f} → |lat+lon "
+          f"{tr['r_parcial_latlon']:+.2f} (p={tr['p_parcial_latlon']:.3f})")
+    if n_sobrevive == 0 and n_limiar == 0:
+        print("  Controlando lat+lon, NENHUM par sobrevive nem chega perto do limiar:")
+        print("  o no-till co-localiza com a lógica jovem por gradiente espacial")
+        print("  compartilhado, sem efeito próprio detectável.")
+    elif n_sobrevive == 0:
+        print(f"  NENHUM par cruza p<0,05, mas {n_limiar} fica(m) na FAIXA LIMÍTROFE "
+              f"(0,05 ≤ p < 0,10).")
+        print("  Isso NÃO é o mesmo que um nulo limpo: a associação encolhe muito sob o")
+        print("  controle 2D mas não desaparece. Com multiplicidade (vários pares) o")
+        print("  veredito segue 'não estabelecido' — porém por falta de evidência")
+        print("  conclusiva, não por ausência de sinal. Não escrever 'não há efeito'.")
+    else:
+        print(f"  {n_sobrevive} par(es) sobrevive(m) a p<0,05 sob controle 2D "
+              f"(+{n_limiar} no limiar).")
+        print("  Reavaliar a D14: a leitura de 'sem efeito próprio' não se sustenta")
+        print("  neste recorte. Corrigir por multiplicidade antes de afirmar efeito.")
+    # O fluxo agora passa pelo MESMO controle 2D, então a comparação
+    # "estrutura × fluxo" é simétrica e o veredito pode ser derivado.
+    pf = flux["p_parcial_latlon"]
+    f_sobrev = int((pf < 0.05).sum())
+    if f_sobrev:
+        quais = ", ".join(flux.loc[pf < 0.05, "estrutural"].tolist())
+        print(f"  FLUXO sob o MESMO controle 2D: {f_sobrev} de {len(flux)} sobrevive(m) "
+              f"({quais}).")
+        print("  A comparação estrutura × fluxo agora é simétrica: o fluxo tem sinal")
+        print("  próprio que a estrutura não tem neste recorte transversal.")
+    else:
+        print(f"  FLUXO sob o MESMO controle 2D: 0 de {len(flux)} sobrevive(m).")
+        print("  Sob controle simétrico, NENHUM dos dois lados isola efeito próprio —")
+        print("  a assimetria anterior ('fluxo tem sinal, estrutura não') vinha de o")
+        print("  fluxo levar só controle 1D. Não repetir aquela leitura.")
+    print("  Achado estável nas duas fontes: a SEGREGAÇÃO ESPACIAL das duas lógicas")
+    print("  ao longo do gradiente de aptidão.")
 
     print(f"\n5 PNGs em {DIR_OUT.relative_to(ROOT)} | 4 CSVs em data/processed/")
 

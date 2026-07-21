@@ -163,7 +163,7 @@ Sim. "Centro de massa / centro de gravidade ponderado" de uma distribuição ao 
 
 O #32 entrega a **Camada 1** (o panorama). O achado afina o foco das próximas:
 
-1. **Camada 2 — Mecanismo** (transições por mesorregião × ato, #12/#19/#28): testar se o **Sul converte pasto jovem** (reserva de curto prazo — #28 mostra mediana de 9 anos) enquanto o **Norte/Noroeste suprime vegetação ou converte pasto antigo** (mediana de 20 anos). Focar o recorte **2020–2024**, onde o deslocamento é mais limpo.
+1. **Camada 2 — Mecanismo** (transições por mesorregião × ato, #12/#19/#28): testar se o **Sul converte pasto jovem** (reserva de curto prazo — #28 mostra mediana de 9 anos, não-cens.) enquanto o **Norte/Noroeste suprime vegetação ou converte pasto antigo** (mediana de 16 anos, não-cens.). Focar o recorte **2020–2024**, onde o deslocamento é mais limpo.
 2. **Camada 3 — Econômica** (lead-lag + spillover espacial no painel AMC, #22/#24): testar se $\Delta\text{agricultura}_{t-1,\,\text{sul}} \rightarrow \Delta\text{rebanho}_{t,\,\text{norte}}$ — a agricultura no sul **antecede** o avanço da pecuária no norte? Há spillover dos vizinhos?
 
 ---

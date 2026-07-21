@@ -77,13 +77,17 @@ faz peças escritas em momentos diferentes conversarem entre si.
   | D11 | Áreas Mínimas Comparáveis (Ehrl 2017) para análise longitudinal | #25 |
   | D12 | Janelas temporais explícitas: face de **fronteira** (#35) + de **resolução** (#36) | #35, #36 |
   | D13 | "Terra convertível" = proxy MapBiomas com teto, em 3 definições | #39 |
-  | D14 | Em cross-section estadual, reportar a **parcial controlando latitude** antes de atribuir efeito próprio | #40, #28C |
+  | D14 | Em cross-section estadual, reportar a **parcial controlando latitude** antes de atribuir efeito próprio — com **os mesmos controles nos dois lados** de qualquer comparação, e checando o **erro de medida do desfecho** antes de ler um nulo como ausência (revisto 21/jul/2026) | #40, #40B, #28C |
   | D15 | Alinhamento `fogo(t) ↔ conv(origem=t)` como contemporâneo | #41 |
   | D16 | Lead-lag de séries AMC integradas exige Toda-Yamamoto + placebos (Granger ingênuo fabrica precedência espúria) | #42 |
   | D17 | "Proteção" = malha vetorial de UCs (Proteção Integral × Uso Sustentável), proxy-teto no espírito da D13; PRODES validada (#48) e refino pixel fechados, MMA dispensada | #46 |
   | D18 | Custo de carbono por diferença de estoque (IPCC Tier 1) × densidades de C do Cerrado por formação (biomassa AGB+BGB, 3 cenários); solo (SOC) fora da manchete | #47 |
   | D19 | Todo ΔNorte de centroide vem com **IC95% por bootstrap de AMCs** (B=2000); um IC que inclui zero **nunca** é reportado como km (diga "ancorada") | #32, #44, #50 |
   | D20 | Para um desenho **shift-share** (choque nacional × exposição local) com **um único shifter**, o SE clusterizado é **otimista** (AKM 2019); a inferência correta é **permutação do shifter** (naive + circular), reportada junto com a bateria de placebos/lead/jackknife | #54 |
+  | D21 | Toda **amostragem espacial** declara a fração que caiu fora do recorte pretendido; `region` derivada de `.envelope`/`.bounds` é armadilha silenciosa (o overlay posterior conserta o rótulo, não a alocação) | #28 |
+  | D22 | **Sentinela de erro nunca compartilha código com categoria real**: `.fillna(<categoria>)` após `.map()` vira falha de configuração em dado. Condição estrutural (ex.: censura) é decidida por índice, jamais por sucesso de lookup | #28 |
+  | D23 | Com **censo** (n = população), ΔBIC e p-valor deixam de medir evidência — a robustez vem de **estabilidade entre recortes**, e o ganho a reportar é a **precisão** dos parâmetros | #28, #28C |
+  | D24 | Estatística **ponderada** deve reduzir *exatamente* ao caso não-ponderado com peso=1, verificado por teste — é o que garante que a diferença amostra × censo venha dos dados, não da implementação | #28 |
 
 - **Os atos (a régua narrativa).** A periodização data-driven (Fase 5) cristalizou três
   **atos** em `config_periodos.py`: **I — Pastagem como herança (1985–2000)**, **II — Expansão
@@ -402,10 +406,12 @@ os `ATOS` e os `MARCOS` (com a tipologia evidencial A/B/C). A partir daqui, #20,
 e toda a Fase 6 importam os atos daqui, em vez de cada script chutar suas próprias datas.
 
 Em paralelo, o **Pipeline #28** investiga a assinatura fina do mecanismo.
-**`coleta_idade_pastagem.py` (#28A)** amostra ~78.000 pixels que sofreram a transição
-pasto→agricultura e, para cada um, calcula **há quantos anos aquela pastagem existia no momento
-da conversão** — com a idade computada **localmente em Python** a partir das 40 bandas anuais
-(Decisão D10, que evita estourar o limite do GEE encadeando 35+ operações). A hipótese é a
+O **#28** varre **todos** os pixels que sofreram a transição pasto→agricultura em Goiás —
+**44,6 milhões de eventos**, 11,2% do estado — e para cada um calcula **há quantos anos aquela
+pastagem existia no momento da conversão**, com a idade computada **localmente em Python** a
+partir das 40 bandas anuais (Decisão D10, que evita estourar o limite do GEE encadeando 35+
+operações). Até jul/2026 isso era uma amostra de 2.000 px/ano; virou censo depois que a
+amostra se mostrou enviesada na composição entre anos. A hipótese é a
 "pastagem como reserva de terra": uma pastagem jovem convertida sugere mecanismo *premeditado*
 (plantar pasto já pensando em virar lavoura); uma pastagem velha sugere mecanismo
 *oportunístico*. **`analise_reserva_terra.py` (#28B)** descreve a distribuição e encontra o
@@ -545,13 +551,25 @@ Oportunístico antigo) por AMC e município, cruza com plantio direto (Censo 201
 tipologia de "carreira da terra". O **achado robusto** é a **geografia das duas lógicas** — a
 Rotação (pasto jovem) domina o Sul/Centro, o Oportunístico (pasto antigo) domina o Norte: as
 duas lógicas são as **duas faces do gradiente de aptidão Sul→Norte** (índice jovem × latitude
-r=−0,49). Mas este pipeline é também um caso-modelo de **autocorreção**: a primeira leitura
+r=−0,236 no censo; a amostra dava −0,49 — o gradiente sobrevive com metade da força). Mas este pipeline é também um caso-modelo de **autocorreção**: a primeira leitura
 anunciou que "a lógica é estrutural (plantio direto), não de fluxo", e a *verificação no mesmo
 dia derrubou o overclaim*. Controlando latitude (correlação parcial), o cruzamento no-till ×
-idade colapsa (r −0,37 → −0,22); controlando o gradiente 2D (lat+lon), nada sobrevive. A
-contribuição sólida é a *geografia da bimodalidade*, não um driver estrutural — o plantio
-direto **co-localiza** com a lógica jovem, não a causa. Daí a **Decisão D14**: em cross-section
-estadual, sempre reportar a parcial controlando latitude antes de atribuir efeito próprio.
+idade colapsa. A contribuição sólida é a *geografia da bimodalidade*, não um driver
+estrutural — o plantio direto **co-localiza** com a lógica jovem. Daí a **Decisão D14**: em
+cross-section estadual, sempre reportar a parcial controlando latitude antes de atribuir
+efeito próprio.
+
+Em 21/jul/2026, ao migrar o #40 para o **censo** do #28, essa passagem ganhou uma segunda
+camada — e ela é mais interessante que a primeira. O "nada sobrevive" **não era achado, era
+artefato de medição**: a idade mediana municipal vinha de ~26 pixels, e erro de medida no
+desfecho atenua a correlação em direção a zero. Com a mesma composição e o censo, a parcial
+2D vai de p=0,413 a **p=0,031**. O veredito honesto passa de "não há efeito próprio" para
+**"não estabelecido"** (p≈0,058 em n=209; nada sobrevive a FDR-BH). Além disso, a comparação
+estrutura × fluxo estava **assimétrica** — estrutura levava controle 2D e fluxo só 1D. Posta
+em pé de igualdade, ela *confirma* a leitura antiga: o único sinal que resiste a controle 2D,
+troca de fonte e multiplicidade é o **Δ SICOR** (fluxo, p=0,001), não a estrutura. A lição que
+fica é de método: **antes de ler um nulo como ausência, medir o ruído do desfecho** — um nulo
+sobre desfecho ruidoso é indistinguível de falta de poder.
 
 ### O fogo — `fogo_lidera_fronteira.py` (#41)
 

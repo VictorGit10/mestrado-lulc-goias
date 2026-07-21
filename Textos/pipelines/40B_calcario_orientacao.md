@@ -4,7 +4,7 @@
 **Quando foi feito**: 2026-07-16. Extensão do #40 que consome as covariáveis novas do Censo 2017 (tabela 6850, coletadas em jul/2026 — calcário e orientação técnica).
 **Depende de**: #40 (reusa integralmente `carregar`/`agregar_mix`/`_partial_corr`/`_partial_corr_multi`), #28 (idade da pastagem), coletas triviais 6850.
 **Outputs**:
-- `data/processed/duas_logicas_calcario_orientacao.csv` — tabela D14 (bruto → parcial|lat → parcial|lat+lon).
+- `data/processed/duas_logicas_calcario_orientacao.csv` — tabela D14 (bruto → parcial|lat → parcial|lat+lon). Gerado sobre o **censo** do #28; `--fonte amostra` escreve com sufixo `_amostra`.
 - `outputs/duas_logicas/calcario_orientacao.png`.
 
 ---
@@ -27,24 +27,41 @@ Correlação da covariável com a latitude do centróide (− = desce ao Sul):
 
 | Covariável | r(latitude) |
 |---|---|
-| **Orientação técnica** | **−0,54** |
-| **Calcário** | **−0,43** |
-| Plantio direto (ref. #40) | −0,37 |
-| Adubação (ref.) | −0,21 |
+| **Orientação técnica** | **−0,49** |
+| **Calcário** | **−0,40** |
+| Plantio direto (ref. #40) | −0,38 |
+| Adubação (ref.) | −0,24 |
 
 Calcário e orientação são marcadores nítidos do Sul comercial mecanizado — mais nítidos que o no-till.
 
 ### 2. Mas nenhum par sobrevive ao controle do gradiente 2D (D14 generalizada)
-Cross-check com os desfechos da lógica (n=88 munis), bruto → parcial|lat → parcial|lat+lon:
+
+> **Revisado em 21/jul/2026 sobre o censo do #28.** n vai de 88 a **244 municípios** — o
+> corte de ≥20 px deixa de morder. **O nulo se confirma e fica muito melhor sustentado**:
+> aqui, ao contrário do no-till no #40, medir melhor **não** ressuscitou o sinal.
+
+Cross-check com os desfechos da lógica (**n=244 munis**), bruto → parcial|lat → parcial|lat+lon:
 
 | Covariável × desfecho | bruto | \|lat | \|lat+lon |
 |---|---|---|---|
-| Calcário × idade mediana | −0,30 | −0,09 (ns) | −0,04 (ns) |
-| Calcário × índice jovem | +0,19 | −0,03 (ns) | −0,09 (ns) |
-| Orientação × idade mediana | −0,22 | +0,10 (ns) | +0,09 (ns) |
-| Orientação × % rotação | +0,23 | −0,14 (ns) | −0,14 (ns) |
+| Calcário × idade mediana | −0,16 | −0,08 (p=0,24) | −0,05 (p=0,45) |
+| Calcário × índice jovem | +0,16 | +0,05 (p=0,41) | +0,03 (p=0,70) |
+| Calcário × % rotação | +0,22 | −0,01 (p=0,83) | −0,01 (p=0,93) |
+| Orientação × idade mediana | −0,09 | +0,02 (p=0,76) | +0,02 (p=0,73) |
+| Orientação × % rotação | +0,27 | −0,01 (p=0,89) | −0,01 (p=0,90) |
 
-**Nenhum** dos 8 pares das covariáveis novas sobrevive — exatamente como o no-till no #40 (reproduzido aqui como referência: −0,37 → −0,22|lat → −0,15|lat+lon, ns). A intensificação (calcário) e a instituição (orientação) **co-localizam na aptidão latitudinal; não isolam efeito próprio** sobre a idade da pastagem. **A D14 vale para as três famílias de proxy** (manejo, insumo, extensão).
+**Nenhum** dos 8 pares das covariáveis novas sobrevive, com |r| ≤ 0,05 sob o controle 2D
+— nulos francos, não limítrofes. A intensificação (calcário) e a instituição (orientação)
+**co-localizam na aptidão latitudinal; não isolam efeito próprio** sobre a idade da
+pastagem.
+
+> ⚠️ **Mas a generalização precisa de uma ressalva agora.** O no-till, citado antes como
+> "exatamente igual", **não** é mais um nulo franco: no censo fica em p≈0,057–0,058
+> (limítrofe, ver #40 §2), e a covariável de referência **adubação** dá 3 pares a
+> p=0,003–0,013. Nenhum desses sobrevive a **FDR-BH** (0 de 16 pares do #40B), então o
+> veredito agregado se mantém — mas **não escrever que "nenhuma covariável estrutural
+> sobrevive ao gradiente" como afirmação geral**. Isso vale para calcário e orientação,
+> que é o que este pipeline testa; não para todas.
 
 ### 3. Textura institucional nova — a ORIGEM da orientação é ela mesma Sul→Norte
 Composição da assistência técnica entre os estabelecimentos que a recebem, vs latitude:
@@ -58,6 +75,6 @@ Os "dois Goiáses" têm **dois modelos de extensão**: comercial-cooperativo no 
 
 ## Veredito
 
-Confirma e **generaliza a D14**: em cross-section estadual, calcário e orientação técnica são mais dois marcadores do gradiente de aptidão — descem ao Sul com a lógica jovem, mas o efeito próprio evapora ao controlar lat+lon. O achado robusto do #40 permanece **a geografia da bimodalidade**, não um driver estrutural. Contribuição desta passada: (a) fecha que a lição do no-till não era peculiaridade do no-till; (b) revela o **gradiente institucional da extensão** (cooperativa-Sul × pública-Norte), um espelho institucional do "dois Goiáses". As covariáveis novas (Q2 da auditoria de uso do painel) ganham, assim, seu primeiro uso analítico.
+Confirma e **generaliza a D14**: em cross-section estadual, calcário e orientação técnica são mais dois marcadores do gradiente de aptidão — descem ao Sul com a lógica jovem, mas o efeito próprio evapora ao controlar lat+lon. O achado robusto do #40 permanece **a geografia da bimodalidade**, não um driver estrutural. Contribuição desta passada: (a) mostra que a lição não era peculiaridade do no-till — com a ressalva, acrescentada em 21/jul/2026, de que o próprio no-till deixou de ser um nulo franco no censo (p≈0,058) e que quem hoje sustenta o nulo com folga são calcário e orientação, não o no-till; (b) revela o **gradiente institucional da extensão** (cooperativa-Sul × pública-Norte), um espelho institucional do "dois Goiáses". As covariáveis novas (Q2 da auditoria de uso do painel) ganham, assim, seu primeiro uso analítico.
 
-**Honestidade**: cross-section 2017 estático (sem uso longitudinal); n=88 munis confiáveis; a composição da orientação é descritiva. Não abre perna causal — reforça a existente.
+**Honestidade**: cross-section 2017 estático (sem uso longitudinal); n=244 munis (censo do #28; era 88 na amostra); a composição da orientação é descritiva. Não abre perna causal — reforça a existente.

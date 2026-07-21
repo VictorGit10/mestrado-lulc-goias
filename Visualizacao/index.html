@@ -742,13 +742,14 @@
       política: se a pastagem funciona como reserva de terra de longo prazo, políticas de
       crédito e regulação fundiária têm alavancagem diferente do que se toda conversão fosse
       rotação agrícola de curto prazo. A idade da pastagem no momento da conversão
-      pixel-a-pixel (78.000 amostras, 166 AMCs) revela que não existe uma única
-      resposta — existem <strong>duas populações</strong>.
+      pixel-a-pixel — <strong>todos</strong> os 44,6 milhões de eventos de conversão de Goiás,
+      3,8 milhões de hectares, 11,2% do estado — revela que não existe uma única
+      resposta: existem <strong>duas populações</strong>.
     </p>
     <figure class="grafico-card grafico-card--wide">
       <img src="img/graficos/sintese_idade_pastagem_atos.png"
            alt="Distribuição da idade da pastagem na conversão para agricultura, por Ato" loading="lazy">
-      <figcaption>Distribuição da idade da pastagem (anos) na conversão para agricultura, por Ato. O que observar: a curva não tem um pico só, mas <em>dois</em> — um perto de ~5 anos (pasto jovem) e outro perto de ~22 anos (pasto antigo). A mediana sobe de 6 anos (Ato I) para 19 (Ato II) e 17 (Ato III). 66% dos pixels já eram pastagem em 1985 (censura à esquerda). Fonte: MapBiomas Coleção 10.1, classificação pixel-a-pixel.</figcaption>
+      <figcaption>Distribuição da idade da pastagem (anos) na conversão para agricultura, por Ato. O que observar: a curva não tem um pico só, mas <em>dois</em> — um perto de ~4 anos (pasto jovem) e outro perto de ~23 anos (pasto antigo). Entre os pixels de idade conhecida, a mediana sobe de 4 anos (Ato I) para 14 (Ato II) e recua para 8 (Ato III) — mas o recuo do Ato III não é geral: a média fica em 13 anos e o P90 em 31, porque as duas populações convivem. 64% dos pixels já eram pastagem em 1985, e desses a idade real é desconhecida (censura à esquerda). Fonte: MapBiomas Coleção 10.1, censo pixel-a-pixel.</figcaption>
     </figure>
 
     <!-- #28-C — bloco interativo (progressive enhancement; sem JS, a figura acima assume) -->
@@ -780,16 +781,27 @@
           <div class="reserva-coorte-valor">mediana 13 a</div>
           <div class="reserva-coorte-rotulo">Vegetação → pastagem → agricultura</div>
           <div class="reserva-coorte-glosa">
-            n = 16.009 pixels. Terra aberta do Cerrado que passou pela pastagem
-            antes da lavoura — a <em>reserva</em> de fronteira, com cauda longa.
+            n = 6,4 milhões de pixels (14,3%). Terra aberta do Cerrado que passou
+            pela pastagem antes da lavoura — a <em>reserva</em> de fronteira, com
+            cauda longa.
           </div>
         </div>
         <div class="reserva-coorte">
           <div class="reserva-coorte-valor">mediana 5 a</div>
           <div class="reserva-coorte-rotulo">Agricultura → pastagem → agricultura</div>
           <div class="reserva-coorte-glosa">
-            n = 9.419 pixels. Pasto de <em>passagem</em> dentro de um sistema já
-            agrícola — rotação/ILP de ciclo curto, sem abertura de vegetação.
+            n = 3,9 milhões de pixels (8,8%). Pasto de <em>passagem</em> dentro de
+            um sistema já agrícola — rotação/ILP de ciclo curto, sem abertura de
+            vegetação.
+          </div>
+        </div>
+        <div class="reserva-coorte">
+          <div class="reserva-coorte-valor">mediana 12 a</div>
+          <div class="reserva-coorte-rotulo">Mosaico de usos → pastagem → agricultura</div>
+          <div class="reserva-coorte-glosa">
+            n = 5,3 milhões de pixels (11,8%). Origem que o MapBiomas não conseguiu
+            separar entre lavoura e pasto. Esta coorte <em>não aparecia</em> até
+            jul/2026: um defeito de código a contava como idade desconhecida.
           </div>
         </div>
       </div>
@@ -818,8 +830,11 @@
     </div>
 
     <p>
-      A bimodalidade é estável: o modelo de 2 componentes (AIC 66.428) supera o de 1 componente
-      (AIC 76.187) em todas as janelas deslizantes testadas (2016–24, 2017–24, 2018–24, 2020–24).
+      A bimodalidade é estável no que importa: os dois modos aparecem em todas as janelas
+      testadas (2016–24, 2017–24, 2018–24, 2020–24) e <em>mal se movem</em> — o jovem entre
+      4,2 e 4,5 anos, o antigo entre 22,5 e 23,5. O que muda é o peso relativo: a população
+      jovem sobe de 31% para 51% do total entre a janela de nove anos e a de cinco. Ela
+      <em>alcança</em> a antiga no período recente; não passa a dominar.
       A coexistência dos dois mecanismos conecta § 4 (lavoura sobre pasto) com § 5 (crédito
       → retração de pasto): o crédito rural financia tanto a conversão premeditada (projetos
       integrados) quanto a oportunística (arrendamento de pastagem consolidada).
@@ -829,17 +844,22 @@
       <summary>Mediana por Ato e proporções detalhadas</summary>
       <div style="padding: 0.9rem 1.1rem; border-top: 1px solid var(--color-rule); background: #fcfcfa;">
         <div class="metric-rows" style="border: none; padding: 0; background: transparent;">
-          <div class="metric-row"><span class="metric-row-label">Ato I (1985–2000)</span><span class="metric-row-value">mediana 6 a</span></div>
-          <div class="metric-row"><span class="metric-row-label">Ato II (2001–2019)</span><span class="metric-row-value">mediana 19 a</span></div>
-          <div class="metric-row"><span class="metric-row-label">Ato III (2020–2024)</span><span class="metric-row-value">mediana 17 a</span></div>
+          <div class="metric-row"><span class="metric-row-label">Ato I (1985–2000)</span><span class="metric-row-value">mediana 4 a</span></div>
+          <div class="metric-row"><span class="metric-row-label">Ato II (2001–2019)</span><span class="metric-row-value">mediana 14 a</span></div>
+          <div class="metric-row"><span class="metric-row-label">Ato III (2020–2024)</span><span class="metric-row-value">mediana 8 a</span></div>
         </div>
         <p style="font-size: 0.85rem; margin: 0.8rem 0 0.3rem;">
-          <strong>Censura à esquerda:</strong> 66% dos pixels (51.573 de 78.000) já eram pastagem em 1985.
-          A idade real desses pixels é desconhecida. Análises interpretativas restringem-se aos 26.427 não-censurados.
+          Medianas entre pixels de idade conhecida (não-censurados).
         </p>
         <p style="font-size: 0.85rem; margin: 0.3rem 0;">
-          <strong>Proporções (GMM, janela 2020–24):</strong> rotação rápida/premeditada 5,5%,
-          rotação agricultura→pastagem→agricultura 47,9%, oportunístico clássico 22,6%, ambíguo 24,0%.
+          <strong>Censura à esquerda:</strong> 64% dos 44,6 milhões de eventos já eram pastagem em 1985.
+          A idade real desses pixels é desconhecida. Análises interpretativas restringem-se aos
+          16,0 milhões não-censurados.
+        </p>
+        <p style="font-size: 0.85rem; margin: 0.3rem 0;">
+          <strong>Mecanismos (janela 2020–24, não-censurados):</strong> rotação
+          agricultura→pastagem→agricultura 43,0%, mosaico de usos 19,8%, ambíguo 18,1%,
+          oportunístico clássico 16,6%, premeditado curto 2,5%.
         </p>
         <p style="font-size: 0.85rem; margin: 0.3rem 0;">
           <strong>Limitação:</strong> a análise é descritiva — não estabelece causalidade.
@@ -2127,12 +2147,14 @@
           </p>
         </div>
         <div class="fragilidade-item">
-          <div class="fragilidade-titulo">Censura à esquerda na idade da pastagem (66%)</div>
+          <div class="fragilidade-titulo">Censura à esquerda na idade da pastagem (64%)</div>
           <p class="fragilidade-glosa">
-            51.573 de 78.000 pixels já eram pastagem em 1985 — a idade real desses pixels
-            é desconhecida (podem ter décadas a mais). Análises de idade restringem-se aos
-            26.427 pixels não-censurados, que representam conversões mais recentes.
-            A distribuição global é enviesada para idades menores.
+            28,6 de 44,6 milhões de pixels já eram pastagem em 1985 — a idade real desses
+            pixels é desconhecida (podem ter décadas a mais). Análises de idade restringem-se
+            aos 16,0 milhões não-censurados, que representam conversões mais recentes.
+            A distribuição global é enviesada para idades menores. Passar de amostra para
+            censo <em>não</em> resolve isso: a censura é limite da série do MapBiomas, que
+            começa em 1985, não do tamanho da amostra.
           </p>
         </div>
       </div>

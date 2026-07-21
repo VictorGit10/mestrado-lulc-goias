@@ -55,7 +55,9 @@ de forma honesta:
   número/tamanho de grupos. O sinal real é `η²_obs − η²_acaso` (e um p-valor de permutação).
 
 Rodado em **duas malhas**: mesorregião (`--malha meso`, 5 unidades, D6) e AMC
-(`--malha amc`, 158 com conversão, via crosswalk do #25). 11.035 pixels não-censurados.
+(`--malha amc`, 164 com conversão, via crosswalk do #25). **16.004.530** eventos
+não-censurados (censo de 21/jul/2026; antes eram 11.035 pixels amostrados, valor
+que também estava inflado pelo bug da classe 21 — ver `28_idade_pastagem.md`).
 
 ## Achados
 
@@ -129,9 +131,11 @@ jovem/velho, **menos que o tempo (20%)**; (b) **73%** mora *dentro* das células
    infraestrutura, distância a esmagadoras) — a decomposição diz *quanto* o espaço capta, não
    *qual* fator dentro dele.
 3. **Censura à esquerda** herdada do #28 (idades truncadas quando o pasto já existia em 1985);
-   por isso só os **não-censurados** entram (11.035 px). A bimodalidade é do regime recente.
-4. **GMM e BC concordam, mas n pequeno** em algumas células AMC×ato (por isso o filtro n≥100
-   para o GMM por unidade; células abaixo disso não são classificadas).
+   por isso só os **não-censurados** entram (16.004.530 eventos). A bimodalidade é do regime
+   recente. O censo **não reduz** a censura — ela é limite da série MapBiomas, não da amostra.
+4. ~~**GMM e BC concordam, mas n pequeno** em algumas células AMC×ato~~ — **superado pelo
+   censo**: as 164 AMCs passaram todas o filtro n≥100 (antes eram 36 de 158). O filtro
+   permanece no código como salvaguarda, mas não morde mais.
 
 ## Como rodar
 

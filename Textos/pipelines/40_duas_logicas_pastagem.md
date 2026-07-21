@@ -1,9 +1,9 @@
 # Pipeline #40 — As duas lógicas da pastagem: espacialização + plantio direto
 
 **Script**: `scripts/duas_logicas_pastagem.py`
-**Status**: ✅ Concluído (2026-06-07)
+**Status**: ✅ Concluído (2026-06-07) · **revisado sobre o censo do #28 em 2026-07-21**
 **Outputs**: 4 CSVs (`duas_logicas_amc.csv`, `duas_logicas_municipal.csv`, `duas_logicas_cruzamento.csv`, `duas_logicas_robustez.csv`) + 5 PNGs em `outputs/duas_logicas/` (`mapa_logica_dominante_amc`, `pixels_mecanismo`, `gradiente_latitude`, `cruzamento_plantio_direto`, `tipologia_carreira_terra`).
-**Depende de**: #28 (idade da pastagem na conversão), #27/Censo 2017 (plantio direto), #25 (AMC + crosswalk).
+**Depende de**: #28 **censo** (`pastagem_idade_censo.parquet`, com `lat_media`/`lon_media`), #27/Censo 2017 (plantio direto), #25 (AMC + crosswalk).
 
 ## Pergunta de pesquisa
 
@@ -23,9 +23,11 @@ Este pipeline puxa o fio #2 do backlog: **espacializar** as duas lógicas (AMC e
 município) e **cruzá-las com a estrutura do sistema agrícola** — o **plantio direto**
 (Censo 2017), proxy de integração lavoura-pecuária (ILP)/rotação. A pergunta-teste era:
 a idade-na-conversão é ilegível na escala municipal, ou só faltava cruzar com a variável
-certa (estrutura, em vez de fluxo)? **Resposta (após verificação): segue largamente
-ilegível** — estrutura e fluxo co-variam igualmente no gradiente Sul→Norte; o que o
-pipeline entrega de sólido é a **geografia** das duas lógicas, não um preditor próprio.
+certa (estrutura, em vez de fluxo)? **Resposta (após a revisão de 21/jul/2026): a
+estrutura NÃO se mostrou superior ao fluxo — é o contrário.** Sob controle 2D simétrico,
+o único sinal que sobrevive a multiplicidade é de **fluxo** (Δ SICOR, p=0,001); a
+estrutura (no-till) fica limítrofe (p≈0,058) e **não estabelecida**. O que o pipeline
+entrega de sólido segue sendo a **geografia** das duas lógicas.
 
 ## O que é novo vs. #28
 
@@ -46,7 +48,8 @@ Reusa a regra de decisão do #28 (`classificar_mecanismo`): pixel não-censurado
   **não-censurados** na **janela primária 2010–2024** (regime moderno, censura baixa,
   Censo 2017 no meio). Índice contínuo `indice_jovem = %≤8a − %≥20a ∈ [−1,1]`
   (+ = lógica jovem). Filtro de confiabilidade: **≥20 px/município, ≥15 px/AMC**
-  (mitiga o ruído de munis pequenos apontado na crítica do #28). → 88 munis e 82 AMCs
+  (mitiga o ruído de munis pequenos apontado na crítica do #28). Com o censo o corte
+  deixa de morder: → **244 munis e 164 AMCs** (era 88 e 82 na amostra)
   confiáveis.
 - **Bloco B — Espacializar.** Coroplético AMC (malha EPSG:5880 do #32–#39): índice
   contínuo + mecanismo dominante categórico; scatter de pixels por mecanismo (textura
@@ -63,45 +66,108 @@ Reusa a regra de decisão do #28 (`classificar_mecanismo`): pixel não-censurado
 
 ## Achados
 
-> ⚠️ **Correção de enquadramento (verificação 2026-06-07).** A primeira leitura deste
-> pipeline anunciou "a lógica é estrutural (no-till), não de fluxo". A verificação
-> (parcial controlando latitude + comparação justa com fluxo) **não sustenta** esse
-> enquadramento: quase tudo é o gradiente Sul→Norte compartilhado. O achado **robusto**
-> é a **segregação espacial** das duas lógicas; o cruzamento com no-till é **co-localização
-> no gradiente**, não efeito próprio. As seções abaixo já refletem a leitura corrigida.
+> ⚠️ **Duas correções sucessivas — leia nesta ordem.**
+>
+> **(a) 2026-06-07** — a primeira leitura anunciou "a lógica é estrutural (no-till), não
+> de fluxo". A verificação não sustentou: quase tudo é o gradiente Sul→Norte
+> compartilhado, e o achado robusto é a **segregação espacial** das duas lógicas.
+>
+> **(b) 2026-07-21** — ao migrar para o **censo** do #28 e igualar os controles dos dois
+> braços da comparação, três coisas mudaram: (i) o gradiente sobrevive mas **cai à
+> metade** (r −0,49 → −0,236); (ii) "não há efeito próprio do no-till" **foi retirado** —
+> era artefato de erro de medida, e o veredito correto é *não estabelecido*; (iii) a
+> comparação estrutura × fluxo, agora simétrica, **confirma** que o fluxo tem o único
+> sinal robusto. As seções abaixo já refletem (b).
 
 ### 1. O achado ROBUSTO — a geografia da bimodalidade (segregação espacial)
 
 A contribuição sólida do #40 é **espacializar** a bimodalidade do #28: cada AMC/município
-recebe sua mistura de mecanismos. O resultado é uma **segregação espacial limpa** —
-**Rotação (jovem ≤8a, laranja) domina Sul/Centro; Oportunístico (antigo ≥20a, verde)
-concentra-se no Norte** (mapa AMC). É o gradiente de mesorregião do #28 (Sul 9a → Norte
-20a) em resolução fina, e alinha-se ao eixo Sul→Norte de #32/#39:
+recebe sua mistura de mecanismos. **Rotação (jovem ≤8a) domina Sul/Centro; Oportunístico
+(antigo ≥20a) concentra-se no Norte** (mapa AMC). É o gradiente de mesorregião do #28
+(Sul 9a → Norte 16a, não-censurado) em resolução fina, alinhado ao eixo Sul→Norte de
+#32/#39:
 
-- índice jovem↔antigo × latitude: **r = −0,49** (p<0,001, n=82)
+- índice jovem↔antigo × latitude: **r = −0,236** (p=0,002, n=164 AMCs)
+- idade mediana × latitude: r = +0,176 (p=0,024)
 - as duas lógicas são a face *mecanismo-de-conversão* do gradiente de **aptidão + capital**:
   o Sul capitalizado **gira** pasto jovem na rotação (pasto = fase); o Norte de fronteira
   **ativa** pasto antigo (pasto = reserva de terra).
 
+> **Revisado em 21/jul/2026 — o gradiente sobrevive, mas com metade da força.**
+> A amostra dava r = −0,49; o censo dá **−0,236**. A direção, a significância e a
+> leitura substantiva se mantêm; a **magnitude não**.
+>
+> | recorte | n AMCs | índice jovem × lat |
+> |---|---|---|
+> | Amostra | 88 | −0,500 (p<0,001) |
+> | **Censo, nas MESMAS 88 AMCs** | 88 | **−0,310 (p=0,003)** |
+> | Censo, todas | 164 | −0,236 (p=0,002) |
+> | Censo, só as 76 acrescidas | 76 | −0,154 (p=0,185) |
+>
+> Note que aqui a composição **não** explica a queda: nas mesmas 88 AMCs o r já cai de
+> −0,50 a −0,31. Ou seja, é medição — e no sentido **contrário** ao do §2, onde medir
+> melhor *fortaleceu* a parcial. A explicação mais provável é a **ponderação entre anos**:
+> a amostra usava 2.000 px/ano, sobre-representando anos recentes (menos conversão, pasto
+> mais jovem) de forma desigual entre AMCs — o mesmo defeito de composição documentado
+> em `metodologia/censo_vs_amostra.md` §3. **Não isolei esse mecanismo**; fica como
+> hipótese, não como conclusão.
+>
+> Consequência para a redação: o gradiente continua sendo o achado robusto do #40, mas
+> **não citar r = −0,49**, e não descrever a segregação como "limpa" — ela é real,
+> significativa e moderada.
+
 ### 2. O cruzamento com plantio direto — co-localização, NÃO efeito próprio
 
-Na bivariada, no-till parece explicar a idade (no-till % área × idade mediana **r=−0,37**,
-p<0,001; × índice jovem +0,33; × % oportunístico −0,34). **Mas o no-till também desce ao
-Sul** (no-till × latitude r=−0,38) — exatamente como a lógica jovem. Controlando a
-latitude (correlação **parcial**), o cruzamento **colapsa**:
+> **Revisado em 21/jul/2026 sobre o censo do #28.** Os números abaixo vêm do censo
+> de pixels (n=**209** municípios com dado de no-till, contra 101 na amostra). A
+> leitura anterior — "nenhum par sobrevive, **não há efeito próprio** do no-till" —
+> **não se sustenta**: era artefato de **erro de medida**, não achado. Ver a
+> decomposição adiante.
+
+Na bivariada, no-till parece explicar a idade (no-till % área × idade mediana **r=−0,21**;
+× índice jovem +0,23; × % rotação +0,31). **Mas o no-till também desce ao Sul** — exatamente
+como a lógica jovem. Controlando o gradiente, o cruzamento encolhe:
 
 | no-till (% área) × | r bruto | r parcial \| lat | **r parcial \| lat+lon** | leitura |
 |---|---|---|---|---|
-| **idade mediana** | −0,37 | −0,22 (p=0,048) | **−0,15 (p=0,19)** | sobrevive lat no fio; **some em 2D** |
-| % oportunístico | −0,34 | −0,20 (p=0,072) | −0,12 (p=0,28) | some |
-| índice jovem↔antigo | +0,33 | +0,18 (p=0,104) | +0,11 (p=0,34) | some |
-| % rotação | +0,27 | +0,06 (p=0,561) | +0,07 (p=0,53) | **evapora** |
+| **idade mediana** | −0,21 | −0,14 (p=0,049) | **−0,13 (p=0,058)** | limítrofe |
+| índice jovem↔antigo | +0,23 | +0,14 (p=0,048) | +0,13 (p=0,057) | limítrofe |
+| % rotação | +0,31 | +0,13 (p=0,063) | +0,13 (p=0,057) | limítrofe |
+| % oportunístico | −0,14 | −0,09 (p=0,180) | −0,09 (p=0,214) | some |
 
-A associação era o **gradiente espacial compartilhado**. Controlando só a latitude resta
-um resíduo no fio (idade, −0,22); controlando o **gradiente 2D completo (lat+lon**,
-Sudoeste→Nordeste — o núcleo agrícola é sul **e** oeste), **nenhum par sobrevive** (idade
-−0,15, NS). **Não há efeito próprio do no-till** sobre a idade-na-conversão além da
-aptidão/capital que ele mesmo marca.
+Três dos quatro pares ficam em **p≈0,057–0,058**: encolhem muito sob o controle 2D, mas
+não desaparecem. Nenhum cruza 0,05, e **nenhum sobrevive a FDR-BH** (0 de 8 pares do
+pipeline; ver §3). O veredito é **"não estabelecido"** — por falta de evidência
+conclusiva, **não** por ausência de sinal.
+
+#### Por que o número mudou: precisão × composição
+
+Isto precisa ficar registrado, senão "o r caiu com mais dados" parece contradição.
+Rodando o censo **restrito aos mesmos 101 municípios** da amostra, a composição fica
+fixa e só a precisão muda:
+
+| recorte | n | r parcial \| lat+lon |
+|---|---|---|
+| Amostra, seus 101 municípios | 101 | −0,083 (p=0,413) |
+| **Censo, nos MESMOS 101** (só precisão) | 101 | **−0,217 (p=0,031)** |
+| Censo, todos os 209 (precisão + composição) | 209 | −0,132 (p=0,058) |
+| Censo, só os 108 acrescidos | 108 | −0,163 (p=0,095) |
+
+**O nulo limpo da amostra era artefato de medição.** Com a mesma composição e medida
+melhor, ele vira significativo (p=0,413 → **0,031**). A amostra estimava a idade mediana
+municipal com ~26 pixels não-censurados por município; erro de medida na variável
+dependente atenua a correlação em direção a zero, e era isso que se estava lendo como
+"não há efeito".
+
+A composição puxa **no sentido oposto**: os 108 municípios que a amostra não conseguia
+medir têm mediana de no-till de **2%** (contra 8% nos 101) — pouca variação no regressor
+para explorar — e concentram só 10,5% da conversão. O agregado de 209 (p=0,058) é o
+líquido dos dois efeitos.
+
+> ⚠️ O corte 101/108 é **pós-hoc e correlacionado com volume de conversão**. Serve para
+> diagnosticar de onde veio a mudança, **não** como estimativa preferida. A manchete é o
+> n=209. Na bruta a composição domina (−0,341 na amostra → −0,386 nos mesmos 101 →
+> −0,209 nos 209); na parcial, a precisão domina.
 
 ### 3. "Estrutura bate fluxo" NÃO se sustenta (comparação justa)
 
@@ -110,27 +176,63 @@ O enquadramento original contrastava o cruzamento (transversal) com o **nulo do 
 **painel (município, ano)** — que lava o gradiente cross-section —, não transversal. Posto
 o **fluxo no mesmo recorte transversal** municipal (× idade mediana, mesma janela):
 
-| Fluxo (mesmo recorte) | r bruto | p | r parcial \| lat | p |
-|---|---|---|---|---|
-| VA agro (nível médio) | −0,22 | 0,041 | −0,05 | 0,65 |
-| SICOR (Δ médio) | +0,27 | 0,010 | **+0,28** | **0,010** |
-| SICOR (nível médio) | −0,10 | 0,34 | +0,04 | 0,71 |
-| VA agro (Δ médio) | −0,21 | 0,056 | −0,11 | 0,31 |
+> **Corrigido em 21/jul/2026 — a comparação ainda era assimétrica.** Até aqui o bloco
+> de estrutura levava controle **2D (lat+lon)** e o de fluxo só **1D (lat)**. Como a
+> conclusão desta seção sai justamente do confronto entre os dois, controles desiguais
+> favoreciam o fluxo por construção. O fluxo agora passa pelo mesmo controle 2D.
 
-O fluxo **não é nulo** neste recorte: VA agro (nível) iguala o no-till bruto, e **Δ SICOR
-ainda sobrevive ao controle de latitude (parcial +0,28, p=0,010) — mais forte que o resíduo
-do no-till**. Logo a dicotomia "estrutura > fluxo" **cai**. A leitura honesta: idade,
-no-till, VA agro e SICOR **co-variam no mesmo gradiente**; nenhuma variável transversal
-isola um mecanismo causal.
+| Fluxo (mesmo recorte, n=243) | r bruto | r parcial \| lat | **r parcial \| lat+lon** |
+|---|---|---|---|
+| **SICOR (Δ médio)** | +0,27 | +0,26 (p<0,001) | **+0,22 (p=0,001)** ✅ |
+| SICOR (nível médio) | +0,08 | +0,13 (p=0,043) | +0,09 (p=0,163) |
+| VA agro (nível médio) | −0,01 | +0,05 (p=0,435) | +0,03 (p=0,590) |
+| VA agro (Δ médio) | +0,00 | +0,04 (p=0,516) | +0,05 (p=0,450) |
 
-### 4. Tipologia "carreira da terra" (88 municípios confiáveis, 2010–24)
+**A assimetria não era artefato do controle.** O Δ SICOR mal se move ao ganhar a segunda
+dimensão (+0,26 → +0,22) e continua a p=0,001.
+
+**Comparação plenamente simétrica** — restringindo os dois blocos aos **mesmos 209
+municípios** (que têm no-till *e* SICOR), mesma janela, mesmo controle 2D:
+
+| | r bruto | r parcial \| lat+lon | p |
+|---|---|---|---|
+| Estrutura (no-till) | −0,209 | −0,132 | 0,058 |
+| **Fluxo (Δ SICOR)** | +0,266 | **+0,230** | **0,0009** |
+
+**FDR-BH sobre os 8 pares do #40** (4 estrutura + 4 fluxo, q=0,05): **exatamente 1
+sobrevive**, e é o mesmo nas duas fontes — Δ SICOR × idade mediana (censo p=0,0006;
+amostra p=0,0047). Nenhum par de estrutura passa.
+
+Logo a dicotomia "estrutura > fluxo" **cai**, e agora com base numa comparação justa: o
+único sinal do pipeline que resiste a controle 2D, troca de fonte e multiplicidade é de
+**fluxo**, não de estrutura.
+
+> ⚠️ **Atenção ao sinal.** O Δ SICOR × idade é **positivo** (+0,22): municípios onde o
+> crédito cresceu mais convertem pastagens **mais velhas**, não mais jovens. É o oposto
+> do que se esperaria de "crédito puxa rotação de pasto jovem", e o mecanismo **não foi
+> investigado**. Escrever com cuidado — a frase é fácil de ler ao contrário.
+
+### 4. Tipologia "carreira da terra" (244 municípios, 2010–24)
+
+Com o censo **todos** os 244 municípios entram (antes 88 passavam no corte de ≥20 px);
+a categoria `mosaico` também entra no denominador, o que empurra muitos casos para
+"Misto" — o líder passa a precisar de 30% de uma base maior.
 
 | Tipo | n munis | idade med | no-till med | Leitura |
 |---|---|---|---|---|
-| **Giro de lavoura (ILP/rotação)** | 45 | 7a | 13,5% | pasto é fase do sistema de lavoura |
-| **Misto / transição** | 26 | 12a | 13,1% | sem mecanismo líder claro |
-| **Reserva ativada (oportunístico)** | 16 | 18a | 5,9% | pasto antigo convertido tardiamente |
-| **Trampolim de fronteira** | 1 | 8a | 25,2% | premeditado curto raramente *domina* |
+| **Misto / transição** | 160 | 15a | 3,5% | sem mecanismo líder claro |
+| **Reserva ativada (oportunístico)** | 42 | 21a | 3,5% | pasto antigo convertido tardiamente |
+| **Giro de lavoura (ILP/rotação)** | 38 | 9a | 9,8% | pasto é fase do sistema de lavoura |
+| **Trampolim de fronteira** | 4 | 6a | 1,9% | premeditado curto raramente *domina* |
+
+> ⚠️ A **maioria agora é "Misto"** (160 de 244), contra 26 de 88 na amostra. Isso é em
+> boa parte **artefato da regra**, não do território: a regra de dominância (`líder ≥30%`
+> e `líder > ambíguo`) foi mantida deliberadamente inalterada na migração, para que o
+> diff fosse atribuível aos dados. Com o mosaico no denominador, o mesmo limiar ficou
+> mais difícil de cruzar. **A tipologia precisa de recalibração antes de ser usada como
+> resultado** — hoje ela é comparável com a versão antiga, mas não bem calibrada. Os
+> dois polos (Giro 9a, no-till 9,8% × Reserva 21a, no-till 3,5%) seguem nítidos e
+> ordenados como antes.
 
 O **"Trampolim de fronteira"** (premeditado curto, veg.nat→pasto→agric em ≤8a) quase
 nunca vence o *argmax* — coerente com o #28 §4, que o mediu em ~4–5% estável. As duas
@@ -158,7 +260,7 @@ um efeito do no-till. O cluster 0 ainda é instrutivo — rotação jovem **sem*
 - **Fecha o fio #2** do backlog ("as duas lógicas da pastagem") — entregando a **geografia
   da bimodalidade**, não um driver estrutural.
 - **Refina o #28 espacialmente**: leva o gradiente de idade da mesorregião (Sul 9a → Norte
-  20a) à resolução AMC/municipal e o nomeia (giro de lavoura × reserva ativada). **Corrige**
+  16a, não-cens.) à resolução AMC/municipal e o nomeia (giro de lavoura × reserva ativada). **Corrige**
   a tentação de dizer que a idade "vira legível pela estrutura" — a verificação mostra que
   estrutura (no-till) e fluxo (VA agro/SICOR) co-variam igualmente no gradiente; a idade
   segue sem um preditor transversal próprio (consistente com o #28 §7: o mecanismo opera
@@ -190,18 +292,45 @@ um efeito do no-till. O cluster 0 ainda é instrutivo — rotação jovem **sem*
 **Em cruzamentos transversais de LULC em Goiás, sempre reportar a correlação PARCIAL
 controlando o gradiente espacial (latitude e longitude — o eixo de aptidão
 Sudoeste→Nordeste) antes de atribuir efeito próprio a qualquer covariável — e comparar
-régua com régua (transversal × transversal, painel × painel).** Justificativa empírica
-(aprendida aqui): no-till, VA agro e SICOR **co-variam com a idade da pastagem apenas
-porque todos gradeiam ao Sudoeste**; a bivariada no-till × idade (r=−0,37) cai a −0,22 ao
-controlar latitude e a −0,15 (NS) ao controlar lat+lon, e o "nulo de fluxo" do #28 não vale
-como contraste porque era painel (muni,ano), não transversal. Regra reusável: **o gradiente
-de aptidão é um confundidor de primeira ordem em todo cross-section estadual** (ecoa #38,
-onde γ_t absorvia o choque comum e a identificação vinha da interação, não do nível).
+régua com régua (transversal × transversal, painel × painel), com o **mesmo conjunto de
+controles dos dois lados**.** Justificativa empírica (aprendida aqui): no-till, VA agro e
+SICOR co-variam com a idade da pastagem em boa parte porque todos gradeiam ao Sudoeste; a
+bivariada no-till × idade (r=−0,21) cai a −0,13 ao controlar lat+lon. Regra reusável: **o
+gradiente de aptidão é um confundidor de primeira ordem em todo cross-section estadual**
+(ecoa #38, onde γ_t absorvia o choque comum e a identificação vinha da interação).
+
+### Revisão de 21/jul/2026 — o que mudou e o que não mudou
+
+**A REGRA continua válida e sai reforçada.** O que mudou é o *achado* a que ela foi
+aplicada aqui. Três correções, nesta ordem de importância:
+
+1. **"Não há efeito próprio do no-till" foi retirado.** Era artefato de erro de medida:
+   com a composição fixa (mesmos 101 municípios) e a idade mediana medida pelo censo em
+   vez de ~26 pixels, a parcial 2D vai de −0,083 (p=0,413) a **−0,217 (p=0,031)**. O
+   veredito correto é **"não estabelecido"** (p≈0,058 em n=209; 0 de 8 sobrevivem a
+   FDR-BH), não "não há efeito". A distinção importa: um nulo limpo encerra a pergunta,
+   um indeterminado não.
+2. **A comparação estrutura × fluxo era assimétrica** (estrutura com controle 2D, fluxo
+   com 1D) e agora é simétrica. A conclusão sobrevive: sob controles e municípios
+   idênticos, o Δ SICOR fica a p=0,0009 e a estrutura a p=0,058.
+3. **Corolário novo da própria D14**: controle desigual entre os lados de uma comparação
+   é a mesma falácia que a D14 combate, uma camada acima. Não basta controlar o
+   gradiente — é preciso controlá-lo **igualmente** nos dois braços, senão o veredito
+   mede o desenho, não o dado.
+
+**Lição transversal**: antes de ler um nulo como evidência de ausência, verificar o erro
+de medida da variável dependente. Um nulo obtido sobre desfecho ruidoso é indistinguível
+de falta de poder — e aqui era exatamente isso. Vale para todo pipeline que agrega pixels
+a município ou AMC antes de correlacionar.
 
 ## Como rodar
 
 ```bash
-python scripts/duas_logicas_pastagem.py
-# lê pastagem_idade_conversao.csv (#28) + painel_unificado.parquet (#27/Censo) +
-# amc_crosswalk_goias.csv + amc_goias.gpkg; escreve 3 CSVs + 4 PNGs.
+python scripts/duas_logicas_pastagem.py                    # padrão: --fonte censo
+python scripts/duas_logicas_pastagem.py --fonte amostra    # amostra legada do #28A
+# censo: lê pastagem_idade_censo.parquet (#28) + painel_unificado.parquet (#27/Censo)
+# + amc_crosswalk_goias.csv + amc_goias.gpkg; escreve 4 CSVs + 5 PNGs.
+# --fonte amostra escreve com sufixo _amostra e NÃO sobrescreve os CSVs canônicos;
+# aplica em memória as correções de 21/jul (filtro cd_mun!=0 + relabel da classe 21),
+# porque o CSV em disco é anterior a elas.
 ```

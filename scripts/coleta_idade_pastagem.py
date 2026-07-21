@@ -50,6 +50,13 @@ GRUPO_MAP = {
     "vegetacao_natural": [3, 4, 12],
     "pastagem":          [15],
     "agricultura":       [9, 19, 20, 35, 36, 39, 40, 41, 46, 47, 48, 62],
+    # Classe 21 (Mosaico de Usos) FALTAVA aqui até 21/jul/2026. Combinada com o
+    # `.fillna("censurado_esquerda")` lá embaixo, todo pixel com origem 21 era
+    # rotulado como censurado — "idade desconhecida" — sendo que a idade era
+    # perfeitamente conhecida. Eram 4.898 px (11,1%) da amostra estadual:
+    # censura publicada 74,9% contra 63,7% reais. Como as análises-manchete do
+    # #28 rodam sobre o subconjunto não-censurado, elas perdiam esses dados.
+    "mosaico":           [21],
     "agua":              [31, 33],
     "area_urbana":       [24],
     "outros":            [5, 6, 11, 23, 25, 27, 29, 30, 32, 49, 50, 75],
@@ -225,11 +232,21 @@ def calcular_idade_e_origem(df: pd.DataFrame, ano_conv: int) -> pd.DataFrame:
         "lon": df["longitude"].astype("float64").to_numpy(),
         "lat": df["latitude"].astype("float64").to_numpy(),
     })
-    out["origem_anterior"] = out["classe_antes_id"].map(ID_PARA_GRUPO).fillna(
-        "censurado_esquerda"
-    )
+    # Censura é decidida pelo ÍNDICE (a fase de pastagem alcança 1985), nunca
+    # por falha de lookup. Confundir as duas foi o bug da classe 21: um
+    # `.fillna("censurado_esquerda")` aqui transformava classe ausente do
+    # GRUPO_MAP em "idade desconhecida". Classe 0 é o nodata do MapBiomas —
+    # a idade é conhecida, só a origem é indeterminada.
+    out["origem_anterior"] = out["classe_antes_id"].map(ID_PARA_GRUPO)
+    out.loc[out["classe_antes_id"] == 0, "origem_anterior"] = "sem_dado_anterior"
     out.loc[censurado, "origem_anterior"] = "censurado_esquerda"
     out.loc[censurado, "classe_antes_id"] = 0
+
+    faltantes = out.loc[out["origem_anterior"].isna(), "classe_antes_id"].unique()
+    if len(faltantes):
+        raise RuntimeError(
+            f"classes MapBiomas fora do GRUPO_MAP: {sorted(faltantes)} — "
+            "adicione-as antes de prosseguir; NÃO trate como censura")
     return out
 
 

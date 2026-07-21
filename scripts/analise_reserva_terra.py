@@ -25,8 +25,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
+from estatistica_ponderada import quantil, mediana, media, desvio, gmm_ponderado
+
 ROOT = Path(__file__).resolve().parent.parent
 CSV_IN = ROOT / "data" / "processed" / "pastagem_idade_conversao.csv"
+CENSO_IN = ROOT / "data" / "processed" / "pastagem_idade_censo.parquet"
+MESO_IN = ROOT / "data" / "processed" / "mapeamento_mesorregioes.csv"
 PAINEL = ROOT / "data" / "processed" / "painel_unificado.csv"
 DIR_OUT = ROOT / "outputs" / "idade_pastagem"
 DIR_OUT.mkdir(parents=True, exist_ok=True)
@@ -40,11 +44,45 @@ COR_ATO = {
 }
 
 
-def carregar() -> pd.DataFrame:
-    if not CSV_IN.exists():
-        sys.exit(f"Arquivo não encontrado: {CSV_IN}\nRode primeiro: python scripts/coleta_idade_pastagem.py")
-    df = pd.read_csv(CSV_IN, dtype={"cd_mun": "int64"})
-    # Censura à esquerda: idade pode estar truncada quando ano_inicio < 1985
+def carregar(fonte: str = "censo") -> pd.DataFrame:
+    """Devolve sempre um DataFrame com coluna `peso`, venha de onde vier.
+
+    `fonte="censo"`  → censo de pixels; peso = n_pixels da célula.
+    `fonte="amostra"` → amostra do #28A; peso = 1 em toda linha.
+
+    Uniformizar em `peso` é o que permite UM único caminho de código para as
+    duas fontes. Como a estatística ponderada reduz exatamente ao caso não
+    ponderado quando peso=1 (ver `estatistica_ponderada.testa_equivalencia`),
+    rodar com `--fonte amostra` reproduz os números publicados do #28 — o que
+    torna qualquer diferença atribuível aos DADOS, nunca à implementação.
+    """
+    if fonte == "censo":
+        if not CENSO_IN.exists():
+            sys.exit(f"Censo não encontrado: {CENSO_IN}\n"
+                     f"Rode: python scripts/processa_cubo_idade.py --shards data/raw/cubo_go")
+        df = pd.read_parquet(CENSO_IN).rename(columns={"n_pixels": "peso"})
+        # O censo guarda cd_mun; a mesorregião vem do mesmo crosswalk que o #28A usa
+        meso = pd.read_csv(MESO_IN, dtype={"cd_mun": "int64"})
+        df = df.merge(meso[["cd_mun", "nm_meso"]], on="cd_mun", how="left")
+        df["mesorregiao"] = df["nm_meso"].fillna("")
+        df = df.drop(columns=["nm_meso"])
+        df["peso"] = df["peso"].astype("float64")
+    elif fonte == "amostra":
+        if not CSV_IN.exists():
+            sys.exit(f"Arquivo não encontrado: {CSV_IN}\nRode primeiro: python scripts/coleta_idade_pastagem.py")
+        df = pd.read_csv(CSV_IN, dtype={"cd_mun": "int64"})
+        # A amostragem do #28A usa o ENVELOPE retangular de GO (bbox), que engloba
+        # faixas de estados vizinhos; esses pixels não recebem município no overlay
+        # (cd_mun == 0) e ~99,9% caem fora do polígono de Goiás.
+        df = df[df["cd_mun"] != 0].copy()
+        # Classe 21 (Mosaico de Usos) faltava no GRUPO_MAP da coleta e caía no
+        # `.fillna("censurado_esquerda")` — idade conhecida rotulada como
+        # desconhecida. Corrigido aqui para a amostra ficar comparável ao censo.
+        df.loc[df["classe_antes_id"] == 21, "origem_anterior"] = "mosaico"
+        df["peso"] = 1.0
+    else:
+        sys.exit(f"fonte desconhecida: {fonte!r} (use 'censo' ou 'amostra')")
+
     df["censurado"] = df["origem_anterior"] == "censurado_esquerda"
     df["ato"] = pd.cut(
         df["ano_conversao"],
@@ -54,28 +92,35 @@ def carregar() -> pd.DataFrame:
     return df
 
 
-def estatisticas(s: pd.Series) -> dict:
-    if s.empty:
+def vp(d: pd.DataFrame) -> tuple[np.ndarray, np.ndarray]:
+    """Extrai (valores, pesos) de um recorte — o par que a estatística consome."""
+    return (d["idade_pastagem_anos"].to_numpy(dtype=float),
+            d["peso"].to_numpy(dtype=float))
+
+
+def estatisticas(d: pd.DataFrame) -> dict:
+    if d.empty or d["peso"].sum() <= 0:
         return {"n": 0}
+    v, w = vp(d)
     return {
-        "n": int(s.size),
-        "mediana": float(s.median()),
-        "media": float(s.mean()),
-        "p10": float(s.quantile(0.10)),
-        "p90": float(s.quantile(0.90)),
+        "n": int(round(w.sum())),
+        "mediana": mediana(v, w),
+        "media": media(v, w),
+        "p10": float(quantil(v, w, 0.10)),
+        "p90": float(quantil(v, w, 0.90)),
     }
 
 
 def fig_distribuicao_global(df: pd.DataFrame) -> None:
     fig, ax = plt.subplots(figsize=(9, 5))
-    nao_cens = df[~df["censurado"]]["idade_pastagem_anos"]
-    cens = df[df["censurado"]]["idade_pastagem_anos"]
+    vnc, wnc = vp(df[~df["censurado"]])
+    vc, wc = vp(df[df["censurado"]])
     bins = np.arange(0, max(40, int(df["idade_pastagem_anos"].max()) + 2))
-    ax.hist([nao_cens, cens], bins=bins, stacked=True,
+    ax.hist([vnc, vc], bins=bins, stacked=True, weights=[wnc, wc],
             color=["#d4b65a", "#cccccc"],
-            label=[f"Origem identificada (n={nao_cens.size:,})",
-                   f"Censurado à esquerda (n={cens.size:,})"])
-    med = nao_cens.median()
+            label=[f"Origem identificada (n={wnc.sum():,.0f})",
+                   f"Censurado à esquerda (n={wc.sum():,.0f})"])
+    med = mediana(vnc, wnc)
     ax.axvline(med, color="#a3387f", linestyle="--",
                label=f"Mediana não-censurado = {med:.0f} anos")
     ax.set_xlabel("Idade da pastagem no momento da conversão (anos)")
@@ -94,14 +139,15 @@ def fig_por_ato(df: pd.DataFrame) -> None:
         axes = [axes]
     bins = np.arange(0, 41, 2)
     for ax, (ato_id, (ai, af, nome)) in zip(axes, ATOS.items()):
-        sub = df[df["ato"] == ato_id]["idade_pastagem_anos"]
+        sub = df[df["ato"] == ato_id]
         if sub.empty:
             ax.set_title(f"ATO {ato_id}\n{ai}-{af}\n(sem dados)")
             continue
-        ax.hist(sub, bins=bins, color=COR_ATO[ato_id], edgecolor="white")
-        med = sub.median()
+        v, w = vp(sub)
+        ax.hist(v, bins=bins, weights=w, color=COR_ATO[ato_id], edgecolor="white")
+        med = mediana(v, w)
         ax.axvline(med, color="black", linestyle="--", linewidth=1)
-        ax.set_title(f"ATO {ato_id} — {nome}\n{ai}–{af}\nn={sub.size:,}  mediana={med:.0f}a")
+        ax.set_title(f"ATO {ato_id} — {nome}\n{ai}–{af}\nn={w.sum():,.0f}  mediana={med:.0f}a")
         ax.set_xlabel("Idade (anos)")
     axes[0].set_ylabel("Pixels")
     fig.suptitle("Idade da pastagem na conversão para agricultura — por ATO político",
@@ -126,14 +172,15 @@ def fig_por_mesorregiao(df: pd.DataFrame) -> None:
 
     bins = np.arange(0, 41, 2)
     for ax, meso in zip(axes.flat, mesos):
-        sub = df[df["mesorregiao"] == meso]["idade_pastagem_anos"]
+        sub = df[df["mesorregiao"] == meso]
         if sub.empty:
             ax.set_visible(False)
             continue
-        ax.hist(sub, bins=bins, color="#2d5a3d", edgecolor="white")
-        med = sub.median()
+        v, w = vp(sub)
+        ax.hist(v, bins=bins, weights=w, color="#2d5a3d", edgecolor="white")
+        med = mediana(v, w)
         ax.axvline(med, color="#a3387f", linestyle="--")
-        ax.set_title(f"{meso}\nn={sub.size:,}  mediana={med:.0f}a")
+        ax.set_title(f"{meso}\nn={w.sum():,.0f}  mediana={med:.0f}a")
         ax.set_xlabel("Idade (anos)")
     for ax in axes.flat[len(mesos):]:
         ax.set_visible(False)
@@ -152,14 +199,18 @@ def fig_coortes_vegnat(df: pd.DataFrame) -> None:
     grupos = [
         ("vegetacao_natural", "#2d5a3d", "Veg.nat → pastagem → agricultura"),
         ("agricultura",       "#d96aa3", "Agric → pastagem → agricultura (rotação)"),
+        # Mosaico de Usos: no #28A esta coorte não existia — a classe 21 faltava
+        # no GRUPO_MAP e caía em "censurado". É ~12% das conversões.
+        ("mosaico",           "#c98a3a", "Mosaico de usos → pastagem → agricultura"),
         ("outros",            "#b8a98a", "Outros → pastagem → agricultura"),
     ]
     for origem, cor, label in grupos:
-        sub = df[df["origem_anterior"] == origem]["idade_pastagem_anos"]
+        sub = df[df["origem_anterior"] == origem]
         if sub.empty:
             continue
-        ax.hist(sub, bins=bins, alpha=0.55, color=cor,
-                label=f"{label}\n(n={sub.size:,}, mediana={sub.median():.0f}a)")
+        v, w = vp(sub)
+        ax.hist(v, bins=bins, weights=w, alpha=0.55, color=cor,
+                label=f"{label}\n(n={w.sum():,.0f}, mediana={mediana(v, w):.0f}a)")
     ax.set_xlabel("Duração da fase pastagem (anos)")
     ax.set_ylabel("Pixels")
     ax.set_title("Coortes da conversão para agricultura — por origem anterior à pastagem")
@@ -169,10 +220,34 @@ def fig_coortes_vegnat(df: pd.DataFrame) -> None:
     plt.close(fig)
 
 
+def agrega_ponderado(df: pd.DataFrame, por, extras: dict | None = None) -> pd.DataFrame:
+    """groupby ponderado: mediana, média e n (soma dos pesos) por chave.
+
+    `pandas.groupby().median()` ignoraria a coluna `peso` e trataria cada célula
+    do censo como uma observação — o que daria a uma célula de 3 pixels o mesmo
+    peso de uma de 300 mil.
+    """
+    if isinstance(por, str):
+        por = [por]
+    linhas = []
+    for chave, g in df.groupby(por, observed=True, dropna=False):
+        v, w = vp(g)
+        if w.sum() <= 0:
+            continue
+        chave = chave if isinstance(chave, tuple) else (chave,)
+        linha = dict(zip(por, chave))
+        linha["median"] = mediana(v, w)
+        linha["mean"] = media(v, w)
+        linha["count"] = w.sum()
+        for nome, q in (extras or {}).items():
+            linha[nome] = float(quantil(v, w, q))
+        linhas.append(linha)
+    return pd.DataFrame(linhas)
+
+
 def fig_temporal_marcos(df: pd.DataFrame) -> None:
     fig, ax = plt.subplots(figsize=(11, 5))
-    agg = (df.groupby("ano_conversao")["idade_pastagem_anos"]
-             .agg(["median", "mean", "count"]).reset_index())
+    agg = agrega_ponderado(df, "ano_conversao").sort_values("ano_conversao")
     ax.plot(agg["ano_conversao"], agg["median"], marker="o",
             color="#a3387f", label="Mediana")
     ax.plot(agg["ano_conversao"], agg["mean"], marker="x",
@@ -203,10 +278,9 @@ def fig_cruzamento_painel(df: pd.DataFrame) -> pd.DataFrame:
         if col in painel.columns:
             painel[f"d_{col}"] = painel.groupby("cd_mun")[col].diff()
 
-    idade_mun = (df.groupby(["cd_mun", "ano_conversao"])["idade_pastagem_anos"]
-                   .median().reset_index()
-                   .rename(columns={"ano_conversao": "ano",
-                                    "idade_pastagem_anos": "idade_mediana"}))
+    idade_mun = (agrega_ponderado(df, ["cd_mun", "ano_conversao"])
+                   [["cd_mun", "ano_conversao", "median"]]
+                   .rename(columns={"ano_conversao": "ano", "median": "idade_mediana"}))
     merged = idade_mun.merge(painel, on=["cd_mun", "ano"], how="left")
 
     fig, axes = plt.subplots(1, 2, figsize=(13, 5))
@@ -236,30 +310,34 @@ def fig_cruzamento_painel(df: pd.DataFrame) -> pd.DataFrame:
 
 def resumo_estatisticas(df: pd.DataFrame) -> pd.DataFrame:
     linhas = []
-    linhas.append({"escopo": "GLOBAL", "chave": "todos", **estatisticas(df["idade_pastagem_anos"])})
+    linhas.append({"escopo": "GLOBAL", "chave": "todos", **estatisticas(df)})
     linhas.append({"escopo": "GLOBAL", "chave": "nao_censurado",
-                   **estatisticas(df[~df["censurado"]]["idade_pastagem_anos"])})
+                   **estatisticas(df[~df["censurado"]])})
     for ato_id, (ai, af, nome) in ATOS.items():
-        sub = df[df["ato"] == ato_id]["idade_pastagem_anos"]
-        linhas.append({"escopo": "ATO", "chave": f"{ato_id}_{nome}", **estatisticas(sub)})
+        linhas.append({"escopo": "ATO", "chave": f"{ato_id}_{nome}",
+                       **estatisticas(df[df["ato"] == ato_id])})
+        # Por Ato o corte não-censurado é o que sustenta as leituras do #28 —
+        # no #28A a tabela publicada misturava N total com mediana não-censurada.
+        linhas.append({"escopo": "ATO_NAO_CENS", "chave": f"{ato_id}_{nome}",
+                       **estatisticas(df[(df["ato"] == ato_id) & ~df["censurado"]])})
     for meso in sorted(df["mesorregiao"].dropna().unique()):
         if not meso:
             continue
-        sub = df[df["mesorregiao"] == meso]["idade_pastagem_anos"]
-        linhas.append({"escopo": "MESORREGIAO", "chave": meso, **estatisticas(sub)})
-    for origem in df["origem_anterior"].dropna().unique():
-        sub = df[df["origem_anterior"] == origem]["idade_pastagem_anos"]
-        linhas.append({"escopo": "ORIGEM", "chave": origem, **estatisticas(sub)})
+        linhas.append({"escopo": "MESORREGIAO", "chave": meso,
+                       **estatisticas(df[df["mesorregiao"] == meso])})
+    for origem in sorted(df["origem_anterior"].dropna().unique()):
+        linhas.append({"escopo": "ORIGEM", "chave": origem,
+                       **estatisticas(df[df["origem_anterior"] == origem])})
     return pd.DataFrame(linhas)
 
 
 def exportar_jsons_viz(df: pd.DataFrame) -> None:
     """JSONs consumidos pela aba nova do Visualizacao/."""
-    municipal = (df.groupby(["cd_mun", "nm_mun", "mesorregiao"])
-                   ["idade_pastagem_anos"]
-                   .agg(["median", "mean", "count"]).reset_index())
-    municipal.columns = ["cd_mun", "nm_mun", "mesorregiao",
-                         "idade_mediana", "idade_media", "n_pixels"]
+    municipal = agrega_ponderado(df, ["cd_mun", "nm_mun", "mesorregiao"])
+    municipal = municipal.rename(columns={"median": "idade_mediana",
+                                          "mean": "idade_media",
+                                          "count": "n_pixels"})
+    municipal["n_pixels"] = municipal["n_pixels"].round().astype("int64")
     (DIR_VIZ / "idade_pastagem_municipal.json").write_text(
         municipal.to_json(orient="records", force_ascii=False, indent=2),
         encoding="utf-8",
@@ -267,16 +345,17 @@ def exportar_jsons_viz(df: pd.DataFrame) -> None:
 
     histograma = []
     for ato_id, (ai, af, nome) in ATOS.items():
-        sub = df[df["ato"] == ato_id]["idade_pastagem_anos"]
+        sub = df[df["ato"] == ato_id]
         if sub.empty:
             continue
-        counts, edges = np.histogram(sub, bins=np.arange(0, 41, 2))
+        v, w = vp(sub)
+        counts, edges = np.histogram(v, bins=np.arange(0, 41, 2), weights=w)
         histograma.append({
             "ato": ato_id, "nome": nome, "periodo": [ai, af],
             "bins": edges.tolist(),
-            "counts": counts.tolist(),
-            "mediana": float(sub.median()),
-            "n": int(sub.size),
+            "counts": [int(round(c)) for c in counts],
+            "mediana": mediana(v, w),
+            "n": int(round(w.sum())),
         })
     (DIR_VIZ / "idade_pastagem_histograma.json").write_text(
         json.dumps(histograma, ensure_ascii=False, indent=2),
@@ -304,21 +383,42 @@ def classificar_mecanismo(df: pd.DataFrame) -> pd.DataFrame:
     
     # 3. Oportunístico clássico (veg.nat -> pastagem -> agricultura em >= 20 anos)
     df.loc[is_nao_cens & is_antigo & is_veg_nat, "mecanismo"] = "Oportunístico clássico"
-    
-    # 4. Censurado à esquerda
+
+    # 4. Mosaico de usos -> pastagem -> agricultura. Categoria própria, e não
+    #    diluída em "Ambíguo", porque são ~12% das conversões e o #28A as
+    #    escondia dentro de "censurado" (classe 21 ausente do GRUPO_MAP).
+    #    Se contam como rotação é decisão SUBSTANTIVA (origem mista
+    #    agricultura/pastagem é rotação-like), deixada explícita em vez de
+    #    embutida numa regra.
+    df.loc[is_nao_cens & (df["origem_anterior"] == "mosaico"), "mecanismo"] = \
+        "Mosaico (origem mista)"
+
+    # 5. Censurado à esquerda
     df.loc[df["censurado"], "mecanismo"] = "Censurado à esquerda"
-    
+
     return df
 
 
-def ajustar_gmm_unidim(x: np.ndarray) -> dict:
-    """Ajusta GMM de 1 e 2 componentes e retorna AIC, BIC e parâmetros estimados."""
-    from scipy.stats import norm
-    
-    x = x.reshape(-1, 1)
-    n = len(x)
-    
-    if n < 5:
+def ajustar_gmm_unidim(x: np.ndarray, w: np.ndarray | None = None) -> dict:
+    """Ajusta GMM de 1 e 2 componentes; devolve AIC, BIC e parâmetros.
+
+    Usa `estatistica_ponderada.gmm_ponderado` (EM com pesos de frequência)
+    porque `sklearn.mixture.GaussianMixture` não aceita `sample_weight`, e
+    expandir o censo em 44,6 milhões de linhas só para caber na API seria
+    desperdício — a idade é inteira, logo cada recorte tem ≤40 valores
+    distintos. A implementação foi verificada contra o sklearn com peso=1
+    (ver `testa_equivalencia`), então a troca não muda resultado, só permite peso.
+
+    ATENÇÃO ao ler o ΔBIC sobre o censo: com n na casa dos milhões, qualquer
+    desvio ínfimo da unimodalidade produz ΔBIC astronômico. Isso reflete o
+    tamanho de n, NÃO força de evidência. O censo torna μ e w mais precisos;
+    não torna a bimodalidade "mais provada".
+    """
+    x = np.asarray(x, dtype=float).ravel()
+    w = np.ones_like(x) if w is None else np.asarray(w, dtype=float).ravel()
+    n = float(w.sum())
+
+    if n < 5 or x.size < 2:
         # Poucos dados para ajustar
         return {
             "mu_1c": 0.0, "sig_1c": 1.0, "aic_1c": 0.0, "bic_1c": 0.0,
@@ -327,71 +427,18 @@ def ajustar_gmm_unidim(x: np.ndarray) -> dict:
             "aic_2c": 0.0, "bic_2c": 0.0
         }
     
-    # Modelo de 1 componente (Gaussiana simples)
-    mu_1c = float(np.mean(x))
-    sig_1c = float(np.std(x))
-    sig_1c = max(sig_1c, 0.1)  # evitar divisão por zero
-    
-    ll_1c = float(np.sum(norm.logpdf(x, loc=mu_1c, scale=sig_1c)))
-    aic_1c = 2 * 2 - 2 * ll_1c  # 2 parâmetros: media, std
-    bic_1c = 2 * np.log(n) - 2 * ll_1c
-    
-    # Modelo de 2 componentes (Mistura)
-    try:
-        from sklearn.mixture import GaussianMixture
-        gmm = GaussianMixture(n_components=2, random_state=42, max_iter=250)
-        gmm.fit(x)
-        w1, w2 = gmm.weights_
-        mu1, mu2 = gmm.means_.flatten()
-        sig1, sig2 = np.sqrt(gmm.covariances_.flatten())
-        aic_2c = gmm.aic(x)
-        bic_2c = gmm.bic(x)
-    except ImportError:
-        # Fallback usando scipy.optimize para ajuste de máxima verossimilhança
-        from scipy.optimize import minimize
-        
-        x_flat = x.flatten()
-        # Chutes iniciais inteligentes baseados nos dois modos conhecidos
-        init_mu1 = np.mean(x_flat[x_flat <= 10]) if np.any(x_flat <= 10) else 4.0
-        init_mu2 = np.mean(x_flat[x_flat > 10]) if np.any(x_flat > 10) else 30.0
-        init_sig1 = np.std(x_flat[x_flat <= 10]) if np.any(x_flat <= 10) and np.std(x_flat[x_flat <= 10]) > 0.5 else 3.0
-        init_sig2 = np.std(x_flat[x_flat > 10]) if np.any(x_flat > 10) and np.std(x_flat[x_flat > 10]) > 0.5 else 3.0
-        
-        # Parâmetros irrestritos iniciais: [logit(w), mu1, log(sig1), mu2, log(sig2)]
-        theta0 = [0.0, float(init_mu1), np.log(float(init_sig1)), float(init_mu2), np.log(float(init_sig2))]
-        
-        def nll(theta):
-            w = 1.0 / (1.0 + np.exp(-theta[0]))
-            m1 = theta[1]
-            s1 = np.exp(theta[2])
-            m2 = theta[3]
-            s2 = np.exp(theta[4])
-            
-            pdf1 = norm.pdf(x_flat, loc=m1, scale=s1)
-            pdf2 = norm.pdf(x_flat, loc=m2, scale=s2)
-            
-            val = w * pdf1 + (1.0 - w) * pdf2
-            val = np.maximum(val, 1e-15)  # evitar log(0)
-            return -np.sum(np.log(val))
-            
-        res = minimize(nll, theta0, method="L-BFGS-B")
-        
-        w1 = 1.0 / (1.0 + np.exp(-res.x[0]))
-        w2 = 1.0 - w1
-        mu1 = res.x[1]
-        sig1 = np.exp(res.x[2])
-        mu2 = res.x[3]
-        sig2 = np.exp(res.x[4])
-        
-        ll_2c = -res.fun
-        aic_2c = 2 * 5 - 2 * ll_2c  # 5 parâmetros: w, mu1, sig1, mu2, sig2
-        bic_2c = 5 * np.log(n) - 2 * ll_2c
+    # 1 componente
+    r1 = gmm_ponderado(x, w, n_comp=1)
+    mu_1c = float(r1["mu"][0])
+    sig_1c = max(float(r1["sigma"][0]), 0.1)
+    aic_1c, bic_1c = float(r1["aic"]), float(r1["bic"])
 
-    # Garantir que mu1 <= mu2 para manter o componente 1 como o "Jovem"
-    if mu1 > mu2:
-        mu1, mu2 = mu2, mu1
-        sig1, sig2 = sig2, sig1
-        w1, w2 = w2, w1
+    # 2 componentes (gmm_ponderado já devolve ordenado por mu crescente)
+    r2 = gmm_ponderado(x, w, n_comp=2)
+    mu1, mu2 = (float(v) for v in r2["mu"])
+    sig1, sig2 = (float(v) for v in r2["sigma"])
+    w1, w2 = (float(v) for v in r2["peso"])
+    aic_2c, bic_2c = float(r2["aic"]), float(r2["bic"])
 
     return {
         "mu_1c": float(mu_1c), "sig_1c": float(sig_1c), "aic_1c": float(aic_1c), "bic_1c": float(bic_1c),
@@ -418,17 +465,22 @@ def analise_sensibilidade_gmm_janelas(df: pd.DataFrame) -> list:
         sub_total = df_mecanismos[(df_mecanismos["ano_conversao"] >= ai) & (df_mecanismos["ano_conversao"] <= af)]
         sub_nao_cens = sub_total[~sub_total["censurado"]]
         
-        n_tot = len(sub_total)
-        n_nc = len(sub_nao_cens)
-        
+        n_tot = int(round(sub_total["peso"].sum()))
+        n_nc = int(round(sub_nao_cens["peso"].sum()))
+
         # Ajusta GMM nas idades não-censuradas
-        gmm_res = ajustar_gmm_unidim(sub_nao_cens["idade_pastagem_anos"].values)
-        
-        # Proporções dos mecanismos entre os não-censurados
-        mec_counts = sub_nao_cens["mecanismo"].value_counts(normalize=True)
+        v_nc, w_nc = vp(sub_nao_cens)
+        gmm_res = ajustar_gmm_unidim(v_nc, w_nc)
+
+        # Proporções dos mecanismos entre os não-censurados — por PESO, não por
+        # linha: no censo cada linha é uma célula agregada, não uma observação.
+        soma = sub_nao_cens.groupby("mecanismo", observed=True)["peso"].sum()
+        total = soma.sum()
+        mec_counts = (soma / total) if total > 0 else soma
         prop_premeditado = float(mec_counts.get("Premeditado curto", 0.0))
         prop_rotacao = float(mec_counts.get("Rotação", 0.0))
         prop_oportunistico = float(mec_counts.get("Oportunístico clássico", 0.0))
+        prop_mosaico = float(mec_counts.get("Mosaico (origem mista)", 0.0))
         prop_ambiguo = float(mec_counts.get("Ambíguo / Outro", 0.0))
         
         res = {
@@ -441,6 +493,7 @@ def analise_sensibilidade_gmm_janelas(df: pd.DataFrame) -> list:
             "prop_premeditado_curto": prop_premeditado,
             "prop_rotacao": prop_rotacao,
             "prop_oportunistico_classico": prop_oportunistico,
+            "prop_mosaico": prop_mosaico,
             "prop_ambiguo_outro": prop_ambiguo
         }
         resultados.append(res)
@@ -462,11 +515,13 @@ def fig_sensibilidade_gmm(df: pd.DataFrame, resultados: list) -> None:
         ai, af = res["ano_inicio"], res["ano_fim"]
         
         # Filtra dados reais da janela
-        sub = df[(df["ano_conversao"] >= ai) & (df["ano_conversao"] <= af) & (~df["censurado"])]["idade_pastagem_anos"]
-        
+        sub = df[(df["ano_conversao"] >= ai) & (df["ano_conversao"] <= af) & (~df["censurado"])]
+        v, w = vp(sub)
+
         # Histograma de densidade empírica
-        ax.hist(sub, bins=bins, density=True, color="#dcdcd6", edgecolor="white", alpha=0.85,
-                label=f"Frequência real (n={len(sub):,})")
+        ax.hist(v, bins=bins, weights=w, density=True, color="#dcdcd6",
+                edgecolor="white", alpha=0.85,
+                label=f"Frequência real (n={w.sum():,.0f})")
         
         # Parâmetros estimadores do GMM
         w1, mu1, sig1 = res["w1"], res["mu1"], res["sig1"]
@@ -503,11 +558,19 @@ def fig_sensibilidade_gmm(df: pd.DataFrame, resultados: list) -> None:
 
 
 def main() -> None:
-    print(f"Lendo {CSV_IN.name}...")
-    df = carregar()
-    print(f"  {len(df):,} pixels | {df['ano_conversao'].nunique()} anos | "
+    import argparse
+    p = argparse.ArgumentParser(description="Pipeline #28 — análise da idade da pastagem")
+    p.add_argument("--fonte", choices=["censo", "amostra"], default="censo",
+                   help="censo = todos os pixels (padrão); amostra = 2.000 px/ano do #28A")
+    args = p.parse_args()
+
+    df = carregar(args.fonte)
+    n = df["peso"].sum()
+    print(f"Fonte: {args.fonte}")
+    print(f"  {n:,.0f} eventos em {len(df):,} linhas | {df['ano_conversao'].nunique()} anos | "
           f"{df['cd_mun'].nunique()} munis")
-    print(f"  Censurado à esquerda: {df['censurado'].mean() * 100:.1f}%")
+    cens_pct = df.loc[df["censurado"], "peso"].sum() / n * 100
+    print(f"  Censurado à esquerda: {cens_pct:.1f}%")
 
     print("\nGerando figuras base...")
     fig_distribuicao_global(df)
@@ -549,25 +612,30 @@ def main() -> None:
 
     print("\n" + "=" * 60)
     print("Resumo executivo:")
-    nao_cens = df[~df["censurado"]]
-    print(f"  Idade mediana global (não-censurado): {nao_cens['idade_pastagem_anos'].median():.1f} anos")
-    print(f"  IQR: {nao_cens['idade_pastagem_anos'].quantile(0.25):.0f}-"
-          f"{nao_cens['idade_pastagem_anos'].quantile(0.75):.0f} anos")
-    print(f"  Coortes veg.nat → pastagem → agric: "
-          f"{(df['origem_anterior'] == 'vegetacao_natural').sum():,} pixels "
-          f"({(df['origem_anterior'] == 'vegetacao_natural').mean() * 100:.1f}%)")
+    vnc, wnc = vp(df[~df["censurado"]])
+    print(f"  Idade mediana global (não-censurado): {mediana(vnc, wnc):.1f} anos")
+    print(f"  IQR: {quantil(vnc, wnc, 0.25):.0f}-{quantil(vnc, wnc, 0.75):.0f} anos")
+    for origem in ("vegetacao_natural", "mosaico", "agricultura"):
+        pe = df.loc[df["origem_anterior"] == origem, "peso"].sum()
+        if pe:
+            print(f"  Coorte {origem} → pastagem → agric: {pe:,.0f} px ({pe / n * 100:.1f}%)")
     
     print("\nResultados do Ajuste GMM (Ato III / Janela 2020-2024):")
     res_ato3 = resultados_gmm[-1]
     print(f"  Componente Jovem: μ = {res_ato3['mu1']:.1f} anos | Peso (w) = {res_ato3['w1'] * 100:.1f}%")
     print(f"  Componente Antigo: μ = {res_ato3['mu2']:.1f} anos | Peso (w) = {res_ato3['w2'] * 100:.1f}%")
-    print(f"  Força da Bimodalidade: ΔBIC = {res_ato3['bic_1c'] - res_ato3['bic_2c']:.1f} "
-          f"(evidência muito forte a favor de 2 comp. se ΔBIC > 10)")
-    
+    dbic = res_ato3['bic_1c'] - res_ato3['bic_2c']
+    print(f"  ΔBIC = {dbic:,.0f} (n = {res_ato3['n_nao_censurado']:,})")
+    if args.fonte == "censo":
+        print("    NÃO ler como força de evidência: com censo, n é a população e")
+        print("    qualquer desvio ínfimo da unimodalidade infla o ΔBIC. O ganho")
+        print("    do censo está na PRECISÃO de μ e w, não no ΔBIC.")
+
     print("Distribuição dos Mecanismos de Conversão no Ato III (Não-Censurado):")
     print(f"  - Premeditado curto (veg.nat <= 8a): {res_ato3['prop_premeditado_curto'] * 100:.1f}%")
     print(f"  - Rotação agrícola (agric <= 8a):     {res_ato3['prop_rotacao'] * 100:.1f}%")
     print(f"  - Oportunístico clássico (veg.nat >= 20a): {res_ato3['prop_oportunistico_classico'] * 100:.1f}%")
+    print(f"  - Mosaico de usos (origem mista):     {res_ato3['prop_mosaico'] * 100:.1f}%")
     print(f"  - Ambíguo / Outros (faixas intermediárias):  {res_ato3['prop_ambiguo_outro'] * 100:.1f}%")
 
 

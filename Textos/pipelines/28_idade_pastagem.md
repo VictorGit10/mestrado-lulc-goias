@@ -1,8 +1,57 @@
 # Pipeline #28 — Idade da pastagem na conversão para agricultura
 
-**Scripts**: `scripts/coleta_idade_pastagem.py` + `scripts/analise_reserva_terra.py`
-**Status**: ✅ Sub-pipelines A e B concluídos (2026-05-15). Sub-pipeline C (aba na `Visualizacao/`) pendente.
-**Outputs**: `data/processed/pastagem_idade_conversao.csv` (78.000 pixels), 6 PNGs em `outputs/idade_pastagem/`, 2 JSONs em `Visualizacao/assets/data/`.
+**Scripts**: `export_cubo_mapbiomas_go.py` → `baixa_export_drive.py` → `processa_cubo_idade.py` → `analise_reserva_terra.py`
+(legado: `coleta_idade_pastagem.py`, a amostra — mantido para reprodutibilidade e comparação)
+**Status**: ✅ Censo de pixels concluído (2026-07-21). Sub-pipeline C (aba na `Visualizacao/`) atualizado.
+**Outputs**: `data/processed/pastagem_idade_censo.parquet` (**44.639.028 eventos de conversão**), 9 PNGs em `outputs/idade_pastagem/`, 3 JSONs em `Visualizacao/assets/data/`.
+
+> ## Reconstrução de 2026-07-21 — de amostra para censo
+>
+> O #28 deixou de ser amostra (2.000 px/ano) e passou a ser **censo**: todos os
+> pixels de Goiás que sofreram transição pastagem → agricultura, 1986–2024.
+> São **44.639.028 eventos** (1.016× a amostra), cobrindo **3.817.080 ha =
+> 11,2% do estado**, em **244 dos 246 municípios**.
+>
+> A mudança foi motivada por **três defeitos** encontrados na amostra, dois
+> deles graves e um deles nunca detectado antes:
+>
+> **1. Envelope amostral.** A coleta amostrava o *retângulo envolvente* de
+> Goiás, não o polígono: **34.049 dos 78.000 pixels (43,7%) caíam fora do
+> estado** (verificado por point-in-polygon: 99,991% realmente fora, só 3 eram
+> falha de sjoin). Corrigido em 20/jul filtrando `cd_mun != 0`.
+>
+> **2. Classe 21 (Mosaico de Usos) ausente do `GRUPO_MAP`.** Combinada com um
+> `.fillna("censurado_esquerda")`, isso rotulava como **censurado** — "idade
+> desconhecida" — pixels cuja idade era perfeitamente conhecida. Eram 4.898 px
+> (11,1%) da amostra estadual e são **11,83% do censo**. Consequência: a
+> censura publicada (74,9%) estava superestimada — o valor real é **63,7%** na
+> amostra e **64,1%** no censo — e como *todas* as análises-manchete do #28
+> rodam sobre o subconjunto não-censurado, elas usaram dois terços dos dados a
+> que tinham direito. Pior: os excluídos não eram aleatórios, eram
+> especificamente os de origem mista agricultura/pastagem.
+>
+> **3. Ponderação entre anos.** A amostra alocava 2.000 px/ano
+> independentemente de quanta conversão houve naquele ano. Comparando com o
+> censo, as medianas **ano a ano** são praticamente idênticas (diferença média
+> −0,09 a, máx |2| a) — ou seja, a amostragem *dentro* de cada ano era sadia —
+> mas os **agregados por Ato** divergem, porque a composição está errada: a
+> amostra deu a 2024 peso 24,5% quando o real é 11,2%, e a 2020 peso 22,2%
+> quando o real é 43,2%. Como 2020 tem mediana 20 a e 2024 tem 5 a, o Ato III
+> foi puxado para baixo (mediana 6 na amostra contra **8** no censo).
+>
+> **O que sobrevive ao censo:** a bimodalidade e a posição dos dois modos
+> (μ₁ ≈ 4,4 a e μ₂ ≈ 22,9 a, notavelmente estáveis em todas as janelas), o
+> gradiente Sul(jovem) → Norte(velho), e a *direção* da tendência (componente
+> jovem ganhando peso ao longo do tempo).
+>
+> **O que muda:** os pesos dos dois componentes, a decomposição de mecanismos
+> (ver §4) e a taxa de censura. Ver a tabela comparativa no fim desta página.
+>
+> **Leitura obrigatória sobre o ΔBIC:** com censo, n é a população e qualquer
+> desvio ínfimo da unimodalidade produz ΔBIC astronômico (ordem de 10⁶). Isso
+> reflete o tamanho de n, **não** força de evidência. O censo torna μ e w mais
+> *precisos*; não torna a bimodalidade "mais provada". Não citar ΔBIC do censo
+> como grau de confiança.
 
 ## Pergunta de pesquisa
 
@@ -37,8 +86,22 @@ Robustez: `tileScale` escala 8 → 16 → 32 com timeouts 240s/480s/720s via `co
 | `mesorregiao` | Nome da mesorregião IBGE 2017 |
 | `idade_pastagem_anos` | Anos consecutivos como pastagem imediatamente antes da conversão |
 | `classe_antes_id` | Classe MapBiomas no ano anterior ao início da fase pastagem |
-| `origem_anterior` | Categórico: `vegetacao_natural` / `agricultura` / `outros` / `censurado_esquerda` |
+| `origem_anterior` | Categórico: `vegetacao_natural` / `mosaico` / `agricultura` / `agua` / `area_urbana` / `outros` / `sem_dado_anterior` / `censurado_esquerda` |
 | `lon`, `lat` | Coordenadas do pixel amostrado |
+
+### Saída do censo (`data/processed/pastagem_idade_censo.parquet`)
+
+Tabela de contingência, **não** uma linha por pixel:
+
+| Coluna | Conteúdo |
+|---|---|
+| `ano_conversao`, `cd_mun`, `nm_mun` | Chaves |
+| `idade_pastagem_anos` | 1..39 |
+| `classe_antes_id`, `origem_anterior` | Origem anterior à fase pastagem |
+| `n_pixels` | **Peso**: quantos pixels caem nesta célula |
+| `area_ha` | Área de solo, corrigida por cos(lat) |
+
+As quatro variáveis do #28 são discretas e de baixa cardinalidade (39 anos × 246 munis × 41 idades × ~32 classes), então o censo completo cabe **sem perda nenhuma** em 405.771 células. Toda estatística — mediana, percentil, GMM, Kaplan-Meier — é recuperável exatamente desses pesos. Guardar 44,6 milhões de linhas individuais só desperdiçaria disco.
 
 ## Sub-pipeline B — Análise (`analise_reserva_terra.py`)
 
@@ -54,30 +117,41 @@ Consome `pastagem_idade_conversao.csv` e produz:
 | `idade_x_socioeconomicos.png` | Idade mediana municipal × Δ SICOR e Δ VA agro |
 | `data/processed/idade_pastagem_estatisticas.csv` | n / mediana / média / p10 / p90 por escopo (global, ATO, mesorregião, origem) |
 | `Visualizacao/assets/data/idade_pastagem_municipal.json` | Idade mediana/média/n por município, consumido pela Sub-pipeline C |
-| `Visualizacao/asset## Achados consolidados (Atualizado em 2026-05-19)
+| `Visualizacao/assets/data/idade_pastagem_histograma.json` | Histograma de idade por Ato, consumido pela Sub-pipeline C |
+| `Visualizacao/assets/data/idade_pastagem_gmm.json` | Parâmetros do GMM por janela deslizante |
 
-### 1. Mudança de regime ao longo dos ATOs (Reestruturado para 3 Atos)
+## Achados consolidados (censo, 2026-07-21)
 
-| ATO | Período | Descrição do Regime Político | Pixels ($N$) | Idade Mediana (não-censurado) | Média |
-|---|---|---|---|---|---|
-| **I — Herança** | 1985–2000 | Pastagem herdada / Ocupação extensiva inicial | 30.000 | **6,0 anos** | 6,65 anos |
-| **II — Expansão** | 2001–2019 | Consolidação e expansão da soja / Lei Kandir | 38.000 | **19,0 anos** | 18,89 anos |
-| **III — Seletivo** | 2020–2024 | Conversão seletiva sob governança ambiental rígida | 10.000 | **17,0 anos** | 18,54 anos |
+### 1. Mudança de regime ao longo dos ATOs
 
-A transição mostra uma consolidação clara: nos anos iniciais (Ato I), convertiam-se principalmente pastagens recém-formadas. Com o tempo (Ato II), a idade das áreas convertidas aumentou drasticamente para uma mediana de 19 anos, refletindo a conversão de antigas pastagens degradadas acumuladas. No período recente (Ato III), a mediana cai levemente para 17 anos devido à coexistência nítida de dois comportamentos de fronteira e rotação.
+| ATO | Período | Descrição do Regime Político | Pixels não-cens. ($N$) | Idade Mediana | Média | P10–P90 |
+|---|---|---|---|---|---|---|
+| **I — Herança** | 1985–2000 | Pastagem herdada / Ocupação extensiva inicial | 3.459.385 | **4,0 anos** | 5,18 anos | 2–10 |
+| **II — Expansão** | 2001–2019 | Consolidação e expansão da soja / Lei Kandir | 11.592.447 | **14,0 anos** | 14,17 anos | 3–26 |
+| **III — Seletivo** | 2020–2024 | Conversão seletiva sob governança ambiental rígida | 952.698 | **8,0 anos** | 13,38 anos | 3–31 |
+
+Nos anos iniciais (Ato I), convertiam-se pastagens recém-formadas (mediana 4 anos). No Ato II a idade sobe para 14 anos — conversão do estoque de pastagens antigas acumuladas. No Ato III a mediana recua para 8 anos, mas a média (13,4) e o P90 (31 anos) mostram que **não é um recuo geral**: é a coexistência de uma massa jovem com uma cauda muito longa. É a assinatura dos dois mecanismos, não a substituição de um pelo outro.
+
+> A amostra dava 6 anos no Ato III. A diferença para os 8 do censo é
+> integralmente de **composição**, não de amostragem: as medianas ano a ano são
+> idênticas entre amostra e censo (2020: 20 e 20; 2021: 11 e 11; 2022: 4 e 4;
+> 2024: 5 e 5), mas a amostra sobrepesava 2024 e subpesava 2020.
 
 ### 2. Achado-chave — Rigor Estatístico da Bimodalidade via GMM
 
 > [!IMPORTANT]
-> A bimodalidade do período recente foi testada formalmente através do **Ajuste de Modelo de Mistura Gaussiana (GMM) de 1 vs 2 componentes**.
-> O modelo bimodal (2 componentes) foi selecionado com evidência **estatisticamente inquestionável** sobre o modelo unimodal.
+> A bimodalidade é **descritiva e robusta**: os dois modos aparecem em todas as
+> janelas testadas e suas posições mal se movem. Mas o ΔBIC do censo **não é
+> medida de confiança** — ver a ressalva no cabeçalho. Com n = 952.698 no Ato
+> III, o ΔBIC de 844.789 diz sobretudo que n é enorme.
 
 **Figura da bimodalidade:** a prova *visual* dos dois modos está em `outputs/idade_pastagem/bimodalidade_unidade_ato.png` (Pipeline #28C) — 15 painéis (5 mesorregiões × 3 recortes) com as duas componentes GMM tracejadas e o marcador ● *bimodal*. O histograma global `distribuicao_global.png` **não** revela os dois modos sozinho: o pico jovem e a cauda longa o fazem parecer unimodal. Ao apresentar a Perna 2, use a figura do #28C, não o histograma global.
 
-No **Ato III (2020–2024)**, o GMM unidimensional das idades não-censuradas revelou os seguintes parâmetros:
-*   **Componente Jovem**: $\mu_1 = 4,7$ anos | Peso ($w_1$) = **55,3%**
-*   **Componente Antigo**: $\mu_2 = 22,3$ anos | Peso ($w_2$) = **44,7%**
-*   **Apoio de Seleção**: $\Delta BIC = 7.799,5$ (um valor de $\Delta BIC > 10$ já aponta evidência bayesiana muito forte a favor de 2 componentes).
+No **Ato III (2020–2024)**, o GMM unidimensional das idades não-censuradas ($n$ = 952.698):
+*   **Componente Jovem**: $\mu_1 = 4,4$ anos | Peso ($w_1$) = **51,5%**
+*   **Componente Antigo**: $\mu_2 = 22,9$ anos | Peso ($w_2$) = **48,5%**
+
+Os dois componentes estão **em equilíbrio** no período recente — não há um dominante. A amostra (corrigida) sugeria 62,3% / 37,7%, já uma dominância do jovem, que o censo não confirma.
 
 Isso comprova cientificamente a coexistência de dois mecanismos estruturais distintos atuando na conversão em Goiás:
 1.  **Mecanismo de Rotação/Intensificação (Componente Jovem ~5a)**: Áreas agrícolas de rotação dinâmica curta ou pastagens novas formadas na fronteira que rapidamente dão lugar à lavoura.
@@ -87,47 +161,63 @@ Isso comprova cientificamente a coexistência de dois mecanismos estruturais dis
 
 Para avaliar a robustez temporal do achado em relação a diferentes marcos históricos recentes (como o Cerrado Manifesto pós-2018), executamos uma análise de sensibilidade em quatro janelas temporais deslizantes:
 
-| Janela | Anos | $N$ Não-Cens. | $\mu_1$ (Jovem) | $w_1$ | $\mu_2$ (Antigo) | $w_2$ | $\Delta BIC$ |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **9 Anos** | 2016–2024 | 10.136 | 4,6 anos | 43,8% | 21,8 anos | 56,2% | 9.737,1 |
-| **8 Anos** | 2017–2024 | 9.299 | 4,6 anos | 45,9% | 21,9 anos | 54,1% | 9.230,4 |
-| **7 Anos** | 2018–2024 | 8.381 | 4,7 anos | 48,8% | 22,3 anos | 51,2% | 8.768,1 |
-| **5 Anos** (Ato III) | 2020–2024 | 6.742 | 4,7 anos | **55,3%** | 22,3 anos | **44,7%** | 7.799,4 |
+| Janela | Anos | $N$ Não-Cens. | $\mu_1$ (Jovem) | $w_1$ | $\mu_2$ (Antigo) | $w_2$ |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **9 Anos** | 2016–2024 | 3.455.514 | 4,2 anos | 31,5% | 22,5 anos | 68,5% |
+| **8 Anos** | 2017–2024 | 2.833.330 | 4,3 anos | 33,7% | 22,8 anos | 66,3% |
+| **7 Anos** | 2018–2024 | 2.088.268 | 4,5 anos | 37,1% | 23,5 anos | 62,9% |
+| **5 Anos** (Ato III) | 2020–2024 | 952.698 | 4,4 anos | **51,5%** | 22,9 anos | **48,5%** |
 
-*   **Estabilidade**: A localização dos picos ($\mu_1 \approx 4,6$a e $\mu_2 \approx 22$a) é impressionantemente estável em todas as janelas.
-*   **Transição de Peso**: Há um avanço sistemático no peso do componente jovem ($w_1$ sobe de 43,8% para 55,3%), mostrando que a dinâmica de rotação agrícola curta está se tornando dominante no estado nos anos mais recentes.
+*   **Estabilidade**: A posição dos picos ($\mu_1 \approx 4,2$–$4,5$a e $\mu_2 \approx 22,5$–$23,5$a) é notavelmente estável em todas as janelas. **Este é o achado robusto** e sobrevive intacto à troca de amostra por censo.
+*   **Transição de Peso**: $w_1$ sobe de 31,5% para 51,5% — o componente jovem **ganha peso sistematicamente**, e a direção é inequívoca. Mas ele apenas *alcança* o antigo no período recente; não passa a dominar. A amostra (corrigida) sugeria 47,1% → 62,3%, o que teria justificado falar em dominância. O censo não sustenta essa leitura.
+*   ΔBIC omitido de propósito: ver a ressalva no cabeçalho.
 
 ### 4. Quantificação dos Mecanismos por Regra de Decisão
 
-Classificamos os pixels individuais com base no cruzamento de sua idade de conversão e sua origem de uso anterior:
+Classificamos os pixels não-censurados cruzando idade de conversão com origem anterior:
 
-*   **Rotação Agrícola (Idade $\le 8$a, vinda de agricultura)**: Cresceu expressivamente, passando de **37,7%** (2016-24) para **49,4%** (2020-24), evidenciando a forte consolidação dos sistemas de integração lavoura-pecuária de ciclo curto.
-*   **Oportunístico Clássico (Idade $\ge 20$a, vinda de vegetação natural)**: Representa a conversão de passivos históricos. Encolheu ligeiramente de **28,5%** (2016-24) para **21,9%** (2020-24), mas continua a ser uma âncora de um quinto das conversões do estado.
-*   **Premeditado Curto (Idade $\le 8$a, vinda de vegetação natural)**: Transição direta rápida de fronteira de expansão. Permanece muito baixa e estável: de **5,7%** (2016-24) para **4,2%** (2020-24).
-*   **Ambíguo / Outro (Idades intermediárias de 9 a 19 anos)**: Estável em torno de **24%** a **28%**.
+*   **Rotação Agrícola (Idade $\le 8$a, vinda de agricultura)**: sobe de **21,3%** (2016-24) para **43,0%** (2020-24) — **dobra**, e é a mudança mais forte da decomposição.
+*   **Mosaico de Usos (origem mista agricultura/pastagem)**: recua de **30,0%** para **19,8%**. Categoria que **não existia** nas versões anteriores desta página: a classe 21 estava ausente do `GRUPO_MAP` e esses pixels eram contados como censurados.
+*   **Oportunístico Clássico (Idade $\ge 20$a, vinda de vegetação natural)**: de **23,9%** para **16,6%**. Encolhe, mas segue ancorando um sexto das conversões.
+*   **Premeditado Curto (Idade $\le 8$a, vinda de vegetação natural)**: baixo e em queda, de **4,6%** para **2,5%**.
+*   **Ambíguo / Outro**: de **20,2%** para **18,1%**.
+
+> **Decisão substantiva (21/jul/2026):** "Mosaico de Usos" recebe categoria
+> própria em vez de ser somado à rotação. O MapBiomas usa essa classe quando
+> **não consegue separar** lavoura de pasto — é incerteza de classificação, não
+> um uso observado. Somá-la à rotação daria 51,2% → **62,8%**, praticamente o
+> que as versões anteriores publicavam (48,7% → 64,8%), mas importaria a
+> incerteza do classificador para dentro da conclusão. Quem preferir a leitura
+> agregada tem os números aqui; o padrão do pipeline é mantê-las separadas.
 
 ### 5. Gradiente espacial (mesorregiões)
 
-| Mesorregião | n | Idade mediana |
-|---|---|---|
-| **Sul Goiano** | 28.776 (37%) | **9 anos** |
-| Leste Goiano | 4.525 | 12 anos |
-| Centro Goiano | 4.691 | 15 anos |
-| Noroeste Goiano | 4.069 | **20 anos** |
-| Norte Goiano | 1.890 | **20 anos** |
+| Mesorregião | n eventos | % do total | % censura | Idade mediana (não-cens.) |
+|---|---|---|---|---|
+| **Sul Goiano** | 28.750.470 | 64,4% | 70,9% | **9 anos** |
+| Leste Goiano | 4.864.734 | 10,9% | 36,8% | 10 anos |
+| Centro Goiano | 4.946.759 | 11,1% | 70,9% | 9 anos |
+| Noroeste Goiano | 3.933.298 | 8,8% | 52,0% | **16 anos** |
+| Norte Goiano | 2.143.767 | 4,8% | 41,9% | **16 anos** |
 
-O Sul Goiano domina a conversão (37% dos pixels) com distribuição puxada para pastagens jovens — frente ativa via caminho premeditado curto. Norte/Noroeste com mediana 20a indica pastagens antigas convertidas tardiamente.
+A mediana é **só dos não-censurados**, como todo o resto do #28 e o JSON do site; a % de censura vai em coluna própria porque varia de 37% (Leste) a 71% (Sul/Centro) e é substantiva. Mediana calculada *com* censurados é limite inferior e distorce a leitura: Centro Goiano (71% de censura) aparece como 3ª mais velha (19a) com censurado dentro, mas é empatada em mais jovem (9a) sem — a diferença é censura, não idade de pasto.
+
+O Sul Goiano concentra 64,4% dos eventos de conversão — 64,1% em área (diferença de só 0,27 pp: o Sul se espalha em latitude e o efeito cos(lat) quase se cancela) — com pastagens mais jovens (mediana 9a); Norte/Noroeste com mediana 16a indicam pastagens antigas convertidas tardiamente. **O gradiente Sul→Norte sobrevive ao censo** — era 7→14 na amostra (não-cens.) e é 9→16 no censo (não-cens.). A ordenação das pontas se mantém (Sul/Leste jovens, Norte/Noroeste velhos); o meio (Centro) é sensível à convenção de censura.
 
 ### 6. Coortes por origem anterior à pastagem
 
 | Origem | n | % do total | Mediana | Leitura |
 |---|---|---|---|---|
-| `censurado_esquerda` | 51.573 | 66,1% | 14a (mínimo) | Pixels já-pastagem em 1985 |
-| `vegetacao_natural` | 16.009 | **20,5%** | **13 anos** (cauda longa) | Coorte central da hipótese reserva |
-| `agricultura` | 9.419 | 12,1% | 5 anos | **Rotação curta** — não é reserva |
-| `outros` | 984 | 1,3% | 13 anos | — |
+| `censurado_esquerda` | 28.634.498 | 64,1% | 17a (mínimo) | Pixels já-pastagem em 1985 |
+| `vegetacao_natural` | 6.379.954 | **14,3%** | **13 anos** (cauda longa) | Coorte central da hipótese reserva |
+| `mosaico` | 5.280.675 | **11,8%** | 12 anos | Origem mista — antes contada como censura |
+| `agricultura` | 3.910.537 | 8,8% | 5 anos | **Rotação curta** — não é reserva |
+| `outros` | 427.099 | 1,0% | 12 anos | — |
+| `agua` | 5.487 | 0,012% | 5 anos | Raro; antes do pasto era água |
+| `area_urbana` | 141 | 0,0003% | 3 anos | Raro; antes do pasto era área urbana |
+| `sem_dado_anterior` | 637 | 0,001% | 4 anos | Classe 0 do MapBiomas; idade conhecida, origem não |
 
-A coorte `agricultura → pastagem → agricultura` (rotação) é distinta da coorte de reserva — distribuição concentrada em 2-8 anos. A coorte `veg.nat → pastagem → agricultura` é onde os dois mecanismos operam: distribuição larga com pico jovem (premeditado) e cauda longa (oportunístico).
+A coorte `agricultura → pastagem → agricultura` (rotação) é distinta da coorte de reserva — concentrada em 2–8 anos. A coorte `veg.nat → pastagem → agricultura` é onde os dois mecanismos operam: distribuição larga com pico jovem (premeditado) e cauda longa (oportunístico).
 
 ### 7. Sem correlação com socioeconômicos municipais
 
@@ -140,55 +230,106 @@ Idade da pastagem na conversão **não é guiada por choques agregados municipai
 
 ## Censura à esquerda
 
-Pixels já classificados como pastagem em 1985 não têm idade verdadeira conhecida (a série inicia em 1985). O Sub-pipeline A marca esses pixels com `origem_anterior = censurado_esquerda` (66,1% da amostra global, decrescendo de 100% em 1986 para 12% em 2024) e o Sub-pipeline B os separa em todas as figuras. Análises sensíveis a idade absoluta restringem-se aos 26.427 pixels não-censurados.
+Pixels já classificados como pastagem em 1985 não têm idade verdadeira conhecida (a série inicia em 1985). Esses pixels recebem `origem_anterior = censurado_esquerda` — **64,1% do censo**, decrescendo de 100% em 1986 para ~4% em 2024 — e são separados em todas as figuras. Análises sensíveis a idade absoluta restringem-se aos **16.004.530** eventos não-censurados.
+
+> **Censura é decidida pelo índice, nunca por lookup.** Um pixel é censurado
+> quando sua fase de pastagem alcança 1985, e ponto. Até 21/jul/2026 o código
+> confundia isso com "classe não encontrada no `GRUPO_MAP`", inflando a censura
+> em ~11 pontos. Classe 0 (nodata do MapBiomas) agora tem rótulo próprio,
+> `sem_dado_anterior`: a idade é conhecida, só a origem é indeterminada.
 
 ## Hipóteses testáveis (descritivas) — resultado
 
 | Hipótese | Status |
 |---|---|
-| Distribuição bimodal global | **Confirmada no período recente (2016-24)** — coexistência dos mecanismos comprovada estatisticamente por GMM com ΔBIC estratosférico |
-| Idade mediana decrescente ao longo dos ATOs | **Refutada na linha geral**: cresce I→II; cai levemente no Ato III |
-| Idade menor no Sul de GO vs Norte/Nordeste | **Confirmada**: Sul 9a, Norte/Noroeste 20a |
+| Distribuição bimodal global | **Confirmada e robusta** — dois modos em todas as janelas, posições estáveis (μ₁≈4,4a, μ₂≈22,9a). Robustez vem da *estabilidade entre janelas*, não do ΔBIC |
+| Idade mediana decrescente ao longo dos ATOs | **Refutada**: cresce I→II (4→14a); recua no III (8a) sem voltar ao nível do I |
+| Idade menor no Sul de GO vs Norte/Nordeste | **Confirmada**: Sul 12a, Norte/Noroeste 21a |
 | Coorte veg.nat→pastagem→agric com mediana <15a | **Confirmada** (mediana 13a, cauda longa) |
+| Componente jovem torna-se dominante | **Não sustentada pelo censo**: $w_1$ sobe de 31,5% para 51,5% — alcança o antigo, não o supera. A amostra sugeria dominância (62,3%) |
 | Correlação Δ SICOR vs idade mediana | **Sem correlação** — mecanismos operam abaixo da escala municipal |
 
 ## Decisão metodológica chave (D10)
 
-**Não existe asset MapBiomas Pastagem separado** integrado ao pipeline. Idade é calculada localmente em Python a partir das bandas `classification_YYYY` extraídas via `stratifiedSample`. Esta decisão simplifica enormemente o pipeline e evita o encadeamento pesado de 35+ operações em `ee.Image` que estourava o limite computacional do servidor GEE (testado e rejeitado na primeira versão do script).
+**Não existe asset MapBiomas Pastagem separado** integrado ao pipeline. A idade é calculada localmente a partir das bandas `classification_YYYY`. No censo, o cubo de 40 bandas é exportado do GEE (`ee.batch.Export`, alinhado à grade nativa via `crsTransform` — nunca `scale=30`, que reamostraria e destruiria a contagem de anos consecutivos) e processado em janelas com rasterio. Isso evita o encadeamento de 35+ operações em `ee.Image` que estourava o limite do servidor.
+
+**A lógica de idade do censo foi verificada por equivalência** contra a função original do amostrador: idade e classe-antes idênticas em 39/39 anos de conversão. Qualquer diferença nos resultados vem dos dados, não da reimplementação.
 
 ## Limitações
 
 - **Identificação causal não é reivindicada** — análise é descritiva por idade. Discriminação dos mecanismos é interpretativa.
 - **Sem dados de propriedade (CAR/SICAR)** — não é possível testar diretamente a hipótese sobre arrendamento.
-- **Censura à esquerda 66,1%** — afeta intensamente os anos iniciais (1986–~2000); leitura interpretativa restringe-se ao subconjunto não-censurado (n=26.427).
-- **Salto 2020→2022 (mediana 31a→7a)** — pode incluir componente de reclassificação de classes de agricultura entre coleções MapBiomas. Vale investigação caso a leitura se torne central na dissertação.
-- **stratifiedSample com classe única** retorna até `numPoints` pixels, mas pode amostrar mais de uma classe quando há ruído na máscara — em prática isso não tem efeito porque `classe_mask` só assume 1 onde há transição P→A.
+- **Censura à esquerda 64,1%** — afeta intensamente os anos iniciais (1986–~2000); leitura interpretativa restringe-se aos 16.004.530 eventos não-censurados. O censo **não resolve** a censura: ela é limite da série MapBiomas, não do tamanho da amostra.
+- **Eventos não são observações independentes** — um pixel pode converter mais de uma vez (pasto→lavoura→pasto→lavoura). São 1,064 eventos por pixel distinto (41.965.688 pixels converteram ao menos uma vez). Inofensivo para descrição; quem calcular erro-padrão precisa saber.
+- **ΔBIC e p-valor perdem sentido com censo** — n é a população; qualquer desvio ínfimo infla a estatística. Ver ressalva no cabeçalho.
+- **Área do pixel varia com a latitude** — em EPSG:4326 a área de solo é ∝ cos(lat), e Goiás cobre 7°: pixels do norte cobrem 3,5% mais chão. O parquet traz `n_pixels` **e** `area_ha`; as análises acima usam contagem (comparável com a amostra). Afirmações sobre *quanto* de Goiás fez algo devem usar `area_ha`.
+- **Salto 2020→2022** — pode incluir reclassificação de classes de agricultura entre coleções MapBiomas. Vale investigação caso a leitura se torne central.
+- **Erro de classificação do MapBiomas não é eliminado pelo censo** — o censo remove erro amostral, não erro de medida. Um pixel que oscila espúriamente entre pasto e não-pasto ainda gera idade curta artificial.
 
 ## Como rodar
 
+### Censo (padrão)
+
 ```bash
-# Validação rápida (200 pixels em 2020, ~2 min)
-python scripts/coleta_idade_pastagem.py --teste
+# 1. Valida o caminho com 1 shard (~18 min de GEE)
+python scripts/export_cubo_mapbiomas_go.py --teste
 
-# Coleta completa (1986-2024, 78k pixels, ~80 min)
-python scripts/coleta_idade_pastagem.py
+# 2. Export completo: 16 shards, ~1,5 GB no Drive (~17 min)
+python scripts/export_cubo_mapbiomas_go.py
+python scripts/export_cubo_mapbiomas_go.py --monitor
 
-# Retomada (reusa caches em data/cache/idade_pastagem/)
-python scripts/coleta_idade_pastagem.py        # idempotente; pula anos com cache
+# 3. Baixa (usa o refresh token do GEE, que já tem escopo Drive)
+python scripts/baixa_export_drive.py --prefixo cubo_go_mapbiomas101
 
-# Análise (figuras + estatísticas + JSONs)
-python scripts/analise_reserva_terra.py
+# 4. Processa o censo (~3,5 min; ~500 MB de RAM, roda em laptop)
+python scripts/processa_cubo_idade.py --shards data/raw/cubo_go
+
+# 5. Análise (figuras + estatísticas + JSONs)
+python scripts/analise_reserva_terra.py --fonte censo
 ```
 
-## Sub-pipeline C (pendente) — Aba na visualização web
+### Amostra (legado — para comparação)
 
-Os JSONs `idade_pastagem_municipal.json` (~41 KB, idade mediana/média/n por município) e `idade_pastagem_histograma.json` (~3 KB, histograma por ATO) já estão gerados em `Visualizacao/assets/data/`.
+```bash
+python scripts/coleta_idade_pastagem.py            # 1986-2024, 78k px, ~80 min
+python scripts/analise_reserva_terra.py --fonte amostra
+python scripts/compara_censo_amostra.py            # confronta as duas fontes
+```
 
-Componentes propostos para a aba nova em `Visualizacao/index.html`:
+### Testes
 
-1. **Mapa coroplético municipal** — idade mediana da pastagem no momento da conversão, com classes em quantis (jovem/médio/antigo) e toggle por ATO.
-2. **Histograma interativo** — distribuição por ATO com slider temporal, destacando o achado bimodal no período 2018-24.
-3. **Pull-quote narrativo** explicando os dois mecanismos da hipótese com leitura empírica.
-4. **Cards de coortes** — comparação visual veg.nat→pastagem→agric vs rotação agric→pastagem→agric.
+```bash
+# Contrato da estatística ponderada: com peso=1 tem que bater com numpy/sklearn
+python scripts/estatistica_ponderada.py
+```
 
-Implementação alinhada com o padrão de `timeline.js`, `inventario.js` e `atlas.js`. Ver pendência registrada em `Textos/backlog.md` (Frente C estendida).
+## Comparação amostra × censo
+
+| Métrica | Amostra (corrigida) | Censo | Sobrevive? |
+|---|---|---|---|
+| Eventos | 43.951 | **44.639.028** | — |
+| Municípios com evento | 234 | **244** de 246 | — |
+| Municípios com <20 px não-cens. | 104 (44%) | **0** | — |
+| Censura | 63,7% | 64,1% | ✅ |
+| Mediana global (não-cens.) | 8a | 10a | ~ |
+| Ato I / II / III (mediana) | 4 / 12 / 6 | 4 / 14 / **8** | ~ |
+| μ₁ (Ato III) | 4,6a | 4,4a | ✅ |
+| μ₂ (Ato III) | 22,7a | 22,9a | ✅ |
+| **w₁ (Ato III)** | 62,3% | **51,5%** | ❌ |
+| Gradiente Sul→Norte | 7→14a | 9→16a | ✅ (ordenação idêntica) |
+| Rotação (2020-24) | 54,7% | **43,0%** | ❌ |
+
+A verificação **ano a ano** mostra que a amostragem dentro de cada ano era sadia (diferença de mediana: média −0,09a, máx |2|a). O que falha são os **agregados**, por erro de composição entre anos. Ver `scripts/compara_censo_amostra.py`.
+
+## Sub-pipeline C — Aba na visualização web ✅
+
+Implementado em `Visualizacao/index.html` (§6), com `assets/js/pastagem-reserva.js`:
+coroplético d3 das 166 AMCs, histograma por Ato com toggle, e cards de coortes.
+Consome `idade_pastagem_municipal.json`, `idade_pastagem_histograma.json`,
+`idade_pastagem_gmm.json` e `idade_pastagem_amc.geojson` — todos regerados a
+partir do censo em 21/jul/2026.
+
+Ganho concreto do censo aqui: a mediana municipal deixou de ser ruído. Na
+amostra, 44% dos municípios tinham menos de 20 pixels não-censurados (mediana
+de 26 px por município); no censo são **0%**, com mediana de 22.250 px. O mapa
+municipal passou a ser interpretável célula a célula.

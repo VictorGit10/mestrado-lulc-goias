@@ -29,7 +29,8 @@ pct_rotacao, pct_oportunistico): correlação BRUTA → PARCIAL|lat → PARCIAL|
 No-till e adubação entram como REFERÊNCIA (já caracterizados no #40).
 
 ENTRADAS
-    data/processed/pastagem_idade_conversao.csv   (#28 — via #40.carregar)
+    data/processed/pastagem_idade_censo.parquet   (#28 censo — via #40.carregar;
+                                                   --fonte amostra usa o CSV legado)
     data/processed/painel_unificado.parquet       (#16 — Censo 2017, calcário/orientação)
 
 SAÍDAS
@@ -177,13 +178,15 @@ def figura(m: pd.DataFrame, tab: pd.DataFrame):
 def main():
     ap = argparse.ArgumentParser(description="Extensão #40 — calcário + orientação técnica (D14)")
     ap.add_argument("--sem-figuras", action="store_true")
+    ap.add_argument("--fonte", choices=["censo", "amostra"], default="censo",
+                    help="repassado ao #40: censo de pixels (padrão) ou amostra legada")
     args = ap.parse_args()
 
     print("=" * 70)
     print("Extensão #40 — Calcário + Orientação técnica no arcabouço das duas lógicas")
     print("=" * 70)
 
-    df = dl.carregar()
+    df = dl.carregar(args.fonte)
     mun_mix = dl.agregar_mix(df, "cd_mun", dl.JANELA_PRIMARIA, dl.MIN_PX_MUN)
     mun_mix = mun_mix[mun_mix["confiavel"]]
     cov = carregar_covariaveis()
@@ -193,7 +196,7 @@ def main():
           f"orientação em {m['censo2017_pct_orientacao'].notna().sum()}")
 
     tab = tabela_d14(m)
-    tab.to_csv(DIR_PROC / "duas_logicas_calcario_orientacao.csv", index=False)
+    tab.to_csv(DIR_PROC / f"duas_logicas_calcario_orientacao{'' if args.fonte == 'censo' else '_amostra'}.csv", index=False)
 
     # --- Relatório ---
     print("\n[gradiente] correlação da covariável com a latitude (− = desce ao Sul):")
@@ -209,7 +212,16 @@ def main():
             continue
         print(f"\n  {COVARIAVEIS[cov_id]}")
         for _, r in sub.iterrows():
-            flag = "  SOBREVIVE" if r["sobrevive_2d"] else "  → some no 2D"
+            # `sobrevive_2d` exige p<0,05 E |r|>0,2. São reprovações DIFERENTES e
+            # o rótulo precisa distinguir: um par com p=0,003 e |r|=0,19 não
+            # "some" — ele é detectável e pequeno. Chamar isso de "some no 2D"
+            # (como até 21/jul/2026) esconde justamente o caso interessante.
+            if r["sobrevive_2d"]:
+                flag = "  SOBREVIVE"
+            elif r["p_parcial_latlon"] == r["p_parcial_latlon"] and r["p_parcial_latlon"] < 0.05:
+                flag = "  sig. mas |r|≤0,2"
+            else:
+                flag = "  → some no 2D"
             print(f"    × {r['desfecho_label']:22s} bruto {r['r_bruto']:+.2f} → "
                   f"|lat {r['r_parcial_lat']:+.2f} (p={r['p_parcial_lat']:.3f}) → "
                   f"|lat+lon {r['r_parcial_latlon']:+.2f} (p={r['p_parcial_latlon']:.3f}){flag}")
@@ -230,16 +242,40 @@ def main():
     print("\n" + "-" * 70)
     print("VEREDITO")
     print("-" * 70)
+    # As covariáveis de REFERÊNCIA são reportadas à parte: o veredito da D14 é
+    # sobre calcário/orientação, mas se as de referência mudarem de status a
+    # frase "generaliza a D14" deixa de valer sem ressalva.
+    ref = tab[tab.covariavel.isin(["pct_pd_area", "censo2017_pct_adubacao"])]
+    ref_sig = ref[(ref.p_parcial_latlon == ref.p_parcial_latlon) & (ref.p_parcial_latlon < 0.05)]
+    n_ref = len(ref)
+
     if n_sobrev == 0:
-        print("Calcário e orientação técnica DESCEM ao Sul com a lógica jovem (gradiente real),")
-        print("mas NENHUM par sobrevive ao controle do gradiente 2D (lat+lon) — exatamente como o")
-        print("no-till no #40. GENERALIZA a D14: a intensificação (calcário) e a instituição")
-        print("(extensão) co-localizam na aptidão latitudinal; não isolam efeito próprio sobre a")
-        print("idade da pastagem. Reforça que o achado robusto é a SEGREGAÇÃO ESPACIAL das duas")
-        print("lógicas, não um driver estrutural.")
+        # n das PRÓPRIAS covariáveis do veredito, não o máximo da tabela: as de
+        # referência têm cobertura diferente e usar o máximo infla o n reportado.
+        novas = tab[tab.covariavel.isin(["censo2017_pct_calcario", "censo2017_pct_orientacao"])]
+        n_novas = int(novas["n"].max()) if len(novas) else 0
+        print("Calcário e orientação técnica DESCEM ao Sul com a lógica jovem (gradiente")
+        print("real), mas NENHUM dos seus pares sobrevive ao controle do gradiente 2D")
+        print(f"(lat+lon), com n = {n_novas} municípios. GENERALIZA a D14 para intensificação")
+        print("(calcário) e instituição (extensão): co-localizam na aptidão latitudinal,")
+        print("sem efeito próprio detectável sobre a idade da pastagem.")
     else:
         print(f"ATENÇÃO: {n_sobrev} par(es) das covariáveis novas SOBREVIVE(m) ao gradiente 2D —")
         print("investigar (seria a 1ª covariável transversal a isolar efeito próprio, contra a D14).")
+
+    if len(ref_sig):
+        print(f"\nRESSALVA — covariáveis de REFERÊNCIA: {len(ref_sig)} de {n_ref} pares ficam")
+        print("significativos (p<0,05) sob o controle 2D, ainda que com |r| pequeno:")
+        for _, r in ref_sig.iterrows():
+            print(f"    {r['covariavel_label']:28s} × {r['desfecho_label']:24s} "
+                  f"r={r['r_parcial_latlon']:+.2f} (p={r['p_parcial_latlon']:.3f})")
+        print("Portanto NÃO escrever que 'nenhuma covariável estrutural sobrevive ao gradiente'")
+        print("como afirmação geral: isso vale para calcário/orientação, não para todas.")
+    else:
+        print("\nCovariáveis de referência (no-till, adubação): nenhum par significativo sob 2D —")
+        print("o veredito vale de forma uniforme neste recorte.")
+    print("\nAchado estável em todos os recortes: a SEGREGAÇÃO ESPACIAL das duas lógicas")
+    print("ao longo do gradiente de aptidão, não um driver estrutural isolado.")
 
     if not args.sem_figuras:
         print()

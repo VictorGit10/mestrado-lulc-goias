@@ -435,6 +435,16 @@ longo do tempo**. É essa riqueza que o efeito fixo explora.
   principal deles, você batizou de gradiente de **latitude/aptidão** (Decisão D14: em recorte
   transversal do estado, *sempre* reportar a correlação parcial controlando latitude antes de
   atribuir efeito próprio a qualquer variável).
+- **A contra-armadilha (aprendida em 21/jul/2026, e vale para banca):** depois de controlar o
+  confundidor, é tentador ler o resultado nulo como "então não há efeito". **Não é a mesma
+  coisa.** "Não achei" e "não tinha como achar" produzem a mesma tabela. O #40 tinha um nulo
+  aparentemente limpo (p=0,41) que **evaporou** quando a variável dependente passou a ser
+  medida direito: nos *mesmos* municípios, só trocando amostra por censo, virou p=0,03. O
+  motivo é mecânico e vale sempre: **ruído na variável dependente empurra a correlação para
+  zero** (atenuação). Se o seu desfecho é uma mediana calculada com ~26 pixels por município,
+  o nulo pode ser só o ruído falando. Antes de escrever "não há efeito", pergunte **com que
+  precisão o desfecho foi medido** — e prefira escrever "**não estabelecido**", que é o que
+  os dados de fato autorizam.
 
 ---
 
@@ -1031,6 +1041,38 @@ desenvolvimento **extra**" — **não** "não houve desenvolvimento" (o IFDM sub
 
 Estas são as perguntas que um avaliador rigoroso faria. Ter a resposta pronta é ser dono do
 trabalho.
+
+**"Os números da idade da pastagem mudaram entre versões do seu trabalho. Por quê — e por que eu deveria confiar nos de agora?"**
+Porque eu **auditei o meu próprio pipeline e achei dois defeitos**, e o segundo eu achei sozinho.
+O primeiro: a coleta amostrava o **retângulo envolvente** de Goiás em vez do polígono, então 43,7%
+dos pixels caíam fora do estado (verifiquei por *point-in-polygon*: 99,991% realmente fora). O
+segundo, e mais grave: a classe **21 do MapBiomas ("Mosaico de Usos") não estava no dicionário de
+grupos**, e o código fazia `.fillna("censurado_esquerda")` — ou seja, pixel com classe não
+reconhecida era rotulado como **"idade desconhecida"** sendo que a idade era perfeitamente conhecida.
+Isso inflava a censura em 11 pontos (74,9% publicado × 63,7% real) e, como *todas* as análises
+principais rodam sobre o subconjunto não-censurado, elas usavam **dois terços** dos dados a que
+tinham direito — e os excluídos não eram aleatórios, eram justamente os de origem mista
+agricultura/pastagem, o lado "rotação" da conclusão. Depois disso troquei a amostra por **censo**:
+todos os 44,6 milhões de eventos de conversão de Goiás. **O que sobreviveu**: a bimodalidade e a
+posição dos dois modos (μ₁≈4,4a, μ₂≈22,9a, estáveis em todas as janelas) e o gradiente Sul→Norte
+(ordenação das mesorregiões idêntica). **O que caiu**: a frase "a rotação está se tornando
+dominante" — o componente jovem sobe de 31,5% para 51,5%, ou seja **alcança** o antigo, não o supera.
+Eu mudei a afirmação em vez de manter a versão mais bonita. Detalhe que registro por honestidade:
+somando a categoria mosaico à rotação, o número volta a ~63%, quase o que eu publicava antes — as
+duas correções quase se cancelavam, e **isso é um alerta, não um alívio**: número que continua
+batendo depois de um bug corrigido não prova que o bug era inofensivo. Todo o episódio está em
+[metodologia/censo_vs_amostra.md](metodologia/censo_vs_amostra.md), com as decisões **D21–D24**.
+
+**"Com censo você tem a população inteira. Seus testes não ficam todos significantes por construção?"**
+Ficam, e é por isso que eu **não os uso** (**D23**). O ΔBIC da bimodalidade no Ato III é 844.789 —
+um número que diz apenas que *n* é enorme, não que a evidência é forte. Com censo, seleção de modelo
+por BIC é degenerada: qualquer desvio ínfimo da unimodalidade favorece mais componentes. Então eu
+reporto duas coisas em vez do teste: (a) a **estabilidade dos modos entre recortes** — μ₁ entre 4,2 e
+4,5 anos e μ₂ entre 22,5 e 23,5 nas quatro janelas testadas —, que é robustez de verdade; e (b) a
+**precisão** dos parâmetros, que é o ganho real do censo. E digo o que o censo **não** resolve: a
+censura de 64% é limite da série MapBiomas (começa em 1985), não do tamanho da amostra; e o erro de
+classificação do próprio MapBiomas agora é a **maior** incerteza restante, justamente porque o erro
+amostral saiu de cena.
 
 **"Você diz 'marcha ao norte' — não é só efeito do desenho das suas unidades (AMC)?"**
 Não. O #43 refez o centro de massa **pixel-a-pixel**, sem nenhuma malha, e a concordância é de
