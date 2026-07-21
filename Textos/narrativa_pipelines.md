@@ -415,7 +415,7 @@ amostra se mostrou enviesada na composição entre anos. A hipótese é a
 "pastagem como reserva de terra": uma pastagem jovem convertida sugere mecanismo *premeditado*
 (plantar pasto já pensando em virar lavoura); uma pastagem velha sugere mecanismo
 *oportunístico*. **`analise_reserva_terra.py` (#28B)** descreve a distribuição e encontra o
-achado-chave: no período recente a idade é **bimodal** — picos em ~5 anos e ~22/35 anos — a
+achado-chave: no período recente a idade é **bimodal** — picos em ~4 e ~23 anos — a
 assinatura empírica direta da *coexistência* dos dois mecanismos. E um gradiente regional já
 aparece: o Sul converte pasto jovem (mediana ~9 anos), o Norte/Noroeste converte pasto antigo
 (~20 anos). (*Quanto* desse gradiente é causa regional vs mera composição só seria medido
@@ -615,15 +615,16 @@ rótulos consistentes) — este último isola a parcela between/within da *separ
 em si, não só da variância.
 
 O veredito é **inequívoco e nas duas malhas**. Cada unidade é bimodal *por dentro* — **5/5
-mesorregiões** e **10/10 células região×ato** (e, na malha fina, **34/36 AMCs** com n≥100),
-com BC de Sarle sempre acima do limiar. E a geografia explica **muito pouco** da separação
-jovem/velho: η²(mesorregião) = **2,5%**, contra **20%** do tempo (ato), com **77%** morando
+mesorregiões** e **9/10 células região×ato** (e, na malha fina, **162/164 AMCs** — com o
+censo, todas passam o filtro n≥100 que antes cortava 122), com BC de Sarle acima do limiar
+em 5/5 (meso) e 140/164 (AMC). E a geografia explica **muito pouco** da separação
+jovem/velho: η²(mesorregião) = **1,3%**, contra **19,6%** do tempo (ato), com **79%** morando
 *dentro* das células. A pergunta natural — "e se a mesorregião for grossa demais?" — foi
-respondida rodando na malha **AMC** (158 unidades), com duas blindagens contra a inflação
-mecânica do η² por excesso de grupos: o **ω²** (effect-size corrigido) e uma **linha-base de
-permutação**. O recorte fino capta *mais*, mas pouco: a parcela espacial sobe para **7,3%**
-(líquido de acaso; a permutação confirma que é real — acaso só 1,4%, p=0,005), ainda **abaixo
-do tempo** e com **73%** within. A leitura corrigida, agora à prova de banca: a bimodalidade
+respondida rodando na malha **AMC** (164 unidades). O recorte fino capta *mais*, mas pouco:
+a parcela espacial sobe para **7,5%**, ainda **abaixo do tempo** e com **75%** within. (Sob
+o censo, ω² e a permutação **degeneram** — o piso do acaso colapsa, `E[η²|H₀] ≈ (k−1)/(W−1)`,
+e `p=0,005` sai para qualquer sinal não-nulo —, de modo que a robustez vem da **estabilidade
+censo × amostra**, não da permutação; ver #28C e `metodologia/censo_vs_amostra.md` §7.2.) A leitura corrigida, agora à prova de banca: a bimodalidade
 **não é regionalmente causada** — é coexistência dos dois mecanismos em toda parte, e a
 geografia **desloca o peso** da mistura ao longo do gradiente Sul→Norte (um pouco mais
 nitidamente em alta resolução), **sem criar os modos**. O que mais move o peso é o **tempo** —
@@ -723,8 +724,9 @@ As limitações honestas, que a redação deve carregar: não se afirma que o iL
 afirma-se que o canal intra-estadual testado não se confirma; o drive comum está *inferido*, não
 provado; a desaceleração do Ato III tem só 4–5 anos; e o recorte mesorregional (5 unidades) é
 grosso — embora, onde foi possível testar (a bimodalidade da idade do pasto), o #28C tenha
-replicado o achado na malha **AMC** (158 unidades, com ω² e permutação contra inflação) e a
-conclusão tenha sobrevivido; o mecanismo de transições do #33 segue, esse sim, em resolução
+replicado o achado na malha **AMC** (164 unidades; sob o censo ω² e permutação degeneram,
+e a robustez vem da estabilidade censo×amostra) e a conclusão tenha sobrevivido; o
+mecanismo de transições do #33 segue, esse sim, em resolução
 mesorregional. São essas qualificações que transformam um conjunto de gráficos numa tese.
 
 **Extensões (jul/2026): robustez da Camada 1 e três eixos novos.** Fechada a narrativa Sul→Norte

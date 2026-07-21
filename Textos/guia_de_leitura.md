@@ -768,25 +768,32 @@ São as mais "técnicas", mas cada uma resolve um problema concreto do seu traba
   Se **dentro** de cada região quase todo pasto tem a idade da média (pouca variação interna), a
   região "explica" quase tudo → `η²` perto de 1. Se, ao contrário, dentro de cada região há de
   tudo (pasto de 3 e de 30 anos convivendo) e as médias regionais são parecidas, a região explica
-  quase nada → `η²` perto de 0. Foi este segundo caso que você achou: `η² = 0,025` significa que a
-  região responde por só **2,5%** da variação da idade; **77%** mora *dentro* das células
-  região×ato. Traduzindo: os dois tipos de pasto (jovem e velho) **coexistem em toda parte** —
-  não são "um por região".
+  quase nada → `η²` perto de 0. Foi este segundo caso que você achou: `η² ≈ 0,013` significa que a
+  região responde por só **~1,3%** da separação entre os dois tipos de pasto; **~79%** mora
+  *dentro* das células região×ato. Traduzindo: os dois tipos de pasto (jovem e velho)
+  **coexistem em toda parte** — não são "um por região".
 - **Por que não parar no η²:** ele **infla** quando você tem muitos grupos
   (mais grupos "explicam" mais só por contagem). Duas blindagens:
   - **ω²** (omega²): um η² **corrigido** para o número de grupos — o effect-size honesto.
   - **permutação**: embaralha os rótulos de grupo muitas vezes e mede o η² que aparece **por
     acaso**; o "ganho real" é o η² observado menos o η² do acaso.
-- **Seu resultado (à prova de banca):** a **região explica só 2,5%** da separação jovem/velho da
-  idade do pasto; o **tempo (ato) explica 20%**; e **77% mora dentro das células região×ato**.
-  Na malha fina (AMC), a parcela espacial sobe para **7,3% líquido de acaso** (a permutação
-  confirma: acaso é só 1,4%, `p = 0,005`) — ainda **minoria**. Conclusão que você pode cravar: a
-  geografia **desloca o peso** da mistura ao longo do gradiente Sul→Norte, mas **não cria os
-  modos**. A frase certa é "gradiente regional no *peso*", nunca "bimodalidade causada pela
-  região".
-- **A armadilha:** é exatamente a inflação do η² por número de grupos que a mesorregião (5
-  grupos) e a AMC (158 grupos) poderiam mascarar — por isso o ω² e a permutação, sem os quais o
-  "7,3%" pareceria maior do que é.
+- **Seu resultado (à prova de banca):** a **região (mesorregião) explica só ~1,3%** da separação
+  jovem/velho da idade do pasto; o **tempo (ato) explica ~19,6%**; e **~79% mora dentro das
+  células região×ato**. Na malha fina (AMC), a parcela espacial sobe para **~7,5%** — ainda
+  **minoria**. Conclusão que você pode cravar: a geografia **desloca o peso** da mistura ao longo
+  do gradiente Sul→Norte, mas **não cria os modos**. A frase certa é "gradiente regional no
+  *peso*", nunca "bimodalidade causada pela região".
+- **Cuidado com o pós-censo (D23):** sob o censo (16 M de eventos), ω² ≈ η² até a 3ª casa e o
+  piso da permutação colapsa — `E[η²|H₀] ≈ (k−1)/(W−1)` — de modo que `p = 0,005` sai para
+  **qualquer** sinal não-nulo. **Não citar esse p-valor como força de evidência.** O que sustenta
+  o veredito hoje é a **estabilidade censo × amostra** (três ordens de grandeza em *n* movem o η²
+  em <1 pp e não mudam classificação), não a permutação. Ver `Textos/metodologia/censo_vs_amostra.md`
+  §7.2 e `pipelines/28C_bimodalidade_regional.md`.
+- **A armadilha:** é a inflação do η² por número de grupos — a mesorregião (5 grupos) e a AMC
+  (164 grupos) poderiam mascarar. ω² e a permutação eram as blindagens previstas para isso; sob
+  o censo, porém, elas **degeneram** (D23, ver acima) e a defesa passa a ser a estabilidade
+  censo × amostra — três ordens de grandeza em *n* movem o η² em <1 pp e não mudam
+  classificação —, não a permutação.
 
 #### 3.7 Intensity Analysis (Aldwaik & Pontius, 2012)
 
@@ -1149,8 +1156,9 @@ mesmo p). Co-movimento sem líder — que é exatamente o que o #34 já dizia.
 
 **"Cinco unidades (mesorregiões) não é um recorte grosso?"**
 É uma limitação real, e eu a declaro. Onde foi possível testar (a bimodalidade da idade do pasto),
-repliquei na malha **AMC** (158 unidades, com ω² e permutação contra inflação) e a conclusão
-sobreviveu. O mecanismo de transições do #33, esse sim, fica em resolução mesorregional.
+repliquei na malha **AMC** (164 unidades; sob o censo ω² e permutação degeneram, e a
+robustez vem da estabilidade censo×amostra) e a conclusão sobreviveu. O mecanismo de
+transições do #33, esse sim, fica em resolução mesorregional.
 
 **As limitações que você deve carregar com honestidade (declará-las é força):**
 

@@ -128,10 +128,10 @@ mistura, não **causa** os modos.
 | Papel | Pipeline | O que entrega |
 |---|---|---|
 | **Manchete** | **#33** `transicoes_regionais.py` | Recorta as conversões brutas por mesorregião × ato. `veg→pasto` é a transição-mãe pervasiva; `pasto→agric` só *lidera* no Sul+Centro no Ato II. O deslocamento aparece no **balanço líquido** |
-| **Manchete** | **#28** `coleta_idade_pastagem.py` + `analise_reserva_terra.py` | A idade do pasto na conversão é **bimodal** (~5 anos e ~22/35 anos) = dois mecanismos coexistindo. ~78 mil pixels |
+| **Manchete** | **#28** `coleta_idade_pastagem.py` + `analise_reserva_terra.py` | A idade do pasto na conversão é **bimodal** (~4 e ~23 anos) = dois mecanismos coexistindo. Censo: 44,6 M eventos |
 | **Manchete** | **#22** `correlacoes_painel.py` | Painel 2-way FE: a **substituição local** é forte (onde a lavoura entra, o pasto sai *localmente*) e o SICOR é o canal dominante de retração — **na janela com SICOR (2013–2021), ~8 anos**, não nos 40 |
 | **Autocorreção** | **#40** `duas_logicas_pastagem.py` | Espacializa as duas lógicas (Rotação no Sul × Oportunístico no Norte). **Derrubou o próprio overclaim no mesmo dia** → **D14**. Em 21/jul/2026 **derrubou também a autocorreção**: o "some sob o gradiente 2D" era erro de medida; veredito vira *não estabelecido*, e a comparação estrutura×fluxo (agora simétrica) dá o sinal ao **fluxo** |
-| **Autocorreção** | **#28C** `bimodalidade_regional.py` | A bimodalidade é *regionalmente causada*? **Não.** A região explica 2,5% (meso) / 7,3% (AMC, líquido de acaso); o tempo explica 20%; **73–77% mora dentro** das células |
+| **Autocorreção** | **#28C** `bimodalidade_regional.py` | A bimodalidade é *regionalmente causada*? **Não.** A região explica 1,3% (meso) / 7,5% (AMC); o tempo explica 19,6%; **75–79% mora dentro** das células. Sob censo ω²/permutação degeneram (D23) — sustenta-se por estabilidade censo×amostra, não por p |
 | **Autocorreção** | **#40B** `duas_logicas_calcario_orientacao.py` | Generaliza a D14: calcário e orientação somem sob o gradiente 2D — e no censo (n=244) o nulo **se confirma**. Ressalva de 21/jul/2026: a generalização vale para eles, **não** para toda covariável (no-till virou limítrofe; adubação dá p=0,003) |
 | **Robustez** | **#49** `painel_espacial_dinamico.py` | Os canais do #22 sobrevivem ao termo espacial (Elhorst FE lag/error) |
 

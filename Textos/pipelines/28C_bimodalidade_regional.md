@@ -18,7 +18,7 @@
 
 ## Pergunta de pesquisa
 
-O #28 mostrou que a idade da pastagem na conversão é **bimodal** (picos em ~5 e ~22 anos)
+O #28 mostrou que a idade da pastagem na conversão é **bimodal** (picos em ~4 e ~23 anos)
 e o #28/#40 mostraram um **gradiente regional** (Sul converte pasto jovem, Norte pasto
 antigo). Daí a pergunta de precisão que faltava fechar:
 

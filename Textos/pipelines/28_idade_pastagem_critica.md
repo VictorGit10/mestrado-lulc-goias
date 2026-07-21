@@ -167,7 +167,7 @@ Três tipos de mapa fazem sentido:
 ### Mapa 1 — Idade mediana na conversão por município (coroplético)
 
 - **O que mostra**: cada município pintado pela mediana da idade-na-conversão dos pixels convertidos nele.
-- **Como produzir**: já temos os dados (`pastagem_idade_conversao.csv`), basta agregar e plotar.
+- **Como produzir**: já temos os dados (`pastagem_idade_censo.parquet`, censo do #28), basta agregar e plotar. ⚠️ A mediana agregada 1986–2024 **não** é uma quantidade bem definida — a censura mede horizonte, não idade, e varia por região/tempo (ver #33 e `metodologia/censo_vs_amostra.md` §7.3). Estratificar por ato e deixar vazia/rotulada a célula onde não é identificada, como faz o `transicoes_regionais_idade.csv`.
 - **Leitura esperada**: Sul Goiano azul (jovem); Norte/Noroeste vermelho (antigo); gradiente fronteira → consolidado.
 - **Tempo**: 30 min de script Python.
 
