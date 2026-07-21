@@ -204,6 +204,34 @@ recalcular.
 ### 3.7 Tratamento da classe Mosaico (ID 21)
 A classe "Mosaico de Agricultura ou Pastagem" (ID 21 do MapBiomas) é intencionalmente excluída dos mapas GEE (ficando transparente através da função `.selfMask()`). Para manter coerência visual entre os mapas rasterizados e a interface interativa (barras empilhadas e legendas), a classe Mosaico também não possui identidade visual isolada no front-end (`index.html`, `timeline.js`, `atlas.js`). Contudo, sua área continua sendo mensurada e preservada no painel tabular unificado (`painel_unificado.parquet`) para cálculos futuros, sendo englobada na visualização dentro da barra "Outros" para fechamento de 100%.
 
+### 3.7.1 🛑 REVISAR a decisão acima — o Mosaico deixou de ser detalhe (21/07/2026)
+
+A decisão de §3.7 (excluir a classe 21 dos mapas, dobrar em "Outros" no
+front-end) foi tomada quando o Mosaico era uma classe pequena e estável. **Deixou
+de ser.** O [#28D](../../Textos/pipelines/28D_deriva_mosaico.md) mediu:
+
+| | 2020 | 2024 |
+|---|---|---|
+| Mosaico de Usos | 2,235 Mha | **3,586 Mha** (+1,351) |
+| Agricultura | 5,668 Mha | 5,732 Mha (+0,064) |
+| Pastagem | 13,146 Mha | 11,989 Mha (−1,157) |
+
+E a transição `pastagem → Mosaico` passa a ser **32,5×** maior que
+`pastagem → agricultura` em 2024 (era 0,6× em 2015).
+
+**Consequência para o site como está:** a barra empilhada mostra a pastagem
+encolhendo e a agricultura parada, com a diferença desaparecendo dentro de
+"Outros". O visitante vê o fenômeno sumir sem ver para onde foi — e "para onde
+foi" é justamente o achado. A escolha visual, que era neutra, virou **omissão da
+parte mais interessante do fim da série**.
+
+**Ação na reformulação:** dar identidade visual própria ao Mosaico, pelo menos da
+Parte 1 (os 40 anos no mapa) em diante, ou declarar explicitamente na legenda que
+"Outros" contém a classe que absorve a conversão recente. Decisão editorial, mas
+**não pode continuar implícita**.
+
+---
+
 ## 4. O que falta (Dia 4 + Dia 5)
 
 ### 4.1 Dia 4 — Conteudo narrativo

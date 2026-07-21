@@ -161,7 +161,19 @@ frase**, contadas como descoberta:
 
 **Perna 2 — Qual o mecanismo? → Dois Goiáses.**
 - Sul **intensifica** (`pasto→lavoura`, pasto jovem ~9 anos); Norte **abre fronteira**
-  (`mata→pasto`, pasto velho ~20 anos).
+  (`mata→pasto`, pasto velho **16 anos** — era "~20" na amostra; o censo corrigiu).
+
+> 🛑 **Antes de implementar a Perna 2, leia
+> [BLUEPRINT_PARTE2.md](BLUEPRINT_PARTE2.md) → "Estado dos dados da Perna 2".**
+> Três pontas soltas em aberto (21/jul/2026): (1) o site publicado ainda serve o
+> coroplético da **amostra** sob manchete de censo; (2) dois cards-manchete do §6
+> carregam números da amostra e contradizem a prosa ao lado; (3) o **eixo
+> temporal está suspenso** — o [#28D](../../Textos/pipelines/28D_deriva_mosaico.md)
+> mostrou que a tendência "o pasto jovem ganha peso" acompanha uma deriva de
+> classificação do MapBiomas, não o tempo. **O desenho em dois tempos abaixo
+> continua válido**, mas o "Tempo 1" precisa parar de usar o toggle de ato como
+> *motor da mistura*: a bimodalidade e o gradiente sobrevivem; a tendência
+> temporal, não.
 - **A interativa da idade do pasto: re-cablear, não simplificar.** Hoje são duas peças
   lado a lado (mapa por AMC + histograma bimodal, com toggle de ato). A recomendação é
   **fazê-las conversar** para que a interação *seja* o argumento — em dois tempos:

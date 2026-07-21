@@ -16,14 +16,29 @@ Documento complementar a [28_idade_pastagem.md](28_idade_pastagem.md). Explica o
 > | §6-Mapa 1 "coroplético municipal" | ✅ Feito; agora com 0% dos munis abaixo de 20 px |
 > | §7.3 "amostragem estratificada distorce contagens" | ✅ Moot — não há mais amostragem |
 > | §7.6 "Sul Goiano domina a amostra (65,5%)" | ⚠️ Continua, mas é **fato do fenômeno**, não viés amostral: o Sul concentra 64,4% da conversão real |
-> | §4-C "Kaplan-Meier trataria a censura formalmente" | ⏳ Ainda em aberto, e agora viável com o censo |
-> | §4-E "decompor o salto 2020→2022" | ⏳ Ainda em aberto |
+> | §4-C "Kaplan-Meier trataria a censura formalmente" | ✅ **Fechado** pelo [#28D](28D_deriva_mosaico.md) §6 — **não é o estimador**, por duas razões independentes; alternativa registrada |
+> | §4-E "decompor o salto 2020→2022" | ✅ **Fechado** pelo [#28D](28D_deriva_mosaico.md) — nenhuma das 4 hipóteses; é **deriva do destino** da conversão |
 > | §7.1 "não há identificação causal" | ⏳ Continua verdade — o censo remove erro amostral, não estabelece causalidade |
 >
 > **Dois bugs foram encontrados depois que esta página foi escrita**, nenhum
 > deles apontado aqui: o **envelope amostral** (43,7% dos pixels fora de Goiás)
 > e a **classe 21 ausente do `GRUPO_MAP`** (que inflava a censura em ~11 pontos).
 > Ver o cabeçalho do [doc principal](28_idade_pastagem.md).
+>
+> ### ⚠️ E um terceiro problema, que não é bug e é maior que os dois (21/jul/2026)
+>
+> Ao fechar o §4-E descobriu-se que **o objeto de estudo do #28 não é constante
+> ao longo da série**. A pastagem que sai de "pastagem" progressivamente deixa
+> de ser classificada como **agricultura** e passa a ser classificada como
+> **Mosaico de Usos**: a razão entre os dois destinos vai de 0,6 (2015) a
+> **32,5 (2024)**, e `P→agricultura` cai **92%** enquanto o SIDRA registra a
+> soja crescendo **+38%** na mesma janela.
+>
+> Consequência direta: **a tendência de `w₁` ("o componente jovem ganha peso")
+> não sobrevive** — ela sobe monotonicamente com a exposição da janela à deriva
+> (20,8% pré-deriva → 51,5% no Ato III). O que sobrevive é a **bimodalidade com
+> modos estáveis** (μ₁≈4-5a, μ₂≈21-23a em toda janela) e o **gradiente Sul→Norte**
+> do #28C, que é transversal. Detalhe completo em [28D](28D_deriva_mosaico.md) §5.
 
 ---
 
@@ -128,6 +143,27 @@ A pergunta "quanto tempo uma pastagem dura antes de virar agricultura?" é liter
 - Permite comparar coortes (Sul vs Norte, Ato II vs III) via teste log-rank.
 - Produz curvas interpretáveis: "metade das pastagens de 2010 já viraram agricultura até 2020".
 
+> **✅ FECHADO (21/jul/2026) — e a resposta é "não é o estimador".** Ver
+> [#28D](28D_deriva_mosaico.md) §6. Duas razões independentes, nenhuma delas
+> falta de tempo:
+>
+> 1. **Censura informativa.** O KM exige censura independente da duração. Aqui a
+>    censura **é** o horizonte (`ano − 1985`), que correlaciona com a idade por
+>    construção. Onde o KM mais "corrigiria" (Ato II, Sul: 20a → 33a) é onde ele
+>    é menos confiável. Já estava estabelecido no §7.3 do
+>    [censo_vs_amostra](../metodologia/censo_vs_amostra.md); ele entrou como
+>    **sensibilidade**, nunca como o número reportado.
+> 2. **O evento de falha não é constante no tempo.** "Falhar" = "virar
+>    agricultura", e esse rótulo migra para "mosaico" ao longo da série. Um KM
+>    ingênuo leria a deriva como **queda de hazard** — concluiria que a pastagem
+>    passou a durar mais exatamente quando a lavoura crescia 38%.
+>
+> O desenho de coorte (§4-D) **não resgata**: herda o problema nos anos recentes,
+> e o conjunto de risco nem é construível a partir do parquet do #28 (tabela de
+> eventos, não painel de pixels). A alternativa registrada é trocar o evento de
+> falha por **saída da pastagem para agricultura ∪ mosaico**, que é robusto à
+> deriva — ao custo de responder uma pergunta mais grossa. Ver #28D §6.
+
 ### D) Coortes longitudinais ao invés de snapshot anual
 
 Em vez de "todos os pixels convertidos em ano X", olhar "todos os pixels que viraram pasto em ano Y, e ver quando viraram agricultura". Isso é mais coerente com a hipótese — a coorte que entrou em pasto em 1995 tem trajetória diferente da que entrou em 2010.
@@ -140,6 +176,26 @@ A queda de mediana 31a → 7a precisa investigação:
 - É concentração espacial (algum município novo entrou pesado)?
 - É efeito da última versão da coleção 10.1?
 - Comparar com dados de soja Trase / SICOR para ver se faz sentido temporalmente.
+
+> **✅ FECHADO (21/jul/2026) — nenhuma das quatro.** Ver
+> [#28D](28D_deriva_mosaico.md). No censo o salto é 20a (2020) → 4a (2022) → 5a
+> (2024), acompanhado por colapso do n (606.821 → 157.245) e da censura
+> (47,1% → 4,0%).
+>
+> Não é reclassificação por novas classes de agricultura — a **área de
+> agricultura fica parada** (+0,064 Mha em 4 anos). Não é concentração espacial —
+> a queda é estadual e monotônica. Não é mudança de comportamento do produtor —
+> o **SIDRA mostra a soja crescendo +38%** (3,578 → 4,942 Mha) na janela exata.
+> E não é um bug pontual da 10.1.
+>
+> É **deriva do destino**: a pastagem que sai passa a ser rotulada **Mosaico de
+> Usos** em vez de agricultura (razão M/A de 0,6 em 2015 para **32,5 em 2024**),
+> e o Mosaico cresce +1,351 Mha — quase exatamente os +1,364 Mha de soja nova do
+> SIDRA. O que ainda é rotulado P→A no fim da série é **resíduo selecionado**
+> (jovem, quase sem censura), não amostra do mesmo fenômeno.
+>
+> Isso responde o §4-E e **invalida a tendência de w₁** — ver o cabeçalho desta
+> página e #28D §5.
 
 ---
 

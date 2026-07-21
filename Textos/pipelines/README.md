@@ -1,6 +1,6 @@
 # Pipelines — índice
 
-Pipelines **#1–#54 (+ #28C, #40B)** documentados aqui — **55 arquivos** de doc (52 números de #1 a #54 exceto #30 e #31; mais #28C, #40B e a leitura crítica complementar [28_idade_pastagem_critica.md](28_idade_pastagem_critica.md)): o **#30** e o **#31** vivem dentro do [#29](29_triangulacao_periodizacao.md). Cada arquivo descreve **processo** (o que faz, como rodar, decisões metodológicas, validações, limitações). Para descrição dos **produtos** (PNGs, CSVs com interpretação para redação), ver [outputs/](../outputs/).
+Pipelines **#1–#54 (+ #28C, #28D, #40B)** documentados aqui — **56 arquivos** de doc (52 números de #1 a #54 exceto #30 e #31; mais #28C, #28D, #40B e a leitura crítica complementar [28_idade_pastagem_critica.md](28_idade_pastagem_critica.md)): o **#30** e o **#31** vivem dentro do [#29](29_triangulacao_periodizacao.md). Cada arquivo descreve **processo** (o que faz, como rodar, decisões metodológicas, validações, limitações). Para descrição dos **produtos** (PNGs, CSVs com interpretação para redação), ver [outputs/](../outputs/).
 
 > **O número é identidade, não ordem de leitura.** Ele registra *quando* o pipeline nasceu — é
 > um handle permanente (aparece em ~1.050 referências cruzadas, nas docstrings, na memória do
@@ -44,6 +44,7 @@ Pipelines **#1–#54 (+ #28C, #40B)** documentados aqui — **55 arquivos** de d
 | 27 | [27_coleta_trase.md](27_coleta_trase.md) | `coleta_trase.py` | Cadeia produtiva Trase.earth (soja + boi) — coleta; análise é o #45. Separa export × esmagamento doméstico | soja 2004–22 · boi 2011–23 (s/ 2018) | Municipal | ✅ |
 | 28 | [28_idade_pastagem.md](28_idade_pastagem.md) | `export_cubo_mapbiomas_go.py` → `processa_cubo_idade.py` → `analise_reserva_terra.py` | Idade da pastagem na conversão para agricultura (hipótese "reserva de terra") | 1986–2024 | **Censo de pixels (44,6M eventos)** + municipal | ✅ |
 | 28C | [28C_bimodalidade_regional.md](28C_bimodalidade_regional.md) | `bimodalidade_regional.py` | A bimodalidade é regionalmente causada? Decomposição within/between (η²/ω²/permutação, meso + AMC) | 1986–2024 | Pixel → meso + AMC | ✅ |
+| 28D | [28D_deriva_mosaico.md](28D_deriva_mosaico.md) | `deriva_mosaico_fim_serie.py` | 🛑 O destino da conversão **deriva** no fim da série: pastagem passa a ir para "Mosaico de Usos", não agricultura (razão 0,6→32,5). Fecha §4-C e §4-E; **derruba a tendência de w₁** | 1986–2024 | Censo de pixels (cubo) | ✅ |
 | 29 | [29_triangulacao_periodizacao.md](29_triangulacao_periodizacao.md) | `periodizacao_multivariada.py` + `periodizacao_stars.py` + `periodizacao_transicoes.py` | Triangulação para periodização data-driven (sup-F multivariado + STARS + KL/TV) | 1985–2024 | UF (GO) | ✅ |
 | 30 | (em #29) | `verificacao_periodizacao.py` | Verificação de sanidade (FPR, sensibilidade, consistência) | 1985–2024 | UF (GO) | ✅ |
 | 31 | (em #29) | `intensity_analysis.py` + `verificacao_intensity.py` | Intensity Analysis (Aldwaik & Pontius 2012) + diagnóstico P2 vs P3 | 1985–2024 | UF (GO) | ✅ |

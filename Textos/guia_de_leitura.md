@@ -1063,12 +1063,35 @@ agricultura/pastagem, o lado "rotação" da conclusão. Depois disso troquei a a
 todos os 44,6 milhões de eventos de conversão de Goiás. **O que sobreviveu**: a bimodalidade e a
 posição dos dois modos (μ₁≈4,4a, μ₂≈22,9a, estáveis em todas as janelas) e o gradiente Sul→Norte
 (ordenação das mesorregiões idêntica). **O que caiu**: a frase "a rotação está se tornando
-dominante" — o componente jovem sobe de 31,5% para 51,5%, ou seja **alcança** o antigo, não o supera.
-Eu mudei a afirmação em vez de manter a versão mais bonita. Detalhe que registro por honestidade:
-somando a categoria mosaico à rotação, o número volta a ~63%, quase o que eu publicava antes — as
-duas correções quase se cancelavam, e **isso é um alerta, não um alívio**: número que continua
-batendo depois de um bug corrigido não prova que o bug era inofensivo. Todo o episódio está em
-[metodologia/censo_vs_amostra.md](metodologia/censo_vs_amostra.md), com as decisões **D21–D24**.
+dominante" — o componente jovem subia de 31,5% para 51,5%, ou seja **alcançava** o antigo, sem o
+superar. Eu mudei a afirmação em vez de manter a versão mais bonita. Detalhe que registro por
+honestidade: somando a categoria mosaico à rotação, o número volta a ~63%, quase o que eu publicava
+antes — as duas correções quase se cancelavam, e **isso é um alerta, não um alívio**: número que
+continua batendo depois de um bug corrigido não prova que o bug era inofensivo. Todo o episódio está
+em [metodologia/censo_vs_amostra.md](metodologia/censo_vs_amostra.md), com as decisões **D21–D24**.
+⚠️ **E há um terceiro capítulo, de 21/jul/2026: mesmo o "31,5% → 51,5%" caiu depois** — ver a
+pergunta seguinte.
+
+**"Você diz que o pasto jovem vem ganhando peso. Como sabe que isso não é o sensor mudando de opinião?"**
+Não sabia, e quando fui verificar **era o sensor**. Esta é a autocorreção mais dura do trabalho
+([#28D](pipelines/28D_deriva_mosaico.md), **D25**). Eu media "pastagem que virou agricultura" e
+supunha que essa categoria significava a mesma coisa em 1990 e em 2024. Não significa. Contando o
+destino **completo** das saídas de pastagem no censo de pixels, a conversão migra de rótulo: para
+cada pixel que sai de pasto para "agricultura" em 2024, **32 saem para "Mosaico de Usos"** — a classe
+que o MapBiomas usa quando não consegue separar lavoura de pasto. Em 2015 essa razão era **0,6**.
+`P→agricultura` cai **92%** na série. E não é que a conversão parou: o **SIDRA** (dado de campo,
+independente do satélite) registra a área de soja em Goiás **crescendo 38%** no mesmo intervalo, e a
+classe Mosaico cresce **+1,35 Mha** — praticamente o tamanho da soja nova. A causa provável está
+declarada na própria fonte: os filtros temporais da Coleção 10 usam janelas retroativas de 3–4 anos e
+o ATBD prevê regras especiais "for the last years of the series, when the analysis window is limited".
+**Consequência**: a tendência de w₁ sobe monotonicamente com a exposição da janela à deriva
+(20,8% numa janela limpa → 51,5% na janela inteiramente contaminada; o ano de 2024, sozinho, dá 93,4%).
+Então eu **retirei** a afirmação temporal. **O que continua de pé** é o que não depende dela: a
+**bimodalidade com modos estáveis** (μ₁≈4-5a, μ₂≈21-23a em *toda* janela testada, contaminada ou não)
+e o **gradiente Sul→Norte**, que é transversal — compara regiões dentro do mesmo período, e a deriva é
+temporal e estadual. A lição generalizável (**D25**): antes de comparar uma transição LULC entre
+períodos distantes, verifique que a **classe de destino manteve o mesmo significado**; o sintoma é
+fácil de ler ao contrário — *a transição de interesse "desaparece" enquanto o fenômeno de campo acelera*.
 
 **"Com censo você tem a população inteira. Seus testes não ficam todos significantes por construção?"**
 Ficam, e é por isso que eu **não os uso** (**D23**). O ΔBIC da bimodalidade no Ato III é 844.789 —

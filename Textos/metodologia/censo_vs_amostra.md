@@ -151,9 +151,33 @@ corrigido não são prova de que o bug era inofensivo.*
 **Decisão substantiva:** mosaico fica como categoria própria. O MapBiomas usa
 essa classe quando **não consegue separar** lavoura de pasto — é incerteza de
 classificação, não uso observado; somá-la à rotação importaria a incerteza do
-classificador para dentro da conclusão. ⚠️ *Esta caracterização da classe 21 foi
-afirmada de conhecimento e não conferida contra a documentação da Coleção 10.1 —
-verificar antes de a frase ir para o texto final.*
+classificador para dentro da conclusão.
+
+> ✅ **Verificado contra a fonte (21/jul/2026).** A caracterização estava certa,
+> e agora tem citação:
+>
+> - **Legenda oficial da Coleção 10** ([PDF](https://brasil.mapbiomas.org/wp-content/uploads/sites/4/2025/08/Legenda-Colecao-10-Legend-Code.pdf)):
+>   classe **21**, "3.4. Mosaico de Usos / Mosaic of Uses", cor `#ffefc3`,
+>   posicionada **sob o grupo 3 (Agropecuária / Farming)** — não é classe de
+>   incerteza genérica, é uso agropecuário não-discriminado.
+> - **Definição** (SOUZA et al., 2020, o paper de referência do MapBiomas):
+>   "areas of agricultural use where it was not possible to distinguish between
+>   pasture and agriculture".
+> - **Nuance que a documentação acrescenta** e que vale registrar: no
+>   [fórum do MapBiomas](https://forum.mapbiomas.org/t/melhor-compreensao-das-classes-outra-area-nao-vegetada-e-mosaico-agricultura-e-pastagem/122),
+>   Marcos Rosa (ArcPlan/MapBiomas) explica que a classe também recebe áreas de
+>   cultivo com **solo exposto** em preparo/colheita e áreas em **recuperação
+>   florestal**. Ou seja: lavoura real *pode* legitimamente cair em mosaico.
+>
+> A decisão de **separar** fica mantida — e a nuance do fórum a reforça, porque
+> significa que o mosaico é heterogêneo (lavoura em preparo + pasto + regeneração
+> misturados), o que é ainda pior para somá-lo à rotação.
+>
+> ⚠️ **Mas essa mesma nuance abriu um problema muito maior**, encontrado no mesmo
+> dia ao fechar o §4-E do #28: a classe 21 **cresce +1,35 Mha em Goiás entre 2020
+> e 2024** e absorve o destino da conversão de pastagem, quebrando a
+> comparabilidade da série. Ver [#28D](../pipelines/28D_deriva_mosaico.md) e o
+> §7.4 abaixo.
 
 ---
 
@@ -415,6 +439,43 @@ das cinco.
 estimadores". Era overclaim — verdadeiro para 4 das 5 mesorregiões, não para o
 Centro. Corrigido em 21/jul.
 
+### 7.4 O censo revelou um defeito que a amostra escondia — a deriva do destino
+
+Descoberto em **21/jul/2026**, ao fechar o §4-E da leitura crítica do #28. É o
+efeito colateral mais grave dos três, e o único que **não é um bug do
+repositório** — é uma propriedade do dado de origem.
+
+Ao contar o destino **completo** das saídas de pastagem (não só as que vão para
+agricultura), aparece isto:
+
+| ano | P→agricultura | P→Mosaico de Usos | razão M/A |
+|---|---|---|---|
+| 2015 | 4.040.382 | 2.442.452 | **0,6** |
+| 2020 | 1.287.587 | 4.635.043 | 3,6 |
+| 2024 | 303.432 | 9.875.689 | **32,5** |
+
+`P→agricultura` cai **92%** de 2015 a 2024 — enquanto o **SIDRA** registra a área
+plantada de soja em Goiás crescendo **+38%** (3,578 → 4,942 Mha) na mesma janela,
+e o Mosaico de Usos cresce **+1,351 Mha**, quase exatamente o tamanho da soja
+nova. A conversão não parou; **mudou de rótulo**.
+
+**Por que isto pertence a este documento.** A migração amostra→censo foi
+apresentada como remoção de erro amostral, e é. Mas ela também **tornou o
+problema visível**: com 2.000 px/ano, o colapso do n no fim da série era invisível
+(a amostra tinha tamanho fixo por ano *por construção*) e a queda da mediana
+parecia ruído de amostra pequena. O censo mostra que os eventos existentes caíram
+de 606.821 (2020) para 157.245 (2024) — e é isso que denuncia a deriva.
+
+É a contrapartida honesta da §6 ("armadilhas que o censo cria"): o censo também
+**revela** armadilhas que a amostra mascarava. Aqui, a amostra de tamanho fixo
+funcionava como um anestésico sobre um sinal de alarme.
+
+**Consequência para a leitura cruzada:** a tendência de `w₁` do #28 ("o
+componente jovem ganha peso") **não sobrevive** — ela acompanha a exposição da
+janela à deriva. A bimodalidade com modos estáveis sobrevive; o gradiente
+Sul→Norte do #28C sobrevive por ser transversal. Ver
+[#28D](../pipelines/28D_deriva_mosaico.md) §5.
+
 ---
 
 ## 8. Rastro de arquivos
@@ -432,6 +493,7 @@ Centro. Corrigido em 21/jul.
 | `scripts/compara_censo_amostra.py` | Confronto em dois níveis (§3) |
 | `scripts/fig_sintese_idade_atos.py` | Figura do site (antes era PNG órfão sem script) |
 | `scripts/coleta_idade_pastagem.py` | Amostra legada — mantida para reprodutibilidade |
+| `scripts/deriva_mosaico_fim_serie.py` | #28D — deriva do destino da conversão; ver §7.4 |
 
 Ver também: [28_idade_pastagem.md](../pipelines/28_idade_pastagem.md),
 [28_idade_pastagem_critica.md](../pipelines/28_idade_pastagem_critica.md),

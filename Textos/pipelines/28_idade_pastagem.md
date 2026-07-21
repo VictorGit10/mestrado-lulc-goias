@@ -45,6 +45,29 @@ E o balanço entre eles pende em dois eixos: no **espaço** (Sul/Leste → giro;
 Noroeste/Norte → reserva) e no **tempo** (giro ganhando peso, w₁ de 31,5% em
 2016–24 para 51,5% em 2020–24 — alcança a reserva, não a supera).
 
+> ## 🛑 O eixo TEMPORAL está suspenso (21/jul/2026) — leia antes de citar
+>
+> O [#28D](28D_deriva_mosaico.md) mostrou que o objeto medido pelo #28 **não é
+> constante ao longo da série**: a saída da pastagem migra do rótulo
+> "agricultura" para "Mosaico de Usos" (razão 0,6 em 2015 → **32,5 em 2024**),
+> `P→agricultura` cai **92%**, e o SIDRA registra a soja **crescendo 38%** na
+> mesma janela.
+>
+> **O que isso derruba:** a tendência `w₁ 31,5% → 51,5%` sobe monotonicamente com
+> a exposição da janela à deriva (20,8% em 2014-18, base pré-deriva → 51,5% na
+> janela inteiramente derivada). **Não citar como achado temporal.**
+>
+> **O que fica sob suspeita e precisa de re-auditoria:** a frase "a mudança é
+> temporal, não geográfica" (19,6% × 1,3%) tem os **dois** lados comprometidos —
+> a subida Ato I→II é horizonte (a mediana pré-2020 é ~55% de `ano−1985`, dp
+> 7 pp) e a queda no Ato III é deriva. O contraste tempo × espaço precisa ser
+> refeito em janelas limpas antes de voltar ao texto.
+>
+> **O que sobrevive intacto:** a **bimodalidade** com modos estáveis (μ₁≈4-5a,
+> μ₂≈21-23a em *todas* as janelas, derivadas ou não) e o **gradiente Sul→Norte**
+> do [#28C](28C_bimodalidade_regional.md), que é transversal — compara regiões
+> dentro do mesmo período, e a deriva é temporal e estadual.
+
 > **O ponto que merece o centro da dissertação: a mudança é temporal, não
 > geográfica.** O tempo explica **19,6%** da separação jovem/velho contra
 > **1,3%** do espaço (mesorregião), e **cada** unidade é bimodal por dentro —
@@ -64,8 +87,8 @@ do #33 — cinco episódios com métodos e dados diferentes. Não moveram:
 |---|---|
 | Bimodalidade existe | μ₁ ≈ 4,4a e μ₂ ≈ 22,9a, estáveis em 4 janelas |
 | Não é composição regional | 5/5 mesos e 162/164 AMCs bimodais **por dentro** |
-| Tempo ≫ espaço | 19,6% × 1,3% da separação jovem/velho |
-| Modo jovem ganha peso | w₁ 31,5% → 51,5% |
+| ~~Tempo ≫ espaço~~ | 🛑 **suspenso** — 19,6% × 1,3%, mas os dois lados do eixo temporal estão comprometidos (horizonte antes de 2020, deriva depois). Re-auditar. [#28D](28D_deriva_mosaico.md) |
+| ~~Modo jovem ganha peso~~ | 🛑 **derrubado** — w₁ 31,5% → 51,5% acompanha a deriva do destino, não o tempo. [#28D](28D_deriva_mosaico.md) §5.1 |
 | Gradiente nas pontas | Sul/Leste jovens × Noroeste/Norte velhos, em todo estimador |
 
 ## O que foi aposentado — não citar

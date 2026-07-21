@@ -238,6 +238,57 @@ banca fosse.**
 
 ---
 
+## 🛑 Estado dos dados da Perna 2 — PONTA SOLTA (21/jul/2026)
+
+**Nada da Perna 2 deve ser congelado antes de resolver isto.** São três problemas
+independentes, em ordem de gravidade.
+
+### 1. A copy desta página está na era da amostra
+
+O corpo da Perna 2 acima ainda diz **"Amostramos ~78 mil pontos"** e **"o Norte,
+pasto de ~20 [anos]"**. Ambos caducaram: o #28 virou **censo** em 21/jul/2026 —
+**44,6 milhões de eventos**, 3,8 Mha, 11,2% de Goiás — e no censo o Norte tem
+mediana **16a** (não 20), o Sul **9a**. Ver
+[28_idade_pastagem.md](../../Textos/pipelines/28_idade_pastagem.md).
+
+### 2. O site publicado mostra dados da amostra sob manchete de censo
+
+Diagnóstico de 21/jul/2026, ainda **não corrigido**:
+
+| item | estado |
+|---|---|
+| `assets/data/idade_pastagem_amc.geojson` | ❌ **é a amostra** — 43.951 px (= 78.000 − 34.049 fora de GO) contra 44.639.028 do censo. É o que o coroplético do §6 renderiza (`pastagem-reserva.js:227`). Arquivo **órfão**: nenhum script do repo o gera |
+| Cards "μ ≈ 4,6 a (44%)" / "μ ≈ 21,8 a (56%)" (`index.html:812`, `:822`) | ❌ números da amostra; o censo dá μ₁ 4,24a **w₁ 31,5%** / μ₂ 22,49a w₂ 68,5% para a mesma janela — e a prosa 3 linhas abaixo já diz "31%", então a seção se contradiz |
+| `idade_pastagem_municipal.json`, `_gmm.json` | ⚠️ regerados do censo mas **não consumidos** por nada na viz |
+| `idade_pastagem_regional.json` (541 KB, malha meso "Opção A") | ⚠️ export da própria reforma, **não cabeado** |
+| `28_idade_pastagem.md:418` | ❌ afirma que os 4 arquivos "foram regerados a partir do censo" — falso para o geojson |
+
+O `marcha-mapa.js` também carrega o geojson, mas só pela geometria — lá é
+inofensivo.
+
+### 3. O eixo temporal da Perna 2 está suspenso
+
+O [#28D](../../Textos/pipelines/28D_deriva_mosaico.md) (21/jul/2026) mostrou que
+o objeto medido pelo #28 **não é constante ao longo da série**: a saída da
+pastagem migra do rótulo "agricultura" para "Mosaico de Usos" (razão 0,6 em 2015
+→ **32,5 em 2024**) enquanto o SIDRA registra a soja **crescendo 38%**.
+
+**Consequência para a copy:** qualquer frase do tipo "o pasto jovem vem ganhando
+peso" / "a rotação avança" **não pode entrar**. A tendência de w₁ acompanha a
+deriva. O contraste "tempo explica 20%, região explica 2,5–7,3%" — que a nota de
+números a conferir abaixo ainda lista — **está suspenso**: os dois lados do eixo
+temporal estão comprometidos (horizonte antes de 2020, deriva depois).
+
+**O que continua firme e sustenta a Perna 2 como está desenhada:** a
+**bimodalidade** (μ₁≈4-5a, μ₂≈21-23a, estáveis em toda janela testada) e o
+**gradiente Sul→Norte** do #28C, que é transversal. A tese da perna — "dois
+mecanismos coexistem em toda parte; a geografia desloca o peso da mistura" — **é
+justamente a parte que sobrevive**, porque é uma afirmação sobre forma e
+espaço, não sobre tendência temporal. A peça interativa segue de pé; o que sai é
+a narrativa de *avanço no tempo*.
+
+---
+
 ## Notas de implementação (não é copy)
 
 - **Cada "RESPOSTA em uma frase"** deve ter tratamento visual consistente (o mesmo
@@ -245,9 +296,10 @@ banca fosse.**
 - **"O QUE ISTO NÃO DIZ"** entra como bloco discreto (aside/nota), presente nas 4 pernas
   — é a marca de honestidade e o que amarra com a D14.
 - **Números a conferir antes de congelar** (fonte entre parênteses): marcha +78/+67/+65 km
-  (#32); gradiente ~120–130 km (#32); idade ~5 e ~22/35 anos, Sul ~9 / Norte ~20 (#28);
-  η² região 2,5%/7,3%, tempo 20%, 34/36 AMCs (#28C); estoque estadual ~60%, Sul ~53%
-  (#39); 97% desprotegido (#46); ~973 Mt CO₂e (#47).
+  (#32); gradiente ~120–130 km (#32); idade ~5 e ~22/35 anos, ~~Sul ~9 / Norte ~20~~ →
+  **Sul 9a / Norte 16a no censo** (#28); ~~η² região 2,5%/7,3%, tempo 20%~~ → **tempo
+  suspenso, ver "Estado dos dados" acima**, 34/36 AMCs (#28C); estoque estadual ~60%,
+  Sul ~53% (#39); 97% desprotegido (#46); ~973 Mt CO₂e (#47).
 - **A Perna 3 é a única sem interativa nova** — compensar com o esquema estático de 2
   painéis (ver acima) e as figuras #34/#42. É a perna que mais se beneficia de puxar frases
   direto do `ensaio_a_investigacao.md`.

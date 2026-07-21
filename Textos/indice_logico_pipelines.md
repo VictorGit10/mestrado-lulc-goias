@@ -133,16 +133,22 @@ mistura, não **causa** os modos.
 | **Autocorreção** | **#40** `duas_logicas_pastagem.py` | Espacializa as duas lógicas (Rotação no Sul × Oportunístico no Norte). **Derrubou o próprio overclaim no mesmo dia** → **D14**. Em 21/jul/2026 **derrubou também a autocorreção**: o "some sob o gradiente 2D" era erro de medida; veredito vira *não estabelecido*, e a comparação estrutura×fluxo (agora simétrica) dá o sinal ao **fluxo** |
 | **Autocorreção** | **#28C** `bimodalidade_regional.py` | A bimodalidade é *regionalmente causada*? **Não.** A região explica 1,3% (meso) / 7,5% (AMC); o tempo explica 19,6%; **75–79% mora dentro** das células. Sob censo ω²/permutação degeneram (D23) — sustenta-se por estabilidade censo×amostra, não por p |
 | **Autocorreção** | **#40B** `duas_logicas_calcario_orientacao.py` | Generaliza a D14: calcário e orientação somem sob o gradiente 2D — e no censo (n=244) o nulo **se confirma**. Ressalva de 21/jul/2026: a generalização vale para eles, **não** para toda covariável (no-till virou limítrofe; adubação dá p=0,003) |
+| **Autocorreção** | **#28D** `deriva_mosaico_fim_serie.py` | 🛑 **A mais severa da perna.** O objeto do #28 **não é constante na série**: a saída da pastagem migra do rótulo "agricultura" para "Mosaico de Usos" (razão 0,6 em 2015 → **32,5 em 2024**; `P→agric` cai 92%) enquanto o **SIDRA registra a soja +38%**. Derruba a tendência de w₁; a **bimodalidade e o gradiente sobrevivem** → **D25** |
 | **Robustez** | **#49** `painel_espacial_dinamico.py` | Os canais do #22 sobrevivem ao termo espacial (Elhorst FE lag/error) |
 
 **O que esta perna NÃO permite dizer:** que "a região causa a bimodalidade" (o #28C mediu: não
-causa) nem que "plantio direto explica a idade do pasto" (o #40 derrubou: era confundidor de
-latitude). A frase certa é **"gradiente regional no *peso* da mistura"**.
+causa), que "plantio direto explica a idade do pasto" (o #40 derrubou: era confundidor de
+latitude), nem — desde 21/jul/2026 — que **"o pasto jovem vem ganhando peso ao longo do tempo"**
+(o #28D derrubou: a tendência de w₁ acompanha a deriva de classificação, e o contraste
+"tempo ≫ espaço" está **suspenso** porque os dois lados do eixo temporal estão comprometidos —
+horizonte antes de 2020, deriva depois). A frase certa segue sendo **"gradiente regional no
+*peso* da mistura"** — que é transversal, e por isso sobrevive.
 
 **Ler a fundo:** [`33_transicoes_regionais.md`](pipelines/33_transicoes_regionais.md) →
 [`28_idade_pastagem.md`](pipelines/28_idade_pastagem.md) →
 [`40_duas_logicas_pastagem.md`](pipelines/40_duas_logicas_pastagem.md) →
-[`28C_bimodalidade_regional.md`](pipelines/28C_bimodalidade_regional.md)
+[`28C_bimodalidade_regional.md`](pipelines/28C_bimodalidade_regional.md) →
+[`28D_deriva_mosaico.md`](pipelines/28D_deriva_mosaico.md)
 
 ---
 
@@ -397,6 +403,7 @@ colunas são a ordem lógica.
 | 27 | `coleta_trase.py` | Coletor | — | 1 | Fundação |
 | 28 | `coleta_idade_pastagem.py` + `analise_reserva_terra.py` | **Manchete** | **2** | 5 | Idade do pasto |
 | 28C | `bimodalidade_regional.py` | **Autocorreção** | **2** | 6 | Idade do pasto |
+| 28D | `deriva_mosaico_fim_serie.py` | **Autocorreção** | **2** | 6 | Idade do pasto |
 | 29 | `periodizacao_multivariada/stars/transicoes.py` | Infraestrutura (régua) | — | 5 | Periodização |
 | 30 | `verificacao_periodizacao.py` | Robustez | — | 5 | Periodização |
 | 31 | `intensity_analysis.py` + `verificacao_intensity.py` | Robustez | — | 5 | Periodização |
@@ -426,12 +433,14 @@ colunas são a ordem lógica.
 | 54 | `defensabilidade_perna4.py` | Robustez (inferência) | 3 | 6 | Drive comum |
 
 **Contagem por papel** (56 linhas; o #40 e o #45 contam duas vezes — são manchete/extensão *e*
-autocorreção): 12 manchetes · 8 coletores · **7 autocorreções** · 7 infraestrutura · 7 extensões ·
+autocorreção): 12 manchetes · 8 coletores · **8 autocorreções** · 7 infraestrutura · 7 extensões ·
 7 robustez · 4 cartografia · 2 foto inicial · 1 validação externa · 1 primeira leitura ·
 1 diagnóstico · 1 superado.
 
-> As **7 autocorreções** (#28C, #40, #40B, #41, #42, #44, #45 + a D19) são o ativo mais raro do
-> conjunto. Nenhum outro número desta tabela é tão difícil de conquistar.
+> As **8 autocorreções** (#28C, #28D, #40, #40B, #41, #42, #44, #45 + a D19) são o ativo mais raro
+> do conjunto. Nenhum outro número desta tabela é tão difícil de conquistar. A mais recente,
+> **#28D**, é também a mais dura: derruba uma manchete temporal do #28 mostrando que o *dado de
+> origem* mudou de significado no meio da série.
 
 ---
 
