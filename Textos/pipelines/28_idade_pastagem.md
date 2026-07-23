@@ -64,9 +64,13 @@ Noroeste/Norte → reserva) e no **tempo** (giro ganhando peso, w₁ de 31,5% em
 > refeito em janelas limpas antes de voltar ao texto.
 >
 > **O que sobrevive intacto:** a **bimodalidade** com modos estáveis (μ₁≈4-5a,
-> μ₂≈21-23a em *todas* as janelas, derivadas ou não) e o **gradiente Sul→Norte**
-> do [#28C](28C_bimodalidade_regional.md), que é transversal — compara regiões
-> dentro do mesmo período, e a deriva é temporal e estadual.
+> μ₂≈21-23a em *todas* as janelas, derivadas ou não; confirmada sob a união em
+> 23/jul). **⚠️ Correção (23/jul):** eu escrevia aqui que o **gradiente Sul→Norte**
+> do [#28C](28C_bimodalidade_regional.md) "é transversal — a deriva é temporal". A
+> re-checagem sob `pasto→(agric∪mosaico)` mostrou que o gradiente latitudinal de
+> *idade* **é artefato** (amplitude 7a→2a): a seleção agricultura×Mosaico atua
+> *dentro* de um período. O transversal que sobrevive é a **coexistência bimodal**,
+> não o gradiente de idade. Ver o WARNING do #28C.
 
 > **O ponto que merece o centro da dissertação: a mudança é temporal, não
 > geográfica.** O tempo explica **19,6%** da separação jovem/velho contra

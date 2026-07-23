@@ -472,9 +472,12 @@ funcionava como um anestésico sobre um sinal de alarme.
 
 **Consequência para a leitura cruzada:** a tendência de `w₁` do #28 ("o
 componente jovem ganha peso") **não sobrevive** — ela acompanha a exposição da
-janela à deriva. A bimodalidade com modos estáveis sobrevive; o gradiente
-Sul→Norte do #28C sobrevive por ser transversal. Ver
-[#28D](../pipelines/28D_deriva_mosaico.md) §5.
+janela à deriva. A **bimodalidade com modos estáveis sobrevive** (confirmada sob a
+união, 23/jul). Mas o **gradiente latitudinal de idade do #28C NÃO sobrevive**: o
+"transversal, logo imune" **estava errado** — a seleção agricultura×Mosaico atua
+*dentro* de um período, então sob `pasto→(agric∪mosaico)` a amplitude Sul→Norte cai
+de 7a para 2a (artefato, igual ao #40). Ver
+[#28D](../pipelines/28D_deriva_mosaico.md) §5 e o WARNING do #28C.
 
 ---
 

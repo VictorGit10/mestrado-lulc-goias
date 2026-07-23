@@ -37,8 +37,10 @@ Documento complementar a [28_idade_pastagem.md](28_idade_pastagem.md). Explica o
 > Consequência direta: **a tendência de `w₁` ("o componente jovem ganha peso")
 > não sobrevive** — ela sobe monotonicamente com a exposição da janela à deriva
 > (20,8% pré-deriva → 51,5% no Ato III). O que sobrevive é a **bimodalidade com
-> modos estáveis** (μ₁≈4-5a, μ₂≈21-23a em toda janela) e o **gradiente Sul→Norte**
-> do #28C, que é transversal. Detalhe completo em [28D](28D_deriva_mosaico.md) §5.
+> modos estáveis** (μ₁≈4-5a, μ₂≈21-23a em toda janela; confirmada sob a união em
+> 23/jul). **⚠️ Já o gradiente latitudinal de idade do #28C NÃO sobrevive** — a
+> re-checagem sob `pasto→(agric∪mosaico)` o mostrou artefato (amplitude 7a→2a); o
+> "transversal, logo imune" não valia. Detalhe em [28D](28D_deriva_mosaico.md) §5.
 
 ---
 

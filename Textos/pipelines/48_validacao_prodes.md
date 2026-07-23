@@ -40,6 +40,8 @@ No **regime anual do PRODES (2013–2024)** — a única janela em que as duas s
 
 **Veredito**: o MapBiomas está **validado** contra a fonte oficial independente do INPE como base da perda de vegetação usada no #39 (teto de oferta), #46 (proteção) e #47 (carbono). A linha ambiental inteira ganha respaldo externo.
 
+> **Imune à deriva do Mosaico (D26, verificado 23/jul/2026).** A deriva (#28D) é uma reetiquetagem *antrópico→antrópico* (pasto→agricultura vira pasto→Mosaico), não um problema da *perda de vegetação*. Empiricamente confirma-se: o `veg→antrópico` do MapBiomas é **estável 2017–2024** (0,069–0,089 Mha/a, sem colapso), ao contrário do `pasto→agric` que cai −79% na mesma janela. Em 2024 o MapBiomas (0,069) fica até *acima* do PRODES (0,041) — o oposto do que um subconto pela deriva produziria. A validação do #48 **não** é afetada.
+
 ---
 
 ## Honestidade metodológica
