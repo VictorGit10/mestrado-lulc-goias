@@ -117,6 +117,58 @@ recebe sua mistura de mecanismos. **Rotação (jovem ≤8a) domina Sul/Centro; O
 > **não citar r = −0,49**, e não descrever a segregação como "limpa" — ela é real,
 > significativa e moderada.
 
+> [!WARNING]
+> **Robustez à deriva do Mosaico (D26, 23/jul/2026) — a significância do gradiente é
+> FRÁGIL e depende da cauda contaminada.** O #40 *pool* os eventos `pasto→agricultura`
+> sobre a janela; a [deriva do Mosaico](28D_deriva_mosaico.md) reetiqueta esses eventos
+> como `pasto→Mosaico` nos anos terminais, e eles **somem** da tabela do #28 — o #40 pool
+> ao longo do tempo, logo herda a contaminação (e o #28C, que se *supunha* imune por ser
+> transversal, **também herda** — refutado abaixo). Medido (`duas_logicas_deriva_check.py`):
+> as conversões `pasto→agric`
+> caem **−79%** de 2014–19 (0,75 Mpx/a) para 2022–24 (0,16 Mpx/a). E o gradiente-manchete
+> **fortalece quanto mais da cauda entra**:
+>
+> | janela | índice jovem × lat (Spearman ρ) | p |
+> |---|---|---|
+> | **limpa 2010–2019** | **−0,124** | **0,113 (ns)** |
+> | cheia 2010–2024 (a manchete) | −0,228 | 0,003 |
+> | exposta 2016–2024 | −0,308 | <0,001 |
+>
+> Na janela **limpa (≤2019) o gradiente é fraco e NÃO significativo**; a significância do
+> −0,236 vem justamente do trecho que a deriva censura mais. Isto **resolve o enigma** da
+> revisão de 21/jul (a "ponderação entre anos" que fortalecia r): não era só amostragem —
+> os anos recentes carregam um gradiente aparente mais forte porque a deriva **seleciona**
+> quais conversões ficam visíveis (as perdidas para o Mosaico crescem ao Norte, #32/#44).
+> **Bracket por EVENTO — FECHADO (cubo reprocessado, 23/jul/2026,
+> `processa_cubo_idade_destinos.py` → `pastagem_conversao_destinos.parquet`;
+> teste em `duas_logicas_bracket_evento.py`).** Redefinindo a conversão como
+> `pasto→(agric∪mosaico)` — a pergunta grossa, robusta à reetiquetagem por construção — o
+> gradiente **desaparece e fica estável em ~zero nas três janelas**, ao contrário do
+> `pasto→agric`, cuja significância só vinha da cauda:
+>
+> | evento | limpa 2010–19 | cheia 2010–24 | exposta 2016–24 |
+> |---|---|---|---|
+> | `pasto→agricultura` | −0,124 (ns) | −0,228** | −0,308*** |
+> | **`pasto→(agric∪mosaico)`** | **+0,036 (ns)** | **+0,090 (ns)** | **+0,082 (ns)** |
+>
+> A união quase **triplica** os eventos (6,8 → 17,8 Mpx na janela limpa) — as conversões
+> `pasto→Mosaico` são a maioria dos términos de pastagem e **não carregam** o gradiente. Ou
+> seja: o −0,23 é **específico do subconjunto rotulado como "agricultura"** — que é
+> exatamente o que a deriva e a confiança do classificador selecionam —, **não** uma
+> propriedade robusta da conversão de pastagem. **Veredito revisado: a segregação
+> young-Sul/old-Norte NÃO está estabelecida como fenômeno geral** (o intervalo do bracket,
+> −0,12 a +0,04, cruza o zero sem significância em nenhum extremo). Sobrevive só na leitura
+> estrita "pasto→agricultura pura". O que segue robusto e **independente** é a marcha dos
+> **centroides** (#32/#44) — outra medida (onde estão as classes, não a idade do pasto).
+> **#28C re-checado sob a união (23/jul/2026):** o gradiente Sul→Norte de idade mediana do
+> #28C é o **mesmo artefato** — cai de 7a para 2a sob `pasto→(agric∪mosaico)` e o Norte perde a
+> assinatura de pasto velho. Mas o **núcleo do #28C sobrevive** (a bimodalidade/coexistência
+> dentro de cada região: 5/5 regiões e 10/10 células ainda bimodais; η²(região) cai de 3,7%
+> para 0,5%, reforçando "não-regional"). Ou seja: o **gradiente latitudinal na idade do pasto**
+> é artefato do rótulo "agricultura" (tanto no #40 quanto no #28C); o que é real é a
+> **coexistência bimodal** modulada pelo **tempo** (Ato III), não pela latitude. Ver
+> `bimodalidade_regional_uniao.py` e o WARNING do #28C.
+
 ### 2. O cruzamento com plantio direto — co-localização, NÃO efeito próprio
 
 > **Revisado em 21/jul/2026 sobre o censo do #28.** Os números abaixo vêm do censo

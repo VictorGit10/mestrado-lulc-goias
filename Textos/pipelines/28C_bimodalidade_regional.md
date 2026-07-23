@@ -162,6 +162,31 @@ o veredito.**
 > mas **não cria os modos**. O que mais desloca o peso é o **tempo** (o pulso jovem recente
 > do Ato III, coerente com o *onset* da soja direta do #41), não a latitude.
 
+> [!WARNING]
+> **Re-checagem sob a união (D26, 23/jul/2026, `bimodalidade_regional_uniao.py`) — a metade
+> ROBUSTA sobrevive; o "gradiente Sul→Norte" era artefato.** O #28C usa só `pasto→agricultura`;
+> o bracket-por-evento do #40 mostrou que esse subconjunto é selecionado pela deriva. Com o
+> cubo reprocessado (`pastagem_conversao_destinos.parquet`), recomputei as três afirmações sob
+> `pasto→agricultura` × `pasto→(agric∪mosaico)`:
+>
+> | afirmação | agric (16,0 Mpx) | união (59,5 Mpx) | veredito |
+> |---|---|---|---|
+> | **bimodalidade** (regiões · células) | 5/5 · 9/10 | **5/5 · 10/10** | **ROBUSTA** (sobrevive/fortalece) |
+> | **within-célula domina** | 77,8% | **76,1%** | **ROBUSTA** |
+> | **η²(mesorregião) da idade** | 3,7% | **0,5%** | "não-regional" ainda mais forte |
+> | **gradiente idade mediana Sul→Norte** | 9·9·10·16·16 (ampl. **7a**) | 9·9·10·10·11, ordem embaralhada (ampl. **2a**) | **ARTEFATO** — colapsa |
+>
+> **Leitura corrigida:** o **núcleo do #28C sobrevive e sai reforçado** — os dois mecanismos
+> coexistem dentro de cada região e a geografia explica quase nada (η² cai de 3,7% para 0,5%),
+> então "a bimodalidade NÃO é regionalmente causada" fica **mais** verdadeiro sob a união. Mas
+> a cláusula **"a geografia modula o peso ao longo de um gradiente Sul→Norte" é artefato**: sob
+> a união a amplitude Sul→Norte cai de 7a para 2a e o Norte perde a assinatura de pasto velho
+> (Noroeste 16→11, Norte 16→10). Isso é o **mesmo artefato do #40** — o gradiente young-Sul/
+> old-Norte existe só no subconjunto rotulado "agricultura". **O que desloca o peso é o TEMPO,
+> não a latitude** — e a re-checagem torna isso ainda mais claro (η²(ato) sobe de 18,6% para
+> 23,2% na união, η²(região) some). A frase para a banca: bimodalidade robusta + coexistência
+> within-região; **retirar a afirmação de gradiente latitudinal na idade**.
+
 ## Conexão com a narrativa
 
 - **Fecha a pergunta de precisão deixada por #28/#40.** O #40 entregou a *geografia* das duas

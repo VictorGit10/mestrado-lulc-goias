@@ -64,6 +64,45 @@ Para cada modelo: **OLS within 2-way** (baseline, SE cluster por AMC) → **FE s
 
 ---
 
+## Robustez à deriva do Mosaico (D26) — SIDRA-âncora + bracket
+
+M1 e M3 usam `agricultura_delta`, que a [deriva do Mosaico](28D_deriva_mosaico.md) distorce nos anos terminais. Re-estimados no formato [D26](../metodologia/tratamento_deriva_mosaico.md) — não "corrigindo" com a união, mas medindo o **intervalo** entre `agric` (inferior), `agric∪mosaico` (superior) e **soja SIDRA** (âncora imune), sobre a **mesma amostra** (91 AMCs do núcleo agrícola, únicas com soja SIDRA contínua) e com **janela truncada em 2019** (script `painel_espacial_dinamico_deriva.py`). **Os dois modelos recebem vereditos opostos:**
+
+**M3 (substituição local) — ROBUSTO, e a deriva *subestimava*.** O β é **negativo e significativo nas três réguas e nas duas janelas** — a substituição pasto↔lavoura não depende da convenção de classe. A magnitude é bracketada e o sinal do viés é o **seguro**:
+
+| régua | 2003–2024 | 2003–2019 (sem a cauda) |
+|---|---:|---:|
+| Agricultura (MapBiomas) | −0,49*** | **−0,63*** |
+| Agricultura ∪ Mosaico (teto) | −0,94*** | −0,92*** |
+| Soja SIDRA (âncora imune) | −0,08*** | −0,05*** |
+
+Truncar a cauda **fortalece** o β de `agric` (−0,49 → −0,63): a deriva, ao congelar `Δagric`, **atenuava** a substituição medida. Ou seja, o β≈−0,5 do #49 é um **piso** — a substituição real é mais forte. O intervalo é largo porque cada régua mede uma coisa: soja SIDRA (−0,08) capta só a fração da retração de pasto casada com **soja** especificamente; a união (~−0,94, quase 1:1) capta toda a chegada de lavoura-ou-uso-misto. **Conclusão substantiva intacta, e reforçada.**
+
+O mesmo padrão vale na **janela nativa do #49 (166 AMCs, 1988–2024)** — o bracket moderno acima é só sobre as 91 AMCs com soja SIDRA contínua, então convém confirmar que o resultado não é da subamostra. Aqui só `agric` e `agric∪mosaico` (a soja SIDRA não tem AMC alguma completa em 1988–2024):
+
+| régua | 1988–2024 (nativa #49) | 1988–2019 (sem a cauda) |
+|---|---:|---:|
+| Agricultura (MapBiomas) | −0,51*** | **−0,64*** |
+| Agricultura ∪ Mosaico (teto) | −1,13*** | −1,09*** |
+
+Idêntico ao bracket de 91 AMCs em direção e mecânica: substituição robusta, a deriva atenua o `agric` (−0,51 → −0,64 ao truncar), e a união (~−1,1) é o teto quase-1:1. A conclusão do #49 (β≈−0,5 substituição local) **não é artefato da subamostra** nem da convenção de classe — só é um **piso**.
+
+**M1 (intensificação) — FRÁGIL: o sinal depende da régua.** Aqui o bracket **atravessa o zero**:
+
+| régua | β (2003–2021) | β truncado (2003–2019) |
+|---|---:|---:|
+| Agricultura (MapBiomas) | **−0,0041*** | −0,0037** |
+| Agricultura ∪ Mosaico | +0,0003 (ns) | −0,0005 (ns) |
+| Soja SIDRA (âncora imune) | **+0,0111** | +0,0090 |
+
+A âncora imune (SIDRA) dá o sinal **oposto** ao da classe MapBiomas: área de **soja expande** onde o VA agro cresce (extensificação), enquanto a área de **agricultura ampla encolhe** relativamente (intensificação — valor sobe sem área). E isto **não é principalmente a deriva** — o β de `agric` sobrevive à truncagem (−0,0037), logo não é a cauda contaminada que o produz. É **dependência de medida**: "intensificação" e "extensificação da soja" coexistem, e o β de M1 herda o sinal da variável escolhida. **Leitura corrigida:** M1 não é um canal de sinal único robusto; o β=−0,0047 do #49 mede a agricultura *ampla* (compatível com intensificação), mas a soja isolada extensifica — reportar as duas leituras, não uma.
+
+**M2 (crédito→pasto):** regressores imunes (SICOR/BCB + VA/IBGE); `y`=pastagem largamente real. Não re-estimado — sem exposição material.
+
+**Síntese**: a substituição (M3) é o achado sólido do #49 e a deriva só o subestimava; a intensificação (M1) é sensível à medida de "agricultura" e precisa ser reportada como intervalo, com a âncora SIDRA mostrando o outro lado da história. Saída: `data/processed/painel_espacial_dinamico_deriva.csv`.
+
+---
+
 ## Como ler a figura (`painel_espacial_beta.png`)
 Um painel por modelo: o β da variável de interesse com IC 95% em três estimadores lado a lado — OLS-within (#22), FE spatial lag, FE spatial error. Em todos, os três pontos ficam do **mesmo lado de zero** e com ICs sobrepostos; os títulos trazem ρ e λ. A mensagem visual é "o ponto não pula quando o espaço entra".
 
