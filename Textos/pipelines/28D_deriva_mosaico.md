@@ -156,9 +156,17 @@ tendência.
 
 Os **modos** são estáveis em toda a tabela: μ₁ ≈ 4–5 a e μ₂ ≈ 21–23 a em todas as
 janelas comparáveis, dentro e fora da deriva. **A bimodalidade — o achado central
-do #28 — não depende da janela contaminada.** Também sobrevive o gradiente
-Sul→Norte do #28C, que é transversal (compara regiões dentro do mesmo período) e
-por isso não é atravessado por uma deriva que é temporal e estadual.
+do #28 — não depende da janela contaminada** (confirmado sob a união em 23/jul:
+5/5 mesorregiões e 10/10 células região×ato seguem bimodais; ver #28C).
+
+> ⚠️ **Correção (23/jul/2026):** eu afirmava aqui que "o gradiente Sul→Norte do #28C
+> sobrevive por ser transversal (compara regiões dentro do mesmo período)". A
+> re-checagem sob a união (`bimodalidade_regional_uniao.py`) mostrou que **isso está
+> errado para o gradiente de IDADE**: o "transversal, logo imune" não vale, porque a
+> seleção agricultura×Mosaico atua *dentro* de um período. Sob `pasto→(agric∪mosaico)`
+> a amplitude Sul→Norte da idade mediana cai de **7a para 2a** — é o mesmo artefato do
+> #40. O que é transversal e sobrevive é a **bimodalidade/coexistência**, não o
+> gradiente latitudinal de idade.
 
 ### 5.3 A mediana pré-2020 já era horizonte, não idade
 
@@ -178,6 +186,18 @@ transições `pastagem → agricultura` do MapBiomas na janela recente está exp
 **#12/#19** (matrizes de transição), **#33** (transições regionais), **#39**
 (fluxo/hazard), **#47** (custo de carbono, na medida em que usa perda por
 formação no Ato III). **Não auditados aqui** — ver §8.
+
+Um segundo canal de exposição, distinto das transições, é o **estoque**: o
+**centro de massa** (#32/#44) pondera pelo estoque de agricultura
+(`lulc_agricultura_ha`), que subconta a expansão recente exatamente onde a soja
+migra para o Mosaico. Auditado em `centro_massa_deriva_check.py`: a agricultura
+visível *congela* 2019→2024 (+0,5 km) enquanto **duas fontes independentes** — o
+crescimento do Mosaico misturado à agricultura, e a soja SIDRA (imune ao
+classificador) — mostram a agricultura andando **+10,0 km ao norte** na mesma
+janela (triangulação exata). O viés é real e tem o sentido temido (agricultura
+medida enviesada ao **sul**), mas é pequeno diante do sinal de 40 anos e a
+manchete Sul→Norte se sustenta porque sua perna que sobe (rebanho/SIDRA) é imune.
+Detalhe no cabeçalho do script e em `centro_massa_deriva_resumo.csv`.
 
 ---
 
@@ -256,7 +276,9 @@ Figura em `outputs/deriva_mosaico/deriva_mosaico.png`.
 ## 8. Limitações e o que ficou de fora
 
 - **Artefato × realidade não foi separado** (§4). O teste natural — comparar com
-  a coleção de 10 m (Sentinel-2, 2017–2024) — não foi rodado.
+  a coleção de 10 m (Sentinel-2, 2017–2024) — não foi rodado. Um segundo teste,
+  que separa *instabilidade terminal do classificador* de *fenômeno de campo real*
+  sem depender do MapBiomas confirmar nada, está desenhado em **§9** (Coleção 9).
 - **O alcance fora do #28 não foi auditado** (§5.4). Sabe-se que #12/#19/#33/#39/#47
   leem as mesmas transições; não se mediu quanto cada um se move. É a próxima
   tarefa óbvia, e é maior que este pipeline.
@@ -265,16 +287,120 @@ Figura em `outputs/deriva_mosaico/deriva_mosaico.png`.
   *razões* e *tendências*, que é o uso aqui, mas os níveis absolutos incluem
   faixas de MT/MS/MG/BA/TO. As séries de área (§3) e o efeito no #28 (§5) **são**
   recortados a Goiás.
-- **Não se testou se a deriva é espacialmente uniforme.** Se ela for mais forte
-  no Sul (paisagem mais mista, mais ILP) do que no Norte, contamina comparações
-  regionais recentes — o gradiente do #28C está protegido por ser transversal,
-  mas isso vale checar antes de qualquer leitura regional do Ato III.
-- **A correspondência mosaico ≈ expansão de soja (§3c) é agregada.** Não se
-  verificou, pixel a pixel, que o mosaico novo *está onde* a soja nova está.
+- ~~**Não se testou se a deriva é espacialmente uniforme.**~~ **Testado** (nível
+  AMC, `centro_massa_deriva_check.py`): **não é uniforme** — o centroide do
+  *crescimento* do Mosaico 2019→2024 está **+46,5 km ao norte** do centroide da
+  agricultura visível, ou seja, a massa nova aterrissa na fronteira. Isso confirma
+  a preocupação: a deriva tem assinatura espacial (norte). ~~O gradiente do #28C
+  segue protegido por ser transversal~~ — **corrigido (23/jul)**: o gradiente
+  latitudinal de *idade* do #28C **não** está protegido (a re-checagem sob a união o
+  mostrou artefato, §5.2); leituras regionais do Ato III que dependam do nível de
+  agricultura ou do gradiente de idade estão expostas.
+- ~~**A correspondência mosaico ≈ expansão de soja (§3c) é agregada.**~~
+  **Verificado** ao nível AMC (`centro_massa_deriva_check.py`): o crescimento do
+  Mosaico e o da soja SIDRA por AMC (2019→2024) têm **Pearson r = +0,84** e
+  magnitudes quase idênticas (Δmosaico 1,525 Mha ≈ Δsoja 1,539 Mha) — o mosaico
+  novo *está onde* a soja nova está.
+- ~~**Falta a versão pixel a pixel do rastreio `pasto→21`.**~~ **FEITO** (23/jul/2026,
+  `processa_cubo_idade_destinos.py`): o cubo foi reprocessado capturando os DOIS destinos
+  (`pasto→agricultura` e `pasto→Mosaico`) com **idade do pasto** e localização. A razão
+  `pasto→Mosaico / pasto→agricultura`, agora ao nível do pixel e recortada a GO, **explode
+  na cauda**: 0,66 (2015) → 1,93 (2019) → 4,89 (2020) → **37,7 (2024)**, enquanto
+  `pasto→agric` colapsa (2,1M → 0,16M px) e `pasto→Mosaico` cresce (1,4M → 5,9M). São os
+  **mesmos pixels de pastagem que terminaram** — só mudou o rótulo do destino. Isto
+  estabelece a **co-localização** temporal e espacial (o que o balanço agregado só
+  insinuava), mas **não** separa artefato × ILP real — isso continua exigindo a comparação
+  entre coleções (§9). Saída: `pastagem_conversao_destinos.parquet`.
 
 ---
 
-## 9. Decisão
+## 9. Teste proposto para separar artefato × realidade (Coleção 9)
+
+O §4 mostra que a assinatura da deriva é *consistente* com um artefato de fim de
+série (filtros temporais com janela truncada nas bordas — ATBD Coleção 10,
+§3.4.1 e §3.4.3.1), mas o dado da própria Coleção 10.1 **não separa** "o
+classificador rerroteou soja recém-convertida para o Mosaico" de "expansão real
+de sistemas integrados (ILP), que é legitimamente Mosaico". As duas hipóteses
+produzem a mesma série dentro de uma coleção só. Esta seção documenta o teste que
+as separa. **Não foi executado** — exige baixar e reprocessar outra coleção — mas
+é barato, usa dado público, e é o único caminho que *prova* a natureza do sinal.
+
+### 9.1 A hipótese, tornada falseável
+
+A classe 21 ("Mosaico de Usos") é a classe da **ambiguidade** agricultura/pasto;
+por isso tanto o artefato quanto o ILP real aumentam `pasto→21`. O que os separa
+é **onde no tempo** o colapso de `pasto→agricultura` mora:
+
+- **Fenômeno real** (soja/ILP explodindo de fato) está ancorado no **calendário**.
+  Aparece nos mesmos anos-calendário (2023–24) em *qualquer* coleção.
+- **Artefato terminal** está ancorado na **borda de cada coleção**. Cada coleção
+  aplica a regra de janela truncada aos seus próprios últimos anos. Logo o colapso
+  deve **acompanhar a borda**: se a Coleção 9 termina ~1 ano antes da 10.1, o
+  colapso nela deve sentar ~1 ano antes.
+
+As duas hipóteses fazem predições **opostas** sobre um mesmo teste: o colapso é
+fixo no calendário (real) ou móvel com a borda (artefato)?
+
+### 9.2 Por que *não* comparar níveis entre coleções
+
+A tentação é comparar "quanto Mosaico há em 2021–22 na 9 vs na 10.1" e ver se
+encolhe. **Não vale**: o MapBiomas lança coleção nova todo ano com melhorias
+(treino, algoritmo, legenda), então a 9 é um produto **pior em tudo**, e um
+encolhimento de nível confunde "ganhou anos futuros" (o que se quer medir) com
+"o algoritmo ficou melhor" (confound). Um controle de ano-interior estável (ex.:
+2010, terminal em nenhuma das duas) tira o *offset médio* de qualidade, mas não
+salva se a degradação da 9 for ela própria concentrada nos anos recentes.
+
+A saída é **não usar a 9 como linha de base de qualidade**, e sim como uma coleção
+cuja **borda terminal cai em outro ano-calendário**. Aí a qualidade geral da 9
+passa a ser irrelevante: o teste pergunta *onde dentro de cada coleção* o colapso
+senta, não *quanto* Mosaico cada uma tem.
+
+### 9.3 O desenho robusto (borda móvel, pixel-a-pixel)
+
+Para os pixels de Goiás:
+
+1. **Localizar a borda de cada coleção.** Confirmar o último ano de cada uma
+   (a 10.1 vai a 2024; a 9 termina antes — verificar 2022 ou 2023).
+2. **Rastrear o mesmo pixel entre coleções.** Tomar anos que são *terminais* na 9
+   e *interiores* na 10.1. Comparar a classe de cada pixel: os que saem de
+   `Mosaico` (na 9) para `Agricultura` (na 10.1) são os **rerroteados**.
+3. **Testar a borda móvel.** Verificar se o colapso de `pasto→agricultura` (e o
+   pico de `pasto→21`) na 9 senta na **borda da 9**, não no mesmo ano-calendário
+   da 10.1. Se cada coleção tem o colapso na sua própria borda, é o classificador,
+   ponto final. Se ambas têm o colapso fixo no mesmo ano-calendário, é fenômeno
+   real.
+
+### 9.4 O que o teste entrega — e o que não entrega
+
+- **Discrimina a presença do artefato mesmo com ILP real coexistindo.** Se houver
+  os dois superpostos, o teste detecta o componente-artefato como um *excesso* de
+  colapso na emenda terminal, acima da tendência de calendário. É uma decomposição,
+  não um sim/não.
+- **Alimenta o centro de massa.** Os pixels rerroteados têm coordenadas → dá para
+  calcular o **centroide da agricultura escondida** e cravar a direção do viés no
+  #32/#44 (ver a análise-companheira `centro_massa_deriva_check.py`, que já resolve
+  a *direção* só com a 10.1). **Nota (23/jul/2026):** o rastreio pixel-a-pixel de
+  `pasto→21` **com idade** já foi feito **sem** a Coleção 9, reprocessando o cubo da
+  própria 10.1 (`processa_cubo_idade_destinos.py`, ver §8) — isso estabelece a
+  *co-localização*. A Coleção 9 permanece necessária **só** para o passo que a
+  10.1 não resolve: **discriminar artefato × ILP real** (a borda móvel de §9.3).
+- **Não é pré-requisito para a dissertação.** O caminho defensável (SIDRA carrega
+  o período terminal; manchete em `agric` e `agric∪mosaico`; taxas de transição
+  truncadas em ~2019) **independe** da resposta da 9. O teste da 9 serve para
+  *provar afirmativamente* a natureza do sinal — útil para um dossiê ao MapBiomas
+  ou como contribuição de método —, não para blindar as conclusões.
+
+### 9.5 Custo e viabilidade
+
+Coleções antigas do MapBiomas são **públicas** (Google Earth Engine / downloads
+por bioma-UF). O reprocessamento é o mesmo do cubo censitário do #28, restrito ao
+recorte de Goiás e a ~3 anos de sobreposição terminal — ordem de minutos, não de
+infra. O gargalo é operacional (baixar a 9), não computacional.
+
+---
+
+## 10. Decisão
 
 **D25 — Antes de comparar uma medida de transição LULC entre períodos distantes,
 verifique que a classe de destino manteve o mesmo significado.**
@@ -294,6 +420,17 @@ não é comparável — e nenhuma sofisticação estatística a jusante conserta
 Irmã da **D16** (Granger espúrio por integração) e da **D23** (ΔBIC sob censo):
 as três são casos de um método correto rodando sobre uma série cuja *definição* se
 move.
+
+**D26 — como *tratar* a deriva numa análise (o complemento operacional de D25).**
+`agricultura ∪ mosaico` **não é uma correção**, e sim o **limite superior** de um
+intervalo cujo limite inferior é `agricultura` sozinha (a união superconta ILP + mosaico
+antigo; assume 100% do Mosaico = agricultura mal-rotulada, o que é falso). Regra: **reportar
+o intervalo `[agric, agric∪mosaico]`, nunca um ponto; conclusão robusta ⇔ sobrevive nos dois
+extremos.** A união responde honestamente a uma **pergunta mais grossa** — "saiu de pasto
+puro para lavoura-ou-uso-misto?" — não à fina ("virou lavoura pura?"). A **melhor evidência**
+dos anos terminais é a **SIDRA** (imune), não o bracket; uma correção de *ponto* exigiria a
+demonstração da §9 (pixel `pasto→21` / Coleção 9). Método completo e protocolo por tipo de
+análise em [`metodologia/tratamento_deriva_mosaico.md`](../metodologia/tratamento_deriva_mosaico.md).
 
 ---
 
