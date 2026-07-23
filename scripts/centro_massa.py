@@ -51,6 +51,9 @@ SAÍDAS
     outputs/centro_massa/trajetorias.png           (small-multiples zoom: trajetória+setas)
     outputs/centro_massa/elipses_por_ato.png       (SDE 1σ por variável, painel por ato)
     outputs/centro_massa/deslocamento_latitude.png (latitude×ano, narrativa N–S)
+    data/processed/centro_massa_robustez_deriva.csv        (régua-espelho: lat×régua×ano + IC)
+    data/processed/centro_massa_robustez_deriva_desloc.csv (ΔNorte×régua×janela + IC95%)
+    outputs/centro_massa/robustez_deriva_regua.png         (robustez à deriva do Mosaico, #28D)
 
 COMO RODAR
     python scripts/centro_massa.py
@@ -93,6 +96,8 @@ ARQ_ANUAL        = DIR_PROCESSED / "centro_massa_anual.csv"
 ARQ_ELIPSES      = DIR_PROCESSED / "centro_massa_elipses.csv"
 ARQ_DESLOCAMENTO = DIR_PROCESSED / "centro_massa_deslocamento.csv"
 ARQ_BOOTSTRAP    = DIR_PROCESSED / "centro_massa_bootstrap.csv"
+ARQ_ROB_DERIVA        = DIR_PROCESSED / "centro_massa_robustez_deriva.csv"
+ARQ_ROB_DERIVA_DESLOC = DIR_PROCESSED / "centro_massa_robustez_deriva_desloc.csv"
 
 BOOT_B    = 2000   # nº de reamostras do bootstrap (IC do deslocamento/latitude)
 BOOT_SEED = 42     # semente p/ reprodutibilidade do bootstrap
@@ -113,6 +118,16 @@ VARIAVEIS = {
 }
 
 ANO_INI, ANO_FIM = 1985, 2024
+
+# Réguas de destino agrícola para a robustez à deriva do Mosaico (#28D / D25).
+# chave -> (coluna no painel, rótulo). Ver seção 6.
+RULERS_DERIVA = {
+    "agricultura":         ("lulc_agricultura_ha",  "Agricultura (MapBiomas)"),
+    "agric_uniao_mosaico": ("agric_mais_mosaico_ha", "Agricultura ∪ Mosaico"),
+    "soja_sidra":          ("agri_soja_ha_plantada", "Soja plantada (SIDRA)"),
+}
+CORES_RULER = {"agricultura": "#c2185b", "agric_uniao_mosaico": "#7b1fa2",
+               "soja_sidra": "#1565c0"}
 
 
 # ---------------------------------------------------------------------------
@@ -606,6 +621,134 @@ def fig_latitude(centros: pd.DataFrame, banda: pd.DataFrame | None = None) -> No
 
 
 # ---------------------------------------------------------------------------
+# 6. Robustez oficial: régua-espelho do destino agrícola (deriva do Mosaico, #28D)
+# ---------------------------------------------------------------------------
+# POR QUÊ: a #28D/D25 mostrou que, no fim da série MapBiomas, a conversão
+# pasto→agricultura migra para a classe "Mosaico de Usos" (21). Como o centroide
+# da agricultura pondera pelo ESTOQUE `lulc_agricultura_ha`, ele subconta a soja
+# recém-convertida, e o congelamento da agricultura no Ato III (2020–24) pode ser
+# artefato de rótulo, não de campo. Esta robustez recomputa o centroide agrícola
+# sob TRÊS RÉGUAS DE DESTINO:
+#   (1) Agricultura (MapBiomas)  — a régua da manchete;
+#   (2) Agricultura ∪ Mosaico    — reivindica a massa escondida (teto do viés);
+#   (3) Soja plantada (SIDRA)    — dado de campo, IMUNE ao classificador.
+# Se a conclusão qualitativa (agricultura ao SUL da fronteira; marcha ao norte)
+# sobrevive nas três réguas, ela é robusta à convenção de classe; onde só sobrevive
+# numa, fica delimitado o que depende do rótulo. IC95% por bootstrap de AMCs (D19).
+# NÃO altera a figura-manchete (VARIAVEIS): é um estágio SEPARADO, análogo ao #35.
+
+def _centros_rulers(painel: pd.DataFrame) -> pd.DataFrame:
+    """Latitude do mean center por (régua, ano) para as três réguas de destino."""
+    linhas = []
+    for chave, (col, rot) in RULERS_DERIVA.items():
+        if col not in painel.columns:
+            continue
+        for ano, g in painel.groupby("ano"):
+            sub = g[["cx", "cy", col]].dropna()
+            sub = sub[sub[col] > 0]
+            if len(sub) < 3:
+                continue
+            mx, my = mean_center(sub["cx"].to_numpy(), sub["cy"].to_numpy(),
+                                 sub[col].to_numpy(float))
+            linhas.append({"regua": chave, "rotulo": rot, "ano": int(ano),
+                           "x_mean": mx, "y_mean": my,
+                           "peso_total": float(sub[col].sum()), "n_amc": int(len(sub))})
+    df = pd.DataFrame(linhas)
+    ll = metros_para_lonlat(df[["x_mean", "y_mean"]].to_numpy())
+    df["lat_mean"] = ll[:, 1]
+    return df.sort_values(["regua", "ano"]).reset_index(drop=True)
+
+
+def robustez_deriva(painel: pd.DataFrame, centros: pd.DataFrame,
+                    fazer_bootstrap: bool = True, fazer_figura: bool = True) -> None:
+    """Régua-espelho do destino agrícola — robustez do #32 à deriva do Mosaico (#28D).
+
+    Recomputa o centroide agrícola sob 3 réguas de destino e testa: (a) o gradiente
+    (agric-régua ao sul da pastagem) e (b) o ΔNorte no Ato III sobrevivem à troca de
+    régua? Saídas: `centro_massa_robustez_deriva[_desloc].csv` + figura.
+    """
+    print("\n" + "=" * 70)
+    print("[robustez] Régua-espelho do destino agrícola (deriva do Mosaico, #28D)")
+    print("=" * 70)
+
+    reg = _centros_rulers(painel)
+
+    desloc_ic = None
+    if fazer_bootstrap:
+        cols = {k: v[0] for k, v in RULERS_DERIVA.items() if v[0] in painel.columns}
+        rots = {k: v[1] for k, v in RULERS_DERIVA.items() if v[0] in painel.columns}
+        banda, desloc_ic = bootstrap_incerteza(painel, cols, rots)
+        b = banda.rename(columns={"variavel": "regua"})[["regua", "ano", "lat_lo", "lat_hi"]]
+        reg = reg.merge(b, on=["regua", "ano"], how="left")
+
+    reg.to_csv(ARQ_ROB_DERIVA, index=False, encoding="utf-8")
+    print(f"[OK] {ARQ_ROB_DERIVA.relative_to(ROOT)}  ({len(reg)} linhas)")
+
+    # Latitude da PASTAGEM (a fronteira) como referência do teste de gradiente.
+    past = centros[centros.variavel == "pastagem"].set_index("ano")["lat_mean"]
+
+    print("\n  Gradiente — latitude do centro agrícola por régua (↑=norte) e vão até a pastagem:")
+    for chave, (col, rot) in RULERS_DERIVA.items():
+        s = reg[reg.regua == chave].set_index("ano")["lat_mean"]
+        for ano in (2020, 2024):
+            if ano in s.index and ano in past.index:
+                vao = (s.loc[ano] - past.loc[ano]) * 111
+                print(f"    {rot:24s} {ano}: {s.loc[ano]:+.3f}  (vão p/ pastagem {vao:+6.1f} km"
+                      f" — {'ao SUL ✓' if vao < 0 else 'ao NORTE ✗'})")
+
+    if desloc_ic is not None:
+        desloc_ic.to_csv(ARQ_ROB_DERIVA_DESLOC, index=False, encoding="utf-8")
+        print(f"\n  ΔNorte no Ato III (2020→2024) por régua, com IC95% (D19):")
+        a3 = desloc_ic[desloc_ic.janela == "Ato III"]
+        for _, r in a3.iterrows():
+            marca = "≠0 robusto" if r["exclui_zero"] else "INCLUI 0 (dentro do ruído)"
+            print(f"    {r['rotulo']:24s} ΔN {r['dN_km']:+6.1f} km "
+                  f"| IC95% [{r['dN_lo']:+6.1f}, {r['dN_hi']:+6.1f}] | {marca}")
+        print(f"  [OK] {ARQ_ROB_DERIVA_DESLOC.relative_to(ROOT)}  ({len(desloc_ic)} linhas)")
+
+    if fazer_figura:
+        fig_robustez_deriva(reg, past)
+
+
+def fig_robustez_deriva(reg: pd.DataFrame, past: pd.Series) -> None:
+    """Latitude×ano das três réguas de destino agrícola, com a pastagem (fronteira)
+    de referência e IC95% sombreado. Mostra que o congelamento da agricultura no
+    Ato III é artefato de rótulo: sob agric∪mosaico e soja SIDRA (imune) ela segue
+    subindo, e em nenhuma régua a agricultura cruza a pastagem (gradiente robusto)."""
+    import matplotlib.pyplot as plt
+
+    fig, ax = plt.subplots(figsize=(11, 6))
+    info3 = ATOS["III"]
+    ax.axvspan(info3["inicio"] - 0.5, info3["fim"] + 0.5, color=CORES_ATO["III"],
+               alpha=0.10, zorder=0, label=f"Ato III ({info3['inicio']}–{info3['fim']})")
+    ax.plot(past.index, past.values, color="#e8920c", lw=1.7, ls=":",
+            label="Pastagem (fronteira, ref.)", zorder=2)
+    for chave, (col, rot) in RULERS_DERIVA.items():
+        s = reg[reg.regua == chave].sort_values("ano")
+        if s.empty:
+            continue
+        cor = CORES_RULER[chave]
+        if "lat_lo" in s.columns and s["lat_lo"].notna().any():
+            ax.fill_between(s["ano"], s["lat_lo"], s["lat_hi"], color=cor,
+                            alpha=0.13, lw=0, zorder=1)
+        ls = "-" if chave == "agricultura" else "--"
+        ax.plot(s["ano"], s["lat_mean"], ls=ls, color=cor, lw=2.1, label=rot, zorder=3)
+
+    ax.set_xlabel("Ano")
+    ax.set_ylabel("Latitude do centro de massa (°, ↑ = norte)")
+    ax.set_title("Robustez do #32 à deriva do Mosaico — régua-espelho do destino agrícola\n"
+                 "a agricultura MapBiomas congela no Ato III; sob agric∪mosaico e soja SIDRA "
+                 "(imune) segue subindo; nenhuma régua cruza a pastagem",
+                 fontsize=11.5, loc="left")
+    ax.legend(loc="best", fontsize=9, ncol=2, framealpha=0.9)
+    ax.grid(True, alpha=0.25)
+    fig.tight_layout()
+    fig.savefig(DIR_OUT / "robustez_deriva_regua.png", dpi=160, bbox_inches="tight")
+    plt.close(fig)
+    print(f"[fig] {(DIR_OUT / 'robustez_deriva_regua.png').relative_to(ROOT)}")
+
+
+# ---------------------------------------------------------------------------
 # Pipeline principal
 # ---------------------------------------------------------------------------
 
@@ -614,6 +757,8 @@ def main() -> None:
     ap.add_argument("--sem-figuras", action="store_true", help="só CSVs, sem PNGs")
     ap.add_argument("--sem-bootstrap", action="store_true",
                     help="pula o IC por bootstrap (mais rápido)")
+    ap.add_argument("--sem-robustez", action="store_true",
+                    help="pula a robustez da régua-espelho (deriva do Mosaico, #28D)")
     args = ap.parse_args()
 
     print("=" * 70)
@@ -621,6 +766,10 @@ def main() -> None:
     print("=" * 70)
 
     painel, _ = carregar_dados()
+
+    # Régua-espelho: agricultura ∪ mosaico (usada só na robustez da seção 6).
+    painel["agric_mais_mosaico_ha"] = (painel["lulc_agricultura_ha"].fillna(0)
+                                       + painel["lulc_mosaico_usos_ha"].fillna(0))
 
     centros = calcular_centros_anuais(painel)
     elipses = calcular_elipses(painel)
@@ -666,6 +815,12 @@ def main() -> None:
         fig_trajetorias(centros)
         fig_elipses_por_ato(elipses)
         fig_latitude(centros, banda)
+
+    # Robustez oficial à deriva do Mosaico (#28D): régua-espelho do destino agrícola.
+    if not args.sem_robustez:
+        robustez_deriva(painel, centros,
+                        fazer_bootstrap=not args.sem_bootstrap,
+                        fazer_figura=not args.sem_figuras)
 
     print("\n" + "=" * 70)
     print("CONCLUÍDO — Pipeline #32. Camada 1 (keystone) da narrativa Sul→Norte.")

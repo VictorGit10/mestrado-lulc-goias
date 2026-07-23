@@ -10,7 +10,7 @@ justamente LUMPS heterogêneos. Este pipeline abre os lumps e adiciona
 controles, reusando a MESMA máquina do #32 (mean/median center sobre os
 centroides das 166 AMCs, EPSG:5880) — não reimplementa nada.
 
-Três sondagens (cada uma com hipótese):
+Quatro sondagens (cada uma com hipótese):
 
 1. SOJA ISOLADA + validação cruzada de fonte.
    "Agricultura" mistura soja + milho + cana + algodão + perenes. A soja é a
@@ -33,6 +33,16 @@ Três sondagens (cada uma com hipótese):
    DENTRO da pecuária que separa fronteira de núcleo. Área urbana entra como
    segundo controle (deve ficar parada / puxar p/ Goiânia-Entorno DF).
 
+4. RÉGUA-ESPELHO da deriva do Mosaico (propagação da robustez do #32; #28D/D25).
+   A #28D mostrou que, no fim da série, a conversão pasto→agricultura migra para
+   a classe "Mosaico de Usos". Aqui o efeito é DUPLAMENTE visível porque a fonte
+   está desagregada: tanto o lump `agricultura` quanto o RASTER de soja
+   (`lulc_soja_ha`) subcontam a soja recente, enquanto a SIDRA é IMUNE. Duas
+   consequências testáveis: (a) a validação cruzada raster×SIDRA da sondagem 1
+   deve VALER antes de 2020 e DIVERGIR no Ato III (é aí que o raster perde a
+   soja); (b) sob a régua `agricultura ∪ mosaico` o congelamento agrícola do Ato
+   III desaparece — como no #32. Régua imune (SIDRA) já está na sondagem 1.
+
 ABORDAGEM
 ---------
 Reusa cm.carregar_dados / cm.mean_center / cm.median_center /
@@ -52,7 +62,8 @@ ENTRADAS
 
 SAÍDAS
     data/processed/centro_massa_desagregado_anual.csv
-    outputs/centro_massa/desagregado_soja.png       (soja raster×SIDRA vs lump)
+    data/processed/centro_massa_desagregado_bootstrap.csv
+    outputs/centro_massa/desagregado_soja.png       (raster×SIDRA×lump + régua agric∪mosaico)
     outputs/centro_massa/desagregado_vegetacao.png  (3 formações vs lump)
     outputs/centro_massa/desagregado_controle.png   (leite/urbano vs fronteira)
 
@@ -96,6 +107,8 @@ VARS = {
     # --- 1. soja isolada + fonte cruzada ---
     "soja_raster": ("lulc_soja_ha",          "Soja — MapBiomas (raster)", "#6a1b9a", "soja"),
     "soja_sidra":  ("agri_soja_ha_plantada", "Soja — SIDRA (área plant.)", "#ab47bc", "soja"),
+    # --- 4. régua-espelho da deriva do Mosaico (#28D/D25) ---
+    "agric_uniao_mosaico": ("agric_mais_mosaico_ha", "Agricultura ∪ Mosaico", "#7b1fa2", "soja"),
     # --- 2. vegetação aberta ---
     "floresta":    ("lulc_floresta_nativa_ha",   "Floresta nativa (galeria)", "#1b5e20", "veg"),
     "savanica":    ("lulc_formacao_savanica_ha", "Formação savânica (Cerrado)", "#66bb6a", "veg"),
@@ -222,6 +235,9 @@ def main() -> None:
     print("=" * 70)
 
     painel, _ = cm.carregar_dados()  # reuso: cx/cy + veg_natural_ha idênticos ao #32
+    # Régua-espelho da deriva (sondagem 4): agricultura ∪ mosaico (idêntico ao #32).
+    painel["agric_mais_mosaico_ha"] = (painel["lulc_agricultura_ha"].fillna(0)
+                                       + painel["lulc_mosaico_usos_ha"].fillna(0))
     df = calcular(painel)
     df.to_csv(ARQ_ANUAL, index=False, encoding="utf-8")
     print(f"[OK] {ARQ_ANUAL.relative_to(ROOT)} ({len(df)} linhas)\n")
@@ -240,15 +256,31 @@ def main() -> None:
                   "veg_natural", "savanica", "floresta", "campo_nativo"):
         print(f"  {VARS[chave][1]:28s} {dn_por_ato(df, chave)}")
 
-    # --- Validação cruzada soja: raster × SIDRA ---
+    # --- Validação cruzada soja: raster × SIDRA (refinada pela deriva #28D) ---
+    # A validação raster×SIDRA é a manchete do #44. A deriva do Mosaico (#28D)
+    # prevê que ela VALE antes de 2020 e DIVERGE no Ato III, quando o raster perde
+    # a soja recém-convertida para o Mosaico (a SIDRA é imune). Reportamos os dois.
     print("\n[soja: raster × SIDRA] concordância de fonte (anos em comum):")
     r = df[df.variavel == "soja_raster"].set_index("ano")["lat_mean"]
     s = df[df.variavel == "soja_sidra"].set_index("ano")["lat_mean"]
     comum = r.index.intersection(s.index)
+    pre = [a for a in comum if a <= 2019]
+    a3  = [a for a in comum if a >= 2020]
     corr = np.corrcoef(r.loc[comum], s.loc[comum])[0, 1]
     difmed = float((r.loc[comum] - s.loc[comum]).abs().mean()) * 111  # ° → km
     print(f"  corr(latitude anual) = {corr:.3f} | |Δlat| médio = {difmed:.1f} km "
           f"| n anos = {len(comum)}")
+    # A deriva #28D não aparece no NÍVEL do gap (que fica ~estável) e sim na
+    # DIVERGÊNCIA DE TRAJETÓRIA no Ato III: o raster perde a soja nova (norte) p/ o
+    # Mosaico e recua ao sul, enquanto a SIDRA (imune) sobe. Reportamos isso.
+    if pre and a3:
+        corr_pre = np.corrcoef(r.loc[pre], s.loc[pre])[0, 1]
+        dr = (r.loc[max(a3)] - r.loc[min(a3)]) * 111   # Δlat raster no Ato III (km)
+        ds = (s.loc[max(a3)] - s.loc[min(a3)]) * 111   # Δlat SIDRA  no Ato III (km)
+        sentido = "SENTIDOS OPOSTOS" if dr * ds < 0 else "mesmo sentido"
+        print(f"  [deriva #28D] corr pré-2020 = {corr_pre:.3f} (validação histórica vale); "
+              f"no Ato III as trajetórias DIVERGEM — raster {dr:+.1f} km × SIDRA {ds:+.1f} km "
+              f"({sentido}): o raster perde a soja nova p/ o Mosaico.")
 
     # --- Gradiente soja vs lump ---
     ag = df[df.variavel == "agricultura"].set_index("ano")["lat_mean"]
@@ -286,15 +318,29 @@ def main() -> None:
             marca = "≠0 robusto" if rr["exclui_zero"] else "INCLUI 0 (dentro do ruído)"
             print(f"  {rr['rotulo']:28s} ΔN {rr['dN_km']:+6.1f} km "
                   f"| IC95% [{rr['dN_lo']:+6.1f}, {rr['dN_hi']:+6.1f}] | {marca}")
+
+        # Régua-espelho (sondagem 4): Ato III exposto (raster/lump) × corrigido/imune.
+        print("\n  [deriva do Mosaico #28D] ΔNorte no Ato III (2020→24) — "
+              "exposto (raster/lump) × corrigido/imune:")
+        a3_ic = desloc_ic[desloc_ic.janela == "Ato III"]
+        for chave in ("agricultura", "soja_raster", "agric_uniao_mosaico", "soja_sidra"):
+            rr = a3_ic[a3_ic.variavel == chave]
+            if rr.empty:
+                continue
+            rr = rr.iloc[0]
+            marca = "≠0 robusto" if rr["exclui_zero"] else "INCLUI 0 (dentro do ruído)"
+            print(f"    {rr['rotulo']:28s} ΔN {rr['dN_km']:+6.1f} km "
+                  f"| IC95% [{rr['dN_lo']:+6.1f}, {rr['dN_hi']:+6.1f}] | {marca}")
         print(f"[OK] {arq_boot.relative_to(ROOT)} ({len(desloc_ic)} linhas)")
 
     if not args.sem_figuras:
         print()
         fig_grupo(df, "soja",
-                  "Soja isolada vs 'agricultura' (lump) — centro de massa, Goiás 1985–2024\n"
-                  "roxo = soja (raster e SIDRA); tracejado magenta = agregado agrícola",
+                  "Soja isolada vs 'agricultura' (lump) + régua-espelho da deriva — Goiás 1985–2024\n"
+                  "roxo = soja (raster e SIDRA); violeta = agric∪mosaico (régua-espelho #28D); tracejado magenta = lump",
                   "desagregado_soja.png",
-                  ["agricultura", "soja_raster", "soja_sidra", "pastagem"], banda=banda)
+                  ["agricultura", "soja_raster", "soja_sidra", "agric_uniao_mosaico", "pastagem"],
+                  banda=banda)
         fig_grupo(df, "veg",
                   "Vegetação natural aberta em formações — centro de massa, Goiás 1985–2024\n"
                   "tracejado verde = lump; savânica = substrato da fronteira; floresta = mata de galeria",

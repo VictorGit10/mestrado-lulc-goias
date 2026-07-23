@@ -97,6 +97,7 @@ Ou seja: o crédito **de fato sobe** um pouco ao norte (não é imóvel), mas o 
 - **SICOR = crédito contratado** (não desembolso homogêneo); reflete onde o crédito é *tomado*, adequado à pergunta de concentração.
 - **VA agro** mistura valor de lavoura e de pecuária — daí a nuance do Achado 2.
 - **Incerteza reportada (D19)**: todo ΔNorte vem com IC95% por bootstrap; o vão latitude↔fronteira é lido como robusto só quando as **faixas não se sobrepõem** (é o caso de valor↔pasto e crédito↔pasto).
+- **Imune à deriva do Mosaico (#28D/D25).** As variáveis **analíticas** deste pipeline — crédito SICOR (BCB), VA agropecuário e PIB (IBGE/Contas Regionais) — **não passam pelo classificador MapBiomas**, então a deriva não as toca. As comparações-manchete são **crédito↔pastagem** e **valor↔pastagem** (pastagem quase não é drenada). A única âncora exposta é a `agricultura` no vão *valor↔agricultura* (Achado 2), mas: (a) a janela do VA agro termina em **2021**, antes do pico da deriva (2022–24); (b) o mesmo achado é carregado pela comparação com a pastagem (imune); (c) um viés de poucos km na âncora não vira um vão de nível de ~40–100 km medido sobre ~20 anos. As linhas de `agricultura`/`soja_raster` nas figuras herdam o artefato de fim de série já documentado no #32/#44 — cosmético, nenhuma conclusão do #50 depende da posição terminal delas.
 
 ## Conexão com a narrativa
 

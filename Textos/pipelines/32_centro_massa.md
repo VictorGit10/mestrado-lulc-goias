@@ -8,6 +8,9 @@
 - `data/processed/centro_massa_elipses.csv` — variável × ato: parâmetros da elipse de desvio-padrão.
 - `data/processed/centro_massa_deslocamento.csv` — variável × ato: deslocamento N–S e L–O (km), distância total e azimute.
 - `data/processed/centro_massa_bootstrap.csv` — variável × janela (LÍQUIDO + atos): ΔNorte pontual + **IC95%** (`dN_lo`/`dN_hi`) e flag `exclui_zero`, por bootstrap de AMCs.
+- `data/processed/centro_massa_robustez_deriva.csv` — régua × ano: latitude do centroide agrícola sob 3 réguas de destino + IC95%, para a robustez à deriva do Mosaico (#28D).
+- `data/processed/centro_massa_robustez_deriva_desloc.csv` — régua × janela: ΔNorte + IC95% das 3 réguas.
+- `outputs/centro_massa/robustez_deriva_regua.png` — latitude × ano das 3 réguas + pastagem de referência.
 - `outputs/centro_massa/overview_posicoes.png` — mapa estadual, posição 1985 vs. 2024.
 - `outputs/centro_massa/trajetorias.png` — zoom pequeno-múltiplo na trajetória anual.
 - `outputs/centro_massa/elipses_por_ato.png` — elipses de dispersão por ato.
@@ -106,6 +109,61 @@ Um centro médio é uma estatística **pontual** — sem barra de erro não dá 
 
 > [!NOTE]
 > O bootstrap incide sobre o centro **médio**. O centro **mediano** (Weiszfeld) continua reportado ao lado como robustez a um eixo *diferente* — o peso do cluster, não a amostra de unidades. As duas robustezas são complementares.
+
+---
+
+## Robustez à deriva do Mosaico (#28D): a régua-espelho do destino agrícola
+
+**A ameaça.** A [#28D](28D_deriva_mosaico.md) (Decisão D25) mostrou que, no fim da
+série MapBiomas, a conversão `pasto→agricultura` migra para a classe **"Mosaico de
+Usos" (21)**. O centroide da agricultura pondera pelo **estoque**
+`lulc_agricultura_ha`, que subconta a soja recém-convertida — logo o congelamento
+da agricultura no Ato III (+0,2 km, acima) pode ser **artefato de rótulo, não de
+campo**. Como confiar na figura se o destino da conversão mudou de nome?
+
+**O teste.** Recomputa-se o centroide agrícola sob **três réguas de destino**, com
+IC95% por bootstrap (D19). Se a conclusão sobrevive nas três, é robusta à convenção
+de classe; onde só sobrevive numa, fica delimitado o que depende do rótulo.
+
+| Régua de destino | O que é | Vulnerabilidade à deriva |
+|---|---|---|
+| **Agricultura** (MapBiomas) | a régua da manchete | **exposta** (o rótulo que esvazia) |
+| **Agricultura ∪ Mosaico** | reivindica a massa escondida | teto do viés (reabsorve tudo) |
+| **Soja plantada (SIDRA)** | dado de campo do IBGE | **imune** (não passa pelo classificador) |
+
+**Resultado 1 — o gradiente é robusto nas três réguas.** A agricultura fica ao
+**sul** da pastagem em toda régua e todo ano: o vão agricultura↔pastagem em 2024 é
+−135 km (MapBiomas), −111 km (∪ Mosaico) e −122 km (soja SIDRA). **A manchete —
+agricultura ancorada ao sul da fronteira que marcha — não depende da convenção de
+Mosaico.**
+
+**Resultado 2 — o "congelamento no Ato III" é, em parte, artefato de rótulo.**
+ΔNorte no Ato III (2020→2024), com IC95%:
+
+| Régua | ΔNorte Ato III | IC95% | Veredito D19 |
+|---|---|---|---|
+| Agricultura (MapBiomas) | **+0,2 km** | [−0,5, +1,1] | inclui 0 — *congelada* |
+| Agricultura ∪ Mosaico | **+4,1 km** | [+1,0, +6,9] | **≠0 — sobe** |
+| Soja plantada (SIDRA) | **+8,2 km** | [−0,5, +16,1] | inclui 0 — *sugestivo* |
+
+Ao reivindicar o Mosaico, aparece um deslocamento ao norte **estatisticamente
+sólido** (+4,1 km, IC exclui zero) exatamente onde a régua crua mostra
+congelamento. A soja SIDRA aponta na **mesma direção** e com magnitude maior
+(+8,2 km), mas sobre uma janela de só 4 anos o IC **inclui zero** — é
+**corroborante, não estabelecido**. Leitura honesta: a agricultura de fato
+continuou subindo no Ato III (a deriva escondia ~4–8 km desse movimento), mas só a
+régua ∪ Mosaico crava o número com IC limpo; **a frase "a agricultura parou depois
+de 2020" deve ser abandonada — é assinatura do classificador, não do campo.**
+
+**O que a deriva NÃO toca.** A perna que *sobe* da narrativa (pastagem e rebanho)
+é imune: o rebanho é SIDRA e o estoque de pastagem quase não é drenado. A deriva
+morde só a **perna da agricultura**, e só a sua **trajetória recente** — não o
+gradiente, que é o coração da manchete. Ver a análise-companheira
+`centro_massa_deriva_check.py` (§5.4 do #28D) para a triangulação do viés
+(+10 km pontual em 2019→24) e o centroide da massa escondida (+46,5 km ao norte da
+agricultura visível).
+
+![Robustez à deriva do Mosaico](../../outputs/centro_massa/robustez_deriva_regua.png)
 
 ---
 
