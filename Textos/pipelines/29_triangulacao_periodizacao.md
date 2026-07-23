@@ -71,10 +71,49 @@ Com α=0.01, nenhum shift é detectado. Com α=0.10, detecta 2004, 2006, 1996, 1
 | **~2001** | **✓ (F=62.2)** | **✗** | **✓ (pico 2003)** | **Confirmada (primário + sensibilidade)** |
 | ~2005/2006 | ✗ | ✓ (2004/2006) | ✓ (pico 2003) | Sensibilidade (sem primário) |
 | ~2014 | ✗ | ✓ (agric) | ✗ | Não confirmada (1 método, 1 série) |
-| **~2020** | **✓ (F=21.5)** | **✗** | **✓ (pico 2018-2020)** | **Confirmada (primário + sensibilidade)** |
+| **~2020** | **✓ (F=21.5)** | **✗** | **⚠️ (pico 2018-2020)** | **Confirmada** — mas ver ressalva abaixo |
+
+> ⚠️ **O "✓" do KL/TV em ~2020 NÃO é corroboração independente** (deriva do Mosaico, §"A fronteira de 2020 é artefato?"): o KL/TV opera sobre a matriz de 6 classes que não rastreia o Mosaico, então compartilha o objeto contaminado com o primário. A corroboração **independente e imune** do corte de 2020 é a **soja SIDRA** (quebra em 2020 sozinha, F=7,8) + a **pastagem** + o **câmbio** (#37). A fronteira de 2020 segue confirmada; a sensibilidade que a confirma é outra.
 
 **Fronteiras confirmadas**: ~2001, ~2020 → definem P1/P2 e P3/P4.
 **Fronteira de sensibilidade**: ~2005/2006 → define P2/P3 (sem primário, mas com composição diferente).
+
+## A fronteira de 2020 é artefato da deriva do Mosaico? (robustez, #28D)
+
+Uma ameaça séria: **o sup-F usa `agricultura_delta`, e a [#28D](28D_deriva_mosaico.md)/D25 mostrou que a agricultura *congela* por volta de 2020 por artefato de classificação** (a soja nova vira "Mosaico de Usos"). O método de sensibilidade KL/TV é ainda mais exposto — opera sobre matrizes de transição, o objeto que a deriva distorce diretamente. Logo, o corte que abre o Ato III podia ser gerado pela reclassificação, não por um fenômeno de campo. Testado em `periodizacao_robustez_deriva.py` (troca `agricultura_delta` pela régua corrigida `(agricultura ∪ mosaico)_delta`):
+
+| Cenário (séries do sup-F) | Quebras (binseg) | F em 2020 |
+|---|---|---|
+| **Original** [veg, pasto, agric] | 1991 · 2001 · **2020** | **21,5** |
+| **Corrigido** [veg, pasto, agric∪mosaico] | 1991 · 2001 · **2020** | **34,1** |
+
+**A fronteira de 2020 é robusta — não some com a correção, fortalece** (F 21,5 → 34,1); a série corrigida `agric∪mosaico` sozinha quebra exatamente em 2020 (F=39,8, p=2·10⁻⁷). O que a deriva faz é **inverter o sinal** da mudança, não criar a quebra:
+
+| série (Δ Mha/a) | Ato II (2001–19) | Ato III (2020–24) | leitura |
+|---|---:|---:|---|
+| agricultura (cru) | +0,135 | +0,024 | "desacelera" — **artefato** |
+| agricultura ∪ mosaico | +0,134 | **+0,329** | **acelera** — real |
+| pastagem | −0,071 | **−0,273** | declínio triplica (SIDRA soja +38%) |
+| veg. natural (imune) | −0,066 | −0,068 | plana — não quebra em 2020 |
+
+**O que sustenta a fronteira real de 2020**: a **pastagem** cedendo três vezes mais rápido (corroborado pela SIDRA — soja +38% em 2020–24) e o choque cambial de 2020 (#37, imune). A série **imune** (veg. natural) **não** quebra em 2020 (quebra em 1998, era Kandir): o Ato III é um evento de **composição da fronteira** (pasto→lavoura acelera), não de taxa de desmatamento.
+
+**Confirmação por fonte 100% imune (soja SIDRA).** Para fechar sem depender de nenhuma classe MapBiomas, rodei o mesmo sup-F na **área de soja plantada da SIDRA** (PAM/IBGE — levantamento declaratório, nunca passa pelo classificador). O **delta quebra em 2020** (F=7,8, p=0,008) e a taxa de expansão **triplica** (Ato II +0,10 → Ato III +0,31 Mha/a); o nível quebra em 2003 (boom de commodities). A fronteira de 2020 existe fora do MapBiomas.
+
+**Status dos outros testes de quebra sob a deriva:**
+
+| Teste | Usa | Status sob a deriva |
+|---|---|---|
+| sup-F multivariado (#29a) | Δveg, Δpasto, **Δagric** | **Robusto** (testado: 2020 fortalece sob correção) |
+| soja SIDRA (imune) | Δ área plantada | **Confirma** 2020 (F=7,8), fora do MapBiomas |
+| **KL/TV (#29c)** | **matriz de transição, 6 classes** | **CONTAMINADO** — as 6 classes **não rastreiam o Mosaico**, então a deriva muda a matriz ~2020; o pico 2018-2020 lê o mesmo artefato. **Não é corroboração independente.** |
+| STARS (#29b) | Δveg, Δpasto, Δagric | Não sinaliza 2020 (shifts em 2004/06/14, pré-deriva) — inalterado |
+| univariado (#26) | Δ por classe | A quebra da **agricultura em 2018** (F=12,3) **é a deriva**; veg (1998) e pasto (2001) intactos |
+
+**Correção ao registro:** a linha "~2020: KL/TV (pico 2018-2020) ✓" da triangulação deve ser lida com ressalva — o KL/TV **não** é uma sensibilidade *independente* aqui, porque compartilha o objeto contaminado com o primário. A corroboração independente real do corte de 2020 é a **soja SIDRA** + a **pastagem** + o **câmbio** (#37) — todas imunes ao classificador.
+
+> [!WARNING]
+> **A caracterização "Conversão seletiva" está invertida pela deriva.** A leitura de que a agricultura desacelera / "para de crescer" no Ato III (e a nota do marco 2018) é a **assinatura da deriva**, não o campo. Sob a régua corrigida a conversão **acelera**. A *fronteira* de 2020 está correta; o *rótulo* do Ato III é candidato a revisão (ex.: "Conversão acelerada, mascarada"). Idem a leitura do Intensity (#31) de "retração da agricultura" em P3 (§ abaixo). Não renomeado no `config_periodos.py` sem decisão do autor.
 
 ## Verificação de sanidade (Pipeline #30)
 
@@ -200,6 +239,9 @@ Com apenas 4 anos em P2, o poder estatístico é limitado (63%). O resultado bor
 | veg→agric (/a) | 0.0000 | 0.0001 | 0.0000 |
 
 Em P2 (2001-2019), a conversão pasto→agric é 2x mais intensa que em P1, e a regeneração pasto→veg_nat começa a ganhar importância relativa. P3 (2020-2024) se distingue pela regeneração (pasto→veg 0.11%/a, maior que qualquer período anterior) e pela retração da agricultura.
+
+> [!WARNING]
+> A "**retração da agricultura**" em P3 e a queda de `pasto→agric` são **artefato da deriva do Mosaico** (#28D): o fluxo pasto→agricultura é reetiquetado como pasto→Mosaico nos anos terminais. Sob a régua corrigida a conversão **acelera** (ver a seção de robustez acima). A distinção real de P3 é a **aceleração** do declínio da pastagem (SIDRA soja +38%), não retração da lavoura.
 
 ### Intensidade por categoria
 

@@ -14,6 +14,18 @@ Fronteiras confirmadas (primario + sensibilidade):
     ~2001: sup-F (F=62.2) + KL/TV (pico 2003)
     ~2020: sup-F (F=21.5) + KL/TV (pico 2018-2020)
 
+Robustez da fronteira 2020 a deriva do Mosaico (#28D, 2026-07-23):
+    O sup-F usa agricultura_delta, que a deriva CONGELA (~2020 a soja nova vira
+    "Mosaico" em vez de "Agricultura"). Testado (periodizacao_robustez_deriva.py):
+    trocando agricultura por (agricultura U mosaico), a quebra de 2020 NAO some —
+    FORTALECE (F 21.5 -> 34.1); a serie corrigida quebra sozinha em 2020 (F=39.8).
+    A deriva INVERTE o SINAL da mudanca (agric -0.11 vira agric U mosaico +0.20),
+    nao cria a quebra. Sustentada pela PASTAGEM (declinio -0.07 -> -0.27 Mha/a,
+    corroborado por SIDRA soja +38%) e pelo cambio de 2020 (#37, imune). A serie
+    IMUNE (veg) nao quebra em 2020 -> Ato III e evento de COMPOSICAO da fronteira
+    (pasto->lavoura acelera), nao de taxa de desmatamento. CONCLUSAO: a fronteira
+    de 2020 e real; o ROTULO "Conversao seletiva" esta invertido (ver ATOS III).
+
 Fronteira 2005/2006 — nota metodologica (NAO incluida como fronteira de periodo):
     Detectada por STARS (shifts em 2004/2006 com l=5, alpha=0.05) e KL/TV
     (pico local 2003), mas NAO pelo metodo primario (sup-F multivariado).
@@ -56,7 +68,14 @@ from __future__ import annotations
 ATOS = {
     "I":   {"inicio": 1985, "fim": 2000, "titulo": "Pastagem como herança"},
     "II":  {"inicio": 2001, "fim": 2019, "titulo": "Expansão e intensificação"},
-    "III": {"inicio": 2020, "fim": 2024, "titulo": "Conversão seletiva"},
+    "III": {"inicio": 2020, "fim": 2024, "titulo": "Conversão seletiva",
+            # ATENCAO (2026-07-23): a FRONTEIRA de 2020 e robusta (ver docstring),
+            # mas o TITULO "Conversao seletiva" nasceu da leitura crua de que a
+            # agricultura desacelerou — que e a DERIVA do Mosaico (#28D), invertida.
+            # Sob a regua corrigida a conversao ACELERA. Titulo candidato a revisao
+            # (ex.: "Conversao acelerada (mascarada)"). Decisao do autor — nao
+            # renomeado aqui para nao propagar mudanca narrativa sem aprovacao.
+            "nota_deriva": "caracterizacao sob revisao: conversao acelera, nao desacelera"},
 }
 
 # Versao flat para scripts que so precisam de (inicio, fim, titulo)
@@ -128,8 +147,11 @@ MARCOS = {
         "evidencia": "B",       # referencia narrativa
         "escopo_empirico": "cerrado_amplo",
         "nota": "Perda de veg_nat estabiliza em torno de 0,10 pp/a; pastagem cede "
-                "0,33-0,61 pp/a consistentemente (2018-21). Agricultura para de "
-                "crescer; vegetação se recupera lentamente.",
+                "0,33-0,61 pp/a consistentemente (2018-21). ATENCAO: o antigo "
+                "'agricultura para de crescer' e ARTEFATO da deriva do Mosaico "
+                "(#28D) — a soja nova vira 'Mosaico'; sob (agric U mosaico) a "
+                "agricultura ACELERA no Ato III (SIDRA soja +38%). Ler a pastagem "
+                "cedendo mais rapido como o sinal real de conversao acelerada.",
     },
     2024: {
         "titulo": "Estado atual",
