@@ -111,7 +111,9 @@ A âncora (a) do §3 favorece a deriva como componente dominante — a soja cres
 38% e a agricultura do MapBiomas ficou parada, o que nenhuma mudança real de
 manejo explica sozinha. Mas (b) não é zero, e separar as duas exigiria uma fonte
 independente de resolução maior (a coleção de 10 m do MapBiomas, baseada em
-Sentinel-2, cobre 2017–2024 e seria o teste natural — **não rodada**).
+Sentinel-2, cobre 2017–2024 e seria o teste natural — **executada em 24/jul, ver
+§9.7**: ela *remove* a leitura "hedge de resolução" mas, por ser MapBiomas, não
+separa legenda-compartilhada de ILP real).
 
 **Para o #28 a distinção não muda a consequência:** em qualquer dos dois mundos,
 a população "conversão pasto→lavoura" medida em 2024 não é comparável à de 2015.
@@ -275,10 +277,16 @@ Figura em `outputs/deriva_mosaico/deriva_mosaico.png`.
 
 ## 8. Limitações e o que ficou de fora
 
-- **Artefato × realidade não foi separado** (§4). O teste natural — comparar com
-  a coleção de 10 m (Sentinel-2, 2017–2024) — não foi rodado. Um segundo teste,
-  que separa *instabilidade terminal do classificador* de *fenômeno de campo real*
-  sem depender do MapBiomas confirmar nada, está desenhado em **§9** (Coleção 9).
+- **Artefato terminal × realidade — PARCIALMENTE separado** (§9.6, executado
+  23/jul). A borda-móvel (coleções 6/8/9/10.1) **refutou** a instabilidade de janela
+  terminal (a rampa é ancorada em 2021+, não na borda; o ano terminal não é inflado;
+  o rótulo é estável pixel-a-pixel). O que **resta aberto** é *artefato-de-rótulo
+  compartilhado* × *ILP real* — que a borda-móvel não separa (efeito compartilhado por
+  todas as coleções, não de borda). A coleção de 10 m (Sentinel-2, 2017–2024)
+  **foi rodada (§9.7, 24/jul)**: ela remove a leitura "hedge de *resolução* sobre soja
+  limpa recuperável" (a 10 m não resolve o Mosaico em lavoura), mas por ser MapBiomas
+  não separa legenda-compartilhada de ILP real. A ambiguidade de fundo **sobrevive**,
+  com o intervalo apertado.
 - **O alcance fora do #28 não foi auditado** (§5.4). Sabe-se que #12/#19/#33/#39/#47
   leem as mesmas transições; não se mediu quanto cada um se move. É a próxima
   tarefa óbvia, e é maior que este pipeline.
@@ -322,8 +330,9 @@ série (filtros temporais com janela truncada nas bordas — ATBD Coleção 10,
 classificador rerroteou soja recém-convertida para o Mosaico" de "expansão real
 de sistemas integrados (ILP), que é legitimamente Mosaico". As duas hipóteses
 produzem a mesma série dentro de uma coleção só. Esta seção documenta o teste que
-as separa. **Não foi executado** — exige baixar e reprocessar outra coleção — mas
-é barato, usa dado público, e é o único caminho que *prova* a natureza do sinal.
+as separa. **EXECUTADO em 23/jul/2026** (Coleções 6, 8, 9 e 10.1) — resultado e
+veredito na §9.6. O desenho (§9.1–9.5) e a lição de método (não comparar níveis;
+usar a borda) seguem valendo; a §9.6 traz os números.
 
 ### 9.1 A hipótese, tornada falseável
 
@@ -397,6 +406,129 @@ Coleções antigas do MapBiomas são **públicas** (Google Earth Engine / downlo
 por bioma-UF). O reprocessamento é o mesmo do cubo censitário do #28, restrito ao
 recorte de Goiás e a ~3 anos de sobreposição terminal — ordem de minutos, não de
 infra. O gargalo é operacional (baixar a 9), não computacional.
+
+### 9.6 Resultado — EXECUTADO (23/jul/2026)
+
+Rodado para **quatro** coleções (borda terminal: 6→2020, 8→2022, 9→2023, 10.1→2024)
+— quatro posições de borda, uma reta de borda-móvel em vez de um ponto. A Coleção 9
+foi **baixada e reprocessada** como censo de GO (mesma máquina do #28,
+`export_cubo_mapbiomas_go.py --colecao 9` → `razao_destino_ano.py`); as coleções 6/8
+foram lidas **server-side** via `reduceRegion` no GEE (a razão é um *ratio*, robusta à
+resolução — `borda_movel_gee.py`). O cruzamento pixel-a-pixel Col9×10.1 (grades
+co-registradas, offset inteiro) está em `borda_movel_colecao9.py`.
+
+**Matriz da razão pasto→Mosaico / pasto→agricultura [coleção × ano]** (GEE, 90 m; `[ ]` = ano terminal, d=0):
+
+| coleção (→terminal) | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 |
+|---|---|---|---|---|---|---|---|
+| col6 (→2020)  | 4,7 | 4,1 | **[2,6]** | — | — | — | — |
+| col8 (→2022)  | 2,2 | 2,8 | 5,4 | 22,9 | **[8,7]** | — | — |
+| col9 (→2023)  | 1,7 | 2,3 | 4,8 | 21,4 | 13,7 | **[32,6]** | — |
+| col10.1 (→2024) | 1,5 | 1,8 | 4,6 | 13,9 | 13,5 | 29,1 | **[32,8]** |
+
+**Três achados convergentes:**
+
+1. **A rampa é ancorada no CALENDÁRIO (2021+), não na borda.** A razão explode em
+   2021 em *todas* as coleções que alcançam 2021 (col8, col9, col10.1) e está
+   **ausente na col6** (termina em 2020; seus últimos anos 4,7/4,1/2,6 são planos e
+   *declinam*, sem rampa). Lendo cada coluna (ano fixo) descendo as coleções, a razão
+   é ~estável — não cai com a distância à borda, como exigiria o artefato.
+
+2. **O ano terminal NÃO é inflado — refuta o artefato de janela terminal.** Se a
+   deriva fosse a regra de janela truncada da própria coleção, o ano terminal (d=0)
+   teria razão *maior* que o mesmo ano recalculado como interior numa coleção mais
+   nova. Dá o **oposto ou igual**: col6[2020]=2,6 < col10.1[2020]=4,6; col8[2022]=8,7
+   < col10.1[2022]=13,5; col9[2023]=32,6 ≈ col10.1[2023]=29,1. **Confirmado com
+   números EXATOS locais** (col9 e col10.1 baixadas, censo GO): col9 terminal
+   2023 = 32,5 **≤** col10.1 interior 2023 = 34,7.
+
+3. **O rótulo é ESTÁVEL pixel-a-pixel.** No cruzamento Col9×10.1 (mesma grade),
+   **97,5% dos pixels Mosaico da Col9 em 2023 seguem Mosaico na Col10.1**; só **2,5%
+   "curam" para Agricultura** — a *mesma* taxa do ano profundo-interior 2010 (2,4%).
+   Ganhar um ano de futuro (2024) **não** resolve o hedge. Fluxo reverso
+   (agri9→mos10) desprezível (0,02%).
+
+> ⚠️ **Nota de método (resolução).** A matriz server-side foi lida a 90 m (amostragem);
+> isso subconta levemente as coleções de *manchas finas* (col10.1 a 90 m dá 29,1 em
+> 2023 vs 34,7 no censo local exato). Não muda o veredito — o censo local exato da col9
+> e col10.1 confirma a direção do achado 2. A 300 m o viés é maior (col10.1[2023]=13,9)
+> e foi **descartado**; usar ≥90 m ou o censo local.
+
+**Veredito.** A deriva **não** é instabilidade de fim-de-série que o reprocessamento
+conserta — é um traço **estável, reproduzido por 3 coleções independentes, ancorado no
+calendário 2021+**, coincidente com a expansão real de soja da SIDRA (+38%, 2020-24). O
+teste **retira** a hipótese "hiccup terminal do classificador" (a §4a, na sua forma de
+*borda*) e **mantém aberta** a ambiguidade de fundo **artefato-de-rótulo × ILP real**: a
+borda-móvel *não* a separa, porque uma tendência *compartilhada* de rotular conversão
+recente rápida como Mosaico — ou uma mudança de **insumo ~2021** (transição Landsat 7→9)
+herdada por todas as coleções — não é um efeito de borda e sobrevive ao teste.
+
+**Consequência para o #28 / D25 — inalterada, e agora melhor fundamentada.** Ainda que a
+reclassificação seja "real" (a paisagem virou mistura), a população "pasto→agricultura"
+de 2023 continua incomparável à de 2015 — a *composição do destino* mudou. O tratamento
+**D26** (bracket `[agric, agric∪mosaico]` + âncora SIDRA) segue correto; muda a
+**justificativa**: de "borda instável do classificador" para "destino reallocado de
+forma *estável*". Truncar taxas de transição em ~2019 continua prudente — mas por
+composição de destino, não por fragilidade terminal.
+
+Saídas: `data/processed/borda_movel_matriz_colecoes.csv`,
+`borda_movel_razao_ano.csv`, `borda_movel_reclassificacao.csv`,
+`pastagem_conversao_destinos_col9.parquet`.
+
+### 9.7 A coleção 10 m (Sentinel-2) — EXECUTADA (24/jul/2026)
+
+A borda-móvel (§9.6) fechou o eixo *borda × calendário*, mas deixou aberto o eixo
+*artefato-de-rótulo compartilhado × ILP real*. A coleção **10 m do MapBiomas**
+(Sentinel-2, `lulc_10m/collection3`, 2017–2024) ataca esse eixo por dois lados que a
+borda-móvel não toca: **sensor independente** (Sentinel-2, não Landsat → imune à
+hipótese de mudança de insumo ~2021, Landsat 7→9) e **resolução 3× mais fina** (pode
+olhar *dentro* da célula-Mosaico de 30 m). O que ela **não** vence: continua sendo
+MapBiomas, mesma legenda até nível 3, mesma classe 21 — testa sensor+resolução, não
+metodologia/legenda.
+
+**O teste** (`scripts/mosaico_10m_sentinel.py`): dentro das células que a Landsat 10.1
+rotula Mosaico (classe 21), tabular a classe da 10 m (`reduceRegion.frequencyHistogram`)
+e ler a composição de área. Rodado em **6 recortes de ~1° Sul→Norte** com agregação
+count-weighted — GO inteiro numa chamada **trava o GEE** (o `reduceResolution+reproject`
+e o `sample` materializam o estado todo; um bbox limitado volta em ~2 s).
+
+**Resultado — composição 10 m dentro das células-Mosaico de 30 m (agregado GO, 2024):**
+
+| classe 10 m | fração |
+|---|---|
+| Agricultura (lavoura) | **11,5%** |
+| Pastagem | 24,5% |
+| Mosaico (a 10 m *também* hedgeia) | **33,5%** |
+| Vegetação nativa (floresta 20% + cerrado 8%) | ~29% |
+
+Calibração 2024: o Mosaico está a só **12% do caminho pasto→lavoura** (piso
+`f_agri|Pastagem` = 0,02; teto `f_agri|Agricultura` = 0,78). População-deriva
+(pasto-2017 → Mosaico-2024, a mais afiada): 18% agric / 31% pasto / **43% Mosaico** /
+8% outro. **Gradiente geográfico** (2024): a agricultura dentro do Mosaico cai
+**21% (Rio Verde/Sul) → 4% (Porangatu/Norte)** e a pastagem sobe **19% → 50%** —
+consistente com a deriva "aterrissando" na fronteira norte (§8, `centro_massa_deriva_check`).
+
+**Veredito.**
+
+1. **Remove a hipótese "hedge de RESOLUÇÃO sobre soja limpa recuperável".** Um sensor
+   independente e 3× mais fino **não** resolve o Mosaico em lavoura: o maior naco
+   continua Mosaico (33%), e a parte que a 10 m classifica com confiança é pasto+cerrado,
+   não crop (só ~11% é lavoura). **Não há soja limpa escondida ali para "recuperar".**
+2. **Não separa artefato-de-legenda × ILP real.** A metodologia compartilhada faz os dois
+   produtos MapBiomas hedgearem igual; a 10 m não pode arbitrar entre "a paisagem é mista
+   de verdade" e "a legenda rotula conversão rápida como Mosaico".
+3. **O Δcalendário 2018→2024 é fraco (+0,06 em `f_agri`) e confundido pela instabilidade
+   beta da 10 m** (2018 viu 47% de veg nativa dentro do Mosaico — ruído de ano inicial; o
+   MapBiomas avisa "não comparar anos na coleção 10 m"). Não apoiar leitura de artefato nele.
+
+**Consequência — reforça o D26, não muda a conclusão.** O resultado *fortalece* o
+tratamento por bracket: reportar `[agric, agric∪mosaico]` ancorado na **SIDRA**, e **não**
+tentar recuperar a "agricultura escondida" como número-ponto (a 10 m mostra que ela não
+está lá como lavoura limpa). A ambiguidade de fundo *artefato-de-legenda × ILP* do §8
+**sobrevive**, mas o intervalo aperta — some a leitura "resolução", restam legenda-
+compartilhada e ILP. **Não vale escalar** para baixar o cubo 10 m inteiro: o empate não
+quebra por lá (mesma metodologia). Saídas: `data/processed/mosaico_10m_sentinel.csv` e
+`mosaico_10m_sentinel_hist.csv`.
 
 ---
 

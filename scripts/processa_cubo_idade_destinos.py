@@ -140,17 +140,33 @@ def main() -> None:
     p.add_argument("--shards", type=Path, required=True)
     p.add_argument("--janela", type=int, default=2048)
     p.add_argument("--limite", type=int, default=0)
+    p.add_argument("--saida", type=Path, default=PARQUET_SAIDA,
+                   help="Parquet de saída (default: pastagem_conversao_destinos.parquet, a 10.1)")
     args = p.parse_args()
 
     tifs = sorted(args.shards.glob("*.tif"))
     if not tifs:
         sys.exit(f"Nenhum .tif em {args.shards}")
+
+    # Detecta o nº de bandas do cubo e ajusta a máquina do #28 (que fixa 40=10.1).
+    # A Coleção 9 tem 39 bandas (1985..2023); a 10.1, 40 (1985..2024). Só a contagem
+    # de bandas muda entre elas — grade, IDs de classe e origem 1985 são idênticos —,
+    # então sobrescrever pc.N_ANOS/ANO_MAX reusa TODA a máquina sem tocar no código do #28.
+    with rasterio.open(tifs[0]) as _s:
+        n_bandas = _s.count
+    if n_bandas != pc.N_ANOS:
+        pc.N_ANOS = n_bandas
+        pc.ANO_MAX = pc.ANO_MIN + n_bandas - 1
+        print(f"  cubo com {n_bandas} bandas -> ANO_MAX={pc.ANO_MAX} "
+              f"(ajustado; padrão do #28 é 40/2024)")
+
     if args.limite:
         tifs = tifs[:args.limite]
         print("  (--limite ativo: verificação de partição pulada)")
     else:
         pc.verificar_particao(tifs)
-    print(f"{len(tifs)} shard(s) | janela {args.janela}² | destinos: {DESTINOS}")
+    print(f"{len(tifs)} shard(s) | janela {args.janela}² | destinos: {DESTINOS} | "
+          f"{pc.ANO_MIN}..{pc.ANO_MAX}")
 
     gdf_muni = pc.carregar_municipios()
     print(f"  {len(gdf_muni)} municípios")
@@ -184,10 +200,10 @@ def main() -> None:
         print("Nenhum evento de conversão (shards fora de GO?). Nada gravado.")
         return
     out = pd.concat(partes, ignore_index=True)
-    PARQUET_SAIDA.parent.mkdir(parents=True, exist_ok=True)
-    out.to_parquet(PARQUET_SAIDA, index=False)
+    args.saida.parent.mkdir(parents=True, exist_ok=True)
+    out.to_parquet(args.saida, index=False)
 
-    print(f"\n{'=' * 60}\nSAÍDA: {PARQUET_SAIDA}")
+    print(f"\n{'=' * 60}\nSAÍDA: {args.saida}")
     for d in DESTINOS:
         s = out[out.destino == d]
         print(f"  destino={d:12s}: {len(s):,} células | {s.n_pixels.sum():,} eventos "

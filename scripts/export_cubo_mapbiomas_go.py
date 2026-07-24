@@ -51,13 +51,25 @@ import ee
 
 # ===== Configuração =====
 GEE_PROJECT_DEFAULT = "extreme-height-447417-a9"
-ASSET = "projects/mapbiomas-public/assets/brazil/lulc/collection10_1/mapbiomas_brazil_collection10_1_coverage_v1"
 
 ANO_MIN = 1985
-ANO_MAX = 2024
-BANDAS = [f"classification_{a}" for a in range(ANO_MIN, ANO_MAX + 1)]
 
-# Grade nativa do asset MapBiomas 10.1 (conferida via projection().getInfo())
+# Coleções suportadas. A grade nativa (PX/ORIGEM) é a MESMA para as duas — a 9 e a
+# 10.1 partilham a grade continental do MapBiomas (offset inteiro de 3253 col × 9300
+# lin, conferido: resíduo < 1e-11 px). Exportar as duas com o MESMO crsTransform faz
+# os shards co-registrarem pixel-a-pixel SEM reamostragem — pré-requisito do teste de
+# borda-móvel da Coleção 9 (§9 do 28D_deriva_mosaico.md). A 9 termina em 2023 (39
+# bandas); a 10.1 em 2024 (40 bandas). Pasta/prefixo distintos p/ não colidir no Drive.
+COLECOES = {
+    "10.1": dict(
+        asset="projects/mapbiomas-public/assets/brazil/lulc/collection10_1/mapbiomas_brazil_collection10_1_coverage_v1",
+        ano_max=2024, pasta="mestrado_mapbiomas_go", prefixo="cubo_go_mapbiomas101"),
+    "9": dict(
+        asset="projects/mapbiomas-public/assets/brazil/lulc/collection9/mapbiomas_collection90_integration_v1",
+        ano_max=2023, pasta="mestrado_mapbiomas_go_col9", prefixo="cubo_go_col9"),
+}
+
+# Grade nativa do asset MapBiomas (conferida via projection().getInfo(); igual na 9 e na 10.1)
 PX = 0.00026949458523585647
 ORIGEM_X = -74.02073025380652
 ORIGEM_Y = 5.405791885246045
@@ -65,7 +77,6 @@ ORIGEM_Y = 5.405791885246045
 # bbox de Goiás (geobr, estado 2020) — margem de 1 px já embutida no snap
 GO_BBOX = (-53.2486, -19.4984, -45.9072, -12.3950)
 
-PASTA_DRIVE = "mestrado_mapbiomas_go"
 SHARD = 8192  # múltiplo de 256 (exigência do GeoTIFF tiled)
 
 
@@ -108,15 +119,16 @@ def bbox_na_grade(bbox: tuple[float, float, float, float]) -> dict:
     }
 
 
-def montar_export(grade: dict, teste: bool) -> ee.batch.Task:
-    img = ee.Image(ASSET).select(BANDAS).toByte()
+def montar_export(grade: dict, teste: bool, cfg: dict) -> ee.batch.Task:
+    bandas = [f"classification_{a}" for a in range(ANO_MIN, cfg["ano_max"] + 1)]
+    img = ee.Image(cfg["asset"]).select(bandas).toByte()
 
     if teste:
         largura = altura = SHARD
-        desc = "cubo_go_TESTE"
+        desc = cfg["prefixo"] + "_TESTE"
     else:
         largura, altura = grade["largura"], grade["altura"]
-        desc = "cubo_go_mapbiomas101"
+        desc = cfg["prefixo"]
 
     x1 = grade["x0"] + largura * PX
     y1 = grade["y0"] - altura * PX
@@ -127,7 +139,7 @@ def montar_export(grade: dict, teste: bool) -> ee.batch.Task:
     return ee.batch.Export.image.toDrive(
         image=img,
         description=desc,
-        folder=PASTA_DRIVE,
+        folder=cfg["pasta"],
         fileNamePrefix=desc,
         region=region,
         crs="EPSG:4326",
@@ -138,13 +150,13 @@ def montar_export(grade: dict, teste: bool) -> ee.batch.Task:
     )
 
 
-def monitorar(intervalo: int = 60) -> None:
+def monitorar(intervalo: int = 60, prefixo: str = "cubo_go") -> None:
     """Lista as tasks de export do projeto e acompanha até terminarem."""
     while True:
         # A descrição só é confiável via status(); `t.config` não a expõe nesta
         # versão da earthengine-api (1.7.x).
         estados = [t.status() for t in ee.batch.Task.list()]
-        tasks = [s for s in estados if s.get("description", "").startswith("cubo_go")]
+        tasks = [s for s in estados if s.get("description", "").startswith(prefixo)]
         if not tasks:
             print("Nenhuma task cubo_go encontrada.")
             return
@@ -170,6 +182,8 @@ def monitorar(intervalo: int = 60) -> None:
 
 def main() -> None:
     p = argparse.ArgumentParser(description="Pipeline #28 — export censitário do cubo MapBiomas")
+    p.add_argument("--colecao", choices=sorted(COLECOES), default="10.1",
+                   help="Coleção MapBiomas a exportar (default 10.1; 9 p/ o teste de borda-móvel §9)")
     p.add_argument("--teste", action="store_true",
                    help="Exporta só 1 shard (8192²) para validar o caminho end-to-end")
     p.add_argument("--monitor", action="store_true",
@@ -177,10 +191,13 @@ def main() -> None:
     p.add_argument("--intervalo", type=int, default=60)
     args = p.parse_args()
 
+    cfg = COLECOES[args.colecao]
+    bandas = [f"classification_{a}" for a in range(ANO_MIN, cfg["ano_max"] + 1)]
+
     init_ee()
 
     if args.monitor:
-        monitorar(args.intervalo)
+        monitorar(args.intervalo, prefixo=cfg["prefixo"])
         return
 
     grade = bbox_na_grade(GO_BBOX)
@@ -188,22 +205,23 @@ def main() -> None:
     ny = math.ceil(grade["altura"] / SHARD)
     px_total = grade["largura"] * grade["altura"]
 
-    print(f"\nGrade alinhada ao MapBiomas:")
+    print(f"\nColeção {args.colecao} — {ANO_MIN}..{cfg['ano_max']} ({len(bandas)} bandas)")
+    print(f"Grade alinhada ao MapBiomas:")
     print(f"  {grade['largura']:,} x {grade['altura']:,} px  ({px_total / 1e6:,.0f} Mpx/banda)")
     print(f"  origem  ({grade['x0']:.6f}, {grade['y0']:.6f})")
-    print(f"  {len(BANDAS)} bandas -> {px_total * len(BANDAS) / 1e9:.1f} GB brutos")
-    print(f"  ~{px_total * len(BANDAS) / 33 / 1e9:.2f} GB comprimidos (razão medida: 33x)")
+    print(f"  {len(bandas)} bandas -> {px_total * len(bandas) / 1e9:.1f} GB brutos")
+    print(f"  ~{px_total * len(bandas) / 33 / 1e9:.2f} GB comprimidos (razão medida: 33x)")
     print(f"  sharding {SHARD}² -> {nx} x {ny} = {nx * ny} arquivos")
 
     if args.teste:
         print("\nMODO TESTE: 1 shard no canto noroeste do bbox")
 
-    task = montar_export(grade, args.teste)
+    task = montar_export(grade, args.teste, cfg)
     task.start()
     st = task.status()
     print(f"\nTask submetida: {st.get('description')}  (id {st.get('id')})")
-    print(f"Destino: Google Drive / {PASTA_DRIVE}/")
-    print(f"\nAcompanhe com: python scripts/export_cubo_mapbiomas_go.py --monitor")
+    print(f"Destino: Google Drive / {cfg['pasta']}/")
+    print(f"\nAcompanhe com: python scripts/export_cubo_mapbiomas_go.py --colecao {args.colecao} --monitor")
 
 
 if __name__ == "__main__":
