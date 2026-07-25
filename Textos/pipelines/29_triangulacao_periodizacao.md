@@ -233,30 +233,89 @@ Com apenas 4 anos em P2, o poder estatístico é limitado (63%). O resultado bor
 
 | Transição | P1 (85-00) | P2 (01-19) | P3 (20-24) |
 |-----------|:----------:|:----------:|:----------:|
-| pasto→agric (/a) | 0.0005 | 0.0010 | 0.0003 |
-| pasto→veg (/a) | 0.0002 | 0.0005 | 0.0011 |
-| veg→pasto (/a) | 0.0011 | 0.0013 | 0.0016 |
-| veg→agric (/a) | 0.0000 | 0.0001 | 0.0000 |
+| pasto→agric (/a) | 0.0073 | 0.0085 | 0.0014 |
+| pasto→veg (/a) | 0.0036 | 0.0042 | 0.0046 |
+| veg→pasto (/a) | 0.0158 | 0.0089 | 0.0065 |
 
-Em P2 (2001-2019), a conversão pasto→agric é 2x mais intensa que em P1, e a regeneração pasto→veg_nat começa a ganhar importância relativa. P3 (2020-2024) se distingue pela regeneração (pasto→veg 0.11%/a, maior que qualquer período anterior) e pela retração da agricultura.
+*(Valores recomputados em 25/jul/2026 — ver a nota dimensional abaixo. A tabela anterior
+trazia estes mesmos números divididos uma segunda vez pela duração do período.)*
 
-> [!WARNING]
-> A "**retração da agricultura**" em P3 e a queda de `pasto→agric` são **artefato da mudança de rótulo do Mosaico** (#28D): o fluxo pasto→agricultura é reetiquetado como pasto→Mosaico nos anos terminais. Sob a régua corrigida a conversão **acelera** (ver a seção de robustez acima). A distinção real de P3 é a **aceleração** do declínio da pastagem (SIDRA soja +38%), não retração da lavoura.
+> [!CAUTION]
+> **Duas correções independentes atingem esta seção, e elas empurram em sentidos opostos.
+> Verificado em 25/jul/2026 (`scripts/intensity_bracket.py`; correção no `intensity_analysis.py`).**
+>
+> **(a) Defeito dimensional — as intensidades não eram comparáveis entre atos.** `mat_total`
+> acumula `n_anos` matrizes anuais, então suas somas de linha já são `n_anos ×` a área anual
+> média; a razão `área_transição / área_acumulada` **já é** uma taxa por ano. Havia um
+> `/ n_anos` adicional, que dividia duas vezes. Como os atos têm **15, 18 e 4 anos**, isso
+> inflava o ato curto em ~4,5× em relação ao longo — justamente na comparação que a tabela
+> existe para fazer. Corrigido. As razões `*_vs_uniform` **nunca foram afetadas** (o fator
+> cai fora na divisão), então nenhuma leitura relativa publicada muda por causa disto. Com a
+> correção, a queda de `pasto→agric` em P3 é **−84%** vs P2, não os −27% que a tabela antiga
+> sugeria: o defeito estava **escondendo** parte da queda.
+>
+> **(b) Mudança de rótulo — e ela inverte o sinal.** O #31 lê as matrizes do #12/#19, onde a
+> classe 21 (Mosaico) é **mascarada**: o pixel que sai de pastagem para Mosaico some do
+> numerador *e* do denominador. Reinjetando esse fluxo (censo do #28), medido **dentro de
+> cada régua**:
+>
+> | régua | pasto→agric, P2 | P3 | variação |
+> |---|---:|---:|---:|
+> | `agric` (o que a tabela mostra) | 0,0085 | 0,0014 | **−84%** |
+> | `agric ∪ mosaico` | 0,0190 | 0,0316 | **+67%** |
+>
+> **A "retração da agricultura" em P3 não existe** — é a régua, não o campo. Coerente com o
+> [#33](33_transicoes_regionais.md) (+51% no Sul) e com a soja SIDRA (+38%).
+>
+> **(c) O efeito que o caveat anterior não cobria: a linha-base `uniform` também é vítima.**
+> `uniform = mudança total fora da diagonal ÷ área total`, e o fluxo removido era o dominante.
+> No Ato III ela **desaba de 0,0117 para 0,0062** (−47% vs P2) na régua crua, mas fica
+> **~estável (0,0163 → 0,0185)** na corrigida. Ou seja: **toda razão `*_vs_uniform` do Ato III
+> está inflada ~3×, inclusive as das transições imunes**, cujo numerador não tem defeito
+> nenhum. Consequência concreta para a leitura publicada:
+>
+> | leitura do P3 | régua crua | régua corrigida | veredito |
+> |---|---:|---:|---|
+> | "P3 se distingue pela **regeneração**" (`pasto→veg` vs uniform) | 0,73 | **0,24** | **artefato** — na régua corrigida P3 está no mesmo patamar de P2 (0,25) |
+> | `pasto→veg` em **valor absoluto** | 0,0046 | 0,0044 | **sobrevive** — é mesmo o maior da série, mas por margem modesta sobre P2 (0,0042), não por salto |
+> | `veg→pasto` vs uniform | 1,05 | **0,35** | **artefato** — o numerador é imune, a razão não |
+>
+> **O que fica de pé sobre P3**, então: a regeneração `pasto→veg` é a maior da série em termos
+> absolutos (mas por pouco), o `veg→pasto` **cai** de fato ao longo dos três atos (0,0158 →
+> 0,0089 → 0,0065, numerador imune), e a conversão `pasto→lavoura-ou-uso-misto` **acelera**.
+> **O que não fica**: qualquer frase que use `vs uniform` no Ato III, e a "retração da
+> agricultura".
+>
+> **Limite honesto da régua superior**: o cubo do #28 rastreia só **saídas de pastagem**, então
+> `veg→Mosaico` e as saídas do próprio Mosaico não puderam ser reinjetadas — a régua superior
+> é ela mesma um piso do que falta na matriz. O intervalo real é ao menos tão largo quanto o
+> reportado, o que reforça (não enfraquece) o veredito.
 
 ### Intensidade por categoria
 
 | Categoria | Período | Perda (/a) | Ganho (/a) | Perda/uniform | Ganho/uniform |
 |-----------|:--------:|:----------:|:----------:|:-------------:|:------------:|
-| veg_nat | P1 (85-00) | 0.0012 | 0.0001 | 1.15 | 0.12 |
-| veg_nat | P2 (01-05) | 0.0037 | 0.0005 | **1.05** | 0.16 |
-| veg_nat | P2 (06-19) | 0.0007 | 0.0002 | 0.78 | 0.19 |
-| veg_nat | P3 (20-24) | 0.0019 | 0.0005 | **1.20** | **0.32** |
-| pastagem | P1 (85-00) | 0.0008 | 0.0006 | 0.74 | 0.59 |
-| pastagem | P2 (01-05) | 0.0035 | 0.0016 | 0.99 | 0.46 |
-| pastagem | P2 (06-19) | 0.0010 | 0.0004 | **1.17** | 0.42 |
-| pastagem | P3 (20-24) | 0.0017 | 0.0007 | 1.08 | 0.46 |
+| veg_nat | P1 (85-00) | 0.0176 | 0.0019 | 1.15 | 0.12 |
+| veg_nat | P2 (01-19) | 0.0101 | 0.0021 | 0.86 | 0.18 |
+| veg_nat | P3 (20-24) | 0.0074 | 0.0020 | **1.20** | **0.32** |
+| pastagem | P1 (85-00) | 0.0113 | 0.0090 | 0.74 | 0.59 |
+| pastagem | P2 (01-19) | 0.0132 | 0.0050 | **1.12** | 0.43 |
+| pastagem | P3 (20-24) | 0.0067 | 0.0028 | 1.08 | 0.46 |
+| agricultura | P1 (85-00) | 0.0172 | 0.0034 | 1.13 | 0.22 |
+| agricultura | P2 (01-19) | 0.0109 | 0.0040 | 0.93 | 0.34 |
+| agricultura | P3 (20-24) | 0.0016 | 0.0006 | 0.26 | 0.10 |
 
-Nota: P2 (01-05) e P2 (06-19) referem-se às sub-fases dentro do período 2001-2019. A sub-fase 2001-05 exibe perda acelerada de vegetação natural (0.37%/a vs 0.07%/a, ratio 5.3x) e conversão pasto→agric 4x mais intensa que 2006-19, mas a taxa total de mudança não difere significativamente (p=0.060).
+*(Recomputada em 25/jul/2026 com a correção dimensional. ⚠️ As colunas `/uniform` do
+**P3** são as inflacionadas pela linha-base contaminada — ver o CAUTION acima; a linha
+da **agricultura** em P3 é a própria assinatura da mudança de rótulo, não uma medida
+do campo.)*
+
+Nota: a tabela acima agora traz os **três atos** (a versão anterior misturava as sub-fases
+01-05 e 06-19 do Ato II com os atos, o que impedia a leitura por período). A sub-fase
+**2001-05** segue exibindo perda acelerada de vegetação natural (ratio 5,3× sobre 2006-19)
+e conversão `pasto→agric` 4× mais intensa, sem que a taxa total difira significativamente
+(p=0,060) — é o micro-mistério registrado no fio do backlog. Essa sub-fase está **inteira
+antes de 2020**, logo é imune à mudança de rótulo.
 
 ## Periodização final
 

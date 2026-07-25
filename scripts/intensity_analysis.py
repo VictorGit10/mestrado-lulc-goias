@@ -160,16 +160,23 @@ def intensidade_categoria(df: pd.DataFrame, periodos: dict) -> pd.DataFrame:
             area_cat_inicio = mat_total[k, :].sum()
             area_persistiu = mat_total[k, k]
             area_perdeu = area_cat_inicio - area_persistiu
-            taxa_perda = (area_perdeu / area_cat_inicio / n_anos) if area_cat_inicio > 0 else 0
+            # NOTA DIMENSIONAL (corrigido 25/jul/2026). `mat_total` acumula n_anos
+            # matrizes anuais, entao suas somas de linha/coluna JA sao n_anos x a area
+            # anual media. A razao area_trans/area_acumulada ja e, portanto, uma taxa
+            # POR ANO. O `/ n_anos` que havia aqui dividia por n_anos duas vezes e,
+            # como os atos tem 15/18/4 anos, tornava as colunas nao-comparaveis entre
+            # periodos (inflando o ato curto ~4,5x em relacao ao longo). As razoes
+            # *_vs_uniform nunca foram afetadas: o fator cai fora na divisao.
+            taxa_perda = (area_perdeu / area_cat_inicio) if area_cat_inicio > 0 else 0
 
             # Ganho: area que entrou na categoria / area total / n_anos
             area_cat_fim = mat_total[:, k].sum()
             area_ganhou = area_cat_fim - area_persistiu
-            taxa_ganho = (area_ganhou / area_total / n_anos) if area_total > 0 else 0
+            taxa_ganho = (area_ganhou / area_total) if area_total > 0 else 0
 
             # Uniform: mudanca total / area total / n_anos (esperada se aleatoria)
             off_diag = area_total - np.trace(mat_total)
-            taxa_uniform = (off_diag / area_total / n_anos) if area_total > 0 else 0
+            taxa_uniform = (off_diag / area_total) if area_total > 0 else 0
 
             rows.append({
                 "periodo": nome,
@@ -311,7 +318,7 @@ def intensidade_transicao(df: pd.DataFrame, periodos: dict) -> pd.DataFrame:
 
         area_total = mat_total.sum()
         off_diag_total = area_total - np.trace(mat_total)
-        taxa_uniform = off_diag_total / area_total / n_anos if area_total > 0 else 0
+        taxa_uniform = off_diag_total / area_total if area_total > 0 else 0
 
         for i, orig in enumerate(GRUPOS):
             area_orig = mat_total[i, :].sum()
@@ -320,7 +327,7 @@ def intensidade_transicao(df: pd.DataFrame, periodos: dict) -> pd.DataFrame:
                     continue
                 area_trans = mat_total[i, j]
                 # Intensidade da transicao: area / area_orig / n_anos
-                intensidade = area_trans / area_orig / n_anos if area_orig > 0 else 0
+                intensidade = area_trans / area_orig if area_orig > 0 else 0
                 rows.append({
                     "periodo": nome,
                     "anos": f"{ini}-{fim}",

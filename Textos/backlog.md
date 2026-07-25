@@ -76,8 +76,18 @@ que já existe**. Nenhuma exige redação; todas são investigação.
 > reetiquetado: a copy anterior dizia "as lavouras se estabilizam", "a vegetação registra sutil recuperação" e
 > "a queda livre encontra um piso" — as três eram leituras do artefato. A nova copy usa só medidas verificadas
 > (soja SIDRA +38%, pastagem cedendo 3× mais rápido, vegetação nativa **plana**, fronteira migrando ao norte).
-> **Pendência remanescente**: revisar a leitura do Intensity (#31) de "retração da agricultura" em P3 — mesma
-> origem, ainda não refeita.
+> ~~**Pendência remanescente**: revisar a leitura do Intensity (#31)~~ — ✅ **FEITA (25/jul/2026,
+> `scripts/intensity_bracket.py`)**, e ela devolveu **dois** defeitos, não um. **(a)** A "retração da
+> agricultura" em P3 **inverte** sob o bracket (−84% na régua crua × **+67%** na união, medidos dentro de
+> cada régua) — mesma assinatura do #33. **(b)** Achado novo e mais geral: a **linha-base `uniform`** do
+> Intensity é a mudança total da matriz, que perde o fluxo reetiquetado — ela desaba de 0,0117 para 0,0062
+> no Ato III na régua crua e fica ~estável na corrigida. Logo **toda razão `*_vs_uniform` do Ato III estava
+> inflada ~3×, inclusive as de transições imunes**. Cai a leitura "P3 se distingue pela regeneração"
+> (0,73 → 0,24 vs uniform; o valor **absoluto** de `pasto→veg` sobrevive, é o maior da série por margem
+> modesta). **(c)** No caminho, um **defeito dimensional** no `intensity_analysis.py`: as intensidades eram
+> divididas duas vezes pela duração do período, o que as tornava não-comparáveis entre atos de 15/18/4 anos
+> (inflando o curto ~4,5×). Corrigido; as razões `*_vs_uniform` nunca foram afetadas. **Nenhuma pendência
+> da auditoria em aberto.**
 
 1. ~~**Caracterizar o "drive comum"**~~ — ✅ **FEITO (2026-06-06, [#37](pipelines/37_drive_comum.md))**.
    Resultado: câmbio-competitividade (REER) e crédito rural **antecedem** as inflexões do LULC

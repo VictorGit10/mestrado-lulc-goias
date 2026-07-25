@@ -160,6 +160,9 @@ Verdicts consolidados:
 | **#28C** gradiente idade×lat | `pasto→agric` | **artefato** | união: amplitude Sul→Norte 7a → 2a |
 | **#28C** bimodalidade/coexistência | `pasto→agric` | **robusto** | união: 5/5 regiões, 10/10 células; η²(região) 3,7→0,5% |
 | **#39** fronteira fechando | oferta de Cerrado | **imune** | mede veg→pasto, não `pasto→agric` |
+| **#31** Intensity, `pasto→agric` no Ato III | fluxo com destino=agric | **REFUTADO** | dentro de cada régua: −84% (agric) × **+67%** (união) |
+| **#31** Intensity, razões `*_vs_uniform` do Ato III | **a linha-base** `uniform` | **contaminado (efeito de 2ª ordem)** | `uniform` cai 0,0117→0,0062 na régua crua e fica ~estável na corrigida ⇒ **toda** razão do Ato III inflada ~3×, **inclusive as de transições imunes** |
+| **#31** `pasto→veg` e `veg→pasto` em valor absoluto | numerador imune | **imune** | só as razões vs uniform mudam; os níveis não |
 | **#47** manchete 973 Mt CO₂e | Δestoque de veg nativa | **imune** | diferença de estoque por formação; não passa por classe de destino antrópica |
 | **#47** cross-check bruto×líq (Bloco C) | fluxo bruto veg→antrópico (#12) | **exposto, cosmético** | o #12 mascara a classe 21, então `veg→Mosaico` sai da conta bruta; o #48 mede o canal e o acha **estável 2017–24** → mexe na razão 0,89, não na manchete |
 | **#48** validação PRODES | veg→antrópico | **imune** | perda de veg estável 2017–24 (a mudança de rótulo é antrópico→antrópico) |
@@ -176,6 +179,13 @@ latitude, e o contraste **Sul trava / Norte avança** — que continua de pé pe
 (imune) do #33/#39, não pelo fluxo com destino=agricultura. Único item em aberto:
 artefato × ILP real (Coleção 9), que **não** é pré-requisito da dissertação.
 
+> **Um canal de exposição que só apareceu no #31, e que vale generalizar.** Até aqui a regra
+> era "exposto = o **numerador** mede agricultura no fim da série". O #31 mostrou um segundo
+> canal: quando uma métrica é **normalizada pela mudança total** (qualquer razão
+> `observado/esperado`, `vs uniform`, share de fluxo), o **denominador** também perde o fluxo
+> reetiquetado — e aí até indicadores de numerador imune saem distorcidos. Antes de declarar
+> uma métrica imune, verifique as **duas** pontas da razão.
+>
 > **Padrão que a varredura revelou, e que vale mais que qualquer veredito isolado.** Toda
 > afirmação derrubada tinha a mesma forma: *uma quantidade medida pelo rótulo "agricultura",
 > lida no fim da série*. Toda afirmação que sobreviveu tinha uma destas três propriedades:

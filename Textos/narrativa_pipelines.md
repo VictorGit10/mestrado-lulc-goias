@@ -918,6 +918,23 @@ Aplicada a todos os consumidores, essa régua produziu o balanço mais honesto d
 - **Fica frágil:** o canal de intensificação M1 do #49, cujo bracket cruza zero e cuja âncora SIDRA
   dá sinal oposto — dependência de medida, não só de rótulo.
 
+O último consumidor auditado, o **Intensity Analysis (#31)**, rendeu a lição mais transferível de
+toda a varredura, porque expôs um canal que a regra até então não cobria. A regra era: *exposto é
+quem tem "agricultura" no **numerador** no fim da série*. Mas o Intensity normaliza tudo por uma
+linha-base — a mudança total da matriz —, e essa linha-base **também perde** o fluxo reetiquetado.
+No Ato III ela desaba pela metade, de modo que **toda razão "observado sobre esperado" daquele ato
+estava inflada cerca de três vezes, inclusive as de transições cujo numerador é impecável**. Foi
+assim que caiu a frase "o Ato III se distingue pela regeneração": em valor absoluto a regeneração é
+mesmo a maior da série, mas por margem modesta — o que a fazia parecer excepcional era o
+denominador ter encolhido. A moral generaliza para além do Mosaico: **antes de declarar uma métrica
+imune, olhe as duas pontas da razão**. Um viés no denominador contamina indicadores que, olhados
+pelo numerador, pareciam a salvo.
+
+*(No caminho apareceu também um defeito que nada tem a ver com rótulo: as intensidades do #31 eram
+divididas duas vezes pela duração do período, o que as tornava incomparáveis entre atos de 15, 18 e
+4 anos. Corrigido. Ele empurrava na direção oposta à do rótulo — escondia parte da queda —, e é um
+lembrete de que auditar por um motivo costuma revelar outro.)*
+
 Houve ainda uma consequência de nomenclatura, e ela foi executada em 25/jul/2026: o Ato III
 chamava-se **"Conversão seletiva"**, um rótulo **factualmente invertido** pela auditoria — ele
 nomeava uma desaceleração que não existiu. Passou a ser **"Conversão acelerada (mascarada)"**.
