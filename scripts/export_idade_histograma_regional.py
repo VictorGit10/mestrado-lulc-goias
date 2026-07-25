@@ -129,8 +129,15 @@ def _bloco_regiao(sub: pd.DataFrame) -> dict:
 
 def _malha_block(df: pd.DataFrame, col: str, incluir_estado: bool) -> dict:
     """Monta {ordem, regioes} para uma coluna de recorte (mesorregião ou AMC).
-    `ordem` = regiões ordenadas pela mediana da idade não-censurada (jovem→velho),
-    que é a ordem natural Sul→Norte da narrativa da Perna 2."""
+    `ordem` = regiões ordenadas pela mediana da idade não-censurada (jovem→velho).
+
+    ⚠️ **Não é uma ordem Sul→Norte** (esta docstring afirmava isso até 25/jul/2026).
+    A auditoria da mudança de rótulo mostrou que a ordenação por idade é artefato do
+    recorte `pasto→agricultura`: sob a união a amplitude cai de 7a para 2a e as pontas
+    trocam de lugar (#28C, #40, #33). A `ordem` continua aqui porque é uma ordenação
+    determinística útil para o export — mas **o site não a usa para dispor os botões**
+    (`pastagem-reserva.js` reordena: estado primeiro, depois alfabética), justamente
+    para não sugerir um gradiente que não existe."""
     regioes: dict[str, dict] = {}
 
     if incluir_estado:

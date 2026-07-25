@@ -39,17 +39,29 @@
 
 .reserva-svg { width: 100%; height: auto; display: block; }
 
-.reserva-legenda { margin-top: 0.4rem; }
-.reserva-legenda-svg { width: 260px; max-width: 100%; height: auto; }
-.reserva-legenda-txt {
+.reserva-legenda { margin-top: 0.5rem; }
+.reserva-legenda-lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 1rem;
   font-family: var(--font-sans);
-  font-size: 10px;
-  fill: var(--color-fg);
+  font-size: 0.78rem;
+  color: var(--color-muted);
 }
-.reserva-legenda-cap {
-  font-family: var(--font-sans);
-  font-size: 9px;
-  fill: var(--color-muted);
+.reserva-legenda-lista li {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.reserva-legenda-chip {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  flex: none;
 }
 
 .reserva-nota {
@@ -60,7 +72,7 @@
   margin: 0.6rem 0 0;
 }
 
-/* --- toggle de Ato --- */
+/* --- toggle de região --- */
 .reserva-toggle {
   display: flex;
   gap: 0.4rem;
@@ -121,6 +133,15 @@
   background: #fcfcfa;
 }
 .reserva-coorte:last-child { border-left-color: var(--color-pasto); }
+.reserva-cobertura {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--color-muted);
+  margin: 0.9rem 0 0;
+  padding-left: 0.7rem;
+  border-left: 3px solid var(--color-rule);
+}
 .reserva-coorte-valor {
   font-family: var(--font-sans);
   font-size: 1.15rem;

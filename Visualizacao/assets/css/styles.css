@@ -17,6 +17,7 @@
   --color-agua: #4a7ba6;           /* azul agua */
   --color-urbano: #8a8a82;         /* cinza area urbana */
   --color-outros: #c4ad8a;         /* bege claro outros (silvicultura, mineracao) */
+  --color-mosaico: #c98a4b;        /* ocre — mosaico de usos (lavoura ou pasto, indistinguiveis) */
   --font-serif: "Source Serif Pro", "Crimson Pro", Georgia, "Times New Roman", serif;
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, system-ui, sans-serif;
   --rail-h: 86px;
@@ -369,6 +370,16 @@ p  { margin: 0 0 1em; }
 .bar-veg     { background: var(--color-veg); }
 .bar-pasto   { background: var(--color-pasto); }
 .bar-agric   { background: var(--color-agric); }
+/* Mosaico = "lavoura OU pasto, o classificador nao separou". As listras dizem
+   isso melhor que uma cor chapada — e a classe deixou de caber em "Outros"
+   quando passou a absorver a conversao do fim da serie (D25). */
+.bar-mosaico {
+  background: repeating-linear-gradient(
+    135deg,
+    var(--color-mosaico) 0 4px,
+    var(--color-pasto) 4px 8px
+  );
+}
 .bar-agua    { background: var(--color-agua); }
 .bar-urbano  { background: var(--color-urbano); }
 .bar-outros  { background: var(--color-outros); }
@@ -421,6 +432,13 @@ p  { margin: 0 0 1em; }
 .legend-swatch--veg::before     { background: var(--color-veg); }
 .legend-swatch--pasto::before   { background: var(--color-pasto); }
 .legend-swatch--agric::before   { background: var(--color-agric); }
+.legend-swatch--mosaico::before {
+  background: repeating-linear-gradient(
+    135deg,
+    var(--color-mosaico) 0 3px,
+    var(--color-pasto) 3px 6px
+  );
+}
 .legend-swatch--agua::before    { background: var(--color-agua); }
 .legend-swatch--urbano::before  { background: var(--color-urbano); }
 .legend-swatch--outros::before  { background: var(--color-outros); }

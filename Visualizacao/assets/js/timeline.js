@@ -300,24 +300,32 @@
   }
 
   // -------------------- barra empilhada --------------------
-  // 7 segmentos espelhando as classes do mapa: veg natural, pastagem,
-  // agricultura (inclui soja no MapBiomas), mosaico agric./pastagem,
-  // água, área urbana, outros (silvicultura + mineração + não-mapeados).
+  // 7 segmentos: veg natural, pastagem, agricultura (inclui soja no MapBiomas),
+  // mosaico agric./pastagem, água, área urbana, outros (silvicultura +
+  // mineração + não-mapeados).
+  //
+  // O Mosaico ganhou faixa própria em jul/2026. Antes ele caía dentro de
+  // "Outros" — uma escolha neutra quando a classe era pequena, que virou omissão
+  // quando ela passou a absorver a conversão do fim da série (D25): em 2024 são
+  // 10,5% do estado, contra 1,0% de tudo o mais somado. O mapa raster continua
+  // sem pintá-la (`selfMask()` no GEE), e a legenda declara isso.
   function atualizarBarra(ano) {
     const dado = porAno[ano];
     if (!dado) return;
     const veg = dado.pct_vegetacao_nativa || 0;
     const pasto = dado.pct_pastagem || 0;
     const agric = dado.pct_agricultura || 0;
+    const mosaico = dado.pct_mosaico || 0;
     const agua = dado.pct_agua || 0;
     const urbano = dado.pct_area_urbana || 0;
-    const outros = Math.max(0, 1 - veg - pasto - agric - agua - urbano);
+    const outros = Math.max(0, 1 - veg - pasto - agric - mosaico - agua - urbano);
 
-    const map = { veg, pasto, agric, agua, urbano, outros };
+    const map = { veg, pasto, agric, mosaico, agua, urbano, outros };
     const nomes = {
       veg: "Vegetação natural",
       pasto: "Pastagem",
       agric: "Agricultura",
+      mosaico: "Mosaico de usos",
       agua: "Água",
       urbano: "Área urbana",
       outros: "Outros"
@@ -431,12 +439,13 @@
 
   // Mapeia data-class da barra empilhada -> CSS suffix do metric-card no step ativo.
   const BAR_TO_CARD_CLASS = {
-    veg:    "veg",
-    pasto:  "pasto",
-    agric:  "agric",
-    agua:   null,
-    urbano: null,
-    outros: null,
+    veg:     "veg",
+    pasto:   "pasto",
+    agric:   "agric",
+    mosaico: null,   // não tem metric-card próprio nos steps
+    agua:    null,
+    urbano:  null,
+    outros:  null,
   };
 
   function configurarHighlightBarra() {

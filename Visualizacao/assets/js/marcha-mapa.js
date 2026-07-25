@@ -8,7 +8,7 @@
  * Progressive enhancement: sem d3/JS (ou em falha de rede) o bloco fica hidden
  * e o scrollytelling de PNGs logo abaixo assume a narrativa. Namespace:
  * window.GO40.marchaMapa. Consome assets/data/marcha_centro_massa.json (#32) e
- * reusa a malha idade_pastagem_amc.geojson como base cartográfica.
+ * reusa a malha malha_amc.geojson como base cartográfica.
  *
  * NOTA cartográfica (honestidade de escala): a marcha líquida é ~80 km num
  * estado de ~700 km. O mapa dá zoom na nuvem de trajetórias (para o movimento
@@ -420,7 +420,7 @@
       await garantirD3();
       const [dados, geo] = await Promise.all([
         d3.json("assets/data/marcha_centro_massa.json"),
-        d3.json("assets/data/idade_pastagem_amc.geojson"),
+        d3.json("assets/data/malha_amc.geojson"),
       ]);
       if (!dados || !geo) return;
       DADOS = dados; GEO = geo;

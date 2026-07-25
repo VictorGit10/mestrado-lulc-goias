@@ -201,10 +201,12 @@ Pinos da regua e cursor sao posicionados em **percentual proporcional ao
 ano**: `((ano - 1985) / 39) * 100%`. Funciona em qualquer largura sem
 recalcular.
 
-### 3.7 Tratamento da classe Mosaico (ID 21)
-A classe "Mosaico de Agricultura ou Pastagem" (ID 21 do MapBiomas) é intencionalmente excluída dos mapas GEE (ficando transparente através da função `.selfMask()`). Para manter coerência visual entre os mapas rasterizados e a interface interativa (barras empilhadas e legendas), a classe Mosaico também não possui identidade visual isolada no front-end (`index.html`, `timeline.js`, `atlas.js`). Contudo, sua área continua sendo mensurada e preservada no painel tabular unificado (`painel_unificado.parquet`) para cálculos futuros, sendo englobada na visualização dentro da barra "Outros" para fechamento de 100%.
+### 3.7 Tratamento da classe Mosaico (ID 21) — ~~excluída~~ **revisado em 25/jul/2026**
+A classe "Mosaico de Agricultura ou Pastagem" (ID 21 do MapBiomas) é intencionalmente excluída dos mapas GEE (ficando transparente através da função `.selfMask()`). ~~Para manter coerência visual entre os mapas rasterizados e a interface interativa (barras empilhadas e legendas), a classe Mosaico também não possui identidade visual isolada no front-end~~ — **essa segunda metade foi revertida**: desde 25/jul/2026 o Mosaico tem **faixa própria** na barra empilhada (`.bar-mosaico`, listras ocre × amarelo-pastagem, que dizem "lavoura *ou* pasto, o classificador não separou") e **entrada própria na legenda**. Sua área continua mensurada no painel tabular unificado (`painel_unificado.parquet`); o que mudou é que ela deixou de ser somada em "Outros".
 
-### 3.7.1 🛑 REVISAR a decisão acima — o Mosaico deixou de ser detalhe (21/07/2026)
+**Por que a coerência visual perdeu para a honestidade:** com o Mosaico dentro de "Outros", a barra de 2024 mostrava "Outros 11,5%" — dos quais **10,5 pp eram Mosaico** e apenas 1,0 pp era tudo o mais (silvicultura, mineração, não-mapeados). Hoje "Outros" mostra 1,0% e o Mosaico aparece indo de 6,1% (2019) a 10,5% (2024) — que é a própria D25 acontecendo na tela. A incoerência com o raster (que segue sem pintar a classe) está **declarada** na legenda da barra e na fonte do mapa, em vez de silenciada.
+
+### 3.7.1 ✅ REVISAR a decisão acima — o Mosaico deixou de ser detalhe (21/07/2026; **executado em 25/07/2026**)
 
 A decisão de §3.7 (excluir a classe 21 dos mapas, dobrar em "Outros" no
 front-end) foi tomada quando o Mosaico era uma classe pequena e estável. **Deixou
@@ -229,6 +231,14 @@ parte mais interessante do fim da série**.
 Parte 1 (os 40 anos no mapa) em diante, ou declarar explicitamente na legenda que
 "Outros" contém a classe que absorve a conversão recente. Decisão editorial, mas
 **não pode continuar implícita**.
+
+**✅ Feito em 25/07/2026 — as duas coisas, não uma.** O Mosaico ganhou faixa e
+legenda próprias na barra empilhada (§3.7), *e* a legenda declara que o raster não
+o pinta. O que **não** foi feito, e fica registrado: **os 40 mapas GEE continuam
+com `.selfMask()` na classe 21**. Repintá-los exigiria reexportar as 40 imagens do
+Earth Engine e é a única frente aberta deste item — o custo é alto e o ganho,
+marginal agora que a barra mostra a classe e a legenda avisa. Se um dia forem
+reexportados, atualizar esta seção e a fonte do mapa em `index.html`.
 
 ---
 

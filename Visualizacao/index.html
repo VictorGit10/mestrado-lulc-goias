@@ -261,6 +261,8 @@
 
           <span class="bar-segment bar-agric"   data-class="agric"   title="Agricultura (inclui soja)"></span>
 
+          <span class="bar-segment bar-mosaico" data-class="mosaico" title="Mosaico de usos (lavoura ou pastagem, indistinguíveis)"></span>
+
           <span class="bar-segment bar-agua"    data-class="agua"    title="Água"></span>
 
           <span class="bar-segment bar-urbano"  data-class="urbano"  title="Área urbana"></span>
@@ -278,6 +280,8 @@
           <span class="legend-swatch legend-swatch--pasto">Pastagem</span>
 
           <span class="legend-swatch legend-swatch--agric">Agricultura</span>
+
+          <span class="legend-swatch legend-swatch--mosaico" title="Classe 21 do MapBiomas: lavoura ou pastagem, quando o classificador não separa as duas. Aparece na barra, mas não é pintada no mapa.">Mosaico de usos</span>
 
           <span class="legend-swatch legend-swatch--agua">Água</span>
 
@@ -297,7 +301,7 @@
 
           </div>
 
-          <span class="map-caption-source">Fonte: MapBiomas Coleção 10.1 &middot; pixel-a-pixel (30 m)</span>
+          <span class="map-caption-source">Fonte: MapBiomas Coleção 10.1 &middot; pixel-a-pixel (30 m) &middot; o <em>Mosaico de usos</em> entra na barra, mas fica transparente no mapa</span>
 
         </div>
 
@@ -749,33 +753,40 @@
     <figure class="grafico-card grafico-card--wide">
       <img src="img/graficos/sintese_idade_pastagem_atos.png"
            alt="Distribuição da idade da pastagem na conversão para agricultura, por Ato" loading="lazy">
-      <figcaption>Distribuição da idade da pastagem (anos) na conversão para agricultura, por Ato. O que observar: a curva não tem um pico só, mas <em>dois</em> — um perto de ~4 anos (pasto jovem) e outro perto de ~23 anos (pasto antigo). Entre os pixels de idade conhecida, a mediana sobe de 4 anos (Ato I) para 14 (Ato II) e recua para 8 (Ato III) — mas o recuo do Ato III não é geral: a média fica em 13 anos e o P90 em 31, porque as duas populações convivem. 64% dos pixels já eram pastagem em 1985, e desses a idade real é desconhecida (censura à esquerda). Fonte: MapBiomas Coleção 10.1, censo pixel-a-pixel.</figcaption>
+      <figcaption>Distribuição da idade da pastagem (anos) na conversão para agricultura, por Ato. O que observar: a curva não tem um pico só, mas <em>dois</em> — um perto de ~4 anos (pasto jovem) e outro perto de ~23 anos (pasto antigo). É a <strong>forma</strong> que importa aqui, e só ela: a variação das medianas <em>entre</em> os atos <strong>não</strong> pode ser lida como tendência — antes de 2020 ela mede horizonte de observação (a série começa em 1985), e depois de 2020 mede a migração do rótulo de destino para "Mosaico de Usos" (<a href="#metodos/metodo-decisoes">D25/D26</a>). 64% dos pixels já eram pastagem em 1985, e desses a idade real é desconhecida (censura à esquerda). Fonte: MapBiomas Coleção 10.1, censo pixel-a-pixel.</figcaption>
     </figure>
 
     <!-- #28-C — bloco interativo (progressive enhancement; sem JS, a figura acima assume) -->
     <div id="reserva-interativo" class="reserva-interativo" hidden>
       <div class="reserva-grid">
         <figure class="reserva-painel">
-          <figcaption class="reserva-titulo">Onde o pasto convertido é jovem × antigo</figcaption>
+          <figcaption class="reserva-titulo">Onde os dois mecanismos coexistem</figcaption>
           <div id="reserva-mapa" class="reserva-mapa" role="img"
-               aria-label="Mapa das 166 AMCs de Goiás coloridas pela idade média da pastagem na conversão para agricultura"></div>
+               aria-label="Mapa das 166 AMCs de Goiás: quais têm distribuição bimodal da idade da pastagem na conversão"></div>
           <div id="reserva-mapa-legenda" class="reserva-legenda"></div>
           <p class="reserva-nota">
-            Idade média da pastagem na conversão, por AMC (pixel-ponderada). O
-            gradiente Sul→Norte é nítido: <strong>reserva jovem no Sul</strong>
-            (rotação/ILP, ~5–8 anos) e <strong>reserva antiga no Norte</strong>
-            (oportunismo de fronteira, ~20+ anos) — a geografia da bimodalidade (#40).
+            Cada AMC pintada pelo <em>veredito</em>: a idade tem dois modos ali dentro?
+            O mapa é quase todo de uma cor — e é esse o achado. A região explica
+            <strong>0,5%</strong> da variação da idade; os dois mecanismos rodam em toda
+            parte. <strong>Até julho de 2026 este painel mostrava outra coisa</strong>:
+            as AMCs pintadas pela idade média, sob a legenda "jovem no Sul, antigo no
+            Norte". Esse gradiente não sobreviveu — medido pela régua superior
+            (<code>pasto → agricultura ∪ mosaico</code>) a amplitude Sul→Norte cai de
+            7 para 2 anos e as pontas trocam de lugar. Três testes independentes
+            chegaram lá (#28C, #40, #33). Ver
+            <a href="#metodos/metodo-decisoes">D26</a>.
           </p>
         </figure>
         <figure class="reserva-painel">
-          <figcaption class="reserva-titulo">A distribuição por Ato — a bimodalidade que aparece</figcaption>
-          <div id="reserva-ato-toggle" class="reserva-toggle" role="tablist"
-               aria-label="Selecionar o Ato"></div>
+          <figcaption class="reserva-titulo">A distribuição por região — os dois picos em cada recorte</figcaption>
+          <div id="reserva-regiao-toggle" class="reserva-toggle" role="tablist"
+               aria-label="Selecionar a região"></div>
           <div id="reserva-hist" class="reserva-hist" role="img"
-               aria-label="Histograma da idade da pastagem na conversão para o Ato selecionado"></div>
+               aria-label="Histograma da idade da pastagem na conversão para a região selecionada"></div>
           <p class="reserva-nota" id="reserva-hist-nota"></p>
         </figure>
       </div>
+      <p class="reserva-cobertura" id="reserva-cobertura"></p>
       <div class="reserva-coortes">
         <div class="reserva-coorte">
           <div class="reserva-coorte-valor">mediana 13 a</div>
@@ -808,58 +819,78 @@
     </div>
 
     <div class="dado-choque-grid">
-      <div class="dado-choque">
-        <div class="dado-choque-valor">μ ≈ 4,6 a (44%)</div>
+      <div class="dado-choque" id="reserva-card-jovem">
+        <div class="dado-choque-valor" data-campo="valor">μ ≈ 4,2 a (31,5%)</div>
         <div class="dado-choque-label">Rotação rápida / premeditada</div>
         <div class="dado-choque-glosa">
-          Na janela 2016–2024, 44% dos pixels convertidos pertencem a uma
+          Na janela 2016–2024, <span data-campo="peso">31,5%</span> dos pixels convertidos pertencem a uma
           <span class="termo" tabindex="0" data-def="Mistura de gaussianas (GMM): a distribuição é modelada como soma de dois 'sinos'; cada sino (componente) corresponde a um mecanismo de conversão distinto.">componente gaussiana</span> com
-          média de ~4,6 anos e desvio σ ≈ 2,1. Pastagem jovem convertida rapidamente — consistente
+          média de ~4,2 anos e desvio σ ≈ <span data-campo="sigma">1,9</span>. Pastagem jovem convertida rapidamente — consistente
           com planejamento (abertura para lavoura em 2–7 anos) ou rotação agricultura → pastagem → agricultura.
         </div>
       </div>
-      <div class="dado-choque">
-        <div class="dado-choque-valor">μ ≈ 21,8 a (56%)</div>
+      <div class="dado-choque" id="reserva-card-antigo">
+        <div class="dado-choque-valor" data-campo="valor">μ ≈ 22,5 a (68,5%)</div>
         <div class="dado-choque-label">Reserva histórica / oportunismo</div>
         <div class="dado-choque-glosa">
-          A segunda componente tem média ~21,8 anos (σ ≈ 7,6). Pastagem consolidada, convertida tardiamente —
+          A segunda componente tem média ~22,5 anos (σ ≈ <span data-campo="sigma">7,4</span>) e <span data-campo="peso">68,5%</span> do peso.
+          Pastagem consolidada, convertida tardiamente —
           consistente com o mecanismo oportunístico: produtores ativam reservas de terra antigas quando
           o preço da commodity ou o crédito tornam a conversão viável.
         </div>
       </div>
     </div>
+    <p class="reserva-nota">
+      Censo pixel-a-pixel, janela 2016–2024, sobre <span id="reserva-cards-n">3.455.514</span>
+      eventos de idade conhecida. Até jul/2026 estes cards traziam 4,6 a (44%) e 21,8 a (56%) —
+      números da <em>amostra</em> de 78 mil pontos, publicados sob uma seção que já anunciava o censo.
+    </p>
 
     <p>
       A bimodalidade é estável no que importa: os dois modos aparecem em todas as janelas
       testadas (2016–24, 2017–24, 2018–24, 2020–24) e <em>mal se movem</em> — o jovem entre
-      4,2 e 4,5 anos, o antigo entre 22,5 e 23,5. O que muda é o peso relativo: a população
-      jovem sobe de 31% para 51% do total entre a janela de nove anos e a de cinco. Ela
-      <em>alcança</em> a antiga no período recente; não passa a dominar.
+      4,2 e 4,5 anos, o antigo entre 22,5 e 23,5. E aparecem em toda parte: <strong>5 de 5
+      mesorregiões</strong> e <strong>162 de 164 AMCs</strong> são bimodais por dentro.
+      O que <em>não</em> se pode ler aqui é uma tendência: o peso relativo entre os dois modos
+      varia com a janela escolhida, mas essa variação acompanha a migração do rótulo de destino
+      para "Mosaico de Usos", não o calendário (<a href="#metodos/metodo-decisoes">D25</a>).
       A coexistência dos dois mecanismos conecta § 4 (lavoura sobre pasto) com § 5 (crédito
       → retração de pasto): o crédito rural financia tanto a conversão premeditada (projetos
       integrados) quanto a oportunística (arrendamento de pastagem consolidada).
     </p>
 
     <details class="metric-details" style="margin-top: 1rem;">
-      <summary>Mediana por Ato e proporções detalhadas</summary>
+      <summary>O que esta seção mede — e o que ela deixou de afirmar</summary>
       <div style="padding: 0.9rem 1.1rem; border-top: 1px solid var(--color-rule); background: #fcfcfa;">
         <div class="metric-rows" style="border: none; padding: 0; background: transparent;">
-          <div class="metric-row"><span class="metric-row-label">Ato I (1985–2000)</span><span class="metric-row-value">mediana 4 a</span></div>
-          <div class="metric-row"><span class="metric-row-label">Ato II (2001–2019)</span><span class="metric-row-value">mediana 14 a</span></div>
-          <div class="metric-row"><span class="metric-row-label">Ato III (2020–2024)</span><span class="metric-row-value">mediana 8 a</span></div>
+          <div class="metric-row"><span class="metric-row-label">Modo jovem (giro/ILP)</span><span class="metric-row-value">μ ≈ 4,4 a</span></div>
+          <div class="metric-row"><span class="metric-row-label">Modo antigo (reserva)</span><span class="metric-row-value">μ ≈ 22,9 a</span></div>
+          <div class="metric-row"><span class="metric-row-label">Mesorregiões bimodais</span><span class="metric-row-value">5 de 5</span></div>
+          <div class="metric-row"><span class="metric-row-label">AMCs bimodais</span><span class="metric-row-value">162 de 164</span></div>
+          <div class="metric-row"><span class="metric-row-label">Variação da idade explicada pela região</span><span class="metric-row-value">0,5%</span></div>
         </div>
         <p style="font-size: 0.85rem; margin: 0.8rem 0 0.3rem;">
-          Medianas entre pixels de idade conhecida (não-censurados).
-        </p>
-        <p style="font-size: 0.85rem; margin: 0.3rem 0;">
           <strong>Censura à esquerda:</strong> 64% dos 44,6 milhões de eventos já eram pastagem em 1985.
           A idade real desses pixels é desconhecida. Análises interpretativas restringem-se aos
           16,0 milhões não-censurados.
         </p>
         <p style="font-size: 0.85rem; margin: 0.3rem 0;">
-          <strong>Mecanismos (janela 2020–24, não-censurados):</strong> rotação
+          <strong>Duas afirmações foram retiradas em jul/2026, e vale saber quais.</strong>
+          (1) <em>A mediana por Ato</em> — 4 a / 14 a / 8 a — saiu: nos Atos I e II a censura consome
+          a mediana (o número mediria o horizonte de observação, não a idade), e no Ato III a
+          população medida é selecionada pelo rótulo de destino. Com esta série não se pode dizer
+          que a idade do pasto convertido subiu ou caiu ao longo do tempo.
+          (2) <em>O gradiente latitudinal de idade</em> — "Sul jovem, Norte velho" — caiu em três
+          testes independentes: sob <code>pasto → (agricultura ∪ mosaico)</code> a amplitude vai de
+          7 a para 2 a (#28C), o gradiente índice-jovem × latitude some (#40) e a tabela do Ato III
+          <em>inverte</em>: Sul 16 a → 32 a, Norte 27 a → 23 a (#33).
+        </p>
+        <p style="font-size: 0.85rem; margin: 0.3rem 0;">
+          <strong>Composição de origem (janela 2020–24, não-censurados):</strong> rotação
           agricultura→pastagem→agricultura 43,0%, mosaico de usos 19,8%, ambíguo 18,1%,
-          oportunístico clássico 16,6%, premeditado curto 2,5%.
+          oportunístico clássico 16,6%, premeditado curto 2,5%. Vale para o subconjunto cujo destino
+          foi rotulado "agricultura" — que é justamente o recorte que a
+          <a href="#metodos/metodo-decisoes">D25</a> mostra ser seletivo nesta janela.
         </p>
         <p style="font-size: 0.85rem; margin: 0.3rem 0;">
           <strong>Limitação:</strong> a análise é descritiva — não estabelece causalidade.
@@ -872,14 +903,15 @@
       <span class="bloco-resposta-rotulo">Em uma frase</span>
       Os dois — e é isso que importa: a idade na conversão é bimodal (~5 anos × ~22 anos),
       a assinatura de dois mecanismos coexistindo no mesmo estado: rotação premeditada e
-      ativação oportunística de reservas antigas de terra.
+      ativação oportunística de reservas antigas de terra. E coexistindo <em>em toda parte</em>:
+      não há um Goiás da rotação e outro da reserva — há os dois, em cada recorte que se olhe.
     </p>
 
     <p>
       Desacoplamento, lavoura sobre pasto e duas idades de pastagem têm algo em comum: são
       retratos <em>estaduais</em>. Dizem <em>o quê</em> mudou, mas não <em>onde</em>. E o "onde"
-      não é detalhe — quando se desce ao território, esses mesmos processos se organizam num
-      eixo geográfico nítido, do Sul ao Norte. É o que o próximo movimento — o coração do
+      não é detalhe: a idade do pasto não separa as regiões, mas a <em>fronteira</em> sim — ela
+      se move, e num eixo nítido, do Sul ao Norte. É o que o próximo movimento — o coração do
       trabalho — revela.
     </p>
     </div>
@@ -1074,23 +1106,23 @@
       </p>
       <figure class="grafico-card grafico-card--wide figura-chave">
         <img src="img/marcha_norte/fluxos_chave.png" alt="Mecanismo Sul-Norte: pasto-agricultura no sul versus vegetação-pasto no norte, por mesorregião e ato" loading="lazy">
-        <figcaption>Conversão (Mha/ano) por mesorregião (Sul→Norte) e ato. O pasto→agric (rosa) só lidera no Sul, e sobretudo no Ato II (o boom da soja); o veg→pasto (verde) domina o resto e <em>persiste</em> no Norte. Fonte: transições pixel-a-pixel por mesorregião (#33).</figcaption>
+        <figcaption>Conversão (Mha/ano) por mesorregião (Sul→Norte) e ato. O pasto→agric (rosa) só lidera no Sul, e sobretudo no Ato II (o boom da soja); o veg→pasto (verde) domina o resto e <em>persiste</em> no Norte. <strong>Atenção ao painel do Ato III</strong>: o rosa que encolhe ali é medida crua — a conversão não parou, mudou de rótulo (ver o bloco abaixo). Fonte: transições pixel-a-pixel por mesorregião (#33).</figcaption>
       </figure>
       <div class="dado-choque-grid">
         <div class="dado-choque">
           <div class="dado-choque-valor">Sul</div>
-          <div class="dado-choque-label">Intensificação sobre pasto jovem (~9 anos)</div>
-          <div class="dado-choque-glosa">No Ato II o Sul perde pasto líquido (−0,57 Mha/ano) e ganha lavoura. A pastagem ali é reserva de curto prazo, convertida cedo (conecta § 6).</div>
+          <div class="dado-choque-label">Intensificação: a lavoura entra sobre o pasto</div>
+          <div class="dado-choque-glosa">No Ato II o Sul perde pasto líquido (−0,57 Mha) e ganha lavoura (+0,76 Mha). É a única região onde <code>pasto→agric</code> chega a ser a conversão dominante.</div>
         </div>
         <div class="dado-choque">
           <div class="dado-choque-valor">Norte</div>
-          <div class="dado-choque-label">Fronteira sobre pasto antigo (~20 anos)</div>
-          <div class="dado-choque-glosa">Enquanto o Sul intensifica, Norte e Noroeste ganham pasto novo a partir de vegetação — a fronteira de expansão clássica, sobre reserva consolidada.</div>
+          <div class="dado-choque-label">Fronteira: o pasto entra sobre o Cerrado</div>
+          <div class="dado-choque-glosa">Enquanto o Sul intensifica, Norte e Noroeste ganham pasto novo a partir de vegetação — a fronteira de expansão clássica.</div>
         </div>
         <div class="dado-choque">
-          <div class="dado-choque-valor">−88%</div>
-          <div class="dado-choque-label">Queda do pasto→agric no Sul &middot; Ato III</div>
-          <div class="dado-choque-glosa">No Ato III o motor do Sul quase para, enquanto o veg→pasto do Norte segue — o balanço explica por que o centroide da agricultura desacelera (§ 7).</div>
+          <div class="dado-choque-valor">−49% × −13%</div>
+          <div class="dado-choque-label">Queda do veg→pasto no Ato III: Sul × Norte</div>
+          <div class="dado-choque-glosa">A abertura de Cerrado praticamente cessa no Sul e <em>persiste</em> no Norte (e cresce 3% no Centro). É esta medida — imune à mudança de rótulo — que sustenta "o Sul trava, o Norte avança".</div>
         </div>
       </div>
       <details class="metric-details">
@@ -1098,15 +1130,60 @@
         <div style="padding: 0.9rem 1.1rem; border-top: 1px solid var(--color-rule); background: #fcfcfa;">
           <figure class="grafico-card grafico-card--wide" style="margin: 0;">
             <img src="img/marcha_norte/dominante_grid.png" alt="Transição dominante por mesorregião e ato" loading="lazy">
-            <figcaption>Transição dominante em cada célula região × ato (#33). Lendo de baixo (Sul) para cima (Norte): o pasto→agric só aparece como dominante nas faixas do Sul; o veg→pasto toma conta do Norte — a mesma divisão da figura principal, agora célula a célula.</figcaption>
+            <figcaption>Transição dominante em cada célula região × ato (#33). Lendo de baixo (Sul) para cima (Norte): o pasto→agric só aparece como dominante nas faixas do Sul; o veg→pasto toma conta do Norte — a mesma divisão da figura principal, agora célula a célula. Na faixa do Ato III vale a mesma ressalva: a coluna do destino "agricultura" está subregistrada.</figcaption>
           </figure>
+        </div>
+      </details>
+      <details class="metric-details">
+        <summary>🛑 O "−88%" que esta seção publicava até jul/2026 — e por que ele saiu</summary>
+        <div style="padding: 0.9rem 1.1rem; border-top: 1px solid var(--color-rule); background: #fcfcfa;">
+          <p style="margin: 0 0 0.7rem; font-size: 0.9rem;">
+            Este bloco trazia um terceiro número de destaque: no Ato III o <code>pasto→agric</code>
+            do Sul <strong>cairia 88%</strong> — "a lavoura para de comer pasto no Sul". A auditoria
+            da mudança de rótulo (<a href="#metodos/metodo-decisoes">D25/D26</a>) testou a frase nas
+            duas réguas e ela <strong>inverteu de sinal, nas cinco mesorregiões</strong>. Variação da
+            taxa anual, Ato II → Ato III:
+          </p>
+          <div style="overflow-x: auto;">
+            <table class="camadas-tabela" style="margin: 0.5rem 0; font-size: 0.85rem;">
+              <thead>
+                <tr>
+                  <th>régua</th>
+                  <th style="text-align:right;">Sul</th>
+                  <th style="text-align:right;">Leste</th>
+                  <th style="text-align:right;">Centro</th>
+                  <th style="text-align:right;">Noroeste</th>
+                  <th style="text-align:right;">Norte</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><code>pasto→agric</code> (o número antigo)</td><td style="text-align:right; font-variant-numeric: tabular-nums;">−88,4%</td><td style="text-align:right; font-variant-numeric: tabular-nums;">−88,3%</td><td style="text-align:right; font-variant-numeric: tabular-nums;">−85,6%</td><td style="text-align:right; font-variant-numeric: tabular-nums;">−66,1%</td><td style="text-align:right; font-variant-numeric: tabular-nums;">−89,5%</td></tr>
+                <tr><td><code>pasto→(agric ∪ mosaico)</code></td><td style="text-align:right; font-variant-numeric: tabular-nums;">+51,0%</td><td style="text-align:right; font-variant-numeric: tabular-nums;">+28,6%</td><td style="text-align:right; font-variant-numeric: tabular-nums;">+38,7%</td><td style="text-align:right; font-variant-numeric: tabular-nums;">+119,5%</td><td style="text-align:right; font-variant-numeric: tabular-nums;">+31,9%</td></tr>
+                <tr><td>soja plantada, IBGE/SIDRA (imune)</td><td style="text-align:right; font-variant-numeric: tabular-nums;">+244%</td><td style="text-align:right; font-variant-numeric: tabular-nums;">+73%</td><td style="text-align:right; font-variant-numeric: tabular-nums;">+583%</td><td style="text-align:right; font-variant-numeric: tabular-nums;">+567%</td><td style="text-align:right; font-variant-numeric: tabular-nums;">+35%</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="margin: 0.8rem 0 0; font-size: 0.88rem;">
+            O intervalo não apenas cruza zero — ele <strong>troca de sinal</strong>, e a âncora que a
+            mudança de rótulo não toca (a área de soja plantada do IBGE) fica do lado de cima. Pela
+            regra da D26, a queda de 88% <em>não é um achado sobre o campo</em>: é a assinatura do
+            rótulo. O que se pode dizer do Ato III é a pergunta grossa — a saída de pasto puro para
+            lavoura-ou-uso-misto <strong>acelerou em todas as mesorregiões</strong>.
+          </p>
+          <p style="margin: 0.5rem 0 0; font-size: 0.88rem;">
+            <strong>A outra metade sobrevive.</strong> O <code>veg→pasto</code> tem origem e destino
+            fora do Mosaico, então é imune: ele cai 49% no Sul e só 13% no Norte. O contraste
+            "Sul trava, Norte avança" continua de pé — por uma medida que o rótulo não alcança. É
+            essa que o § 11 usa, e a conclusão de lá sai <em>reforçada</em>: se a demanda por terra no
+            Sul seguiu firme, o que acabou por lá foi o Cerrado, não o apetite.
+          </p>
         </div>
       </details>
       <p class="bloco-resposta">
         <span class="bloco-resposta-rotulo">Em uma frase</span>
         Duas lógicas em paralelo: no Sul, pasto vira lavoura (intensificação); no Norte,
-        vegetação vira pasto (fronteira). No Ato III o motor do Sul quase para (−88%)
-        enquanto o do Norte persiste.
+        vegetação vira pasto (fronteira). E no Ato III o que trava no Sul é a <em>abertura de
+        Cerrado</em> (−49%, contra −13% no Norte) — não a conversão de pasto, que acelerou.
       </p>
     </div>
 
@@ -1253,12 +1330,12 @@
         <div class="dado-choque">
           <div class="dado-choque-valor">Sul: fechou</div>
           <div class="dado-choque-label">Estoque baixo + hazard caindo</div>
-          <div class="dado-choque-glosa">Só no Sul o fluxo caiu (53% do estoque de 1985, estabilizado) — fronteira fechada e giro à intensificação, coerente com o pasto→agric do Sul −88% (§ 8).</div>
+          <div class="dado-choque-glosa">Só no Sul o fluxo caiu (53% do estoque de 1985, estabilizado) — fronteira fechada e giro à intensificação, coerente com o veg→pasto do Sul caindo 49% no Ato III, contra 13% no Norte (§ 8).</div>
         </div>
         <div class="dado-choque">
           <div class="dado-choque-valor">sob demanda forte</div>
           <div class="dado-choque-label">Logo, é restrição de oferta</div>
-          <div class="dado-choque-glosa">A demanda NÃO esfriou no Ato III (câmbio, preço e crédito todos em alta). Se mesmo assim o Sul desacelerou, a trava é de oferta — de Cerrado e de pasto-reserva jovem.</div>
+          <div class="dado-choque-glosa">A demanda NÃO esfriou no Ato III (câmbio, preço e crédito todos em alta) — e a soja plantada do IBGE mais que triplicou de ritmo no Sul. Se mesmo assim a abertura de Cerrado parou por lá, a trava é de <em>oferta</em>: o que acabou foi o Cerrado, não o apetite.</div>
         </div>
       </div>
       <details class="metric-details">
@@ -1324,18 +1401,25 @@
             A lógica jovem é estrutural: onde há plantio direto, o pasto é convertido cedo
             (r = −0,37).</p>
           <p class="fio-etapa fio-etapa--verificacao"><strong>A verificação derrubou</strong>
-            Controlando a latitude, a correlação colapsa (−0,22, no fio); controlando o
-            gradiente 2D completo, nada sobrevive. O plantio direto <em>co-localiza</em> com a
-            lógica jovem — não a causa. Daqui nasceu a Decisão D14.</p>
+            Controlando a latitude, a correlação colapsa (−0,22, no fio). O plantio direto
+            <em>co-localiza</em> com a lógica jovem — daqui nasceu a Decisão D14. (Com a idade
+            medida pelo censo o par volta a p = 0,031: o veredito honesto é <em>não
+            estabelecido</em>, não "sem efeito".)</p>
+          <p class="fio-etapa fio-etapa--verificacao"><strong>E a segunda verificação derrubou o resto</strong>
+            Em jul/2026, medindo cada evento nas duas réguas (<code>agric</code> e
+            <code>agric ∪ mosaico</code>), o gradiente índice-jovem × latitude
+            <strong>desaparece</strong> — ρ ≈ 0, não significativo nas três janelas. A "geografia
+            das duas lógicas" era o rótulo de destino, não o campo.</p>
           <p class="fio-etapa fio-etapa--sobrevive"><strong>O que sobrevive</strong>
-            A geografia das duas lógicas: rotação jovem no Sul/Centro, oportunismo antigo no
-            Norte — as duas faces do gradiente de aptidão.</p>
+            A regra: em corte transversal estadual, reporte a parcial controlando latitude antes de
+            atribuir efeito próprio (D14). E a coexistência das duas lógicas — em toda parte, não
+            uma por região.</p>
           <details class="metric-details">
             <summary>Ver o mapa da lógica dominante</summary>
             <div style="padding: 0.9rem 1.1rem; border-top: 1px solid var(--color-rule); background: #fcfcfa;">
               <figure class="grafico-card grafico-card--wide" style="margin: 0;">
                 <img src="img/marcha_norte/mapa_logica_dominante_amc.png" alt="Mapa da lógica de conversão dominante por AMC" loading="lazy">
-                <figcaption>Lógica dominante de conversão por AMC: rotação jovem (sul) × oportunismo antigo (norte). Fonte: #40.</figcaption>
+                <figcaption>Lógica dominante de conversão por AMC, na régua crua: rotação jovem (sul) × oportunismo antigo (norte). Fonte: #40. <strong>Mantido como registro do que caiu</strong> — sob o bracket por evento este gradiente não se sustenta.</figcaption>
               </figure>
             </div>
           </details>
@@ -1347,12 +1431,18 @@
             Sul jovem + Norte velho ⇒ a bimodalidade da idade (§ 6) seria <em>causada</em>
             pela região.</p>
           <p class="fio-etapa fio-etapa--verificacao"><strong>A verificação derrubou</strong>
-            Decompondo within/between: a geografia explica só 2,5–7,3% da separação
-            jovem/velho (o tempo explica 20%); 73–77% mora <em>dentro</em> das células. Os dois
-            modos coexistem em 5/5 mesorregiões e 34/36 AMCs.</p>
+            Decompondo within/between: a geografia explica uma fração pequena da separação
+            jovem/velho, e a maior parte mora <em>dentro</em> das células. Os dois modos coexistem
+            em <strong>5/5 mesorregiões</strong> e <strong>162/164 AMCs</strong> (censo).</p>
+          <p class="fio-etapa fio-etapa--verificacao"><strong>E a segunda verificação foi mais longe</strong>
+            Sob a régua superior, a região explica <strong>0,5%</strong> da variação da idade (era
+            3,7%) e a amplitude Sul→Norte cai de 7 para 2 anos. Caiu também a versão fraca da
+            primeira leitura — "um gradiente regional no <em>peso</em> da mistura" —, que esta
+            página defendeu até julho de 2026.</p>
           <p class="fio-etapa fio-etapa--sobrevive"><strong>O que sobrevive</strong>
-            Um gradiente regional no <em>peso</em> da mistura — nunca "bimodalidade causada
-            pela região". A frase exata importa, e foi testada.</p>
+            A coexistência, e mais forte do que antes: quanto menos a região explica, mais claro
+            fica que os dois mecanismos rodam em toda parte. O que a fronteira do Norte tem de
+            diferente não é uma lógica própria — é mais Cerrado restante (§ 11).</p>
           <details class="metric-details">
             <summary>Ver a bimodalidade por célula</summary>
             <div style="padding: 0.9rem 1.1rem; border-top: 1px solid var(--color-rule); background: #fcfcfa;">
@@ -1366,10 +1456,11 @@
       </div>
       <p class="bloco-resposta">
         <span class="bloco-resposta-rotulo">Em uma frase</span>
-        Fogo na dianteira geográfica, duas lógicas com geografia própria, bimodalidade que a
-        região modula mas não cria — e, três vezes, uma primeira leitura mais forte que foi
-        testada e rebaixada antes de virar afirmação. É isso que separa um conjunto de
-        gráficos de uma tese.
+        Fogo na dianteira geográfica; duas lógicas que coexistem em toda parte, e não uma por
+        região; bimodalidade que a região não cria nem modula. Três vezes uma primeira leitura
+        mais forte foi testada e rebaixada antes de virar afirmação — e, em dois casos, uma
+        <em>segunda</em> rodada derrubou o que a primeira tinha deixado de pé. É isso que separa
+        um conjunto de gráficos de uma tese.
       </p>
     </div>
 
@@ -1951,15 +2042,17 @@
         um <em>porquê</em>. Dezesseis decisões (D1–D16) estruturam o trabalho e garantem
         que peças escritas em meses diferentes usem a mesma régua. Agrupadas por tema
         (as numerações são cronológicas; as últimas cinco nasceram na investigação da
-        marcha ao norte):
+        marcha ao norte). No fim vêm as duas mais recentes — <strong>D25 e D26</strong>,
+        de julho de 2026 —, que a auditoria da mudança de rótulo do MapBiomas obrigou a
+        escrever e que reorganizaram várias leituras desta página:
       </p>
 
       <h4 class="decisao-tema">Classes e medição</h4>
       <div class="decisao-grid">
         <div class="decisao-card">
           <span class="decisao-badge">D1</span>
-          <div class="decisao-titulo">6 classes unificadas, Mosaico excluído</div>
-          <div class="decisao-por-que">Reduz ruído de subclasses; mapeamento idêntico em mapas, transições e taxas.</div>
+          <div class="decisao-titulo">6 classes unificadas, Mosaico com identidade própria</div>
+          <div class="decisao-por-que">Reduz ruído de subclasses; mapeamento idêntico em mapas, transições e taxas. <strong>Revisada em jul/2026</strong>: o Mosaico saiu de "Outros" e ganhou faixa própria na barra — é ele que absorve a conversão no fim da série (D25).</div>
         </div>
         <div class="decisao-card">
           <span class="decisao-badge">D2</span>
@@ -2047,6 +2140,20 @@
           <span class="decisao-badge">D16</span>
           <div class="decisao-titulo">Lead-lag de séries AMC integradas exige Toda-Yamamoto + placebos</div>
           <div class="decisao-por-que">O Granger ingênuo em 1ª diferença fabrica precedência espúria (#42). Ver Narrativa § 9.</div>
+        </div>
+      </div>
+
+      <h4 class="decisao-tema">Mudança de rótulo do MapBiomas (jul/2026)</h4>
+      <div class="decisao-grid">
+        <div class="decisao-card">
+          <span class="decisao-badge">D25</span>
+          <div class="decisao-titulo">O objeto medido não é constante ao longo da série</div>
+          <div class="decisao-por-que">No fim da série, a terra que sai da pastagem passa a ser rotulada "Mosaico de Usos" em vez de "agricultura" — a razão entre as duas transições vai de 0,6 (2015) a 32,5 (2024) enquanto o IBGE registra a soja crescendo 38%. Uma transição pode "desaparecer" sem que nada mude no campo.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D26</span>
+          <div class="decisao-titulo">Medir em intervalo, com uma âncora de fora</div>
+          <div class="decisao-por-que">Todo número que tenha "agricultura" no destino é reportado entre duas réguas — só <code>agric</code> (piso) e <code>agric ∪ mosaico</code> (teto) — e comparado a uma fonte imune (SIDRA/IBGE). Robusto = sobrevive nas duas pontas. Foi essa régua que derrubou o gradiente de idade do § 6 e o "−88%" do § 8.</div>
         </div>
       </div>
     </div>

@@ -160,34 +160,42 @@ frase**, contadas como descoberta:
   bootstrap (D19 — a vegetação inclui zero); a "muralha norte" é **a floresta** (#44).
 
 **Perna 2 — Qual o mecanismo? → Dois Goiáses.**
-- Sul **intensifica** (`pasto→lavoura`, pasto jovem ~9 anos); Norte **abre fronteira**
-  (`mata→pasto`, pasto velho **16 anos** — era "~20" na amostra; o censo corrigiu).
+- ~~Sul **intensifica** (`pasto→lavoura`, pasto jovem ~9 anos); Norte **abre fronteira**
+  (`mata→pasto`, pasto velho **16 anos**)~~ → **a metade da idade caiu.** O Sul
+  intensifica e o Norte abre fronteira (isso vale, e o `veg→pasto` o sustenta); mas a
+  **idade** do pasto convertido **não separa** as regiões — ver o aviso abaixo.
 
-> 🛑 **Antes de implementar a Perna 2, leia
-> [BLUEPRINT_PARTE2.md](BLUEPRINT_PARTE2.md) → "Estado dos dados da Perna 2".**
-> Três pontas soltas em aberto (21/jul/2026): (1) o site publicado ainda serve o
-> coroplético da **amostra** sob manchete de censo; (2) dois cards-manchete do §6
-> carregam números da amostra e contradizem a prosa ao lado; (3) o **eixo
-> temporal está suspenso** — o [#28D](../../Textos/pipelines/28D_deriva_mosaico.md)
-> mostrou que a tendência "o pasto jovem ganha peso" acompanha uma deriva de
-> classificação do MapBiomas, não o tempo. **O desenho em dois tempos abaixo
-> continua válido**, mas o "Tempo 1" precisa parar de usar o toggle de ato como
-> *motor da mistura*: a bimodalidade e o gradiente sobrevivem; a tendência
-> temporal, não.
+> ✅ **Estado da Perna 2 (25/jul/2026): as três pontas soltas foram fechadas, e uma
+> quarta apareceu no caminho.** Ver [BLUEPRINT_PARTE2.md](BLUEPRINT_PARTE2.md) →
+> "Estado dos dados da Perna 2". Resolvido: (1) o site deixou de servir o coroplético
+> da **amostra**; (2) os cards do §6 passaram aos números do censo; (3) o **eixo
+> temporal segue suspenso** e saiu da copy. **A quarta**: o **gradiente latitudinal de
+> idade também caiu** (23–25/jul) — não é só a tendência temporal. Isso muda o desenho
+> em dois tempos abaixo, que foi escrito antes:
+>
+> - o **Tempo 1** perde o toggle de ato como motor da mistura (o tempo está suspenso);
+> - o **Tempo 2** perde a premissa "Sul jovem → Norte velho": o "aha" **não** é
+>   escolher o Sul esperando um pico só e ver dois — é ver que **nenhuma** região tem
+>   um pico só, e que a região explica 0,5% da variação.
+>
+> **A peça implementada seguiu esse caminho**: o toggle passou a ser **por região**, e
+> o mapa deixou de pintar idade para pintar o **veredito de bimodalidade**. O "aha"
+> ficou mais simples e mais forte: um mapa quase sem variação.
 - **A interativa da idade do pasto: re-cablear, não simplificar.** Hoje são duas peças
   lado a lado (mapa por AMC + histograma bimodal, com toggle de ato). A recomendação é
   **fazê-las conversar** para que a interação *seja* o argumento — em dois tempos:
   - *Tempo 1 — "existem dois modos":* o histograma bimodal da idade na conversão, com
-    os dois picos do GMM marcados (~5 anos e ~22/35 anos). O toggle de ato **fica** —
-    porque o motor honesto da mistura é o **tempo** (o Ato I converte pasto jovem; o
-    II/III, velho).
-  - *Tempo 2 — "a geografia desloca o peso, não cria os modos" (o achado #28C):* ao
-    **selecionar uma região** no mapa (Sul jovem → Norte velho), o histograma **se
-    redesenha para aquela região e continua com dois corcovas**. O "aha" é escolher o
-    Sul profundo esperando um pico só de pasto jovem — e ainda ver os dois. Essa
-    persistência *é* a prova de que a bimodalidade mora **dentro** de cada região
-    (34/36 AMCs bimodais), que é justamente a autocorreção da D14. Fica mais rico e mais
-    honesto, sem ficar conceitualmente mais complexo.
+    os dois picos do GMM marcados (~5 anos e ~22 anos). ~~O toggle de ato **fica** —
+    porque o motor honesto da mistura é o **tempo**~~ → **o toggle de ato saiu**: o eixo
+    temporal está suspenso, e o motor da mistura é justamente o que não se pode afirmar.
+  - *Tempo 2 — "a geografia não cria os modos, e nem desloca o peso" (o achado #28C,
+    revisto):* ao **selecionar uma região**, o histograma se redesenha e **continua com
+    duas corcovas**. ~~O "aha" é escolher o Sul profundo esperando um pico só de pasto
+    jovem — e ainda ver os dois.~~ Essa formulação pressupunha o gradiente refutado. O
+    "aha" implementado é mais direto: **percorra as cinco regiões e o desenho não muda**
+    — 5/5 mesorregiões e **162/164 AMCs** bimodais por dentro, com a região explicando
+    0,5% da variação da idade. A persistência *é* a prova de que a bimodalidade mora
+    **dentro** de cada recorte.
 - **Absorve aqui** (deixam de ser cards soltos): "lavoura sobre pasto, não sobre mata"
   e "crédito → pastagem" como evidência de apoio.
 - **Autocorreção em destaque:** o #40 derrubou o próprio overclaim no mesmo dia

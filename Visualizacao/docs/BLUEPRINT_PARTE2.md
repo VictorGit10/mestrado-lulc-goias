@@ -238,9 +238,25 @@ banca fosse.**
 
 ---
 
-## 🛑 Estado dos dados da Perna 2 — PONTA SOLTA (21/jul/2026)
+## ✅ Estado dos dados da Perna 2 — RESOLVIDO (25/jul/2026)
 
-**Nada da Perna 2 deve ser congelado antes de resolver isto.** São três problemas
+> **Fechado em 25/jul/2026.** Os três problemas abaixo estão corrigidos no site; o
+> diagnóstico fica como registro do que era e de por que mudou. O que foi feito:
+>
+> | item | o que foi feito |
+> |---|---|
+> | geojson órfão com dados da amostra | virou **`malha_amc.geojson`** — só identidade e geometria, gerado por `scripts/export_malha_amc_viz.py`. O nome mudou de propósito: uma malha chamada "idade_pastagem" convida a repintar idade nela |
+> | coroplético de idade por AMC | **substituído**: o mapa agora codifica o **veredito de bimodalidade** por AMC (162 bimodais · 2 unimodais · 2 sem ajuste), lido do censo em tempo de execução. Um mapa quase uniforme é a forma visual do η² de 0,5% |
+> | cards com números da amostra | lidos de `idade_pastagem_gmm.json` (janela 2016–24): μ₁ 4,2a / 31,5% e μ₂ 22,5a / 68,5%. O texto declara o que estava lá antes |
+> | 3 JSONs do censo não cabeados | `idade_pastagem_regional.json` alimenta mapa + histograma (toggle passou de **Ato → região**, que era o desenho da Opção A); `_gmm.json` alimenta os cards; `_municipal.json` alimenta a nota de cobertura (244 municípios, mínimo 182 eventos) **e** a mesorregião de cada AMC no export da malha |
+> | `idade_pastagem_histograma.json` (por Ato) | **deliberadamente não consumido** — o eixo temporal está suspenso. Fica como export do #28; não é ponta solta, é decisão registrada |
+> | Mosaico escondido em "Outros" | ganhou **faixa própria listrada** na barra empilhada (10,5% do estado em 2024, contra 1,0% de tudo o mais somado) e entrada na legenda, que declara que o raster GEE não o pinta |
+> | copy do gradiente | retirada do §6, do §8 (o "−88%"), do §11 e dos dois cards de autocorreção do §12 — ver o aviso na seção anterior |
+>
+> Verificado com Playwright: 166 AMCs desenhadas, toggle de 6 regiões redesenhando,
+> console limpo, e varredura confirmando que as sete frases retiradas não estão mais no DOM.
+
+**Diagnóstico original (21/jul/2026), preservado como registro.** Eram três problemas
 independentes, em ordem de gravidade.
 
 ### 1. A copy desta página está na era da amostra
@@ -286,6 +302,29 @@ mecanismos coexistem em toda parte; a geografia desloca o peso da mistura" — *
 justamente a parte que sobrevive**, porque é uma afirmação sobre forma e
 espaço, não sobre tendência temporal. A peça interativa segue de pé; o que sai é
 a narrativa de *avanço no tempo*.
+
+> ### ⚠️ O parágrafo acima está ERRADO na segunda metade — corrigido em 23–25/jul/2026
+>
+> O argumento "**o gradiente é transversal, logo imune à deriva**" foi explicitamente
+> **refutado**. Ele confunde *quando a deriva ocorre* com *o que ela seleciona*: a
+> mudança de rótulo atua **dentro** de um período, escolhendo quais eventos ficam
+> visíveis sob a classe "agricultura". Um corte transversal feito sobre esse
+> subconjunto herda a seleção inteira.
+>
+> Três testes independentes derrubaram o gradiente latitudinal de **idade**:
+>
+> | teste | régua crua | sob `pasto→(agric∪mosaico)` |
+> |---|---|---|
+> | amplitude Sul→Norte da mediana (#28C) | 7 anos | **2 anos**, ordem embaralhada |
+> | η² da mesorregião sobre a idade (#28C) | 3,7% | **0,5%** |
+> | índice-jovem × latitude (#40, bracket por evento) | ρ significativo | **ρ ≈ 0, ns nas 3 janelas** |
+> | idade mediana no Ato III (#33) | Sul 16a · Norte 27a | **Sul 32a · Norte 23a — inverte** |
+>
+> **A tese da perna, corrigida:** "dois mecanismos coexistem em toda parte" —
+> ponto. A cláusula "e a geografia desloca o peso da mistura" **sai**. A parte que
+> sobrevive sobrevive **reforçada**: quanto menos a região explica (0,5%), mais
+> forte fica o "em toda parte" (5/5 mesorregiões, 162/164 AMCs bimodais por dentro).
+> Ver o WARNING no topo de [`28C_bimodalidade_regional.md`](../../Textos/pipelines/28C_bimodalidade_regional.md).
 
 ---
 

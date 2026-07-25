@@ -451,20 +451,35 @@ python scripts/estatistica_ponderada.py
 | μ₁ (Ato III) | 4,6a | 4,4a | ✅ |
 | μ₂ (Ato III) | 22,7a | 22,9a | ✅ |
 | **w₁ (Ato III)** | 62,3% | **51,5%** | ❌ |
-| Gradiente Sul→Norte | 7→14a | 9→16a | ✅ (ordenação idêntica) |
+| Gradiente Sul→Norte | 7→14a | 9→16a | ✅ (ordenação idêntica) — ⚠️ **concordância entre fontes, não validade**: as duas medem o mesmo subconjunto selecionado pelo rótulo, e o gradiente caiu em 23–25/jul (ver topo) |
 | Rotação (2020-24) | 54,7% | **43,0%** | ❌ |
 
 A verificação **ano a ano** mostra que a amostragem dentro de cada ano era sadia (diferença de mediana: média −0,09a, máx |2|a). O que falha são os **agregados**, por erro de composição entre anos. Ver `scripts/compara_censo_amostra.py`.
 
 ## Sub-pipeline C — Aba na visualização web ✅
 
-Implementado em `Visualizacao/index.html` (§6), com `assets/js/pastagem-reserva.js`:
-coroplético d3 das 166 AMCs, histograma por Ato com toggle, e cards de coortes.
-Consome `idade_pastagem_municipal.json`, `idade_pastagem_histograma.json`,
-`idade_pastagem_gmm.json` e `idade_pastagem_amc.geojson` — todos regerados a
-partir do censo em 21/jul/2026.
+Implementado em `Visualizacao/index.html` (§6), com `assets/js/pastagem-reserva.js`.
+**Reconstruído em 25/jul/2026** — a versão de 21/jul servia dados da amostra sob
+manchete de censo, e pintava o gradiente de idade que a auditoria refutou:
+
+| peça | antes (até 24/jul) | agora |
+|---|---|---|
+| mapa das AMCs | coroplético da **idade média**, valores da **amostra** (`idade_pastagem_amc.geojson`, arquivo órfão) | veredito de **bimodalidade** por AMC (162 · 2 · 2), valores do censo, geometria em `malha_amc.geojson` (`scripts/export_malha_amc_viz.py`) |
+| histograma | toggle por **Ato** | toggle por **região** (`idade_pastagem_regional.json`, a Opção A) — o eixo temporal está suspenso |
+| cards do GMM | 4,6a/44% e 21,8a/56% (amostra) | 4,2a/31,5% e 22,5a/68,5%, lidos de `idade_pastagem_gmm.json` |
+| coortes | — | inalterados |
+
+**Correção de registro:** este parágrafo afirmava que os quatro arquivos haviam sido
+"regerados a partir do censo em 21/jul/2026". Era **falso para o geojson**, que nenhum
+script do repositório gerava. Agora os três JSONs vêm de `analise_reserva_terra.py` e a
+malha de `export_malha_amc_viz.py`. O `idade_pastagem_histograma.json` (por Ato) segue
+sendo exportado, mas **não é consumido pelo site** — decisão, não esquecimento: ele é a
+leitura temporal suspensa.
 
 Ganho concreto do censo aqui: a mediana municipal deixou de ser ruído. Na
 amostra, 44% dos municípios tinham menos de 20 pixels não-censurados (mediana
-de 26 px por município); no censo são **0%**, com mediana de 22.250 px. O mapa
-municipal passou a ser interpretável célula a célula.
+de 26 px por município); no censo são **0%**, com mediana de 22.250 px — o menor
+município tem 182 eventos. É esse o número que a nota de cobertura do §6 publica.
+**O mapa municipal de idade, porém, não foi construído — e não deve ser**: em
+resolução fina ele apenas repintaria, célula a célula, o gradiente que três testes
+independentes derrubaram.
