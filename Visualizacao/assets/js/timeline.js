@@ -47,8 +47,8 @@
       ato: "Ato III",
       start: 2020,
       end: 2024,
-      titulo: "Conversão seletiva",
-      resumo: "vegetação se recupera; pastagem perde área"
+      titulo: "Conversão acelerada (mascarada)",
+      resumo: "a pastagem cede três vezes mais rápido; a conversão acelera — e a medida crua esconde"
     }
   ];
 
@@ -498,7 +498,7 @@
       { era: 'expansao', ato: 'II',  start: 2001, end: 2019,
         lede: 'Para onde foram os hectares entre 2001 e 2019: o período da grande expansão agrícola sobre a pastagem.' },
       { era: 'conversao', ato: 'III', start: 2020, end: 2024,
-        lede: 'Para onde foram os hectares entre 2020 e 2024: a conversão seletiva e os primeiros sinais de estabilização.' },
+        lede: 'Para onde foram os hectares entre 2020 e 2024: a conversão acelera sobre a pastagem — e o mapa, sozinho, diz o contrário.' },
     ];
     eraRanges.forEach(({ era, ato, start, end, lede }) => {
       const eraCard = document.querySelector(`.step--era[data-era="${era}"]`);

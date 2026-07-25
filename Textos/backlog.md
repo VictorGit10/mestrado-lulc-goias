@@ -64,11 +64,20 @@ que já existe**. Nenhuma exige redação; todas são investigação.
 > auditoria derruba um achado, a correção só está feita quando alcança os **cinco documentos de
 > consulta** — o pipeline é onde o erro mora, mas a narrativa e o guia são onde ele é *dito*.
 
-> **DECISÃO ABERTA (do autor):** renomear o **Ato III** — o rótulo "Conversão seletiva" está factualmente invertido pela
-> mudança de rótulo (a conversão *acelera*, não desacelera). Candidato: "Conversão acelerada (mascarada)". Propaga por
-> `config_periodos.py` → figuras/docs/viz. Caveat já posto em `config_periodos.py` (`nota_deriva` no Ato III + docstring +
-> marco 2018) e no WARNING do #29; **não renomeado sem decisão do autor**. Idem revisar a leitura do Intensity (#31) de
-> "retração da agricultura" em P3.
+> ~~**DECISÃO ABERTA (do autor):** renomear o **Ato III**~~ — ✅ **DECIDIDA E EXECUTADA (25/jul/2026).**
+> O Ato III deixou de se chamar "Conversão seletiva" e passou a **"Conversão acelerada (mascarada)"**. O rótulo antigo
+> nomeava uma desaceleração que não existiu: era a mudança de rótulo do Mosaico, não o campo. O parêntese é parte do
+> nome de propósito — o traço que define o período é que a **medida crua diz o oposto do que ocorreu**.
+> **Propagado em**: `config_periodos.py` (fonte única, com `nota_rotulo` no lugar do antigo `nota_deriva`) →
+> CSVs do #32/#28 e os 4 JSONs da viz (**regenerados**, não editados à mão: `centro_massa.py`,
+> `analise_transicoes.py`, `export_idade_histograma_regional.py`, `analise_reserva_terra.py`,
+> `exportar_marcha_viz.py`) → `Visualizacao/` (index.html, utils.js, timeline.js, README, docs) →
+> `explicacao_atos.md`, narrativa, ensaio, #28, #29. **O texto do Ato III no site foi reescrito**, não só
+> reetiquetado: a copy anterior dizia "as lavouras se estabilizam", "a vegetação registra sutil recuperação" e
+> "a queda livre encontra um piso" — as três eram leituras do artefato. A nova copy usa só medidas verificadas
+> (soja SIDRA +38%, pastagem cedendo 3× mais rápido, vegetação nativa **plana**, fronteira migrando ao norte).
+> **Pendência remanescente**: revisar a leitura do Intensity (#31) de "retração da agricultura" em P3 — mesma
+> origem, ainda não refeita.
 
 1. ~~**Caracterizar o "drive comum"**~~ — ✅ **FEITO (2026-06-06, [#37](pipelines/37_drive_comum.md))**.
    Resultado: câmbio-competitividade (REER) e crédito rural **antecedem** as inflexões do LULC

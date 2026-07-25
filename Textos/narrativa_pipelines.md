@@ -93,7 +93,9 @@ faz peças escritas em momentos diferentes conversarem entre si.
 
 - **Os atos (a régua narrativa).** A periodização data-driven (Fase 5) cristalizou três
   **atos** em `config_periodos.py`: **I — Pastagem como herança (1985–2000)**, **II — Expansão
-  e intensificação (2001–2019)**, **III — Conversão seletiva (2020–2024)**. Os **marcos**
+  e intensificação (2001–2019)**, **III — Conversão acelerada, mascarada (2020–2024)** —
+  este último renomeado em 25/jul/2026, quando a auditoria mostrou que a "seletividade" era
+  a mudança de rótulo do Mosaico, não o campo (ver o epílogo). Os **marcos**
   institucionais (Real, Kandir, Código Florestal etc.) recebem uma **tipologia evidencial**:
   **A** = evidência causal (só a Lei Kandir), **B** = referência narrativa (sem afirmação
   causal), **C** = limites da série (1985, 2024).
@@ -916,9 +918,11 @@ Aplicada a todos os consumidores, essa régua produziu o balanço mais honesto d
 - **Fica frágil:** o canal de intensificação M1 do #49, cujo bracket cruza zero e cuja âncora SIDRA
   dá sinal oposto — dependência de medida, não só de rótulo.
 
-Há ainda uma consequência de nomenclatura em aberto: o Ato III chama-se "Conversão seletiva", um
-rótulo **factualmente invertido** pela auditoria (a conversão acelera, mascarada). A fronteira de
-2020 é real; o nome não é. A troca aguarda decisão do autor.
+Houve ainda uma consequência de nomenclatura, e ela foi executada em 25/jul/2026: o Ato III
+chamava-se **"Conversão seletiva"**, um rótulo **factualmente invertido** pela auditoria — ele
+nomeava uma desaceleração que não existiu. Passou a ser **"Conversão acelerada (mascarada)"**.
+A fronteira de 2020 sempre foi real; o nome é que não era. O parêntese é parte do nome de
+propósito: o traço que define o período é que a medida crua diz o oposto do que ocorreu.
 
 O epílogo deixa uma moral que vale para além deste caso, e é a razão de ele estar na narrativa e
 não só numa nota de rodapé: **o método estava correto, e a série é que se moveu debaixo dele.** É

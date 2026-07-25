@@ -24,7 +24,8 @@ Robustez da fronteira 2020 a mudança de rótulo do Mosaico (#28D, 2026-07-23):
     corroborado por SIDRA soja +38%) e pelo cambio de 2020 (#37, imune). A serie
     IMUNE (veg) nao quebra em 2020 -> Ato III e evento de COMPOSICAO da fronteira
     (pasto->lavoura acelera), nao de taxa de desmatamento. CONCLUSAO: a fronteira
-    de 2020 e real; o ROTULO "Conversao seletiva" esta invertido (ver ATOS III).
+    de 2020 e real; o ROTULO estava invertido e foi CORRIGIDO em 25/jul/2026 —
+    "Conversao seletiva" virou "Conversao acelerada (mascarada)" (ver ATOS III).
 
 Fronteira 2005/2006 — nota metodologica (NAO incluida como fronteira de periodo):
     Detectada por STARS (shifts em 2004/2006 com l=5, alpha=0.05) e KL/TV
@@ -68,14 +69,18 @@ from __future__ import annotations
 ATOS = {
     "I":   {"inicio": 1985, "fim": 2000, "titulo": "Pastagem como herança"},
     "II":  {"inicio": 2001, "fim": 2019, "titulo": "Expansão e intensificação"},
-    "III": {"inicio": 2020, "fim": 2024, "titulo": "Conversão seletiva",
-            # ATENCAO (2026-07-23): a FRONTEIRA de 2020 e robusta (ver docstring),
-            # mas o TITULO "Conversao seletiva" nasceu da leitura crua de que a
-            # agricultura desacelerou — que e a DERIVA do Mosaico (#28D), invertida.
-            # Sob a regua corrigida a conversao ACELERA. Titulo candidato a revisao
-            # (ex.: "Conversao acelerada (mascarada)"). Decisao do autor — nao
-            # renomeado aqui para nao propagar mudanca narrativa sem aprovacao.
-            "nota_deriva": "caracterizacao sob revisao: conversao acelera, nao desacelera"},
+    "III": {"inicio": 2020, "fim": 2024, "titulo": "Conversão acelerada (mascarada)",
+            # RENOMEADO em 2026-07-25 (decisao do autor). O titulo anterior era
+            # "Conversao seletiva", nascido da leitura crua de que a agricultura
+            # desacelerou no fim da serie — que e a MUDANCA DE ROTULO do Mosaico
+            # (#28D/D25), nao o campo. Sob a regua corrigida a conversao ACELERA:
+            # pasto->(agric U mosaico) sobe +50% no estado (+51% no Sul) e a soja
+            # plantada do SIDRA (imune ao classificador) cresce +38%. A FRONTEIRA
+            # de 2020 sempre foi robusta (ver docstring); so o ROTULO estava
+            # invertido. "(mascarada)" e parte do nome de proposito: o traco que
+            # define o periodo e que a medida ingenua diz o OPOSTO do que ocorreu.
+            "nota_rotulo": "a agricultura NAO desacelera no Ato III; a medida crua e que "
+                           "subconta — ver #28D/D26 e o bracket do #33"},
 }
 
 # Versao flat para scripts que so precisam de (inicio, fim, titulo)

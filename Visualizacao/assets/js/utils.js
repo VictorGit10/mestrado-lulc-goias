@@ -30,7 +30,7 @@
   const ATOS = [
     { id: "heranca",        titulo: "I. Pastagem como herança",     anoInicio: 1985, anoFim: 2000, cor: "#8b3a1d" },
     { id: "expansao",       titulo: "II. Expansão e intensificação", anoInicio: 2001, anoFim: 2019, cor: "#a85234" },
-    { id: "conversao",      titulo: "III. Conversão seletiva",       anoInicio: 2020, anoFim: 2024, cor: "#2d5a3d" }
+    { id: "conversao",      titulo: "III. Conversão acelerada",      anoInicio: 2020, anoFim: 2024, cor: "#2d5a3d" }
   ];
 
   function eraDoAno(ano) {

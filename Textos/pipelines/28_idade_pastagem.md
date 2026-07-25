@@ -28,9 +28,18 @@ lugar da outra.**
 | **Peso** | *qual mecanismo domina onde?* | #40 (índice jovem) | mistura, não idade |
 
 Os **níveis** não são comparáveis entre #28C e #33 — o #28C descreve a
-subpopulação observável. A **ordenação** é robusta nas pontas (Sul e Leste
-jovens, Noroeste e Norte velhos) e **instável no Centro Goiano**, que tem 70,9%
-de censura e por isso um não-censurado pequeno e selecionado-jovem.
+subpopulação observável.
+
+> 🛑 **A ORDENAÇÃO geográfica caiu (25/jul/2026) — esta era a última afirmação de
+> gradiente de pé nesta página.** Escrevia-se aqui que a ordenação era "robusta nas
+> pontas (Sul e Leste jovens, Noroeste e Norte velhos) e instável só no Centro
+> Goiano". O bracket-por-evento do [#33](33_transicoes_regionais.md) mostrou que ela
+> **não é robusta em ponta nenhuma**: sob `pasto→(agric∪mosaico)`, no Ato III o
+> **Sul vai de 16a (a mais jovem) para 32a** e o **Norte de 27a para 23a** — as duas
+> pontas trocam de lugar. Junto com o #40 (ρ→0) e o #28C (amplitude 7a→2a), são
+> **três testes independentes** contra o mesmo alvo. **Não afirmar gradiente
+> latitudinal de idade em nenhuma forma.** O que a família estabelece é a **forma**
+> (bimodalidade/coexistência), não o **nível** por região.
 
 ## O achado
 
@@ -41,9 +50,13 @@ Dois mecanismos de conversão pasto → lavoura **coexistem em toda parte** de G
 - **Reserva** (μ₂ ≈ **22,9 anos**) — pasto antigo sendo capitalizado, a "reserva
   de terra" acionada.
 
-E o balanço entre eles pende em dois eixos: no **espaço** (Sul/Leste → giro;
-Noroeste/Norte → reserva) e no **tempo** (giro ganhando peso, w₁ de 31,5% em
-2016–24 para 51,5% em 2020–24 — alcança a reserva, não a supera).
+Historicamente afirmou-se que o balanço entre eles pendia em **dois eixos** — no
+espaço (Sul/Leste → giro; Noroeste/Norte → reserva) e no tempo (w₁ de 31,5% para
+51,5%). 🛑 **Os dois caíram**: o eixo temporal está suspenso desde 21/jul (bloco
+abaixo) e o eixo espacial foi refutado em 23–25/jul por três testes independentes
+(bloco acima). **O que resta — e é o achado — é a coexistência em si**: os dois
+mecanismos operam em toda parte, o tempo todo. Onde o balanço pende, e por quê,
+é pergunta em aberto que a série do MapBiomas, como está, não responde.
 
 > ## 🛑 O eixo TEMPORAL está suspenso (21/jul/2026) — leia antes de citar
 >
@@ -78,9 +91,14 @@ Noroeste/Norte → reserva) e no **tempo** (giro ganhando peso, w₁ de 31,5% em
 > 5/5 mesorregiões e 162/164 AMCs. Ou seja, a leitura intuitiva de "dois
 > Goiáses, cada um com sua lógica" **é falsa**: todo lugar faz as duas coisas, e
 > o que está mudando é o balanço, virando para o giro em todo o estado ao mesmo
-> tempo, com inclinação latitudinal. O que a fronteira do Norte tem de diferente
-> não é uma lógica própria — é mais pasto velho a capitalizar e mais Cerrado
-> restante (#39).
+> tempo. O que a fronteira do Norte tem de diferente não é uma lógica própria — é
+> mais Cerrado restante (#39).
+>
+> *(⚠️ Revisão de 25/jul: parágrafo anterior à auditoria. A frase "com inclinação
+> latitudinal" foi retirada — o gradiente de idade caiu. A metade que sobrevive, e
+> sobrevive **reforçada**, é "todo lugar faz as duas coisas": sob a união a região
+> explica ainda menos (η² de 3,7% para 0,5%). A outra metade — "a mudança é
+> temporal" — segue suspensa, então este bloco não pode ser citado como está.)*
 
 ## O que sobreviveu a cinco rodadas de correção
 
@@ -93,7 +111,7 @@ do #33 — cinco episódios com métodos e dados diferentes. Não moveram:
 | Não é composição regional | 5/5 mesos e 162/164 AMCs bimodais **por dentro** |
 | ~~Tempo ≫ espaço~~ | 🛑 **suspenso** — 19,6% × 1,3%, mas os dois lados do eixo temporal estão comprometidos (horizonte antes de 2020, mudança de rótulo depois). Re-auditar. [#28D](28D_deriva_mosaico.md) |
 | ~~Modo jovem ganha peso~~ | 🛑 **derrubado** — w₁ 31,5% → 51,5% acompanha a mudança do rótulo de destino, não o tempo. [#28D](28D_deriva_mosaico.md) §5.1 |
-| Gradiente nas pontas | Sul/Leste jovens × Noroeste/Norte velhos, em todo estimador |
+| ~~Gradiente nas pontas~~ | 🛑 **derrubado (25/jul)** — sob a união as pontas trocam de lugar (Sul 16a→32a, Norte 27a→23a). Três testes independentes: #40, #28C, [#33](33_transicoes_regionais.md) |
 
 ## O que foi aposentado — não citar
 
@@ -103,7 +121,8 @@ do #33 — cinco episódios com métodos e dados diferentes. Não moveram:
    20a", no #33) → **não identificada**: a censura mede horizonte, não idade, e é
    maior no Sul (70,9%) que no Norte (41,9%) porque o Sul converteu cedo.
    Identificado só no **Ato III**: Sul 16a · Leste 16a · Norte 27a · Centro 28a ·
-   Noroeste 31a.
+   Noroeste 31a — **e mesmo essa tabela caiu em 25/jul**: ela vale só dentro do
+   rótulo "agricultura"; sob `pasto→(agric∪mosaico)` a ordenação inverte.
 3. ~~"Sem efeito próprio do no-till"~~ (#40) → **não estabelecido**. Era
    atenuação por erro de medida: nos mesmos municípios, p vai de 0,413 a 0,031
    com a idade medida pelo censo.
@@ -244,7 +263,7 @@ Consome `pastagem_idade_conversao.csv` e produz:
 |---|---|---|---|---|---|---|
 | **I — Herança** | 1985–2000 | Pastagem herdada / Ocupação extensiva inicial | 3.459.385 | **4,0 anos** | 5,18 anos | 2–10 |
 | **II — Expansão** | 2001–2019 | Consolidação e expansão da soja / Lei Kandir | 11.592.447 | **14,0 anos** | 14,17 anos | 3–26 |
-| **III — Seletivo** | 2020–2024 | Conversão seletiva sob governança ambiental rígida | 952.698 | **8,0 anos** | 13,38 anos | 3–31 |
+| **III — Acelerado** | 2020–2024 | Conversão acelerada (mascarada) — ver #28D | 952.698 | **8,0 anos** | 13,38 anos | 3–31 |
 
 Nos anos iniciais (Ato I), convertiam-se pastagens recém-formadas (mediana 4 anos). No Ato II a idade sobe para 14 anos — conversão do estoque de pastagens antigas acumuladas. No Ato III a mediana recua para 8 anos, mas a média (13,4) e o P90 (31 anos) mostram que **não é um recuo geral**: é a coexistência de uma massa jovem com uma cauda muito longa. É a assinatura dos dois mecanismos, não a substituição de um pelo outro.
 

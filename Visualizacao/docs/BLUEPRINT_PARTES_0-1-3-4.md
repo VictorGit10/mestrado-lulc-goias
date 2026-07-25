@@ -90,7 +90,7 @@ partir da atual, sem antecipar a investigação.*
 > A pecuária segue gigante em área, mas a dinâmica econômica do agronegócio já pertence à
 > soja.
 
-**Ato III · Conversão seletiva · 2020–2024**
+**Ato III · Conversão acelerada, mascarada · 2020–2024**
 > *Tese do ato:* A inércia de quatro décadas se quebra — o pasto recua e a vegetação
 > ensaia um piso.
 > *No mapa:* Pela primeira vez o pasto encolhe e a vegetação nativa registra uma

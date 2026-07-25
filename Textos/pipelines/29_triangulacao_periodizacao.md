@@ -113,7 +113,7 @@ Uma ameaça séria: **o sup-F usa `agricultura_delta`, e a [#28D](28D_deriva_mos
 **Correção ao registro:** a linha "~2020: KL/TV (pico 2018-2020) ✓" da triangulação deve ser lida com ressalva — o KL/TV **não** é uma sensibilidade *independente* aqui, porque compartilha o objeto contaminado com o primário. A corroboração independente real do corte de 2020 é a **soja SIDRA** + a **pastagem** + o **câmbio** (#37) — todas imunes ao classificador.
 
 > [!WARNING]
-> **A caracterização "Conversão seletiva" está invertida pela mudança de rótulo.** A leitura de que a agricultura desacelera / "para de crescer" no Ato III (e a nota do marco 2018) é a **assinatura da mudança de rótulo**, não o campo. Sob a régua corrigida a conversão **acelera**. A *fronteira* de 2020 está correta; o *rótulo* do Ato III é candidato a revisão (ex.: "Conversão acelerada, mascarada"). Idem a leitura do Intensity (#31) de "retração da agricultura" em P3 (§ abaixo). Não renomeado no `config_periodos.py` sem decisão do autor.
+> **A caracterização "Conversão seletiva" estava invertida — e o ato foi RENOMEADO em 25/jul/2026.** A leitura de que a agricultura desacelera / "para de crescer" no Ato III (e a nota do marco 2018) é a **assinatura da mudança de rótulo**, não o campo. Sob a régua corrigida a conversão **acelera**. A *fronteira* de 2020 sempre esteve correta; o *rótulo* é que não estava, e passou a **"Conversão acelerada (mascarada)"** no `config_periodos.py` (propagado a CSVs, JSONs da viz, site e docs). **Pendência**: a leitura do Intensity (#31) de "retração da agricultura" em P3 (§ abaixo) tem a mesma origem e ainda não foi refeita.
 
 ## Verificação de sanidade (Pipeline #30)
 
@@ -266,7 +266,7 @@ Com base na triangulação, verificações e Intensity Analysis:
 |---------|------|--------|-----------|-----------|
 | P1 | 1985-2000 | Pastagem como herança | — | Herança POLOCENTRO/PRODECER |
 | P2 | 2001-2019 | Expansão e intensificação | ~2001 | sup-F F=62.2 + KL/TV pico 2003 ✓ |
-| P3 | 2020-2024 | Conversão seletiva | ~2020 | sup-F F=21.5 + KL/TV pico 2018-2020 ✓ |
+| P3 | 2020-2024 | Conversão acelerada (mascarada) | ~2020 | sup-F F=21.5 ✓ (34,1 sob a régua corrigida); soja SIDRA quebra sozinha ✓; ⚠️ KL/TV contaminado |
 
 ### Sub-fase 2001-2005 dentro de P2
 

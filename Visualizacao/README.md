@@ -101,7 +101,7 @@ A peca conta 1985-2024 em **3 atos** com protagonistas no territorio. Os
 |---|---|---|
 | I. Pastagem como heranca | 1985-2000 | Pastagem extensiva |
 | II. Expansao e intensificacao | 2001-2019 | Soja + commodity boom |
-| III. Conversao seletiva | 2020-2024 | Frigorificos + reorganizacao |
+| III. Conversao acelerada (mascarada) | 2020-2024 | Aceleracao que a medida crua esconde (#28D) |
 
 ### Marcos politicos (pinos da regua, validar com orientador)
 

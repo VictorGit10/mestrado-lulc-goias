@@ -8,7 +8,7 @@ Os Atos são **3 períodos empíricos** que dividem os 40 anos de análise LULC 
 |-----|---------|----------------|--------------|
 | **I** | 1985–2000 | Pastagem como herança | Pastagem extensiva |
 | **II** | 2001–2019 | Expansão e intensificação | Soja + commodity boom |
-| **III** | 2020–2024 | Conversão seletiva | Frigoríficos + reorganização |
+| **III** | 2020–2024 | Conversão acelerada (mascarada) | Aceleração que a medida crua esconde |
 
 > [!IMPORTANT]
 > Os Atos **não são capítulos políticos**. São períodos definidos pela **dinâmica observada do uso da terra**. Os marcos políticos (Plano Real, Lei Kandir, Código Florestal etc.) entram como "pinos" dentro dos Atos — inflexões datadas, não como o esqueleto da periodização.
@@ -176,13 +176,32 @@ A entrada da China na OMC (dez/2001) e a sistematização do crédito rural (Pla
 - **Marcos dentro do ato**: Crédito/China (2002), boom de commodities (2003), Código Florestal (2012) — notavelmente, o Código Florestal **não produziu quebra estrutural detectável** (reserva legal de 20% no Cerrado é permissiva; a ausência de efeito é o achado)
 - **Dinâmica**: Substituição massiva de pasto → soja; perda acelerada de vegetação natural; **pico de transformação na sub-fase 2001–2005** seguido de consolidação
 
-### Ato III — Conversão seletiva (2020–2024)
+### Ato III — Conversão acelerada (mascarada) (2020–2024)
 
-O ritmo de conversão muda de natureza: não é mais expansão bruta de fronteira, mas **reorganização seletiva**. Frigoríficos consolidados (JBS, Marfrig, Minerva) reorganizam a geografia da pecuária; compromissos de cadeia (Cerrado Manifesto) criam pressão; o CAR limita novas aberturas legais.
+> **⚠️ Este ato foi renomeado em 25/jul/2026, e o motivo é o achado mais desconfortável do
+> trabalho.** O nome anterior era *"Conversão seletiva"*, e descrevia uma desaceleração que
+> **não aconteceu**. O que aconteceu foi uma **mudança de rótulo** no MapBiomas: a partir de
+> 2021 a conversão `pastagem → agricultura` passa a ser classificada como "Mosaico de Usos"
+> (razão 0,6 em 2015 → 32,5 em 2024), e a medida crua registra um colapso onde o campo
+> registra aceleração. A **fronteira de 2020 é real** — a soja plantada do IBGE/SIDRA, que não
+> passa pelo classificador, quebra em 2020 sozinha —, só o *rótulo* estava invertido. Ver
+> [#28D](Textos/pipelines/28D_deriva_mosaico.md) e a
+> [decisão D26](Textos/metodologia/tratamento_deriva_mosaico.md).
 
-- **Protagonista**: Frigoríficos + reorganização de cadeias
-- **Marcos dentro do ato**: Reorganização de mercado (2018, que precede o ato), estado atual (2024)
-- **Dinâmica**: Conversões menores em volume, mas direcionadas; **o que muda é a lógica, não o volume**
+O ritmo de conversão **não** cai: ele acelera, e a medida ingênua diz o contrário. Sob a régua
+corrigida (`pasto → agricultura ∪ mosaico`), a saída de pasto puro para lavoura-ou-uso-misto
+**sobe ~50% no estado** entre o Ato II e o Ato III — e no Sul Goiano, onde o número cru dizia
+−88%, ela sobe **+51%**. A âncora independente concorda: a área de soja plantada em Goiás
+cresce **+38%** (3,58 → 4,94 Mha) exatamente nessa janela.
+
+- **Protagonista**: a soja, de novo — agora sobre pasto consolidado, e sob um classificador que
+  deixou de conseguir separar lavoura de pastagem
+- **Marcos dentro do ato**: reorganização de mercado (2018, que precede o ato), estado atual (2024)
+- **Dinâmica**: conversão **acelerando** sobre pasto, com a fronteira de vegetação nativa
+  migrando ao norte (essa parte é medida por `veg→pasto`, imune ao problema de rótulo)
+- **O que o ato ensina de método**: é o caso-livro da **D25** — *a transição de interesse
+  "desaparece" enquanto o fenômeno de campo acelera*. "(mascarada)" está no nome de propósito:
+  o traço que define o período é que a medida crua diz o oposto do que ocorreu.
 
 ---
 
@@ -194,7 +213,7 @@ Os Atos são definidos em uma **fonte única de verdade**: [config_periodos.py](
 ATOS = {
     "I":   {"inicio": 1985, "fim": 2000, "titulo": "Pastagem como herança"},
     "II":  {"inicio": 2001, "fim": 2019, "titulo": "Expansão e intensificação"},
-    "III": {"inicio": 2020, "fim": 2024, "titulo": "Conversão seletiva"},
+    "III": {"inicio": 2020, "fim": 2024, "titulo": "Conversão acelerada (mascarada)"},
 }
 ```
 
@@ -227,7 +246,7 @@ graph TD
     B -->|"Triangulação<br/>confirma convergência"| C["3 Períodos robustos"]
     C --> D["Ato I: 1985–2000<br/>Pastagem como herança"]
     C --> E["Ato II: 2001–2019<br/>Expansão e intensificação"]
-    C --> F["Ato III: 2020–2024<br/>Conversão seletiva"]
+    C --> F["Ato III: 2020–2024<br/>Conversão acelerada (mascarada)"]
     D --> G["Nomes descritivos<br/>do que aconteceu<br/>no território"]
     E --> G
     F --> G

@@ -42,7 +42,7 @@ CONTAMINADO — opera sobre a matriz de 6 classes que NÃO rastreia o Mosaico, e
 VEREDITO
 --------
 - A FRONTEIRA de 2020 é ROBUSTA à mudança de rótulo (real, não artefato de classificação).
-- A CARACTERIZAÇÃO "Conversão seletiva" (agricultura desacelera) está INVERTIDA pela
+- A CARACTERIZAÇÃO "Conversão seletiva" (agricultura desacelera) estava INVERTIDA pela
   mudança de rótulo — o Ato III é, na verdade, **aceleração da conversão** mascarada pela
   reclassificação. Corrigir o rótulo/nota, não a fronteira.
 
@@ -188,7 +188,8 @@ def main() -> None:
           "não some, fortalece.")
     print("  • A mudança de rótulo INVERTE o sinal (agric −0,11 vira agric∪mosaico +0,20), não cria a quebra.")
     print("  • Sustentada por pastagem (−0,07→−0,27, SIDRA soja +38%) e câmbio 2020 (#37, imune).")
-    print("  • Caracterização 'Conversão seletiva' está INVERTIDA — é ACELERAÇÃO mascarada.")
+    print("  • O rótulo 'Conversão seletiva' estava INVERTIDO — renomeado em 25/jul/2026")
+    print("    para 'Conversão acelerada (mascarada)' em config_periodos.py.")
     print(f"[OK] {ARQ_OUT.relative_to(ROOT)}")
 
 

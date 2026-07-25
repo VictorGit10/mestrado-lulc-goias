@@ -242,7 +242,7 @@ Parte 1 (os 40 anos no mapa) em diante, ou declarar explicitamente na legenda qu
   diretamente em `index.html`:
   - I. Pastagem como heranca (1985-2000)
   - II. Expansao e intensificacao (2001-2019)
-  - III. Conversao seletiva (2020-2024)
+  - III. Conversao acelerada, mascarada (2020-2024)
 - ✓ **Marcos politicos novos** (2003 boom commodity, 2018 reorganizacao)
   adicionados em `marcos.json` com referencias bibliograficas
 - ✓ **Variavel nova** `lotacao_bov_ha_pasto` exibida na linha de dados-chave
