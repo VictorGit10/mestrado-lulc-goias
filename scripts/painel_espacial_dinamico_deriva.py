@@ -1,24 +1,24 @@
 """
-painel_espacial_dinamico_deriva.py — Robustez do #49 à deriva do Mosaico (D26)
+painel_espacial_dinamico_deriva.py — Robustez do #49 à mudança de rótulo do Mosaico (D26)
 ==============================================================================
 
 PERGUNTA
 --------
 Os canais inferenciais do #49 (painel espacial dinâmico) usam `agricultura_delta`,
-que a deriva do Mosaico (#28D/D25) distorce nos anos terminais. Este companheiro
+que a mudança de rótulo do Mosaico (#28D/D25) distorce nos anos terminais. Este companheiro
 re-estima os dois modelos expostos no formato **SIDRA-âncora + bracket** (Decisão
 D26, `metodologia/tratamento_deriva_mosaico.md`): NÃO "corrige" com a união — mede
 o INTERVALO entre as réguas e ancora na SIDRA (imune).
 
 - M1 (intensificação, Δagric ~ ΔVA): varia o REGRESSANDO em 3 réguas
     agric (limite inferior) · agric∪mosaico (superior) · soja SIDRA (âncora imune)
-  + janela plena (2003–2021) × truncada (2003–2019, sem a cauda da deriva).
+  + janela plena (2003–2021) × truncada (2003–2019, sem a cauda da mudança de rótulo).
 - M3 (substituição local, Δpasto ~ Δagric): varia o REGRESSOR nas mesmas 3 réguas
   (y = pastagem, largamente real) + janela 1988–2024 × 1988–2019.
 - M2 (Δpasto ~ ΔSICOR + ΔVA): regressores imunes → não re-rodado aqui (só nota).
 
 LEITURA (D26): conclusão robusta ⇔ sinal/significância do β sobrevivem nas 3 réguas
-E na janela truncada. Se o β de `agric` (inferior) diverge da união/SIDRA, a deriva
+E na janela truncada. Se o β de `agric` (inferior) diverge da união/SIDRA, a mudança de rótulo
 estava atenuando/distorcendo o coeficiente — reporta-se o INTERVALO, não um ponto.
 A união é TETO (superconta ILP+mosaico antigo); a âncora é a SIDRA.
 
@@ -135,7 +135,7 @@ def imprimir(linhas, titulo, unidade):
 
 def main() -> None:
     print("=" * 78)
-    print("Robustez do #49 à deriva do Mosaico — SIDRA-âncora + bracket (D26)")
+    print("Robustez do #49 à mudança de rótulo do Mosaico — SIDRA-âncora + bracket (D26)")
     print("=" * 78)
     df = carregar_dados_deriva()
     gdf = pe.carregar_geom()

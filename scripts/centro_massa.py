@@ -53,7 +53,7 @@ SAÍDAS
     outputs/centro_massa/deslocamento_latitude.png (latitude×ano, narrativa N–S)
     data/processed/centro_massa_robustez_deriva.csv        (régua-espelho: lat×régua×ano + IC)
     data/processed/centro_massa_robustez_deriva_desloc.csv (ΔNorte×régua×janela + IC95%)
-    outputs/centro_massa/robustez_deriva_regua.png         (robustez à deriva do Mosaico, #28D)
+    outputs/centro_massa/robustez_deriva_regua.png         (robustez à mudança de rótulo do Mosaico, #28D)
 
 COMO RODAR
     python scripts/centro_massa.py
@@ -119,7 +119,7 @@ VARIAVEIS = {
 
 ANO_INI, ANO_FIM = 1985, 2024
 
-# Réguas de destino agrícola para a robustez à deriva do Mosaico (#28D / D25).
+# Réguas de destino agrícola para a robustez à mudança de rótulo do Mosaico (#28D / D25).
 # chave -> (coluna no painel, rótulo). Ver seção 6.
 RULERS_DERIVA = {
     "agricultura":         ("lulc_agricultura_ha",  "Agricultura (MapBiomas)"),
@@ -621,7 +621,7 @@ def fig_latitude(centros: pd.DataFrame, banda: pd.DataFrame | None = None) -> No
 
 
 # ---------------------------------------------------------------------------
-# 6. Robustez oficial: régua-espelho do destino agrícola (deriva do Mosaico, #28D)
+# 6. Robustez oficial: régua-espelho do destino agrícola (mudança de rótulo do Mosaico, #28D)
 # ---------------------------------------------------------------------------
 # POR QUÊ: a #28D/D25 mostrou que, no fim da série MapBiomas, a conversão
 # pasto→agricultura migra para a classe "Mosaico de Usos" (21). Como o centroide
@@ -661,14 +661,14 @@ def _centros_rulers(painel: pd.DataFrame) -> pd.DataFrame:
 
 def robustez_deriva(painel: pd.DataFrame, centros: pd.DataFrame,
                     fazer_bootstrap: bool = True, fazer_figura: bool = True) -> None:
-    """Régua-espelho do destino agrícola — robustez do #32 à deriva do Mosaico (#28D).
+    """Régua-espelho do destino agrícola — robustez do #32 à mudança de rótulo do Mosaico (#28D).
 
     Recomputa o centroide agrícola sob 3 réguas de destino e testa: (a) o gradiente
     (agric-régua ao sul da pastagem) e (b) o ΔNorte no Ato III sobrevivem à troca de
     régua? Saídas: `centro_massa_robustez_deriva[_desloc].csv` + figura.
     """
     print("\n" + "=" * 70)
-    print("[robustez] Régua-espelho do destino agrícola (deriva do Mosaico, #28D)")
+    print("[robustez] Régua-espelho do destino agrícola (mudança de rótulo do Mosaico, #28D)")
     print("=" * 70)
 
     reg = _centros_rulers(painel)
@@ -736,7 +736,7 @@ def fig_robustez_deriva(reg: pd.DataFrame, past: pd.Series) -> None:
 
     ax.set_xlabel("Ano")
     ax.set_ylabel("Latitude do centro de massa (°, ↑ = norte)")
-    ax.set_title("Robustez do #32 à deriva do Mosaico — régua-espelho do destino agrícola\n"
+    ax.set_title("Robustez do #32 à mudança de rótulo do Mosaico — régua-espelho do destino agrícola\n"
                  "a agricultura MapBiomas congela no Ato III; sob agric∪mosaico e soja SIDRA "
                  "(imune) segue subindo; nenhuma régua cruza a pastagem",
                  fontsize=11.5, loc="left")
@@ -758,7 +758,7 @@ def main() -> None:
     ap.add_argument("--sem-bootstrap", action="store_true",
                     help="pula o IC por bootstrap (mais rápido)")
     ap.add_argument("--sem-robustez", action="store_true",
-                    help="pula a robustez da régua-espelho (deriva do Mosaico, #28D)")
+                    help="pula a robustez da régua-espelho (mudança de rótulo do Mosaico, #28D)")
     args = ap.parse_args()
 
     print("=" * 70)
@@ -816,7 +816,7 @@ def main() -> None:
         fig_elipses_por_ato(elipses)
         fig_latitude(centros, banda)
 
-    # Robustez oficial à deriva do Mosaico (#28D): régua-espelho do destino agrícola.
+    # Robustez oficial à mudança de rótulo do Mosaico (#28D): régua-espelho do destino agrícola.
     if not args.sem_robustez:
         robustez_deriva(painel, centros,
                         fazer_bootstrap=not args.sem_bootstrap,

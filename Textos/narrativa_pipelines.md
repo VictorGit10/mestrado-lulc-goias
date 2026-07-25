@@ -88,6 +88,8 @@ faz peças escritas em momentos diferentes conversarem entre si.
   | D22 | **Sentinela de erro nunca compartilha código com categoria real**: `.fillna(<categoria>)` após `.map()` vira falha de configuração em dado. Condição estrutural (ex.: censura) é decidida por índice, jamais por sucesso de lookup | #28 |
   | D23 | Com **censo** (n = população), ΔBIC e p-valor deixam de medir evidência — a robustez vem de **estabilidade entre recortes**, e o ganho a reportar é a **precisão** dos parâmetros | #28, #28C |
   | D24 | Estatística **ponderada** deve reduzir *exatamente* ao caso não-ponderado com peso=1, verificado por teste — é o que garante que a diferença amostra × censo venha dos dados, não da implementação | #28 |
+  | D25 | Antes de comparar uma medida de transição LULC entre períodos distantes, verifique que a **classe de destino manteve o mesmo significado**; diagnóstico barato = contar o destino **completo** das saídas e olhar *frações*, não níveis | #28D |
+  | D26 | `agric ∪ mosaico` **não é correção**, é o **limite superior** de um bracket cujo inferior é `agric` só; reportar o **intervalo**, nunca um ponto — robusto ⇔ sobrevive nos dois extremos. A âncora dos anos terminais é a **SIDRA** (imune), não o bracket | #28D, #29, #32, #33, #40, #49 |
 
 - **Os atos (a régua narrativa).** A periodização data-driven (Fase 5) cristalizou três
   **atos** em `config_periodos.py`: **I — Pastagem como herança (1985–2000)**, **II — Expansão
@@ -416,15 +418,20 @@ amostra se mostrou enviesada na composição entre anos. A hipótese é a
 (plantar pasto já pensando em virar lavoura); uma pastagem velha sugere mecanismo
 *oportunístico*. **`analise_reserva_terra.py` (#28B)** descreve a distribuição e encontra o
 achado-chave: no período recente a idade é **bimodal** — picos em ~4 e ~23 anos — a
-assinatura empírica direta da *coexistência* dos dois mecanismos. E um gradiente regional já
-aparece: o Sul converte pasto jovem (mediana ~9 anos), o Norte/Noroeste converte pasto antigo
-(~20 anos). (*Quanto* desse gradiente é causa regional vs mera composição só seria medido
-depois, no #28C — Fase 6: a resposta é que a geografia modula o peso, não causa a bimodalidade.)
+assinatura empírica direta da *coexistência* dos dois mecanismos. E um gradiente regional parecia
+aparecer: o Sul convertendo pasto jovem (mediana ~9 anos), o Norte/Noroeste pasto antigo (~20
+anos). (*Quanto* desse gradiente é causa regional vs mera composição seria medido depois, no #28C
+— Fase 6: a geografia modula o peso, não causa a bimodalidade. ⚠️ **E o gradiente em si não
+sobreviveu**: a auditoria da mudança de rótulo, em julho de 2026, mostrou que ele existe apenas
+dentro do subconjunto rotulado "agricultura" — ver o epílogo. O que resta desta passagem é a
+**bimodalidade**, que é robusta.)
 
 **O que essa fase deixou pronto.** Uma régua temporal honesta (os atos), uma régua de marcos
 com graus de evidência, e uma pista forte de que existem **dois Goiáses** — um Sul que
-intensifica sobre pasto jovem e um Norte que abre fronteira sobre pasto/vegetação antiga. Essa
-pista, somada ao gradiente regional, é o que disparou a investigação que organizaria tudo.
+intensifica e um Norte que abre fronteira. Essa pista é o que disparou a investigação que
+organizaria tudo. (A pista se confirmou; a *qualificação* pela idade do pasto — "Sul jovem,
+Norte velho" — é que não sobreviveu à auditoria de julho de 2026. O contraste real está no
+**tipo de transição**: `pasto→agric` ao sul × `veg→pasto` ao norte, medido por um fluxo imune.)
 
 ---
 
@@ -460,13 +467,21 @@ reatribuído ao AMC) que monta as matrizes 6×6 por ato, a decomposição de ori
 que alimenta também a Visualização. O mecanismo se confirma como **gradiente relativo**: a
 transição-mãe de Goiás é `veg→pasto` (pervasiva); `pasto→agric` só *lidera* no Sul+Centro no
 Ato II (o boom). O deslocamento aparece no **balanço líquido**: no Ato II o Sul *perde* pasto
-líquido (−0,57 Mha) e ganha agricultura, enquanto Norte/Noroeste ganham pasto. No Ato III o
-`pasto→agric` do Sul **despenca −88%** (e a agricultura desacelera, fechando com o #32),
-enquanto o `veg→pasto` do Norte persiste. A idade do pasto (#28) costura tudo — mas só onde é
-mensurável: no **Ato III**, Sul **16 anos** (reserva comparativamente jovem) → Norte **27** /
-Noroeste **31 anos** (fronteira). Nos Atos I e II a censura à esquerda consome a mediana
-(o Sul tem 70,9% de censura porque converteu cedo, não porque tem pasto velho), então
-**não** há série temporal de idade a narrar — só o corte transversal recente.
+líquido (−0,57 Mha) e ganha agricultura, enquanto Norte/Noroeste ganham pasto — essa é a parte
+sólida, e a janela do Ato II (2001–2019) fecha antes de qualquer problema de rótulo.
+
+> ⚠️ **As duas leituras do Ato III desta camada caíram na auditoria de julho de 2026** (ver o
+> epílogo, e `pipelines/33_transicoes_regionais.md`). A primeira era que "no Ato III o
+> `pasto→agric` do Sul **despenca −88%**, e a agricultura desacelera": sob o bracket da D26 esse
+> número **inverte para +51%**, e a soja plantada da SIDRA — imune ao classificador — sobe 244%
+> no Sul. A segunda era a idade do pasto no Ato III (Sul **16 anos**, Norte **27**, Noroeste
+> **31**), que sob a régua superior **inverte a ordenação** (Sul 32a, Norte 23a). O que sobrevive
+> desta camada é o `veg→pasto` do Norte persistindo — medida **imune**, porque nem origem nem
+> destino passam pelo Mosaico — e é ela, não o `pasto→agric`, que sustenta o contraste "o Sul
+> trava, o Norte avança" usado adiante pelo #39.
+
+Nos Atos I e II a censura à esquerda consome a mediana da idade (o Sul tem 70,9% de censura porque
+converteu cedo, não porque tem pasto velho), então **não** há série temporal de idade a narrar.
 Revisado em 21/jul/2026; ver §7.3 de `metodologia/censo_vs_amostra.md`.
 
 ### Camada 3 — É deslocamento causal? `deslocamento_espacial.py` (#34)
@@ -552,10 +567,21 @@ resta no norte**.
 
 Puxa o fio do #28 ao nível espacial. Espacializa a mistura de mecanismos (Rotação jovem ×
 Oportunístico antigo) por AMC e município, cruza com plantio direto (Censo 2017) e propõe uma
-tipologia de "carreira da terra". O **achado robusto** é a **geografia das duas lógicas** — a
-Rotação (pasto jovem) domina o Sul/Centro, o Oportunístico (pasto antigo) domina o Norte: as
-duas lógicas são as **duas faces do gradiente de aptidão Sul→Norte** (índice jovem × latitude
-r=−0,236 no censo; a amostra dava −0,49 — o gradiente sobrevive com metade da força). Mas este pipeline é também um caso-modelo de **autocorreção**: a primeira leitura
+tipologia de "carreira da terra". O achado que **parecia** robusto era a **geografia das duas
+lógicas** — a Rotação (pasto jovem) dominando o Sul/Centro e o Oportunístico (pasto antigo) o
+Norte, as duas como **faces do gradiente de aptidão Sul→Norte** (índice jovem × latitude
+r=−0,236 no censo; a amostra dava −0,49).
+
+> 🛑 **Esse achado caiu — e é a autocorreção mais dura da perna.** O bracket-por-evento (julho de
+> 2026) mostrou que o r=−0,236 vive **inteiramente dentro do rótulo "agricultura"**: redefinindo
+> a conversão como `pasto→(agric∪mosaico)`, o ρ vai a **≈0 e não-significante nas três janelas**
+> testadas. A união triplica o número de eventos — as conversões que passaram a ser rotuladas
+> Mosaico são a *maioria* dos términos de pastagem, e elas não carregam gradiente nenhum. O
+> mesmo veredito veio, independentemente, do #28C e do #33. **A segregação geográfica das duas
+> lógicas não está estabelecida**; o que está é a **coexistência** dos dois mecanismos dentro de
+> cada região. Ver o epílogo e `pipelines/40_duas_logicas_pastagem.md`.
+
+Mas este pipeline é também um caso-modelo de **autocorreção** por outro motivo: a primeira leitura
 anunciou que "a lógica é estrutural (plantio direto), não de fluxo", e a *verificação no mesmo
 dia derrubou o overclaim*. Controlando latitude (correlação parcial), o cruzamento no-till ×
 idade colapsa. A contribuição sólida é a *geografia da bimodalidade*, não um driver
@@ -596,8 +622,9 @@ fatia veg→agric dobra) — o *onset* da soja direta.
 ### Refinamento — a bimodalidade é regionalmente causada? `bimodalidade_regional.py` (#28C)
 
 O #28 e o #40 deixaram uma pergunta de precisão em aberto, e ela é o tipo de pergunta que a
-banca faz. Sabemos que a idade do pasto na conversão é **bimodal** (#28) e que há um
-**gradiente regional** (Sul jovem, Norte velho; #28/#40). Mas isso permite concluir que a
+banca faz. Sabíamos que a idade do pasto na conversão é **bimodal** (#28) e que parecia haver um
+**gradiente regional** (Sul jovem, Norte velho; #28/#40 — a metade que a auditoria de julho de
+2026 viria a derrubar, enquanto *reforçava* a resposta abaixo). Mas isso permite concluir que a
 bimodalidade é *regionalmente causada*? Em outras palavras: ela é uma **composição** entre
 regiões internamente unimodais (Sul = só o modo jovem, Norte = só o velho), ou uma
 **coexistência** dos dois mecanismos *dentro* de cada região, apenas com peso de mistura
@@ -837,6 +864,73 @@ descartado, abate circular no #50).
 
 ---
 
+## O epílogo que quase virou prólogo — a mudança de rótulo (#28D, D25/D26)
+
+Este é o último capítulo cronológico do trabalho (21–25 de julho de 2026) e o mais desconfortável
+de todos. Ele não acrescenta um achado: ele **audita todos os anteriores** — e derruba alguns.
+
+A porta de entrada foi uma pergunta menor. Na reconstrução do #28 como censo, a idade mediana do
+pasto convertido desabava no fim da série (20 anos em 2020 → 4 em 2022), junto com o número de
+eventos e com a censura. Quatro hipóteses foram testadas e nenhuma explicava. O
+**[#28D](pipelines/28D_deriva_mosaico.md)** foi então contar o destino **completo** das saídas de
+pastagem, e encontrou algo que nenhuma delas previa: a conversão **não parou — ela trocou de
+nome**. Para cada pixel que sai de pasto para "agricultura" em 2024, **32 saem para "Mosaico de
+Usos"**, a classe que o MapBiomas usa quando não consegue separar lavoura de pasto; em 2015 essa
+razão era 0,6, e o fluxo `pasto→agricultura` caiu **92%** ao longo da série.
+
+O que torna isso um problema de método, e não um detalhe de dado, é a **âncora independente**: a
+SIDRA registra a área de soja de Goiás **crescendo 38%** exatamente nessa janela, e a classe
+Mosaico cresce +1,35 Mha — quase o tamanho da soja nova. A medida dizia "a conversão acabou"
+enquanto o campo dizia "a conversão acelerou". Daí a **D25**, que é a lição generalizável: *antes
+de comparar uma transição LULC entre períodos distantes, verifique que a classe de destino manteve
+o mesmo significado* — e o sintoma é fácil de ler ao contrário, porque a transição de interesse
+"desaparece" justamente quando o fenômeno de campo acelera.
+
+Duas rodadas de teste tentaram fechar a natureza do sinal. A **borda-móvel** (§9.6) reprocessou
+quatro coleções do MapBiomas (6, 8, 9 e 10.1) e **refutou** a explicação mais confortável — não é
+instabilidade de fim de série que um reprocessamento conserta: a rampa está ancorada no
+**calendário de 2021 em diante**, aparece em toda coleção que alcança 2021, e 97,5% dos pixels
+rotulados Mosaico continuam Mosaico quando ganham um ano de futuro. A **coleção de 10 m**
+(Sentinel-2, §9.7) removeu outra: um sensor independente e três vezes mais fino **não** resolve o
+Mosaico em lavoura — dentro das células-Mosaico só 11,5% da área é lavoura, e o maior naco continua
+sendo Mosaico. Restou uma ambiguidade que o trabalho **não** fecha e declara: legenda compartilhada
+× integração lavoura-pecuária real.
+
+A resposta operacional é a **D26**, e a sua forma importa: `agricultura ∪ mosaico` **não é uma
+correção** — é o **limite superior** de um intervalo cujo limite inferior é `agricultura` sozinha.
+Reporta-se o **bracket**, nunca um ponto, e uma conclusão só é robusta se sobrevive nos **dois**
+extremos; a melhor evidência dos anos terminais não é o bracket, é a **SIDRA**, que não passa pelo
+classificador. A união responde honestamente a uma pergunta *mais grossa* — "quanta terra saiu de
+pasto puro para lavoura-ou-uso-misto?" — e o erro a evitar é passar uma pergunta pela outra.
+
+Aplicada a todos os consumidores, essa régua produziu o balanço mais honesto do trabalho:
+
+- **Sobrevive e sai reforçado:** a marcha dos centroides (#32/#44 — expostos, mas robustos, com o
+  viés de +10 km medido e triangulado); a fronteira de 2020 da periodização (#29 — a soja da SIDRA
+  quebra em 2020 **sozinha**, sem tocar no MapBiomas); a substituição local do #49 (que a mudança
+  de rótulo estava **subestimando**); a bimodalidade e a coexistência dos dois mecanismos (#28C —
+  5/5 regiões, 10/10 células); e todo o eixo de vegetação nativa (#39, #48 — imunes por construção).
+- **Cai:** a tendência temporal de w₁ ("o pasto jovem ganha peso"); o **gradiente latitudinal de
+  idade** do pasto, derrubado por três caminhos independentes (#40, #28C e #33); e a queda de
+  **−88%** do `pasto→agric` do Sul no Ato III (#33), que sob o bracket **inverte para +51%**.
+- **Fica frágil:** o canal de intensificação M1 do #49, cujo bracket cruza zero e cuja âncora SIDRA
+  dá sinal oposto — dependência de medida, não só de rótulo.
+
+Há ainda uma consequência de nomenclatura em aberto: o Ato III chama-se "Conversão seletiva", um
+rótulo **factualmente invertido** pela auditoria (a conversão acelera, mascarada). A fronteira de
+2020 é real; o nome não é. A troca aguarda decisão do autor.
+
+O epílogo deixa uma moral que vale para além deste caso, e é a razão de ele estar na narrativa e
+não só numa nota de rodapé: **o método estava correto, e a série é que se moveu debaixo dele.** É
+a mesma família da D16 (Granger espúrio por integração) e da D23 (ΔBIC sob censo) — três casos de
+uma técnica impecável rodando sobre uma definição que mudou. Nenhuma sofisticação estatística a
+jusante conserta isso; só olhar o dado de frente conserta.
+
+Detalhe completo em [`metodologia/tratamento_deriva_mosaico.md`](metodologia/tratamento_deriva_mosaico.md)
+(protocolo por tipo de análise e a tabela de veredito por pipeline).
+
+---
+
 ## Apêndice A — Índice de todos os scripts (trabalho principal)
 
 Mapeamento completo de cada script não-MG à sua fase e função. (Os scripts `*_mg.py` e a pasta
@@ -922,6 +1016,16 @@ Mapeamento completo de cada script não-MG à sua fase e função. (Os scripts `
 | `aptidao_edafo_exposicao.py` + `aptidao_edafo_drive38.py` | 52 | 6 | Aptidão edafoclimática exógena (Embrapa 1:500k, WFS) como exposição no #38: a aptidão física reproduz o gradiente Sul→Norte (52A) e o achado do rebanho reaparece sem a complementaridade mecânica (52B); fortalece a identificação do drive comum (positivo da perna 3), não o poder |
 | `centro_massa_capacidade.py` | 53 | 6 | Centro de massa da capacidade instalada de armazenagem (CONAB): a capacidade é a camada mais ao sul de todas (~150 km ao sul do pasto, ~83 km ao sul até do crédito) → fecha a metade "silos" da ressalva do #45; ponto+AMC coincidem, IC por bootstrap de armazéns |
 | `defensabilidade_perna4.py` | 54 | 6 | Endurecimento shift-share do drive comum (opção B): permutação do shifter (câmbio) mostra que o p clusterizado do #38/#52 era otimista — sai de ~0,03 para ≈0,07–0,13 (não significante a 5%); placebos/lead/jackknife seguram a especificidade. "Corroborante, não estabelecido"; funde o drive comum ao positivo da perna 3 |
+| `deriva_mosaico_fim_serie.py` | 28D | 6 | **A mudança de rótulo** (D25): conta o destino completo das saídas de pastagem e acha a conversão migrando de "agricultura" para "Mosaico de Usos" (razão 0,6→32,5) enquanto a SIDRA dá soja +38% |
+| `processa_cubo_idade_destinos.py` | 28D | 6 | Reprocessa o cubo do #28 capturando os **dois** destinos (agric e Mosaico) com idade — habilita todos os brackets-por-evento |
+| `borda_movel_gee.py` + `borda_movel_colecao9.py` + `razao_destino_ano.py` + `fig_borda_movel.py` | 28D §9.6 | 6 | Borda-móvel em 4 coleções (6/8/9/10.1): **refuta** o artefato de fim de série — a rampa é ancorada no calendário 2021+, e 97,5% dos pixels Mosaico não "curam" com um ano a mais de futuro |
+| `mosaico_10m_sentinel.py` | 28D §9.7 | 6 | A coleção 10 m (Sentinel-2) olha dentro da célula-Mosaico: só 11,5% é lavoura → **remove** a hipótese "hedge de resolução sobre soja recuperável"; não separa legenda × ILP real |
+| `centro_massa_deriva_check.py` | 28D/32 | 6 | Quantifica o viés no centroide (+10 km, triangulado por mosaico e por SIDRA) e mostra que a mudança de rótulo **não é espacialmente uniforme** (aterrissa na fronteira norte) |
+| `periodizacao_robustez_deriva.py` | 28D/29 | 6 | A fronteira de 2020 é real: sob a régua corrigida o sup-F **fortalece** (21,5→34,1) e a soja SIDRA quebra em 2020 sozinha |
+| `painel_espacial_dinamico_deriva.py` | 28D/49 | 6 | Bracket inferencial: M3 (substituição) robusto — a mudança de rótulo o **subestimava**; M1 (intensificação) frágil — o bracket cruza zero |
+| `duas_logicas_deriva_check.py` + `duas_logicas_bracket_evento.py` | 28D/40 | 6 | Bracket-por-evento: o gradiente índice-jovem × latitude **some** sob `pasto→(agric∪mosaico)` |
+| `bimodalidade_regional_uniao.py` | 28D/28C | 6 | Re-checagem do #28C sob a união: bimodalidade/coexistência **robustas**, gradiente de idade **artefato** |
+| `transicoes_regionais_bracket.py` | 28D/33 | 6 | Fecha a auditoria: a queda de −88% do `pasto→agric` do Sul no Ato III **inverte para +51%** sob o bracket (SIDRA +244%), e a tabela de idade do Ato III inverte a ordenação; o `veg→pasto` e o balanço do Ato II são imunes |
 
 ## Apêndice B — Nota sobre os trabalhos paralelos (fora deste documento)
 

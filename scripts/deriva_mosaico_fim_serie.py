@@ -13,7 +13,7 @@ mudança real de comportamento. Este script decide entre eles.
 ## O achado
 
 Nenhum dos quatro, na forma como foram formulados. O que acontece é uma
-**deriva do destino da conversão**: ao longo da série, e com forte aceleração
+**mudança do rótulo de destino da conversão**: ao longo da série, e com forte aceleração
 depois de 2019, a pastagem que sai de "pastagem" para de ser classificada como
 **agricultura** e passa a ser classificada como **Mosaico de Usos** (classe 21).
 
@@ -49,7 +49,7 @@ O dado não separa as duas, e é honesto dizer isso. "Mosaico de Usos" é a clas
 que o MapBiomas usa quando **não consegue distinguir** lavoura de pastagem no
 pixel de 30 m (ver `metodologia/censo_vs_amostra.md` §3). Ela crescer pode ser:
 
-  (a) deriva do classificador — os filtros temporais pós-classificação da
+  (a) mudança de rótulo do classificador — os filtros temporais pós-classificação da
       Coleção 10 usam janelas móveis de 3 e 4 anos e regras especiais para os
       últimos anos da série, quando a janela de análise é limitada (ATBD
       Coleção 10, §3.4.1 e §3.4.3.1); ou
@@ -64,7 +64,7 @@ distinção não muda a consequência**: em qualquer dos dois mundos, a populaç
 ## O que isto atinge
 
 Todo resultado do #28 calculado sobre a janela recente. O Ato III (2020-2024) da
-dissertação está inteiramente dentro da deriva. Ver
+dissertação está inteiramente dentro da mudança de rótulo. Ver
 `pipelines/28D_deriva_mosaico.md` §4 para o alcance, e o §4-C para por que isto
 também encerra a pendência do Kaplan-Meier.
 
@@ -114,7 +114,7 @@ def bloco_a_transicoes(rapido: bool = False) -> pd.DataFrame:
     Percorre o cubo em janelas de linhas. Para cada par de bandas consecutivas
     (t-1, t), conta os pixels que eram pastagem em t-1 e foram para cada um dos
     três destinos. É o mesmo passo do #28, mas sem restringir a agricultura —
-    e é essa ausência de restrição que revela a deriva.
+    e é essa ausência de restrição que revela a mudança de rótulo.
     """
     shards = sorted(glob.glob(str(DIR_CUBO / "*.tif")))
     if rapido:
@@ -181,7 +181,7 @@ def bloco_b_areas() -> pd.DataFrame | None:
 
 # ---------------------------------------------------------------- Bloco C
 def bloco_c_efeito_no_28() -> pd.DataFrame | None:
-    """O que a deriva faz com a medida do #28: n, censura e mediana por ano.
+    """O que a mudança de rótulo faz com a medida do #28: n, censura e mediana por ano.
 
     Mostra as DUAS coisas ao mesmo tempo:
       - até ~2019 a mediana é governada pelo HORIZONTE (não pode exceder
@@ -243,7 +243,7 @@ def bloco_d_ancora_sidra() -> pd.DataFrame | None:
 
 # ---------------------------------------------------------------- Bloco E
 def bloco_e_sensibilidade_gmm() -> pd.DataFrame | None:
-    """Quanto da manchete do #28 se move quando a deriva entra na janela?
+    """Quanto da manchete do #28 se move quando a mudança de rótulo entra na janela?
 
     Refaz o GMM ponderado em janelas de 5 anos deslizantes e ano a ano. O que
     interessa não é cada número, é o CONTRASTE entre janelas que terminam antes
@@ -325,7 +325,7 @@ def figura(trans: pd.DataFrame, areas: pd.DataFrame | None) -> None:
         axs[1].grid(alpha=0.25)
 
     fig.suptitle(
-        "#28D — deriva do destino da conversão no fim da série (MapBiomas Col. 10.1, Goiás)",
+        "#28D — mudança do rótulo de destino da conversão no fim da série (MapBiomas Col. 10.1, Goiás)",
         fontsize=12,
     )
     fig.tight_layout()
@@ -396,7 +396,7 @@ def veredito(trans: pd.DataFrame, areas: pd.DataFrame | None,
         print("\nSensibilidade da manchete do #28 (GMM ponderado, janelas de 5 anos):")
         print(f"  {'janela':>12} {'n':>11} {'mu1':>6} {'w1':>7} {'mu2':>6} {'w2':>7}")
         for _, r in sens[sens.largura == 5].iterrows():
-            marca = " ←deriva" if r.toca_deriva else ""
+            marca = " ←mudança de rótulo" if r.toca_deriva else ""
             print(f"  {r.janela:>12} {r.n_nao_censurado:>11,.0f} {r.mu1:>6.2f} "
                   f"{100 * r.w1:>6.1f}% {r.mu2:>6.2f} {100 * r.w2:>6.1f}%{marca}")
         # As janelas até 2013-2017 caem em OUTRA solução do GMM (mu1≈8-10a, que
@@ -413,15 +413,15 @@ def veredito(trans: pd.DataFrame, areas: pd.DataFrame | None,
             limpas = comp[~comp.toca_deriva]
             sujas = comp[comp.toca_deriva]
             print("\n  Entre as janelas com a MESMA solução (mu1≈4a), w1 sobe monotonicamente")
-            print("  com a exposição à deriva:")
+            print("  com a exposição à mudança de rótulo:")
             for _, r in comp.iterrows():
                 print(f"    {r.janela}  w1={100 * r.w1:5.1f}%"
-                      f"{'   (janela inteiramente dentro da deriva)' if r.ano_inicio >= 2020 else ''}")
+                      f"{'   (janela inteiramente dentro da mudança de rótulo)' if r.ano_inicio >= 2020 else ''}")
             if len(limpas):
-                print(f"\n  Base pré-deriva: w1 ≈ {100 * limpas.w1.min():.0f}–"
+                print(f"\n  Base anterior à mudança de rótulo: w1 ≈ {100 * limpas.w1.min():.0f}–"
                       f"{100 * limpas.w1.max():.0f}%. Ato III publicado: w1 = 51,5%.")
             print("  Os MODOS (mu1≈4-5a, mu2≈21-23a) são estáveis em todas — a bimodalidade")
-            print("  sobrevive. O que se move é o PESO, e ele se move com a deriva.")
+            print("  sobrevive. O que se move é o PESO, e ele se move com a mudança de rótulo.")
 
     print("\nConclusão: o 'salto 2020→2022' do §4-E NÃO é reclassificação de novas")
     print("classes de agricultura, nem concentração espacial, nem mudança real de")
@@ -433,7 +433,7 @@ def veredito(trans: pd.DataFrame, areas: pd.DataFrame | None,
 
 
 def main() -> None:
-    ap = argparse.ArgumentParser(description="#28D — deriva do mosaico no fim da série")
+    ap = argparse.ArgumentParser(description="#28D — mudança de rótulo do mosaico no fim da série")
     ap.add_argument("--rapido", action="store_true",
                     help="usa 6 shards em vez de 16 (itera rápido; tendência preservada)")
     ap.add_argument("--reusar-transicoes", action="store_true",

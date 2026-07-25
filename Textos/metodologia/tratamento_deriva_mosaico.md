@@ -1,8 +1,8 @@
-# Tratamento da deriva do Mosaico em análises — bracket `[agric, agric∪mosaico]` + âncora SIDRA
+# Tratamento da mudança de rótulo do Mosaico em análises — bracket `[agric, agric∪mosaico]` + âncora SIDRA
 
-**Decisão D26** (2026-07-23). Governa como qualquer análise deve lidar com a deriva do
+**Decisão D26** (2026-07-23). Governa como qualquer análise deve lidar com a mudança de rótulo do
 Mosaico documentada na [#28D / D25](../pipelines/28D_deriva_mosaico.md). Irmã de D25
-(diagnóstico da deriva), D24 (contrato de peso) e D19 (incerteza por bootstrap).
+(diagnóstico da mudança de rótulo), D24 (contrato de peso) e D19 (incerteza por bootstrap).
 
 ---
 
@@ -28,7 +28,7 @@ motivos, cada um demonstrável com os próprios dados:
    estável**. A união joga (a), (b) e (d) dentro de "agricultura" → **superconta**.
 2. **A união inflaciona a série inteira, não só a cauda contaminada.** O Mosaico existe
    desde ~2010 e ficou **~flat em 1,9–2,1 Mha até 2019**, saltando **+1,53 Mha em
-   2020–24**. Dos **3,59 Mha** de Mosaico em 2024, só ~1,5 é candidato à deriva; os outros
+   2020–24**. Dos **3,59 Mha** de Mosaico em 2024, só ~1,5 é candidato à mudança de rótulo; os outros
    ~2,0 são mosaico velho que nada tem a ver com o artefato.
 3. **Não é demonstrado — é sugestivo.** A base é (a) o balanço de massa (mosaico +1,5 ≈
    soja +1,5), que é **quase tautológico** e **não discrimina artefato × ILP**; e (b) a
@@ -46,7 +46,7 @@ motivos, cada um demonstrável com os próprios dados:
 A verdade está **dentro do intervalo**. A regra operacional:
 
 > **Reportar o intervalo `[agric, agric∪mosaico]`, nunca um ponto. Uma conclusão só é
-> robusta à deriva se sobrevive nos DOIS extremos.** Se ela muda de sinal/significância
+> robusta à mudança de rótulo se sobrevive nos DOIS extremos.** Se ela muda de sinal/significância
 > entre um extremo e outro, então depende da convenção de classe — e isso precisa ser
 > dito, não escondido.
 
@@ -56,7 +56,7 @@ A verdade está **dentro do intervalo**. A regra operacional:
 diferente e mais grossa**:
 
 - **Pergunta fina** (só `agricultura`): *"quanta terra virou lavoura pura?"* — é a que a
-  deriva corrompe.
+  mudança de rótulo corrompe.
 - **Pergunta grossa** (`agric∪mosaico`): *"quanta terra **saiu de pasto puro para
   lavoura-ou-uso-misto**?"* — **robusta à reetiquetagem por construção**, porque a
   reetiquetagem é *interna* à união (mover um pixel de "Agricultura" para "Mosaico" não
@@ -86,7 +86,7 @@ A ordem de preferência:
 
 ## 6. Protocolo por tipo de análise
 
-| Tipo de análise | Como tratar a deriva |
+| Tipo de análise | Como tratar a mudança de rótulo |
 |---|---|
 | **Quebra / delta** (#29) | Bracket é bom aqui: o Mosaico é ~flat pré-2020, então ele quase só perturba a cauda. Sempre com **SIDRA de âncora independente**. |
 | **Nível / ponto** (centroide #32/#44) | Bracket obrigatório; `agric∪mosaico` só como **teto**. Reportar o intervalo, nunca um ponto. |
@@ -137,7 +137,7 @@ Analisa mecanismos de `pasto→agricultura` (janela 2010–2024) sobre a tabela 
   falta para uma correção de *ponto* é **discriminar artefato × ILP** e assim estimar a
   **fração rerroteada** — isso exige a **Coleção 9** (borda móvel, §9 do #28D).
 
-## 9. Alcance auditado — veredito por pipeline (varredura fechada, 23/jul/2026)
+## 9. Alcance auditado — veredito por pipeline (varredura fechada, 23/jul/2026; **#33 e #47 fechados em 25/jul/2026**)
 
 O cubo foi reprocessado com destino=Mosaico (`processa_cubo_idade_destinos.py` →
 `pastagem_conversao_destinos.parquet`), fechando a demonstração e os brackets-por-evento.
@@ -149,34 +149,65 @@ Verdicts consolidados:
 | **#32** centro de massa | estoque `agricultura` | **exposto, robusto** | bracket + SIDRA; viés +10 km; gradiente e marcha de 40a intactos |
 | **#44** desagregado | soja-raster | **exposto, robusto** (+achado) | raster×SIDRA em **sentidos opostos** no Ato III (−7 vs +8 km) |
 | **#50** econômico | crédito/valor | **imune** | SICOR/VA/PIB não passam pelo classificador |
+| **#33** `pasto→agric` no Ato III | fluxo com destino=agric | **REFUTADO** | bracket **inverte o sinal** nas 5 mesos (Δ da taxa anual no Sul: −88,4% → **+51,0%**); o ritmo de expansão da soja SIDRA sobe +244% no Sul |
+| **#33** idade do pasto no Ato III | `pasto→agric` | **REFUTADO (inverte)** | sob a união o Sul vai de 16a (mais jovem) a **32a**, o Norte de 27a a 23a — a ordenação troca |
+| **#33** `veg→pasto` e balanço do Ato II | veg→pasto; janela ≤2019 | **imune** | origem e destino fora do Mosaico; Ato II fecha antes da rampa de 2021 |
 | **#29** fronteira 2020 | `Δagricultura` | **real; rótulo invertido** | sup-F **fortalece** sob correção (F 21,5→34,1); soja SIDRA quebra em 2020 sozinha |
 | **#29c** KL/TV | matriz de 6 classes | **contaminado** | não rastreia Mosaico → não é corroboração independente |
-| **#49 M3** substituição | `Δagric` (regressor) | **exposto, robusto** | β<0 nas 3 réguas; deriva **subestimava** (−0,49→−0,63) |
+| **#49 M3** substituição | `Δagric` (regressor) | **exposto, robusto** | β<0 nas 3 réguas; mudança de rótulo **subestimava** (−0,49→−0,63) |
 | **#49 M1** intensificação | `Δagric` (regressando) | **frágil** | bracket cruza zero; âncora SIDRA dá **sinal oposto** |
 | **#40** gradiente idade×lat | `pasto→agric` | **REFUTADO** | bracket-por-evento: sob a união ρ≈0 (ns) nas 3 janelas |
 | **#28C** gradiente idade×lat | `pasto→agric` | **artefato** | união: amplitude Sul→Norte 7a → 2a |
 | **#28C** bimodalidade/coexistência | `pasto→agric` | **robusto** | união: 5/5 regiões, 10/10 células; η²(região) 3,7→0,5% |
 | **#39** fronteira fechando | oferta de Cerrado | **imune** | mede veg→pasto, não `pasto→agric` |
-| **#48** validação PRODES | veg→antrópico | **imune** | perda de veg estável 2017–24 (a deriva é antrópico→antrópico) |
+| **#47** manchete 973 Mt CO₂e | Δestoque de veg nativa | **imune** | diferença de estoque por formação; não passa por classe de destino antrópica |
+| **#47** cross-check bruto×líq (Bloco C) | fluxo bruto veg→antrópico (#12) | **exposto, cosmético** | o #12 mascara a classe 21, então `veg→Mosaico` sai da conta bruta; o #48 mede o canal e o acha **estável 2017–24** → mexe na razão 0,89, não na manchete |
+| **#48** validação PRODES | veg→antrópico | **imune** | perda de veg estável 2017–24 (a mudança de rótulo é antrópico→antrópico) |
 | **#22 / #24** | `Δagric` | **cobertos pelo #49** | mesmos canais M1/M3; 1ª-diff (D7) desarma o grosso |
 
-**Duas afirmações que a deriva contaminava e foram isoladas:** (1) o *congelamento recente
-da agricultura* (na verdade acelera — SIDRA +38%); (2) o *gradiente latitudinal na idade do
-pasto* (young-Sul/old-Norte — artefato do rótulo "agricultura", cai no #40 **e** no #28C sob
-a união). **O que sobrevive e sai reforçado:** a marcha dos **centroides** (#32/#44), a
-**fronteira de 2020** (fonte imune), e a **coexistência bimodal** dos dois mecanismos de
-conversão modulada pelo **tempo** (Ato III), não pela latitude. Único item em aberto:
+**Três afirmações que a mudança de rótulo contaminava e foram isoladas:** (1) o *congelamento
+recente da agricultura* (na verdade acelera — SIDRA +38%); (2) o *gradiente latitudinal na idade
+do pasto* (young-Sul/old-Norte — artefato do rótulo "agricultura", cai no #40, no #28C **e** no
+#33 sob a união); (3) a *queda de −88% do `pasto→agric` do Sul no Ato III* (#33) — que sob o
+bracket **inverte para +51%**, com a SIDRA do lado da régua superior. **O que sobrevive e sai
+reforçado:** a marcha dos **centroides** (#32/#44), a **fronteira de 2020** (fonte imune), a
+**coexistência bimodal** dos dois mecanismos modulada pelo **tempo** (Ato III) e não pela
+latitude, e o contraste **Sul trava / Norte avança** — que continua de pé pelo `veg→pasto`
+(imune) do #33/#39, não pelo fluxo com destino=agricultura. Único item em aberto:
 artefato × ILP real (Coleção 9), que **não** é pré-requisito da dissertação.
 
+> **Padrão que a varredura revelou, e que vale mais que qualquer veredito isolado.** Toda
+> afirmação derrubada tinha a mesma forma: *uma quantidade medida pelo rótulo "agricultura",
+> lida no fim da série*. Toda afirmação que sobreviveu tinha uma destas três propriedades:
+> vinha de **fonte imune** (SIDRA/BCB/IBGE), media **vegetação nativa**, ou fechava a janela
+> **em ≤2019**. Esse é o teste de triagem para qualquer análise futura — mais barato que
+> rodar o bracket, e dá a mesma resposta na maioria dos casos.
+
 ## Ver também
-- [28D — deriva do Mosaico / D25](../pipelines/28D_deriva_mosaico.md) (§4-C sobre a união; §8 demonstração pixel; §9 Coleção 9)
-- [#32 — robustez à deriva (bracket no centroide)](../pipelines/32_centro_massa.md)
+- [28D — mudança de rótulo do Mosaico / D25](../pipelines/28D_deriva_mosaico.md) (§4-C sobre a união; §8 demonstração pixel; §9 Coleção 9)
+- [#32 — robustez à mudança de rótulo (bracket no centroide)](../pipelines/32_centro_massa.md)
 - [#44 — raster×SIDRA em sentidos opostos no Ato III](../pipelines/44_centro_massa_desagregado.md)
 - [#29 — a fronteira de 2020 é real (SIDRA confirma; KL/TV contaminado)](../pipelines/29_triangulacao_periodizacao.md)
 - [#49 — M3 robusto, M1 frágil (bracket inferencial)](../pipelines/49_painel_espacial_dinamico.md)
 - [#40 — gradiente refutado pelo bracket-por-evento](../pipelines/40_duas_logicas_pastagem.md)
 - [#28C — bimodalidade robusta, gradiente artefato](../pipelines/28C_bimodalidade_regional.md)
+- [#33 — a queda de −88% do Ato III inverte; o `veg→pasto` sobrevive](../pipelines/33_transicoes_regionais.md)
 - Scripts: `centro_massa_deriva_check.py`, `periodizacao_robustez_deriva.py`,
   `painel_espacial_dinamico_deriva.py`, `duas_logicas_deriva_check.py`,
   `processa_cubo_idade_destinos.py`, `duas_logicas_bracket_evento.py`,
-  `bimodalidade_regional_uniao.py`; e `robustez_deriva()` em `centro_massa.py` (§6).
+  `bimodalidade_regional_uniao.py`, `transicoes_regionais_bracket.py`; e
+  `robustez_deriva()` em `centro_massa.py` (§6).
+
+---
+
+## Nota de terminologia (25/jul/2026)
+
+Este fenômeno já foi chamado de **"deriva"** (do destino / do Mosaico) na primeira redação.
+O termo foi **abandonado** por ser vago e importado: o que acontece é uma **mudança de
+rótulo** — a mesma conversão de campo passa a receber outra classe. Os **nomes de arquivo,
+script, pasta e CSV preservam a palavra antiga** (`28D_deriva_mosaico.md`,
+`deriva_mosaico_fim_serie.py`, `outputs/deriva_mosaico/`, `centro_massa_deriva_check.py`…),
+pela mesma razão que um pipeline nunca é renumerado: identificador é identidade, e há
+centenas de referências cruzadas. Se você encontrar "deriva" em prosa, é texto que escapou
+da troca — exceto em "**deriva genérica**", que é português comum e aparece nos placebos do
+#44/#54 ("a marcha ao norte não é deriva genérica de centroide").

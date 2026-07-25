@@ -2,7 +2,7 @@
 ================================================================================
 
 Opção A do teste que a borda-móvel (§9.6 do 28D) deixou em aberto: separar
-*artefato-de-rótulo compartilhado* de *ILP real* na deriva do Mosaico. A
+*artefato-de-rótulo compartilhado* de *ILP real* na mudança de rótulo do Mosaico. A
 borda-móvel matou o "artefato de fim-de-série" (a rampa é ancorada no calendário
 2021+, não na borda), mas NÃO separa "o classificador rerroteou soja recém-
 convertida para Mosaico" de "a paisagem virou mistura de verdade" — as duas dão a
@@ -35,8 +35,8 @@ fração de cada classe = a composição de área. Os desfechos:
     → não é problema de 30 m → pende p/ legenda compartilhada; inconclusivo no eixo.
 
 Dois controles que tornam isto decisivo:
-  (1) CALENDÁRIO — a mesma composição num ano interior pré-deriva (2018) vs anos-
-      deriva (2021–24). Se a célula-Mosaico RECENTE tem mais f_agri que a ANTIGA,
+  (1) CALENDÁRIO — a mesma composição num ano interior anterior à mudança de rótulo (2018) vs anos-
+      mudança de rótulo (2021–24). Se a célula-Mosaico RECENTE tem mais f_agri que a ANTIGA,
       o Mosaico novo é "mais lavoura" = assinatura do artefato. Se iguais, o
       Mosaico sempre significou isto (pende p/ ILP/legenda).
   (2) CALIBRAÇÃO — f_agri dentro das células que a Landsat diz Agricultura (teto)
@@ -46,7 +46,7 @@ Dois controles que tornam isto decisivo:
 O estado inteiro numa chamada estoura o limite interativo do GEE (e `sample` sobre
 a geometria estadual é igualmente lento). Solução: varrer 6 recortes de ~1° que
 cobrem GO Sul→Norte (REGIOES) e agregar count-weighted — cada chamada volta em ~2 s.
-O padrão POR região é bônus (a deriva "aterrissa na fronteira norte", §8 do 28D).
+O padrão POR região é bônus (a mudança de rótulo "aterrissa na fronteira norte", §8 do 28D).
 
 --------------------------------------------------------------------------------
 COMO RODAR
@@ -88,7 +88,7 @@ IDS_AGRICULTURA = [9, 19, 20, 35, 36, 39, 40, 41, 46, 47, 48, 62]
 ASSET_30M = "projects/mapbiomas-public/assets/brazil/lulc/collection10_1/mapbiomas_brazil_collection10_1_coverage_v1"
 ASSET_10M = "projects/mapbiomas-public/assets/brazil/lulc_10m/collection3/mapbiomas_10m_collection3_integration_v1"
 
-ANOS_PADRAO = [2018, 2020, 2021, 2022, 2023, 2024]  # 2018 = controle interior pré-deriva
+ANOS_PADRAO = [2018, 2020, 2021, 2022, 2023, 2024]  # 2018 = controle interior anterior à mudança de rótulo
 ANO_CONTROLE = 2018
 ANO_BASE_DERIVA = 2017  # 1º ano da 10 m; "era pasto no início da Sentinel e virou Mosaico em Y"
 ANOS_CALIBRACAO = [2018, 2024]  # teto/piso (Agri/Pasto 30 m) nestes anos
@@ -98,7 +98,7 @@ TESTE_BBOX = (-51.5, -18.5, -50.5, -17.5)
 
 # 6 recortes de ~1° dentro de GO, Sul→Norte e núcleo agrícola→fronteira. O estado
 # inteiro numa chamada estoura o GEE (visto); varrer bboxes limitados e agregar
-# count-weighted é o caminho viável — e o padrão POR região é informativo (a deriva
+# count-weighted é o caminho viável — e o padrão POR região é informativo (a mudança de rótulo
 # "aterrissa na fronteira norte", §8 do 28D).
 REGIOES = {
     "SO_RioVerde":    (-51.5, -18.5, -50.5, -17.5),
@@ -167,7 +167,7 @@ def anos_disponiveis_10m() -> list[int]:
 def varre_regiao(label: str, region, anos_mos: list[int], col30, escala: int,
                  com_extra: bool) -> tuple[list[dict], list[dict]]:
     """Composição da população-Mosaico (todos os anos de `anos_mos`) num recorte, e,
-    se `com_extra`, também deriva + calibração no ano terminal. Devolve (linhas, hist)."""
+    se `com_extra`, também mudança de rótulo + calibração no ano terminal. Devolve (linhas, hist)."""
     linhas, hist_rows = [], []
     for Y in anos_mos:
         land = col30.select(f"classification_{Y}")
@@ -186,9 +186,9 @@ def varre_regiao(label: str, region, anos_mos: list[int], col30, escala: int,
         Yt = anos_mos[-1]
         land = col30.select(f"classification_{Yt}")
         s10 = ee.Image(ASSET_10M).select(f"classification_{Yt}")
-        deriva = land.eq(ID_MOSAICO).And(
+        exposta = land.eq(ID_MOSAICO).And(
             col30.select(f"classification_{ANO_BASE_DERIVA}").eq(ID_PASTAGEM))
-        dd, _ = composicao(deriva, s10, region, escala)
+        dd, _ = composicao(exposta, s10, region, escala)
         linhas.append({"regiao": label, "populacao": "deriva_pasto→mos", "ano": Yt, **dd})
         agri30 = land.remap(IDS_AGRICULTURA, [1] * len(IDS_AGRICULTURA), 0).eq(1)
         da, _ = composicao(agri30, s10, region, escala)
@@ -239,7 +239,7 @@ def main() -> None:
         sys.exit("Nenhum ano pedido existe na coleção 10 m.")
 
     print(f"escala={args.escala} m | anos-mosaico {anos} | {len(regioes)} recorte(s) | "
-          f"base-deriva {ANO_BASE_DERIVA}\n")
+          f"base-mudança de rótulo {ANO_BASE_DERIVA}\n")
 
     todas, hist_all = [], []
     for label, bb in regioes.items():
@@ -276,7 +276,7 @@ def main() -> None:
 
     der = ag[ag.populacao == "deriva_pasto→mos"].set_index("ano")
     if not der.empty:
-        print(f"\n  População-deriva (era pasto em {ANO_BASE_DERIVA}, virou Mosaico no terminal) — a mais afiada:")
+        print(f"\n  População exposta (era pasto em {ANO_BASE_DERIVA}, virou Mosaico no terminal) — a mais afiada:")
         print(der[["n_cells", "f_agri", "f_pasto", "f_mos", "f_outro"]].round(3).to_string())
 
     if ANO_CONTROLE in mos.index and anos[-1] != ANO_CONTROLE:

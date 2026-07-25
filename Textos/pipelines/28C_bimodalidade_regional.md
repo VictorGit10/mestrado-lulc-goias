@@ -165,7 +165,7 @@ o veredito.**
 > [!WARNING]
 > **Re-checagem sob a união (D26, 23/jul/2026, `bimodalidade_regional_uniao.py`) — a metade
 > ROBUSTA sobrevive; o "gradiente Sul→Norte" era artefato.** O #28C usa só `pasto→agricultura`;
-> o bracket-por-evento do #40 mostrou que esse subconjunto é selecionado pela deriva. Com o
+> o bracket-por-evento do #40 mostrou que esse subconjunto é selecionado pela mudança de rótulo. Com o
 > cubo reprocessado (`pastagem_conversao_destinos.parquet`), recomputei as três afirmações sob
 > `pasto→agricultura` × `pasto→(agric∪mosaico)`:
 >

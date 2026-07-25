@@ -119,30 +119,42 @@ formações.
 ## Perna 2 — O mecanismo local
 
 > **Afirma:** são **dois mecanismos geograficamente segregados**. No Sul, `pasto→lavoura`
-> (intensificação, sobre pasto jovem, mediana ~9 anos). No Norte, `mata→pasto` (fronteira, sobre
-> pasto antigo, ~20 anos).
+> (intensificação). No Norte, `mata→pasto` (fronteira).
 
-**Força: forte** — com uma ressalva que a autocorreção impôs: a geografia desloca o **peso** da
-mistura, não **causa** os modos.
+**Força: forte** — com **duas** ressalvas que a autocorreção impôs. (1) A geografia desloca o
+**peso** da mistura, não **causa** os modos (#28C). (2) 🛑 **A segregação é do *tipo* de
+transição, não da *idade* do pasto** — a qualificação "sobre pasto jovem no Sul (~9a) / antigo no
+Norte (~20a)", que esta perna afirmava até 23/jul/2026, **caiu** na auditoria da mudança de rótulo
+(#40, #28C e #33, por três caminhos independentes). O que sustenta a perna são medidas **imunes**:
+o `veg→pasto` (que não passa pelo Mosaico) e os centroides do #32/#44.
 
 | Papel | Pipeline | O que entrega |
 |---|---|---|
-| **Manchete** | **#33** `transicoes_regionais.py` | Recorta as conversões brutas por mesorregião × ato. `veg→pasto` é a transição-mãe pervasiva; `pasto→agric` só *lidera* no Sul+Centro no Ato II. O deslocamento aparece no **balanço líquido** |
+| **Manchete** | **#33** `transicoes_regionais.py` | Recorta as conversões brutas por mesorregião × ato. `veg→pasto` é a transição-mãe pervasiva; `pasto→agric` só *lidera* no Sul+Centro no Ato II. O deslocamento aparece no **balanço líquido** (Ato II, janela limpa). ⚠️ **Os dois achados do Ato III caíram** (`transicoes_regionais_bracket.py`, 25/jul): a queda de −88% do `pasto→agric` **inverte para +51%** sob o bracket, e a tabela de idade **inverte a ordenação** (Sul 16a→32a, Norte 27a→23a) |
 | **Manchete** | **#28** `coleta_idade_pastagem.py` + `analise_reserva_terra.py` | A idade do pasto na conversão é **bimodal** (~4 e ~23 anos) = dois mecanismos coexistindo. Censo: 44,6 M eventos |
 | **Manchete** | **#22** `correlacoes_painel.py` | Painel 2-way FE: a **substituição local** é forte (onde a lavoura entra, o pasto sai *localmente*) e o SICOR é o canal dominante de retração — **na janela com SICOR (2013–2021), ~8 anos**, não nos 40 |
 | **Autocorreção** | **#40** `duas_logicas_pastagem.py` | Espacializa as duas lógicas (Rotação no Sul × Oportunístico no Norte). **Derrubou o próprio overclaim no mesmo dia** → **D14**. Em 21/jul/2026 **derrubou também a autocorreção**: o "some sob o gradiente 2D" era erro de medida; veredito vira *não estabelecido*, e a comparação estrutura×fluxo (agora simétrica) dá o sinal ao **fluxo** |
 | **Autocorreção** | **#28C** `bimodalidade_regional.py` | A bimodalidade é *regionalmente causada*? **Não.** A região explica 1,3% (meso) / 7,5% (AMC); o tempo explica 19,6%; **75–79% mora dentro** das células. Sob censo ω²/permutação degeneram (D23) — sustenta-se por estabilidade censo×amostra, não por p |
 | **Autocorreção** | **#40B** `duas_logicas_calcario_orientacao.py` | Generaliza a D14: calcário e orientação somem sob o gradiente 2D — e no censo (n=244) o nulo **se confirma**. Ressalva de 21/jul/2026: a generalização vale para eles, **não** para toda covariável (no-till virou limítrofe; adubação dá p=0,003) |
-| **Autocorreção** | **#28D** `deriva_mosaico_fim_serie.py` | 🛑 **A mais severa da perna.** O objeto do #28 **não é constante na série**: a saída da pastagem migra do rótulo "agricultura" para "Mosaico de Usos" (razão 0,6 em 2015 → **32,5 em 2024**; `P→agric` cai 92%) enquanto o **SIDRA registra a soja +38%**. Derruba a tendência de w₁; a **bimodalidade e o gradiente sobrevivem** → **D25** |
+| **Autocorreção** | **#28D** `deriva_mosaico_fim_serie.py` | 🛑 **A mais severa da perna.** O objeto do #28 **não é constante na série**: a saída da pastagem migra do rótulo "agricultura" para "Mosaico de Usos" (razão 0,6 em 2015 → **32,5 em 2024**; `P→agric` cai 92%) enquanto o **SIDRA registra a soja +38%**. Derruba a tendência de w₁; sobrevive a **bimodalidade**, **não** o gradiente de idade (revisto 23–25/jul) → **D25/D26** |
 | **Robustez** | **#49** `painel_espacial_dinamico.py` | Os canais do #22 sobrevivem ao termo espacial (Elhorst FE lag/error) |
 
 **O que esta perna NÃO permite dizer:** que "a região causa a bimodalidade" (o #28C mediu: não
 causa), que "plantio direto explica a idade do pasto" (o #40 derrubou: era confundidor de
 latitude), nem — desde 21/jul/2026 — que **"o pasto jovem vem ganhando peso ao longo do tempo"**
-(o #28D derrubou: a tendência de w₁ acompanha a deriva de classificação, e o contraste
+(o #28D derrubou: a tendência de w₁ acompanha a mudança do rótulo de classificação, e o contraste
 "tempo ≫ espaço" está **suspenso** porque os dois lados do eixo temporal estão comprometidos —
-horizonte antes de 2020, deriva depois). A frase certa segue sendo **"gradiente regional no
-*peso* da mistura"** — que é transversal, e por isso sobrevive.
+horizonte antes de 2020, mudança de rótulo depois). E — desde 23–25/jul/2026 — que **"o Sul
+converte pasto jovem e o Norte pasto velho"**: o gradiente latitudinal de idade caiu no #40, no
+#28C e no #33.
+
+> 🛑 **Uma frase deste índice foi refutada e vale registrar o porquê.** Até 23/jul dizia-se aqui
+> que "gradiente regional no *peso* da mistura" sobrevivia **"porque é transversal"**. O
+> raciocínio está **errado**: a mudança de rótulo não é apenas temporal — ela decide *quais
+> conversões continuam visíveis* como "agricultura", e essa seleção age **dentro** de um mesmo
+> período. Comparar regiões no mesmo ano não protege de um viés que muda **quem entra na
+> amostra**. O que de fato sobrevive é a **bimodalidade/coexistência** (robusta sob a união:
+> 5/5 regiões, 10/10 células) — não a ordenação Sul→Norte das idades.
 
 **Ler a fundo:** [`33_transicoes_regionais.md`](pipelines/33_transicoes_regionais.md) →
 [`28_idade_pastagem.md`](pipelines/28_idade_pastagem.md) →

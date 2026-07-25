@@ -208,7 +208,7 @@ def main() -> None:
         s = out[out.destino == d]
         print(f"  destino={d:12s}: {len(s):,} células | {s.n_pixels.sum():,} eventos "
               f"| {s.area_ha.sum():,.0f} ha")
-    # Razão M/A por ano (a assinatura da deriva) — sanidade rápida
+    # Razão M/A por ano (a assinatura da mudança de rótulo) — sanidade rápida
     piv = out.groupby(["ano_conversao", "destino"])["n_pixels"].sum().unstack(fill_value=0)
     piv["razao_M/A"] = piv["mosaico"] / piv["agricultura"].replace(0, np.nan)
     print("\n  razão pasto→Mosaico / pasto→agricultura (deve explodir na cauda):")

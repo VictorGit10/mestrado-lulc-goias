@@ -14,12 +14,12 @@ Fronteiras confirmadas (primario + sensibilidade):
     ~2001: sup-F (F=62.2) + KL/TV (pico 2003)
     ~2020: sup-F (F=21.5) + KL/TV (pico 2018-2020)
 
-Robustez da fronteira 2020 a deriva do Mosaico (#28D, 2026-07-23):
-    O sup-F usa agricultura_delta, que a deriva CONGELA (~2020 a soja nova vira
+Robustez da fronteira 2020 a mudança de rótulo do Mosaico (#28D, 2026-07-23):
+    O sup-F usa agricultura_delta, que a mudança de rótulo CONGELA (~2020 a soja nova vira
     "Mosaico" em vez de "Agricultura"). Testado (periodizacao_robustez_deriva.py):
     trocando agricultura por (agricultura U mosaico), a quebra de 2020 NAO some —
     FORTALECE (F 21.5 -> 34.1); a serie corrigida quebra sozinha em 2020 (F=39.8).
-    A deriva INVERTE o SINAL da mudanca (agric -0.11 vira agric U mosaico +0.20),
+    A mudança de rótulo INVERTE o SINAL da mudanca (agric -0.11 vira agric U mosaico +0.20),
     nao cria a quebra. Sustentada pela PASTAGEM (declinio -0.07 -> -0.27 Mha/a,
     corroborado por SIDRA soja +38%) e pelo cambio de 2020 (#37, imune). A serie
     IMUNE (veg) nao quebra em 2020 -> Ato III e evento de COMPOSICAO da fronteira
@@ -148,7 +148,7 @@ MARCOS = {
         "escopo_empirico": "cerrado_amplo",
         "nota": "Perda de veg_nat estabiliza em torno de 0,10 pp/a; pastagem cede "
                 "0,33-0,61 pp/a consistentemente (2018-21). ATENCAO: o antigo "
-                "'agricultura para de crescer' e ARTEFATO da deriva do Mosaico "
+                "'agricultura para de crescer' e ARTEFATO da mudança de rótulo do Mosaico "
                 "(#28D) — a soja nova vira 'Mosaico'; sob (agric U mosaico) a "
                 "agricultura ACELERA no Ato III (SIDRA soja +38%). Ler a pastagem "
                 "cedendo mais rapido como o sinal real de conversao acelerada.",

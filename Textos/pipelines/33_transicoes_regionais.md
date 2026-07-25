@@ -73,6 +73,41 @@ Em taxa anual, no Ato III (2020–2024):
 
 O mecanismo, portanto, **explica** o comportamento do centroide período a período.
 
+> [!CAUTION]
+> **A primeira metade deste achado NÃO sobrevive ao bracket (D26) — verificado em
+> 25/jul/2026, `scripts/transicoes_regionais_bracket.py`.** O `pasto→agric` é medido pela
+> classe de destino "agricultura", que no fim da série passa a receber o rótulo "Mosaico
+> de Usos" ([#28D / D25](28D_deriva_mosaico.md)). Este é o caso-livro da D25: *a transição
+> de interesse "desaparece" enquanto o fenômeno de campo acelera*.
+>
+> Todas as linhas são a **variação da taxa anual** entre o Ato II e o Ato III (Mha/ano →
+> Mha/ano), não variação de área acumulada:
+>
+> | régua (Δ da taxa anual, Ato II→III) | Sul | Leste | Centro | Noroeste | Norte |
+> |---|---:|---:|---:|---:|---:|
+> | `pasto→agric` (o número acima) | **−88,4%** | −88,3% | −85,6% | −66,1% | −89,5% |
+> | `pasto→(agric∪mosaico)` | **+51,0%** | +28,6% | +38,7% | +119,5% | +31,9% |
+> | ritmo de expansão da soja plantada (SIDRA, imune) | **+244%** | +73% | +583% | +567% | +35% |
+>
+> O bracket **não cruza zero — ele inverte o sinal, nas 5 mesorregiões**, e a âncora imune
+> (SIDRA) fica do lado da régua superior. Pela regra da D26 (robusto ⇔ sobrevive nos dois
+> extremos), **a queda de −88% não é um achado sobre o campo**: é a assinatura da mudança de
+> rótulo. No Sul, a terra que sai de pasto puro para lavoura-ou-uso-misto **acelerou 51%** no
+> Ato III, enquanto a soja plantada do IBGE mais que triplicou de ritmo.
+>
+> **O que fazer com a frase:** não a use para dizer que "a lavoura parou de comer pasto no
+> Sul". A leitura defensável do Ato III é a **pergunta grossa**: a saída de pasto puro
+> acelerou em todas as mesorregiões. E a ponte com o #32 muda de perna — a desaceleração do
+> centroide agrícola no Ato III é ela própria exposta (ver "Robustez à mudança de rótulo" no
+> [#32](32_centro_massa.md)); quem sustenta a leitura de fronteira no Sul é o **`veg→pasto`**
+> (imune, próxima nota), não este fluxo.
+>
+> **A segunda metade (o `veg→pasto` do Norte) é IMUNE e sobrevive** — origem e destino
+> ficam fora do Mosaico. Na mesma verificação, o `veg→pasto` cai no Sul (−49,3%) e persiste
+> no Norte (−12,8%) e no Centro (+2,8%): o contraste Sul-trava/Norte-avança continua de pé
+> **por uma medida que a mudança de rótulo não toca** — que é o que o [#39](39_fronteira_fechando.md)
+> precisa e usa.
+
 ### 5. A idade do pasto (#28) sela a leitura — mas só no Ato III
 
 > **♻️ Revisado em 21/jul/2026.** A versão anterior desta seção publicava uma
@@ -116,6 +151,27 @@ número não é medição — de propósito, para não ser plotado como se fosse
 ⚠️ Esta página mede **nível**, não forma: **não cruzar com os números do #28C**,
 que roda só sobre não-censurados. Ver
 ["O que a família da idade estabelece"](28_idade_pastagem.md#o-que-a-família-da-idade-estabelece).
+
+> [!CAUTION]
+> **Esta tabela também não sobrevive ao bracket — o gradiente não só encolhe, ele INVERTE
+> (25/jul/2026, mesmo script).** A tabela acima conta a idade dos pixels cujo destino foi
+> rotulado "agricultura"; no Ato III esse é justamente o subconjunto que a mudança de rótulo
+> seleciona. Recomputando sobre `pasto→(agric∪mosaico)`, com a mesma convenção (ato pelo
+> `ano_conversao`, censurados a face value — que reproduz a linha acima exatamente):
+>
+> | régua | Sul | Leste | Centro | Noroeste | Norte |
+> |---|---:|---:|---:|---:|---:|
+> | `pasto→agric` (a tabela acima) | **16a** | 16a | 28a | 31a | 27a |
+> | `pasto→(agric∪mosaico)` | **32a** | 21a | 35a | 31a | **23a** |
+>
+> Na régua superior o **Sul passa a ser a segunda mais VELHA (32a) e o Norte a segunda mais
+> jovem (23a)**: a ordenação "Sul jovem → Norte velho" **se inverte**. A leitura de que "no
+> Sul a lavoura consome pasto-reserva jovem" vale só dentro do rótulo "agricultura" — é a
+> mesma conclusão a que chegaram o [#40](40_duas_logicas_pastagem.md) (bracket-por-evento) e
+> o [#28C](28C_bimodalidade_regional.md) (re-checagem sob a união), por caminhos
+> independentes. **Retirar da redação o gradiente latitudinal de idade**; o que sobrevive
+> daquela família é a **bimodalidade/coexistência** dos dois mecanismos dentro de cada
+> região, modulada pelo tempo. Ver [`tratamento_deriva_mosaico.md`](../metodologia/tratamento_deriva_mosaico.md) §9.
 
 ---
 

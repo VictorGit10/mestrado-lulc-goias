@@ -1,11 +1,11 @@
 """
-duas_logicas_deriva_check.py — Robustez do #40 à deriva do Mosaico (D26)
+duas_logicas_deriva_check.py — Robustez do #40 à mudança de rótulo do Mosaico (D26)
 ========================================================================
 
 PERGUNTA
 --------
 O #40 pool a mistura de mecanismos de conversão `pasto→agricultura` sobre uma
-JANELA (primária 2010–2024). A deriva do Mosaico (#28D/D25) reetiqueta, nos anos
+JANELA (primária 2010–2024). A mudança de rótulo do Mosaico (#28D/D25) reetiqueta, nos anos
 terminais, conversões pasto→agricultura como pasto→Mosaico — então esses eventos
 **somem da tabela do #28** e a cauda da janela fica subcontada e possivelmente
 selecionada. Diferente do #28C (transversal por período, imune), o #40 **pool ao
@@ -17,11 +17,11 @@ os eventos pasto→Mosaico COM idade do pasto — que não existem na tabela atu
 reprocessar o cubo. O que dá para fazer SEM o cubo, no espírito da D26:
 
   (A) EXPOSIÇÃO — a contagem (ponderada) de conversões pasto→agric por ano colapsa
-      ~2020, como o agregado da deriva? Mede o tamanho do problema.
+      ~2020, como o agregado da mudança de rótulo? Mede o tamanho do problema.
   (B) BRACKET POR TRUNCAGEM — o gradiente-manchete (índice jovem × latitude) e o
       mix de mecanismos sobrevivem quando se compara a janela LIMPA (≤2019) com a
       CHEIA (até 2024) e com a MAIS EXPOSTA (2016–2024)? Se estáveis, a conclusão
-      do #40 é robusta à deriva; se mudam, marca-se a cauda como provisória.
+      do #40 é robusta à mudança de rótulo; se mudam, marca-se a cauda como provisória.
 
 Reusa `duas_logicas_pastagem.carregar` e `.agregar_mix` (censo de pixels do #28).
 
@@ -74,7 +74,7 @@ def mix_estadual(df, a, b) -> dict:
 
 def main() -> None:
     print("=" * 74)
-    print("Robustez do #40 à deriva do Mosaico (D26) — exposição + bracket por truncagem")
+    print("Robustez do #40 à mudança de rótulo do Mosaico (D26) — exposição + bracket por truncagem")
     print("=" * 74)
     df = duas.carregar("censo")
 
@@ -88,7 +88,7 @@ def main() -> None:
     pico = by.loc[2014:2019].mean()
     fim = by.loc[2022:2024].mean()
     print(f"   → média 2014-2019 = {pico:.3f} Mpx/a ; média 2022-2024 = {fim:.3f} Mpx/a "
-          f"({100*(fim-pico)/pico:+.0f}%) — a cauda subconta, como a deriva prevê.")
+          f"({100*(fim-pico)/pico:+.0f}%) — a cauda subconta, como a mudança de rótulo prevê.")
 
     # (B) BRACKET POR TRUNCAGEM — gradiente índice-jovem × latitude + mix
     print("\n(B) BRACKET POR TRUNCAGEM — gradiente (índice jovem × latitude) por AMC:")

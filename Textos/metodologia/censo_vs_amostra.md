@@ -439,7 +439,7 @@ das cinco.
 estimadores". Era overclaim — verdadeiro para 4 das 5 mesorregiões, não para o
 Centro. Corrigido em 21/jul.
 
-### 7.4 O censo revelou um defeito que a amostra escondia — a deriva do destino
+### 7.4 O censo revelou um defeito que a amostra escondia — a mudança do rótulo de destino
 
 Descoberto em **21/jul/2026**, ao fechar o §4-E da leitura crítica do #28. É o
 efeito colateral mais grave dos três, e o único que **não é um bug do
@@ -464,7 +464,7 @@ apresentada como remoção de erro amostral, e é. Mas ela também **tornou o
 problema visível**: com 2.000 px/ano, o colapso do n no fim da série era invisível
 (a amostra tinha tamanho fixo por ano *por construção*) e a queda da mediana
 parecia ruído de amostra pequena. O censo mostra que os eventos existentes caíram
-de 606.821 (2020) para 157.245 (2024) — e é isso que denuncia a deriva.
+de 606.821 (2020) para 157.245 (2024) — e é isso que denuncia a mudança de rótulo.
 
 É a contrapartida honesta da §6 ("armadilhas que o censo cria"): o censo também
 **revela** armadilhas que a amostra mascarava. Aqui, a amostra de tamanho fixo
@@ -472,7 +472,7 @@ funcionava como um anestésico sobre um sinal de alarme.
 
 **Consequência para a leitura cruzada:** a tendência de `w₁` do #28 ("o
 componente jovem ganha peso") **não sobrevive** — ela acompanha a exposição da
-janela à deriva. A **bimodalidade com modos estáveis sobrevive** (confirmada sob a
+janela à mudança de rótulo. A **bimodalidade com modos estáveis sobrevive** (confirmada sob a
 união, 23/jul). Mas o **gradiente latitudinal de idade do #28C NÃO sobrevive**: o
 "transversal, logo imune" **estava errado** — a seleção agricultura×Mosaico atua
 *dentro* de um período, então sob `pasto→(agric∪mosaico)` a amplitude Sul→Norte cai
@@ -496,7 +496,7 @@ de 7a para 2a (artefato, igual ao #40). Ver
 | `scripts/compara_censo_amostra.py` | Confronto em dois níveis (§3) |
 | `scripts/fig_sintese_idade_atos.py` | Figura do site (antes era PNG órfão sem script) |
 | `scripts/coleta_idade_pastagem.py` | Amostra legada — mantida para reprodutibilidade |
-| `scripts/deriva_mosaico_fim_serie.py` | #28D — deriva do destino da conversão; ver §7.4 |
+| `scripts/deriva_mosaico_fim_serie.py` | #28D — mudança do rótulo de destino da conversão; ver §7.4 |
 
 Ver também: [28_idade_pastagem.md](../pipelines/28_idade_pastagem.md),
 [28_idade_pastagem_critica.md](../pipelines/28_idade_pastagem_critica.md),

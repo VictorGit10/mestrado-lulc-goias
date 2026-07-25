@@ -9,11 +9,11 @@ DUAS definições de evento —
 
   • `pasto→agricultura`        (o #28 original; limite INFERIOR)
   • `pasto→(agric∪mosaico)`    (a pergunta grossa; recaptura a conversão que a
-                                deriva reetiquetou como Mosaico)
+                                mudança de rótulo reetiquetou como Mosaico)
 
 — em três janelas (limpa ≤2019 / cheia / exposta). Se a UNIÃO estabiliza o
 gradiente entre as janelas (ao contrário do agric-só, cuja significância só vinha
-da cauda), então o gradiente é real e a deriva o distorcia; se a união também é
+da cauda), então o gradiente é real e a mudança de rótulo o distorcia; se a união também é
 fraca/instável, o gradiente nunca foi robusto. É o teste definitivo do #40.
 
 Reusa `duas_logicas_pastagem.classificar_mecanismo` e `.agregar_mix` (mesma regra).
@@ -105,7 +105,7 @@ def main() -> None:
     pd.DataFrame(linhas).to_csv(ARQ_OUT, index=False, encoding="utf-8")
     print(f"\n[OK] {ARQ_OUT.relative_to(ROOT)}")
     print("\nLEITURA: se a UNIÃO dá ρ estável e significativo nas 3 janelas (≠ do agric-só,")
-    print("que só era sig. na cauda), o gradiente é REAL e a deriva o distorcia. Se a união")
+    print("que só era sig. na cauda), o gradiente é REAL e a mudança de rótulo o distorcia. Se a união")
     print("também é fraca na janela limpa, o gradiente nunca foi robusto.")
 
 

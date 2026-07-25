@@ -54,19 +54,19 @@ Noroeste/Norte → reserva) e no **tempo** (giro ganhando peso, w₁ de 31,5% em
 > mesma janela.
 >
 > **O que isso derruba:** a tendência `w₁ 31,5% → 51,5%` sobe monotonicamente com
-> a exposição da janela à deriva (20,8% em 2014-18, base pré-deriva → 51,5% na
-> janela inteiramente derivada). **Não citar como achado temporal.**
+> a exposição da janela à mudança de rótulo (20,8% em 2014-18, base limpa → 51,5% na
+> janela inteiramente contaminada). **Não citar como achado temporal.**
 >
 > **O que fica sob suspeita e precisa de re-auditoria:** a frase "a mudança é
 > temporal, não geográfica" (19,6% × 1,3%) tem os **dois** lados comprometidos —
 > a subida Ato I→II é horizonte (a mediana pré-2020 é ~55% de `ano−1985`, dp
-> 7 pp) e a queda no Ato III é deriva. O contraste tempo × espaço precisa ser
+> 7 pp) e a queda no Ato III é mudança de rótulo. O contraste tempo × espaço precisa ser
 > refeito em janelas limpas antes de voltar ao texto.
 >
 > **O que sobrevive intacto:** a **bimodalidade** com modos estáveis (μ₁≈4-5a,
 > μ₂≈21-23a em *todas* as janelas, derivadas ou não; confirmada sob a união em
 > 23/jul). **⚠️ Correção (23/jul):** eu escrevia aqui que o **gradiente Sul→Norte**
-> do [#28C](28C_bimodalidade_regional.md) "é transversal — a deriva é temporal". A
+> do [#28C](28C_bimodalidade_regional.md) "é transversal — a mudança de rótulo é temporal". A
 > re-checagem sob `pasto→(agric∪mosaico)` mostrou que o gradiente latitudinal de
 > *idade* **é artefato** (amplitude 7a→2a): a seleção agricultura×Mosaico atua
 > *dentro* de um período. O transversal que sobrevive é a **coexistência bimodal**,
@@ -91,8 +91,8 @@ do #33 — cinco episódios com métodos e dados diferentes. Não moveram:
 |---|---|
 | Bimodalidade existe | μ₁ ≈ 4,4a e μ₂ ≈ 22,9a, estáveis em 4 janelas |
 | Não é composição regional | 5/5 mesos e 162/164 AMCs bimodais **por dentro** |
-| ~~Tempo ≫ espaço~~ | 🛑 **suspenso** — 19,6% × 1,3%, mas os dois lados do eixo temporal estão comprometidos (horizonte antes de 2020, deriva depois). Re-auditar. [#28D](28D_deriva_mosaico.md) |
-| ~~Modo jovem ganha peso~~ | 🛑 **derrubado** — w₁ 31,5% → 51,5% acompanha a deriva do destino, não o tempo. [#28D](28D_deriva_mosaico.md) §5.1 |
+| ~~Tempo ≫ espaço~~ | 🛑 **suspenso** — 19,6% × 1,3%, mas os dois lados do eixo temporal estão comprometidos (horizonte antes de 2020, mudança de rótulo depois). Re-auditar. [#28D](28D_deriva_mosaico.md) |
+| ~~Modo jovem ganha peso~~ | 🛑 **derrubado** — w₁ 31,5% → 51,5% acompanha a mudança do rótulo de destino, não o tempo. [#28D](28D_deriva_mosaico.md) §5.1 |
 | Gradiente nas pontas | Sul/Leste jovens × Noroeste/Norte velhos, em todo estimador |
 
 ## O que foi aposentado — não citar

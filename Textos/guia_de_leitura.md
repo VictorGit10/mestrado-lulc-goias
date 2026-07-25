@@ -262,8 +262,8 @@ longo do tempo**. É essa riqueza que o efeito fixo explora.
   `.diff()` a todas as variáveis). Isso é uma escolha metodológica (D7): você modela
   *mudanças* no uso da terra, não *níveis*. Não é o 2-way FE "de livro-texto", que costuma ser
   escrito em níveis (`Y_it = α_i + γ_t + β·X_it + ε_it`) — mas é uma especificação válida. Num
-  modelo em diferenças, o `α_i` absorve uma **tendência própria** de cada município (uma deriva
-  constante), e o `γ_t` absorve o **choque comum às variações** daquele ano. A interpretação do
+  modelo em diferenças, o `α_i` absorve uma **tendência própria** de cada município (um
+  crescimento constante), e o `γ_t` absorve o **choque comum às variações** daquele ano. A interpretação do
   `β` (abaixo) é a mesma.
 - **A mecânica, com números (o "demeaning"):** como o software joga fora o que é fixo? Com uma
   transformação chamada *within* (ou "centrar na média"). Para cada município, ele calcula a
@@ -996,7 +996,7 @@ Ela se apoia em quatro pernas:
 | Perna | O que afirma | Pipelines | Força da evidência |
 |---|---|---|---|
 | **1. O padrão existe** | Tudo marchou ao norte; a lavoura fica ao sul do pasto; a vegetação ficou **ancorada** | #32, #43 (MAUP), #44 (desagregado), D19 (IC) | **Forte** — robusto a malha, a desagregação e ao bootstrap |
-| **2. O mecanismo local** | Sul: pasto→lavoura (intensifica); Norte: mata→pasto (fronteira) | #33, #28, #22, #40, #28C, #40B, #49 | **Forte no *tipo* de transição** (#33/#32/#44) — mas o gradiente é *no peso*, não causa; **⚠️ o gradiente latitudinal de IDADE do pasto (#40/#28C) é artefato da deriva** (auditoria D26, `metodologia/tratamento_deriva_mosaico.md` §9) — sobrevive a bimodalidade/coexistência, não o "young-Sul/old-Norte" |
+| **2. O mecanismo local** | Sul: pasto→lavoura (intensifica); Norte: mata→pasto (fronteira) | #33, #28, #22, #40, #28C, #40B, #49 | **Forte no *tipo* de transição** — mas por medidas **imunes**: o `veg→pasto` do #33 (que não passa pelo Mosaico) e os centroides #32/#44. **⚠️ Cai o gradiente latitudinal de IDADE do pasto (#40/#28C/#33 — três testes independentes)** e **cai a queda de −88% do `pasto→agric` do Sul no Ato III (#33: inverte para +51% sob o bracket)**. Auditoria D26, `metodologia/tratamento_deriva_mosaico.md` §9 — sobrevive a bimodalidade/coexistência, não o "young-Sul/old-Norte" |
 | **3. Reorganização coordenada, não deslocamento** | *Negativo:* sem precedência temporal, sem spillover direcional. *Positivo:* coordenada por um **drive macro comum** (câmbio o candidato), não por causação local | *Negativo:* #34, #42, #45, #53, #41 · *Positivo:* #37, #38, #52 (aptidão exógena), #54 (inferência), #50 (crédito não lidera) | **Forte no negativo** (nulo bem defendido); **corroborante no positivo** — o #54 mostrou que o p clusterizado (~0,03) era otimista, a permutação do shifter dá **p≈0,07–0,13 (não sig. a 5%)**; o que sustenta o drive comum é a **especificidade** (placebos/lead/jackknife), não a significância |
 | **4. O teto de oferta** | Sul bateu no estoque; Norte ainda tem Cerrado; 97% desprotegido | #39, #46, #48 (valida PRODES), #47 (custo) | **Forte no diagnóstico**, com proxy declarado (D13/D17) |
 
@@ -1061,8 +1061,10 @@ principais rodam sobre o subconjunto não-censurado, elas usavam **dois terços*
 tinham direito — e os excluídos não eram aleatórios, eram justamente os de origem mista
 agricultura/pastagem, o lado "rotação" da conclusão. Depois disso troquei a amostra por **censo**:
 todos os 44,6 milhões de eventos de conversão de Goiás. **O que sobreviveu**: a bimodalidade e a
-posição dos dois modos (μ₁≈4,4a, μ₂≈22,9a, estáveis em todas as janelas) e o gradiente Sul→Norte
-(ordenação das mesorregiões idêntica). **O que caiu**: a frase "a rotação está se tornando
+posição dos dois modos (μ₁≈4,4a, μ₂≈22,9a, estáveis em todas as janelas). *(Na época eu também
+listei aqui o gradiente Sul→Norte da idade, porque a ordenação das mesorregiões era idêntica na
+amostra e no censo — mas ele caiu na auditoria de 23–25/jul; ver a pergunta seguinte.)*
+**O que caiu**: a frase "a rotação está se tornando
 dominante" — o componente jovem subia de 31,5% para 51,5%, ou seja **alcançava** o antigo, sem o
 superar. Eu mudei a afirmação em vez de manter a versão mais bonita. Detalhe que registro por
 honestidade: somando a categoria mosaico à rotação, o número volta a ~63%, quase o que eu publicava
@@ -1084,14 +1086,29 @@ independente do satélite) registra a área de soja em Goiás **crescendo 38%** 
 classe Mosaico cresce **+1,35 Mha** — praticamente o tamanho da soja nova. A causa provável está
 declarada na própria fonte: os filtros temporais da Coleção 10 usam janelas retroativas de 3–4 anos e
 o ATBD prevê regras especiais "for the last years of the series, when the analysis window is limited".
-**Consequência**: a tendência de w₁ sobe monotonicamente com a exposição da janela à deriva
+**Consequência**: a tendência de w₁ sobe monotonicamente com a exposição da janela à mudança de rótulo
 (20,8% numa janela limpa → 51,5% na janela inteiramente contaminada; o ano de 2024, sozinho, dá 93,4%).
 Então eu **retirei** a afirmação temporal. **O que continua de pé** é o que não depende dela: a
 **bimodalidade com modos estáveis** (μ₁≈4-5a, μ₂≈21-23a em *toda* janela testada, contaminada ou não)
-e o **gradiente Sul→Norte**, que é transversal — compara regiões dentro do mesmo período, e a deriva é
-temporal e estadual. A lição generalizável (**D25**): antes de comparar uma transição LULC entre
-períodos distantes, verifique que a **classe de destino manteve o mesmo significado**; o sintoma é
-fácil de ler ao contrário — *a transição de interesse "desaparece" enquanto o fenômeno de campo acelera*.
+e a **coexistência dos dois mecanismos dentro de cada região**. A lição generalizável (**D25**):
+antes de comparar uma transição LULC entre períodos distantes, verifique que a **classe de destino
+manteve o mesmo significado**; o sintoma é fácil de ler ao contrário — *a transição de interesse
+"desaparece" enquanto o fenômeno de campo acelera*.
+
+⚠️ **Correção de 23–25/jul/2026 — eu errei uma vez mais aqui, e a resposta acima já é a corrigida.**
+Minha primeira defesa foi: *"o gradiente Sul→Norte da idade sobrevive porque é **transversal** —
+compara regiões dentro do mesmo período, e a mudança de rótulo é temporal e estadual."* **Esse
+raciocínio é falso**, e é um erro que vale conhecer, porque soa convincente. A mudança de rótulo não
+é só temporal: ela **seleciona quais conversões continuam visíveis** como "agricultura", e essa
+seleção opera *dentro* de um mesmo período. Comparar regiões no mesmo ano não protege de nada se o
+que mudou foi **quem entra na amostra**. A verificação sob a régua superior derrubou o gradiente por
+**três caminhos independentes**: o #40 (ρ do índice-jovem × latitude vai a ≈0, ns), o #28C (a
+amplitude Sul→Norte cai de 7a para 2a) e o #33 (no Ato III o Sul vai de 16a — a mais jovem — para
+**32a**, e o Norte de 27a para 23a: a ordenação **inverte**). **O que se afirma hoje**: a
+bimodalidade e a coexistência são robustas; **o "pasto jovem no Sul, velho no Norte" não é
+afirmável** — ele existe só dentro do subconjunto rotulado "agricultura". O gradiente Sul→Norte que
+segue de pé é outro, e é medido por outras coisas: o **tipo de transição** (#33, `veg→pasto` ao
+norte × `pasto→agric` ao sul — o `veg→pasto` é imune) e a **marcha dos centroides** (#32/#44).
 
 **"Com censo você tem a população inteira. Seus testes não ficam todos significantes por construção?"**
 Ficam, e é por isso que eu **não os uso** (**D23**). O ΔBIC da bimodalidade no Ato III é 844.789 —

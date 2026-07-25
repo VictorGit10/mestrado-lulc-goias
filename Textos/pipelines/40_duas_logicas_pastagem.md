@@ -118,9 +118,9 @@ recebe sua mistura de mecanismos. **Rotação (jovem ≤8a) domina Sul/Centro; O
 > significativa e moderada.
 
 > [!WARNING]
-> **Robustez à deriva do Mosaico (D26, 23/jul/2026) — a significância do gradiente é
+> **Robustez à mudança de rótulo do Mosaico (D26, 23/jul/2026) — a significância do gradiente é
 > FRÁGIL e depende da cauda contaminada.** O #40 *pool* os eventos `pasto→agricultura`
-> sobre a janela; a [deriva do Mosaico](28D_deriva_mosaico.md) reetiqueta esses eventos
+> sobre a janela; a [mudança de rótulo do Mosaico](28D_deriva_mosaico.md) reetiqueta esses eventos
 > como `pasto→Mosaico` nos anos terminais, e eles **somem** da tabela do #28 — o #40 pool
 > ao longo do tempo, logo herda a contaminação (e o #28C, que se *supunha* imune por ser
 > transversal, **também herda** — refutado abaixo). Medido (`duas_logicas_deriva_check.py`):
@@ -135,9 +135,9 @@ recebe sua mistura de mecanismos. **Rotação (jovem ≤8a) domina Sul/Centro; O
 > | exposta 2016–2024 | −0,308 | <0,001 |
 >
 > Na janela **limpa (≤2019) o gradiente é fraco e NÃO significativo**; a significância do
-> −0,236 vem justamente do trecho que a deriva censura mais. Isto **resolve o enigma** da
+> −0,236 vem justamente do trecho que a mudança de rótulo censura mais. Isto **resolve o enigma** da
 > revisão de 21/jul (a "ponderação entre anos" que fortalecia r): não era só amostragem —
-> os anos recentes carregam um gradiente aparente mais forte porque a deriva **seleciona**
+> os anos recentes carregam um gradiente aparente mais forte porque a mudança de rótulo **seleciona**
 > quais conversões ficam visíveis (as perdidas para o Mosaico crescem ao Norte, #32/#44).
 > **Bracket por EVENTO — FECHADO (cubo reprocessado, 23/jul/2026,
 > `processa_cubo_idade_destinos.py` → `pastagem_conversao_destinos.parquet`;
@@ -154,7 +154,7 @@ recebe sua mistura de mecanismos. **Rotação (jovem ≤8a) domina Sul/Centro; O
 > A união quase **triplica** os eventos (6,8 → 17,8 Mpx na janela limpa) — as conversões
 > `pasto→Mosaico` são a maioria dos términos de pastagem e **não carregam** o gradiente. Ou
 > seja: o −0,23 é **específico do subconjunto rotulado como "agricultura"** — que é
-> exatamente o que a deriva e a confiança do classificador selecionam —, **não** uma
+> exatamente o que a mudança de rótulo e a confiança do classificador selecionam —, **não** uma
 > propriedade robusta da conversão de pastagem. **Veredito revisado: a segregação
 > young-Sul/old-Norte NÃO está estabelecida como fenômeno geral** (o intervalo do bracket,
 > −0,12 a +0,04, cruza o zero sem significância em nenhum extremo). Sobrevive só na leitura

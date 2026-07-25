@@ -104,8 +104,19 @@ Decomposição do Δ do fluxo de conversão de vegetação (Mha/ano):
   (estoque encolhendo, negativo em toda parte) é **compensado** pelo efeito-residual (hazard subindo
   no Centro/Norte). A fronteira **relocou ao norte**.
 - **Sul**: único onde o fluxo **caiu**, por estoque baixo **e** hazard caindo (0,012→0,008) — a
-  assinatura de **fronteira fechada + giro à intensificação** (coerente com #33: `pasto→agric` do
-  Sul despenca −88% no Ato III).
+  assinatura de **fronteira fechada + giro à intensificação**.
+
+> ⚠️ **Corroboração trocada (25/jul/2026).** Esta linha citava o #33 (`pasto→agric` do Sul
+> despencando −88% no Ato III) como evidência convergente. Esse número **não sobreviveu** ao
+> bracket da D26 — sob `pasto→(agric∪mosaico)` ele **inverte para +51%**, e a soja SIDRA do Sul
+> sobe 244% (ver o CAUTION no [#33](33_transicoes_regionais.md)). **A conclusão do #39 não
+> depende dele e não muda**: tudo aqui é medido sobre **vegetação nativa** (estoque convertível,
+> `veg→pasto`, hazard), que a mudança de rótulo não toca — o #39 é **imune** na tabela do §9. A
+> corroboração independente correta é o próprio `veg→pasto` do #33, que cai **−49% no Sul** e só
+> −13% no Norte. O que muda é a *leitura* do "giro à intensificação": ela não pode mais se apoiar
+> no colapso aparente do `pasto→agric`, porque a saída de pasto para lavoura-ou-uso-misto no Sul
+> **acelerou**. Isso, aliás, **fortalece** a tese de restrição de oferta: a demanda por terra no
+> Sul seguiu firme e foi o **Cerrado** que acabou, não o apetite.
 - **Norte**: **fronteira ativa** — estoque declinante mas convertido a taxa **crescente**.
 
 > **Ressalva de rótulo.** Chamamos a coluna de **"efeito-residual (Δhazard)"** justamente porque
@@ -119,9 +130,12 @@ Decomposição do Δ do fluxo de conversão de vegetação (Mha/ano):
 
 Níveis médios dos drivers (#37) por ato: câmbio real 134,5→**169,0**; preço recebido soja
 104,4→**186,4**; crédito rural GO (R$ 2010) 14,3→**24,1 bi**. A demanda **subiu** no Ato III.
-Logo a desaceleração agrícola do Sul (#32/#33) ocorreu **sob demanda forte** → consistente com
-**restrição de oferta** (de Cerrado convertível **e** de pasto-reserva jovem, #28) no Sul, não com
-demanda fraca.
+Logo a desaceleração da **conversão de vegetação** no Sul ocorreu **sob demanda forte** →
+consistente com **restrição de oferta** (de Cerrado convertível) no Sul, não com demanda fraca.
+*(Ajuste de 25/jul/2026: a frase dizia "desaceleração agrícola do Sul (#32/#33)" e apoiava-se
+também no `pasto→agric` e no "pasto-reserva jovem" do #28 — as duas âncoras caíram na auditoria da
+mudança de rótulo. A leitura de oferta continua, e mais limpa, porque agora repousa só em medidas
+imunes: estoque convertível, `veg→pasto` e hazard.)*
 
 ## Veredito
 

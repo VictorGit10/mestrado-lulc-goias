@@ -1,5 +1,5 @@
 """
-periodizacao_robustez_deriva.py — A quebra de 2020 (Ato III) é artefato da deriva?
+periodizacao_robustez_deriva.py — A quebra de 2020 (Ato III) é artefato da mudança de rótulo?
 =================================================================================
 
 PERGUNTA QUE RESPONDE
@@ -9,7 +9,7 @@ TRÊS séries de variação de área LULC: veg. natural, pastagem e **agricultur
 #28D/D25 mostrou que, no fim da série, a conversão pasto→agricultura é reetiquetada
 como "Mosaico de Usos" — então `agricultura_delta` **congela** por volta de 2020 por
 artefato de classificação, não por fenômeno de campo. Pergunta natural (levantada na
-sessão de 2026-07-23): **a fronteira de 2020 é gerada pela deriva?**
+sessão de 2026-07-23): **a fronteira de 2020 é gerada pela mudança de rótulo?**
 
 TESTE
 -----
@@ -21,7 +21,7 @@ a pastagem. Reusa o sup-F multivariado do #29a (`periodizacao_multivariada.py`).
 RESULTADO (2026-07-23)
 ----------------------
 A quebra de 2020 **NÃO some — fortalece** sob a correção (F 21,5 → 34,1); a série
-corrigida `agric∪mosaico` sozinha quebra exatamente em 2020 (F≈40). O que a deriva faz
+corrigida `agric∪mosaico` sozinha quebra exatamente em 2020 (F≈40). O que a mudança de rótulo faz
 é **inverter o SINAL** da mudança, não criar a quebra:
 
     agricultura_delta (cru):   pré-2020 +0,135 → Ato III +0,024  (Δ −0,111, "desacelera")
@@ -36,14 +36,14 @@ Confirmação por fonte 100% IMUNE (soja SIDRA, área plantada PAM/IBGE): o DELT
 2020 (F=7,8, p=0,008) e a taxa de expansão triplica (+0,10 → +0,31 Mha/a). A fronteira de
 2020 existe fora do MapBiomas. NOTA sobre os OUTROS testes de quebra: o KL/TV (#29c) é
 CONTAMINADO — opera sobre a matriz de 6 classes que NÃO rastreia o Mosaico, então seu pico
-2018-2020 lê a mesma deriva (não é corroboração independente); o STARS (#29b) não sinaliza
-2020 de qualquer modo; o univariado (#26) quebra a agricultura em 2018 = a deriva.
+2018-2020 lê a mesma mudança de rótulo (não é corroboração independente); o STARS (#29b) não sinaliza
+2020 de qualquer modo; o univariado (#26) quebra a agricultura em 2018 = a mudança de rótulo.
 
 VEREDITO
 --------
-- A FRONTEIRA de 2020 é ROBUSTA à deriva (real, não artefato de classificação).
+- A FRONTEIRA de 2020 é ROBUSTA à mudança de rótulo (real, não artefato de classificação).
 - A CARACTERIZAÇÃO "Conversão seletiva" (agricultura desacelera) está INVERTIDA pela
-  deriva — o Ato III é, na verdade, **aceleração da conversão** mascarada pela
+  mudança de rótulo — o Ato III é, na verdade, **aceleração da conversão** mascarada pela
   reclassificação. Corrigir o rótulo/nota, não a fronteira.
 
 SAÍDAS
@@ -132,7 +132,7 @@ def main() -> None:
     corr = ["vegetacao_natural_delta_mha", "pastagem_delta_mha", "agric_union_delta"]
 
     print("=" * 74)
-    print("Robustez da periodização à deriva do Mosaico (#28D) — quebra do Ato III")
+    print("Robustez da periodização à mudança de rótulo do Mosaico (#28D) — quebra do Ato III")
     print("=" * 74)
 
     A = quebras(d, orig)
@@ -184,9 +184,9 @@ def main() -> None:
     f_corr = next((f for a, f in B["binseg"] if a == 2020), None)
     print("\n" + "-" * 74)
     print("VEREDITO:")
-    print(f"  • Fronteira 2020 ROBUSTA à deriva: F {f_orig} (cru) → {f_corr} (corrigido) — "
+    print(f"  • Fronteira 2020 ROBUSTA à mudança de rótulo: F {f_orig} (cru) → {f_corr} (corrigido) — "
           "não some, fortalece.")
-    print("  • A deriva INVERTE o sinal (agric −0,11 vira agric∪mosaico +0,20), não cria a quebra.")
+    print("  • A mudança de rótulo INVERTE o sinal (agric −0,11 vira agric∪mosaico +0,20), não cria a quebra.")
     print("  • Sustentada por pastagem (−0,07→−0,27, SIDRA soja +38%) e câmbio 2020 (#37, imune).")
     print("  • Caracterização 'Conversão seletiva' está INVERTIDA — é ACELERAÇÃO mascarada.")
     print(f"[OK] {ARQ_OUT.relative_to(ROOT)}")

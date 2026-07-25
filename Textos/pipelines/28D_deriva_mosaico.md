@@ -1,4 +1,4 @@
-# Pipeline #28D — A deriva do destino da conversão no fim da série
+# Pipeline #28D — A mudança do rótulo de destino da conversão no fim da série
 
 **Data:** 2026-07-21 · **Script:** [`scripts/deriva_mosaico_fim_serie.py`](../../scripts/deriva_mosaico_fim_serie.py)
 · **Origem:** fecha o §4-E (e, por consequência, o §4-C) de
@@ -34,7 +34,7 @@ deles, na forma como foram formulados.**
 
 ---
 
-## 2. O achado — a deriva do destino
+## 2. O achado — a mudança do rótulo de destino
 
 O #28 restringe a análise a `pastagem → agricultura`. O Bloco A remove essa
 restrição e conta, no censo de pixels (16 shards, todo o cubo), para onde a
@@ -94,7 +94,7 @@ consegue distinguir** lavoura de pastagem no pixel de 30 m — caracterização 
 verificada contra a fonte (ver [censo_vs_amostra.md](../metodologia/censo_vs_amostra.md) §3).
 Ela crescer admite duas leituras:
 
-**(a) Deriva do classificador.** Os filtros pós-classificação da Coleção 10 usam
+**(a) Mudança de rótulo do classificador.** Os filtros pós-classificação da Coleção 10 usam
 janelas móveis retroativas de 3 e 4 anos, e o ATBD declara explicitamente regras
 adicionais "for the last years of the series (2017–2023), when the analysis
 window is limited" (ATBD Coleção 10, §3.4.1 e §3.4.3.1). Uma transição no fim da
@@ -107,7 +107,7 @@ identifica "Giro de lavoura/ILP" como a tipologia dominante em 45 dos 88
 municípios então analisados. Uma paisagem genuinamente mais misturada
 *deve* produzir mais mosaico.
 
-A âncora (a) do §3 favorece a deriva como componente dominante — a soja cresceu
+A âncora (a) do §3 favorece a mudança de rótulo como componente dominante — a soja cresceu
 38% e a agricultura do MapBiomas ficou parada, o que nenhuma mudança real de
 manejo explica sozinha. Mas (b) não é zero, e separar as duas exigiria uma fonte
 independente de resolução maior (a coleção de 10 m do MapBiomas, baseada em
@@ -133,14 +133,14 @@ O #28 publica, para o Ato III, `w₁ = 51,5%` e a leitura "o componente jovem
 | 2014-2018 | 3.991.482 | 3,92 | **20,8%** | 20,88 | 79,2% | |
 | 2015-2019 | 3.499.917 | 4,03 | **22,3%** | 21,75 | 77,7% | |
 | 2016-2020 | 2.824.030 | 4,26 | **25,1%** | 22,71 | 74,9% | |
-| 2017-2021 | 2.362.015 | 4,55 | **27,6%** | 23,10 | 72,4% | ←deriva |
-| 2018-2022 | 1.850.177 | 4,27 | **31,2%** | 23,32 | 68,8% | ←deriva |
-| 2019-2023 | 1.305.208 | 4,20 | **34,5%** | 23,35 | 65,5% | ←deriva |
-| 2020-2024 | 952.698 | 4,39 | **51,5%** | 22,95 | 48,5% | ←deriva |
+| 2017-2021 | 2.362.015 | 4,55 | **27,6%** | 23,10 | 72,4% | ←mudança de rótulo |
+| 2018-2022 | 1.850.177 | 4,27 | **31,2%** | 23,32 | 68,8% | ←mudança de rótulo |
+| 2019-2023 | 1.305.208 | 4,20 | **34,5%** | 23,35 | 65,5% | ←mudança de rótulo |
+| 2020-2024 | 952.698 | 4,39 | **51,5%** | 22,95 | 48,5% | ←mudança de rótulo |
 
-`w₁` **sobe monotonicamente com a exposição da janela à deriva**, de 20,8% (base
-pré-deriva) a 51,5% (janela inteiramente dentro dela). Ano a ano o padrão é ainda
-mais direto: 2020 dá w₁ = 34,8%; **2024, o ano mais derivado (razão M/A = 32,5),
+`w₁` **sobe monotonicamente com a exposição da janela à mudança de rótulo**, de 20,8% (base
+anterior à mudança de rótulo) a 51,5% (janela inteiramente dentro dela). Ano a ano o padrão é ainda
+mais direto: 2020 dá w₁ = 34,8%; **2024, o ano mais afetado (razão M/A = 32,5),
 dá w₁ = 93,4%** — quase só componente jovem, que é exatamente o que se espera se
 o que sobrevive ao rótulo "agricultura" for a rotação de ciclo curto.
 
@@ -151,13 +151,13 @@ o que sobrevive ao rótulo "agricultura" for a rotação de ciclo curto.
 
 **Veredito:** a afirmação "o componente jovem ganha peso ao longo do tempo" —
 que sobreviveu à migração censo×amostra — **não sobrevive a este teste**. Ela
-acompanha a deriva. O que resta defensável é o achado de forma, não o de
+acompanha a mudança de rótulo. O que resta defensável é o achado de forma, não o de
 tendência.
 
 ### 5.2 O que SOBREVIVE
 
 Os **modos** são estáveis em toda a tabela: μ₁ ≈ 4–5 a e μ₂ ≈ 21–23 a em todas as
-janelas comparáveis, dentro e fora da deriva. **A bimodalidade — o achado central
+janelas comparáveis, dentro e fora da mudança de rótulo. **A bimodalidade — o achado central
 do #28 — não depende da janela contaminada** (confirmado sob a união em 23/jul:
 5/5 mesorregiões e 10/10 células região×ato seguem bimodais; ver #28C).
 
@@ -172,7 +172,7 @@ do #28 — não depende da janela contaminada** (confirmado sob a união em 23/j
 
 ### 5.3 A mediana pré-2020 já era horizonte, não idade
 
-Um subproduto do Bloco C, e vale registrar porque é independente da deriva: de
+Um subproduto do Bloco C, e vale registrar porque é independente da mudança de rótulo: de
 1995 a 2019, a mediana da idade não-censurada é **~55% do horizonte
 (desvio-padrão 7 pp)** — ou seja, ela acompanha `ano − 1985` quase linearmente.
 Isso confirma, em série anual e para o estado inteiro, o que o §7.3 do
@@ -183,11 +183,15 @@ Não há janela em que ela seja, sozinha, "a idade do pasto convertido".
 
 ### 5.4 Alcance fora do #28
 
-A deriva é uma propriedade do **dado**, não do #28. Qualquer pipeline que leia
+A mudança de rótulo é uma propriedade do **dado**, não do #28. Qualquer pipeline que leia
 transições `pastagem → agricultura` do MapBiomas na janela recente está exposto:
 **#12/#19** (matrizes de transição), **#33** (transições regionais), **#39**
 (fluxo/hazard), **#47** (custo de carbono, na medida em que usa perda por
-formação no Ato III). **Não auditados aqui** — ver §8.
+formação no Ato III). **Todos auditados** desde então — vereditos no §9 de
+[`tratamento_deriva_mosaico.md`](../metodologia/tratamento_deriva_mosaico.md):
+**#33 é o mais atingido** (as duas leituras do Ato III caem, uma delas invertendo
+de sinal); **#39 e #47** saem praticamente ilesos porque medem vegetação nativa
+e Δestoque, não fluxo com destino=agricultura.
 
 Um segundo canal de exposição, distinto das transições, é o **estoque**: o
 **centro de massa** (#32/#44) pondera pelo estoque de agricultura
@@ -211,7 +215,7 @@ Resposta: nenhuma das quatro hipóteses. Não é reclassificação por *novas cl
 de agricultura* entrando (a agricultura total fica parada), não é concentração
 espacial (a queda é estadual e monotônica), não é mudança de comportamento do
 produtor (o SIDRA mostra a lavoura acelerando), e não é "efeito da 10.1" no
-sentido de um bug pontual de versão. É **deriva do destino da conversão**, com
+sentido de um bug pontual de versão. É **mudança do rótulo de destino da conversão**, com
 mecanismo declarado no ATBD e assinatura mensurável.
 
 ### §4-C — Kaplan-Meier ✅ FECHADO (como "não é o estimador", com alternativa)
@@ -227,7 +231,7 @@ se encerra por **duas razões independentes**, e nenhuma delas é falta de tempo
 2. **O evento de falha não é constante no tempo** (novo, deste pipeline).
    Sobrevivência exige um evento de falha bem definido e estável ao longo do
    acompanhamento. Aqui "falhar" = "virar agricultura", e esse rótulo migra para
-   "mosaico" ao longo da série. Um KM ingênuo leria a deriva como **queda de
+   "mosaico" ao longo da série. Um KM ingênuo leria a mudança de rótulo como **queda de
    hazard** — concluiria que a pastagem "passou a durar mais" justamente quando
    a lavoura crescia 38%. É a armadilha do #42 (D16) em outra roupa: um método
    correto aplicado a uma série cuja definição se move fabrica um resultado
@@ -241,7 +245,7 @@ reprocessar o cubo).
 
 **A alternativa construtiva** (não implementada, registrada como caminho): usar
 como evento de falha a **saída da pastagem para uso agropecuário — agricultura
-∪ mosaico**. A deriva é uma reetiquetagem *dentro* dessa união, então a união é
+∪ mosaico**. A mudança de rótulo é uma reetiquetagem *dentro* dessa união, então a união é
 robusta a ela. Medido:
 
 | ano | (agric+mosaico) / saídas totais | só agricultura / saídas |
@@ -287,19 +291,25 @@ Figura em `outputs/deriva_mosaico/deriva_mosaico.png`.
   limpa recuperável" (a 10 m não resolve o Mosaico em lavoura), mas por ser MapBiomas
   não separa legenda-compartilhada de ILP real. A ambiguidade de fundo **sobrevive**,
   com o intervalo apertado.
-- **O alcance fora do #28 não foi auditado** (§5.4). Sabe-se que #12/#19/#33/#39/#47
-  leem as mesmas transições; não se mediu quanto cada um se move. É a próxima
-  tarefa óbvia, e é maior que este pipeline.
+- ~~**O alcance fora do #28 não foi auditado** (§5.4).~~ **AUDITADO E FECHADO** —
+  varredura de 23/jul (centro de massa, periodização, #49, #40, #28C, #48, #22/#24)
+  e fecho de 25/jul (**#33** e **#47**, os dois que faltavam receber veredito).
+  Tabela completa por pipeline no §9 de
+  [`metodologia/tratamento_deriva_mosaico.md`](../metodologia/tratamento_deriva_mosaico.md).
+  Resultado resumido: caem a tendência de w₁, o gradiente latitudinal de idade
+  (#40/#28C/#33) e a queda de −88% do `pasto→agric` do Sul no Ato III (#33, que
+  **inverte** para +51%); sobrevivem os centroides, a fronteira de 2020, a
+  bimodalidade e todo o eixo de vegetação nativa.
 - **A contagem do Bloco A é sobre o bbox do cubo**, não recortada a Goiás (o
   recorte municipal vive no `processa_cubo_idade.py`). Isso é adequado para
   *razões* e *tendências*, que é o uso aqui, mas os níveis absolutos incluem
   faixas de MT/MS/MG/BA/TO. As séries de área (§3) e o efeito no #28 (§5) **são**
   recortados a Goiás.
-- ~~**Não se testou se a deriva é espacialmente uniforme.**~~ **Testado** (nível
+- ~~**Não se testou se a mudança de rótulo é espacialmente uniforme.**~~ **Testado** (nível
   AMC, `centro_massa_deriva_check.py`): **não é uniforme** — o centroide do
   *crescimento* do Mosaico 2019→2024 está **+46,5 km ao norte** do centroide da
   agricultura visível, ou seja, a massa nova aterrissa na fronteira. Isso confirma
-  a preocupação: a deriva tem assinatura espacial (norte). ~~O gradiente do #28C
+  a preocupação: a mudança de rótulo tem assinatura espacial (norte). ~~O gradiente do #28C
   segue protegido por ser transversal~~ — **corrigido (23/jul)**: o gradiente
   latitudinal de *idade* do #28C **não** está protegido (a re-checagem sob a união o
   mostrou artefato, §5.2); leituras regionais do Ato III que dependam do nível de
@@ -324,7 +334,7 @@ Figura em `outputs/deriva_mosaico/deriva_mosaico.png`.
 
 ## 9. Teste proposto para separar artefato × realidade (Coleção 9)
 
-O §4 mostra que a assinatura da deriva é *consistente* com um artefato de fim de
+O §4 mostra que a assinatura da mudança de rótulo é *consistente* com um artefato de fim de
 série (filtros temporais com janela truncada nas bordas — ATBD Coleção 10,
 §3.4.1 e §3.4.3.1), mas o dado da própria Coleção 10.1 **não separa** "o
 classificador rerroteou soja recém-convertida para o Mosaico" de "expansão real
@@ -435,7 +445,7 @@ co-registradas, offset inteiro) está em `borda_movel_colecao9.py`.
    é ~estável — não cai com a distância à borda, como exigiria o artefato.
 
 2. **O ano terminal NÃO é inflado — refuta o artefato de janela terminal.** Se a
-   deriva fosse a regra de janela truncada da própria coleção, o ano terminal (d=0)
+   mudança de rótulo fosse a regra de janela truncada da própria coleção, o ano terminal (d=0)
    teria razão *maior* que o mesmo ano recalculado como interior numa coleção mais
    nova. Dá o **oposto ou igual**: col6[2020]=2,6 < col10.1[2020]=4,6; col8[2022]=8,7
    < col10.1[2022]=13,5; col9[2023]=32,6 ≈ col10.1[2023]=29,1. **Confirmado com
@@ -454,7 +464,7 @@ co-registradas, offset inteiro) está em `borda_movel_colecao9.py`.
 > e col10.1 confirma a direção do achado 2. A 300 m o viés é maior (col10.1[2023]=13,9)
 > e foi **descartado**; usar ≥90 m ou o censo local.
 
-**Veredito.** A deriva **não** é instabilidade de fim-de-série que o reprocessamento
+**Veredito.** A mudança de rótulo **não** é instabilidade de fim-de-série que o reprocessamento
 conserta — é um traço **estável, reproduzido por 3 coleções independentes, ancorado no
 calendário 2021+**, coincidente com a expansão real de soja da SIDRA (+38%, 2020-24). O
 teste **retira** a hipótese "hiccup terminal do classificador" (a §4a, na sua forma de
@@ -502,11 +512,11 @@ e o `sample` materializam o estado todo; um bbox limitado volta em ~2 s).
 | Vegetação nativa (floresta 20% + cerrado 8%) | ~29% |
 
 Calibração 2024: o Mosaico está a só **12% do caminho pasto→lavoura** (piso
-`f_agri|Pastagem` = 0,02; teto `f_agri|Agricultura` = 0,78). População-deriva
+`f_agri|Pastagem` = 0,02; teto `f_agri|Agricultura` = 0,78). População-mudança de rótulo
 (pasto-2017 → Mosaico-2024, a mais afiada): 18% agric / 31% pasto / **43% Mosaico** /
 8% outro. **Gradiente geográfico** (2024): a agricultura dentro do Mosaico cai
 **21% (Rio Verde/Sul) → 4% (Porangatu/Norte)** e a pastagem sobe **19% → 50%** —
-consistente com a deriva "aterrissando" na fronteira norte (§8, `centro_massa_deriva_check`).
+consistente com a mudança de rótulo "aterrissando" na fronteira norte (§8, `centro_massa_deriva_check`).
 
 **Veredito.**
 
@@ -553,7 +563,7 @@ Irmã da **D16** (Granger espúrio por integração) e da **D23** (ΔBIC sob cen
 as três são casos de um método correto rodando sobre uma série cuja *definição* se
 move.
 
-**D26 — como *tratar* a deriva numa análise (o complemento operacional de D25).**
+**D26 — como *tratar* a mudança de rótulo numa análise (o complemento operacional de D25).**
 `agricultura ∪ mosaico` **não é uma correção**, e sim o **limite superior** de um
 intervalo cujo limite inferior é `agricultura` sozinha (a união superconta ILP + mosaico
 antigo; assume 100% do Mosaico = agricultura mal-rotulada, o que é falso). Regra: **reportar

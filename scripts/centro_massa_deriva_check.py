@@ -1,5 +1,5 @@
 """
-centro_massa_deriva_check.py — Diagnóstico: a deriva do Mosaico (#28D) entorta o
+centro_massa_deriva_check.py — Diagnóstico: a mudança de rótulo do Mosaico (#28D) entorta o
 centro de massa da agricultura (#32/#44)?
 =============================================================================
 
@@ -31,7 +31,7 @@ LEITURA DA DIREÇÃO DO VIÉS
 Latitude menos negativa = mais ao NORTE. Se o centroide da massa escondida
 (Mosaico novo) estiver ao NORTE do centroide da agricultura visível, a agricultura
 medida está enviesada para o SUL — exatamente o sentido temido. Se estiver colado,
-o centro de massa está limpo apesar da deriva (deriva espacialmente ~uniforme).
+o centro de massa está limpo apesar da mudança de rótulo (que seria espacialmente ~uniforme).
 
 ENTRADAS
     data/processed/painel_amc_goias.parquet     (#25)
@@ -69,7 +69,7 @@ DIR_PROC = ROOT / "data" / "processed"
 DIR_FIG = ROOT / "outputs" / "deriva_mosaico"
 ARQ_TRANS = DIR_PROC / "deriva_mosaico_transicoes.csv"
 
-ANO_A, ANO_B = 2019, 2024   # janela da deriva (borda terminal da Coleção 10.1)
+ANO_A, ANO_B = 2019, 2024   # janela da mudança de rótulo (borda terminal da Coleção 10.1)
 
 # Variáveis a acompanhar. chave -> (coluna, rótulo, cor).
 # 'agric_mais_mosaico' e 'soja_sidra' são as réguas alternativas de destino.
@@ -220,7 +220,7 @@ def _figura(series: dict, lat_cresc_mosaico: float) -> None:
 
     fig, ax = plt.subplots(figsize=(9.5, 5.6))
     ax.axvspan(ANO_A, ANO_B, color="#f2c9c9", alpha=0.35, zorder=0,
-               label=f"janela da deriva ({ANO_A}–{ANO_B})")
+               label=f"janela da mudança de rótulo ({ANO_A}–{ANO_B})")
     for chave in ["agricultura", "agric_mais_mosaico", "soja_sidra", "pastagem", "bovinos"]:
         s = series[chave]
         col, rot, cor = VARS[chave]
@@ -230,7 +230,7 @@ def _figura(series: dict, lat_cresc_mosaico: float) -> None:
                edgecolor="k", zorder=5, label="centroide do Mosaico novo")
     ax.set_ylabel("latitude do centro de massa  (↑ = norte)")
     ax.set_xlabel("ano")
-    ax.set_title("Deriva do Mosaico e o centro de massa da agricultura (Goiás, AMC)")
+    ax.set_title("Mudança de rótulo do Mosaico e o centro de massa da agricultura (Goiás, AMC)")
     ax.grid(alpha=0.25)
     ax.legend(fontsize=8, loc="center left", framealpha=0.9)
     fig.tight_layout()

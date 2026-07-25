@@ -17,7 +17,7 @@ Documento complementar a [28_idade_pastagem.md](28_idade_pastagem.md). Explica o
 > | §7.3 "amostragem estratificada distorce contagens" | ✅ Moot — não há mais amostragem |
 > | §7.6 "Sul Goiano domina a amostra (65,5%)" | ⚠️ Continua, mas é **fato do fenômeno**, não viés amostral: o Sul concentra 64,4% da conversão real |
 > | §4-C "Kaplan-Meier trataria a censura formalmente" | ✅ **Fechado** pelo [#28D](28D_deriva_mosaico.md) §6 — **não é o estimador**, por duas razões independentes; alternativa registrada |
-> | §4-E "decompor o salto 2020→2022" | ✅ **Fechado** pelo [#28D](28D_deriva_mosaico.md) — nenhuma das 4 hipóteses; é **deriva do destino** da conversão |
+> | §4-E "decompor o salto 2020→2022" | ✅ **Fechado** pelo [#28D](28D_deriva_mosaico.md) — nenhuma das 4 hipóteses; é **mudança do rótulo de destino** da conversão |
 > | §7.1 "não há identificação causal" | ⏳ Continua verdade — o censo remove erro amostral, não estabelece causalidade |
 >
 > **Dois bugs foram encontrados depois que esta página foi escrita**, nenhum
@@ -35,8 +35,8 @@ Documento complementar a [28_idade_pastagem.md](28_idade_pastagem.md). Explica o
 > soja crescendo **+38%** na mesma janela.
 >
 > Consequência direta: **a tendência de `w₁` ("o componente jovem ganha peso")
-> não sobrevive** — ela sobe monotonicamente com a exposição da janela à deriva
-> (20,8% pré-deriva → 51,5% no Ato III). O que sobrevive é a **bimodalidade com
+> não sobrevive** — ela sobe monotonicamente com a exposição da janela à mudança de rótulo
+> (20,8% anterior à mudança de rótulo → 51,5% no Ato III). O que sobrevive é a **bimodalidade com
 > modos estáveis** (μ₁≈4-5a, μ₂≈21-23a em toda janela; confirmada sob a união em
 > 23/jul). **⚠️ Já o gradiente latitudinal de idade do #28C NÃO sobrevive** — a
 > re-checagem sob `pasto→(agric∪mosaico)` o mostrou artefato (amplitude 7a→2a); o
@@ -157,14 +157,14 @@ A pergunta "quanto tempo uma pastagem dura antes de virar agricultura?" é liter
 >    **sensibilidade**, nunca como o número reportado.
 > 2. **O evento de falha não é constante no tempo.** "Falhar" = "virar
 >    agricultura", e esse rótulo migra para "mosaico" ao longo da série. Um KM
->    ingênuo leria a deriva como **queda de hazard** — concluiria que a pastagem
+>    ingênuo leria a mudança de rótulo como **queda de hazard** — concluiria que a pastagem
 >    passou a durar mais exatamente quando a lavoura crescia 38%.
 >
 > O desenho de coorte (§4-D) **não resgata**: herda o problema nos anos recentes,
 > e o conjunto de risco nem é construível a partir do parquet do #28 (tabela de
 > eventos, não painel de pixels). A alternativa registrada é trocar o evento de
 > falha por **saída da pastagem para agricultura ∪ mosaico**, que é robusto à
-> deriva — ao custo de responder uma pergunta mais grossa. Ver #28D §6.
+> mudança de rótulo — ao custo de responder uma pergunta mais grossa. Ver #28D §6.
 
 ### D) Coortes longitudinais ao invés de snapshot anual
 
@@ -190,7 +190,7 @@ A queda de mediana 31a → 7a precisa investigação:
 > o **SIDRA mostra a soja crescendo +38%** (3,578 → 4,942 Mha) na janela exata.
 > E não é um bug pontual da 10.1.
 >
-> É **deriva do destino**: a pastagem que sai passa a ser rotulada **Mosaico de
+> É **mudança do rótulo de destino**: a pastagem que sai passa a ser rotulada **Mosaico de
 > Usos** em vez de agricultura (razão M/A de 0,6 em 2015 para **32,5 em 2024**),
 > e o Mosaico cresce +1,351 Mha — quase exatamente os +1,364 Mha de soja nova do
 > SIDRA. O que ainda é rotulado P→A no fim da série é **resíduo selecionado**

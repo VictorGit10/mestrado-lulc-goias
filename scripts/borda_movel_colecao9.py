@@ -3,7 +3,7 @@
 
 Executa o teste desenhado no §9 de `Textos/pipelines/28D_deriva_mosaico.md`: separa
 o **artefato terminal do classificador** da **integração lavoura-pecuária (ILP) real**
-como causa da "deriva do mosaico" (a razão pasto→Mosaico / pasto→agricultura explode
+como causa da "mudança de rótulo do mosaico" (a razão pasto→Mosaico / pasto→agricultura explode
 nos anos terminais da série MapBiomas — 0,66 em 2015 a 37,7 em 2024 na 10.1).
 
 A hipótese, tornada falseável (§9.1):
