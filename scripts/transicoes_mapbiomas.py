@@ -156,6 +156,12 @@ def calcular_transicao_par(
                 raise
             time.sleep(10)
 
+    # Área do pixel DERIVADA DA ESCALA EFETIVA do laço acima, não da constante
+    # de 30 m: no fallback (60/100 m) o histograma conta pixels da escala nova, e
+    # multiplicar por PIXEL_HA subestimaria a área em 4× / ~11×. A validação
+    # batimental contra o #4 pegaria um erro dessa magnitude, mas alto e tarde.
+    pixel_ha = (scale * scale) / 10_000.0
+
     rows = []
     for feat in stats.get("features", []):
         props = feat.get("properties", {})
@@ -172,7 +178,7 @@ def calcular_transicao_par(
                 "nm_mun": nm_mun,
                 "classe_orig": orig,
                 "classe_dest": dest,
-                "area_ha": count * PIXEL_HA,
+                "area_ha": count * pixel_ha,
             })
 
     df = pd.DataFrame(rows)

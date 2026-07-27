@@ -1035,9 +1035,11 @@
         <summary>A marcha resiste ao escrutínio? &middot; quatro provas de robustez (malha, fonte, especificidade, formações)</summary>
         <div style="padding: 0.9rem 1.1rem; border-top: 1px solid var(--color-rule); background: #fcfcfa;">
           <p style="margin: 0 0 0.9rem;">
-            Antes de tratar a marcha ao norte como fato, ela foi submetida a quatro testes que poderiam
-            derrubá-la — trocando a malha, trocando a fonte de dados e checando se o movimento é
-            específico da fronteira. As três primeiras passaram; a quarta ainda <em>reforça</em> a leitura.
+            Antes de tratar a marcha ao norte como fato, ela foi submetida a cinco testes que poderiam
+            derrubá-la — trocando a malha, trocando a fonte de dados, checando se o movimento é
+            específico da fronteira e medindo o quanto a mudança de rótulo do MapBiomas a distorce.
+            As três primeiras passaram; a quarta ainda <em>reforça</em> a leitura; a quinta encontrou
+            um viés real, quantificou-o e mostrou que ele não derruba a manchete.
           </p>
 
           <p style="margin: 0 0 0.4rem;"><strong>1 &middot; Não é artefato da malha (#43).</strong>
@@ -1077,10 +1079,30 @@
             fortemente ao norte</strong> e a savânica +12 — as formações convertíveis recuaram <em>com</em> a
             fronteira, e o pasto as alcança em latitude por volta de 2021. O agregado escondia isso; a
             versão aberta é ainda mais consistente com a fronteira.</p>
-          <figure class="grafico-card grafico-card--wide" style="margin: 0;">
+          <figure class="grafico-card grafico-card--wide" style="margin: 0 0 1.1rem;">
             <img src="img/marcha_norte/desagregado_vegetacao.png" alt="Vegetação natural aberta em floresta (presa), savânica e campo nativo (que recuam ao norte)" loading="lazy">
             <figcaption>Vegetação natural aberta: floresta (verde escuro) presa; campo nativo (verde claro) e savânica recuam ao norte; o pasto (laranja) os alcança ~2021. Fonte: #44.</figcaption>
           </figure>
+
+          <p style="margin: 0 0 0.4rem;"><strong>5 &middot; A mudança de rótulo enviesa a ponta da série — e o viés foi medido (#28D).</strong>
+            Este é o teste que <em>achou</em> alguma coisa. Como a terra que sai da pastagem passou a ser
+            rotulada "Mosaico de Usos" em vez de "agricultura" no fim da série (D25), o centroide da
+            agricultura para de enxergar parte da conversão recente — e a massa que ele deixa de ver está
+            <strong>ao norte</strong> dele. Medindo pelo bracket (D26): o centroide da agricultura no Ato III
+            é subestimado em <strong>~4 a 10 km</strong>, e o centro de massa do crescimento do Mosaico entre
+            2019 e 2024 fica <strong>46,5 km ao norte</strong> da agricultura visível. Ou seja, o
+            congelamento aparente da linha magenta depois de 2020 é assinatura do classificador, não do
+            campo: sob a régua <code>agricultura ∪ Mosaico</code> a agricultura <em>continua subindo</em>
+            (+4,1 km, com intervalo de confiança excluindo zero).
+          </p>
+          <p style="margin: 0 0 0.4rem; padding-left: 0.9rem; border-left: 2px solid var(--color-rule); color: var(--color-muted); font-size: 0.94rem;">
+            <strong>Por que isso não derruba a marcha.</strong> O viés é de <em>poucos quilômetros</em> e
+            só na ponta recente de <em>uma</em> das linhas. A manchete desta seção — os <strong>+78 km</strong>
+            da pastagem ao longo de 40 anos — vem de uma classe que a mudança de rótulo quase não drena, e o
+            rebanho vem da SIDRA, que nunca passa pelo classificador. O gradiente (agricultura sempre ao sul)
+            e o sentido do movimento ficam de pé nas duas pontas do bracket. O que se abandona é uma frase
+            menor: "a agricultura parou de subir depois de 2020".
+          </p>
         </div>
       </details>
       <p class="bloco-resposta">
@@ -1094,7 +1116,7 @@
     <!-- 8 — O mecanismo: dois Goiáses (#33) -->
     <div class="como-bloco" id="sec-dois-goiases"
          data-figura="img/marcha_norte/fluxos_chave.png"
-         data-figcap="O mecanismo (#33): conversão por mesorregião (Sul→Norte) e ato. O pasto→agric (rosa) só lidera no Sul; o veg→pasto (verde) domina o resto e persiste no Norte.">
+         data-figcap="O mecanismo (#33): conversão por mesorregião (Sul→Norte) e ato. O pasto→agric (rosa) só lidera no Sul; o veg→pasto (verde) domina o resto e persiste no Norte. No painel do Ato III, o rosa que encolhe é medida crua — a conversão mudou de rótulo, não parou.">
       <h3>8 &middot; O mecanismo: dois Goiáses</h3>
       <p class="bloco-pergunta">Qual transição, em qual região, moveu o centro de massa?</p>
       <p>
@@ -2034,17 +2056,16 @@
       </p>
     </div>
 
-    <!-- M5 — Decisões metodológicas D1-D16 -->
+    <!-- M5 — Decisões metodológicas D1-D26 -->
     <div class="como-bloco" id="metodo-decisoes">
       <h3>5 · As decisões metodológicas</h3>
       <p>
         Toda escolha numa cadeia analítica é uma decisão documentada — e cada uma tem
-        um <em>porquê</em>. Dezesseis decisões (D1–D16) estruturam o trabalho e garantem
+        um <em>porquê</em>. Vinte e seis decisões (D1–D26) estruturam o trabalho e garantem
         que peças escritas em meses diferentes usem a mesma régua. Agrupadas por tema
-        (as numerações são cronológicas; as últimas cinco nasceram na investigação da
-        marcha ao norte). No fim vêm as duas mais recentes — <strong>D25 e D26</strong>,
-        de julho de 2026 —, que a auditoria da mudança de rótulo do MapBiomas obrigou a
-        escrever e que reorganizaram várias leituras desta página:
+        (as numerações são cronológicas). No fim vêm as mais recentes — <strong>D25 e
+        D26</strong>, de julho de 2026 —, que a auditoria da mudança de rótulo do MapBiomas
+        obrigou a escrever e que reorganizaram várias leituras desta página:
       </p>
 
       <h4 class="decisao-tema">Classes e medição</h4>
@@ -2068,6 +2089,16 @@
           <span class="decisao-badge">D13</span>
           <div class="decisao-titulo">"Terra convertível" = proxy MapBiomas com teto</div>
           <div class="decisao-por-que">Em três definições, para medir a oferta de Cerrado convertível (Narrativa § 11).</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D17</span>
+          <div class="decisao-titulo">Proteção legal entra como malha vetorial, não como classe</div>
+          <div class="decisao-por-que">Unidades de Conservação e Terras Indígenas vêm do CNUC e são cruzadas por sobreposição com as AMCs — no espírito da D13, um proxy-teto. Foi assim que se mediu que 97% do Cerrado convertível que resta está desprotegido: o teto de oferta é físico, não institucional.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D18</span>
+          <div class="decisao-titulo">Carbono em três cenários de densidade, nunca em um número</div>
+          <div class="decisao-por-que">A conversão de área em CO₂e usa densidades de biomassa do Cerrado (acima + abaixo do solo, IPCC Tier 1), que variam muito na literatura. Reportar faixa (751–1208 Mt) em vez de ponto é o que a incerteza da fonte permite.</div>
         </div>
       </div>
 
@@ -2123,8 +2154,8 @@
         </div>
         <div class="decisao-card">
           <span class="decisao-badge">D9</span>
-          <div class="decisao-titulo">DiD GO vs MT/TO</div>
-          <div class="decisao-por-que">Estados do Cerrado; Tocantins é o controle mais credível.</div>
+          <div class="decisao-titulo">DiD GO vs MT/TO — lido como sensibilidade, não como causa</div>
+          <div class="decisao-por-que">Estados do Cerrado; Tocantins é o controle mais credível. <strong>Revisado em jul/2026</strong>: os marcos testados (Plano Real, Kandir, Código Florestal, Cerrado Manifesto) são <em>federais</em> — incidem sobre Goiás <em>e</em> sobre os controles, então não existe grupo não-tratado. O resultado mede <strong>exposição diferencial a um choque comum</strong>, não o efeito da lei. Nenhuma conclusão desta página se apoia nele.</div>
         </div>
         <div class="decisao-card">
           <span class="decisao-badge">D14</span>
@@ -2140,6 +2171,46 @@
           <span class="decisao-badge">D16</span>
           <div class="decisao-titulo">Lead-lag de séries AMC integradas exige Toda-Yamamoto + placebos</div>
           <div class="decisao-por-que">O Granger ingênuo em 1ª diferença fabrica precedência espúria (#42). Ver Narrativa § 9.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D19</span>
+          <div class="decisao-titulo">Todo deslocamento de centroide vem com IC95% por bootstrap</div>
+          <div class="decisao-por-que">Reamostrando as 166 AMCs com reposição (B=2000). Um vão entre duas camadas só é lido como real quando as faixas <em>não se sobrepõem</em> — é o que separa "o crédito fica ao sul do pasto" de "as duas linhas parecem diferentes no gráfico".</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D20</span>
+          <div class="decisao-titulo">Choque nacional único ⇒ o p vem de permutação, não do erro-padrão</div>
+          <div class="decisao-por-que">Quando o "empurrão" testado é um número por ano para o estado inteiro (o câmbio), o erro-padrão agrupado finge ter milhares de observações independentes quando há ~40. Embaralhar o próprio choque entre os anos dá o p honesto — e ele sobe de ~0,03 para 0,07–0,13. Por isso o câmbio é descrito nesta página como <em>corroborante</em>, nunca como significativo.</div>
+        </div>
+      </div>
+
+      <h4 class="decisao-tema">Quando a amostra virou censo (jul/2026)</h4>
+      <p class="decisao-tema-lede">
+        Em julho de 2026 a análise de idade da pastagem deixou de usar uma amostra de
+        pixels e passou a usar todos eles. A troca revelou dois defeitos de código e
+        obrigou a repensar o que "evidência" significa quando não há mais amostragem —
+        quatro decisões saíram desse episódio.
+      </p>
+      <div class="decisao-grid">
+        <div class="decisao-card">
+          <span class="decisao-badge">D21</span>
+          <div class="decisao-titulo">Toda amostra espacial declara quanto caiu fora do recorte</div>
+          <div class="decisao-por-que">A amostra antiga era sorteada sobre o <em>retângulo</em> que envolve Goiás, não sobre Goiás: 43,7% dos pixels estavam fora do estado. O rótulo de cada ponto era corrigido depois, mas a alocação da amostra já tinha acontecido. Antes de usar qualquer amostra espacial, calcule e reporte essa fração.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D22</span>
+          <div class="decisao-titulo">Sentinela de erro nunca compartilha código com categoria real</div>
+          <div class="decisao-por-que">Uma classe ausente da tabela de tradução ("Mosaico de Usos") caía no valor de preenchimento e virava, silenciosamente, um dado válido — inflando a censura de 63,7% para 74,9%. Falha de configuração tem que gritar, não virar número.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D23</span>
+          <div class="decisao-titulo">Com censo, o p-valor deixa de medir evidência</div>
+          <div class="decisao-por-que">Quando <em>n</em> é a população inteira, qualquer desvio ínfimo produz estatística astronômica (aqui um ΔBIC de 844.789) — isso mede o tamanho de <em>n</em>, não a força do achado. A robustez passa a vir de <strong>estabilidade entre recortes</strong>; o ganho real do censo é precisão dos parâmetros. É por isso que a bimodalidade do § 6 se sustenta por concordância amostra↔censo, não por significância.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D24</span>
+          <div class="decisao-titulo">Estatística ponderada é verificada por contrato</div>
+          <div class="decisao-por-que">Ao trocar dados linha-a-linha por células com peso, toda conta ponderada tem de reduzir <em>exatamente</em> ao caso sem peso quando o peso é 1 — e isso é testado, não presumido. Sem esse contrato, não dá para saber se uma diferença veio dos dados ou da troca de implementação. Vale por módulo: quem faz a própria conta com peso precisa da própria suíte.</div>
         </div>
       </div>
 

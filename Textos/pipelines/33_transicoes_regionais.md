@@ -8,8 +8,10 @@
 - `data/processed/transicoes_regionais_fluxos_chave.csv` — fluxos-chave + balanço líquido + idade do pasto, por mesorregião × ato.
 - `data/processed/transicoes_regionais_idade.csv` — idade do pasto por mesorregião × ato **com rótulo de identificação** (`exata` / `limite_inferior` / `nao_informativa`), censura % e Kaplan-Meier de sensibilidade.
 - `data/processed/transicoes_regionais_dominante.csv` — conversão dominante por mesorregião × ato.
-- `outputs/transicoes_regionais/fluxos_chave.png` — barras pasto→agric vs veg→pasto, Sul→Norte, por ato.
-- `outputs/transicoes_regionais/dominante_grid.png` — grade mesorregião × ato da conversão dominante.
+- `outputs/transicoes_regionais/fluxos_chave.png` — barras pasto→agric vs veg→pasto, Sul→Norte, por ato. ⚠️ Painel do Ato III REFUTADO (D26) — ver "Como ler as figuras".
+- `outputs/transicoes_regionais/dominante_grid.png` — grade mesorregião × ato da conversão dominante. ⚠️ Linha do Ato III idem.
+- `outputs/transicoes_regionais/fluxos_chave_bracket.png` — **a figura válida do Ato III**: o bracket [agric, agric∪mosaico] por mesorregião, em nível e em variação II→III. Gerada por `scripts/transicoes_regionais_bracket.py` (não pelo script deste pipeline — a régua superior é inconstruível na fonte do #33).
+- `data/processed/transicoes_regionais_bracket.csv` — veredito por mesorregião nas duas réguas + âncora SIDRA (mesmo script).
 - `Visualizacao/assets/data/sankey_regional.json` — 15 mini-Sankeys (meso × ato) para o site.
 
 ---
@@ -177,13 +179,38 @@ que roda só sobre não-censurados. Ver
 
 ## Como ler as figuras
 
-### A. `fluxos_chave.png` — o teste do mecanismo
-Barras de `pasto→agric` (magenta) e `veg→pasto` (verde) por mesorregião, ordenadas **Sul→Norte**, em painéis por ato e em **Mha/ano** (comparável entre atos). Procure: o magenta **alto no Sul** e o verde **dominando o Norte**; e, no Ato III, o **magenta sumindo** enquanto o verde persiste ao norte.
+> 🛑 **As figuras B e C abaixo são anteriores ao bracket (D26) e o painel do Ato III delas está
+> REFUTADO.** Elas desenham `pasto→agric` na régua crua, onde a mudança de rótulo do Mosaico
+> apaga a conversão recente. **A leitura do Ato III nelas é o artefato, não o campo.** Use-as
+> **só para os Atos I e II**, e nunca as reproduza em slide ou capítulo sem esta ressalva ao
+> lado, porque destacadas do doc elas "provam" visualmente exatamente o que foi derrubado.
+> Para o Ato III, a figura A é a que vale.
+>
+> Elas **não** foram regeradas sob o bracket de propósito: a régua superior é inconstruível na
+> fonte do #33 (o Mosaico é mascarado no #12 — ver `transicoes_regionais_bracket.py`), e
+> sobrescrevê-las apagaria o registro visual do que a régua crua mostrava. O bracket ganhou
+> figura própria, ao lado.
+
+### A. `fluxos_chave_bracket.png` — o Ato III como intervalo (a figura que vale)
+Cada linha liga a **mesma** quantidade medida nas duas réguas da [D26](../metodologia/tratamento_deriva_mosaico.md): o ponto claro é `pasto→agric` (a régua crua, o "magenta" da figura B) e o escuro é `pasto→(agric ∪ mosaico)`. Mesorregiões em ordem **Sul→Norte**, de cima para baixo.
+
+À esquerda, o nível em Mha/ano: o Ato III do Sul vai de 0,008 (ponta clara) a 0,209 (escura) — um intervalo de 27×. À direita, a variação Ato II→III: **os cinco intervalos cruzam o zero e trocam de sinal** (−88% → +51% no Sul). Pela regra da D26 — robusto ⇔ sobrevive nos dois extremos —, a queda do Ato III **não é robusta**. A coluna da direita traz a âncora imune (soja plantada SIDRA), que sobe em todas as mesorregiões; ela fica em texto, e não no eixo, porque é outra quantidade (expansão de área, não taxa de transição).
+
+O que a figura **não** diz: qual ponta está certa. O bracket delimita, não corrige — a pergunta que ele responde é a grossa, "lavoura-ou-uso-misto".
+
+![Bracket do Ato III por mesorregião](../../outputs/transicoes_regionais/fluxos_chave_bracket.png)
+
+### B. `fluxos_chave.png` — o teste do mecanismo
+Barras de `pasto→agric` (magenta) e `veg→pasto` (verde) por mesorregião, ordenadas **Sul→Norte**, em painéis por ato e em **Mha/ano** (comparável entre atos). Procure: o magenta **alto no Sul** e o verde **dominando o Norte** — isso vale e é o achado.
+
+⚠️ **Não** leia o painel do Ato III como "o magenta sumindo": esse sumiço é a mudança de rótulo. Sob o bracket, a taxa anual de `pasto→agric` no Sul vai de **−88,4% para +51,0%** (e a soja SIDRA sobe +244% no Sul no mesmo período). O magenta *deveria* estar lá — é a figura A que mostra onde.
 
 ![Fluxos-chave por mesorregião e ato](../../outputs/transicoes_regionais/fluxos_chave.png)
 
-### B. `dominante_grid.png` — a geografia da conversão dominante
-Grade mesorregião (Norte em cima) × ato. Cada célula traz a conversão líder, sua magnitude e a fração da conversão total, com fundo na cor do uso de **destino**. As **únicas** células rosa (`pasto→agric` dominante) são **Sul e Centro no Ato II** — todo o resto é `veg→pasto`. É a prova visual do achado 2.
+### C. `dominante_grid.png` — a geografia da conversão dominante
+Grade mesorregião (Norte em cima) × ato. Cada célula traz a conversão líder, sua magnitude e a fração da conversão total, com fundo na cor do uso de **destino**. As **únicas** células rosa (`pasto→agric` dominante) são **Sul e Centro no Ato II** — todo o resto é `veg→pasto`. É a prova visual do achado 2 **nos Atos I e II**.
+
+⚠️ A **linha do Ato III** herda o mesmo artefato: células que aparecem como `veg→pasto` dominante podem ter perdido um `pasto→agric` que migrou para o rótulo Mosaico. A dominância do Ato III nesta grade **não está estabelecida**.
 
 ![Conversão dominante por mesorregião × ato](../../outputs/transicoes_regionais/dominante_grid.png)
 

@@ -67,12 +67,18 @@ O truque econométrico: o **efeito fixo de ano** "limpa" tudo que é comum àque
 **N efetivo**: 6.640 obs (166 AMCs × 40 anos) — contra os ~38 do #37. Mas atenção ao que esse N compra: o **driver** ainda varia só 40 vezes (uma por ano); quem dá poder à interação é a **exposição cross-section** (166 AMCs). O 6.640 é o N da *interação*, não 6.640 observações independentes do driver — e a clusterização por ano tem só ~40 clusters (no limite). Mais poder que o #37, sim; "poder resolvido", não.
 
 ### 1. A única confirmatória que vinga é câmbio × fronteira → **rebanho** — e isoladamente
-| Hipótese confirmatória teórica (melhor lag) | β | p | Veredito |
-|---|---|---|---|
-| Câmbio × Fronteira → **Δ Rebanho** (lag 1) | **+0,028** | **0,031** | **✔ confirma direção** (CI 0,003–0,054) |
-| Câmbio × Fronteira → Δ Pastagem (lag 0) | −0,011 | 0,76 | nulo |
-| Preço soja × Aptidão agríc. → Δ Agricultura (lag 0) | −0,032 | 0,50 | nulo |
-| Preço soja × Pasto → Δ Pastagem (lag 1) | +0,006 | 0,84 | nulo |
+| Hipótese confirmatória teórica (melhor lag) | β | p (cluster) | p (permutação, #54) | Veredito |
+|---|---|---|---|---|
+| Câmbio × Fronteira → **Δ Rebanho** (lag 1) | **+0,028** | 0,031 | **0,07–0,13** | **✔ confirma a direção**, mas **n.s. a 5%** sob a inferência correta |
+| Câmbio × Fronteira → Δ Pastagem (lag 0) | −0,011 | 0,76 | — | nulo |
+| Preço soja × Aptidão agríc. → Δ Agricultura (lag 0) | −0,032 | 0,50 | — | nulo |
+| Preço soja × Pasto → Δ Pastagem (lag 1) | +0,006 | 0,84 | — | nulo |
+
+> ⚠️ **Leia a coluna da direita, não a do meio.** O `p=0,031` é o SE **clusterizado**, otimista
+> para um shifter único nacional (ver a caixa de atualização no topo). A inferência válida para
+> este desenho é a **permutação do shifter** ([#54](54_defensabilidade_perna4.md)): **p≈0,07
+> (naive) a 0,13 (rotação circular)**. O β *within* não muda — só o p. **Nenhuma manchete deste
+> pipeline deve citar `p=0,031` como significância.**
 
 A **versão AMC da ponte do #37** (câmbio → rebanho do Norte) reaparece no sinal esperado: a depreciação faz o rebanho crescer **mais** nas AMCs de fronteira. Mas calibre o tamanho: é **1 de 8** testes confirmatórios (4 hipóteses × 2 lags) com p<0,05 — pouco acima do que o acaso entrega para um conjunto direcional. As outras três hipóteses (todas de **área** LULC) são nulas. É **indício coerente**, não confirmação robusta.
 
@@ -91,15 +97,25 @@ Olhando **só o desfecho rebanho** (melhor lag por célula), o padrão de sinais
 | **Preço soja** | +0,030 (p .008) | −0,003 (ns) | −0,030 (p .004) |
 | **Crédito GO** | +0,024 (p .070) | +0,000 (ns) | −0,028 (p .034) |
 
+*Todos os p desta tabela são **clusterizados** — a ressalva da permutação (#54) vale para a
+grade inteira, não só para a célula-manchete. Leia-os como ordenação de força relativa entre
+células, não como significância.*
+
 **Fronteira sempre +, pasto/aptidão sempre − (ou nulo).** Mas **não** chame isso de "replicar em construções independentes" — as células **não** são independentes, por duas razões mecânicas: (a) as três exposições são *shares* que somam ~constante, então `exp_fronteira ≈ −exp_apt_agri` — dado o + na fronteira, o − na aptidão é quase **forçado**; (b) `preço recebido = preço × câmbio` **contém** o câmbio, então as linhas "câmbio" e "preço soja" compartilham um fator. Um teste de sinais que pressupõe 9 sorteios independentes está **superestimando** a evidência. O que há é **um** gradiente (fronteira vs núcleo) visto de ângulos mecanicamente ligados — não uma malha coerente de três drivers.
 
 ### 4. Null honesto e agora **robusto**: a **área** LULC não tem gradiente macro
 Nenhuma interação com desfecho de **área** (veg./pasto/agric. em Mha) sobrevive ao FDR; quase nenhuma passa nem do p<0,05 bruto — **inclusive no lag 2** (menor p de área = 0,052). Como o lag 2 era justamente onde o #37 achava sinal, testá-lo e não achar nada **fecha** o nulo de área em vez de deixá-lo em aberto. Os R²-within são minúsculos (0,0001–0,008) em toda a grade. Leitura: se há transmissão macro diferenciada por exposição, ela aparece no **rebanho** (estoque de ajuste rápido — lotação/intensificação), **não na conversão de área**. *Ressalva:* parte do contraste pode ser de **medição** — a PPM (rebanho) é série anual volátil; o MapBiomas (área) é suave, com menos variância ano-a-ano para a interação "pegar".
 
 ### 5. Síntese — gradiente **sugestivo** no rebanho, não estabelecido
-> O que o #34/#37 **afirmavam** ("drive comum sobre o gradiente de aptidão") ganhou aqui um **teste com mais poder e correção de multiplicidade** — e a resposta honesta é mais sóbria do que a primeira versão deste pipeline sugeria. O **único** elemento com algum standing é a hipótese **confirmatória teórica** câmbio × fronteira → rebanho (β=+0,028, p=0,031, lag 1): sob depreciação, o rebanho cresce **mais na fronteira** (Norte) e **menos no núcleo agrícola** (Sul), coerente com #32/#33. **Mas**: (i) é 1 de 8 testes confirmatórios; (ii) a grade exploratória completa (144, com lag 2) **não devolve nenhum** sobrevivente do FDR — o "1 que sobrevivia" era artefato do tamanho da família; (iii) a "coerência de sinais" na coluna do rebanho é mecânica (exposições complementares + drivers que compartilham o câmbio), não replicação independente; (iv) R²-within ~0,001. Veredito: **indício de um gradiente câmbio × aptidão materializado na pecuária de fronteira — sugestivo e coerente com a narrativa, NÃO um achado estabelecido.** A área LULC, por sua vez, **não** responde diferencialmente (nulo robusto até o lag 2).
+> O que o #34/#37 **afirmavam** ("drive comum sobre o gradiente de aptidão") ganhou aqui um **teste com mais poder e correção de multiplicidade** — e a resposta honesta é mais sóbria do que a primeira versão deste pipeline sugeria. O **único** elemento com algum standing é a hipótese **confirmatória teórica** câmbio × fronteira → rebanho (β=+0,028, lag 1): sob depreciação, o rebanho cresce **mais na fronteira** (Norte) e **menos no núcleo agrícola** (Sul), coerente com #32/#33. **Mas**: (i) é 1 de 8 testes confirmatórios; (ii) a grade exploratória completa (144, com lag 2) **não devolve nenhum** sobrevivente do FDR — o "1 que sobrevivia" era artefato do tamanho da família; (iii) a "coerência de sinais" na coluna do rebanho é mecânica (exposições complementares + drivers que compartilham o câmbio), não replicação independente; (iv) R²-within ~0,001; **(v) sob a inferência correta para o desenho — permutação do shifter, [#54](54_defensabilidade_perna4.md) — o p sai de 0,031 para ≈0,07–0,13, ou seja, *não significante a 5%*.** Veredito: **indício de um gradiente câmbio × aptidão materializado na pecuária de fronteira — corroborante e coerente com a narrativa, NÃO um achado estabelecido.** A área LULC, por sua vez, **não** responde diferencialmente (nulo robusto até o lag 2).
 
-**Implicação para a redação**: o item 5 da tese sai de "assinatura cambial fraca no agregado (#37)" para **"indício de gradiente de aptidão no painel AMC: sob depreciação, o rebanho (não a área) tende a crescer mais na fronteira e menos no núcleo agrícola — direção coerente e confirmatória (p=0,031), mas que NÃO sobrevive à correção sobre a grade completa; a área LULC não responde"**. Não vender como "testado e confirmado": é **identificação de gradiente** (interação 2FE) de magnitude **modesta** (R² pequeno) e **significância frágil** (cai sob FDR da grade inteira).
+**Implicação para a redação**: o item 5 da tese sai de "assinatura cambial fraca no agregado (#37)" para **"indício de gradiente de aptidão no painel AMC: sob depreciação, o rebanho (não a área) tende a crescer mais na fronteira e menos no núcleo agrícola — direção coerente e confirmatória, mas que NÃO sobrevive nem à correção sobre a grade completa nem à inferência por permutação do shifter (p≈0,07–0,13); a área LULC não responde"**. Não vender como "testado e confirmado": é **identificação de gradiente** (interação 2FE) de magnitude **modesta** (R² pequeno) e **sem significância a 5%** sob a inferência apropriada ao desenho.
+
+> 🛑 **Regra de escrita (25/jul/2026).** Ao redigir a partir deste pipeline, **não cite `p=0,031`
+> nem `p=0,026` (#52) como significância** — são SE clusterizados de um desenho shift-share com
+> **um único** shifter nacional. O número a reportar é **p≈0,07–0,13 (permutação)**, e o verbo é
+> **"corroborante"**, nunca "significativo", "confirmado" ou "estabelecido". O que sustenta o
+> achado é a **especificidade** (placebos nulos, lead limpo, jackknife estável), não o p.
 
 ---
 
@@ -128,7 +144,8 @@ Linhas = driver × exposição; colunas = desfecho; cor = t-stat da interação 
 ## Limitações
 
 - **R²-within minúsculos** (0,0001–0,008): o gradiente é **modesto** — a maior parte da variação AMC-ano é idiossincrática/local. O achado é, na melhor leitura, sobre **sinal/direção** do gradiente, não sobre variância explicada nem sobre magnitude econômica relevante.
-- **Significância frágil à multiplicidade**: o único sobrevivente do FDR na grade de 96 **não sobrevive** na grade de 144 (lag 2 incluído) — estava na fronteira da correção. O standing empírico restante é a **hipótese confirmatória teórica** (1 de 8 testes, p=0,031), que não é correção-robusta.
+- **Significância frágil à multiplicidade**: o único sobrevivente do FDR na grade de 96 **não sobrevive** na grade de 144 (lag 2 incluído) — estava na fronteira da correção. O standing empírico restante é a **hipótese confirmatória teórica** (1 de 8 testes), que não é correção-robusta.
+- **Inferência otimista no desenho original** (identificado no [#54](54_defensabilidade_perna4.md), 19/jul/2026): o SE clusterizado pressupõe variação independente do driver, mas o câmbio é **um shifter nacional** — na prática há ~1 choque, não 6.640. A permutação do shifter devolve **p≈0,07–0,13**. Esta é a limitação **dominante** do pipeline: ela subsome a anterior, já que o achado não é significante a 5% nem antes da correção de multiplicidade.
 - **A "coerência de sinais" (#3) não é replicação independente** — as três exposições são complementares (fronteira ≈ −aptidão) e `preço recebido` contém o câmbio. É **um** gradiente visto de ângulos ligados, não vários achados convergentes.
 - **Identifica gradiente, não nível**: o γ_t absorve o efeito médio do driver. "1 DP de câmbio → X" no agregado **não** sai daqui (sai, fraco, do #37).
 - **Crédito é parcialmente endógeno** (mesma ressalva do #37); entra como contexto.
@@ -153,6 +170,6 @@ Depende de `drivers_macro_anual.csv` (#37A), `painel_amc_goias.parquet` (#25) e 
 | 2 | #33 | **Como?** | Sul: pasto→agric; Norte: veg→pasto. |
 | 3 | #34 | **Sul causa Norte?** | Não — drive comum inferido. |
 | 4 | #37 | **Qual é o drive comum?** | Assinatura de competitividade cambial (UF/anual), **fraca** — N≈38 trava o poder. |
-| **5** | **#38** | **O drive opera sobre o gradiente de aptidão?** | **Indício, não confirmação: a hipótese teórica câmbio × fronteira → REBANHO confirma a direção (p=0,031), mas a grade completa (lag 2) NÃO devolve nenhum sobrevivente do FDR. A área LULC não responde (nulo robusto). Gradiente sugestivo, magnitude modesta.** |
+| **5** | **#38** | **O drive opera sobre o gradiente de aptidão?** | **Corroborante, não confirmação: a hipótese teórica câmbio × fronteira → REBANHO confirma a *direção*, mas (a) a grade completa (lag 2) NÃO devolve nenhum sobrevivente do FDR e (b) sob permutação do shifter (#54) o p vai a ≈0,07–0,13 — n.s. a 5%. A área LULC não responde (nulo robusto). Gradiente sugestivo, magnitude modesta.** |
 
-O #38 **avança** o arco aberto no #34 sem fechá-lo: a reorganização Sul→Norte é **consistente com** competitividade macro × gradiente de aptidão materializada na pecuária de fronteira — um **indício** testado no painel AMC (mais poder que o #37), porém de significância frágil à multiplicidade. É um passo da inferência para a evidência, não a prova. Um desenho de maior poder/identificação (aptidão edafoclimática como exposição instrumental; instrumentos para o câmbio) seria o próximo passo para sair de "sugestivo" para "estabelecido".
+O #38 **avança** o arco aberto no #34 sem fechá-lo: a reorganização Sul→Norte é **consistente com** competitividade macro × gradiente de aptidão materializada na pecuária de fronteira — um **indício** testado no painel AMC (mais poder que o #37), porém sem significância a 5% sob a inferência apropriada ao desenho (#54) e frágil à multiplicidade. É um passo da inferência para a evidência, não a prova. Um desenho de maior poder/identificação (aptidão edafoclimática como exposição instrumental; instrumentos para o câmbio) seria o próximo passo para sair de "sugestivo" para "estabelecido".

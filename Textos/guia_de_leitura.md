@@ -549,6 +549,21 @@ arsenal a seguir existe para **distinguir esses casos**.
 - **A armadilha:** DiD só é válido se as tendências eram paralelas **antes** do marco. Sem esse
   pressuposto, o `β` mede a diferença de trajetórias, não o efeito da lei. Por isso o
   event-study e o placebo não são luxo — são o que separa causa de coincidência.
+- **A armadilha maior, que o placebo não pega (registrada em 25/jul/2026):** um DiD precisa de um
+  grupo que **recebeu** o tratamento e um que **não recebeu**. Os quatro marcos aqui — Plano Real,
+  Kandir, Código Florestal, Cerrado Manifesto — são **federais**: valem para Goiás *e* para
+  Tocantins *e* para Mato Grosso. Não existe grupo não-tratado. Então, mesmo no par que passa em
+  todos os testes, o `β` **não** é "o efeito do Plano Real em Goiás": é "Goiás e Tocantins reagiram
+  de forma diferente ao mesmo Plano Real", que é uma frase sobre **exposição diferencial**, não
+  sobre causa. Nenhum teste de robustez conserta isso, porque o problema está no **desenho**, não
+  na estimação — é por isso que o [#23](pipelines/23_did.md) foi rebaixado a *sensibilidade de
+  co-movimento*.
+  > **O que este método NÃO diz, no seu caso:** que algum dos marcos testados causou alguma coisa
+  > em Goiás. Ele diz que as trajetórias de GO e TO se separaram depois de 1995 — o que é
+  > compatível com o marco ter agido, com estruturas produtivas diferentes reagindo ao mesmo
+  > choque, ou com uma terceira coisa acontecendo em 1995. Para separar essas hipóteses seria
+  > preciso variação **dentro** do estado (municípios mais e menos expostos ao marco), que este
+  > desenho não tem.
 
 #### 2.5 Autocorrelação espacial: Moran's I, LISA, SAR/SEM
 
@@ -996,7 +1011,7 @@ Ela se apoia em quatro pernas:
 | Perna | O que afirma | Pipelines | Força da evidência |
 |---|---|---|---|
 | **1. O padrão existe** | Tudo marchou ao norte; a lavoura fica ao sul do pasto; a vegetação ficou **ancorada** | #32, #43 (MAUP), #44 (desagregado), D19 (IC) | **Forte** — robusto a malha, a desagregação e ao bootstrap |
-| **2. O mecanismo local** | Sul: pasto→lavoura (intensifica); Norte: mata→pasto (fronteira) | #33, #28, #22, #40, #28C, #40B, #49 | **Forte no *tipo* de transição** — mas por medidas **imunes**: o `veg→pasto` do #33 (que não passa pelo Mosaico) e os centroides #32/#44. **⚠️ Cai o gradiente latitudinal de IDADE do pasto (#40/#28C/#33 — três testes independentes)**, **cai a queda de −88% do `pasto→agric` do Sul no Ato III (#33: inverte para +51%)** e **cai a "retração da agricultura" do Intensity (#31: −84% inverte para +67%)**. Auditoria D26, `metodologia/tratamento_deriva_mosaico.md` §9 — sobrevive a bimodalidade/coexistência, não o "young-Sul/old-Norte" |
+| **2. O mecanismo local** | Sul: pasto→lavoura (intensifica); Norte: mata→pasto (fronteira) | #33, #28, #22, **#22B**, #40, #28C, #40B, #49 | **Forte no *tipo* de transição** — mas por medidas **imunes**: o `veg→pasto` do #33 (que não passa pelo Mosaico) e os centroides #32/#44. **✅ A "intensificação" ficou mais firme (#22B, 27/jul)**: o β<0 de `Δ Agric ~ Δ VA agro` é **within-município**, não composição entre municípios — sobrevive a um FE de grupo×ano movendo só +2,4% a +14,1%. **⚠️ Cai o gradiente latitudinal de IDADE do pasto (#40/#28C/#33 — três testes independentes)**, **cai a queda de −88% do `pasto→agric` do Sul no Ato III (#33: inverte para +51%)** e **cai a "retração da agricultura" do Intensity (#31: −84% inverte para +67%)**. Auditoria D26, `metodologia/tratamento_deriva_mosaico.md` §9 — sobrevive a bimodalidade/coexistência, não o "young-Sul/old-Norte" |
 | **3. Reorganização coordenada, não deslocamento** | *Negativo:* sem precedência temporal, sem spillover direcional. *Positivo:* coordenada por um **drive macro comum** (câmbio o candidato), não por causação local | *Negativo:* #34, #42, #45, #53, #41 · *Positivo:* #37, #38, #52 (aptidão exógena), #54 (inferência), #50 (crédito não lidera) | **Forte no negativo** (nulo bem defendido); **corroborante no positivo** — o #54 mostrou que o p clusterizado (~0,03) era otimista, a permutação do shifter dá **p≈0,07–0,13 (não sig. a 5%)**; o que sustenta o drive comum é a **especificidade** (placebos/lead/jackknife), não a significância |
 | **4. O teto de oferta** | Sul bateu no estoque; Norte ainda tem Cerrado; 97% desprotegido | #39, #46, #48 (valida PRODES), #47 (custo) | **Forte no diagnóstico**, com proxy declarado (D13/D17) |
 
@@ -1008,6 +1023,10 @@ Ela se apoia em quatro pernas:
 - Que houve uma **reorganização espacial** mensurável e robusta (Perna 1).
 - Que os **dois mecanismos** (intensificação/fronteira) são reais e geograficamente segregados
   (Perna 2), com a ressalva de que a geografia **modula o peso**, não causa a bimodalidade.
+- Que a **intensificação é *within*-município** — "onde o VA agro cresce, a área agrícola não
+  acompanha" vale comparando um município **com os seus pares regionais no mesmo ano**, não só no
+  agregado (#22B). O que **não** se pode dizer é que isso seja ganho de **produtividade medido**:
+  o desenho mostra de onde vem o sinal, não sua origem econômica.
 - Que a hipótese de **deslocamento causal (iLUC intra-estadual) foi testada e refutada** (Perna
   3, o negativo) — e que isso é força, não fraqueza.
 - Que o **câmbio** é o driver macro com estrutura mais consistente (Perna 3, o positivo),

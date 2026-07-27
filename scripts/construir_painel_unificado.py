@@ -155,9 +155,11 @@ DIR_DIAG      = DIR_OUTPUT / "diagnosticos"
 for d in (DIR_PROCESSED, DIR_OUTPUT, DIR_DIAG):
     d.mkdir(parents=True, exist_ok=True)
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from deflator_ipca import DATA_BASE_DEFLATOR, carregar_ipca, deflacionar  # noqa: E402,F401
+
 ANO_INI = 1985
 ANO_FIM = 2024
-DATA_BASE_DEFLATOR = (2024, 12)
 
 # Conversão cabeças → Unidade Animal. Fator único aplicado por falta de
 # breakdown etário a nível municipal nos dados SIDRA (PPM 3939/73 e Censo
@@ -283,25 +285,6 @@ VAR_POPULACAO      = 9324  # População residente estimada
 # ---------------------------------------------------------------------------
 # Helpers de I/O e deflação (replica padrão do Pipeline #8)
 # ---------------------------------------------------------------------------
-
-def carregar_ipca() -> pd.DataFrame:
-    df = pd.read_csv(DIR_PROCESSED / "sidra_1737_ipca.csv", encoding="utf-8")
-    return df.dropna(subset=["indice_acum"])
-
-
-def deflacionar(df_nominal: pd.DataFrame, col_val: str, df_ipca: pd.DataFrame) -> pd.Series:
-    """Deflaciona col_val para R$ de DATA_BASE_DEFLATOR usando dez de cada ano."""
-    ano_base, mes_base = DATA_BASE_DEFLATOR
-    idx_base = df_ipca.loc[
-        (df_ipca["ano"] == ano_base) & (df_ipca["mes"] == mes_base),
-        "indice_acum",
-    ].iloc[0]
-    df_dez = df_ipca[df_ipca["mes"] == 12][["ano", "indice_acum"]].rename(
-        columns={"indice_acum": "idx_dez"}
-    )
-    merged = df_nominal.merge(df_dez, on="ano", how="left")
-    return merged[col_val] * (idx_base / merged["idx_dez"])
-
 
 # ---------------------------------------------------------------------------
 # Loaders por fonte — todos retornam DataFrame indexado em (cd_mun, ano)

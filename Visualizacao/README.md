@@ -18,32 +18,65 @@ Visualizacao/
 ├── index.html                  # pagina unica
 ├── assets/
 │   ├── css/styles.css
-│   ├── js/
-│   │   ├── vendor/scrollama.min.js   # 4.7 KB
-│   │   └── timeline.js               # logica do scrollytelling
-│   └── data/
-│       ├── painel_goias.json         # serie anual UF (40 anos × 18 cols)
-│       ├── marcos.json               # 8 marcos politicos
-│       └── transicoes_resumo.json    # resumo 1985 → 2024 por classe LULC
-├── img/mapas/cobertura_YYYY.webp     # 40 mapas coropleticos (2.84 MB total)
+│   ├── js/                     # 12 modulos + vendor
+│   │   ├── vendor/             # scrollama, d3.v7, d3-sankey
+│   │   ├── router.js           # hash routing entre as abas
+│   │   ├── timeline.js         # scrollytelling dos atos
+│   │   ├── marcha.js           # scrollytelling do Movimento III
+│   │   ├── marcha-mapa.js      # mapa animado do centro de massa
+│   │   ├── sankey.js           # Sankey principal (le sankey_data.json)
+│   │   ├── mini-sankey.js      # mini-Sankey por ato (le sankey_ato_*.json)
+│   │   ├── matriz.js           # matriz de transicoes
+│   │   ├── inventario.js       # vitrine do painel
+│   │   ├── pastagem-reserva.js # idade do pasto / reserva de terra
+│   │   ├── secoes.js           # navegacao de blocos
+│   │   ├── zoom.js             # lightbox das figuras
+│   │   └── utils.js
+│   └── data/                   # 17 JSONs + 1 geojson + amcs/
+│       ├── painel_goias.json         # serie anual UF
+│       ├── painel_amc_indice.json + amcs/*.json   # 166 AMCs
+│       ├── malha_amc.geojson         # malha das AMCs (coropletico)
+│       ├── marcha_centro_massa.json  # #32/#44
+│       ├── idade_pastagem_*.json     # 4 arquivos (#28/#28C, censo)
+│       ├── sankey_data.json + sankey_ato_{I,II,III}.json + sankey_regional.json
+│       ├── transicoes_{matriz,resumo}.json
+│       ├── fogo_goias.json           # #14
+│       └── marcos.json               # 8 marcos politicos
+├── img/                        # 154 figuras em 7 pastas
+│   ├── mapas_gee/cobertura_YYYY.webp      # 40 coropleticos anuais (#10)
+│   ├── mapas_delta/delta_YYYY.webp        # 40 mapas de variacao
+│   ├── mapas_fogo/*.webp                  # 40 mapas de fogo (#14)
+│   ├── mapas_transicoes/transicao_*.webp  # 5 recortes de periodo
+│   ├── marcha_norte/*.png                 # 17 figuras da marcha (#32-#44)
+│   ├── graficos/*                         # 10 graficos de sintese
+│   └── correlacoes/*                      # 2
 └── scripts/
     ├── preparar_dados_timeline.py    # gera os JSONs em assets/data/
+    ├── gerar_graficos_sintese.py
+    ├── gerar_mapas_delta_lulc.py
+    ├── gerar_mapas_fogo_40anos.py
     └── otimizar_mapas_webp.py        # PNG → WebP em batch
 ```
 
-Bundle total: ~3 MB (HTML + CSS + JS + dados + 40 mapas).
+Bundle total: ~40 MB (30 MB de imagens + 9,8 MB de dados/assets).
 
 ## Como gerar / atualizar
 
 A peca consome assets de fora da pasta:
 
 - `data/processed/painel_unificado.parquet` (Pipeline #16)
-- `outputs/mapas/cobertura_YYYY.png` (Pipeline #9)
+- `data/processed/painel_amc_goias.parquet` (Pipeline #25) — abas AMC e marcha
+- `outputs/mapas_gee/cobertura_YYYY.png` (Pipeline #10)
+- `outputs/centro_massa/*.png` (Pipelines #32/#43/#44) e demais `outputs/`
+  citados nas figuras da aba Narrativa
 
 Para regerar tudo:
 
 ```powershell
 python Visualizacao/scripts/preparar_dados_timeline.py
+python Visualizacao/scripts/gerar_graficos_sintese.py
+python Visualizacao/scripts/gerar_mapas_delta_lulc.py
+python Visualizacao/scripts/gerar_mapas_fogo_40anos.py
 python Visualizacao/scripts/otimizar_mapas_webp.py
 ```
 
@@ -68,12 +101,16 @@ Para parar o servidor: `Ctrl+C` no terminal (ou fechar a janela).
 
 ## Status
 
-MVP de 5 dias (escopo deliberadamente reduzido). Roadmap em
-`C:\Users\amara\.claude\plans\partitioned-stirring-mountain.md`.
+Comecou como MVP de 5 dias (escopo deliberadamente reduzido) e cresceu para o
+companion completo descrito acima. Proposta de re-arquitetura em **4 pernas de
+evidencia** (alinhada a `Textos/indice_logico_pipelines.md`) esta em
+`docs/PROPOSTA_REFORMULACAO.md` — **redigida, nao executada**: o site ainda
+apresenta a estrutura por atos/movimentos. Pendencias tecnicas em
+`docs/IMPLEMENTACAO.md`.
 
-## Abas (jun/2026)
+## Abas (jun/2026, revisado jul/2026)
 
-A pagina tem **tres abas** (hash routing em `router.js`):
+A pagina tem **duas abas** (hash routing em `router.js`):
 
 - **Narrativa** — scrollytelling dos 3 atos (40 mapas) + "Depois dos mapas",
   o argumento em 3 movimentos (saldo/fluxos → processos no agregado → marcha
@@ -88,7 +125,7 @@ A pagina tem **tres abas** (hash routing em `router.js`):
   **navegacao de blocos** (`secoes.js` + `#rail-secoes`). Rolagens
   programaticas respeitam `prefers-reduced-motion`.
 - **Metodos** — a oficina: periodizacao dos atos, metricas do tempo, tres
-  camadas de evidencia, vitrine do painel, decisoes D1-D16 (agrupadas por
+  camadas de evidencia, vitrine do painel, **decisoes D1-D26** (agrupadas por
   tema), limitacoes e glossario. Ancoras: `#metodos/<id>` (ex.:
   `#metodos/metodo-evidencia`); de volta, `#narrativa/<id>`.
 

@@ -83,7 +83,34 @@ Re-roda DiD com `marco_falso = marco_real - 5`, janela ±3 anos (não sobrepõe 
 
 ### Achado consolidado pós-robustez
 
-Apenas um par sobrevive ao conjunto de testes (parallel trends ok + placebo n.s. + DiD sig em TO): **Veg. natural × 1995 vs TO, β=+0,08, p=0,005**. É a única evidência DiD interpretável como causal. Demais β positivos/negativos pós-2012 viram **co-movimentos do Cerrado** com possível contribuição do marco, não atribuíveis.
+Apenas um par sobrevive ao conjunto de testes (parallel trends ok + placebo n.s. + DiD sig em TO): **Veg. natural × 1995 vs TO, β=+0,08, p=0,005**. É o único par com padrão estatístico limpo. Demais β positivos/negativos pós-2012 viram **co-movimentos do Cerrado** com possível contribuição do marco, não atribuíveis.
+
+> 🛑 **Rebaixamento do enquadramento (25/jul/2026): este pipeline é uma *sensibilidade de
+> co-movimento*, não uma estimativa causal — nem no par sobrevivente.**
+>
+> A versão anterior desta linha dizia que Veg×1995 vs TO era "a única evidência DiD interpretável
+> como causal". **Não é**, e a razão é anterior a qualquer teste de robustez: **os quatro marcos são
+> federais/nacionais**. Plano Real, Lei Kandir, Código Florestal e Cerrado Manifesto **não tratam
+> Goiás e não tratam Tocantins** — incidem sobre os dois ao mesmo tempo. Num DiD, `treated × post`
+> só identifica efeito causal do marco se o grupo de controle **não** tiver recebido o tratamento;
+> aqui recebeu. O que o β mede, então, é **exposição diferencial** a um choque comum (GO e TO têm
+> estruturas produtivas diferentes e reagem de modo diferente ao mesmo Plano Real), o que é
+> equivalente a uma **tendência diferencial pós-marco** — não ao efeito do marco.
+>
+> Some-se a isso: (i) **poder baixíssimo** — a especificação identificada exige o controle
+> *combined* (3 UFs); com TO ou MT isolados cada dummy `tk_k` fira numa única observação (ver
+> Limitação técnica acima); (ii) **9 de 36 placebos significativos**, quando o esperado seria ~2;
+> (iii) **tensão de datação** com o [#26](26_deteccao_quebras.md)/[#29](29_triangulacao_periodizacao.md),
+> que localizam a quebra da vegetação em **1998** e a atribuem à **Lei Kandir (1996)** — não em
+> 1994/95. Se a inflexão real é 1998, a janela 1990–2000 do "marco 1995" está capturando o começo
+> de um movimento que outro marco explica melhor.
+>
+> **Como usar o #23 na redação.** Como **descrição comparativa**: "no pós-Plano Real, a vegetação
+> natural de Goiás se manteve acima da trajetória de Tocantins" — um fato de co-movimento, útil
+> como pano de fundo. **Nunca** como "o Plano Real causou X em Goiás", e **nunca** como uma das
+> pernas de evidência. A identificação causal dos marcos exigiria variação **subnacional** no
+> tratamento (ex.: municípios diferencialmente expostos à Kandir por pauta exportadora), que este
+> desenho não tem.
 
 ### Saídas adicionais
 

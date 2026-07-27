@@ -157,9 +157,14 @@ def download_uf_series(uf_code: str, uf_name: str) -> pd.DataFrame:
             histogram = stats["features"][0]["properties"].get("histogram", {})
             grupos_nomes = list(GRUPOS_LULC.keys())
             row = {"ano": ano, "uf": uf_name}
+            # Área do pixel derivada da escala EFETIVA do laço acima (ver
+            # `fogo_mapbiomas.py`): no fallback 60/100 m, usar a constante de
+            # 30 m subestimaria a área do ano em 4× / ~11× — e aqui, ao
+            # contrário do #12, não há validação batimental que pegue isso.
+            pixel_ha = (scale * scale) / 10_000.0
             for code_str, count in histogram.items():
                 classe_idx = int(float(code_str))
-                area_ha = count * PIXEL_HA
+                area_ha = count * pixel_ha
                 if 1 <= classe_idx <= len(grupos_nomes):
                     row[grupos_nomes[classe_idx - 1]] = area_ha
             rows.append(row)

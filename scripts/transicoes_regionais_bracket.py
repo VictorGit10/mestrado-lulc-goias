@@ -31,6 +31,10 @@ BLOCOS
 
 SAÍDA
     data/processed/transicoes_regionais_bracket.csv
+    outputs/transicoes_regionais/fluxos_chave_bracket.png  — substitui a leitura do
+        Ato III em `fluxos_chave.png`, cujo painel do Ato III é o artefato (ver
+        `fig_bracket` abaixo). A figura antiga fica no lugar, com o 🛑 no doc, como
+        registro do que a régua crua mostrava.
 
 COMO RODAR
     python scripts/transicoes_regionais_bracket.py
@@ -225,6 +229,123 @@ def bloco_e() -> pd.DataFrame:
     return t
 
 
+# ---------------------------------------------------------------------------
+# Figura — o substituto honesto de `fluxos_chave.png` no Ato III
+# ---------------------------------------------------------------------------
+#
+# A figura do #33 (`fluxos_chave.png`) desenha `pasto→agric` na régua crua, onde a
+# mudança de rótulo do Mosaico apaga a conversão recente: o painel do Ato III mostra
+# a barra magenta sumindo, e a instrução de leitura publicada mandava procurar
+# exatamente isso — o artefato ensinado como achado. Aqui a mesma quantidade vira um
+# INTERVALO entre as duas réguas da D26, que é o que o dado autoriza afirmar.
+#
+# Escolha de forma: as duas réguas não são duas categorias, são as pontas de um
+# bracket — logo uma rampa de um hue só (claro = régua inferior `agric`, escuro =
+# superior `agric∪mosaico`), não duas cores categóricas. O magenta claro é o mesmo
+# #d96aa3 de `GRUPO_COR["agricultura"]` da figura original, de propósito: é "o
+# magenta" que a instrução antiga mandava procurar.
+#
+# A âncora SIDRA fica em coluna de texto, não plotada: expansão de área plantada é
+# outra quantidade (não é taxa de transição), e forçá-la no mesmo eixo — onde chega a
+# +583% — esmagaria o intervalo que é o assunto da figura.
+
+COR_AGRIC = "#d96aa3"   # régua inferior — o magenta de GRUPO_COR["agricultura"]
+COR_UNIAO = "#8f2f5f"   # régua superior — mesmo hue, passo escuro
+COR_TINTA = "#3a3a3a"
+COR_FRACA = "#9a9a94"
+
+
+def fig_bracket(cubo: dict[str, pd.DataFrame], sidra: pd.DataFrame) -> None:
+    import matplotlib.pyplot as plt
+
+    dir_out = ROOT / "outputs" / "transicoes_regionais"
+    dir_out.mkdir(parents=True, exist_ok=True)
+
+    fig, (ax1, ax2) = plt.subplots(
+        1, 2, figsize=(13.2, 6.4), sharey=True,
+        gridspec_kw={"width_ratios": [1.15, 1.0], "wspace": 0.12},
+    )
+    # Sul no topo: a leitura Sul→Norte da figura original, de cima para baixo.
+    ys = {m: len(ORDEM) - 1 - i for i, m in enumerate(ORDEM)}
+    dy = 0.19
+
+    # --- Painel 1: nível (Mha/ano), um bracket por ato --------------------
+    for m in ORDEM:
+        for ato, off in (("II", +dy), ("III", -dy)):
+            lo = cubo["agric"].loc[m, ato]
+            hi = cubo["uniao"].loc[m, ato]
+            y = ys[m] + off
+            ax1.plot([lo, hi], [y, y], lw=2, color=COR_UNIAO, alpha=0.55,
+                     solid_capstyle="round", zorder=2)
+            ax1.plot([lo], [y], "o", ms=8, color=COR_AGRIC, mec="white", mew=1.4, zorder=3)
+            ax1.plot([hi], [y], "o", ms=8, color=COR_UNIAO, mec="white", mew=1.4, zorder=3)
+            ax1.text(-0.004, y, ato, ha="right", va="center", fontsize=8.5, color=COR_FRACA)
+
+    ax1.set_xlabel("`pasto→agric` — taxa anual (Mha/ano)", fontsize=10)
+    ax1.set_title("Nível: o intervalo que o dado autoriza", fontsize=11, color=COR_TINTA)
+    ax1.set_xlim(left=-0.012)
+    ax1.grid(True, axis="x", alpha=0.22, zorder=0)
+
+    # --- Painel 2: variação Ato II→III (%), com o zero -------------------
+    ax2.axvline(0, color=COR_TINTA, lw=1.4, alpha=0.75, zorder=1)
+    for m in ORDEM:
+        lo = cubo["agric"].loc[m, "var_%"]
+        hi = cubo["uniao"].loc[m, "var_%"]
+        y = ys[m]
+        ax2.plot([lo, hi], [y, y], lw=2, color=COR_UNIAO, alpha=0.55,
+                 solid_capstyle="round", zorder=2)
+        ax2.plot([lo], [y], "o", ms=9, color=COR_AGRIC, mec="white", mew=1.4, zorder=3)
+        ax2.plot([hi], [y], "o", ms=9, color=COR_UNIAO, mec="white", mew=1.4, zorder=3)
+        ax2.text(lo - 6, y + 0.17, f"{lo:+.0f}%", ha="right", va="bottom",
+                 fontsize=8.5, color=COR_TINTA)
+        ax2.text(hi + 6, y + 0.17, f"{hi:+.0f}%", ha="left", va="bottom",
+                 fontsize=8.5, color=COR_TINTA)
+
+    ax2.set_xlabel("variação da taxa anual, Ato II → Ato III (%)", fontsize=10)
+    ax2.set_title("Todo intervalo cruza o zero — e troca de sinal", fontsize=11, color=COR_TINTA)
+    ax2.set_xlim(-135, 205)
+    ax2.grid(True, axis="x", alpha=0.22, zorder=0)
+
+    # Âncora SIDRA como coluna de texto: é outra quantidade, não vai no eixo.
+    ax2.text(238, len(ORDEM) - 0.42, "soja SIDRA\nΔ% II→III", ha="center", va="bottom",
+             fontsize=8.5, color=COR_FRACA, linespacing=1.35)
+    for m in ORDEM:
+        ax2.text(238, ys[m], f"{sidra.loc[m, 'var_%']:+.0f}%", ha="center", va="center",
+                 fontsize=9.5, color=COR_TINTA)
+
+    ax1.set_yticks([ys[m] for m in ORDEM])
+    ax1.set_yticklabels([m.replace(" Goiano", "") for m in ORDEM], fontsize=10)
+    ax1.set_ylim(-0.6, len(ORDEM) - 0.4)
+    for ax in (ax1, ax2):
+        for lado in ("top", "right"):
+            ax.spines[lado].set_visible(False)
+        ax.tick_params(labelsize=9, color=COR_FRACA)
+    # rotation=270 (lê de cima para baixo) porque o Sul está no TOPO do eixo.
+    ax1.text(-0.105, 0.5, "◄ SUL          NORTE ►", transform=ax1.transAxes,
+             rotation=270, ha="center", va="center", fontsize=9, color=COR_FRACA)
+
+    from matplotlib.lines import Line2D
+    mk = lambda c, r: Line2D([], [], marker="o", ms=8, color=c, mec="white",  # noqa: E731
+                             mew=1.4, ls="", label=r)
+    # Espaços ao redor do ∪ são obrigatórios: colado, "agric∪mosaico" lê "agricumosaico".
+    fig.legend(handles=[mk(COR_AGRIC, "régua inferior:  pasto → agric"),
+                        mk(COR_UNIAO, "régua superior:  pasto → (agric ∪ mosaico)")],
+               loc="lower center", ncol=2, frameon=False, fontsize=9.5,
+               bbox_to_anchor=(0.5, -0.005))
+
+    fig.suptitle("#33 sob o bracket (D26): a queda do `pasto→agric` no Ato III não é robusta",
+                 fontsize=13, y=0.985)
+    fig.text(0.5, 0.925,
+             "Cada ponto-a-ponto é a MESMA quantidade medida nas duas réguas. "
+             "A leitura defensável é o intervalo, não a ponta clara.",
+             ha="center", fontsize=9.5, color=COR_FRACA)
+    fig.tight_layout(rect=(0.01, 0.05, 0.99, 0.91))
+    out = dir_out / "fluxos_chave_bracket.png"
+    fig.savefig(out, dpi=160, bbox_inches="tight")
+    plt.close(fig)
+    print(f"\n[fig] {out.relative_to(ROOT)}")
+
+
 def main() -> None:
     for f in (ARQ_CONV, ARQ_DESTINOS, ARQ_PAINEL, ARQ_MESO):
         if not f.exists():
@@ -265,6 +386,8 @@ def main() -> None:
 
     res.to_csv(ARQ_OUT, index=False, encoding="utf-8")
     print(f"\n[OK] {ARQ_OUT.relative_to(ROOT)}")
+
+    fig_bracket(cubo, sidra)
 
 
 if __name__ == "__main__":

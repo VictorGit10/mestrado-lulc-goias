@@ -48,12 +48,14 @@ DIR_OUTPUT    = ROOT / "outputs"
 for d in (DIR_PROCESSED, DIR_OUTPUT):
     d.mkdir(parents=True, exist_ok=True)
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from deflator_ipca import DATA_BASE_DEFLATOR, carregar_ipca, deflacionar  # noqa: E402,F401
+
 ANO_SICOR_INI  = 2013
 ANO_SICOR_FIM  = 2026   # parcial
 ANO_OVERLAP_INI = 2013
 ANO_OVERLAP_FIM = 2023   # PIB termina 2023
 ANO_RECENTE    = 2023
-DATA_BASE_DEFLATOR = (2024, 12)
 
 CLS_PASTAGEM = 15
 CLS_SOJA     = 39
@@ -94,27 +96,6 @@ def _anotar_top(ax, df, x_col, y_col, label_col, n=5,
 # ---------------------------------------------------------------------------
 # 1. Carregamento de dados
 # ---------------------------------------------------------------------------
-
-def carregar_ipca() -> pd.DataFrame:
-    print("[...] Carregando IPCA...")
-    df = pd.read_csv(DIR_PROCESSED / "sidra_1737_ipca.csv", encoding="utf-8")
-    df = df.dropna(subset=["indice_acum"])
-    print(f"  {len(df)} registros, {df['ano'].min()}-{df['ano'].max()}")
-    return df
-
-
-def deflacionar(df_nominal: pd.DataFrame, col_val: str, df_ipca: pd.DataFrame) -> pd.Series:
-    """Deflaciona col_val para R$ de DATA_BASE_DEFLATOR usando dez de cada ano."""
-    ano_base, mes_base = DATA_BASE_DEFLATOR
-    idx_base = df_ipca.loc[
-        (df_ipca["ano"] == ano_base) & (df_ipca["mes"] == mes_base), "indice_acum"
-    ].iloc[0]
-    df_dez = df_ipca[df_ipca["mes"] == 12][["ano", "indice_acum"]].rename(
-        columns={"indice_acum": "idx_dez"}
-    )
-    merged = df_nominal.merge(df_dez, on="ano", how="left")
-    return merged[col_val] * (idx_base / merged["idx_dez"])
-
 
 def carregar_sicor_municipal() -> pd.DataFrame:
     print("[...] Carregando SICOR municipal...")
@@ -347,7 +328,7 @@ def gerar_painel_credito_lulc(
     # interno e retorna Series com índice 0..N-1; sem reset, o filtro de ano
     # mantém índices esparsos (ex.: [11, 12, ...]) e a atribuição embaralha
     # valores entre municípios via alinhamento por índice do pandas.
-    ipca = carregar_ipca()
+    ipca = carregar_ipca(verbose=True)
     pib["pib_real_rs"] = deflacionar(pib, "pib_rs", ipca)
     pib["va_agro_real_rs"] = deflacionar(pib, "va_agro_rs", ipca)
 
@@ -823,7 +804,7 @@ def main() -> None:
     print("=" * 70)
 
     # 1. Carregar dados
-    df_ipca       = carregar_ipca()
+    df_ipca       = carregar_ipca(verbose=True)
     df_sicor_muni = carregar_sicor_municipal()
     df_sicor_uf   = carregar_sicor_uf()
     df_mapb       = carregar_mapbiomas_municipal()

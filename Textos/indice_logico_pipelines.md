@@ -121,23 +121,34 @@ formações.
 > **Afirma:** são **dois mecanismos geograficamente segregados**. No Sul, `pasto→lavoura`
 > (intensificação). No Norte, `mata→pasto` (fronteira).
 
-**Força: forte** — com **duas** ressalvas que a autocorreção impôs. (1) A geografia desloca o
-**peso** da mistura, não **causa** os modos (#28C). (2) 🛑 **A segregação é do *tipo* de
-transição, não da *idade* do pasto** — a qualificação "sobre pasto jovem no Sul (~9a) / antigo no
-Norte (~20a)", que esta perna afirmava até 23/jul/2026, **caiu** na auditoria da mudança de rótulo
-(#40, #28C e #33, por três caminhos independentes). O que sustenta a perna são medidas **imunes**:
-o `veg→pasto` (que não passa pelo Mosaico) e os centroides do #32/#44.
+**Força: moderada** (rebaixada de "forte" em 25/jul/2026 — ver a caixa abaixo) — com **três**
+ressalvas que a autocorreção impôs. (1) A geografia desloca o **peso** da mistura, não **causa** os
+modos (#28C). (2) 🛑 **A segregação é do *tipo* de transição, não da *idade* do pasto** — a
+qualificação "sobre pasto jovem no Sul (~9a) / antigo no Norte (~20a)", que esta perna afirmava até
+23/jul/2026, **caiu** na auditoria da mudança de rótulo (#40, #28C e #33, por três caminhos
+independentes). (3) O canal de **intensificação** do #49 (M1) é **frágil ao bracket D26** — o
+intervalo atravessa o zero e a âncora SIDRA dá o sinal oposto; quem sustenta a perna no painel
+espacial é a **substituição** (M3), não a intensificação. O que resta de pé são medidas **imunes**:
+o `veg→pasto` (que não passa pelo Mosaico), a **bimodalidade** e os centroides do #32/#44.
+
+> 🛑 **Por que "moderada" e não "forte" (25/jul/2026).** O rótulo "forte" foi herdado de uma versão
+> da perna que afirmava **três** coisas: coexistência de dois modos, gradiente latitudinal de idade
+> e tendência temporal de w₁. As duas últimas caíram (#28D/#40/#28C/#33), e o eixo temporal está
+> **suspenso** dos dois lados. Sobra a **coexistência** — que é robusta (5/5 regiões, 10/10 células
+> sob a união), mas é **uma** afirmação, não três. A perna continua defensável; o que mudou é
+> quanto ela carrega. Ver também a nota de refutação ao final desta seção.
 
 | Papel | Pipeline | O que entrega |
 |---|---|---|
 | **Manchete** | **#33** `transicoes_regionais.py` | Recorta as conversões brutas por mesorregião × ato. `veg→pasto` é a transição-mãe pervasiva; `pasto→agric` só *lidera* no Sul+Centro no Ato II. O deslocamento aparece no **balanço líquido** (Ato II, janela limpa). ⚠️ **Os dois achados do Ato III caíram** (`transicoes_regionais_bracket.py`, 25/jul): a queda de −88% do `pasto→agric` **inverte para +51%** sob o bracket, e a tabela de idade **inverte a ordenação** (Sul 16a→32a, Norte 27a→23a) |
 | **Manchete** | **#28** `coleta_idade_pastagem.py` + `analise_reserva_terra.py` | A idade do pasto na conversão é **bimodal** (~4 e ~23 anos) = dois mecanismos coexistindo. Censo: 44,6 M eventos |
 | **Manchete** | **#22** `correlacoes_painel.py` | Painel 2-way FE: a **substituição local** é forte (onde a lavoura entra, o pasto sai *localmente*) e o SICOR é o canal dominante de retração — **na janela com SICOR (2013–2021), ~8 anos**, não nos 40 |
+| **Robustez** | **#22B** `intensificacao_vs_composicao.py` | O β<0 de `Δ Agric ~ Δ VA agro` é **intensificação within** ou **composição entre municípios**? **Within** (27/jul): sob **FE de grupo × ano** — que fecha o canal da composição *dinâmica*, o que o FE de entidade não faz — o β se move só **+2,4% a +14,1%** e mantém p<0,001; **24/24 subamostras negativas**. ⚠️ Não revoga a **dependência de medida** do #49/D26 (a soja SIDRA extensifica): são ressalvas independentes |
 | **Autocorreção** | **#40** `duas_logicas_pastagem.py` | Espacializa as duas lógicas (Rotação no Sul × Oportunístico no Norte). **Derrubou o próprio overclaim no mesmo dia** → **D14**. Em 21/jul/2026 **derrubou também a autocorreção**: o "some sob o gradiente 2D" era erro de medida; veredito vira *não estabelecido*, e a comparação estrutura×fluxo (agora simétrica) dá o sinal ao **fluxo** |
 | **Autocorreção** | **#28C** `bimodalidade_regional.py` | A bimodalidade é *regionalmente causada*? **Não.** A região explica 1,3% (meso) / 7,5% (AMC); o tempo explica 19,6%; **75–79% mora dentro** das células. Sob censo ω²/permutação degeneram (D23) — sustenta-se por estabilidade censo×amostra, não por p |
 | **Autocorreção** | **#40B** `duas_logicas_calcario_orientacao.py` | Generaliza a D14: calcário e orientação somem sob o gradiente 2D — e no censo (n=244) o nulo **se confirma**. Ressalva de 21/jul/2026: a generalização vale para eles, **não** para toda covariável (no-till virou limítrofe; adubação dá p=0,003) |
 | **Autocorreção** | **#28D** `deriva_mosaico_fim_serie.py` | 🛑 **A mais severa da perna.** O objeto do #28 **não é constante na série**: a saída da pastagem migra do rótulo "agricultura" para "Mosaico de Usos" (razão 0,6 em 2015 → **32,5 em 2024**; `P→agric` cai 92%) enquanto o **SIDRA registra a soja +38%**. Derruba a tendência de w₁; sobrevive a **bimodalidade**, **não** o gradiente de idade (revisto 23–25/jul) → **D25/D26** |
-| **Robustez** | **#49** `painel_espacial_dinamico.py` | Os canais do #22 sobrevivem ao termo espacial (Elhorst FE lag/error) |
+| **Robustez** | **#49** `painel_espacial_dinamico.py` | Os canais do #22 sobrevivem ao termo espacial (Elhorst FE lag/error) — **mas os dois modelos recebem vereditos opostos sob o bracket D26**: **M3 (substituição) é ROBUSTO** (β<0 nas três réguas e nas duas janelas; a mudança de rótulo apenas *subestimava* — o β≈−0,5 é **piso**), enquanto **M1 (intensificação) é FRÁGIL** (o bracket **atravessa o zero** e a âncora SIDRA dá o **sinal oposto**: a soja *extensifica* onde o VA agro cresce). Reportar M1 como **intervalo**, nunca como canal de sinal único |
 
 **O que esta perna NÃO permite dizer:** que "a região causa a bimodalidade" (o #28C mediu: não
 causa), que "plantio direto explica a idade do pasto" (o #40 derrubou: era confundidor de
@@ -146,7 +157,9 @@ latitude), nem — desde 21/jul/2026 — que **"o pasto jovem vem ganhando peso 
 "tempo ≫ espaço" está **suspenso** porque os dois lados do eixo temporal estão comprometidos —
 horizonte antes de 2020, mudança de rótulo depois). E — desde 23–25/jul/2026 — que **"o Sul
 converte pasto jovem e o Norte pasto velho"**: o gradiente latitudinal de idade caiu no #40, no
-#28C e no #33.
+#28C e no #33. Nem — desde 25/jul/2026 — que **"a intensificação é um canal robusto do painel
+espacial"**: o M1 do #49 depende da medida de "agricultura" (bracket cruza o zero; SIDRA inverte o
+sinal). O canal robusto do #49 é o **M3, substituição local**.
 
 > 🛑 **Uma frase deste índice foi refutada e vale registrar o porquê.** Até 23/jul dizia-se aqui
 > que "gradiente regional no *peso* da mistura" sobrevivia **"porque é transversal"**. O
@@ -203,8 +216,8 @@ não a significância.
 | Papel | Pipeline | O que entrega |
 |---|---|---|
 | **Manchete (fraca)** | **#37** `coleta_drivers_macro.py` + `drive_comum.py` | Testa o drive comum na série UF/anual (N≈38). **~7 hits em ~135 testes ≈ acaso; nada sobrevive à correção de multiplicidade.** Só o **câmbio** tem estrutura (reaparece em duas margens). Passa no placebo de exogeneidade. Bônus: a quebra órfã de 1991 ganha nome — colapso de crédito do Plano Collor |
-| **Manchete (fraca)** | **#38** `drive_comum_amc.py` | Muda a unidade para o painel AMC (~6.600 obs) e testa **driver × exposição baseline**. A hipótese confirmatória `câmbio × fronteira → rebanho` confirma a direção (**p=0,031**), mas a grade exploratória (144 testes) **não devolve nenhum sobrevivente do FDR**. A área LULC é **nulo robusto** |
-| **Extensão (identificação)** | **#52** `aptidao_edafo_exposicao.py` + `aptidao_edafo_drive38.py` | Troca o proxy de área do #38 por uma aptidão edafoclimática **exógena** (Embrapa 1:500k, WFS). **52A**: a aptidão física **reproduz** o gradiente Sul→Norte (r_lat=−0,44; Sul 4,69>Centro 4,47>Norte 4,17) — a premissa vira **medida**, não assumida; correlação **moderada** (+0,30) com a exposição do #38 = carrega info própria. **52B**: o achado do #38 reaparece **sem a complementaridade mecânica** (câmbio×aptidão→rebanho **β=−0,033, p=0,026**) e a grade honesta de 192 devolve **2 sobreviventes do FDR** — mas via a **mesma fragilidade de tamanho de família** do Achado #2 do #38. Fortalece a **identificação**, não o poder |
+| **Manchete (fraca)** | **#38** `drive_comum_amc.py` | Muda a unidade para o painel AMC (~6.600 obs) e testa **driver × exposição baseline**. A hipótese confirmatória `câmbio × fronteira → rebanho` confirma a **direção**, mas a grade exploratória (144 testes) **não devolve nenhum sobrevivente do FDR** — e o `p=0,031` é o SE **clusterizado**: sob permutação do shifter (#54, **D20**) vira **≈0,07–0,13, n.s. a 5%**. A área LULC é **nulo robusto** |
+| **Extensão (identificação)** | **#52** `aptidao_edafo_exposicao.py` + `aptidao_edafo_drive38.py` | Troca o proxy de área do #38 por uma aptidão edafoclimática **exógena** (Embrapa 1:500k, WFS). **52A**: a aptidão física **reproduz** o gradiente Sul→Norte (r_lat=−0,44; Sul 4,69>Centro 4,47>Norte 4,17) — a premissa vira **medida**, não assumida; correlação **moderada** (+0,30) com a exposição do #38 = carrega info própria. **52B**: o achado do #38 reaparece **sem a complementaridade mecânica** (câmbio×aptidão→rebanho **β=−0,033**; o `p=0,026` é clusterizado — sob permutação, **≈0,07–0,13, n.s. a 5%**, D20) e a grade honesta de 192 devolve **2 sobreviventes do FDR** — mas via a **mesma fragilidade de tamanho de família** do Achado #2 do #38. Fortalece a **identificação**, não o poder |
 | **Endurecimento (inferência)** | **#54** `defensabilidade_perna4.py` | **Opção B — nomeia o desenho como shift-share e roda a inferência correta.** A **permutação do shifter** (câmbio embaralhado, aptidão fixa) revela que o SE clusterizado do #38/#52 era **otimista**: o p do achado-manchete sai de ~0,03 para **≈0,07 (naive) a 0,13 (rotação circular) = não significante a 5%** (o β *within* reproduz o PanelOLS; só o p muda). Em troca, a **especificidade** segura o padrão: **placebos nulos** (câmbio×aptidão→urbano/água, p>0,24), **lead limpo** para o headline exógeno (p=0,11), **jackknife estável** (sinal 100%, nenhum ano isolado). Menos significante, mais defensável |
 | **Extensão** | **#50** `centro_massa_economico.py` | O centroide do **crédito** fica ~75 km **ao sul** da pastagem: o crédito **consolida a massa instalada, não lidera a fronteira** — o que *casa* com o crédito ser endógeno (#37/#38) |
 | **Extensão** | **#51** `crescimento_sem_desenvolvimento.py` | Põe um **número** no "crescimento sem desenvolvimento" do #50 (IFDM 2013–2023): a fronteira **Norte quase dobra a área** (+93% vs +14% no Sul) mas ganha desenvolvimento **igual** ao Sul e fica **−0,08 abaixo** (robusto, invariante município↔AMC); a **expansão de área é desacoplada** do desenvolvimento (r≈0, painel r²within≈0), o VA agro tem dividendo modesto (r=0,21). Reabre o fio descartado por falta de dado |
@@ -330,6 +343,7 @@ não.
 | #7 | `coleta_sidra.py --censo-agro` | Censo Agropecuário 2017 (plantio direto, calcário, orientação) |
 | #13 | `coleta_idhm.py` | IDH-M via IPEA (1991/2000/2010 — **não existe pós-2010**) |
 | #14 | `fogo_mapbiomas.py` | Área queimada × LULC via GEE |
+| #14B | `verificacao_fogo_nivel.py` | Verifica o **nível** do #14: 3 das 4 hipóteses da lacuna vs o Fire Dashboard **rejeitadas**; o valor de 2020 é estável entre 2 recortes e 3 coleções |
 | #15 | `analise_safrinha.py` | Milho 1ª/2ª safra |
 | #27 | `coleta_trase.py` | Cadeia produtiva Trase — soja e boi (dormente até o #45). ⚠️ "só exportação" vale para o boi, **não para a soja** (44,6% é esmagamento doméstico) |
 
@@ -351,7 +365,8 @@ não.
 |---|---|---|---|
 | #21 | `correlacoes_uf.py` | Manchete fraca | Correlações UF em 1ª diferença + HAC (D7). N pequeno, sem controles |
 | #22 | `correlacoes_painel.py` | Manchete | **O cavalo de batalha** — 2-way FE (D8). Intensificação robusta; SICOR dominante (na janela 2013–2021) |
-| #23 | `piecewise_did.py` | Manchete (nulo) | **Só `Vegetação × 1995 vs TO` sobrevive** a parallel-trends + placebo. O Código Florestal não |
+| #22B | `intensificacao_vs_composicao.py` | Robustez | Fecha a ambiguidade **intensificação × composição** do #22 com FE de grupo×ano: o sinal é **within** |
+| #23 | `piecewise_did.py` | Manchete (nulo) | **Só `Vegetação × 1995 vs TO` sobrevive** a parallel-trends + placebo. O Código Florestal não. ⚠️ **Rebaixado a *sensibilidade de co-movimento* em 25/jul/2026**: os 4 marcos são **federais**, então não há grupo não-tratado — nem o par sobrevivente identifica efeito causal, só exposição diferencial |
 | #24 | `analise_espacial.py` | Diagnóstico | **115 de 140 resíduos** têm Moran's I significativo → o espaço é estrutural |
 | #26 | `deteccao_quebras.py` | Manchete | Quebras data-driven: **2001 (F=62,2)** e **2020 (F=21,5)**. O Código Florestal **não produz quebra** |
 

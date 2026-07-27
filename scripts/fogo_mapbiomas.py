@@ -159,6 +159,13 @@ def calcular_fogo_anual(
     burned_info = burned_stats.getInfo()
     cov_info = cov_stats.getInfo()
 
+    # Área do pixel DERIVADA DA ESCALA EFETIVA, não da constante de 30 m.
+    # O retry de `processar_ano` reduz a resolução (30 → 60 → 100) quando o GEE
+    # falha; os reducers passam a contar pixels da escala nova. Multiplicar essa
+    # contagem por PIXEL_HA (0,09 ha = 30 m) subestimaria a área em 4× a 60 m e
+    # ~11× a 100 m — silenciosamente, porque o CSV não registrava a escala.
+    pixel_ha = (scale * scale) / 10_000.0
+
     # Parsear resultados. Para banda única, reduceRegions com Reducer.sum()
     # retorna a propriedade "sum"; com Reducer.frequencyHistogram() retorna
     # "histogram" (não usa o nome da banda como prefixo).
@@ -168,13 +175,13 @@ def calcular_fogo_anual(
         nm_mun = feat_b["properties"]["nm_mun"]
 
         total_pixels = feat_b["properties"].get("sum", 0) or 0
-        total_ha = total_pixels * PIXEL_HA
+        total_ha = total_pixels * pixel_ha
 
         hist = feat_c["properties"].get("histogram", {})
         class_ha = {}
         if isinstance(hist, dict):
             for k, v in hist.items():
-                class_ha[int(k)] = v * PIXEL_HA
+                class_ha[int(k)] = v * pixel_ha
 
         row = {
             "cd_mun": cd_mun,
@@ -188,6 +195,12 @@ def calcular_fogo_anual(
             "area_queimada_urbano_ha": round(class_ha.get(5, 0), 2),
             "area_queimada_outros_ha": round(class_ha.get(6, 0), 2),
             "area_queimada_mosaico_ha": round(class_ha.get(7, 0), 2),
+            # Proveniência: escala efetiva do reducer. Anos que caíram no retry
+            # (60/100 m) não são comparáveis em nível aos de 30 m mesmo com a
+            # área de pixel corrigida — a agregação muda o que conta como
+            # queimado na borda. Caches gerados antes de 25/jul/2026 não têm
+            # esta coluna; todos eles rodaram a 30 m (`_run.log` sem retries).
+            "scale_m": scale,
         }
         rows.append(row)
 

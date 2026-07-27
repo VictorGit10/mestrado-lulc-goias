@@ -98,6 +98,41 @@ que já existe**. Nenhuma exige redação; todas são investigação.
 > (inflando o curto ~4,5×). Corrigido; as razões `*_vs_uniform` nunca foram afetadas. **Nenhuma pendência
 > da auditoria em aberto.**
 
+> **AUDITORIA DOS PIPELINES DE FUNDAÇÃO (#12, #14, #22, #23) — aberta em 25/jul, as duas pontas
+> analíticas FECHADAS em 27/jul/2026.** A varredura do Mosaico tinha percorrido os pipelines da tese;
+> faltavam os **antigos**, que nunca haviam passado por revisão. Ela devolveu quatro achados de
+> naturezas diferentes — e os dois que eram perguntas em aberto foram respondidos dois dias depois.
+>
+> - **#23 — rebaixado** (não é ponta solta, é veredito). Os quatro marcos são **federais**: não há
+>   grupo não-tratado, então nem o par que passa em todos os testes de robustez identifica efeito
+>   causal. O pipeline vira **sensibilidade de co-movimento**; nenhum teste conserta isso, porque o
+>   problema é de **desenho**, não de estimação.
+> - **#14 — a lacuna de ~30% vs o Fire Dashboard: ✅ TESTADA e o número está certo**
+>   (`verificacao_fogo_nivel.py`, 27/jul). Das quatro hipóteses, **três caem**: recorte de classe
+>   (refutada por dois caminhos — a soma das classes bate com o total em razão 1,000000 nos 40 anos,
+>   **e** o total já era a banda binária pura), recorte geográfico (−0,01% entre malha municipal e
+>   estado dissolvido) e versão do asset (`collection4`/`4_1`/`5` concordam em **0,04%**). Sobra
+>   "objeto diferente", que **não é sobre o nosso cálculo**. Lição: a hipótese nº 1, escrita como
+>   "a primeira a testar", descrevia **um mecanismo que não existe no código** — ler a função sai
+>   mais barato que planejar o teste.
+> - **#22 — a ambiguidade intensificação × composição: ✅ RESOLVIDA a favor de (A)**
+>   (`intensificacao_vs_composicao.py`, 27/jul). O desenho decisivo não era a subamostra e sim o
+>   **FE de grupo × ano** (γ_gt), que fecha o canal por onde a composição *dinâmica* opera — o FE de
+>   entidade só remove a estática. O β **não se move** (+2,4% a +14,1%, p<0,001 em todas as janelas e
+>   nas duas malhas) e as **24 subamostras têm sinal negativo**. Controle interno: o par
+>   `pastagem ~ VA agro` **não** passa, então o teste tem poder para rejeitar. Registrado também um
+>   **defeito da regra pré-declarada** (exigir p<0,05 sob γ_gt confunde efeito colapsar com teste
+>   perder poder) — corrigido *ao lado* da regra original, não por cima dela.
+> - **#12 — 🔴 A ÚNICA PONTA ESTRUTURAL EM ABERTO.** `transicoes_mapbiomas.py` **exclui a classe 21**
+>   da matriz primária de transições, com uma justificativa ("no Cerrado goiano, maioria é pastagem")
+>   que o [#28D](pipelines/28D_deriva_mosaico.md) invalidou. Pior: a `validar_batimental()` descarta a
+>   classe 21 **dos dois lados** antes de comparar — passaria com δ≈0 mesmo se 100% da conversão
+>   recente tivesse migrado para o rótulo excluído. **A validação é cega por construção.** Isso atinge
+>   #19 e #33, que bebem dessa matriz. **Fechar exige re-exportar os caches do GEE com 7 grupos e
+>   repropagar até os JSONs do Sankey** — re-execução, não ajuste de leitura. Enquanto não for: nunca
+>   citar a matriz crua para `pasto→agricultura` no Ato III; usar o bracket da D26 e tratar `veg→pasto`
+>   como a transição imune. **Registrado como limitação declarada em `12_transicoes.md`.**
+
 1. ~~**Caracterizar o "drive comum"**~~ — ✅ **FEITO (2026-06-06, [#37](pipelines/37_drive_comum.md))**.
    Resultado: câmbio-competitividade (REER) e crédito rural **antecedem** as inflexões do LULC
    (exogeneidade confirmada); o **preço** de commodity **co-move contemporâneo, não lidera**. A órfã

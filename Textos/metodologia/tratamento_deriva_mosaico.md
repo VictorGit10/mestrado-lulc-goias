@@ -146,6 +146,7 @@ Verdicts consolidados:
 | pipeline / medida | canal de exposição | veredito | evidência-chave |
 |---|---|---|---|
 | **#12/#19/#28** | — (fonte do artefato) | — | reetiquetagem `pasto→agric` → `pasto→Mosaico` |
+| **#12** matriz primária | **classe 21 mascarada na origem** | **limitação estrutural declarada** | `transicoes_mapbiomas.py:20` exclui o ID 21 dos 6 grupos ⇒ a matriz **não tem** a rota `pasto→Mosaico→agric`; a `validar_batimental()` contra o #4 faz `dropna` da classe nos **dois** lados, logo é **cega ao canal** e passaria mesmo se toda a conversão tivesse migrado. Fechar exige **re-export GEE com 7 grupos** + repropagação a #19/#33/Sankey — não feito; ver [`12_transicoes.md`](../pipelines/12_transicoes.md) |
 | **#32** centro de massa | estoque `agricultura` | **exposto, robusto** | bracket + SIDRA; viés +10 km; gradiente e marcha de 40a intactos |
 | **#44** desagregado | soja-raster | **exposto, robusto** (+achado) | raster×SIDRA em **sentidos opostos** no Ato III (−7 vs +8 km) |
 | **#50** econômico | crédito/valor | **imune** | SICOR/VA/PIB não passam pelo classificador |

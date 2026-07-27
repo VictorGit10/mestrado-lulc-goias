@@ -20,6 +20,7 @@ Saída: PNGs em ./outputs/  e CSVs em ./data/processed/
 from __future__ import annotations
 
 import io
+import sys
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -35,7 +36,6 @@ UF_SIGLA       = "GO"
 UF_CODIGO_IBGE = 52
 ANO_INICIO     = 1985
 ANO_FIM        = 2024
-DATA_BASE_DEFLATOR = (2024, 12)
 
 ROOT           = Path(__file__).resolve().parent.parent
 DIR_RAW       = ROOT / "data" / "raw"
@@ -43,6 +43,10 @@ DIR_PROCESSED = ROOT / "data" / "processed"
 DIR_OUTPUT    = ROOT / "outputs"
 for d in (DIR_RAW, DIR_PROCESSED, DIR_OUTPUT):
     d.mkdir(parents=True, exist_ok=True)
+
+# `baixar_ipca()` abaixo continua local: baixa do SIDRA em vez de ler o cache.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from deflator_ipca import DATA_BASE_DEFLATOR, deflacionar  # noqa: E402,F401
 
 # Classes MapBiomas que queremos extrair
 # Ref: https://brasil.mapbiomas.org/legenda-classificacao/
@@ -251,19 +255,6 @@ def baixar_ipca() -> pd.DataFrame:
     df = df.sort_values(["ano", "mes"]).reset_index(drop=True)
     df["indice_acum"] = (1 + df["var_mensal"] / 100).cumprod()
     return df[["ano", "mes", "indice_acum"]]
-
-
-def deflacionar(df_nominal: pd.DataFrame, col_val: str, df_ipca: pd.DataFrame) -> pd.Series:
-    """Deflaciona `col_val` para R$ de DATA_BASE_DEFLATOR usando dez de cada ano."""
-    ano_base, mes_base = DATA_BASE_DEFLATOR
-    idx_base = df_ipca.loc[
-        (df_ipca["ano"] == ano_base) & (df_ipca["mes"] == mes_base), "indice_acum"
-    ].iloc[0]
-    df_dez = df_ipca[df_ipca["mes"] == 12][["ano", "indice_acum"]].rename(
-        columns={"indice_acum": "idx_dez"}
-    )
-    merged = df_nominal.merge(df_dez, on="ano", how="left")
-    return merged[col_val] * (idx_base / merged["idx_dez"])
 
 
 # ---------------------------------------------------------------------------

@@ -2019,6 +2019,16 @@ body[data-modo-ativo="metodos"] .rail-cursor { display: none; }
   margin: 1.7rem 0 0.7rem;
 }
 
+/* Lede opcional logo abaixo de um .decisao-tema, quando o grupo precisa de
+   uma frase de contexto antes dos cards. */
+.decisao-tema-lede {
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--color-muted);
+  margin: -0.2rem 0 0.9rem;
+  max-width: 62ch;
+}
+
 @media (max-width: 700px) {
   .rail-secao { font-size: 0.56rem; letter-spacing: 0.03em; padding: 0 0.25rem; }
   .rail-secao--voltar { display: none; }

@@ -114,10 +114,15 @@ Dois pontos, e o segundo é o que importa para a identificação:
 Reprodução do #38 inalterada (sanity ✓). O único elemento com standing do #38 reaparece como
 **espelho exógeno**:
 
-| Câmbio × exposição → Δ Rebanho (lag 1) | β | p |
-|---|---|---|
-| Fronteira (% veg — proxy de área, #38) | +0,0285 | 0,031 |
-| **Aptidão física (exógena — #52)** | **−0,0325** | **0,026** |
+| Câmbio × exposição → Δ Rebanho (lag 1) | β | p (cluster) | p (permutação, #54) |
+|---|---|---|---|
+| Fronteira (% veg — proxy de área, #38) | +0,0285 | 0,031 | 0,07–0,13 |
+| **Aptidão física (exógena — #52)** | **−0,0325** | 0,026 | **0,07–0,13** |
+
+> ⚠️ **Os `p` das duas primeiras colunas são clusterizados e otimistas** — ver a caixa
+> "Atualização de inferência (#54)" mais abaixo. O ganho do #52 é de **identificação**
+> (exposição exógena, sem complementaridade mecânica), **não** de significância: o p válido
+> continua sendo o da permutação. **Não citar `p=0,026` como significância.**
 
 Mesma história, dois ângulos: sob depreciação cambial, o rebanho cresce **mais onde a aptidão é baixa**
 (a fronteira Norte) e **menos no núcleo apto** (Sul). Os sinais são opostos só porque aptidão alta =
@@ -168,7 +173,7 @@ câmbio deve ser lido como artefato de multiplicidade sobre um insumo já otimis
 O drive comum (o positivo da Perna 3) vai, **na identificação**, de **"sugestiva"** para **"sugestiva mais firme / mais defensável"** — não "estabelecida" (e a **significância** é calibrada para baixo pelo #54; ver caixa acima).
 O que mudou de fato:
 - O achado-manchete (câmbio × aptidão → rebanho de fronteira) fica **livre da objeção de
-  complementaridade**: confirma-se com uma exposição exógena, não-complementar (β=−0,033, p=0,026).
+  complementaridade**: confirma-se com uma exposição exógena, não-complementar (β=−0,033; p clusterizado 0,026, **p de permutação ≈0,07–0,13 — n.s. a 5%**).
 - A premissa "Sul apto / Norte fronteira" **deixa de ser assumida e vira medida** (52A).
 - A grade exploratória firmou de 0→2 sobreviventes do FDR — mas via a mesma fragilidade de tamanho de
   família que o #38 flagou, então **beira** um FDR-survivor sem cruzar para "estabelecido".
@@ -216,7 +221,7 @@ py -3.14 scripts/aptidao_edafo_drive38.py             # 52B: a exposição no #3
 |---|---|---|---|
 | 4/5 | #37 | Qual é o drive comum? | Assinatura cambial fraca (UF/anual, N≈38). |
 | 5 | #38 | O drive opera sobre o gradiente de aptidão (proxy de área)? | Indício sugestivo; nada sobrevive ao FDR (144). |
-| **5** | **#52** | **E com aptidão edafoclimática EXÓGENA?** | **A premissa do gradiente vira medida (52A); o achado do rebanho confirma-se sem a complementaridade (β=−0,033, p=0,026) e beira o FDR (52B). Mais firme e mais defensável — não estabelecido; teto temporal intacto.** |
+| **5** | **#52** | **E com aptidão edafoclimática EXÓGENA?** | **A premissa do gradiente vira medida (52A); o achado do rebanho confirma-se sem a complementaridade (β=−0,033) e beira o FDR (52B). Ganho de *identificação*, não de significância — sob permutação do shifter (#54) o p é ≈0,07–0,13, n.s. a 5%. Mais firme e mais defensável — não estabelecido; teto temporal intacto.** |
 
 O #52 **fortalece a identificação** do drive comum (o positivo da Perna 3, a metade mais fraca) sem quebrar seu teto de poder: troca um
 proxy de área mecanicamente complementar por uma aptidão física exógena, e o achado-manchete

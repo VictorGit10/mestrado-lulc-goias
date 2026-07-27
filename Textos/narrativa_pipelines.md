@@ -543,10 +543,12 @@ LULC?" mas **"o choque comum bate mais forte onde a exposição é maior?"** —
 **driver × exposição baseline** em 2-way FE (o efeito fixo de ano absorve o choque comum; a
 interação isola o gradiente). Com clusterização dupla, um conjunto confirmatório teórico e uma
 grade exploratória sob FDR (a lição de multiplicidade do #37), o achado é **sóbrio**: a
-hipótese **câmbio × fronteira → rebanho** confirma a direção (p=0,031), mas a grade completa
-(com lag 2) não devolve nenhum sobrevivente do FDR. O gradiente câmbio × aptidão na pecuária de
-fronteira é, portanto, **indício sugestivo, não achado estabelecido** — a Camada 5 avança, não
-fecha.
+hipótese **câmbio × fronteira → rebanho** confirma a direção, mas a grade completa
+(com lag 2) não devolve nenhum sobrevivente do FDR — e o `p=0,031` que este pipeline reportava é
+o **erro-padrão clusterizado**, otimista para um shifter nacional único: sob **permutação do
+shifter** (#54, D20) ele sobe para **≈0,07–0,13, não significante a 5%**. O gradiente câmbio ×
+aptidão na pecuária de fronteira é, portanto, **corroborante, não achado estabelecido** — a
+Camada 5 avança, não fecha.
 
 ### A oferta de terra — `fronteira_fechando.py` (#39)
 
