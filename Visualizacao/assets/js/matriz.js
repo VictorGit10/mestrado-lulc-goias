@@ -1,7 +1,12 @@
-/* matriz.js — Matriz de transição 6×6 com toggle %/Mha e seletor de período.
+/* matriz.js — Matriz de transição com toggle %/Mha e seletor de período.
  * Renderiza a tabela dinamicamente a partir de transicoes_matriz.json.
  * Default: modo %, período 1985→2024.
  * Lazy-load: só faz fetch quando o <details> é aberto pela primeira vez.
+ *
+ * A ordem e a quantidade de classes vêm do JSON (`periodo.classes`), nunca de
+ * uma constante local: o #12B levou a matriz de 6 para 7 grupos (o Mosaico de
+ * Usos passou a existir) e uma iteração fixa em 6 esconderia a linha e a coluna
+ * novas sem erro nenhum — justamente onde mora o achado.
  */
 (function (root) {
   "use strict";
@@ -11,10 +16,21 @@
   var modoAtual = "pct";      // "pct" | "mha"
   var periodoIdx = 4;         // índice do período (4 = 1985→2024, o último)
 
-  var CLASSES_SHORT = [
-    "Veg. natural", "Pastagem", "Agricultura",
-    "Água", "Urbano", "Outros"
-  ];
+  // Rótulo curto por nome de classe do JSON. Classe ausente daqui cai no próprio
+  // nome do JSON — aparece feia, mas aparece.
+  var ROTULO_CURTO = {
+    "Vegetacao Natural": "Veg. natural",
+    "Pastagem": "Pastagem",
+    "Agricultura": "Agricultura",
+    "Agua": "Água",
+    "Area Urbana": "Urbano",
+    "Outros": "Outros",
+    "Mosaico de Usos": "Mosaico"
+  };
+
+  function rotulo(nomeClasse) {
+    return ROTULO_CURTO[nomeClasse] || nomeClasse;
+  }
 
   // ---------- formatação ----------
 
@@ -39,6 +55,8 @@
     var matriz = modoAtual === "pct" ? p.matriz_pct : p.matriz;
     var fmt = modoAtual === "pct" ? fmtPct : fmtMha;
     var isPct = modoAtual === "pct";
+    var classes = p.classes;
+    var n = classes.length;
 
     // Container da tabela
     var container = document.getElementById("matriz-container");
@@ -51,17 +69,17 @@
     // Cabeçalho
     html += "<thead><tr>";
     html += "<th>Origem ↓ / Destino →</th>";
-    for (var j = 0; j < 6; j++) {
-      html += '<th style="text-align:right;">' + CLASSES_SHORT[j] + "</th>";
+    for (var j = 0; j < n; j++) {
+      html += '<th style="text-align:right;">' + rotulo(classes[j]) + "</th>";
     }
     html += "</tr></thead>";
 
     // Corpo
     html += "<tbody>";
-    for (var i = 0; i < 6; i++) {
+    for (var i = 0; i < n; i++) {
       html += "<tr>";
-      html += "<td>" + CLASSES_SHORT[i] + "</td>";
-      for (var j = 0; j < 6; j++) {
+      html += "<td>" + rotulo(classes[i]) + "</td>";
+      for (var j = 0; j < n; j++) {
         var v = matriz[i][j];
         var isDiag = i === j;
         var isDestaque = isPct
@@ -84,13 +102,15 @@
       if (isPct) {
         caption.textContent =
           "Cada linha soma 100%. A diagonal mostra a porcentagem que permaneceu na mesma classe; " +
-          "off-diagonal mostra para onde a área foi convertida. " +
-          "Fonte: MapBiomas Coleção 10.1 (Pipeline #12).";
+          "off-diagonal mostra para onde a área foi convertida. O Mosaico de Usos (lavoura ou " +
+          "pasto, que o classificador não separa) entra como classe própria. " +
+          "Fonte: MapBiomas Coleção 10.1 (Pipeline #12B).";
       } else {
         caption.textContent =
           "Valores em milhões de hectares (Mha). Diagonal: pixels que permaneceram na mesma classe. " +
-          "Off-diagonal: transições. " +
-          "Fonte: MapBiomas Coleção 10.1 (Pipeline #12).";
+          "Off-diagonal: transições. O Mosaico de Usos (lavoura ou pasto, que o classificador não " +
+          "separa) entra como classe própria. " +
+          "Fonte: MapBiomas Coleção 10.1 (Pipeline #12B).";
       }
     }
 

@@ -21,7 +21,8 @@ Mestrado/
 │   ├── coleta_sicor.py                    # #6
 │   ├── analise_credito_uso_terra.py       # #8
 │   ├── gerar_mapas_lulc_40anos.py         # #9  (+ _gee_40anos #10, gif #11, *_rio_verde)
-│   ├── transicoes_mapbiomas.py            # #12 (+ visualizar_transicoes, agregar_conversoes #19)
+│   ├── transicoes_mapbiomas.py            # #12 (6 grupos, superado; + visualizar_transicoes, agregar_conversoes #19)
+│   ├── transicoes_cubo.py                 # #12B a matriz primária: 7 grupos, no cubo do #28 (+ validar_transicoes_cubo)
 │   ├── coleta_idhm.py                     # #13
 │   ├── fogo_mapbiomas.py                  # #14 (+ analise_fogo)
 │   ├── analise_safrinha.py                # #15
@@ -105,7 +106,7 @@ Mestrado/
 └── outputs/                            # Gráficos, mapas, diagnósticos (27 subpastas, uma por eixo)
     ├── analises/                            # PNGs 01–28 descritivos — Pipelines #1,2,5,8,14,15
     ├── mapas/ mapas_gee/ mapas_gee_rio_verde/   # coropléticos + rasters GEE + GIFs — #9, #10, #11
-    ├── transicoes/ transicoes_regionais/   # heatmaps, Sankey, mapas — #12, #33
+    ├── transicoes/ transicoes_regionais/   # heatmaps 7×7, Sankey, mapas — #12B, #33
     ├── taxas/                              # figuras de taxas — #20
     ├── correlacoes/                         # painel 2FE, DiD, quebras — #21-23, #26
     ├── idade_pastagem/                      # bimodalidade da idade do pasto — #28, #28C

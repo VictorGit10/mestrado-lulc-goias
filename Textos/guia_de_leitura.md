@@ -1011,7 +1011,7 @@ Ela se apoia em quatro pernas:
 | Perna | O que afirma | Pipelines | Força da evidência |
 |---|---|---|---|
 | **1. O padrão existe** | Tudo marchou ao norte; a lavoura fica ao sul do pasto; a vegetação ficou **ancorada** | #32, #43 (MAUP), #44 (desagregado), D19 (IC) | **Forte** — robusto a malha, a desagregação e ao bootstrap |
-| **2. O mecanismo local** | Sul: pasto→lavoura (intensifica); Norte: mata→pasto (fronteira) | #33, #28, #22, **#22B**, #40, #28C, #40B, #49 | **Forte no *tipo* de transição** — mas por medidas **imunes**: o `veg→pasto` do #33 (que não passa pelo Mosaico) e os centroides #32/#44. **✅ A "intensificação" ficou mais firme (#22B, 27/jul)**: o β<0 de `Δ Agric ~ Δ VA agro` é **within-município**, não composição entre municípios — sobrevive a um FE de grupo×ano movendo só +2,4% a +14,1%. **⚠️ Cai o gradiente latitudinal de IDADE do pasto (#40/#28C/#33 — três testes independentes)**, **cai a queda de −88% do `pasto→agric` do Sul no Ato III (#33: inverte para +51%)** e **cai a "retração da agricultura" do Intensity (#31: −84% inverte para +67%)**. Auditoria D26, `metodologia/tratamento_deriva_mosaico.md` §9 — sobrevive a bimodalidade/coexistência, não o "young-Sul/old-Norte" |
+| **2. O mecanismo local** | Sul: pasto→lavoura (intensifica); Norte: mata→pasto (fronteira) | #33, #28, #22, **#22B**, #40, #28C, #40B, #49 | **Forte no *tipo* de transição** — mas por medidas **imunes**: o `veg→pasto` do #33 (que não passa pelo Mosaico) e os centroides #32/#44. **✅ A "intensificação" ficou mais firme (#22B, 27/jul)**: o β<0 de `Δ Agric ~ Δ VA agro` é **within-município**, não composição entre municípios — sobrevive a um FE de grupo×ano movendo só +2,4% a +14,1%. **⚠️ Cai o gradiente latitudinal de IDADE do pasto (#40/#28C/#33 — três testes independentes)**, **cai a queda de −88% do `pasto→agric` do Sul no Ato III (#33: inverte para +51%)** e **cai a "retração da agricultura" do Intensity (#31: −84% inverte para +67%)**. Auditoria D26, `metodologia/tratamento_deriva_mosaico.md` §9 — sobrevive a bimodalidade/coexistência, não o "young-Sul/old-Norte". **✅ Confirmado na régua consertada (#12B, 27/jul)**: com o Mosaico como 7º grupo a matriz primária dá os mesmos **−88% / +51%** do bracket — o remendo e o conserto convergem |
 | **3. Reorganização coordenada, não deslocamento** | *Negativo:* sem precedência temporal, sem spillover direcional. *Positivo:* coordenada por um **drive macro comum** (câmbio o candidato), não por causação local | *Negativo:* #34, #42, #45, #53, #41 · *Positivo:* #37, #38, #52 (aptidão exógena), #54 (inferência), #50 (crédito não lidera) | **Forte no negativo** (nulo bem defendido); **corroborante no positivo** — o #54 mostrou que o p clusterizado (~0,03) era otimista, a permutação do shifter dá **p≈0,07–0,13 (não sig. a 5%)**; o que sustenta o drive comum é a **especificidade** (placebos/lead/jackknife), não a significância |
 | **4. O teto de oferta** | Sul bateu no estoque; Norte ainda tem Cerrado; 97% desprotegido | #39, #46, #48 (valida PRODES), #47 (custo) | **Forte no diagnóstico**, com proxy declarado (D13/D17) |
 
@@ -1128,6 +1128,26 @@ bimodalidade e a coexistência são robustas; **o "pasto jovem no Sul, velho no 
 afirmável** — ele existe só dentro do subconjunto rotulado "agricultura". O gradiente Sul→Norte que
 segue de pé é outro, e é medido por outras coisas: o **tipo de transição** (#33, `veg→pasto` ao
 norte × `pasto→agric` ao sul — o `veg→pasto` é imune) e a **marcha dos centroides** (#32/#44).
+
+**"Sua matriz de transição, a fonte primária de fluxo da dissertação, jogava fora a classe que absorve a conversão. Como você sabe que sobrou alguma coisa de pé?"**
+Porque **eu a refiz inteira e comparei** (#12B, 27/jul/2026). O defeito era real e maior do que
+parecia: a tradução ID→grupo mandava a classe 21 para nada, então o pixel que saía de pasto para
+Mosaico **desaparecia da matriz** — do numerador *e* do denominador. Isso é **6,5% a 10,9% de Goiás,
+todo ano** (3,72 Mha em 2024); no batimento contra o #4 a matriz antiga cobria **0,0%** do estoque de
+Mosaico, e a validação original era **cega por construção** (descartava a classe dos dois lados antes
+de comparar, então passaria com δ≈0 mesmo se 100% da conversão tivesse migrado). Refiz a contagem no
+cubo censitário local, com o Mosaico como 7º grupo, e **separei as duas coisas que mudam ao mesmo
+tempo**: o conserto (Δ_mosaico) e a troca de instrumento (Δ_medida). A troca de instrumento vale
+**−0,43% e é uniforme** — não desestabiliza nada; e o fechamento vai de **7,26%** de Goiás perdidos
+para **0,08%**. **E o ponto que interessa à banca:** no Sul, no Ato II→III, `pasto→agric` sozinho dá
+os mesmos **−88%** de antes e `pasto→(agric∪mosaico)` dá **+51%** — ou seja, a régua consertada
+**reproduz exatamente** o bracket da **D26**, que eu já vinha reportando como intervalo. O remendo e
+o conserto convergem, o que é a melhor evidência de que o remendo estava certo. A D26 **não é
+revogada**: a ambiguidade do Mosaico é *semântica* (o MapBiomas não separa lavoura de pasto naquele
+pixel), não dado faltante — o que mudou é que agora os dois extremos do intervalo são **medidos**, e
+não pisos. Achado colateral que também virou resposta pronta: `veg→mosaico` **não** é desmatamento —
+incluí-lo levaria a razão contra o **PRODES** para 1,35 na janela em que as duas fontes concordam
+1:1, então ele é deriva de classificador na borda, e o #48 segue válido sem tocar em nada.
 
 **"Com censo você tem a população inteira. Seus testes não ficam todos significantes por construção?"**
 Ficam, e é por isso que eu **não os uso** (**D23**). O ΔBIC da bimodalidade no Ato III é 844.789 —

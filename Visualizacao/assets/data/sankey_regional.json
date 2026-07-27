@@ -36,6 +36,11 @@
         "color": "#b8a98a"
       },
       {
+        "id": "Mosaico de Usos_1985",
+        "label": "Mosaico de Usos (1985)",
+        "color": "#c98a4b"
+      },
+      {
         "id": "Vegetacao Natural_2000",
         "label": "Vegetacao Natural (2000)",
         "color": "#2d5a3d"
@@ -64,62 +69,109 @@
         "id": "Outros_2000",
         "label": "Outros (2000)",
         "color": "#b8a98a"
+      },
+      {
+        "id": "Mosaico de Usos_2000",
+        "label": "Mosaico de Usos (2000)",
+        "color": "#c98a4b"
       }
     ],
     "links": [
       {
         "source": "Vegetacao Natural_1985",
         "target": "Pastagem_2000",
-        "value": 1.2659,
+        "value": 1.2619,
         "color": "#2d5a3d"
       },
       {
         "source": "Vegetacao Natural_1985",
         "target": "Agricultura_2000",
-        "value": 0.0491,
+        "value": 0.0489,
         "color": "#2d5a3d"
       },
       {
         "source": "Vegetacao Natural_1985",
         "target": "Outros_2000",
-        "value": 0.0443,
+        "value": 0.0441,
+        "color": "#2d5a3d"
+      },
+      {
+        "source": "Vegetacao Natural_1985",
+        "target": "Mosaico de Usos_2000",
+        "value": 0.5797,
         "color": "#2d5a3d"
       },
       {
         "source": "Pastagem_1985",
         "target": "Vegetacao Natural_2000",
-        "value": 0.2453,
+        "value": 0.2445,
         "color": "#d4b65a"
       },
       {
         "source": "Pastagem_1985",
         "target": "Agricultura_2000",
-        "value": 1.1121,
+        "value": 1.1081,
+        "color": "#d4b65a"
+      },
+      {
+        "source": "Pastagem_1985",
+        "target": "Mosaico de Usos_2000",
+        "value": 1.0511,
         "color": "#d4b65a"
       },
       {
         "source": "Agricultura_1985",
         "target": "Pastagem_2000",
-        "value": 0.3765,
+        "value": 0.3753,
+        "color": "#d96aa3"
+      },
+      {
+        "source": "Agricultura_1985",
+        "target": "Mosaico de Usos_2000",
+        "value": 0.0814,
         "color": "#d96aa3"
       },
       {
         "source": "Agua_1985",
         "target": "Outros_2000",
-        "value": 0.0264,
+        "value": 0.0263,
         "color": "#4a7ba6"
       },
       {
         "source": "Outros_1985",
         "target": "Vegetacao Natural_2000",
-        "value": 0.0517,
+        "value": 0.0515,
         "color": "#b8a98a"
       },
       {
         "source": "Outros_1985",
         "target": "Pastagem_2000",
-        "value": 0.081,
+        "value": 0.0808,
         "color": "#b8a98a"
+      },
+      {
+        "source": "Outros_1985",
+        "target": "Mosaico de Usos_2000",
+        "value": 0.0534,
+        "color": "#b8a98a"
+      },
+      {
+        "source": "Mosaico de Usos_1985",
+        "target": "Vegetacao Natural_2000",
+        "value": 0.2286,
+        "color": "#c98a4b"
+      },
+      {
+        "source": "Mosaico de Usos_1985",
+        "target": "Pastagem_2000",
+        "value": 1.2078,
+        "color": "#c98a4b"
+      },
+      {
+        "source": "Mosaico de Usos_1985",
+        "target": "Agricultura_2000",
+        "value": 0.7011,
+        "color": "#c98a4b"
       }
     ],
     "mesorregiao": "Sul Goiano"
@@ -161,6 +213,11 @@
         "color": "#b8a98a"
       },
       {
+        "id": "Mosaico de Usos_2001",
+        "label": "Mosaico de Usos (2001)",
+        "color": "#c98a4b"
+      },
+      {
         "id": "Vegetacao Natural_2019",
         "label": "Vegetacao Natural (2019)",
         "color": "#2d5a3d"
@@ -189,56 +246,103 @@
         "id": "Outros_2019",
         "label": "Outros (2019)",
         "color": "#b8a98a"
+      },
+      {
+        "id": "Mosaico de Usos_2019",
+        "label": "Mosaico de Usos (2019)",
+        "color": "#c98a4b"
       }
     ],
     "links": [
       {
         "source": "Vegetacao Natural_2001",
         "target": "Pastagem_2019",
-        "value": 0.4293,
+        "value": 0.4279,
         "color": "#2d5a3d"
       },
       {
         "source": "Vegetacao Natural_2001",
         "target": "Agricultura_2019",
-        "value": 0.0357,
+        "value": 0.0356,
+        "color": "#2d5a3d"
+      },
+      {
+        "source": "Vegetacao Natural_2001",
+        "target": "Mosaico de Usos_2019",
+        "value": 0.1903,
         "color": "#2d5a3d"
       },
       {
         "source": "Pastagem_2001",
         "target": "Vegetacao Natural_2019",
-        "value": 0.2508,
+        "value": 0.25,
         "color": "#d4b65a"
       },
       {
         "source": "Pastagem_2001",
         "target": "Agricultura_2019",
-        "value": 1.1921,
+        "value": 1.1881,
         "color": "#d4b65a"
       },
       {
         "source": "Pastagem_2001",
         "target": "Agua_2019",
-        "value": 0.0227,
+        "value": 0.0226,
+        "color": "#d4b65a"
+      },
+      {
+        "source": "Pastagem_2001",
+        "target": "Mosaico de Usos_2019",
+        "value": 1.3041,
         "color": "#d4b65a"
       },
       {
         "source": "Agricultura_2001",
         "target": "Pastagem_2019",
-        "value": 0.4537,
+        "value": 0.4522,
+        "color": "#d96aa3"
+      },
+      {
+        "source": "Agricultura_2001",
+        "target": "Mosaico de Usos_2019",
+        "value": 0.2025,
         "color": "#d96aa3"
       },
       {
         "source": "Outros_2001",
         "target": "Vegetacao Natural_2019",
-        "value": 0.0339,
+        "value": 0.0338,
         "color": "#b8a98a"
       },
       {
         "source": "Outros_2001",
         "target": "Pastagem_2019",
-        "value": 0.0214,
+        "value": 0.0213,
         "color": "#b8a98a"
+      },
+      {
+        "source": "Mosaico de Usos_2001",
+        "target": "Vegetacao Natural_2019",
+        "value": 0.1531,
+        "color": "#c98a4b"
+      },
+      {
+        "source": "Mosaico de Usos_2001",
+        "target": "Pastagem_2019",
+        "value": 0.5512,
+        "color": "#c98a4b"
+      },
+      {
+        "source": "Mosaico de Usos_2001",
+        "target": "Agricultura_2019",
+        "value": 0.7991,
+        "color": "#c98a4b"
+      },
+      {
+        "source": "Mosaico de Usos_2001",
+        "target": "Agua_2019",
+        "value": 0.0234,
+        "color": "#c98a4b"
       }
     ],
     "mesorregiao": "Sul Goiano"
@@ -280,6 +384,11 @@
         "color": "#b8a98a"
       },
       {
+        "id": "Mosaico de Usos_2020",
+        "label": "Mosaico de Usos (2020)",
+        "color": "#c98a4b"
+      },
+      {
         "id": "Vegetacao Natural_2024",
         "label": "Vegetacao Natural (2024)",
         "color": "#2d5a3d"
@@ -308,26 +417,67 @@
         "id": "Outros_2024",
         "label": "Outros (2024)",
         "color": "#b8a98a"
+      },
+      {
+        "id": "Mosaico de Usos_2024",
+        "label": "Mosaico de Usos (2024)",
+        "color": "#c98a4b"
       }
     ],
     "links": [
       {
         "source": "Vegetacao Natural_2020",
         "target": "Pastagem_2024",
-        "value": 0.0484,
+        "value": 0.0483,
+        "color": "#2d5a3d"
+      },
+      {
+        "source": "Vegetacao Natural_2020",
+        "target": "Mosaico de Usos_2024",
+        "value": 0.0623,
         "color": "#2d5a3d"
       },
       {
         "source": "Pastagem_2020",
         "target": "Vegetacao Natural_2024",
-        "value": 0.0451,
+        "value": 0.045,
         "color": "#d4b65a"
       },
       {
         "source": "Pastagem_2020",
         "target": "Agricultura_2024",
-        "value": 0.0307,
+        "value": 0.0306,
         "color": "#d4b65a"
+      },
+      {
+        "source": "Pastagem_2020",
+        "target": "Mosaico de Usos_2024",
+        "value": 0.8054,
+        "color": "#d4b65a"
+      },
+      {
+        "source": "Agricultura_2020",
+        "target": "Mosaico de Usos_2024",
+        "value": 0.0416,
+        "color": "#d96aa3"
+      },
+      {
+        "source": "Mosaico de Usos_2020",
+        "target": "Vegetacao Natural_2024",
+        "value": 0.0223,
+        "color": "#c98a4b"
+      },
+      {
+        "source": "Mosaico de Usos_2020",
+        "target": "Pastagem_2024",
+        "value": 0.1193,
+        "color": "#c98a4b"
+      },
+      {
+        "source": "Mosaico de Usos_2020",
+        "target": "Agricultura_2024",
+        "value": 0.0608,
+        "color": "#c98a4b"
       }
     ],
     "mesorregiao": "Sul Goiano"
@@ -369,6 +519,11 @@
         "color": "#b8a98a"
       },
       {
+        "id": "Mosaico de Usos_1985",
+        "label": "Mosaico de Usos (1985)",
+        "color": "#c98a4b"
+      },
+      {
         "id": "Vegetacao Natural_2000",
         "label": "Vegetacao Natural (2000)",
         "color": "#2d5a3d"
@@ -397,38 +552,73 @@
         "id": "Outros_2000",
         "label": "Outros (2000)",
         "color": "#b8a98a"
+      },
+      {
+        "id": "Mosaico de Usos_2000",
+        "label": "Mosaico de Usos (2000)",
+        "color": "#c98a4b"
       }
     ],
     "links": [
       {
         "source": "Vegetacao Natural_1985",
         "target": "Pastagem_2000",
-        "value": 0.2311,
+        "value": 0.2303,
+        "color": "#2d5a3d"
+      },
+      {
+        "source": "Vegetacao Natural_1985",
+        "target": "Mosaico de Usos_2000",
+        "value": 0.2317,
         "color": "#2d5a3d"
       },
       {
         "source": "Pastagem_1985",
         "target": "Vegetacao Natural_2000",
-        "value": 0.056,
+        "value": 0.0557,
         "color": "#d4b65a"
       },
       {
         "source": "Pastagem_1985",
         "target": "Agricultura_2000",
-        "value": 0.1227,
+        "value": 0.1222,
         "color": "#d4b65a"
       },
       {
         "source": "Pastagem_1985",
         "target": "Area Urbana_2000",
-        "value": 0.0208,
+        "value": 0.0207,
+        "color": "#d4b65a"
+      },
+      {
+        "source": "Pastagem_1985",
+        "target": "Mosaico de Usos_2000",
+        "value": 0.372,
         "color": "#d4b65a"
       },
       {
         "source": "Agricultura_1985",
         "target": "Pastagem_2000",
-        "value": 0.0749,
+        "value": 0.0746,
         "color": "#d96aa3"
+      },
+      {
+        "source": "Mosaico de Usos_1985",
+        "target": "Vegetacao Natural_2000",
+        "value": 0.1417,
+        "color": "#c98a4b"
+      },
+      {
+        "source": "Mosaico de Usos_1985",
+        "target": "Pastagem_2000",
+        "value": 0.6032,
+        "color": "#c98a4b"
+      },
+      {
+        "source": "Mosaico de Usos_1985",
+        "target": "Agricultura_2000",
+        "value": 0.0505,
+        "color": "#c98a4b"
       }
     ],
     "mesorregiao": "Centro Goiano"
@@ -470,6 +660,11 @@
         "color": "#b8a98a"
       },
       {
+        "id": "Mosaico de Usos_2001",
+        "label": "Mosaico de Usos (2001)",
+        "color": "#c98a4b"
+      },
+      {
         "id": "Vegetacao Natural_2019",
         "label": "Vegetacao Natural (2019)",
         "color": "#2d5a3d"
@@ -498,32 +693,73 @@
         "id": "Outros_2019",
         "label": "Outros (2019)",
         "color": "#b8a98a"
+      },
+      {
+        "id": "Mosaico de Usos_2019",
+        "label": "Mosaico de Usos (2019)",
+        "color": "#c98a4b"
       }
     ],
     "links": [
       {
         "source": "Vegetacao Natural_2001",
         "target": "Pastagem_2019",
-        "value": 0.1095,
+        "value": 0.1091,
+        "color": "#2d5a3d"
+      },
+      {
+        "source": "Vegetacao Natural_2001",
+        "target": "Mosaico de Usos_2019",
+        "value": 0.0869,
         "color": "#2d5a3d"
       },
       {
         "source": "Pastagem_2001",
         "target": "Vegetacao Natural_2019",
-        "value": 0.0808,
+        "value": 0.0805,
         "color": "#d4b65a"
       },
       {
         "source": "Pastagem_2001",
         "target": "Agricultura_2019",
-        "value": 0.2795,
+        "value": 0.2785,
+        "color": "#d4b65a"
+      },
+      {
+        "source": "Pastagem_2001",
+        "target": "Mosaico de Usos_2019",
+        "value": 0.5429,
         "color": "#d4b65a"
       },
       {
         "source": "Agricultura_2001",
         "target": "Pastagem_2019",
-        "value": 0.1214,
+        "value": 0.121,
         "color": "#d96aa3"
+      },
+      {
+        "source": "Agricultura_2001",
+        "target": "Mosaico de Usos_2019",
+        "value": 0.0432,
+        "color": "#d96aa3"
+      },
+      {
+        "source": "Mosaico de Usos_2001",
+        "target": "Vegetacao Natural_2019",
+        "value": 0.1052,
+        "color": "#c98a4b"
+      },
+      {
+        "source": "Mosaico de Usos_2001",
+        "target": "Pastagem_2019",
+        "value": 0.3456,
+        "color": "#c98a4b"
+      },
+      {
+        "source": "Mosaico de Usos_2001",
+        "target": "Agricultura_2019",
+        "value": 0.1904,
+        "color": "#c98a4b"
       }
     ],
     "mesorregiao": "Centro Goiano"
@@ -565,6 +801,11 @@
         "color": "#b8a98a"
       },
       {
+        "id": "Mosaico de Usos_2020",
+        "label": "Mosaico de Usos (2020)",
+        "color": "#c98a4b"
+      },
+      {
         "id": "Vegetacao Natural_2024",
         "label": "Vegetacao Natural (2024)",
         "color": "#2d5a3d"
@@ -593,14 +834,37 @@
         "id": "Outros_2024",
         "label": "Outros (2024)",
         "color": "#b8a98a"
+      },
+      {
+        "id": "Mosaico de Usos_2024",
+        "label": "Mosaico de Usos (2024)",
+        "color": "#c98a4b"
       }
     ],
     "links": [
       {
         "source": "Vegetacao Natural_2020",
         "target": "Pastagem_2024",
-        "value": 0.025,
+        "value": 0.0249,
         "color": "#2d5a3d"
+      },
+      {
+        "source": "Vegetacao Natural_2020",
+        "target": "Mosaico de Usos_2024",
+        "value": 0.0384,
+        "color": "#2d5a3d"
+      },
+      {
+        "source": "Pastagem_2020",
+        "target": "Mosaico de Usos_2024",
+        "value": 0.2442,
+        "color": "#d4b65a"
+      },
+      {
+        "source": "Mosaico de Usos_2020",
+        "target": "Pastagem_2024",
+        "value": 0.0908,
+        "color": "#c98a4b"
       }
     ],
     "mesorregiao": "Centro Goiano"
@@ -642,6 +906,11 @@
         "color": "#b8a98a"
       },
       {
+        "id": "Mosaico de Usos_1985",
+        "label": "Mosaico de Usos (1985)",
+        "color": "#c98a4b"
+      },
+      {
         "id": "Vegetacao Natural_2000",
         "label": "Vegetacao Natural (2000)",
         "color": "#2d5a3d"
@@ -670,50 +939,85 @@
         "id": "Outros_2000",
         "label": "Outros (2000)",
         "color": "#b8a98a"
+      },
+      {
+        "id": "Mosaico de Usos_2000",
+        "label": "Mosaico de Usos (2000)",
+        "color": "#c98a4b"
       }
     ],
     "links": [
       {
         "source": "Vegetacao Natural_1985",
         "target": "Pastagem_2000",
-        "value": 0.5822,
+        "value": 0.5783,
         "color": "#2d5a3d"
       },
       {
         "source": "Vegetacao Natural_1985",
         "target": "Agricultura_2000",
-        "value": 0.0461,
+        "value": 0.0458,
         "color": "#2d5a3d"
       },
       {
         "source": "Vegetacao Natural_1985",
         "target": "Outros_2000",
-        "value": 0.0427,
+        "value": 0.0424,
+        "color": "#2d5a3d"
+      },
+      {
+        "source": "Vegetacao Natural_1985",
+        "target": "Mosaico de Usos_2000",
+        "value": 0.463,
         "color": "#2d5a3d"
       },
       {
         "source": "Pastagem_1985",
         "target": "Vegetacao Natural_2000",
-        "value": 0.1478,
+        "value": 0.1468,
         "color": "#d4b65a"
       },
       {
         "source": "Pastagem_1985",
         "target": "Agricultura_2000",
-        "value": 0.094,
+        "value": 0.0933,
+        "color": "#d4b65a"
+      },
+      {
+        "source": "Pastagem_1985",
+        "target": "Mosaico de Usos_2000",
+        "value": 0.3028,
         "color": "#d4b65a"
       },
       {
         "source": "Agricultura_1985",
         "target": "Pastagem_2000",
-        "value": 0.0314,
+        "value": 0.0312,
         "color": "#d96aa3"
       },
       {
         "source": "Outros_1985",
         "target": "Pastagem_2000",
-        "value": 0.0383,
+        "value": 0.0381,
         "color": "#b8a98a"
+      },
+      {
+        "source": "Mosaico de Usos_1985",
+        "target": "Vegetacao Natural_2000",
+        "value": 0.1526,
+        "color": "#c98a4b"
+      },
+      {
+        "source": "Mosaico de Usos_1985",
+        "target": "Pastagem_2000",
+        "value": 0.6819,
+        "color": "#c98a4b"
+      },
+      {
+        "source": "Mosaico de Usos_1985",
+        "target": "Agricultura_2000",
+        "value": 0.1466,
+        "color": "#c98a4b"
       }
     ],
     "mesorregiao": "Leste Goiano"
@@ -755,6 +1059,11 @@
         "color": "#b8a98a"
       },
       {
+        "id": "Mosaico de Usos_2001",
+        "label": "Mosaico de Usos (2001)",
+        "color": "#c98a4b"
+      },
+      {
         "id": "Vegetacao Natural_2019",
         "label": "Vegetacao Natural (2019)",
         "color": "#2d5a3d"
@@ -783,44 +1092,85 @@
         "id": "Outros_2019",
         "label": "Outros (2019)",
         "color": "#b8a98a"
+      },
+      {
+        "id": "Mosaico de Usos_2019",
+        "label": "Mosaico de Usos (2019)",
+        "color": "#c98a4b"
       }
     ],
     "links": [
       {
         "source": "Vegetacao Natural_2001",
         "target": "Pastagem_2019",
-        "value": 0.4592,
+        "value": 0.4559,
         "color": "#2d5a3d"
       },
       {
         "source": "Vegetacao Natural_2001",
         "target": "Agricultura_2019",
-        "value": 0.053,
+        "value": 0.0527,
         "color": "#2d5a3d"
       },
       {
         "source": "Vegetacao Natural_2001",
         "target": "Agua_2019",
-        "value": 0.0213,
+        "value": 0.0212,
+        "color": "#2d5a3d"
+      },
+      {
+        "source": "Vegetacao Natural_2001",
+        "target": "Mosaico de Usos_2019",
+        "value": 0.2009,
         "color": "#2d5a3d"
       },
       {
         "source": "Pastagem_2001",
         "target": "Vegetacao Natural_2019",
-        "value": 0.2404,
+        "value": 0.2387,
         "color": "#d4b65a"
       },
       {
         "source": "Pastagem_2001",
         "target": "Agricultura_2019",
-        "value": 0.2928,
+        "value": 0.291,
+        "color": "#d4b65a"
+      },
+      {
+        "source": "Pastagem_2001",
+        "target": "Mosaico de Usos_2019",
+        "value": 0.4341,
         "color": "#d4b65a"
       },
       {
         "source": "Agricultura_2001",
         "target": "Pastagem_2019",
-        "value": 0.1179,
+        "value": 0.117,
         "color": "#d96aa3"
+      },
+      {
+        "source": "Agricultura_2001",
+        "target": "Mosaico de Usos_2019",
+        "value": 0.0235,
+        "color": "#d96aa3"
+      },
+      {
+        "source": "Mosaico de Usos_2001",
+        "target": "Vegetacao Natural_2019",
+        "value": 0.1316,
+        "color": "#c98a4b"
+      },
+      {
+        "source": "Mosaico de Usos_2001",
+        "target": "Pastagem_2019",
+        "value": 0.4189,
+        "color": "#c98a4b"
+      },
+      {
+        "source": "Mosaico de Usos_2001",
+        "target": "Agricultura_2019",
+        "value": 0.1879,
+        "color": "#c98a4b"
       }
     ],
     "mesorregiao": "Leste Goiano"
@@ -862,6 +1212,11 @@
         "color": "#b8a98a"
       },
       {
+        "id": "Mosaico de Usos_2020",
+        "label": "Mosaico de Usos (2020)",
+        "color": "#c98a4b"
+      },
+      {
         "id": "Vegetacao Natural_2024",
         "label": "Vegetacao Natural (2024)",
         "color": "#2d5a3d"
@@ -890,20 +1245,43 @@
         "id": "Outros_2024",
         "label": "Outros (2024)",
         "color": "#b8a98a"
+      },
+      {
+        "id": "Mosaico de Usos_2024",
+        "label": "Mosaico de Usos (2024)",
+        "color": "#c98a4b"
       }
     ],
     "links": [
       {
         "source": "Vegetacao Natural_2020",
         "target": "Pastagem_2024",
-        "value": 0.0762,
+        "value": 0.0756,
+        "color": "#2d5a3d"
+      },
+      {
+        "source": "Vegetacao Natural_2020",
+        "target": "Mosaico de Usos_2024",
+        "value": 0.0641,
         "color": "#2d5a3d"
       },
       {
         "source": "Pastagem_2020",
         "target": "Vegetacao Natural_2024",
-        "value": 0.0555,
+        "value": 0.0551,
         "color": "#d4b65a"
+      },
+      {
+        "source": "Pastagem_2020",
+        "target": "Mosaico de Usos_2024",
+        "value": 0.1996,
+        "color": "#d4b65a"
+      },
+      {
+        "source": "Mosaico de Usos_2020",
+        "target": "Pastagem_2024",
+        "value": 0.0696,
+        "color": "#c98a4b"
       }
     ],
     "mesorregiao": "Leste Goiano"
@@ -945,6 +1323,11 @@
         "color": "#b8a98a"
       },
       {
+        "id": "Mosaico de Usos_1985",
+        "label": "Mosaico de Usos (1985)",
+        "color": "#c98a4b"
+      },
+      {
         "id": "Vegetacao Natural_2000",
         "label": "Vegetacao Natural (2000)",
         "color": "#2d5a3d"
@@ -973,25 +1356,42 @@
         "id": "Outros_2000",
         "label": "Outros (2000)",
         "color": "#b8a98a"
+      },
+      {
+        "id": "Mosaico de Usos_2000",
+        "label": "Mosaico de Usos (2000)",
+        "color": "#c98a4b"
       }
     ],
     "links": [
       {
         "source": "Vegetacao Natural_1985",
         "target": "Pastagem_2000",
-        "value": 0.8613,
+        "value": 0.8591,
+        "color": "#2d5a3d"
+      },
+      {
+        "source": "Vegetacao Natural_1985",
+        "target": "Mosaico de Usos_2000",
+        "value": 0.3446,
         "color": "#2d5a3d"
       },
       {
         "source": "Pastagem_1985",
         "target": "Vegetacao Natural_2000",
-        "value": 0.1441,
+        "value": 0.1438,
         "color": "#d4b65a"
       },
       {
         "source": "Pastagem_1985",
         "target": "Agricultura_2000",
-        "value": 0.0757,
+        "value": 0.0755,
+        "color": "#d4b65a"
+      },
+      {
+        "source": "Pastagem_1985",
+        "target": "Mosaico de Usos_2000",
+        "value": 0.2629,
         "color": "#d4b65a"
       },
       {
@@ -1003,8 +1403,20 @@
       {
         "source": "Outros_1985",
         "target": "Pastagem_2000",
-        "value": 0.0215,
+        "value": 0.0214,
         "color": "#b8a98a"
+      },
+      {
+        "source": "Mosaico de Usos_1985",
+        "target": "Vegetacao Natural_2000",
+        "value": 0.2619,
+        "color": "#c98a4b"
+      },
+      {
+        "source": "Mosaico de Usos_1985",
+        "target": "Pastagem_2000",
+        "value": 0.8583,
+        "color": "#c98a4b"
       }
     ],
     "mesorregiao": "Noroeste Goiano"
@@ -1046,6 +1458,11 @@
         "color": "#b8a98a"
       },
       {
+        "id": "Mosaico de Usos_2001",
+        "label": "Mosaico de Usos (2001)",
+        "color": "#c98a4b"
+      },
+      {
         "id": "Vegetacao Natural_2019",
         "label": "Vegetacao Natural (2019)",
         "color": "#2d5a3d"
@@ -1074,32 +1491,67 @@
         "id": "Outros_2019",
         "label": "Outros (2019)",
         "color": "#b8a98a"
+      },
+      {
+        "id": "Mosaico de Usos_2019",
+        "label": "Mosaico de Usos (2019)",
+        "color": "#c98a4b"
       }
     ],
     "links": [
       {
         "source": "Vegetacao Natural_2001",
         "target": "Pastagem_2019",
-        "value": 0.4611,
+        "value": 0.4597,
+        "color": "#2d5a3d"
+      },
+      {
+        "source": "Vegetacao Natural_2001",
+        "target": "Mosaico de Usos_2019",
+        "value": 0.1002,
         "color": "#2d5a3d"
       },
       {
         "source": "Pastagem_2001",
         "target": "Vegetacao Natural_2019",
-        "value": 0.2367,
+        "value": 0.2361,
         "color": "#d4b65a"
       },
       {
         "source": "Pastagem_2001",
         "target": "Agricultura_2019",
-        "value": 0.2362,
+        "value": 0.2355,
+        "color": "#d4b65a"
+      },
+      {
+        "source": "Pastagem_2001",
+        "target": "Mosaico de Usos_2019",
+        "value": 0.2077,
         "color": "#d4b65a"
       },
       {
         "source": "Agricultura_2001",
         "target": "Pastagem_2019",
-        "value": 0.0898,
+        "value": 0.0895,
         "color": "#d96aa3"
+      },
+      {
+        "source": "Mosaico de Usos_2001",
+        "target": "Vegetacao Natural_2019",
+        "value": 0.1034,
+        "color": "#c98a4b"
+      },
+      {
+        "source": "Mosaico de Usos_2001",
+        "target": "Pastagem_2019",
+        "value": 0.2494,
+        "color": "#c98a4b"
+      },
+      {
+        "source": "Mosaico de Usos_2001",
+        "target": "Agricultura_2019",
+        "value": 0.0284,
+        "color": "#c98a4b"
       }
     ],
     "mesorregiao": "Noroeste Goiano"
@@ -1141,6 +1593,11 @@
         "color": "#b8a98a"
       },
       {
+        "id": "Mosaico de Usos_2020",
+        "label": "Mosaico de Usos (2020)",
+        "color": "#c98a4b"
+      },
+      {
         "id": "Vegetacao Natural_2024",
         "label": "Vegetacao Natural (2024)",
         "color": "#2d5a3d"
@@ -1169,20 +1626,43 @@
         "id": "Outros_2024",
         "label": "Outros (2024)",
         "color": "#b8a98a"
+      },
+      {
+        "id": "Mosaico de Usos_2024",
+        "label": "Mosaico de Usos (2024)",
+        "color": "#c98a4b"
       }
     ],
     "links": [
       {
         "source": "Vegetacao Natural_2020",
         "target": "Pastagem_2024",
-        "value": 0.0573,
+        "value": 0.0571,
+        "color": "#2d5a3d"
+      },
+      {
+        "source": "Vegetacao Natural_2020",
+        "target": "Mosaico de Usos_2024",
+        "value": 0.0415,
         "color": "#2d5a3d"
       },
       {
         "source": "Pastagem_2020",
         "target": "Vegetacao Natural_2024",
-        "value": 0.0495,
+        "value": 0.0494,
         "color": "#d4b65a"
+      },
+      {
+        "source": "Pastagem_2020",
+        "target": "Mosaico de Usos_2024",
+        "value": 0.1985,
+        "color": "#d4b65a"
+      },
+      {
+        "source": "Mosaico de Usos_2020",
+        "target": "Pastagem_2024",
+        "value": 0.0424,
+        "color": "#c98a4b"
       }
     ],
     "mesorregiao": "Noroeste Goiano"
@@ -1224,6 +1704,11 @@
         "color": "#b8a98a"
       },
       {
+        "id": "Mosaico de Usos_1985",
+        "label": "Mosaico de Usos (1985)",
+        "color": "#c98a4b"
+      },
+      {
         "id": "Vegetacao Natural_2000",
         "label": "Vegetacao Natural (2000)",
         "color": "#2d5a3d"
@@ -1252,32 +1737,67 @@
         "id": "Outros_2000",
         "label": "Outros (2000)",
         "color": "#b8a98a"
+      },
+      {
+        "id": "Mosaico de Usos_2000",
+        "label": "Mosaico de Usos (2000)",
+        "color": "#c98a4b"
       }
     ],
     "links": [
       {
         "source": "Vegetacao Natural_1985",
         "target": "Pastagem_2000",
-        "value": 0.5411,
+        "value": 0.5383,
         "color": "#2d5a3d"
       },
       {
         "source": "Vegetacao Natural_1985",
         "target": "Agua_2000",
-        "value": 0.0962,
+        "value": 0.0956,
+        "color": "#2d5a3d"
+      },
+      {
+        "source": "Vegetacao Natural_1985",
+        "target": "Mosaico de Usos_2000",
+        "value": 0.3274,
         "color": "#2d5a3d"
       },
       {
         "source": "Pastagem_1985",
         "target": "Vegetacao Natural_2000",
-        "value": 0.1126,
+        "value": 0.1121,
         "color": "#d4b65a"
       },
       {
         "source": "Pastagem_1985",
         "target": "Agricultura_2000",
-        "value": 0.0231,
+        "value": 0.023,
         "color": "#d4b65a"
+      },
+      {
+        "source": "Pastagem_1985",
+        "target": "Mosaico de Usos_2000",
+        "value": 0.182,
+        "color": "#d4b65a"
+      },
+      {
+        "source": "Mosaico de Usos_1985",
+        "target": "Vegetacao Natural_2000",
+        "value": 0.1867,
+        "color": "#c98a4b"
+      },
+      {
+        "source": "Mosaico de Usos_1985",
+        "target": "Pastagem_2000",
+        "value": 0.5464,
+        "color": "#c98a4b"
+      },
+      {
+        "source": "Mosaico de Usos_1985",
+        "target": "Agricultura_2000",
+        "value": 0.0276,
+        "color": "#c98a4b"
       }
     ],
     "mesorregiao": "Norte Goiano"
@@ -1319,6 +1839,11 @@
         "color": "#b8a98a"
       },
       {
+        "id": "Mosaico de Usos_2001",
+        "label": "Mosaico de Usos (2001)",
+        "color": "#c98a4b"
+      },
+      {
         "id": "Vegetacao Natural_2019",
         "label": "Vegetacao Natural (2019)",
         "color": "#2d5a3d"
@@ -1347,38 +1872,73 @@
         "id": "Outros_2019",
         "label": "Outros (2019)",
         "color": "#b8a98a"
+      },
+      {
+        "id": "Mosaico de Usos_2019",
+        "label": "Mosaico de Usos (2019)",
+        "color": "#c98a4b"
       }
     ],
     "links": [
       {
         "source": "Vegetacao Natural_2001",
         "target": "Pastagem_2019",
-        "value": 0.4932,
+        "value": 0.4906,
         "color": "#2d5a3d"
       },
       {
         "source": "Vegetacao Natural_2001",
         "target": "Agua_2019",
-        "value": 0.0292,
+        "value": 0.029,
+        "color": "#2d5a3d"
+      },
+      {
+        "source": "Vegetacao Natural_2001",
+        "target": "Mosaico de Usos_2019",
+        "value": 0.1404,
         "color": "#2d5a3d"
       },
       {
         "source": "Pastagem_2001",
         "target": "Vegetacao Natural_2019",
-        "value": 0.2541,
+        "value": 0.2528,
         "color": "#d4b65a"
       },
       {
         "source": "Pastagem_2001",
         "target": "Agricultura_2019",
-        "value": 0.1545,
+        "value": 0.1538,
+        "color": "#d4b65a"
+      },
+      {
+        "source": "Pastagem_2001",
+        "target": "Mosaico de Usos_2019",
+        "value": 0.2195,
         "color": "#d4b65a"
       },
       {
         "source": "Agricultura_2001",
         "target": "Pastagem_2019",
-        "value": 0.0286,
+        "value": 0.0285,
         "color": "#d96aa3"
+      },
+      {
+        "source": "Mosaico de Usos_2001",
+        "target": "Vegetacao Natural_2019",
+        "value": 0.1192,
+        "color": "#c98a4b"
+      },
+      {
+        "source": "Mosaico de Usos_2001",
+        "target": "Pastagem_2019",
+        "value": 0.2506,
+        "color": "#c98a4b"
+      },
+      {
+        "source": "Mosaico de Usos_2001",
+        "target": "Agricultura_2019",
+        "value": 0.056,
+        "color": "#c98a4b"
       }
     ],
     "mesorregiao": "Norte Goiano"
@@ -1420,6 +1980,11 @@
         "color": "#b8a98a"
       },
       {
+        "id": "Mosaico de Usos_2020",
+        "label": "Mosaico de Usos (2020)",
+        "color": "#c98a4b"
+      },
+      {
         "id": "Vegetacao Natural_2024",
         "label": "Vegetacao Natural (2024)",
         "color": "#2d5a3d"
@@ -1448,20 +2013,43 @@
         "id": "Outros_2024",
         "label": "Outros (2024)",
         "color": "#b8a98a"
+      },
+      {
+        "id": "Mosaico de Usos_2024",
+        "label": "Mosaico de Usos (2024)",
+        "color": "#c98a4b"
       }
     ],
     "links": [
       {
         "source": "Vegetacao Natural_2020",
         "target": "Pastagem_2024",
-        "value": 0.0956,
+        "value": 0.0951,
+        "color": "#2d5a3d"
+      },
+      {
+        "source": "Vegetacao Natural_2020",
+        "target": "Mosaico de Usos_2024",
+        "value": 0.0643,
         "color": "#2d5a3d"
       },
       {
         "source": "Pastagem_2020",
         "target": "Vegetacao Natural_2024",
-        "value": 0.0646,
+        "value": 0.0642,
         "color": "#d4b65a"
+      },
+      {
+        "source": "Pastagem_2020",
+        "target": "Mosaico de Usos_2024",
+        "value": 0.1058,
+        "color": "#d4b65a"
+      },
+      {
+        "source": "Mosaico de Usos_2020",
+        "target": "Pastagem_2024",
+        "value": 0.0569,
+        "color": "#c98a4b"
       }
     ],
     "mesorregiao": "Norte Goiano"

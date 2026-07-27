@@ -2,7 +2,7 @@
 MapBiomas para Goiás (1985–2024).
 
 Gera:
-    1. Heatmaps 6×6 por período
+    1. Heatmaps 7×7 por período
     2. Diagrama de Sankey 1985→2024
     3. Mapas coropléticos: transição dominante, estabilidade, pastagem→agricultura
     4. CSV comparativo com Pipeline #5 (proxy vs pixel-a-pixel)
@@ -39,10 +39,13 @@ CLASSES = {
     4: {"nome": "Água",              "ids": [31, 33],                              "cor": "#4169E1"},
     5: {"nome": "Área Urbana",       "ids": [24],                                  "cor": "#A0A0A0"},
     6: {"nome": "Outros",            "ids": [5, 6, 11, 23, 25, 27, 29, 30, 32, 49, 50, 75],  "cor": "#D2B48C"},
+    # Grupo 7 desde o #12B (27/jul/2026): antes a classe 21 era mascarada na origem.
+    7: {"nome": "Mosaico de Usos",   "ids": [21],                                 "cor": "#c98a4b"},
 }
 NOME_CLASSE = {k: v["nome"] for k, v in CLASSES.items()}
 COR_CLASSE = {k: v["cor"] for k, v in CLASSES.items()}
 ORDEM = list(CLASSES.keys())
+N_CLASSES = len(CLASSES)   # 7 desde o #12B; era 6 com a classe 21 mascarada
 
 PERIODOS_NIVEL1 = [(1985, 1995), (1995, 2005), (2005, 2015), (2015, 2024)]
 PERIODOS_LONGOS = [(1985, 2000), (2000, 2010), (2010, 2024), (1985, 2010), (1985, 2024)]
@@ -50,7 +53,7 @@ TODOS_PERIODOS = PERIODOS_NIVEL1 + PERIODOS_LONGOS
 
 DPI = 200
 ROOT = Path(__file__).resolve().parent.parent
-CSV_TRANS = ROOT / "data" / "processed" / "transicoes_mapbiomas_goias.csv"
+CSV_TRANS = ROOT / "data" / "processed" / "transicoes_cubo_goias.csv"  # #12B (7 grupos)
 OUT_DIR = ROOT / "outputs" / "transicoes"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -72,15 +75,15 @@ def carregar_malha() -> "gpd.GeoDataFrame":
 
 
 # ──────────────────────────────────────────────────────────────
-# 1. Heatmaps 6×6 por período
+# 1. Heatmaps 7×7 por período
 # ──────────────────────────────────────────────────────────────
 def heatmap_matriz(df: pd.DataFrame, ano_orig: int, ano_dest: int) -> None:
-    """Heatmap 6×6 da matriz de transição (em % da linha)."""
+    """Heatmap 7×7 da matriz de transição (em % da linha)."""
     mask = (df["ano_origem"] == ano_orig) & (df["ano_destino"] == ano_dest)
     sub = df[mask]
 
     # Matriz de áreas
-    mat = np.zeros((6, 6))
+    mat = np.zeros((N_CLASSES, N_CLASSES))
     for _, row in sub.iterrows():
         i = int(row["classe_orig"]) - 1
         j = int(row["classe_dest"]) - 1
@@ -92,13 +95,13 @@ def heatmap_matriz(df: pd.DataFrame, ano_orig: int, ano_dest: int) -> None:
     mat_pct = mat / row_sums * 100
 
     fig, ax = plt.subplots(figsize=(8, 7))
-    nomes = [NOME_CLASSE[i + 1] for i in range(6)]
+    nomes = [NOME_CLASSE[i + 1] for i in range(N_CLASSES)]
 
     # Plotar com anotações
     im = ax.imshow(mat_pct, cmap="YlOrRd", vmin=0, vmax=100)
 
-    for i in range(6):
-        for j in range(6):
+    for i in range(N_CLASSES):
+        for j in range(N_CLASSES):
             val = mat_pct[i, j]
             area = mat[i, j]
             if val >= 1:
@@ -113,8 +116,8 @@ def heatmap_matriz(df: pd.DataFrame, ano_orig: int, ano_dest: int) -> None:
                 ax.text(j, i, texto, ha="center", va="center", fontsize=7,
                         color=cor, fontweight="bold" if i == j else "normal")
 
-    ax.set_xticks(range(6))
-    ax.set_yticks(range(6))
+    ax.set_xticks(range(N_CLASSES))
+    ax.set_yticks(range(N_CLASSES))
     ax.set_xticklabels(nomes, rotation=45, ha="right", fontsize=9)
     ax.set_yticklabels(nomes, fontsize=9)
     ax.set_xlabel(f"Classe em {ano_dest}")
@@ -122,7 +125,7 @@ def heatmap_matriz(df: pd.DataFrame, ano_orig: int, ano_dest: int) -> None:
     ax.set_title(f"Matriz de Transição — Goiás {ano_orig}→{ano_dest}", fontsize=13)
 
     # Diagonal mais escura
-    for i in range(6):
+    for i in range(N_CLASSES):
         ax.add_patch(plt.Rectangle((i - 0.5, i - 0.5), 1, 1, fill=False,
                                      edgecolor="black", linewidth=2))
 
@@ -156,7 +159,7 @@ def sankey_1985_2024(df: pd.DataFrame) -> None:
     sources, targets, values, colors = [], [], [], []
     for _, row in sub.iterrows():
         src = int(row["classe_orig"]) - 1
-        tgt = int(row["classe_dest"]) - 1 + 6
+        tgt = int(row["classe_dest"]) - 1 + N_CLASSES
         sources.append(src)
         targets.append(tgt)
         values.append(row["area_ha"])
@@ -417,7 +420,7 @@ def main() -> None:
     print("Carregando dados de transição...")
     df = carregar_dados()
 
-    print("\n[1/7] Heatmaps 6×6...")
+    print("\n[1/7] Heatmaps 7×7...")
     for ao, ad in PERIODOS_NIVEL1:
         heatmap_matriz(df, ao, ad)
 

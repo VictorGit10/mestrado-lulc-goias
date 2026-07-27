@@ -25,7 +25,10 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[2]
 PAINEL = ROOT / "data" / "processed" / "painel_amc_goias.parquet"
 CROSSWALK = ROOT / "data" / "processed" / "amc_crosswalk_goias.csv"
-TRANSICOES_CSV = ROOT / "data" / "processed" / "transicoes_mapbiomas_goias.csv"
+# Fonte da matriz de transição: o censo do #12B (7 grupos, Mosaico com identidade
+# própria). O antigo `transicoes_mapbiomas_goias.csv` (#12, GEE, 6 grupos) mascarava
+# a classe 21 — ver Textos/pipelines/12_transicoes.md.
+TRANSICOES_CSV = ROOT / "data" / "processed" / "transicoes_cubo_goias.csv"
 PIB_UF_IPEA_CSV = ROOT / "data" / "processed" / "pib_uf_ipea_goias.csv"
 OUT_DIR = ROOT / "Visualizacao" / "assets" / "data"
 AMC_DIR = OUT_DIR / "amcs"
@@ -174,7 +177,16 @@ CORES_SANKEY = {
     "Agua": "#4a7ba6",
     "Area Urbana": "#8a8a82",
     "Outros": "#c4ad8a",
+    "Mosaico de Usos": "#c98a4b",  # = --color-mosaico do site (ocre)
 }
+
+# Grupos da matriz de transição. O 7 (Mosaico) entra em 27/jul/2026 com o #12B: até
+# então o pixel que saía de pastagem para Mosaico era mascarado na origem e sumia da
+# matriz — as duas funções abaixo tinham `if 0 <= i < 6`, que o teria descartado em
+# silêncio mesmo depois do conserto. Derivar tudo daqui é o que impede isso.
+ID_TO_NOME = {1: "Vegetacao Natural", 2: "Pastagem", 3: "Agricultura",
+              4: "Agua", 5: "Area Urbana", 6: "Outros", 7: "Mosaico de Usos"}
+N_CLASSES = len(ID_TO_NOME)
 
 
 # -------------------- funcoes UF (inalteradas — soma AMC = soma muni) --------------------
@@ -389,10 +401,7 @@ def gerar_transicoes_matriz() -> dict:
     """5 matrizes 6x6 agregadas (periodos do Atlas).
     Cada periodo contem 'matriz' (ha) e 'matriz_pct' (row-stochastic, %)."""
     df = pd.read_csv(TRANSICOES_CSV)
-    # Mapear ids para nomes canonicos
-    id_to_nome = {1: "Vegetacao Natural", 2: "Pastagem", 3: "Agricultura",
-                  4: "Agua", 5: "Area Urbana", 6: "Outros"}
-    nomes_canonicos = list(id_to_nome.values())
+    nomes_canonicos = list(ID_TO_NOME.values())
 
     periodos = []
     for ano_orig, ano_dest in PERIODOS_TRANSICAO:
@@ -402,18 +411,21 @@ def gerar_transicoes_matriz() -> dict:
             continue
         # Agregar area_ha por (classe_orig, classe_dest)
         pivot = subset.groupby(["classe_orig", "classe_dest"], as_index=False)["area_ha"].sum()
-        # Montar matriz 6x6 em hectares
-        matriz = [[0.0] * 6 for _ in range(6)]
+        matriz = [[0.0] * N_CLASSES for _ in range(N_CLASSES)]
         for _, row in pivot.iterrows():
             i = int(row["classe_orig"]) - 1
             j = int(row["classe_dest"]) - 1
-            if 0 <= i < 6 and 0 <= j < 6:
-                matriz[i][j] = round(float(row["area_ha"]), 2)
+            if not (0 <= i < N_CLASSES and 0 <= j < N_CLASSES):
+                raise RuntimeError(
+                    f"classe fora de ID_TO_NOME em {ano_orig}→{ano_dest}: "
+                    f"({int(row['classe_orig'])}, {int(row['classe_dest'])}) — "
+                    "acrescente o grupo em vez de deixá-lo cair")
+            matriz[i][j] = round(float(row["area_ha"]), 2)
         # Matriz row-stochastic: cada linha soma ~100%
-        matriz_pct = [[0.0] * 6 for _ in range(6)]
-        for i in range(6):
+        matriz_pct = [[0.0] * N_CLASSES for _ in range(N_CLASSES)]
+        for i in range(N_CLASSES):
             row_sum = sum(matriz[i])
-            for j in range(6):
+            for j in range(N_CLASSES):
                 matriz_pct[i][j] = round(matriz[i][j] / row_sum * 100, 1) if row_sum > 0 else 0.0
         periodos.append({
             "rotulo": f"{ano_orig} → {ano_dest}",
@@ -434,15 +446,14 @@ def gerar_sankey_data() -> dict:
     subset = df[(df["ano_origem"] == 1985) & (df["ano_destino"] == 2024)]
     pivot = subset.groupby(["classe_orig", "classe_dest"], as_index=False)["area_ha"].sum()
 
-    # Nodos: 6 classes x 2 anos = 12
-    id_to_nome = {1: "Vegetacao Natural", 2: "Pastagem", 3: "Agricultura",
-                  4: "Agua", 5: "Area Urbana", 6: "Outros"}
+    # Nodos: N classes x 2 anos
+    id_to_nome = ID_TO_NOME
     nomes = list(id_to_nome.values())
 
     nodes = []
     node_id_map = {}
     for ano_label in ["1985", "2024"]:
-        for cid in range(1, 7):
+        for cid in sorted(id_to_nome):
             nome = id_to_nome[cid]
             node_key = f"{nome}_{ano_label}"
             node_id = len(nodes)

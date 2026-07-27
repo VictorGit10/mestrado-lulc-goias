@@ -35,6 +35,11 @@
       "color": "#b8a98a"
     },
     {
+      "id": "Mosaico de Usos_1985",
+      "label": "Mosaico de Usos (1985)",
+      "color": "#c98a4b"
+    },
+    {
       "id": "Vegetacao Natural_2000",
       "label": "Vegetacao Natural (2000)",
       "color": "#2d5a3d"
@@ -63,98 +68,157 @@
       "id": "Outros_2000",
       "label": "Outros (2000)",
       "color": "#b8a98a"
+    },
+    {
+      "id": "Mosaico de Usos_2000",
+      "label": "Mosaico de Usos (2000)",
+      "color": "#c98a4b"
     }
   ],
   "links": [
     {
       "source": "Vegetacao Natural_1985",
       "target": "Pastagem_2000",
-      "value": 3.4816,
+      "value": 3.4679,
       "color": "#2d5a3d"
     },
     {
       "source": "Vegetacao Natural_1985",
       "target": "Agricultura_2000",
-      "value": 0.1234,
+      "value": 0.1227,
       "color": "#2d5a3d"
     },
     {
       "source": "Vegetacao Natural_1985",
       "target": "Agua_2000",
-      "value": 0.1336,
+      "value": 0.1328,
       "color": "#2d5a3d"
     },
     {
       "source": "Vegetacao Natural_1985",
       "target": "Outros_2000",
-      "value": 0.1161,
+      "value": 0.1154,
+      "color": "#2d5a3d"
+    },
+    {
+      "source": "Vegetacao Natural_1985",
+      "target": "Mosaico de Usos_2000",
+      "value": 1.9463,
       "color": "#2d5a3d"
     },
     {
       "source": "Pastagem_1985",
       "target": "Vegetacao Natural_2000",
-      "value": 0.7058,
+      "value": 0.7029,
       "color": "#d4b65a"
     },
     {
       "source": "Pastagem_1985",
       "target": "Agricultura_2000",
-      "value": 1.4276,
+      "value": 1.4221,
       "color": "#d4b65a"
     },
     {
       "source": "Pastagem_1985",
       "target": "Area Urbana_2000",
-      "value": 0.0371,
+      "value": 0.0369,
       "color": "#d4b65a"
     },
     {
       "source": "Pastagem_1985",
       "target": "Outros_2000",
-      "value": 0.0267,
+      "value": 0.0265,
+      "color": "#d4b65a"
+    },
+    {
+      "source": "Pastagem_1985",
+      "target": "Mosaico de Usos_2000",
+      "value": 2.1708,
       "color": "#d4b65a"
     },
     {
       "source": "Agricultura_1985",
       "target": "Pastagem_2000",
-      "value": 0.5428,
+      "value": 0.5409,
+      "color": "#d96aa3"
+    },
+    {
+      "source": "Agricultura_1985",
+      "target": "Mosaico de Usos_2000",
+      "value": 0.0998,
       "color": "#d96aa3"
     },
     {
       "source": "Agua_1985",
       "target": "Vegetacao Natural_2000",
-      "value": 0.0608,
+      "value": 0.0603,
       "color": "#4a7ba6"
     },
     {
       "source": "Agua_1985",
       "target": "Outros_2000",
-      "value": 0.0455,
+      "value": 0.0453,
+      "color": "#4a7ba6"
+    },
+    {
+      "source": "Agua_1985",
+      "target": "Mosaico de Usos_2000",
+      "value": 0.0204,
       "color": "#4a7ba6"
     },
     {
       "source": "Outros_1985",
       "target": "Vegetacao Natural_2000",
-      "value": 0.0965,
+      "value": 0.0961,
       "color": "#b8a98a"
     },
     {
       "source": "Outros_1985",
       "target": "Pastagem_2000",
-      "value": 0.1661,
+      "value": 0.1654,
       "color": "#b8a98a"
     },
     {
       "source": "Outros_1985",
       "target": "Agricultura_2000",
-      "value": 0.0348,
+      "value": 0.0346,
       "color": "#b8a98a"
     },
     {
       "source": "Outros_1985",
       "target": "Agua_2000",
-      "value": 0.0317,
+      "value": 0.0316,
       "color": "#b8a98a"
+    },
+    {
+      "source": "Outros_1985",
+      "target": "Mosaico de Usos_2000",
+      "value": 0.0802,
+      "color": "#b8a98a"
+    },
+    {
+      "source": "Mosaico de Usos_1985",
+      "target": "Vegetacao Natural_2000",
+      "value": 0.9715,
+      "color": "#c98a4b"
+    },
+    {
+      "source": "Mosaico de Usos_1985",
+      "target": "Pastagem_2000",
+      "value": 3.8977,
+      "color": "#c98a4b"
+    },
+    {
+      "source": "Mosaico de Usos_1985",
+      "target": "Agricultura_2000",
+      "value": 0.9414,
+      "color": "#c98a4b"
+    },
+    {
+      "source": "Mosaico de Usos_1985",
+      "target": "Agua_2000",
+      "value": 0.0256,
+      "color": "#c98a4b"
     }
   ]
 }

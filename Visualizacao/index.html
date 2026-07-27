@@ -501,7 +501,7 @@
       </div>
 
       <details class="metric-details" id="matriz-details">
-        <summary>Matriz de transição 6×6 <span class="matriz-toggle" id="matriz-toggle"></span></summary>
+        <summary>Matriz de transição 7×7 <span class="matriz-toggle" id="matriz-toggle"></span></summary>
         <div class="matriz-periodos" id="matriz-periodos"></div>
         <div id="matriz-container"></div>
         <p class="matriz-caption" id="matriz-caption"></p>
@@ -1784,8 +1784,11 @@
         para onde foi essa área — pode ter virado lavoura, regeneração ou solo exposto.
         As <strong>matrizes de transição</strong> resolvem isso. Para cada par de anos
         consecutivos, o MapBiomas é cruzado pixel-a-pixel (30 m × 30 m): cada pixel
-        guarda seu uso em t e em t+1. O resultado é uma matriz 6×6 (origem × destino)
-        que abre o que o delta agrega. O Sankey do Movimento I (aba
+        guarda seu uso em t e em t+1. O resultado é uma matriz 7×7 (origem × destino)
+        que abre o que o delta agrega — as seis classes unificadas mais o
+        <strong>Mosaico de Usos</strong>, que desde jul/2026 entra como grupo próprio em vez
+        de ser descartado (era por onde escapava a conversão recente; ver D25/D26 abaixo).
+        O Sankey do Movimento I (aba
         <a href="#narrativa/sec-fluxos">Narrativa</a>) representa essa matriz somada de
         1985 a 2024. Sobre essa base de transições, a dissertação constrói três camadas
         de evidência, cada uma com força e fraqueza distintas — descritivo → inferencial
@@ -2072,8 +2075,8 @@
       <div class="decisao-grid">
         <div class="decisao-card">
           <span class="decisao-badge">D1</span>
-          <div class="decisao-titulo">6 classes unificadas, Mosaico com identidade própria</div>
-          <div class="decisao-por-que">Reduz ruído de subclasses; mapeamento idêntico em mapas, transições e taxas. <strong>Revisada em jul/2026</strong>: o Mosaico saiu de "Outros" e ganhou faixa própria na barra — é ele que absorve a conversão no fim da série (D25).</div>
+          <div class="decisao-titulo">6 classes nos estoques, 7 nos fluxos — Mosaico com identidade própria</div>
+          <div class="decisao-por-que">Reduz ruído de subclasses; mapeamento idêntico em mapas, transições e taxas. <strong>Revisada duas vezes em jul/2026</strong>: o Mosaico saiu de "Outros" e ganhou faixa própria na barra — é ele que absorve a conversão no fim da série (D25) —, e em 27/jul virou <strong>grupo próprio na matriz de transição</strong>, que antes o descartava e por isso mostrava a conversão parando. A regra agora é <em>fluxo pinta, estoque não</em>: ele aparece nas transições e no Sankey; os 40 mapas anuais de cobertura seguem sem pintá-lo.</div>
         </div>
         <div class="decisao-card">
           <span class="decisao-badge">D2</span>
@@ -2407,11 +2410,11 @@
 
 <script src="assets/js/marcha-mapa.js?v=1"></script>
 
-<script src="assets/js/sankey.js?v=3"></script>
+<script src="assets/js/sankey.js?v=4"></script>
 
 <script src="assets/js/mini-sankey.js?v=1"></script>
 
-<script src="assets/js/matriz.js?v=1"></script>
+<script src="assets/js/matriz.js?v=2"></script>
 
 <script src="assets/js/inventario.js?v=1"></script>
 

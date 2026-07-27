@@ -125,6 +125,7 @@
           .replace("Pastagem", "Pastagem")
           .replace("Area Urbana", "Urbano")
           .replace("Outros", "Outros")
+          .replace("Mosaico de Usos", "Mosaico")
           .replace("Agua", "Agua");
         return nome;
       });

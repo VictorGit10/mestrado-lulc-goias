@@ -1,14 +1,23 @@
 """agregar_conversoes.py — Agrega transições pixel-a-pixel consecutivas
 ===========================================================================
 
-Lê os 39 CSVs de cache (transicao_YYYY_YYYY.csv) gerados por
-transicoes_mapbiomas.py --consecutivos e agrega para nível UF e municipal.
+Lê os CSVs de cache (transicao_YYYY_YYYY.csv) e agrega para nível UF e municipal.
 
-O mapeamento de classes segue o mesmo sistema de 6 grupos usado em
-gerar_mapas_lulc_gee_40anos.py e calcular_taxas_lulc.py (D1).
+FONTE (padrão: censo)
+    censo  data/cache/transicoes_cubo/  — #12B, 7 grupos, Mosaico de Usos com
+           identidade própria. É a fonte corrente.
+    gee    data/cache/transicoes/       — #12 original, 6 grupos, com a classe 21
+           mascarada. Fica disponível para REPRODUZIR os números antigos; não use
+           para afirmação nova (ver `Textos/pipelines/12_transicoes.md`).
+
+A troca de fonte foi feita em 27/jul/2026: na régua do GEE, o pixel que sai de
+pastagem para Mosaico não vira "pasto→outros" — ele some da matriz inteira, do
+numerador e do denominador. A partir de 2021 é para lá que a conversão vai (#28D),
+então o Ato III era medido sobre uma matriz da qual o fluxo dominante fora removido.
 
 Pré-requisito:
-    python scripts/transicoes_mapbiomas.py --consecutivos
+    python scripts/transicoes_cubo.py            (fonte censo, padrão)
+    python scripts/transicoes_mapbiomas.py --consecutivos   (fonte gee, legado)
 
 Saídas:
     data/processed/conversao_bruta_goias.csv       — nível UF
@@ -17,16 +26,22 @@ Saídas:
 
 from __future__ import annotations
 
+import argparse
 from pathlib import Path
 
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parent.parent
-CACHE_DIR = ROOT / "data" / "cache" / "transicoes"
 DIR_PROCESSED = ROOT / "data" / "processed"
 
-# Mapeamento id → grupo: os caches GEE (transicao_YYYY_YYYY.csv) já vêm com
-# IDs agrupados 1..6 (não com IDs MapBiomas brutos). Ver transicoes_mapbiomas.py.
+FONTES = {
+    "censo": ROOT / "data" / "cache" / "transicoes_cubo",
+    "gee":   ROOT / "data" / "cache" / "transicoes",
+}
+
+# Mapeamento id → grupo: os caches já vêm com IDs agrupados (não com IDs MapBiomas
+# brutos). 1..6 são idênticos nas duas fontes; o 7 só existe no censo — ver a nota
+# sobre não-renumeração em `transicoes_cubo.py`.
 ID_PARA_GRUPO: dict[int, str] = {
     1: "vegetacao_natural",
     2: "pastagem",
@@ -34,6 +49,7 @@ ID_PARA_GRUPO: dict[int, str] = {
     4: "agua",
     5: "area_urbana",
     6: "outros",
+    7: "mosaico",
 }
 
 NOMES_GRUPOS = list(ID_PARA_GRUPO.values())
@@ -45,10 +61,26 @@ TOLERANCIA_PCT = 15.0
 
 
 def main() -> None:
+    ap = argparse.ArgumentParser(description="Agrega transições consecutivas (#19)")
+    ap.add_argument("--fonte", choices=sorted(FONTES), default="censo",
+                    help="censo = #12B (7 grupos, padrão); gee = #12 legado (6 grupos)")
+    args = ap.parse_args()
+
+    cache_dir = FONTES[args.fonte]
+    if not cache_dir.exists():
+        raise SystemExit(
+            f"Fonte '{args.fonte}' não encontrada em {cache_dir}.\n"
+            f"  censo -> python scripts/transicoes_cubo.py\n"
+            f"  gee   -> python scripts/transicoes_mapbiomas.py --consecutivos")
+    print(f"Fonte: {args.fonte} ({cache_dir.relative_to(ROOT)})")
+    if args.fonte == "gee":
+        print("  ATENÇÃO: régua legada, classe 21 mascarada. Só para reproduzir "
+              "números antigos — ver Textos/pipelines/12_transicoes.md")
+
     DIR_PROCESSED.mkdir(parents=True, exist_ok=True)
 
     # Verificar caches consecutivos
-    consecutivos = sorted(CACHE_DIR.glob("transicao_????_????.csv"))
+    consecutivos = sorted(cache_dir.glob("transicao_????_????.csv"))
     # Filtrar apenas pares consecutivos (diferença de 1 ano)
     pares_consec = []
     for p in consecutivos:
@@ -62,7 +94,9 @@ def main() -> None:
 
     if len(pares_consec) < 39:
         print("AVISO: Faltam pares consecutivos. Execute:")
-        print("  python scripts/transicoes_mapbiomas.py --consecutivos")
+        print("  python scripts/transicoes_cubo.py"
+              if args.fonte == "censo" else
+              "  python scripts/transicoes_mapbiomas.py --consecutivos")
         print(f"\nProcessando {len(pares_consec)} pares disponíveis...")
 
     all_dfs = []
@@ -73,8 +107,16 @@ def main() -> None:
         # Mapear classes para grupos
         df["grupo_orig"] = df["classe_orig"].map(ID_PARA_GRUPO)
         df["grupo_dest"] = df["classe_dest"].map(ID_PARA_GRUPO)
-        # Filtrar apenas mapeamentos válidos (exclui IDs não mapeados)
-        df = df.dropna(subset=["grupo_orig", "grupo_dest"])
+        # Um ID sem grupo aqui não é ruído a filtrar — é massa saindo da matriz em
+        # silêncio, que foi exatamente o defeito do #12 com a classe 21. Se cair
+        # alguma linha, o run precisa dizer quanto e de qual ID.
+        ruim = df[df["grupo_orig"].isna() | df["grupo_dest"].isna()]
+        if len(ruim):
+            ids = sorted(set(ruim["classe_orig"]) | set(ruim["classe_dest"]))
+            print(f"  *** {ano_orig}→{ano_dest}: {ruim['area_ha'].sum():,.0f} ha "
+                  f"descartados por IDs sem grupo {ids} — acrescente-os a "
+                  f"ID_PARA_GRUPO antes de usar esta saída")
+            df = df.dropna(subset=["grupo_orig", "grupo_dest"])
         all_dfs.append(df)
 
     if not all_dfs:

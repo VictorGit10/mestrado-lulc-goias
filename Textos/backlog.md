@@ -123,7 +123,20 @@ que já existe**. Nenhuma exige redação; todas são investigação.
 >   `pastagem ~ VA agro` **não** passa, então o teste tem poder para rejeitar. Registrado também um
 >   **defeito da regra pré-declarada** (exigir p<0,05 sob γ_gt confunde efeito colapsar com teste
 >   perder poder) — corrigido *ao lado* da regra original, não por cima dela.
-> - **#12 — 🔴 A ÚNICA PONTA ESTRUTURAL EM ABERTO.** `transicoes_mapbiomas.py` **exclui a classe 21**
+> - **#12 — ✅ FECHADO EM 27/jul/2026 pelo #12B** (`transicoes_cubo.py`). **A estimativa de custo estava
+>   errada**: o cubo do #28 (`data/raw/cubo_go/`) já tinha os IDs brutos, então não houve GEE nenhum —
+>   recontagem local de **13 min** com 7 grupos. Validação: Δ_medida **−0,43% uniforme**; batimento
+>   contra o #4 **com a classe 21 nos dois lados** dá **−0,1%** nos 7 grupos, enquanto o #12 cobria
+>   **0,0%** do Mosaico; fechamento passa de 7,26% de Goiás perdidos para **0,08%**. A massa descartada
+>   era de **6,5–10,9% do estado, todo ano**. Repropagado em 7 endereços (o 7º, `preparar_dados_timeline.py`,
+>   tinha `if 0 <= i < 6` e teria descartado o grupo novo em silêncio). No Sul, Ato II→III: `pasto→agric`
+>   dá −88% e `pasto→(agric∪mosaico)` dá **+51%** — a régua consertada **converge com o bracket da D26**,
+>   que o site já publicava como "acelera ~50%". Achado colateral: **`veg→mosaico` NÃO é desmatamento**
+>   (o PRODES rejeita — incluí-lo joga a razão de 1,00 para 1,35), então `antro` fica intacto e o #48
+>   segue válido. **D26 não é revogada** (a ambiguidade é semântica, não de dado). Pendência nova:
+>   o pico de KL do #29 migrou 2020→**2022**; `config_periodos.py` não foi tocado.
+>
+> - ~~**#12 — 🔴 A ÚNICA PONTA ESTRUTURAL EM ABERTO.**~~ *(registro do diagnóstico, 25/jul)* `transicoes_mapbiomas.py` **exclui a classe 21**
 >   da matriz primária de transições, com uma justificativa ("no Cerrado goiano, maioria é pastagem")
 >   que o [#28D](pipelines/28D_deriva_mosaico.md) invalidou. Pior: a `validar_batimental()` descarta a
 >   classe 21 **dos dois lados** antes de comparar — passaria com δ≈0 mesmo se 100% da conversão

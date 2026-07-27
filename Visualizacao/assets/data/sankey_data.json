@@ -31,6 +31,11 @@
       "color": "#c4ad8a"
     },
     {
+      "id": "Mosaico de Usos_1985",
+      "label": "Mosaico de Usos (1985)",
+      "color": "#c98a4b"
+    },
+    {
       "id": "Vegetacao Natural_2024",
       "label": "Vegetacao Natural (2024)",
       "color": "#2d5a3d"
@@ -59,133 +64,162 @@
       "id": "Outros_2024",
       "label": "Outros (2024)",
       "color": "#c4ad8a"
+    },
+    {
+      "id": "Mosaico de Usos_2024",
+      "label": "Mosaico de Usos (2024)",
+      "color": "#c98a4b"
     }
   ],
   "links": [
     {
       "source": "Vegetacao Natural_1985",
       "target": "Vegetacao Natural_2024",
-      "value": 10.3542,
+      "value": 10.3029,
       "color": "#2d5a3d"
     },
     {
       "source": "Vegetacao Natural_1985",
       "target": "Pastagem_2024",
-      "value": 4.1133,
+      "value": 4.0959,
       "color": "#2d5a3d"
     },
     {
       "source": "Vegetacao Natural_1985",
       "target": "Agricultura_2024",
-      "value": 1.2921,
+      "value": 1.2857,
       "color": "#2d5a3d"
     },
     {
       "source": "Vegetacao Natural_1985",
       "target": "Agua_2024",
-      "value": 0.1783,
+      "value": 0.1772,
       "color": "#2d5a3d"
     },
     {
       "source": "Vegetacao Natural_1985",
       "target": "Area Urbana_2024",
-      "value": 0.0393,
+      "value": 0.0391,
       "color": "#2d5a3d"
     },
     {
       "source": "Vegetacao Natural_1985",
       "target": "Outros_2024",
-      "value": 0.0383,
+      "value": 0.0381,
+      "color": "#2d5a3d"
+    },
+    {
+      "source": "Vegetacao Natural_1985",
+      "target": "Mosaico de Usos_2024",
+      "value": 0.9967,
       "color": "#2d5a3d"
     },
     {
       "source": "Pastagem_1985",
       "target": "Vegetacao Natural_2024",
-      "value": 0.4891,
+      "value": 0.4873,
       "color": "#d4b65a"
     },
     {
       "source": "Pastagem_1985",
       "target": "Pastagem_2024",
-      "value": 6.0328,
+      "value": 6.0115,
       "color": "#d4b65a"
     },
     {
       "source": "Pastagem_1985",
       "target": "Agricultura_2024",
-      "value": 2.7301,
+      "value": 2.7202,
       "color": "#d4b65a"
     },
     {
       "source": "Pastagem_1985",
       "target": "Agua_2024",
-      "value": 0.0398,
+      "value": 0.0396,
       "color": "#d4b65a"
     },
     {
       "source": "Pastagem_1985",
       "target": "Area Urbana_2024",
-      "value": 0.0752,
+      "value": 0.0749,
       "color": "#d4b65a"
     },
     {
       "source": "Pastagem_1985",
       "target": "Outros_2024",
-      "value": 0.0146,
+      "value": 0.0145,
+      "color": "#d4b65a"
+    },
+    {
+      "source": "Pastagem_1985",
+      "target": "Mosaico de Usos_2024",
+      "value": 1.6226,
       "color": "#d4b65a"
     },
     {
       "source": "Agricultura_1985",
       "target": "Pastagem_2024",
-      "value": 0.0325,
+      "value": 0.0323,
       "color": "#d96aa3"
     },
     {
       "source": "Agricultura_1985",
       "target": "Agricultura_2024",
-      "value": 1.0748,
+      "value": 1.0713,
+      "color": "#d96aa3"
+    },
+    {
+      "source": "Agricultura_1985",
+      "target": "Mosaico de Usos_2024",
+      "value": 0.0629,
       "color": "#d96aa3"
     },
     {
       "source": "Agua_1985",
       "target": "Vegetacao Natural_2024",
-      "value": 0.0475,
+      "value": 0.0472,
       "color": "#4a7ba6"
     },
     {
       "source": "Agua_1985",
       "target": "Agua_2024",
-      "value": 0.1908,
+      "value": 0.1896,
       "color": "#4a7ba6"
     },
     {
       "source": "Agua_1985",
       "target": "Outros_2024",
-      "value": 0.0217,
+      "value": 0.0216,
+      "color": "#4a7ba6"
+    },
+    {
+      "source": "Agua_1985",
+      "target": "Mosaico de Usos_2024",
+      "value": 0.0128,
       "color": "#4a7ba6"
     },
     {
       "source": "Area Urbana_1985",
       "target": "Area Urbana_2024",
-      "value": 0.0701,
+      "value": 0.0698,
       "color": "#8a8a82"
     },
     {
       "source": "Outros_1985",
       "target": "Vegetacao Natural_2024",
-      "value": 0.0931,
+      "value": 0.0928,
       "color": "#c4ad8a"
     },
     {
       "source": "Outros_1985",
       "target": "Pastagem_2024",
-      "value": 0.1074,
+      "value": 0.107,
       "color": "#c4ad8a"
     },
     {
       "source": "Outros_1985",
       "target": "Agricultura_2024",
-      "value": 0.0838,
+      "value": 0.0835,
       "color": "#c4ad8a"
     },
     {
@@ -197,8 +231,50 @@
     {
       "source": "Outros_1985",
       "target": "Outros_2024",
-      "value": 0.5681,
+      "value": 0.5658,
       "color": "#c4ad8a"
+    },
+    {
+      "source": "Outros_1985",
+      "target": "Mosaico de Usos_2024",
+      "value": 0.0538,
+      "color": "#c4ad8a"
+    },
+    {
+      "source": "Mosaico de Usos_1985",
+      "target": "Vegetacao Natural_2024",
+      "value": 0.461,
+      "color": "#c98a4b"
+    },
+    {
+      "source": "Mosaico de Usos_1985",
+      "target": "Pastagem_2024",
+      "value": 1.7232,
+      "color": "#c98a4b"
+    },
+    {
+      "source": "Mosaico de Usos_1985",
+      "target": "Agricultura_2024",
+      "value": 0.5629,
+      "color": "#c98a4b"
+    },
+    {
+      "source": "Mosaico de Usos_1985",
+      "target": "Agua_2024",
+      "value": 0.0228,
+      "color": "#c98a4b"
+    },
+    {
+      "source": "Mosaico de Usos_1985",
+      "target": "Area Urbana_2024",
+      "value": 0.0168,
+      "color": "#c98a4b"
+    },
+    {
+      "source": "Mosaico de Usos_1985",
+      "target": "Mosaico de Usos_2024",
+      "value": 0.8329,
+      "color": "#c98a4b"
     }
   ]
 }

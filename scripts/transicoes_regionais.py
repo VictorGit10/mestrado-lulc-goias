@@ -135,8 +135,13 @@ ARQ_MESO  = DIR_PROC / "mapeamento_mesorregioes.csv"
 CENSURA_INFORMATIVA_MAX = 0.50
 
 # Fluxos-chave para o teste de mecanismo (orig, dest, rótulo).
+# `pasto→mosaico` entra em 27/jul/2026 (#12B) e é o par de leitura obrigatório de
+# `pasto→agric`: a queda de −88% no Sul durante o Ato III é a assinatura da D25 (o
+# destino trocou de rótulo), não uma desaceleração de campo. Os dois juntos mostram
+# a troca; separados, cada um conta metade da história.
 FLUXOS_CHAVE = [
     ("pastagem", "agricultura",          "pasto→agric"),
+    ("pastagem", "mosaico",              "pasto→mosaico"),
     ("vegetacao_natural", "pastagem",    "veg→pasto"),
     ("agricultura", "pastagem",          "agric→pasto"),
     ("vegetacao_natural", "agricultura", "veg→agric"),
@@ -374,14 +379,19 @@ def fig_fluxos_chave(fluxos: pd.DataFrame, ordem: list[str]) -> None:
     atos = list(ATOS.keys())
     fig, axes = plt.subplots(1, len(atos), figsize=(5.4 * len(atos), 6.2), sharey=True)
     x = np.arange(len(ordem))
-    w = 0.38
+    w = 0.27
     cor_pa = GRUPO_COR["agricultura"]      # pasto→agric (pinta como agricultura)
+    cor_pm = GRUPO_COR["mosaico"]          # pasto→mosaico
     cor_vp = GRUPO_COR["vegetacao_natural"]  # veg→pasto
 
     for ax, ato in zip(np.atleast_1d(axes), atos):
         sub = fluxos[fluxos.ato == ato].set_index("mesorregiao").reindex(ordem)
-        ax.bar(x - w/2, sub["pasto→agric/ano"], w, color=cor_pa, label="pasto→agric")
-        ax.bar(x + w/2, sub["veg→pasto/ano"],  w, color=cor_vp, label="veg→pasto")
+        # As duas primeiras barras são o MESMO fenômeno de campo sob dois rótulos.
+        # Lado a lado, o painel do Ato III passa a mostrar a troca em vez de uma
+        # queda — é o que tornava `fluxos_chave.png` ilegível sem o bracket.
+        ax.bar(x - w, sub["pasto→agric/ano"], w, color=cor_pa, label="pasto→agric")
+        ax.bar(x,     sub["pasto→mosaico/ano"], w, color=cor_pm, label="pasto→mosaico")
+        ax.bar(x + w, sub["veg→pasto/ano"],  w, color=cor_vp, label="veg→pasto")
         info = ATOS[ato]
         ax.set_title(f"Ato {ato} ({info['inicio']}–{info['fim']}, {info['fim']-info['inicio']}a)"
                      f"\n{info['titulo']}",
@@ -417,7 +427,8 @@ def fig_dominante_grid(dom: pd.DataFrame, ordem: list[str]) -> None:
 
     seta = {"pastagem": "→pasto", "agricultura": "→agric",
             "vegetacao_natural": "→veg", "agua": "→água",
-            "area_urbana": "→urb", "outros": "→outros"}
+            "area_urbana": "→urb", "outros": "→outros",
+            "mosaico": "→mosaico"}
     for i, meso in enumerate(ordem_norte_cima):
         for j, ato in enumerate(atos):
             r = dom[(dom.mesorregiao == meso) & (dom.ato == ato)]

@@ -44,7 +44,11 @@ from config_periodos import MARCOS, ATOS, CORES_ATO
 
 # ─────────────────────────── Config ───────────────────────────
 
-GRUPOS = ["vegetacao_natural", "pastagem", "agricultura", "agua", "area_urbana", "outros"]
+# "mosaico" entra em 27/jul/2026 (#12B) — ver `transicoes_cubo.py`. A matriz passa a
+# ser 7×7 e o N abaixo acompanha; as distâncias entre matrizes anuais (KL/TV) mudam de
+# base, então a periodização precisa ser reconferida, não só reexecutada.
+GRUPOS = ["vegetacao_natural", "pastagem", "agricultura", "agua", "area_urbana",
+          "outros", "mosaico"]
 N = len(GRUPOS)
 EPSILON = 0.001          # pseudocount para evitar log(0)
 N_BOOT = 1000            # número de permutações bootstrap

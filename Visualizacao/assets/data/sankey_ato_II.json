@@ -35,6 +35,11 @@
       "color": "#b8a98a"
     },
     {
+      "id": "Mosaico de Usos_2001",
+      "label": "Mosaico de Usos (2001)",
+      "color": "#c98a4b"
+    },
+    {
       "id": "Vegetacao Natural_2019",
       "label": "Vegetacao Natural (2019)",
       "color": "#2d5a3d"
@@ -63,116 +68,175 @@
       "id": "Outros_2019",
       "label": "Outros (2019)",
       "color": "#b8a98a"
+    },
+    {
+      "id": "Mosaico de Usos_2019",
+      "label": "Mosaico de Usos (2019)",
+      "color": "#c98a4b"
     }
   ],
   "links": [
     {
       "source": "Vegetacao Natural_2001",
       "target": "Pastagem_2019",
-      "value": 1.9523,
+      "value": 1.9432,
       "color": "#2d5a3d"
     },
     {
       "source": "Vegetacao Natural_2001",
       "target": "Agricultura_2019",
-      "value": 0.1117,
+      "value": 0.1111,
       "color": "#2d5a3d"
     },
     {
       "source": "Vegetacao Natural_2001",
       "target": "Agua_2019",
-      "value": 0.0847,
+      "value": 0.0842,
       "color": "#2d5a3d"
     },
     {
       "source": "Vegetacao Natural_2001",
       "target": "Outros_2019",
-      "value": 0.0562,
+      "value": 0.0559,
+      "color": "#2d5a3d"
+    },
+    {
+      "source": "Vegetacao Natural_2001",
+      "target": "Mosaico de Usos_2019",
+      "value": 0.7188,
       "color": "#2d5a3d"
     },
     {
       "source": "Pastagem_2001",
       "target": "Vegetacao Natural_2019",
-      "value": 1.0628,
+      "value": 1.0581,
       "color": "#d4b65a"
     },
     {
       "source": "Pastagem_2001",
       "target": "Agricultura_2019",
-      "value": 2.1552,
+      "value": 2.1469,
       "color": "#d4b65a"
     },
     {
       "source": "Pastagem_2001",
       "target": "Agua_2019",
-      "value": 0.0446,
+      "value": 0.0443,
       "color": "#d4b65a"
     },
     {
       "source": "Pastagem_2001",
       "target": "Area Urbana_2019",
-      "value": 0.0348,
+      "value": 0.0346,
       "color": "#d4b65a"
     },
     {
       "source": "Pastagem_2001",
       "target": "Outros_2019",
-      "value": 0.041,
+      "value": 0.0408,
+      "color": "#d4b65a"
+    },
+    {
+      "source": "Pastagem_2001",
+      "target": "Mosaico de Usos_2019",
+      "value": 2.7083,
       "color": "#d4b65a"
     },
     {
       "source": "Agricultura_2001",
       "target": "Vegetacao Natural_2019",
-      "value": 0.0346,
+      "value": 0.0344,
       "color": "#d96aa3"
     },
     {
       "source": "Agricultura_2001",
       "target": "Pastagem_2019",
-      "value": 0.8115,
+      "value": 0.8083,
+      "color": "#d96aa3"
+    },
+    {
+      "source": "Agricultura_2001",
+      "target": "Mosaico de Usos_2019",
+      "value": 0.2749,
       "color": "#d96aa3"
     },
     {
       "source": "Agua_2001",
       "target": "Vegetacao Natural_2019",
-      "value": 0.0486,
+      "value": 0.0482,
       "color": "#4a7ba6"
     },
     {
       "source": "Agua_2001",
       "target": "Pastagem_2019",
-      "value": 0.033,
+      "value": 0.0328,
       "color": "#4a7ba6"
     },
     {
       "source": "Agua_2001",
       "target": "Outros_2019",
-      "value": 0.0435,
+      "value": 0.0433,
+      "color": "#4a7ba6"
+    },
+    {
+      "source": "Agua_2001",
+      "target": "Mosaico de Usos_2019",
+      "value": 0.0303,
       "color": "#4a7ba6"
     },
     {
       "source": "Outros_2001",
       "target": "Vegetacao Natural_2019",
-      "value": 0.0604,
+      "value": 0.0601,
       "color": "#b8a98a"
     },
     {
       "source": "Outros_2001",
       "target": "Pastagem_2019",
-      "value": 0.0711,
+      "value": 0.0708,
       "color": "#b8a98a"
     },
     {
       "source": "Outros_2001",
       "target": "Agricultura_2019",
-      "value": 0.0219,
+      "value": 0.0218,
       "color": "#b8a98a"
     },
     {
       "source": "Outros_2001",
       "target": "Agua_2019",
-      "value": 0.0264,
+      "value": 0.0263,
       "color": "#b8a98a"
+    },
+    {
+      "source": "Outros_2001",
+      "target": "Mosaico de Usos_2019",
+      "value": 0.0289,
+      "color": "#b8a98a"
+    },
+    {
+      "source": "Mosaico de Usos_2001",
+      "target": "Vegetacao Natural_2019",
+      "value": 0.6126,
+      "color": "#c98a4b"
+    },
+    {
+      "source": "Mosaico de Usos_2001",
+      "target": "Pastagem_2019",
+      "value": 1.8157,
+      "color": "#c98a4b"
+    },
+    {
+      "source": "Mosaico de Usos_2001",
+      "target": "Agricultura_2019",
+      "value": 1.2618,
+      "color": "#c98a4b"
+    },
+    {
+      "source": "Mosaico de Usos_2001",
+      "target": "Agua_2019",
+      "value": 0.0431,
+      "color": "#c98a4b"
     }
   ]
 }

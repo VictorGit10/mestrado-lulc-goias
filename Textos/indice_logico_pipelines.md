@@ -351,7 +351,8 @@ não.
 
 | # | Script | O que entrega |
 |---|---|---|
-| #12 | `transicoes_mapbiomas.py` | **A virada metodológica**: matriz de transição **pixel-a-pixel**, não inferida de estoques. Substitui o #5 |
+| #12 | `transicoes_mapbiomas.py` | **A virada metodológica**: matriz de transição **pixel-a-pixel**, não inferida de estoques. Substitui o #5. ⚠️ 6 grupos — **mascara a classe 21**, superado pelo #12B |
+| #12B | `transicoes_cubo.py` | **A mesma matriz, honesta**: recontada no cubo censitário local com o **Mosaico como 7º grupo**. O #12 descartava 6,5–10,9% de Goiás todo ano — a rota `pasto→Mosaico` sumia do numerador *e* do denominador. É esta a matriz primária desde 27/jul/2026 |
 | #19 | `agregar_conversoes.py` | Conversões brutas ano-a-ano (39 pares) — insumo de #29c, #31, #33 |
 | #16 | `construir_painel_unificado.py` | Painel `cd_mun × ano` (9.840 × 185). **Trilho transversal** |
 | #25 | `construir_amc_goias.py` | 166 AMCs de território constante (D11). **Trilho longitudinal** — o palco da Fase 6 inteira |
@@ -412,7 +413,8 @@ colunas são a ordem lógica.
 | 9 | `gerar_mapas_lulc_40anos.py` | Cartografia | — | 2 | Cartografia |
 | 10 | `gerar_mapas_lulc_gee_40anos.py` | Cartografia | — | 2 | Cartografia |
 | 11 | `gerar_gif_lulc.py` | Cartografia | — | 2 | Cartografia |
-| 12 | `transicoes_mapbiomas.py` | Infraestrutura | — | 2 | Transições |
+| 12 | `transicoes_mapbiomas.py` | Infraestrutura (**superado**) | — | 2 | Transições |
+| 12B | `transicoes_cubo.py` + `validar_transicoes_cubo.py` | Infraestrutura | #28 (cubo) | 6 | Transições |
 | 13 | `coleta_idhm.py` | Coletor | — | 1 | Fundação |
 | 14 | `fogo_mapbiomas.py` + `analise_fogo.py` | Coletor | — | 1 | Fogo |
 | 15 | `analise_safrinha.py` | Coletor | — | 1 | Fundação |
@@ -485,8 +487,9 @@ vez. Depois use como dicionário.
 **Para entender como o trabalho nasceu.**
 [`narrativa_pipelines.md`](narrativa_pipelines.md) — Fases 0 a 6, em ordem.
 
-**Para reproduzir.** Fundação → tabelas-mãe → análise: #3/#4/#6 → #12/#19 → #16 → #25 → #17 →
-o pipeline que interessa. Todo coletor tem cache; `--force` rebaixa.
+**Para reproduzir.** Fundação → tabelas-mãe → análise: #3/#4/#6 → **#28 (cubo) → #12B** → #19 → #16 → #25 → #17 →
+o pipeline que interessa. (O #12 original ainda roda, mas só como referência de comparação: a
+matriz primária vem do #12B desde 27/jul/2026, e ele lê o cubo do #28, não o GEE.) Todo coletor tem cache; `--force` rebaixa.
 
 **Para auditar a honestidade do trabalho.** Só as autocorreções, em ordem cronológica: #40 →
 #41 → #28C → #42 → #44 → #40B → D19 → **#45**. Lidas em sequência, contam uma história própria — a

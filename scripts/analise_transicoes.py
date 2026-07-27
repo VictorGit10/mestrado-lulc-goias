@@ -1,6 +1,6 @@
 """analise_transicoes.py - maquinaria de transicoes por ATO (consumida pelo #33)
 Consome conversao_bruta_*.csv e produz analises por ATO (data-driven, #29):
-  - 3 matrizes 6x6 (matriz_transicao_ato_{I..III}.csv)
+  - 3 matrizes 7x7 (matriz_transicao_ato_{I..III}.csv) — 7 desde o #12B (Mosaico)
   - decomposicao_origem.csv (de onde veio cada hectare novo)
   - fluxo_bruto_liquido.csv (distingue rotacao de substituicao)
   - 3 JSONs Sankey por ATO em Visualizacao/assets/data/
@@ -22,8 +22,13 @@ DIR_VIZ_DATA = ROOT / "Visualizacao" / "assets" / "data"
 
 from config_periodos import ATOS_FLAT as ATOS
 
+# O Mosaico entra como grupo próprio a partir de 27/jul/2026 (#12B). Antes ele era
+# mascarado na matriz de origem: o pixel que saía de pastagem para Mosaico sumia da
+# conta inteira, e o Sankey do Ato III mostrava a seta pasto→agric afinando sem que
+# nada registrasse para onde a terra tinha ido. Ele é o ÚLTIMO da lista de propósito
+# — os índices 1..6 de `transicoes_cubo.ORDEM_GRUPOS` não se mexem.
 GRUPOS = ["vegetacao_natural", "pastagem", "agricultura",
-          "agua", "area_urbana", "outros"]
+          "agua", "area_urbana", "outros", "mosaico"]
 
 GRUPO_LABEL = {
     "vegetacao_natural": "Vegetacao Natural",
@@ -32,6 +37,7 @@ GRUPO_LABEL = {
     "agua":              "Agua",
     "area_urbana":       "Area Urbana",
     "outros":            "Outros",
+    "mosaico":           "Mosaico de Usos",
 }
 
 GRUPO_COR = {
@@ -41,6 +47,7 @@ GRUPO_COR = {
     "agua":              "#4a7ba6",
     "area_urbana":       "#8a8a82",
     "outros":            "#b8a98a",
+    "mosaico":           "#c98a4b",  # = --color-mosaico do site (ocre)
 }
 
 MIN_FLUXO_SANKEY = 0.02  # Mha. Limiar para incluir link no JSON Sankey.

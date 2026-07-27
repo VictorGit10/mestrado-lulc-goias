@@ -240,6 +240,30 @@ Earth Engine e é a única frente aberta deste item — o custo é alto e o ganh
 marginal agora que a barra mostra a classe e a legenda avisa. Se um dia forem
 reexportados, atualizar esta seção e a fonte do mapa em `index.html`.
 
+### 3.7.2 A regra que fecha o assunto: **fluxo pinta, estoque não** (27/07/2026)
+
+O [#12B](../../Textos/pipelines/12_transicoes.md) trouxe o Mosaico de volta como **grupo
+próprio na matriz de transição** (7 grupos, não 6), e isso obrigou a escrever a regra que
+até aqui estava implícita e parecia contradição:
+
+| o objeto é… | o Mosaico… | onde |
+|---|---|---|
+| **fluxo** (para onde a área foi) | **aparece, com cor própria** (ocre `#c98a4b`) | matriz 7×7, Sankeys por Ato, `sankey_regional.json`, `sankey_data.json`, `fluxos_chave.png`, os 5 coropléticos `transicao_*.webp` |
+| **estoque** (o que a área é) | **não é pintado**, mas é **contado** | os 40 rasters anuais seguem com `.selfMask()` (§3.7.1); na barra empilhada tem faixa própria (§3.7), fora de "Outros" |
+
+Não são regras em conflito: num mapa de *cobertura* o Mosaico é ruído visual — um borrão
+ocre sobre metade do estado que não diz se ali é lavoura ou pasto. Num mapa de *fluxo* ele
+**é** o achado: em 2015–2024 o Mosaico é o destino dominante em **194 dos 246 municípios**.
+(Decidido pelo autor em 27/07/2026.)
+
+**Consequência de código, e a armadilha.** Quem consome as matrizes tem que iterar sobre o
+tamanho declarado nos dados, nunca sobre um `6` literal. Dois lugares tinham o número
+cravado e teriam descartado o grupo novo **em silêncio**: `preparar_dados_timeline.py`
+(`if 0 <= i < 6`) e `assets/js/matriz.js` (`for (j = 0; j < 6)` + um `CLASSES_SHORT` de 6
+entradas — a tabela do site teria escondido a linha e a coluna do Mosaico e mostrado linhas
+somando 85%, sem erro nenhum no console). Ambos corrigidos; o `matriz.js` passou a ler
+`periodo.classes` do próprio JSON.
+
 ---
 
 ## 4. O que falta (Dia 4 + Dia 5)

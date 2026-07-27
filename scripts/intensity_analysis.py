@@ -40,7 +40,13 @@ DIR_OUT = ROOT / "outputs" / "correlacoes"
 
 from config_periodos import ATOS, ATOS_FLAT
 
-GRUPOS = ["vegetacao_natural", "pastagem", "agricultura", "agua", "area_urbana", "outros"]
+# "mosaico" entra em 27/jul/2026 (#12B). Não é cosmético aqui: o #31 normaliza tudo
+# por taxa_uniform = (mudança fora da diagonal) / (área total) / n_anos, e enquanto o
+# Mosaico era mascarado as DUAS parcelas encolhiam — logo toda razão `*_vs_uniform`
+# do Ato III era medida contra uma linha-base contaminada, inclusive as categorias
+# imunes. Ver o cabeçalho de `intensity_bracket.py`, que mediu a exposição.
+GRUPOS = ["vegetacao_natural", "pastagem", "agricultura", "agua", "area_urbana",
+          "outros", "mosaico"]
 
 
 def carregar_transicoes() -> pd.DataFrame:
@@ -52,7 +58,7 @@ def carregar_transicoes() -> pd.DataFrame:
 def matriz_anual(df: pd.DataFrame, ano_orig: int, ano_dest: int) -> np.ndarray:
     """Constroi matriz de transicao (6x6) em Mha para um par de anos."""
     sub = df[(df["ano_origem"] == ano_orig) & (df["ano_destino"] == ano_dest)]
-    m = np.zeros((6, 6))
+    m = np.zeros((len(GRUPOS), len(GRUPOS)))
     for _, row in sub.iterrows():
         i = GRUPOS.index(row["grupo_orig"])
         j = GRUPOS.index(row["grupo_dest"])
@@ -148,7 +154,7 @@ def intensidade_categoria(df: pd.DataFrame, periodos: dict) -> pd.DataFrame:
     for nome, (ini, fim, _) in periodos.items():
         n_anos = fim - ini
         # Acumular matrizes anuais
-        mat_total = np.zeros((6, 6))
+        mat_total = np.zeros((len(GRUPOS), len(GRUPOS)))
         for ano in range(ini, fim):
             mat_total += matriz_anual(df, ano, ano + 1)
 
@@ -312,7 +318,7 @@ def intensidade_transicao(df: pd.DataFrame, periodos: dict) -> pd.DataFrame:
     rows = []
     for nome, (ini, fim, _) in periodos.items():
         n_anos = fim - ini
-        mat_total = np.zeros((6, 6))
+        mat_total = np.zeros((len(GRUPOS), len(GRUPOS)))
         for ano in range(ini, fim):
             mat_total += matriz_anual(df, ano, ano + 1)
 

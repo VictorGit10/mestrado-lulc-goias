@@ -64,7 +64,7 @@ faz peças escritas em momentos diferentes conversarem entre si.
 
   | # | Decisão | Onde |
   |---|---|---|
-  | D1 | 6 classes unificadas, Mosaico excluído | #10, #12, #17 |
+  | D1 | 6 classes unificadas, Mosaico excluído | #10, #17 (**e #12 até 27/jul/2026** — o #12B o traz de volta como 7º grupo nos *fluxos*; nos *estoques* segue excluído) |
   | D2 | Fonte das taxas = `mapbiomas_munis_goias.csv` (não o painel) | #17 |
   | D3 | Slope por janela móvel de 5 anos, *trailing* e *centrada* | #17 |
   | D4 | Erro-padrão HAC Newey-West (maxlags=2) | #17 |
@@ -255,6 +255,16 @@ de *pasto* viraram *agricultura* e tantos de *vegetação* viraram *pasto*. O au
 **`visualizar_transicoes.py`** explora essas matrizes (heatmaps 6×6, Sankey 1985→2024, mapas
 de transição dominante e de estabilidade) e compara explicitamente o proxy (#5) com o
 pixel-a-pixel (#12).
+
+**Nota de 27/jul/2026 — esta matriz foi refeita.** A tradução ID→grupo do #12 manda o que não
+está na lista para `0` e mascara; a classe 21 (Mosaico de Usos) não estava na lista. O pixel que
+saía de pastagem para Mosaico não virava "pasto→outros" — **sumia da matriz inteira**, do
+numerador e do denominador. Enquanto o Mosaico foi pequeno isso era resíduo; a partir de 2021
+ele passou a carregar o fluxo (#28D), e a matriz mostrava a conversão *parando* justamente onde
+ela acelerava. O **`transicoes_cubo.py` (#12B)** reconta tudo com **7 grupos** a partir do cubo
+censitário local do #28 — sem GEE, 13 min —, e a `validar_transicoes_cubo.py` separa o que mudou
+por causa do conserto do que mudou por causa do instrumento. É esta a matriz primária desde
+então; os heatmaps viraram 7×7.
 
 **`agregar_conversoes.py` (#19)** fecha a fase preparando o fluxo para análise. Rodando o #12
 com a flag `--consecutivos` (39 pares ano-a-ano), ele agrega as matrizes para os níveis UF e
@@ -986,7 +996,9 @@ Mapeamento completo de cada script não-MG à sua fase e função. (Os scripts `
 | `gerar_gif_lulc.py` | 11 | 2 | GIF animado 40 anos |
 | `gerar_mapas_lulc_gee_rio_verde.py` | — | 2 | Estudo de caso Rio Verde (raster) |
 | `gerar_gif_lulc_rio_verde.py` | — | 2 | Estudo de caso Rio Verde (GIF) |
-| `transicoes_mapbiomas.py` | 12 | 2 | Matrizes de transição pixel-a-pixel via GEE |
+| `transicoes_mapbiomas.py` | 12 | 2 | Matrizes de transição pixel-a-pixel via GEE (6 grupos; **superado pelo #12B**) |
+| `transicoes_cubo.py` | 12B | 6 | A matriz primária recontada no cubo censitário, com o Mosaico como 7º grupo |
+| `validar_transicoes_cubo.py` | 12B | 6 | Separa Δ_medida (instrumento) de Δ_mosaico (o conserto) em 3 blocos |
 | `explorar_asset_transicao.py` | — | 2 | Sondagem do asset de transição (pré-#12) |
 | `visualizar_transicoes.py` | — | 2 | Heatmaps/Sankey/coropléticos das transições |
 | `agregar_conversoes.py` | 19 | 2 | Conversões brutas ano-a-ano (UF + municipal) |

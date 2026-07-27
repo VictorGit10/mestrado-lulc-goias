@@ -192,7 +192,7 @@ def grafico_27_scatter_transicoes(painel_fogo: pd.DataFrame) -> None:
     """Cruzamento espacial fogo × conversão Vegetação Natural→outros (1985-2024)."""
     print("\n[...] Gerando gráfico 27: scatter fogo × transições...")
 
-    arq_trans = DIR_PROCESSED / "transicoes_mapbiomas_goias.csv"
+    arq_trans = DIR_PROCESSED / "transicoes_cubo_goias.csv"  # #12B (7 grupos)
     if not arq_trans.exists():
         print(f"  [skip] {arq_trans.name} não encontrado.")
         return

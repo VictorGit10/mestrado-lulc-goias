@@ -91,7 +91,7 @@ A ordem de preferência:
 | **Quebra / delta** (#29) | Bracket é bom aqui: o Mosaico é ~flat pré-2020, então ele quase só perturba a cauda. Sempre com **SIDRA de âncora independente**. |
 | **Nível / ponto** (centroide #32/#44) | Bracket obrigatório; `agric∪mosaico` só como **teto**. Reportar o intervalo, nunca um ponto. |
 | **Inferencial** (regressão #49) | Bracketar o regressor/regressando exposto; usar Δ(soja SIDRA) como **âncora imune**. É teste de sensibilidade, não correção. |
-| **Transições / mecanismo** (#40, #12/#19) | Truncar em ~2019; para 2020–24, redefinir o evento como `pasto→(agric∪mosaico)` (a pergunta grossa) e marcar como provisório. |
+| **Transições / mecanismo** (#40, #12/#19) | Desde o #12B (27/jul/2026) a matriz primária **tem o Mosaico como grupo próprio**: as duas réguas do bracket saem **exatas** dela, não mais como pisos, e não é preciso truncar em 2019 para *medir*. O bracket continua valendo como **leitura** (D26): reportar `pasto→agric` e `pasto→(agric∪mosaico)` como intervalo. O #40, que roda sobre a tabela de eventos do #28, segue com o bracket-por-evento. |
 | **Estoque de vegetação nativa** | **Imune** — colunas próprias, não drenadas pelo Mosaico. Nada a fazer. |
 
 ## 7. Aplicação a #49 e #40 (plano — **executado**, vereditos no §9)
@@ -137,7 +137,7 @@ Analisa mecanismos de `pasto→agricultura` (janela 2010–2024) sobre a tabela 
   falta para uma correção de *ponto* é **discriminar artefato × ILP** e assim estimar a
   **fração rerroteada** — isso exige a **Coleção 9** (borda móvel, §9 do #28D).
 
-## 9. Alcance auditado — veredito por pipeline (varredura fechada, 23/jul/2026; **#33 e #47 fechados em 25/jul/2026**)
+## 9. Alcance auditado — veredito por pipeline (varredura fechada, 23/jul/2026; **#33 e #47 fechados em 25/jul/2026**; **#12 fechado em 27/jul/2026 pelo #12B**)
 
 O cubo foi reprocessado com destino=Mosaico (`processa_cubo_idade_destinos.py` →
 `pastagem_conversao_destinos.parquet`), fechando a demonstração e os brackets-por-evento.
@@ -146,7 +146,7 @@ Verdicts consolidados:
 | pipeline / medida | canal de exposição | veredito | evidência-chave |
 |---|---|---|---|
 | **#12/#19/#28** | — (fonte do artefato) | — | reetiquetagem `pasto→agric` → `pasto→Mosaico` |
-| **#12** matriz primária | **classe 21 mascarada na origem** | **limitação estrutural declarada** | `transicoes_mapbiomas.py:20` exclui o ID 21 dos 6 grupos ⇒ a matriz **não tem** a rota `pasto→Mosaico→agric`; a `validar_batimental()` contra o #4 faz `dropna` da classe nos **dois** lados, logo é **cega ao canal** e passaria mesmo se toda a conversão tivesse migrado. Fechar exige **re-export GEE com 7 grupos** + repropagação a #19/#33/Sankey — não feito; ver [`12_transicoes.md`](../pipelines/12_transicoes.md) |
+| **#12** matriz primária | classe 21 mascarada na origem | **✅ FECHADO em 27/jul/2026 pelo #12B** | O diagnóstico estava certo e agora está **medido**: o #12 cobria **0,0%** do estoque de Mosaico do #4 (2,39 Mha em 1995; 3,59 Mha em 2024) e perdia **7,26%** de Goiás na mediana dos pares. `transicoes_cubo.py` reconta a matriz no cubo censitário local com **7 grupos** — sem GEE, 13 min, porque o cubo do #28 já tinha os IDs brutos (a estimativa de "re-export GEE" estava errada). Δ_medida **−0,43% uniforme**; fechamento cai a **0,08%**. Repropagado a #19/#33/Sankey/mapas. Ver [`12_transicoes.md`](../pipelines/12_transicoes.md) |
 | **#32** centro de massa | estoque `agricultura` | **exposto, robusto** | bracket + SIDRA; viés +10 km; gradiente e marcha de 40a intactos |
 | **#44** desagregado | soja-raster | **exposto, robusto** (+achado) | raster×SIDRA em **sentidos opostos** no Ato III (−7 vs +8 km) |
 | **#50** econômico | crédito/valor | **imune** | SICOR/VA/PIB não passam pelo classificador |
@@ -154,7 +154,7 @@ Verdicts consolidados:
 | **#33** idade do pasto no Ato III | `pasto→agric` | **REFUTADO (inverte)** | sob a união o Sul vai de 16a (mais jovem) a **32a**, o Norte de 27a a 23a — a ordenação troca |
 | **#33** `veg→pasto` e balanço do Ato II | veg→pasto; janela ≤2019 | **imune** | origem e destino fora do Mosaico; Ato II fecha antes da rampa de 2021 |
 | **#29** fronteira 2020 | `Δagricultura` | **real; rótulo invertido** | sup-F **fortalece** sob correção (F 21,5→34,1); soja SIDRA quebra em 2020 sozinha |
-| **#29c** KL/TV | matriz de 6 classes | **contaminado** | não rastreia Mosaico → não é corroboração independente |
+| **#29c** KL/TV | matriz de 6 classes | **contaminado; recomputado no #12B** | com os 7 grupos o pico de KL migra de 2020 para **2022** (2019–22 num cluster apertado: 0,0108 / 0,0128 / 0,0139 / 0,0162). Não move a fronteira de 2020, que foi estabelecida por **triangulação com a quebra do SIDRA soja**, não pelo KL — `config_periodos.py` segue intacto. Decidir se o cluster muda o Ato III é análise em aberto, não repropagação |
 | **#49 M3** substituição | `Δagric` (regressor) | **exposto, robusto** | β<0 nas 3 réguas; mudança de rótulo **subestimava** (−0,49→−0,63) |
 | **#49 M1** intensificação | `Δagric` (regressando) | **frágil** | bracket cruza zero; âncora SIDRA dá **sinal oposto** |
 | **#40** gradiente idade×lat | `pasto→agric` | **REFUTADO** | bracket-por-evento: sob a união ρ≈0 (ns) nas 3 janelas |
@@ -165,7 +165,7 @@ Verdicts consolidados:
 | **#31** Intensity, razões `*_vs_uniform` do Ato III | **a linha-base** `uniform` | **contaminado (efeito de 2ª ordem)** | `uniform` cai 0,0117→0,0062 na régua crua e fica ~estável na corrigida ⇒ **toda** razão do Ato III inflada ~3×, **inclusive as de transições imunes** |
 | **#31** `pasto→veg` e `veg→pasto` em valor absoluto | numerador imune | **imune** | só as razões vs uniform mudam; os níveis não |
 | **#47** manchete 973 Mt CO₂e | Δestoque de veg nativa | **imune** | diferença de estoque por formação; não passa por classe de destino antrópica |
-| **#47** cross-check bruto×líq (Bloco C) | fluxo bruto veg→antrópico (#12) | **exposto, cosmético** | o #12 mascara a classe 21, então `veg→Mosaico` sai da conta bruta; o #48 mede o canal e o acha **estável 2017–24** → mexe na razão 0,89, não na manchete |
+| **#47** cross-check bruto×líq (Bloco C) | fluxo bruto veg→antrópico (#12) | **imune — resolvido pelo #12B** | com o grupo 7 visível dá para *medir* o canal: incluir `veg→mosaico` em `antro` subiria `veg→antrópico` em **+49,1%**, mas **o PRODES rejeita** essa leitura (na janela 2013–24, em que as duas fontes concordam 1:1, a razão vai a **1,35**). Logo `veg→mosaico` é majoritariamente deriva de classificador na borda, não corte raso: `antro` **permanece** `[pastagem, agricultura, area_urbana]` e a razão 0,89 fica de pé |
 | **#48** validação PRODES | veg→antrópico | **imune** | perda de veg estável 2017–24 (a mudança de rótulo é antrópico→antrópico) |
 | **#22 / #24** | `Δagric` | **cobertos pelo #49** | mesmos canais M1/M3; 1ª-diff (D7) desarma o grosso |
 
