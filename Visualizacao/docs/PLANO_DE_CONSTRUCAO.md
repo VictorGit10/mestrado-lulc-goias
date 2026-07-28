@@ -316,3 +316,40 @@ o próprio erro para debaixo do tapete — exatamente o contrário do que a peç
    `secoes.js` e `tabs.css` ficam órfãos e podem sair.
 4. **Reconciliar o `IMPLEMENTACAO.md`**, que descreve o site em abas — ele vira registro
    histórico no momento da troca.
+
+---
+
+## 12. A ressalva do centro de massa na Perna 1 (28/jul/2026)
+
+Levantada pelo autor na revisão da Perna 1, e é a última ponta conceitual da reforma: o
+centroide da agricultura pondera pelo **estoque** `lulc_agricultura_ha`, que subconta a
+conversão migrada para "Mosaico" (#28D/D25). A peça interativa **mostra** a linha achatando
+depois de 2019 — deixar sem anotação convidaria a leitura "a agricultura parou em 2020",
+que o trabalho abandonou.
+
+**O que se descobriu ao medir, e que decidiu o desenho:** na janela 2019→2024, quatro
+medidas dizem ~+10 a +13 km ao norte (pastagem +12,9; rebanho SIDRA +11,9; soja SIDRA
++10,1; ∪mosaico +4,4) e **só a exposta diz zero** (+0,5). Duas das quatro são **imunes** ao
+classificador. Além disso, a pastagem e o rebanho concordarem fecha empiricamente a dúvida
+sobre a perna que sobe — se o `pasto→Mosaico` a distorcesse, ela divergiria da medida imune.
+
+**Implementado:**
+1. Figura **"cinco medidas, uma discorda"** (SVG inline), mesma forma retórica do esquema
+   do #42 na Perna 3.
+2. Card da agricultura mantém **+65 km** (comparável a pasto/rebanho pela mesma régua) com
+   a âncora imune declarada: soja SIDRA **+49 km**.
+3. `marcha-mapa.js`: trecho da agricultura a partir de 2019 vira **pontilhado**, com nota
+   na legenda (`ANO_ROTULO_DERIVA`). Vale para o `index.html` também — lá o texto já
+   trazia a ressalva, mas a figura não.
+4. `<details>` explicando por que a união **não** é régua de 40 anos.
+
+**A armadilha que ficou documentada na tela.** Sob `agric ∪ mosaico` os 40 anos dão
+**−60 km — para o sul**. O número é real e está no CSV, mas o Mosaico de 1985 (3,63 Mha,
+10,7% do estado, ao norte) é **outro objeto** que o de 2024: a conta mede o Mosaico antigo
+se dissolvendo, não a lavoura recuando. A união é teto de janela curta. Alguém vai fazer
+essa conta, então a peça a faz primeiro.
+
+**E o ativo:** a massa reetiquetada aterrissa **+46,5 km ao norte** da agricultura visível,
+com r=0,84 contra o crescimento da soja SIDRA por AMC. **O erro de medida aponta contra a
+tese** — a régua crua faz a marcha parecer mais fraca do que foi. Como o #44 formula: não é
+a soja que recuou ao sul, é o rótulo "Soja" que perdeu a soja nova.

@@ -557,7 +557,12 @@
           <div class="dado-choque">
             <div class="dado-choque-valor">+78 km</div>
             <div class="dado-choque-label">Pastagem &middot; deslocamento ao norte (40 anos)</div>
-            <div class="dado-choque-glosa">O maior avanço da série. Rebanho +67 km e agricultura +65 km acompanham.</div>
+            <div class="dado-choque-glosa">O maior avanço da série. Rebanho +67 km acompanha — e o rebanho é medido pelo IBGE em campo, não por satélite.</div>
+          </div>
+          <div class="dado-choque">
+            <div class="dado-choque-valor">+65 km</div>
+            <div class="dado-choque-label">Agricultura &middot; e uma medida independente confirma</div>
+            <div class="dado-choque-glosa">Mesma régua do pasto e do rebanho, então os três números se comparam entre si. A <strong>soja plantada do IBGE</strong> — medida em campo, imune ao classificador — anda <strong>+49 km</strong> na mesma direção, com intervalo de confiança excluindo zero. Não é o mesmo objeto (a soja é o componente dominante da lavoura, não a lavoura toda), mas é a confirmação por fora do satélite.</div>
           </div>
           <div class="dado-choque">
             <div class="dado-choque-valor">~120–130 km</div>
@@ -570,6 +575,114 @@
             <div class="dado-choque-glosa">+8 km, e o intervalo de confiança inclui zero. Dizer "andou um pouco" seria ler ruído como sinal.</div>
           </div>
         </div>
+
+        <!-- A medida que erra contra a tese (#28D/D25 sobre o #32/#44) -->
+        <h4 class="perna-subtitulo">Uma ressalva que acabou reforçando o achado</h4>
+        <p>
+          Há um detalhe incômodo nessa peça, e ele merece ser dito antes que alguém o
+          descubra. O centroide da agricultura é calculado pesando cada região pela área que
+          o satélite rotula como "agricultura" — e, a partir de 2021, o MapBiomas passa a
+          rotular boa parte da conversão recente como <em>"Mosaico de Usos"</em>. Ou seja:
+          exatamente a lavoura nova, a que está na fronteira, deixa de entrar na conta. Se
+          você olhar a linha pontilhada da agricultura no gráfico acima, ela achata depois de
+          2019. A leitura tentadora seria "a agricultura parou de subir". Ela está errada.
+        </p>
+        <p>
+          Dá para testar isso porque nem toda medida do painel passa pelo classificador. O
+          <strong>rebanho</strong> e a <strong>soja plantada</strong> vêm de pesquisa de campo
+          do IBGE. Se a marcha depois de 2019 fosse ilusão, elas ficariam paradas junto. Não
+          é o que acontece:
+        </p>
+
+        <figure class="cinco-medidas">
+          <figcaption class="cinco-medidas-titulo">
+            Deslocamento ao norte entre 2019 e 2024, por medida
+          </figcaption>
+          <svg viewBox="0 0 620 232" role="img"
+               aria-label="Cinco medidas do deslocamento ao norte entre 2019 e 2024: pastagem +12,9 km, rebanho do IBGE +11,9 km, soja plantada do IBGE +10,1 km, agricultura mais mosaico +4,4 km, e agricultura pelo satélite apenas +0,5 km — a única medida cujo rótulo mudou">
+            <!-- eixo -->
+            <line class="cm-eixo" x1="238" y1="18" x2="238" y2="196"></line>
+            <text class="cm-escala" x="238" y="212">0</text>
+            <text class="cm-escala" x="358" y="212">+5 km</text>
+            <text class="cm-escala" x="478" y="212">+10 km</text>
+            <text class="cm-escala" x="598" y="212">+15 km</text>
+
+            <!-- 12,9 km -> 24 px/km  =>  largura = valor * 24 -->
+            <g class="cm-linha">
+              <text class="cm-rotulo" x="228" y="34">Pastagem</text>
+              <rect class="cm-barra" x="238" y="22" width="310" height="16"></rect>
+              <text class="cm-valor" x="556" y="34">+12,9 km</text>
+            </g>
+            <g class="cm-linha cm-linha--imune">
+              <text class="cm-rotulo" x="228" y="70">Rebanho bovino ◆</text>
+              <rect class="cm-barra" x="238" y="58" width="286" height="16"></rect>
+              <text class="cm-valor" x="532" y="70">+11,9 km</text>
+            </g>
+            <g class="cm-linha cm-linha--imune">
+              <text class="cm-rotulo" x="228" y="106">Soja plantada ◆</text>
+              <rect class="cm-barra" x="238" y="94" width="242" height="16"></rect>
+              <text class="cm-valor" x="488" y="106">+10,1 km</text>
+            </g>
+            <g class="cm-linha cm-linha--teto">
+              <text class="cm-rotulo" x="228" y="142">Agricultura ∪ Mosaico</text>
+              <rect class="cm-barra" x="238" y="130" width="106" height="16"></rect>
+              <text class="cm-valor" x="352" y="142">+4,4 km</text>
+            </g>
+            <g class="cm-linha cm-linha--exposta">
+              <text class="cm-rotulo" x="228" y="178">Agricultura (satélite)</text>
+              <rect class="cm-barra" x="238" y="166" width="12" height="16"></rect>
+              <text class="cm-valor" x="258" y="178">+0,5 km</text>
+            </g>
+          </svg>
+          <p class="cinco-medidas-legenda">
+            ◆ = medida em campo pelo IBGE, <strong>imune</strong> ao classificador de imagens.
+            Quatro medidas dizem que tudo andou ~10 a 13 km ao norte nesses cinco anos. A
+            quinta diz que nada andou — e é justamente a única cujo <em>rótulo</em> mudou no
+            período.
+          </p>
+        </figure>
+
+        <p>
+          E há uma última peça que fecha o argumento. Quando se localiza no mapa a área que
+          mudou de rótulo, ela não está espalhada: o centro dessa massa "escondida" fica
+          <strong>46 km ao norte</strong> do centro da agricultura visível, e o seu
+          crescimento por região acompanha o da soja do IBGE quase ponto a ponto
+          (correlação de 0,84; 1,52 contra 1,53 milhão de hectares). A conversão que o
+          satélite deixou de nomear está acontecendo <strong>na fronteira</strong> — que é
+          onde esta investigação diz que a ação foi parar.
+        </p>
+        <p class="destaque-inline">
+          O erro de medida, portanto, aponta <strong>contra</strong> a tese, não a favor
+          dela: a régua crua faz a marcha parecer mais fraca do que ela foi. Corrigi-la
+          reforça o achado em vez de ameaçá-lo.
+        </p>
+
+        <details class="metric-details">
+          <summary>Então por que não usar sempre a régua corrigida? &middot; o limite da união</summary>
+          <div class="perna-detalhe">
+            <p>
+              Porque ela só é interpretável na janela em que a mudança de rótulo acontece.
+              Somar "agricultura ∪ mosaico" ao longo dos <strong>40 anos</strong> devolve
+              <strong>−60 km</strong> — a agricultura andando para o <em>sul</em>. O número é
+              real e está nos dados, mas não significa o que parece.
+            </p>
+            <p>
+              A razão: em 1985 a classe "Mosaico" já existia e era enorme — <strong>3,63 Mha,
+              10,7% do estado</strong> —, e ficava bem ao norte. Ela não era soja escondida;
+              era terra de uso misto indiferenciado, outra coisa. Ao longo da série ela
+              encolhe (até 6,1% em 2019) enquanto a lavoura de verdade cresce no sul. Somar as
+              duas em 1985 e em 2024 é comparar dois objetos diferentes, e o resultado mede
+              principalmente o Mosaico antigo se dissolvendo — não a lavoura recuando.
+            </p>
+            <p>
+              Por isso a régua da união entra aqui como <strong>teto de uma janela curta</strong>
+              (2019–2024, onde a migração de rótulo de fato ocorre), nunca como régua de
+              série longa. É a mesma disciplina que a peça usa em todo lugar onde a medida
+              fica ambígua: reportar o intervalo e conferir com uma fonte de fora — e dizer
+              qual pergunta cada régua consegue responder.
+            </p>
+          </div>
+        </details>
 
         <details class="metric-details">
           <summary>A robustez, em uma linha cada</summary>
@@ -604,6 +717,12 @@
             Um centro de massa descreve <em>que</em> a fronteira andou — não <em>por quê</em>.
             E é uma média: esconde o que acontece dentro. As duas perguntas seguintes atacam
             exatamente isso.
+          </p>
+          <p>
+            Também não se afirma que <strong>a agricultura desacelerou depois de 2020</strong>:
+            essa leitura é do rótulo, não do campo, e as duas medidas imunes apontam ao norte
+            na mesma janela. Nem se usa a régua corrigida como se ela valesse para os 40 anos —
+            ela é teto de uma janela curta.
           </p>
         </aside>
       </div>

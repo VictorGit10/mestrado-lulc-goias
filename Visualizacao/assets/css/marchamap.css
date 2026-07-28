@@ -102,6 +102,20 @@
   display: inline-block; flex: none;
 }
 
+/* Explica o pontilhado da agricultura depois de 2019 (mudanca de rotulo, D25).
+   Ocupa a linha inteira para nao ser lida como mais um item da legenda. */
+.marchamap-leg-nota {
+  flex-basis: 100%;
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
+  line-height: 1.45;
+  color: var(--color-muted);
+  border-left: 2px solid var(--color-mosaico);
+  padding-left: 0.6rem;
+  margin-top: 0.15rem;
+}
+.marchamap-leg-nota b { color: var(--color-fg); }
+
 .marchamap-check {
   display: inline-flex;
   align-items: center;

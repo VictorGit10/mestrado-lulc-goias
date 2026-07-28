@@ -380,6 +380,83 @@ body.reforma .timeline-rail.is-recolhida {
   font-size: 1.05rem;
 }
 
+.perna-subtitulo {
+  font-family: var(--font-sans);
+  font-size: 0.86rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--color-fg);
+  margin: 2rem 0 0.7rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-rule);
+}
+
+.destaque-inline {
+  font-size: 1.06rem;
+  line-height: 1.55;
+  border-left: 3px solid var(--color-accent);
+  padding-left: 1.1rem;
+  margin: 1.3rem 0;
+}
+
+/* ==========================================================================
+   5c-bis. "Cinco medidas, uma discorda" — a ressalva do centro de massa
+   ========================================================================== */
+.cinco-medidas {
+  margin: 1.6rem 0;
+  padding: 1.2rem 1.3rem 1rem;
+  background: #fcfcfa;
+  border: 1px solid var(--color-rule);
+}
+
+.cinco-medidas svg { width: 100%; height: auto; display: block; }
+
+.cinco-medidas-titulo {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin-bottom: 0.9rem;
+}
+
+.cinco-medidas-legenda {
+  font-family: var(--font-sans);
+  font-size: 0.84rem;
+  line-height: 1.55;
+  color: var(--color-muted);
+  margin: 0.9rem 0 0;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--color-rule);
+}
+
+.cm-eixo { stroke: var(--color-rule); stroke-width: 1; }
+
+.cm-rotulo,
+.cm-valor,
+.cm-escala {
+  font-family: var(--font-sans);
+  fill: var(--color-muted);
+  font-size: 12px;
+}
+.cm-rotulo { text-anchor: end; }
+.cm-valor  { font-variant-numeric: tabular-nums; }
+.cm-escala { font-size: 10px; text-anchor: middle; }
+
+.cm-barra { fill: var(--color-pasto); }
+
+/* As duas medidas de campo do IBGE — o argumento mora nelas. */
+.cm-linha--imune .cm-barra { fill: var(--color-veg); }
+.cm-linha--imune .cm-rotulo { fill: var(--color-fg); font-weight: 600; }
+
+/* O teto da regua corrigida: presente, mas subordinado. */
+.cm-linha--teto .cm-barra { fill: var(--color-mosaico); opacity: 0.75; }
+
+/* A discordante — a unica cujo rotulo mudou. */
+.cm-linha--exposta .cm-barra { fill: var(--color-accent); }
+.cm-linha--exposta .cm-rotulo,
+.cm-linha--exposta .cm-valor { fill: var(--color-accent); font-weight: 600; }
+
 /* ==========================================================================
    5c. Esquema da regressao espuria (#42) — unica figura nova da reforma
    ========================================================================== */

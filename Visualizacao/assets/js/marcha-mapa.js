@@ -43,6 +43,10 @@
   let timer = null;
   let mostrarElipse = false;
 
+  // A partir deste ano o rotulo de destino da conversao migra para "Mosaico de
+  // Usos" (#28D/D25) e o centroide da agricultura passa a subcontar a soja nova.
+  const ANO_ROTULO_DERIVA = 2019;
+
   const W_MAPA = 520, H_MAPA = 480;
   const M_STRIP = { t: 14, r: 14, b: 30, l: 40 };
   const W_STRIP = 460, H_STRIP = 360;
@@ -261,11 +265,28 @@
       .attr("class", "marchamap-eixo-cap").text("°S ↑ norte");
 
     // linhas de latitude por variável
+    //
+    // A agricultura recebe tratamento distinto a partir de 2020: o traco vira
+    // pontilhado. Motivo — o centroide agricola pondera pelo estoque
+    // `lulc_agricultura_ha`, e no fim da serie a conversao recente migra do
+    // rotulo "agricultura" para "Mosaico de Usos" (#28D/D25). A linha achata
+    // ali por causa do CLASSIFICADOR, nao do campo: na mesma janela o rebanho e
+    // a soja plantada do IBGE — as duas medidas imunes — andam ~+10 a +12 km ao
+    // norte. Deixar o trecho solido convidaria a leitura "a agricultura parou
+    // em 2020", que este trabalho abandonou. Ver a figura das cinco medidas.
     const lineGen = d3.line().x(p => X(p.a)).y(p => Y(p.lat));
     DADOS.variaveis.forEach(v => {
-      svg.append("path").attr("d", lineGen(v.pts))
+      const corte = (v.id === "agricultura") ? ANO_ROTULO_DERIVA : null;
+      const solidos = corte ? v.pts.filter(p => p.a <= corte) : v.pts;
+      svg.append("path").attr("d", lineGen(solidos))
         .attr("fill", "none").attr("stroke", v.cor).attr("stroke-width", 2)
         .attr("opacity", 0.9);
+      if (!corte) return;
+      const derivados = v.pts.filter(p => p.a >= corte);
+      if (derivados.length < 2) return;
+      svg.append("path").attr("d", lineGen(derivados))
+        .attr("fill", "none").attr("stroke", v.cor).attr("stroke-width", 2)
+        .attr("stroke-dasharray", "4 3").attr("opacity", 0.9);
     });
 
     // grupo dinâmico: scan line + marcadores do ano
@@ -377,6 +398,13 @@
         `${v.rotulo} <b>${dN >= 0 ? "+" : ""}${String(dN).replace(".", ",")} km</b>` +
         (rob ? " <em>(≈ ancorada)</em>" : ""));
     });
+    // Explica o pontilhado da agricultura — sem isso o traco diferente vira
+    // ruido visual em vez de ressalva.
+    cont.append("span").attr("class", "marchamap-leg-nota").html(
+      `A partir de ${ANO_ROTULO_DERIVA} a linha da agricultura fica ` +
+      `<b>pontilhada</b>: dali em diante o satélite roteia a conversão recente ` +
+      `para a classe "Mosaico de Usos", e o centroide da agricultura passa a ` +
+      `subcontá-la. O achatamento é do rótulo, não do campo.`);
   }
 
   function ligarControles() {

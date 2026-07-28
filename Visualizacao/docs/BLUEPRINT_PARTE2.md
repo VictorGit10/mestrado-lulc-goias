@@ -81,13 +81,58 @@ administrativa — a marcha reaparece a 1–2 km do valor original, então não 
 recorte (MAUP). E, ao abrir a vegetação, a "muralha" que resiste ao norte é a
 **floresta**; o campo nativo, esse, também recuou.)*
 
+**A RESSALVA DO CENTRO DE MASSA — beat acrescentado em 28/jul/2026**
+
+*O centroide da agricultura pondera pelo estoque `lulc_agricultura_ha`, e a partir de 2021
+a conversão recente migra para "Mosaico de Usos" (#28D/D25). A linha da agricultura
+**achata** depois de 2019 — e a peça interativa **mostra** isso. Deixar sem anotação
+convidaria a leitura "a agricultura parou em 2020", que este trabalho abandonou.*
+
+**O desenho escolhido: a figura "cinco medidas, uma discorda"** (2019→2024, SVG inline).
+É a mesma forma retórica do esquema do #42 na Perna 3 — uma figura pequena que faz o
+argumento sem jargão:
+
+| medida | Δ norte 2019→24 | estado |
+|---|---|---|
+| Pastagem | **+12,9 km** | não exposta |
+| Rebanho bovino (SIDRA) | **+11,9 km** | **imune** (campo, não classificador) |
+| Soja plantada (SIDRA) | **+10,1 km** | **imune** |
+| Agricultura ∪ Mosaico | +4,4 km | teto da janela curta |
+| **Agricultura (satélite)** | **+0,5 km** | ← a única cujo rótulo mudou |
+
+A pastagem e o rebanho concordarem (+12,9 × +11,9) **fecha empiricamente** a dúvida sobre
+a perna que sobe: se o `pasto→Mosaico` distorcesse o centroide do pasto, ele divergiria do
+rebanho, que é imune. Não diverge.
+
+**O fecho, e é ele que transforma a ressalva em ativo:** o centro da massa reetiquetada
+fica **+46,5 km ao norte** da agricultura visível, e seu crescimento por AMC correlaciona
+**r=0,84** com o da soja SIDRA (1,525 ≈ 1,539 Mha). **O erro de medida aponta contra a
+tese** — a régua crua faz a marcha parecer mais fraca do que foi.
+
+**Três decisões de implementação:**
+1. **Manchete mantém +65 km** (mesma régua de pasto/rebanho, comparável entre si), com a
+   âncora imune declarada na glosa: soja SIDRA **+49 km**, mesma direção, IC exclui zero.
+   Não é bracket do mesmo objeto — a soja é o componente dominante da lavoura, não a
+   lavoura toda —, e a copy diz isso.
+2. **A peça interativa anota:** o trecho da agricultura a partir de 2019 vira
+   **pontilhado**, com nota na legenda (`marcha-mapa.js`, `ANO_ROTULO_DERIVA`). Sem isso, a
+   figura contradiria o texto — a falha de propagação parcial que já mordeu este projeto
+   duas vezes.
+3. 🚫 **Nunca reportar a união como bracket de 40 anos.** Ela dá **−60 km** (sul), porque o
+   Mosaico de 1985 (3,63 Mha, 10,7% do estado, ao norte) é **outro objeto** que o de 2024 —
+   o número mede o Mosaico antigo se dissolvendo, não a lavoura recuando. Um `<details>`
+   explica isso na tela, porque está nos CSVs e a banca vai encontrar.
+
 **RESPOSTA (uma frase)**
 > Toda a fronteira agropecuária marchou ~65–78 km ao norte em 40 anos — pasto à frente,
 > lavoura ~120 km atrás, vegetação natural ancorada.
 
 **O QUE ISTO NÃO DIZ**
 Um centro de massa descreve *que* a fronteira andou — não *por que*. E é uma média:
-esconde o que acontece dentro. As duas perguntas seguintes atacam exatamente isso.
+esconde o que acontece dentro. As duas perguntas seguintes atacam exatamente isso. Também
+**não** se afirma que a agricultura desacelerou depois de 2020 (é leitura do rótulo; as duas
+medidas imunes apontam ao norte), nem se usa a régua corrigida como se valesse para os 40
+anos.
 
 ---
 
@@ -416,6 +461,10 @@ a narrativa de *avanço no tempo*.
   | número | perna | fonte | estado |
   |---|---|---|---|
   | marcha +78 / +67 / +65 km · veg. ancorada (IC inclui zero) | 1 | #32 + D19 | ✅ |
+  | soja SIDRA (âncora imune) **+49 km** em 1988–2024, IC exclui zero | 1 | #44 | ✅ |
+  | 2019→24: pasto **+12,9** · rebanho **+11,9** · soja **+10,1** · ∪mosaico **+4,4** · agric **+0,5** km | 1 | `centro_massa_deriva_check.csv` | ✅ |
+  | massa reetiquetada **+46,5 km** ao norte da agric. visível; r=0,84 com Δsoja | 1 | `centro_massa_deriva_resumo.csv` | ✅ |
+  | ∪mosaico em 40 anos = **−60 km** (não usar como bracket longo) | 1 | `..._deriva_desloc.csv` | ✅ |
   | lavoura ~120–130 km ao sul do pasto, em todos os anos | 1 | #32 | ⏳ |
   | 166 AMCs (malha); **164** com conversão (base do #28C) | 1 · 2 | #25 · #28C | ✅ |
   | pixel-a-pixel a 1–2 km do valor original (MAUP) | 1 | #43 | ✅ |
