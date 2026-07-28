@@ -862,7 +862,7 @@ São as mais "técnicas", mas cada uma resolve um problema concreto do seu traba
 - **A matemática, com calma:** SLX = *Spatially Lagged X*. Você adiciona ao modelo um termo
   `θ · (média da variável X nos vizinhos ao sul)`. O coeficiente `θ` é o **spillover
   direcional**. O **placebo** é rodar com vizinhos ao **norte** (onde a teoria não prevê efeito).
-- **Seu resultado:** no #34, `θ = −0,16` — **oposto** ao previsto. Vizinhos ao sul **co-expandem**
+- **Seu resultado:** no #34, `θ = −0,16` — **oposto** ao previsto, e negativo em **12/12** especificações sob o bracket D26 (a significância, essa, só aparece na régua exposta). Vizinhos ao sul **co-expandem**
   a lavoura, não "empurram" o pasto para cá. Mais uma perna do nulo de deslocamento causal.
 - **A armadilha:** a definição de "vizinho" e de "ao sul" (a matriz W direcional) é uma escolha
   — daí a importância do placebo (norte) para mostrar que o resultado não é artefato da matriz.

@@ -19,7 +19,7 @@
 > | perna | mudança | causa |
 > |---|---|---|
 > | **2** | corpo, resposta e "não diz" **reescritos** | o gradiente latitudinal de **idade** caiu (#40/#28C/#33, 23–25/jul); a cláusula "a geografia desloca o peso" saiu; a amostra de 78 mil virou **censo de 44,6 M** |
-> | **3** | o corpo passa a dizer **qual** dos três ângulos refuta | o nulo de Granger é de **baixo poder** (N≈38); quem refuta é o **spillover de sinal trocado** (θ=−0,16, p=0,02). Dizer "o teste dá zero" convidava a objeção mais fácil da banca |
+> | **3** | o corpo passa a dizer **qual** dos três ângulos refuta | o nulo de Granger é de **baixo poder** (N≈38). ♻️ **Revisto em 28/jul**: a auditoria da deriva mostrou que a *significância* do spillover também não é robusta (p<0,05 em 1/12 células). A copy passou a apoiar-se na **ausência universal da assinatura prevista** (θ>0 nunca aparece), que é mais forte e não depende de um p-valor |
 > | **3** | novo parágrafo: crédito/armazenagem/exportação ficam **atrás** da fronteira | #50/#53/#45 não tinham endereço na peça e fecham a perna por simetria |
 > | **4** | "a demanda subiu" ganha lastro medido + ressalva do Δhazard; entra o **#51** | aresta residual da auditoria (hazard embute proteção/atrito); o #51 não tinha endereço |
 > | **4** | o −88% do Sul **sai**, entra o `veg→pasto` | a régua crua inverteu sob o bracket D26 (+51%) e o #12B confirmou por recontagem |
@@ -237,11 +237,11 @@ intra-estadual. Por isso ela foi testada com o maior rigor, em tempo contínuo, 
 ângulos. Nenhum a sustenta — mas eles não pesam igual, e a diferença importa.
 **Primeiro:** não aparece precedência temporal — a lavoura do Sul não antecede o pasto do
 Norte (p=0,97). É um nulo, e um nulo com 38 anos de série tem pouco poder: ele não *prova*
-ausência, apenas deixa de encontrar. **Segundo — e é este que refuta:** onde o empurrão
-espacial deveria aparecer, ele aparece com o **sinal trocado** (θ=−0,16, p=0,02): os
-vizinhos ao sul *co-expandem* com o Norte em vez de empurrá-lo. Um efeito significativo na
-direção **contrária** é evidência positiva contra a hipótese — coisa diferente de ausência
-de evidência. **Terceiro:** o único efeito forte é *local* — onde a lavoura entra, o pasto
+ausência, apenas deixa de encontrar. **Segundo:** onde o empurrão espacial deveria aparecer, o
+sinal vem **trocado**. A hipótese exige um coeficiente positivo; ele é **negativo nas doze
+especificações testadas**, sem exceção (3 réguas × 2 janelas × 2 desfechos, auditoria de
+28/jul). Não é um número que refuta — é a ausência de um: a assinatura que a hipótese pede
+não aparece em régua nenhuma. **Terceiro:** o único efeito forte é *local* — onde a lavoura entra, o pasto
 sai ali mesmo (β=−0,52): é intensificação, não expulsão à distância. O veredito: não é
 deslocamento causal de uma região sobre a outra. É **reorganização espacial** — dois
 mecanismos locais paralelos sob um mesmo impulso.
@@ -475,7 +475,7 @@ a narrativa de *avanço no tempo*.
   | amplitude Sul→Norte da mediana: 7a → **2a**, ordem embaralhada | 2 | #28C | ✅ |
   | `veg→pasto` Ato II→III: Sul **−49%** · Norte **−13%** | 2 · 4 | #33 | ✅ |
   | Granger ΔAgric_Sul→ΔPasto_Norte **p=0,97** (baixo poder, N≈38) | 3 | #34 | ✅ |
-  | spillover direcional **θ=−0,16 · p=0,02** (sinal trocado) | 3 | #34 | ✅ |
+  | spillover: **θ<0 em 12/12** réguas×janelas; **p=0,02 só na régua exposta** (não citar como robusto) | 3 | #34 + bracket D26 | ✅ |
   | substituição local **β=−0,52** | 3 | #34 | ✅ |
   | drive comum: p de permutação **≈0,07–0,13** (n.s. a 5%) | 3 | #54 (D20) | ✅ |
   | crédito ~**75 km** ao sul do pasto | 3 | #50 | ✅ |

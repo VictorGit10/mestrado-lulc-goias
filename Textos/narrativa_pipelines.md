@@ -504,7 +504,7 @@ agricultura no Sul *antecede* o avanço de pasto/rebanho no Norte? (lead-lag por
 com teste reverso); **(B) espacial** — a agricultura dos *vizinhos ao sul* prevê o crescimento
 de pasto local? (SLX em painel 2-way FE com peso direcional; placebo = vizinhos ao norte). O
 veredito é de **não-confirmação**: (1) **sem precedência temporal** (Granger ΔAgric_Sul →
-ΔPasto_Norte p=0,97); (2) **sem spillover direcional** (θ=−0,16, *oposto* do previsto — vizinhos
+ΔPasto_Norte p=0,97 — nulo **robusto ao bracket D26**, 0/24 células significativas); (2) **sem spillover direcional** (θ=−0,16, *oposto* do previsto e negativo em 12/12 réguas × janelas, **embora a significância não sobreviva ao bracket** — vizinhos
 ao sul co-expandem, não empurram); (3) mas **substituição local forte** (Δagric→Δpasto β=−0,52
 — onde a lavoura entra, o pasto sai *localmente*: intensificação, confirmando o #22). A leitura
 defensável: **não é iLUC causal, é reorganização espacial** — dois mecanismos locais paralelos

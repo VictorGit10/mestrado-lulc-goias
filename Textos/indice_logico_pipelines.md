@@ -182,8 +182,10 @@ sinal). O canal robusto do #49 é o **M3, substituição local**.
 > **Afirma (o negativo, forte):** a hipótese-mãe — *a lavoura do Sul empurra o pasto para o Norte*
 > (iLUC intra-estadual) — foi **testada e refutada no canal testado**. A precedência temporal não
 > aparece (Granger nulo, **mas de baixo poder** — N≈38); e o spillover direcional, onde estimável,
-> saiu **significativo no sentido oposto** ao previsto (θ=−0,16, p=0,02). É o spillover de sinal
-> trocado — não o nulo do Granger — que carrega a refutação.
+> saiu com o **sinal oposto** ao previsto em **todas** as especificações testadas (θ<0 em 12/12
+> réguas × janelas × desfechos; auditoria da deriva, 28/jul/2026). A refutação se apoia na
+> **ausência universal da assinatura prevista** (θ>0 nunca aparece), não num coeficiente
+> isolado: o p=0,02 do θ=−0,16 é da régua exposta e **não sobrevive ao bracket D26**.
 > **Afirma (o positivo, corroborante):** o que coordena os dois mecanismos e dá o **compasso
 > temporal** da marcha é um impulso **macro comum**, com o câmbio real (REER) como candidato mais
 > forte — mas isso é **corroborante, não estabelecido**.
@@ -205,7 +207,7 @@ não a significância.
 
 | Papel | Pipeline | O que entrega |
 |---|---|---|
-| **Manchete (nulo)** | **#34** `deslocamento_espacial.py` | O teste formal, em **tempo contínuo**. (a) Sem precedência: Granger ΔAgric_Sul → ΔPasto_Norte **p=0,97** (nulo de **baixo poder** — N≈38; poder ~48% p/ efeito moderado, ~93% p/ grande, sim. Monte Carlo). (b) Spillover direcional **significativo e de sinal trocado**: θ=−0,16, **p=0,02**, oposto ao previsto — **é ele que refuta, não o nulo do Granger**. (c) Substituição local forte: β=−0,52 |
+| **Manchete (nulo)** | **#34** `deslocamento_espacial.py` | O teste formal, em **tempo contínuo**. (a) Sem precedência: Granger ΔAgric_Sul → ΔPasto_Norte **p=0,97** (nulo de **baixo poder** — N≈38; poder ~48% p/ efeito moderado, ~93% p/ grande, sim. Monte Carlo). (b) Spillover direcional de **sinal trocado**: θ=−0,16 (p=0,02) na régua crua — mas o **bracket D26 (28/jul) mantém o sinal (12/12 negativo) e derruba a significância** (p<0,05 em 1/12; 0,42–0,55 sob união/SIDRA). (c) Substituição local forte: β=−0,52, **robusta nas 3 réguas** (−0,52 crua / −1,14 união / −0,07 SIDRA, p<0,001) |
 | **Autocorreção** | **#42** `granger_reverso_norte_sul.py` | **A peça-modelo do conjunto.** O #34 deixou uma ponta: o teste *reverso* deu p=0,0007 — que, se real, inverteria a tese. O #42 provou que é **regressão espúria**: `pasto_Norte` é I(2), `agric_Sul` é I(0), ordens diferentes nem cointegram; **Toda-Yamamoto zera as duas direções**; e os **placebos** mostram que o Norte "lidera" até o pasto do próprio Sul → **D16** |
 | **Extensão + Autocorreção** | **#45** `analise_trase_lulc.py` | Terceiro canal a confirmar co-evolução sem líder: a cadeia exportadora **não lidera** (0/3 termos defasados sobrevivem à robustez) **nem co-move materialmente**. Em jul/2026 derrubou o próprio achado-manchete ao descobrir que o regressor era produção disfarçada (β +0,335 → +0,037) |
 | **Extensão** | **#53** `centro_massa_capacidade.py` | Fecha a ressalva do #45 pelo lado da **capacidade instalada**: o centroide da capacidade de armazenagem (CONAB) é a camada **mais ao sul de todas** (~150 km ao sul do pasto, ~83 km ao sul até do crédito) — a infraestrutura física **consolida o núcleo, não lidera**. Metade "silos"; a "frigoríficos" segue sem dado |

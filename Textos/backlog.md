@@ -479,7 +479,9 @@ Itens 1-2 (~1-2 h totais) são triviais e fecham lacunas menores. Item 3 (IDH-M 
 - CRS para cálculo de área: **EPSG:5880 SIRGAS Albers** (Brasil).
 - Pacote de malha: `geobr`.
 - Mapas finais: pipeline gera GPKG/CSV, QGIS faz layout cartográfico.
-> **🔴 PONTA ABERTA — o #34 nunca passou pela varredura da deriva do Mosaico (28/jul/2026).**
+> **✅ FECHADA EM 28/jul/2026 — o #34 passou pela varredura da deriva do Mosaico.** Veredito ao fim do bloco; diagnóstico preservado como registro.
+>
+> **🔴 O diagnóstico, como estava:**
 > Levantada ao construir a Perna 1 da viz, a partir de uma pergunta do autor sobre se o achado
 > do Mosaico conflita com a refutação do iLUC. Fui conferir e o **#34 não aparece na varredura**:
 > não está na tabela do §9 de [`metodologia/tratamento_deriva_mosaico.md`](metodologia/tratamento_deriva_mosaico.md),
@@ -506,3 +508,30 @@ Itens 1-2 (~1-2 h totais) são triviais e fecham lacunas menores. Item 3 (IDH-M 
 > **Custo estimado:** baixo — a maquinaria do bracket já existe e o painel AMC já tem as três
 > colunas. Não é pré-requisito da viz: a peça não afirma nada que dependa disso, e a Perna 3
 > já reporta o nulo como de baixo poder.
+
+> **VEREDITO** (`scripts/deslocamento_bracket.py`, 28/jul; detalhe no
+> [#34](pipelines/34_deslocamento_espacial.md) → "Robustez à mudança de rótulo"). O
+> companheiro **reproduz o original antes de bracketá-lo** (Granger p=0,971 e θ=−0,1572
+> p=0,0204 na régua crua). Três blocos, três vereditos:
+>
+> - **Temporal — ✅ ROBUSTO.** 24 células (3 réguas × 2 janelas × 2 desfechos × 2 lags),
+>   **0 com p<0,05**, menor p = 0,078. A deriva não fabricou o nulo nem podia estar
+>   escondendo uma precedência. *Colateral:* o pico da CCF muda de sinal e de defasagem
+>   conforme a régua (lag −1 / 0 / +4) — outra demonstração do #42/D16 por caminho novo.
+> - **Substituição local — ✅ ROBUSTA e reforçada.** β<0 em 12/12; p<0,001 nas três réguas
+>   na janela plena, e o canal **cresce** sob a união (−0,52 → −1,14): com o Mosaico dentro,
+>   a medida de conversão fica mais completa.
+> - **Spillover direcional — ⚠️ SINAL ROBUSTO, SIGNIFICÂNCIA NÃO.** θ<0 em **12/12**
+>   (a hipótese exige θ>0, que **nunca** aparece), mas p<0,05 em **1/12** — exatamente a
+>   régua exposta na janela plena. Sob união/SIDRA: p = 0,42–0,55. A defesa por atenuação
+>   não se sustenta, porque a mesma régua **fortalece** o termo local. Mancha registrada:
+>   na SIDRA/plena o **placebo norte** é significativo e o alvo sul não.
+>
+> **Consequência para a redação:** a refutação **permanece** — nenhuma especificação produz
+> a assinatura do deslocamento causal — mas passa a se apoiar em **duas** pernas robustas
+> (nulo temporal + substituição local) e na **ausência universal de θ>0**, não no p=0,02.
+> 🚫 Não citar "spillover significativo, p=0,02, é ele que refuta". Propagado nos sete
+> endereços (índice, narrativa, ensaio, guia, D26, blueprint, site).
+>
+> **É o mesmo movimento do #54 na Perna 4**: menos significância, mais defensabilidade —
+> o argumento passa da magnitude de um coeficiente para a especificidade do padrão.
