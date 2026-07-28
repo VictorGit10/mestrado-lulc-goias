@@ -180,6 +180,7 @@ Registrado para não reabrir a discussão a cada fase:
 | 28/jul/2026 | **A1–A4 ✅** | `reforma.html` + `assets/css/reforma.css` + `assets/js/rail.js`. Scroll único com Partes 0–4, rail lateral funcional, Parte 0 e Parte 1 completas com a copy nova. Verificado com Playwright (script em scratchpad): 40 steps, rail marca e salta, régua recolhe fora da Parte 1, Sankey de 7 grupos com o Mosaico, console limpo, zero 404, mobile sem overflow, nenhuma frase banida no DOM |
 | 28/jul/2026 | **correções no site no ar ✅** | hero 10×, "16 decisões" (3 lugares), cards do Sankey + 4º card do Mosaico. Ver §5 |
 | 28/jul/2026 | **B ✅** | As 4 pernas com a copy do blueprint; as duas interativas movidas; esquema da regressão espúria criado. Corrigido o bug de rolagem horizontal no celular — que era do site publicado. Ver §9 |
+| 28/jul/2026 | **C ✅** | Parte 3 (tese + 10 autocorreções + 3 verificações + 7 limites) e Parte 4 (oficina consolidada, D1–D26 colapsadas). Ver §10 |
 
 ### Dois defeitos encontrados pela verificação da Fase A (e corrigidos)
 
@@ -251,3 +252,67 @@ A varredura de "frases banidas" acusou *"o pasto jovem vem ganhando peso"* na Pe
 precisamente para nomeá-la e negá-la. O teste passou a excluir `.nao-diz` da varredura —
 confundir a afirmação com a sua negação seria punir exatamente a parte mais honesta da
 peça. (Antes disso, o mesmo teste tinha acusado "78 mil" dentro de "**3**78 milhões.")
+
+---
+
+## 10. Fase C — o veredito e a oficina (28/jul/2026) ✅
+
+**Parte 3 · O veredito.** Três batidas, na ordem do blueprint: o callout da tese; o painel
+de autocorreções; os limites. O painel é o item que mais mudou em relação ao site antigo —
+ele passou de 7 itens enterrados no §12 para **10 em destaque**, ordenados da mais severa
+para a menor, com o #12B abrindo a lista. Cada linha traz um selo de veredito
+(**NÃO** em terracota, **SIM** em verde para o único caso), e a coluna de "NÃO" descendo a
+página *é* o argumento — dá para ler de relance.
+
+Abaixo dele, um segundo bloco com tratamento visual distinto: as **três verificações que
+não derrubaram nada** (#14B, #22B, #48). A separação entre os dois blocos é deliberada e é
+o que torna o painel persuasivo em vez de performático — contar só as auditorias que acham
+erro é outra forma de selecionar resultado.
+
+**Parte 4 · A oficina.** Consolidada de sete blocos para quatro, como o blueprint pedia:
+
+| era | virou |
+|---|---|
+| M1 periodização + o acordeão longo da Parte 1 | **1 · Como os três atos foram detectados** — com a ressalva do pico de KL que migrou para 2022 e a âncora SIDRA que segura a fronteira de 2020 |
+| M2 métricas do tempo + M3 camadas de evidência | **2 · As réguas de robustez** — uma peça só, orientada a "como sabemos que sobrevive": as seis réguas e o que cada uma decidiu, mais as três camadas de força |
+| M4 vitrine do painel | **3 · O painel: o que medimos** — intocado (`inventario.js`) |
+| M5 decisões | **4 · As vinte e seis decisões** — os 26 cards agora vivem dentro de um `<details>` fechado. São referência, não leitura corrida |
+| M6 limitações · M7 glossário | mantidos como estão |
+
+O DiD ganhou uma nota própria na tabela de camadas: as quatro políticas testadas são
+**federais**, sem grupo não-tratado, então a camada foi rebaixada de evidência causal para
+*sensibilidade de co-movimento* (#23). É o que justifica os pinos da régua aparecerem como
+contexto e nunca como motor.
+
+### O que a importação dos blocos antigos trouxe de errado
+
+Os blocos M5/M6/M7 foram trazidos quase verbatim — e vieram com **oito referências
+cruzadas mortas**: "Narrativa § 9", "§ 6", "§ 11", que existiam quando a peça tinha doze
+seções numeradas e duas abas. Reescritas para o vocabulário novo (Perna 1–4, Parte 3).
+**Lição de processo:** reaproveitar HTML de uma arquitetura para outra carrega as
+referências da arquitetura antiga, e elas não quebram nada visivelmente — só apontam para o
+nada. A verificação passou a checar isso (`ancoras: dup / quebrados`).
+
+### A varredura de frases banidas precisou de uma regra, não de mais exceções
+
+Depois do `.nao-diz` da Fase B, a Fase C trouxe mais casos: o card da **D26** cita o
+"−88%" para dizer que ele caiu, e a tabela de réguas cita o gradiente de idade pelo mesmo
+motivo. A regra que fechou o assunto: **a lista guarda contra *reafirmar* um achado que
+caiu; texto que *narra* a queda é o oposto disso.** Ficam fora da varredura, por classe
+explícita: `.nao-diz`, `.nota-honestidade`, `.autocorrecoes`, `.verificacoes-ok`,
+`.decisoes-corpo` e `.regua-decidiu`. Sem essa regra, o teste passaria a premiar quem varre
+o próprio erro para debaixo do tapete — exatamente o contrário do que a peça defende.
+
+---
+
+## 11. O que falta — Fase D
+
+1. **Leitura completa pelo autor**, de cima a baixo. É o critério de aceite que nenhum
+   teste substitui.
+2. **Polimento:** o título embutido nos PNGs do mapa coberto pelo seletor de camadas (§8);
+   revisar a Parte 1 em 360 px; conferir `prefers-reduced-motion` nas duas interativas.
+3. **A troca:** `reforma.html` → `index.html`, o antigo para
+   `docs/_arquivo/index-pre-reforma.html`, num commit só. Depois disso, `router.js`,
+   `secoes.js` e `tabs.css` ficam órfãos e podem sair.
+4. **Reconciliar o `IMPLEMENTACAO.md`**, que descreve o site em abas — ele vira registro
+   histórico no momento da troca.

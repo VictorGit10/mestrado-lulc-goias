@@ -481,6 +481,131 @@ body.reforma .timeline-rail.is-recolhida {
 }
 
 /* ==========================================================================
+   5d. Parte 3 — o painel de autocorrecoes
+   ========================================================================== */
+.autocorrecoes {
+  list-style: none;
+  margin: 1.2rem 0;
+  padding: 0;
+  border-top: 1px solid var(--color-rule);
+}
+
+.autocorrecoes > li {
+  padding: 0.85rem 0 0.85rem 0.2rem;
+  border-bottom: 1px solid var(--color-rule);
+  font-size: 0.96rem;
+  line-height: 1.55;
+}
+
+.autoc-pergunta {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.15rem;
+}
+
+/* O veredito de cada linha. Vermelho para "nao" (a autocorrecao derrubou algo),
+   verde para o unico "sim" — ler a lista de relance ja conta a historia. */
+.autoc-resposta {
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  border: 1px solid currentColor;
+  border-radius: 3px;
+  padding: 0.05em 0.4em;
+  margin-right: 0.15em;
+  white-space: nowrap;
+}
+
+.autoc-resposta--sim { color: var(--color-veg); }
+
+.autoc-ref {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-style: normal;
+  color: var(--color-muted);
+  white-space: nowrap;
+}
+
+/* O segundo bloco: as verificacoes que NAO derrubaram nada. Tratamento visual
+   distinto de proposito — a distincao entre os dois blocos e' o argumento. */
+.verificacoes-ok {
+  margin: 1.6rem 0 0;
+  padding: 1.1rem 1.3rem;
+  background: #f2f5f0;
+  border-left: 3px solid var(--color-veg);
+}
+
+.verificacoes-titulo {
+  font-family: var(--font-sans);
+  font-size: 0.86rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-bottom: 0.4rem;
+}
+
+.verificacoes-lede {
+  font-size: 0.92rem;
+  color: var(--color-muted);
+  margin-bottom: 0.8rem;
+}
+
+.verificacoes-ok ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.verificacoes-ok li { margin-bottom: 0.6rem; }
+.verificacoes-ok li:last-child { margin-bottom: 0; }
+
+.limites-lista {
+  margin: 1rem 0;
+  padding-left: 1.2rem;
+  font-size: 0.96rem;
+  line-height: 1.6;
+}
+.limites-lista li { margin-bottom: 0.7rem; }
+
+.chamada-oficina {
+  margin-top: 1.6rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-rule);
+  font-size: 0.96rem;
+  color: var(--color-muted);
+}
+
+/* ==========================================================================
+   5e. Parte 4 — a oficina
+   ========================================================================== */
+.nota-metodo {
+  margin: 1.2rem 0;
+  padding: 1rem 1.2rem;
+  background: #faf8f5;
+  border-left: 3px solid var(--color-accent);
+  font-size: 0.9rem;
+}
+.nota-metodo p:last-child { margin-bottom: 0; }
+
+.nota-metodo-titulo {
+  font-weight: 600;
+  font-size: 0.94rem;
+  margin-bottom: 0.35rem;
+}
+
+/* As 26 decisoes viram referencia colapsada, nao leitura corrida. */
+.decisoes-corpo {
+  padding: 0.9rem 1.1rem 1.2rem;
+  border-top: 1px solid var(--color-rule);
+  background: #fcfcfa;
+}
+
+.decisoes-corpo .decisao-tema:first-of-type { margin-top: 0; }
+
+/* ==========================================================================
    6. Rodape
    ========================================================================== */
 body.reforma .page-footer {

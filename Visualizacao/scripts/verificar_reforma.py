@@ -6,7 +6,7 @@ Uso:
 
 Cobre navegacao (rail), as pecas interativas, o Sankey de 7 grupos, a varredura
 de frases banidas, console/rede e o comportamento no celular.
-""")
+"""
 import sys
 from playwright.sync_api import sync_playwright
 
@@ -135,20 +135,70 @@ def main():
         if pecas.get("esquema") != 2:
             erros.append(f"esquema da regressao espuria com {pecas.get('esquema')} paineis (esperava 2)")
 
-        # --- 7. frases banidas ---
-        # Varre o texto EXCLUINDO os blocos ".nao-diz": eles existem justamente
-        # para nomear o que o trabalho nao afirma, e citam as frases caidas de
-        # proposito ("nao se afirma que o pasto jovem vem ganhando peso").
-        # Acusar ali seria confundir a afirmacao com a sua negacao.
-        texto = pg.evaluate("""() => {
-            const c = document.body.cloneNode(true);
-            c.querySelectorAll('.nao-diz').forEach(e => e.remove());
-            return c.innerText;
+        # --- 6c. Partes 3 e 4 (a oficina) ---
+        pg.evaluate("document.getElementById('parte-3').scrollIntoView()")
+        pg.wait_for_timeout(800)
+        pg.evaluate("document.getElementById('p4-painel').scrollIntoView()")
+        pg.wait_for_timeout(2500)
+        fecho = pg.evaluate("""() => {
+            const inv = document.getElementById('inventario-grid');
+            const det = document.getElementById('p4-decisoes-tabela');
+            return {
+                autocorrecoes: document.querySelectorAll('.autocorrecoes > li').length,
+                verificacoes: document.querySelectorAll('.verificacoes-ok li').length,
+                limites: document.querySelectorAll('.limites-lista > li').length,
+                decisoesColapsadas: det ? !det.open : null,
+                decisoes: document.querySelectorAll('.decisao-card').length,
+                inventario: inv ? inv.querySelectorAll('.inventario-card, .inventario-tema, article, section').length : 0,
+                inventarioCarregou: inv ? !inv.querySelector('.resumo-loading') : false
+            };
         }""")
+        print(f"fecho: {fecho}")
+        if fecho.get("autocorrecoes") != 10:
+            erros.append(f"painel de autocorrecoes com {fecho.get('autocorrecoes')} itens (esperava 10)")
+        if fecho.get("verificacoes") != 3:
+            erros.append(f"bloco de verificacoes com {fecho.get('verificacoes')} itens (esperava 3)")
+        if fecho.get("decisoes") != 26:
+            erros.append(f"{fecho.get('decisoes')} cards de decisao (esperava 26 = D1-D26)")
+        if not fecho.get("decisoesColapsadas"):
+            erros.append("as 26 decisoes deveriam comecar colapsadas (sao referencia)")
+        if not fecho.get("inventarioCarregou"):
+            erros.append("a vitrine do painel nao carregou")
+
+        # --- 7. frases banidas ---
+        # A lista guarda contra REAFIRMAR um achado que caiu. Os blocos abaixo
+        # fazem o oposto: narram a queda, e por isso citam as frases de
+        # proposito ("nao se afirma que o pasto jovem vem ganhando peso"; "essa
+        # regua derrubou o -88%"). Acusar ali seria punir a parte mais honesta
+        # da peca — e o teste passaria a premiar quem varre o erro para debaixo
+        # do tapete. Por isso sao excluidos da varredura, por classe explicita.
+        EXCLUIR = [".nao-diz", ".nota-honestidade", ".autocorrecoes",
+                   ".verificacoes-ok", ".decisoes-corpo", ".regua-decidiu"]
+        texto = pg.evaluate("""(sel) => {
+            const c = document.body.cloneNode(true);
+            c.querySelectorAll(sel.join(',')).forEach(e => e.remove());
+            return c.innerText;
+        }""", EXCLUIR)
         achados = [b for b in BANIDOS if b.lower() in texto.lower()]
-        print(f"frases banidas encontradas: {achados}")
+        print("frases banidas encontradas:", ascii(achados))
         if achados:
             erros.append(f"frases banidas no DOM: {achados}")
+
+        # --- 7b. integridade das ancoras ---
+        anc = pg.evaluate("""() => {
+            const ids = [...document.querySelectorAll('[id]')].map(e => e.id);
+            const dup = ids.filter((v, i) => ids.indexOf(v) !== i);
+            const alvos = new Set(ids);
+            const quebrados = [...document.querySelectorAll('a[href^="#"]')]
+                .map(a => a.getAttribute('href').slice(1))
+                .filter(h => h && !alvos.has(h));
+            return { dup: [...new Set(dup)], quebrados: [...new Set(quebrados)] };
+        }""")
+        print(f"ancoras: {anc}")
+        if anc.get("dup"):
+            erros.append(f"ids duplicados: {anc['dup']}")
+        if anc.get("quebrados"):
+            erros.append(f"links internos sem alvo: {anc['quebrados']}")
 
         # --- 8. console + rede ---
         ruins = [c for c in console if c[0] in ("error", "pageerror")]

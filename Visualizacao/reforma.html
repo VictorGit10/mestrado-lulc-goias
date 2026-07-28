@@ -1012,42 +1012,722 @@
 
 
   <!-- ======================================================================
-       PARTE 3 · O veredito
+       PARTE 3 - O veredito
        ====================================================================== -->
   <section class="parte" id="parte-3" aria-labelledby="parte-3-titulo">
     <div class="parte-abertura">
       <span class="parte-num">Parte 3</span>
       <h2 class="parte-titulo" id="parte-3-titulo">O veredito</h2>
-      <p class="parte-lede">A tese em uma frase — e a razão para confiar nela.</p>
+      <p class="parte-lede">A tese em uma frase &mdash; e a raz&atilde;o para confiar nela.</p>
     </div>
+
     <div class="parte-corpo">
-      <div class="como-bloco perna-placeholder" id="p3-tese">
-        <h3>A tese, em uma frase</h3>
-        <p class="placeholder-nota">Em construção (Fase C) — copy em <code>docs/BLUEPRINT_PARTES_0-1-3-4.md</code> § 3.1–3.3.</p>
+
+      <div class="tese-callout" id="p3-tese">
+        <p class="tese-rotulo">A afirmação central</p>
+        <p>
+          Goiás viveu uma <strong>reorganização espacial da produção agropecuária</strong>
+          entre 1985 e 2024 — intensificação no Sul, fronteira no Norte —, coordenada por
+          <strong>forças de mercado comuns</strong> (câmbio, crédito, preço) sobre um
+          <strong>gradiente estrutural de aptidão</strong>, e limitada por um <strong>teto de
+          oferta</strong> de Cerrado convertível que só resta no norte.
+        </p>
+        <p>
+          Não foi um <strong>deslocamento causal</strong> de uma região sobre a outra — a
+          hipótese óbvia do vazamento intra-estadual (iLUC) foi <strong>testada e
+          refutada</strong>. É uma descrição empiricamente verificável, não uma metáfora.
+        </p>
       </div>
+
+      <div class="como-bloco" id="p3-autocorrecao">
+        <h3>Por que confiar nisto: o trabalho foi atrás dos próprios erros</h3>
+        <p>
+          A parte mais rara desta investigação não são os achados — são as vezes em que ela se
+          corrigiu, sozinha e datada, antes que qualquer banca o fizesse. Cada linha abaixo é
+          um "eu achava X; o dado disse Y".
+        </p>
+
+        <ul class="autocorrecoes">
+          <li>
+            <span class="autoc-pergunta">A matriz de transição do trabalho estava certa?</span>
+            <span class="autoc-resposta">Não</span> — ela excluía a classe "Mosaico" e
+            descartava, todo ano, entre 6,5% e 10,9% do estado. Pior: a rotina que a validava
+            removia a mesma classe dos <strong>dois lados</strong> antes de comparar — passaria
+            intacta mesmo se toda a conversão recente tivesse escapado por ali. Recontada, o
+            fechamento sai de 7,26% para <strong>0,08%</strong>.
+            <em class="autoc-ref">#12 &rarr; #12B</em>
+          </li>
+          <li>
+            <span class="autoc-pergunta">O Sul converte pasto jovem e o Norte, pasto velho?</span>
+            <span class="autoc-resposta">Não</span> — o gradiente de idade é artefato do rótulo;
+            a região explica <strong>0,5%</strong>. Caiu por três caminhos independentes.
+            <em class="autoc-ref">#28C, #40, #33 &rarr; D25/D26</em>
+          </li>
+          <li>
+            <span class="autoc-pergunta">A lógica do pasto jovem era do plantio direto?</span>
+            <span class="autoc-resposta">Não</span> — era confundidor de latitude.
+            <em class="autoc-ref">#40 &rarr; D14</em>
+          </li>
+          <li>
+            <span class="autoc-pergunta">O Norte antecede o Sul — o dado que invertia a tese?</span>
+            <span class="autoc-resposta">Não</span> — regressão espúria; some com o método certo.
+            <em class="autoc-ref">#42 &rarr; D16</em>
+          </li>
+          <li>
+            <span class="autoc-pergunta">O fogo lidera a fronteira no tempo?</span>
+            <span class="autoc-resposta">Não</span> — só na geografia; co-evolui, não antecede.
+            <em class="autoc-ref">#41</em>
+          </li>
+          <li>
+            <span class="autoc-pergunta">A "muralha norte" é a vegetação inteira?</span>
+            <span class="autoc-resposta">Não</span> — é só a floresta; o campo nativo recuou.
+            <em class="autoc-ref">#44</em>
+          </li>
+          <li>
+            <span class="autoc-pergunta">Calcário e assistência técnica explicam a geografia?</span>
+            <span class="autoc-resposta">Não</span> — somem sob o gradiente 2D, como o plantio
+            direto. <em class="autoc-ref">#40B</em>
+          </li>
+          <li>
+            <span class="autoc-pergunta">A infraestrutura de exportação lidera a fronteira?</span>
+            <span class="autoc-resposta">Não</span> — e o regressor "volume" era produção
+            disfarçada; o achado caiu 9&times;. <em class="autoc-ref">#45</em>
+          </li>
+          <li>
+            <span class="autoc-pergunta">O drive comum é estatisticamente significante?</span>
+            <span class="autoc-resposta">Não como se reportava</span> — sob a inferência correta
+            para o desenho, o p vai de ~0,03 para <strong>&asymp;0,07&ndash;0,13</strong>. O
+            trabalho rebaixou o próprio achado. <em class="autoc-ref">#54 &rarr; D20</em>
+          </li>
+          <li>
+            <span class="autoc-pergunta">Faltava barra de erro na marcha?</span>
+            <span class="autoc-resposta autoc-resposta--sim">Sim</span> — agora todo &Delta;Norte
+            vem com IC95%, e a vegetação inclui zero. <em class="autoc-ref">D19</em>
+          </li>
+        </ul>
+
+        <div class="verificacoes-ok">
+          <p class="verificacoes-titulo">E três verificações que não derrubaram nada — e ficam registradas do mesmo jeito</p>
+          <p class="verificacoes-lede">
+            Nem toda auditoria acha um erro; contar só as que acham é outra forma de selecionar
+            resultado.
+          </p>
+          <ul>
+            <li>
+              <strong>A área queimada estava 30% abaixo do painel oficial. Era erro nosso?</strong>
+              Não — três das quatro hipóteses foram testadas e caíram; o número voltou a ser
+              citável. <em class="autoc-ref">#14B</em>
+            </li>
+            <li>
+              <strong>O efeito de intensificação era só composição entre municípios?</strong>
+              Não — sob efeito fixo de grupo &times; ano o coeficiente não se move, e 24 de 24
+              subamostras mantêm o sinal. <em class="autoc-ref">#22B</em>
+            </li>
+            <li>
+              <strong>A base de perda de vegetação bate com o sistema oficial?</strong>
+              Bate — r=0,91 contra o PRODES/INPE no regime anual. <em class="autoc-ref">#48</em>
+            </li>
+          </ul>
+        </div>
+
+        <p class="bloco-resposta">
+          <span class="bloco-resposta-rotulo">Em uma frase</span>
+          Uma tese que perseguiu a hipótese que mais a favorecia e a derrubou é mais forte do
+          que uma que só coleciona confirmações.
+        </p>
+      </div>
+
+      <div class="como-bloco" id="p3-limites">
+        <h3>O que o trabalho não afirma</h3>
+        <ul class="limites-lista">
+          <li>
+            Não se afirma que o <strong>iLUC não existe</strong> — apenas que o canal
+            intra-estadual testado não se confirma.
+          </li>
+          <li>
+            O <strong>drive comum</strong> é <em>corroborante, não estabelecido</em>: o câmbio é
+            o candidato mais forte, não uma causa provada — e o p correto para o desenho é
+            &asymp;0,07&ndash;0,13, não 0,03.
+          </li>
+          <li>
+            No fim da série, <strong>a medida fica ambígua</strong>: o satélite deixa de separar
+            lavoura de pasto numa parte da conversão e chama o resultado de "Mosaico". Onde isso
+            pesa, este trabalho reporta um <strong>intervalo</strong> — o mínimo (só
+            "agricultura") e o máximo (agricultura &cup; mosaico) — e confere com a soja que o
+            IBGE mede em campo. Nunca um número só fingindo precisão que a medida não tem.
+          </li>
+          <li>
+            O <strong>Ato III</strong> tem só cinco anos — o que se lê nele é <strong>sinal
+            inicial</strong>, não regime consolidado.
+          </li>
+          <li>
+            "<strong>Convertível</strong>" e "<strong>protegida</strong>" são proxies com teto
+            declarado (MapBiomas + malha de unidades de conservação), não o cadastro pixel a
+            pixel.
+          </li>
+          <li>
+            Os <strong>marcos institucionais</strong> da régua do topo contextualizam,
+            <strong>não identificam</strong>: as quatro políticas testadas são federais, então
+            não existe grupo não-tratado com que compará-las. Nenhum teste conserta isso — o
+            limite é de desenho, não de estimação. Os pinos marcam quando algo mudou no país,
+            não a prova de que aquilo causou o que se vê no mapa.
+          </li>
+          <li>
+            O recorte por mesorregião é grosso — mas, onde deu para testar na malha fina (AMC),
+            a conclusão sobreviveu.
+          </li>
+        </ul>
+
+        <p class="chamada-oficina">
+          Como cada número foi apurado — a detecção dos atos, as réguas de robustez, as vinte e
+          seis decisões metodológicas, os limites — está na <a href="#parte-4">oficina</a>, logo
+          abaixo. &darr;
+        </p>
+      </div>
+
     </div>
   </section>
 
-
   <!-- ======================================================================
-       PARTE 4 · A oficina
+       PARTE 4 - A oficina (era a aba Metodos)
        ====================================================================== -->
   <section class="parte" id="parte-4" aria-labelledby="parte-4-titulo">
     <div class="parte-abertura">
       <span class="parte-num">Parte 4</span>
       <h2 class="parte-titulo" id="parte-4-titulo">A oficina</h2>
       <p class="parte-lede">
-        Tudo o que você leu tem uma bancada por trás. Não é preciso ler para entender a
-        tese — mas é o que permite <em>confiar</em> nela.
+        Tudo o que você leu tem uma bancada por trás. Não é preciso ler para entender a tese —
+        mas é o que permite <em>confiar</em> nela.
       </p>
     </div>
+
     <div class="parte-corpo">
-      <div class="como-bloco perna-placeholder" id="p4-oficina">
-        <h3>Periodização · robustez · painel · decisões · limites</h3>
-        <p class="placeholder-nota">Em construção (Fase C) — consolida os blocos M1–M6 da aba Métodos atual, com as decisões D1–D26 em tabela colapsável.</p>
+
+      <!-- 1 - Periodizacao (consolida o M1 + o acordeao longo que saiu da Parte 1) -->
+      <div class="como-bloco" id="p4-periodizacao">
+        <h3>Como os três atos foram detectados</h3>
+        <p>
+          A divisão da série em três períodos não é escolha narrativa — é resultado matemático.
+          A série de transições foi submetida a testes estatísticos independentes de quebra
+          estrutural; a convergência deles para anos muito próximos é o que dá segurança de que
+          o regime de ocupação do estado de fato mudou ali.
+        </p>
+
+        <table class="camadas-tabela">
+          <thead>
+            <tr><th>Método</th><th>O que faz</th><th>~2001</th><th>~2020</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>sup-F multivariado</strong> (primário)</td>
+              <td>Encontra o ponto que melhor divide a série multivariada em dois segmentos</td>
+              <td>F = 62,2 &check;</td><td>F = 21,5 &check;</td>
+            </tr>
+            <tr>
+              <td><strong>STARS</strong> (Rodionov)</td>
+              <td>Detecta mudanças abruptas na média, sequencialmente</td>
+              <td>2004/06 &check;</td><td>&mdash;</td>
+            </tr>
+            <tr>
+              <td><strong>KL/TV de transições</strong></td>
+              <td>Mede o quanto a matriz de transição muda ano a ano</td>
+              <td>pico 2003 &check;</td><td>pico 2019&ndash;2022 &check;</td>
+            </tr>
+            <tr>
+              <td><strong>Soja plantada</strong> (SIDRA/IBGE)</td>
+              <td>Âncora <em>imune</em>: medida em campo, não passa por classificador</td>
+              <td>&mdash;</td><td>quebra em 2020 &check;</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="nota-metodo">
+          <p class="nota-metodo-titulo">Validação global &mdash; Intensity Analysis (Aldwaik &amp; Pontius)</p>
+          <p>
+            Enquanto os métodos acima <strong>detectam</strong> as fronteiras, o Intensity
+            Analysis tem papel diferente: <strong>valida globalmente</strong> se os períodos
+            resultantes são de fato distintos. O teste Kruskal-Wallis compara os três Atos
+            simultaneamente: <strong>H = 22,6, p &lt; 0,001</strong>. É um resultado único, não
+            detecções separadas para ~2001 e ~2020.
+          </p>
+        </div>
+
+        <div class="nota-honestidade">
+          <p class="nota-honestidade-rotulo">Uma ressalva sobre a fronteira de 2020</p>
+          <p>
+            Quando a matriz de transições foi recontada em julho de 2026 — incluindo a classe
+            "Mosaico de Usos", que antes ficava de fora —, o pico do indicador de divergência
+            <strong>migrou de 2020 para 2022</strong> (o agrupamento fica em 2019&ndash;2022).
+            Os métodos não apontam mais exatamente o mesmo ano. A fronteira de 2020 se sustenta
+            porque a âncora que a define não passa por classificador nenhum: a área de soja
+            plantada que o IBGE recolhe em campo quebra em 2020 sozinha. Dizer que "os métodos
+            convergem para o mesmo ano" deixou de ser verdade, e esta peça não diz isso.
+          </p>
+        </div>
+
+        <details class="metric-details">
+          <summary>Por que não 4 ou 5 períodos? &middot; a candidata rejeitada de ~2005/06</summary>
+          <div class="perna-detalhe">
+            <p>
+              Uma candidata a 4&ordf; fronteira apareceu em ~2005/06 (STARS e KL/TV). O Intensity
+              Analysis foi decisivo para rejeitá-la:
+            </p>
+            <ul>
+              <li><strong>Taxa total de mudança:</strong> Mann-Whitney p = 0,060 (NS) — as sub-fases não diferem em velocidade geral.</li>
+              <li><strong>Perda de vegetação natural:</strong> p = 0,0008 — diferem em <em>composição</em>, não em volume.</li>
+              <li><strong>Robustez do sup-F:</strong> 2001 estável em 9/9 combinações; 2020 em 6/9; ~1991 instável.</li>
+              <li><strong>Poder estatístico:</strong> com n = 4 anos na sub-fase, o teste tem poder de 0,63 — insuficiente para concluir.</li>
+            </ul>
+            <p>
+              Decisão: documentar como sub-fase do Ato II (aceleração composicional 2001&ndash;05),
+              sem promovê-la a fronteira de período.
+            </p>
+          </div>
+        </details>
+      </div>
+
+      <!-- 2 - As reguas de robustez (funde M2 + M3) -->
+      <div class="como-bloco" id="p4-robustez">
+        <h3>As réguas de robustez</h3>
+        <p>
+          Nenhuma manchete desta peça se sustenta em um teste só. Cada afirmação forte passou
+          por réguas independentes — e o que não passou está declarado como tal. As réguas, e o
+          que cada uma pergunta:
+        </p>
+
+        <table class="camadas-tabela">
+          <thead>
+            <tr><th>Régua</th><th>A pergunta que ela faz</th><th>Exemplo do que ela decidiu</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Tempo</strong></td>
+              <td>O achado sobrevive se eu redesenhar os períodos? (atos, grade de 5 anos, décadas)</td>
+              <td class="regua-decidiu">Confirmou a marcha do pasto em todas as réguas <em class="autoc-ref">#35</em></td>
+            </tr>
+            <tr>
+              <td><strong>Espaço</strong></td>
+              <td>O achado depende da malha escolhida? (município, AMC, pixel)</td>
+              <td class="regua-decidiu">A marcha reaparece a 1&ndash;2 km sem malha nenhuma &mdash; não é MAUP <em class="autoc-ref">#43</em></td>
+            </tr>
+            <tr>
+              <td><strong>Confundidor</strong></td>
+              <td>O efeito sobrevive ao controle da latitude e do gradiente 2D?</td>
+              <td class="regua-decidiu">Derrubou plantio direto, calcário e assistência técnica <em class="autoc-ref">#40, #40B &rarr; D14</em></td>
+            </tr>
+            <tr>
+              <td><strong>Integração</strong></td>
+              <td>A série é estacionária o bastante para o teste que estou usando?</td>
+              <td class="regua-decidiu">Derrubou o "Norte antecede o Sul" &mdash; era regressão espúria <em class="autoc-ref">#42 &rarr; D16</em></td>
+            </tr>
+            <tr>
+              <td><strong>Medida</strong></td>
+              <td>O achado sobrevive às duas pontas do intervalo, e à âncora de fora?</td>
+              <td class="regua-decidiu">Derrubou o gradiente de idade e o "&minus;88%" do Sul <em class="autoc-ref">D26</em></td>
+            </tr>
+            <tr>
+              <td><strong>Incerteza</strong></td>
+              <td>Qual é a barra de erro? O intervalo inclui zero?</td>
+              <td class="regua-decidiu">Transformou "a vegetação andou +8 km" em "ancorada" <em class="autoc-ref">D19</em></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>
+          Sob essas réguas, as afirmações se organizam em três camadas de força — e a peça
+          declara em qual delas cada uma está, em vez de tratar todas como iguais.
+        </p>
+
+        <table class="camadas-tabela">
+          <thead>
+            <tr><th>Camada</th><th>Pergunta</th><th>Força</th><th>Fraqueza</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Correlação UF</td>
+              <td>"Houve coincidência temporal entre as duas séries no estado?"</td>
+              <td>Simples e comunicativa; comparação direta com a literatura.</td>
+              <td>N pequeno (11&ndash;39 obs); sem controle por confundidores.</td>
+            </tr>
+            <tr>
+              <td>Painel 2-way FE</td>
+              <td>"Dentro de cada AMC, X explica Y depois de remover choques nacionais?"</td>
+              <td>Causalmente mais forte; absorve heterogeneidade da AMC e tendências comuns.</td>
+              <td>Não isola marcos específicos; R&sup2; <em>within</em> baixo.</td>
+            </tr>
+            <tr>
+              <td>DiD piecewise</td>
+              <td>"Este marco regulatório teve impacto diferencial em GO vs estados-controle?"</td>
+              <td>Identificaria efeito de política em janela curta.</td>
+              <td><strong>Não identifica aqui:</strong> as políticas testadas são federais &mdash; sem grupo de controle, o problema é de desenho, não de estimação.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="nota-honestidade">
+          <p class="nota-honestidade-rotulo">A camada que foi rebaixada</p>
+          <p>
+            A terceira linha da tabela merece explicação, porque o rebaixamento é recente e muda
+            o que a peça pode dizer sobre política. Os quatro marcos submetidos ao teste de
+            diferença-em-diferenças são <strong>federais</strong>: valeram para o Brasil inteiro
+            no mesmo dia. Não existe, portanto, um grupo não-tratado com que comparar Goiás. Nem
+            o par que passa em todos os testes de robustez identifica efeito causal — e nenhum
+            teste adicional conserta isso, porque o problema é de <strong>desenho</strong>, não
+            de estimação. O pipeline foi rebaixado de evidência causal para <em>sensibilidade de
+            co-movimento</em>, e é por isso que os pinos da régua do topo aparecem como contexto,
+            nunca como motor. <em class="autoc-ref">#23</em>
+          </p>
+        </div>
+      </div>
+
+      <!-- 3 - A vitrine do painel (M4) -->
+      <div class="como-bloco" id="p4-painel">
+        <h3>O painel: o que medimos</h3>
+        <p>
+          Toda a análise se apoia num painel de <strong>166 Áreas Mínimas Comparáveis (AMCs)
+          &times; 40 anos &times; ~70 variáveis</strong>, que reúne MapBiomas, IBGE/SIDRA-PAM/PPM,
+          IPEA, BACEN e outras fontes numa única tabela alinhada por AMC e ano. Os agregados
+          municipais foram confrontados com os totais estaduais do IBGE/SIDRA e com checagens
+          internas entre fontes, sem anomalias graves — cada série pode ser rastreada até a
+          fonte original. <strong>Esta seção é o inventário</strong>: mostra quais dados existem
+          no painel, de onde vêm e que período cobrem.
+        </p>
+        <div id="inventario-grid" class="inventario-grid" aria-live="polite">
+          <p class="resumo-loading">Carregando vitrine do painel&hellip;</p>
+        </div>
+        <p class="inventario-rodape">
+          Todas as séries são para o estado de Goiás (agregação UF). O painel AMC completo
+          (166 AMCs &times; ~70 variáveis) está documentado nos pipelines #1&ndash;#26 da
+          dissertação.
+        </p>
+      </div>
+
+    <div class="como-bloco" id="p4-decisoes">
+      <h3>As vinte e seis decisões</h3>
+      <p>
+        Toda escolha numa cadeia analítica é uma decisão documentada — e cada uma tem
+        um <em>porquê</em>. Vinte e seis decisões (D1–D26) estruturam o trabalho e garantem
+        que peças escritas em meses diferentes usem a mesma régua. Agrupadas por tema
+        (as numerações são cronológicas). No fim vêm as mais recentes — <strong>D25 e
+        D26</strong>, de julho de 2026 —, que a auditoria da mudança de rótulo do MapBiomas
+        obrigou a escrever e que reorganizaram várias leituras desta página:
+      </p>
+
+        <details class="metric-details" id="p4-decisoes-tabela">
+          <summary>Abrir as 26 decisões (D1&ndash;D26)</summary>
+          <div class="decisoes-corpo">
+<h4 class="decisao-tema">Classes e medição</h4>
+      <div class="decisao-grid">
+        <div class="decisao-card">
+          <span class="decisao-badge">D1</span>
+          <div class="decisao-titulo">6 classes nos estoques, 7 nos fluxos — Mosaico com identidade própria</div>
+          <div class="decisao-por-que">Reduz ruído de subclasses; mapeamento idêntico em mapas, transições e taxas. <strong>Revisada duas vezes em jul/2026</strong>: o Mosaico saiu de "Outros" e ganhou faixa própria na barra — é ele que absorve a conversão no fim da série (D25) —, e em 27/jul virou <strong>grupo próprio na matriz de transição</strong>, que antes o descartava e por isso mostrava a conversão parando. A regra agora é <em>fluxo pinta, estoque não</em>: ele aparece nas transições e no Sankey; os 40 mapas anuais de cobertura seguem sem pintá-lo.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D2</span>
+          <div class="decisao-titulo">Taxas vêm do MapBiomas direto</div>
+          <div class="decisao-por-que">Fonte = <code>mapbiomas_munis_goias.csv</code>, não o painel derivado.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D10</span>
+          <div class="decisao-titulo">Idade da pastagem calculada localmente em Python</div>
+          <div class="decisao-por-que">Das 40 bandas anuais, para não estourar o limite do GEE (35+ operações encadeadas).</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D13</span>
+          <div class="decisao-titulo">"Terra convertível" = proxy MapBiomas com teto</div>
+          <div class="decisao-por-que">Em três definições, para medir a oferta de Cerrado convertível (<a href="#p2-perna4">Perna 4</a>).</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D17</span>
+          <div class="decisao-titulo">Proteção legal entra como malha vetorial, não como classe</div>
+          <div class="decisao-por-que">Unidades de Conservação e Terras Indígenas vêm do CNUC e são cruzadas por sobreposição com as AMCs — no espírito da D13, um proxy-teto. Foi assim que se mediu que 97% do Cerrado convertível que resta está desprotegido: o teto de oferta é físico, não institucional.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D18</span>
+          <div class="decisao-titulo">Carbono em três cenários de densidade, nunca em um número</div>
+          <div class="decisao-por-que">A conversão de área em CO₂e usa densidades de biomassa do Cerrado (acima + abaixo do solo, IPCC Tier 1), que variam muito na literatura. Reportar faixa (751–1208 Mt) em vez de ponto é o que a incerteza da fonte permite.</div>
+        </div>
+      </div>
+
+      <h4 class="decisao-tema">Tempo: taxas e janelas</h4>
+      <div class="decisao-grid">
+        <div class="decisao-card">
+          <span class="decisao-badge">D3</span>
+          <div class="decisao-titulo">Slope em janela móvel de 5 anos</div>
+          <div class="decisao-por-que">Em duas versões: <em>trailing</em> (inferência) e centrada (só visualização).</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D4</span>
+          <div class="decisao-titulo">Erro-padrão HAC Newey-West (maxlags=2)</div>
+          <div class="decisao-por-que">Corrige autocorrelação de resíduos em janelas sobrepostas.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D5</span>
+          <div class="decisao-titulo">Aceleração = slope[t] − slope[t−1]</div>
+          <div class="decisao-por-que">A métrica mais frágil; só pontos &gt;2σ entram nos gráficos.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D12</span>
+          <div class="decisao-titulo">Janelas temporais explícitas</div>
+          <div class="decisao-por-que">Face de fronteira (#35) + face de resolução (#36): robustez multi-régua, não acidente.</div>
+        </div>
+      </div>
+
+      <h4 class="decisao-tema">Espaço: unidades de análise</h4>
+      <div class="decisao-grid">
+        <div class="decisao-card">
+          <span class="decisao-badge">D6</span>
+          <div class="decisao-titulo">5 mesorregiões IBGE 2017</div>
+          <div class="decisao-por-que">Não as Regiões Imediatas (133 unidades); base da leitura Sul→Norte.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D11</span>
+          <div class="decisao-titulo">Áreas Mínimas Comparáveis (Ehrl 2017)</div>
+          <div class="decisao-por-que">Território constante (166 AMCs); 25% dos municípios nasceram após 1985 e gerariam quedas espúrias.</div>
+        </div>
+      </div>
+
+      <h4 class="decisao-tema">Inferência e identificação</h4>
+      <div class="decisao-grid">
+        <div class="decisao-card">
+          <span class="decisao-badge">D7</span>
+          <div class="decisao-titulo">Correlações sempre em primeiras diferenças</div>
+          <div class="decisao-por-que">Evita regressão espúria entre séries com tendência. Nunca níveis.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D8</span>
+          <div class="decisao-titulo">Painel 2-way FE, SE clusterizado</div>
+          <div class="decisao-por-que">Efeitos de AMC + ano absorvem heterogeneidade local e choques nacionais.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D9</span>
+          <div class="decisao-titulo">DiD GO vs MT/TO — lido como sensibilidade, não como causa</div>
+          <div class="decisao-por-que">Estados do Cerrado; Tocantins é o controle mais credível. <strong>Revisado em jul/2026</strong>: os marcos testados (Plano Real, Kandir, Código Florestal, Cerrado Manifesto) são <em>federais</em> — incidem sobre Goiás <em>e</em> sobre os controles, então não existe grupo não-tratado. O resultado mede <strong>exposição diferencial a um choque comum</strong>, não o efeito da lei. Nenhuma conclusão desta página se apoia nele.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D14</span>
+          <div class="decisao-titulo">Em cross-section estadual, reportar a parcial controlando latitude</div>
+          <div class="decisao-por-que">Antes de atribuir efeito próprio. Nasceu de uma autocorreção (#40) — o gradiente Sul→Norte confunde quase tudo.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D15</span>
+          <div class="decisao-titulo">Alinhamento fogo(t) ↔ conversão(origem=t) como contemporâneo</div>
+          <div class="decisao-por-que">Evita atribuir ao fogo uma "liderança" que é, em parte, definicional.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D16</span>
+          <div class="decisao-titulo">Lead-lag de séries AMC integradas exige Toda-Yamamoto + placebos</div>
+          <div class="decisao-por-que">O Granger ingênuo em 1ª diferença fabrica precedência espúria (#42). Ver a <a href="#p2-perna3">Perna 3</a>.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D19</span>
+          <div class="decisao-titulo">Todo deslocamento de centroide vem com IC95% por bootstrap</div>
+          <div class="decisao-por-que">Reamostrando as 166 AMCs com reposição (B=2000). Um vão entre duas camadas só é lido como real quando as faixas <em>não se sobrepõem</em> — é o que separa "o crédito fica ao sul do pasto" de "as duas linhas parecem diferentes no gráfico".</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D20</span>
+          <div class="decisao-titulo">Choque nacional único ⇒ o p vem de permutação, não do erro-padrão</div>
+          <div class="decisao-por-que">Quando o "empurrão" testado é um número por ano para o estado inteiro (o câmbio), o erro-padrão agrupado finge ter milhares de observações independentes quando há ~40. Embaralhar o próprio choque entre os anos dá o p honesto — e ele sobe de ~0,03 para 0,07–0,13. Por isso o câmbio é descrito nesta página como <em>corroborante</em>, nunca como significativo.</div>
+        </div>
+      </div>
+
+      <h4 class="decisao-tema">Quando a amostra virou censo (jul/2026)</h4>
+      <p class="decisao-tema-lede">
+        Em julho de 2026 a análise de idade da pastagem deixou de usar uma amostra de
+        pixels e passou a usar todos eles. A troca revelou dois defeitos de código e
+        obrigou a repensar o que "evidência" significa quando não há mais amostragem —
+        quatro decisões saíram desse episódio.
+      </p>
+      <div class="decisao-grid">
+        <div class="decisao-card">
+          <span class="decisao-badge">D21</span>
+          <div class="decisao-titulo">Toda amostra espacial declara quanto caiu fora do recorte</div>
+          <div class="decisao-por-que">A amostra antiga era sorteada sobre o <em>retângulo</em> que envolve Goiás, não sobre Goiás: 43,7% dos pixels estavam fora do estado. O rótulo de cada ponto era corrigido depois, mas a alocação da amostra já tinha acontecido. Antes de usar qualquer amostra espacial, calcule e reporte essa fração.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D22</span>
+          <div class="decisao-titulo">Sentinela de erro nunca compartilha código com categoria real</div>
+          <div class="decisao-por-que">Uma classe ausente da tabela de tradução ("Mosaico de Usos") caía no valor de preenchimento e virava, silenciosamente, um dado válido — inflando a censura de 63,7% para 74,9%. Falha de configuração tem que gritar, não virar número.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D23</span>
+          <div class="decisao-titulo">Com censo, o p-valor deixa de medir evidência</div>
+          <div class="decisao-por-que">Quando <em>n</em> é a população inteira, qualquer desvio ínfimo produz estatística astronômica (aqui um ΔBIC de 844.789) — isso mede o tamanho de <em>n</em>, não a força do achado. A robustez passa a vir de <strong>estabilidade entre recortes</strong>; o ganho real do censo é precisão dos parâmetros. É por isso que a bimodalidade da <a href="#p2-perna2">Perna 2</a> se sustenta por concordância amostra↔censo, não por significância.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D24</span>
+          <div class="decisao-titulo">Estatística ponderada é verificada por contrato</div>
+          <div class="decisao-por-que">Ao trocar dados linha-a-linha por células com peso, toda conta ponderada tem de reduzir <em>exatamente</em> ao caso sem peso quando o peso é 1 — e isso é testado, não presumido. Sem esse contrato, não dá para saber se uma diferença veio dos dados ou da troca de implementação. Vale por módulo: quem faz a própria conta com peso precisa da própria suíte.</div>
+        </div>
+      </div>
+
+      <h4 class="decisao-tema">Mudança de rótulo do MapBiomas (jul/2026)</h4>
+      <div class="decisao-grid">
+        <div class="decisao-card">
+          <span class="decisao-badge">D25</span>
+          <div class="decisao-titulo">O objeto medido não é constante ao longo da série</div>
+          <div class="decisao-por-que">No fim da série, a terra que sai da pastagem passa a ser rotulada "Mosaico de Usos" em vez de "agricultura" — a razão entre as duas transições vai de 0,6 (2015) a 32,5 (2024) enquanto o IBGE registra a soja crescendo 38%. Uma transição pode "desaparecer" sem que nada mude no campo.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D26</span>
+          <div class="decisao-titulo">Medir em intervalo, com uma âncora de fora</div>
+          <div class="decisao-por-que">Todo número que tenha "agricultura" no destino é reportado entre duas réguas — só <code>agric</code> (piso) e <code>agric ∪ mosaico</code> (teto) — e comparado a uma fonte imune (SIDRA/IBGE). Robusto = sobrevive nas duas pontas. Foi essa régua que derrubou o gradiente de idade e o "−88%" da conversão do Sul — os dois na <a href="#p2-perna2">Perna 2</a>.</div>
+        </div>
+      </div>
+          </div>
+        </details>
+      </div>
+
+    <div class="como-bloco" id="p4-limites">
+      <h3>O que esta análise ainda não responde</h3>
+      <p>
+        Honestidade epistêmica: nenhuma análise é completa. Documentar fragilidades é
+        parte do método, não um defeito a esconder. Os pontos abaixo são limitações
+        conhecidas que orientam o backlog de robustez e devem ser ponderados no
+        julgamento das conclusões.
+      </p>
+
+      <div class="fragilidade-list">
+        <div class="fragilidade-item">
+          <div class="fragilidade-titulo">iLUC intra-estadual: não confirmado, não refutado em absoluto</div>
+          <p class="fragilidade-glosa">
+            O canal testado (precedência temporal + spillover direcional Sul→Norte, <a href="#p2-perna3">Perna 3</a>) não se
+            confirma — mas isso não prova que o iLUC <em>não existe</em>. Um canal de longo alcance,
+            ou com defasagem muito longa, não foi testado. A tese afirma o nulo do teste feito, não a
+            inexistência do fenômeno.
+          </p>
+        </div>
+        <div class="fragilidade-item">
+          <div class="fragilidade-titulo">O drive comum está inferido, não provado</div>
+          <p class="fragilidade-glosa">
+            Câmbio e crédito <em>antecedem</em> as inflexões (<a href="#p2-perna3">Perna 3</a>), mas precedência preditiva
+            (Granger) não é causalidade dura. N ≈ 38 na série UF; o gradiente câmbio × aptidão no
+            painel AMC não sobrevive ao FDR. É evidência consistente, não fechada.
+          </p>
+        </div>
+        <div class="fragilidade-item">
+          <div class="fragilidade-titulo">A desaceleração do Ato III tem só 4–5 anos</div>
+          <p class="fragilidade-glosa">
+            A freada da agricultura no Sul (<a href="#p2-perna1">Perna 1</a>) e o "fechamento" da fronteira sulista (<a href="#p2-perna4">Perna 4</a>) são
+            recentes. "Desaceleração recente" é o termo honesto — não há série suficiente para chamar
+            de reversão estrutural.
+          </p>
+        </div>
+        <div class="fragilidade-item">
+          <div class="fragilidade-titulo">O recorte mesorregional (5 unidades) é grosso</div>
+          <p class="fragilidade-glosa">
+            O mecanismo Sul→Norte (<a href="#p2-perna2">Perna 2</a>) é lido em 5 mesorregiões — há heterogeneidade interna. Onde foi
+            possível descer à malha AMC (158 unidades), a conclusão se manteve (a bimodalidade do #28C);
+            o mecanismo de transições do #33, esse, segue em resolução mesorregional.
+          </p>
+        </div>
+        <div class="fragilidade-item">
+          <div class="fragilidade-titulo">DiD: efeitos de 2012 e 2018 sensíveis ao controle</div>
+          <p class="fragilidade-glosa">
+            Event-study e placebos foram rodados. 11 de 12 combinações passam tendências paralelas
+            com controle combined; 9 de 36 placebos são significativos (principalmente 2012/2018
+            vs MT/combined). Os efeitos pós-Código Florestal e pós-Cerrado Manifesto capturam
+            dinâmica pré-existente, não apenas o efeito do marco. Único par robusto cross-test:
+            veg. natural × 1995 vs TO.
+          </p>
+        </div>
+        <div class="fragilidade-item">
+          <div class="fragilidade-titulo">Mato Grosso é controle imperfeito</div>
+          <p class="fragilidade-glosa">
+            MT é majoritariamente Amazônia, monocultura de soja em larga escala —
+            composição distinta de GO. Reportar TO-isolado como especificação
+            principal mitiga, mas reduz poder (apenas 2 UFs no controle).
+          </p>
+        </div>
+        <div class="fragilidade-item">
+          <div class="fragilidade-titulo">R² <em>within</em> modesto no painel</div>
+          <p class="fragilidade-glosa">
+            No multivariado, R²<sub>within</sub> chega a 0,122 em agricultura (0,047 no univariado)
+            e 0,072 em pastagem. β preciso e significativo, mas grande parte da mudança
+            vem de fatores não modelados. Extensão: painel espacial dinâmico.
+          </p>
+        </div>
+        <div class="fragilidade-item">
+          <div class="fragilidade-titulo">Autocorrelação espacial não modelada</div>
+          <p class="fragilidade-glosa">
+            115 de 140 modelos (classe × ano × W) têm Moran's I global significativo —
+            pico em 2018 (I = +0,53 para pastagem). SEM (Spatial Error) vence OLS por margem
+            pequena (AIC −2.924 vs −2.924 em agric). Limitação reconhecida: análise é
+            cross-section em 1 ano; painel espacial dinâmico fica para extensão.
+          </p>
+        </div>
+        <div class="fragilidade-item">
+          <div class="fragilidade-titulo">Aceleração é autocorrelacionada por construção</div>
+          <p class="fragilidade-glosa">
+            <code>slope<sub>t</sub></code> e <code>slope<sub>t−1</sub></code> compartilham 4 anos da janela. A diferença entre eles
+            (aceleração) herda essa estrutura. Filtro 2σ atenua, mas a métrica é
+            descritiva, não inferencial.
+          </p>
+        </div>
+        <div class="fragilidade-item">
+          <div class="fragilidade-titulo">N pequeno nas correlações UF com SICOR</div>
+          <p class="fragilidade-glosa">
+            SICOR só está disponível sistematicamente a partir de 2013 — N = 11
+            observações UF nessa janela. Pouco poder estatístico; correlações UF com
+            SICOR servem para narrativa, não para inferência.
+          </p>
+        </div>
+        <div class="fragilidade-item">
+          <div class="fragilidade-titulo">Censura à esquerda na idade da pastagem (64%)</div>
+          <p class="fragilidade-glosa">
+            28,6 de 44,6 milhões de pixels já eram pastagem em 1985 — a idade real desses
+            pixels é desconhecida (podem ter décadas a mais). Análises de idade restringem-se
+            aos 16,0 milhões não-censurados, que representam conversões mais recentes.
+            A distribuição global é enviesada para idades menores. Passar de amostra para
+            censo <em>não</em> resolve isso: a censura é limite da série do MapBiomas, que
+            começa em 1985, não do tamanho da amostra.
+          </p>
+        </div>
       </div>
     </div>
+
+    <div class="como-bloco" id="p4-glossario">
+      <h3>Glossário rápido</h3>
+      <dl class="glossario-dl" style="padding: 1rem 1.2rem; border: 1px solid var(--color-rule); background: #fcfcfa;">
+        <dt>β</dt>
+        <dd>Coeficiente da regressão. Diz quanto Y muda por unidade de X. Sinal negativo = relação inversa.</dd>
+
+        <dt>SE</dt>
+        <dd>Erro padrão de β. Quanto menor, mais preciso é o coeficiente estimado.</dd>
+
+        <dt>p</dt>
+        <dd>Probabilidade de ver um β tão extremo quanto o observado se na verdade não houvesse efeito. Usual: p &lt; 0,05 = "estatisticamente significativo".</dd>
+
+        <dt>R² <em>within</em></dt>
+        <dd>Fração da variância <em>dentro</em> de cada AMC (depois de remover efeitos fixos) que o modelo explica.</dd>
+
+        <dt>Slope</dt>
+        <dd>Coeficiente angular da reta ajustada em 5 anos consecutivos. Velocidade média (Mha/ano).</dd>
+
+        <dt>Aceleração</dt>
+        <dd>Variação do slope entre anos consecutivos. Segunda derivada discreta da área.</dd>
+
+        <dt>HAC</dt>
+        <dd><em>Heteroscedasticity and Autocorrelation Consistent</em>. Correção do erro padrão para resíduos autocorrelacionados (Newey-West é a forma mais comum).</dd>
+
+        <dt>FE</dt>
+        <dd><em>Fixed Effects</em>, efeitos fixos. α<sub>i</sub> absorve o que é constante na AMC; γ<sub>t</sub> absorve choques nacionais.</dd>
+
+        <dt>DiD</dt>
+        <dd><em>Difference-in-Differences</em>. Compara a mudança em um grupo tratado com a mudança em um grupo controle ao redor de um marco. β-DiD = "diferença das diferenças".</dd>
+
+        <dt>Δ x<sub>t</sub></dt>
+        <dd>Primeira diferença: x<sub>t</sub> − x<sub>t−1</sub>. Remove tendência e evita regressão espúria.</dd>
+
+        <dt>Mha</dt>
+        <dd>Milhões de hectares. 1 Mha = 10.000 km².</dd>
+      </dl>
+    </div>
+
+    </div>
   </section>
+
 
 </main>
 
@@ -1071,6 +1751,7 @@
 <script src="assets/js/matriz.js?v=2"></script>
 <script src="assets/js/marcha-mapa.js?v=1"></script>
 <script src="assets/js/pastagem-reserva.js?v=1"></script>
+<script src="assets/js/inventario.js?v=1"></script>
 <script src="assets/js/zoom.js?v=1"></script>
 
 </body>
