@@ -181,6 +181,8 @@ Registrado para não reabrir a discussão a cada fase:
 | 28/jul/2026 | **correções no site no ar ✅** | hero 10×, "16 decisões" (3 lugares), cards do Sankey + 4º card do Mosaico. Ver §5 |
 | 28/jul/2026 | **B ✅** | As 4 pernas com a copy do blueprint; as duas interativas movidas; esquema da regressão espúria criado. Corrigido o bug de rolagem horizontal no celular — que era do site publicado. Ver §9 |
 | 28/jul/2026 | **C ✅** | Parte 3 (tese + 10 autocorreções + 3 verificações + 7 limites) e Parte 4 (oficina consolidada, D1–D26 colapsadas). Ver §10 |
+| 28/jul/2026 | **revisão do autor → Perna 1** | leitura parada em "Perna 1 de 4 · O padrão existe?". Duas questões levantadas ali, ambas resolvidas: a ressalva do centro de massa (§12) e a distinção entre "a lavoura nova está no norte" e "o Sul empurrou o Norte" (§13) |
+| 28/jul/2026 | **auditoria do #34 ✅** | o bracket D26 aplicado ao pipeline que sustenta a Perna 3; dois blocos robustos, um rebaixado; copy da Perna 3 reescrita. Ver §14 |
 
 ### Dois defeitos encontrados pela verificação da Fase A (e corrigidos)
 
@@ -305,10 +307,33 @@ o próprio erro para debaixo do tapete — exatamente o contrário do que a peç
 
 ---
 
-## 11. O que falta — Fase D
+## 11. Estado atual e o que falta — Fase D
 
-1. **Leitura completa pelo autor**, de cima a baixo. É o critério de aceite que nenhum
-   teste substitui.
+**A construção está completa: Fases A, B e C ✅.** As Partes 0 a 4 existem em
+`Visualizacao/reforma.html`, a verificação da §7 passa, o console está limpo e o
+`index.html` publicado continua no ar, intocado e agora com os três números corrigidos (§5).
+Nada aqui está pela metade — o que falta é **aceite**, não construção.
+
+### 11.1 A revisão do autor — em curso, parada na Perna 1
+
+> **Onde a leitura está (28/jul/2026):** o autor leu do hero até
+> **"Perna 1 de 4 · O padrão existe?"** e parou ali. O trecho lido foi aprovado
+> ("está muito bom"), com duas questões levantadas na própria Perna 1 — **ambas já
+> resolvidas** (§12 e §13). **As Pernas 2, 3 e 4 e as Partes 3 e 4 ainda não foram lidas.**
+
+Isso importa registrar porque **a leitura é o critério de aceite da §1** — nenhum teste a
+substitui, e ela é a única coisa que hoje separa a peça da troca. Vale notar o que a
+revisão parcial já produziu: as duas questões da Perna 1 não eram ajustes de copy, eram
+**um problema conceitual** (a deriva do Mosaico no centroide) e **um risco de leitura
+errada** (confundir co-expansão com deslocamento). A primeira virou figura nova e uma
+correção em `marcha-mapa.js` que também alcançou o site publicado; a segunda virou parágrafo
+distinguindo as duas afirmações; e a conversa sobre a segunda **descobriu uma auditoria que
+faltava** (§14). Ou seja: uma perna de leitura rendeu três commits. É razoável esperar que
+as três pernas restantes rendam mais — a Fase D não deveria ser tratada como formalidade.
+
+### 11.2 O que falta
+
+1. **Terminar a leitura** — da Perna 2 até o fim da Parte 4. ⏳ *bloqueia a troca*
 2. **Polimento:** o título embutido nos PNGs do mapa coberto pelo seletor de camadas (§8);
    revisar a Parte 1 em 360 px; conferir `prefers-reduced-motion` nas duas interativas.
 3. **A troca:** `reforma.html` → `index.html`, o antigo para
@@ -353,3 +378,61 @@ essa conta, então a peça a faz primeiro.
 com r=0,84 contra o crescimento da soja SIDRA por AMC. **O erro de medida aponta contra a
 tese** — a régua crua faz a marcha parecer mais fraca do que foi. Como o #44 formula: não é
 a soja que recuou ao sul, é o rótulo "Soja" que perdeu a soja nova.
+
+---
+
+## 13. "A lavoura nova está no norte" ≠ "o Sul empurrou o Norte" (28/jul/2026)
+
+Segunda questão levantada na mesma revisão da Perna 1, e é de **arquitetura do argumento**,
+não de número: a Parte 2 abre dizendo que a explicação óbvia — a lavoura empurrando o pasto
+para o norte, um iLUC intra-estadual — **está errada**. A ressalva do centro de massa (§12)
+acabara de mostrar que a agricultura *também* marchou para o norte. Parece contradição.
+
+**Não é, e a distinção é o coração da Perna 3.** "A lavoura nova está no norte" é uma
+afirmação sobre *onde a expansão aconteceu*. "O Sul empurrou o Norte" é uma afirmação sobre
+*causa entre lugares* — exige que a expansão no Sul **preceda e desloque** a do Norte. As
+duas culturas subindo o mapa **ao mesmo tempo** é co-expansão sob um drive comum, e
+co-expansão é justamente o que o spillover negativo do #34 descreve. A ressalva **reforça**
+a refutação em vez de arranhá-la.
+
+A copy, porém, convidava a confusão: ela dizia que a explicação óbvia está errada sem dizer
+*qual parte* dela está errada. Corrigido com um parágrafo que separa as duas afirmações
+antes de derrubar a segunda. **Lição de escrita:** quando uma seção anterior mostra um fato
+que *parece* apoiar a hipótese que a seção seguinte derruba, o texto tem que nomear a
+semelhança e desfazê-la — o leitor não vai fazer isso por conta própria.
+
+---
+
+## 14. A auditoria do #34 — encontrada por uma pergunta da revisão (28/jul/2026)
+
+A conversa da §13 expôs uma lacuna real: o **#34** (lead-lag + SLX, a espinha da Perna 3)
+pondera por `lulc_agricultura_ha` e `agricultura_delta_mha`, exatamente as variáveis que a
+deriva do Mosaico contamina — e a **varredura de alcance da D26, de 23–25/jul, não o
+alcançou**. A manchete "θ=−0,16, p=0,02, é ele que refuta" estava sendo publicada sem passar
+pelo bracket.
+
+Auditado por `scripts/deslocamento_bracket.py`, que **importa** a maquinaria do #34 (não a
+altera) e roda 3 réguas × 2 janelas × 2 desfechos. O companheiro **reproduz o original**
+antes de bracketá-lo (Granger p=0,971; θ=−0,1572, p=0,0204), o que valida o arranjo.
+
+| bloco | veredito | evidência |
+|---|---|---|
+| **Temporal** (Granger/CCF) | **robusto** | 0/24 células com p<0,05; menor p = 0,078. O pico da CCF troca de sinal e de defasagem conforme a régua (lag −1 / 0 / +4) — precedência que depende da régua é assinatura de co-tendência espúria, o #42 por outro caminho |
+| **Substituição local** (β) | **robusta, e reforçada** | β<0 em 12/12, p<0,001; **cresce** sob a união (−0,52 → −1,14) |
+| **Spillover direcional** (θ) | **sinal robusto, significância NÃO** | θ<0 em **12/12** — o θ>0 que a hipótese exige nunca aparece —, mas p<0,05 em **1/12**, e essa uma é a régua exposta na janela plena (união p=0,545; SIDRA p=0,526) |
+
+A defesa óbvia ("a união só acrescenta ruído e atenua tudo") foi testada e **não se
+sustenta**: a mesma régua *dobra* o termo local. Régua que fortalece um canal e apaga o
+outro não age como ruído puro.
+
+**Consequência para a Perna 3.** A refutação **permanece** — nenhuma especificação, em régua
+nenhuma, produz a assinatura do deslocamento causal. Mas passa a se apoiar em **dois blocos
+robustos + a ausência universal de θ>0**, não num p=0,02. A copy ficou **mais forte**: em vez
+de "há um efeito significativo na direção contrária", diz "o coeficiente é negativo nas doze
+especificações testadas" — não há p-valor para a banca contestar. É o mesmo trade do #54 na
+Perna 4: menos significância, mais defensabilidade.
+
+**Frase banida a partir daqui:** *"o spillover é significativo e é ele que refuta"*.
+Propagado nos sete endereços (índice lógico, narrativa, ensaio, guia de leitura, tabela de
+vereditos da D26, `BLUEPRINT_PARTE2.md` e `reforma.html`); o pipeline `#34` traz a seção de
+auditoria e a Limitação antiga riscada.
