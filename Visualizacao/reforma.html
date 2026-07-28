@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>A marcha ao norte — Goiás, 1985–2024</title>
+
+  <meta name="description" content="Em quarenta anos toda a fronteira agropecuária de Goiás se moveu para o norte. A explicação óbvia está errada. Uma investigação em quatro perguntas, com dados de 1985 a 2024.">
+  <meta property="og:title" content="A marcha ao norte — Goiás, 1985–2024">
+  <meta property="og:description" content="Em quarenta anos toda a fronteira agropecuária de Goiás se moveu para o norte. A explicação óbvia está errada — e este trabalho mostra por quê.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="img/mapas_gee/cobertura_2024.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="A marcha ao norte — Goiás, 1985–2024">
+  <meta name="twitter:description" content="Em quarenta anos toda a fronteira agropecuária de Goiás se moveu para o norte. A explicação óbvia está errada — e este trabalho mostra por quê.">
+  <meta name="twitter:image" content="img/mapas_gee/cobertura_2024.webp">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23fafaf7'/%3E%3Ccircle cx='32' cy='32' r='14' fill='%238b3a1d'/%3E%3C/svg%3E">
+
+  <link rel="stylesheet" href="assets/css/styles.css?v=5">
+  <link rel="stylesheet" href="assets/css/reserva.css?v=1">
+  <link rel="stylesheet" href="assets/css/marchamap.css?v=1">
+  <link rel="stylesheet" href="assets/css/reforma.css?v=1">
+</head>
+
+<body class="reforma">
+
+<!-- ==========================================================================
+     Régua superior dos 40 anos — pertence à Parte 1.
+     rail.js a recolhe quando o leitor sai dos mapas.
+     ========================================================================== -->
+<header class="timeline-rail" id="regua-anos" aria-label="Linha do tempo, 1985 a 2024">
+  <div class="rail-inner">
+    <div class="rail-meta">
+      <div class="rail-context" id="rail-context-anos" aria-live="polite">
+        <span class="rail-context-era" id="rail-active-era">Ato I · 1985-2000</span>
+        <strong class="rail-context-label" id="rail-active-label">1985 · Linha de base da série</strong>
+      </div>
+      <span class="rail-hint" id="rail-hint-anos">Faixas = atos · pontos = referências · clique para navegar</span>
+    </div>
+
+    <div class="rail-body">
+      <span class="rail-label rail-label--start">1985</span>
+      <div class="rail-track-wrap">
+        <div class="rail-track" id="rail-track">
+          <button type="button" class="rail-era-band rail-era-band--heranca" data-era="heranca" data-start-year="1985" style="left: 0%; width: 38.46%;" aria-label="Ir para o Ato I, 1985 a 2000"></button>
+          <button type="button" class="rail-era-band rail-era-band--expansao" data-era="expansao" data-start-year="2001" style="left: 38.46%; width: 46.15%;" aria-label="Ir para o Ato II, 2001 a 2019"></button>
+          <button type="button" class="rail-era-band rail-era-band--conversao" data-era="conversao" data-start-year="2020" style="left: 84.62%; width: 15.38%;" aria-label="Ir para o Ato III, 2020 a 2024"></button>
+          <div class="rail-marcos" id="rail-marcos" aria-hidden="false"></div>
+          <span class="rail-cursor" id="rail-cursor" aria-hidden="true"></span>
+        </div>
+      </div>
+      <span class="rail-label rail-label--end">2024</span>
+    </div>
+  </div>
+</header>
+
+
+<!-- ==========================================================================
+     Rail lateral — o sumário do scroll único.
+     Some no hero; aparece a partir da Parte 1.
+     ========================================================================== -->
+<nav class="rail-lateral" id="rail-lateral" aria-label="Sumário da investigação">
+  <button type="button" class="rail-lateral-toggle" id="rail-lateral-toggle"
+          aria-expanded="false" aria-controls="rail-lateral-lista">
+    <span class="rail-lateral-toggle-icone" aria-hidden="true"></span>
+    <span class="rail-lateral-toggle-texto">Sumário</span>
+  </button>
+
+  <ol class="rail-lateral-lista" id="rail-lateral-lista">
+    <li class="rail-item" data-alvo="parte-1">
+      <a href="#parte-1"><span class="rail-item-num">1</span><span class="rail-item-nome">Os 40 anos no mapa</span></a>
+    </li>
+    <li class="rail-item" data-alvo="parte-2">
+      <a href="#parte-2"><span class="rail-item-num">2</span><span class="rail-item-nome">A investigação</span></a>
+      <ol class="rail-subitens">
+        <li class="rail-subitem" data-alvo="p2-perna1"><a href="#p2-perna1">O padrão existe?</a></li>
+        <li class="rail-subitem" data-alvo="p2-perna2"><a href="#p2-perna2">Qual é o mecanismo?</a></li>
+        <li class="rail-subitem" data-alvo="p2-perna3"><a href="#p2-perna3">O Sul empurrou o Norte?</a></li>
+        <li class="rail-subitem" data-alvo="p2-perna4"><a href="#p2-perna4">Por que desacelerou?</a></li>
+      </ol>
+    </li>
+    <li class="rail-item" data-alvo="parte-3">
+      <a href="#parte-3"><span class="rail-item-num">3</span><span class="rail-item-nome">O veredito</span></a>
+    </li>
+    <li class="rail-item" data-alvo="parte-4">
+      <a href="#parte-4"><span class="rail-item-num">4</span><span class="rail-item-nome">A oficina</span></a>
+    </li>
+  </ol>
+</nav>
+
+
+<noscript>
+  <p style="text-align:center; padding:2rem;">
+    Esta visualização interativa requer JavaScript habilitado.
+  </p>
+</noscript>
+
+
+<main id="conteudo">
+
+  <!-- ======================================================================
+       PARTE 0 · Abertura — o fenômeno + a virada
+       ====================================================================== -->
+  <section class="hero" id="p0-hero">
+    <p class="hero-eyebrow">Dissertação CIAMB-UFG &middot; Goiás &middot; 1985–2024</p>
+
+    <h1 class="hero-title">A marcha ao norte</h1>
+
+    <p class="hero-lede">
+      Em quarenta anos, toda a fronteira agropecuária de Goiás se moveu para o norte —
+      pasto, boi e lavoura, cerca de 70 km cada. A explicação óbvia — a soja do Sul
+      empurrando o pasto para longe — é boa demais para ser verdade, e este trabalho
+      mostra por quê. Cada pixel desta tela é um quadrado de 30 metros no chão: são
+      <strong>378 milhões</strong> deles cobrindo Goiás, recontados <strong>todo ano</strong>
+      por quatro décadas — <strong>15 bilhões</strong> de observações — para rastrear a
+      cicatriz que os mercados e as leis deixaram no território. A história se conta em
+      <strong>três atos</strong> no mapa — e se resolve em <strong>quatro perguntas</strong>.
+    </p>
+
+    <p class="hero-cta">Comece pelo mapa de 1985 &darr;</p>
+  </section>
+
+
+  <!-- ======================================================================
+       PARTE 1 · Os 40 anos no mapa — o fenômeno
+       ====================================================================== -->
+  <section class="parte" id="parte-1" aria-labelledby="parte-1-titulo">
+
+    <div class="parte-abertura">
+      <span class="parte-num">Parte 1</span>
+      <h2 class="parte-titulo" id="parte-1-titulo">Os 40 anos no mapa</h2>
+      <p class="parte-lede">
+        O fenômeno bruto, antes de qualquer explicação: quatro décadas de uso da terra,
+        ano a ano, no mesmo enquadramento.
+      </p>
+    </div>
+
+    <!-- 1.1 — Contrato de leitura -->
+    <section class="como-ler" aria-label="Como ler os 40 anos">
+      <div class="como-ler-inner">
+        <h2 class="como-ler-titulo">Como ler os 40 anos</h2>
+        <p class="como-ler-lede">
+          O que vem a seguir é o <strong>fenômeno bruto</strong>: quatro décadas de uso da
+          terra, ano a ano, no mesmo enquadramento. Ainda não é a tese — é o que aconteceu
+          no chão, antes de perguntarmos <em>onde</em> e <em>por quê</em>. A série se
+          organiza em <strong>três atos</strong>, definidos por triangulação estatística
+          (não escolhidos a dedo), marcados pelas <strong>faixas coloridas</strong> da
+          régua acima; os <strong>pinos pretos</strong> são referências institucionais que
+          contextualizam as inflexões — não são o esqueleto da história.
+        </p>
+        <div class="como-ler-grid">
+          <div class="como-ler-bloco">
+            <h3 class="como-ler-rotulo">Os três atos</h3>
+            <ul class="como-ler-lista como-ler-atos">
+              <li><span class="como-ler-swatch como-ler-swatch--heranca"></span>I &middot; Pastagem como herança &middot; 1985–2000</li>
+              <li><span class="como-ler-swatch como-ler-swatch--expansao"></span>II &middot; Expansão e intensificação &middot; 2001–2019</li>
+              <li><span class="como-ler-swatch como-ler-swatch--conversao"></span>III &middot; Conversão acelerada, mascarada &middot; 2020–2024</li>
+            </ul>
+            <details class="metric-details" style="margin-top: 0.8rem;">
+              <summary>Como os atos foram definidos?</summary>
+              <div class="como-ler-detalhe">
+                <p>
+                  As fronteiras ~2001 e ~2020 não foram escolhidas — foram
+                  <strong>detectadas</strong> por triangulação de métodos estatísticos
+                  independentes:
+                </p>
+                <table class="camadas-tabela">
+                  <thead><tr><th>Método</th><th>~2001</th><th>~2020</th></tr></thead>
+                  <tbody>
+                    <tr><td>sup-F multivariado (primário)</td><td>F = 62,2 ✓</td><td>F = 21,5 ✓</td></tr>
+                    <tr><td>STARS (sensibilidade)</td><td>2004/06 ✓</td><td>—</td></tr>
+                    <tr><td>KL/TV de transições</td><td>pico 2003 ✓</td><td>pico 2019–2022 ✓</td></tr>
+                    <tr><td>Soja plantada (SIDRA, âncora imune)</td><td>—</td><td>quebra em 2020 ✓</td></tr>
+                  </tbody>
+                </table>
+                <p class="nota-inline">
+                  <strong>Validação global — Intensity Analysis</strong> (Aldwaik &amp;
+                  Pontius): Kruskal-Wallis H&nbsp;=&nbsp;22,6, p&nbsp;&lt;&nbsp;0,001 — os
+                  3&nbsp;Atos diferem significativamente em taxa de mudança. É <em>um
+                  teste único</em> comparando os três períodos ao mesmo tempo, não
+                  detecções separadas por fronteira. A candidata a 4º período (~2005/06)
+                  foi rejeitada: taxa total NS (p&nbsp;=&nbsp;0,060).
+                </p>
+                <p class="nota-inline nota-inline--ressalva">
+                  <strong>Uma ressalva honesta sobre a fronteira de 2020.</strong> Quando a
+                  matriz de transições foi recontada em julho de 2026 — incluindo a classe
+                  "Mosaico de Usos", que antes ficava de fora —, o pico do indicador de
+                  divergência <strong>migrou de 2020 para 2022</strong>. Os quatro métodos
+                  não apontam mais exatamente o mesmo ano. A fronteira de 2020 se sustenta
+                  porque a âncora que a define não passa por classificador nenhum: a área
+                  de soja plantada que o IBGE recolhe em campo quebra em 2020 sozinha.
+                </p>
+              </div>
+            </details>
+          </div>
+          <div class="como-ler-bloco">
+            <h3 class="como-ler-rotulo">Referências institucionais</h3>
+            <ul class="como-ler-lista como-ler-marcos">
+              <li><span class="como-ler-pin"></span>1994 &middot; Plano Real</li>
+              <li><span class="como-ler-pin"></span>1996 &middot; Lei Kandir</li>
+              <li><span class="como-ler-pin"></span>2002 &middot; Crédito e demanda chinesa</li>
+              <li><span class="como-ler-pin"></span>2003 &middot; Boom de commodities</li>
+              <li><span class="como-ler-pin"></span>2012 &middot; Código Florestal</li>
+              <li><span class="como-ler-pin"></span>2018 &middot; Reorganização de mercado</li>
+            </ul>
+            <p class="como-ler-nota">
+              Os pinos <strong>contextualizam, não identificam</strong>: as políticas
+              testadas são federais, então não existe grupo não-tratado com que
+              compará-las. Marcam quando algo mudou no país — não a prova de que aquilo
+              causou o que se vê no mapa.
+            </p>
+          </div>
+          <div class="como-ler-bloco">
+            <h3 class="como-ler-rotulo">Como navegar</h3>
+            <ul class="como-ler-lista como-ler-navegacao">
+              <li>Role para avançar no tempo — cada parágrafo lateral é um ano.</li>
+              <li>Clique em uma <strong>faixa</strong> ou em um <strong>pino</strong> da régua para saltar.</li>
+              <li>O mapa e os cards laterais sincronizam com o ano em foco.</li>
+              <li>O <strong>sumário à esquerda</strong> salta direto ao veredito ou à oficina.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 1.2 — O scroll dos 40 anos (mapa sticky + steps) -->
+    <section class="story" id="p1-mapas">
+
+      <div class="story-figure">
+        <div class="map-frame">
+          <div class="map-layer-toggle" role="tablist" aria-label="Camada do mapa">
+            <button type="button" class="map-layer-btn is-active" data-layer="cobertura" role="tab" aria-selected="true">Cobertura</button>
+            <button type="button" class="map-layer-btn" data-layer="delta" role="tab" aria-selected="false">Δ vs 1985</button>
+            <button type="button" class="map-layer-btn" data-layer="fogo" role="tab" aria-selected="false">Fogo</button>
+            <button type="button" class="map-layer-btn" data-layer="transicoes" role="tab" aria-selected="false">Transições</button>
+          </div>
+
+          <img id="mapa" src="img/mapas_gee/cobertura_1985.webp"
+               alt="Mapa pixel-a-pixel do uso e cobertura da terra em Goiás"
+               loading="eager" width="1313" height="1318">
+
+          <div class="composition-bar" id="composition-bar" aria-label="Composição do uso e cobertura da terra">
+            <span class="bar-segment bar-veg"     data-class="veg"     title="Vegetação natural"></span>
+            <span class="bar-segment bar-pasto"   data-class="pasto"   title="Pastagem"></span>
+            <span class="bar-segment bar-agric"   data-class="agric"   title="Agricultura (inclui soja)"></span>
+            <span class="bar-segment bar-mosaico" data-class="mosaico" title="Mosaico de usos (lavoura ou pastagem, indistinguíveis)"></span>
+            <span class="bar-segment bar-agua"    data-class="agua"    title="Água"></span>
+            <span class="bar-segment bar-urbano"  data-class="urbano"  title="Área urbana"></span>
+            <span class="bar-segment bar-outros"  data-class="outros"  title="Outros (silvicultura, mineração)"></span>
+            <div class="bar-tooltip" id="bar-tooltip"></div>
+          </div>
+
+          <div class="map-legend">
+            <span class="legend-swatch legend-swatch--veg">Veg. natural</span>
+            <span class="legend-swatch legend-swatch--pasto">Pastagem</span>
+            <span class="legend-swatch legend-swatch--agric">Agricultura</span>
+            <span class="legend-swatch legend-swatch--mosaico" title="Classe 21 do MapBiomas: lavoura ou pastagem, quando o classificador não separa as duas. Aparece na barra, mas não é pintada no mapa.">Mosaico de usos</span>
+            <span class="legend-swatch legend-swatch--agua">Água</span>
+            <span class="legend-swatch legend-swatch--urbano">Urbano</span>
+            <span class="legend-swatch legend-swatch--outros">Outros</span>
+          </div>
+
+          <div class="map-caption">
+            <div class="caption-row caption-row--main">
+              <span class="map-caption-year" id="map-year">1985</span>
+              <span class="map-caption-anchor" id="map-anchor"></span>
+            </div>
+            <span class="map-caption-source">Fonte: MapBiomas Coleção 10.1 &middot; pixel-a-pixel (30 m) &middot; o <em>Mosaico de usos</em> entra na barra, mas fica transparente no mapa</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-steps" id="steps">
+
+        <!-- Ato I -->
+        <article class="step step--era" data-era="heranca">
+          <h2 class="era-title">I. Pastagem como herança (1985–2000)</h2>
+          <p class="era-tese">
+            O ponto de partida não é uma paisagem natural — é uma fronteira que já se moveu.
+          </p>
+          <p class="era-contexto">
+            O fim do regime militar e a hiperinflação dos anos 1980 enquadram o início da série. Mas o que o mapa mostra em 1985 é o legado da década anterior: POLOCENTRO e PRODECER abriram cerca de um terço do estado para pecuária extensiva. Sem estabilidade macroeconômica, qualquer cálculo agrícola de longo prazo segue bloqueado.
+          </p>
+          <p class="era-mapa">
+            O dourado que domina o centro-sul é pastagem. O verde escuro do norte e nordeste — Paranã, Vão do Paranã — é o cerrado que sobreviveu. A agricultura aparece em manchas pontuais de rosa no sudoeste; ainda é incipiente.
+          </p>
+        </article>
+
+        <!-- Ato II -->
+        <article class="step step--era" data-era="expansao">
+          <h2 class="era-title">II. Expansão e intensificação (2001–2019)</h2>
+          <p class="era-tese">
+            A soja abre caminho no sudoeste impulsionada pela estabilização da moeda.
+          </p>
+          <p class="era-contexto">
+            O Plano Real em 1994 faz o que nenhuma política agrícola isolada conseguiria: permite calcular o futuro. Logo depois, em 1996, a Lei Kandir zera o ICMS sobre exportações de grãos. Essa conjunção de estabilidade e isenção atrai o capital privado e inicia a grande transformação.
+          </p>
+          <p class="era-mapa">
+            No mapa, o sudoeste (Rio Verde, Jataí e Mineiros) começa a se vestir de rosa com o avanço da lavoura sobre o pasto. Embora a pecuária continue gigante no total do estado, a dinâmica econômica do agronegócio agora pertence à soja.
+          </p>
+        </article>
+
+        <!-- Ato III -->
+        <article class="step step--era" data-era="conversao">
+          <h2 class="era-title">III. Conversão acelerada, mascarada (2020–2024)</h2>
+          <p class="era-tese">
+            A lavoura avança sobre o pasto mais rápido do que nunca — e o mapa, sozinho, diz o contrário.
+          </p>
+          <p class="era-contexto">
+            Este é o ato em que a medida engana. Olhando só a classe &ldquo;agricultura&rdquo; do satélite, a conversão parece ter parado: no Sul goiano ela cai 88%. Mas a área de soja plantada que o IBGE recolhe em campo — que não passa por classificador nenhum — <strong>cresce 38%</strong> na mesma janela. O que mudou foi o rótulo: a partir de 2021 a conversão de pasto em lavoura passa a ser classificada como &ldquo;Mosaico de Usos&rdquo;, a categoria que o MapBiomas usa quando não consegue separar as duas coisas. Contada pela régua corrigida, a saída de pasto para lavoura-ou-uso-misto <strong>acelera cerca de 50%</strong>.
+          </p>
+          <p class="era-mapa">
+            O que o pasto perde, a lavoura ganha: o recuo da pastagem <strong>triplica de velocidade</strong> (de 0,07 para 0,27 Mha por ano). A vegetação nativa, essa sim, não muda de ritmo — segue cedendo o mesmo tanto de sempre, agora concentrada ao norte, onde ainda resta Cerrado. Com 34,9% do estado em vegetação natural em 2024, Goiás <strong>não encontrou um piso: mudou o endereço da fronteira.</strong>
+          </p>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- 1.3 — O fecho: o saldo e os fluxos -->
+    <div class="parte-corpo">
+
+      <div class="como-bloco" id="p1-saldo">
+        <h3>O que 40 anos deixaram</h3>
+        <p class="bloco-pergunta">Depois de 40 anos, quem ganhou e quem perdeu área em Goiás?</p>
+        <p>
+          Cinco números enquadram a transformação que os três atos descreveram em
+          detalhe. Vêm do painel agregado da UF (MapBiomas Coleção 10.1 e IBGE/PPM).
+        </p>
+
+        <div class="dado-choque-grid">
+          <div class="dado-choque">
+            <div class="dado-choque-valor">−5,8 Mha</div>
+            <div class="dado-choque-label">Vegetação natural perdida &middot; 1985→2024</div>
+            <div class="dado-choque-glosa">17,65 → 11,88 Mha (51,9% → 34,9% do território). A 15 pontos do limite legal de Reserva Legal no Cerrado (20%).</div>
+          </div>
+          <div class="dado-choque">
+            <div class="dado-choque-valor">×4,8</div>
+            <div class="dado-choque-label">Crescimento da agricultura</div>
+            <div class="dado-choque-glosa">1,17 → 5,58 Mha. A soja sozinha cresce ×12 em área (0,37 → 4,50 Mha) e ×13 em produção (1,3 → 17,0 Mt).</div>
+          </div>
+          <div class="dado-choque">
+            <div class="dado-choque-valor">+1,0 Mha</div>
+            <div class="dado-choque-label">Pastagem &middot; saldo líquido enganoso</div>
+            <div class="dado-choque-glosa">10,98 → 11,99 Mha. Mas a trajetória é em U invertido: cresce até 2003 (pico ~14,8 Mha) e depois recua. O saldo agregado esconde o ciclo.</div>
+          </div>
+          <div class="dado-choque">
+            <div class="dado-choque-valor">×1,35</div>
+            <div class="dado-choque-label">Lotação bovina por hectare</div>
+            <div class="dado-choque-glosa">1,01 → 1,36 UA/ha. Rebanho cresce 46% (15,9 → 23,2 M cab) enquanto a área de pasto cresce só 9% — a pecuária se intensifica.</div>
+          </div>
+          <div class="dado-choque dado-choque--mosaico">
+            <div class="dado-choque-valor">≈ 0</div>
+            <div class="dado-choque-label">Mosaico de usos &middot; saldo praticamente nulo</div>
+            <div class="dado-choque-glosa">3,63 → 3,59 Mha. Mas o caminho não é nulo: cai de <strong>10,7%</strong> do estado (1985) a <strong>6,1%</strong> (2019) e volta a <strong>10,5%</strong> (2024). A classe que absorve a conversão do fim da série é a mesma que estava lá no começo.</div>
+          </div>
+        </div>
+
+        <p class="bloco-resposta">
+          <span class="bloco-resposta-rotulo">Em uma frase</span>
+          A vegetação perdeu 5,8 Mha, a agricultura quase quintuplicou e duas classes —
+          pastagem e Mosaico — <em>parecem</em> estáveis no saldo enquanto sobem e descem
+          no caminho. Saldo líquido é justamente o que esconde o caminho dos hectares.
+        </p>
+      </div>
+
+      <div class="como-bloco" id="p1-fluxos">
+        <h3>Para onde os hectares foram</h3>
+        <p class="bloco-pergunta">De onde veio a terra que cada classe ganhou — e para onde foi a que ela perdeu?</p>
+        <p>
+          O saldo acima é líquido: diz quanto cada classe ganhou ou perdeu, mas esconde de
+          <em>onde</em> vieram e para <em>onde</em> foram esses hectares. O diagrama cruza
+          o uso de cada pixel em 1985 com o uso do mesmo pixel em 2024, nos
+          <strong>sete grupos</strong> de cobertura.
+        </p>
+
+        <div id="sankey-container" class="sankey-container">
+          <p class="resumo-loading">Carregando diagrama…</p>
+        </div>
+        <p class="sankey-caption">
+          Diagrama de Sankey &middot; cruzamento pixel-a-pixel 1985 ↔ 2024 (30 m).
+          Larguras proporcionais à área em milhões de hectares. Fonte: MapBiomas Coleção 10.1 via GEE.
+        </p>
+
+        <p>Quatro fluxos enquadram a paisagem:</p>
+
+        <div class="dado-choque-grid">
+          <div class="dado-choque">
+            <div class="dado-choque-valor">4,10 Mha</div>
+            <div class="dado-choque-label">Veg. natural → Pastagem</div>
+            <div class="dado-choque-glosa">O maior fluxo da série. Desmatamento histórico para pecuária extensiva — boa parte concentrada nos anos 1980–1990.</div>
+          </div>
+          <div class="dado-choque">
+            <div class="dado-choque-valor">2,72 Mha</div>
+            <div class="dado-choque-label">Pastagem → Agricultura</div>
+            <div class="dado-choque-glosa">A maior conversão <em>entre classes manejadas</em>. É o que permite a expansão da lavoura sem desmatar diretamente.</div>
+          </div>
+          <div class="dado-choque">
+            <div class="dado-choque-valor">1,29 Mha</div>
+            <div class="dado-choque-label">Veg. natural → Agricultura (direta)</div>
+            <div class="dado-choque-glosa">Desmatamento direto para lavoura. Menor que via pasto, mas existe — e ganha peso no nordeste após 2010.</div>
+          </div>
+          <div class="dado-choque dado-choque--mosaico">
+            <div class="dado-choque-valor">1,00 Mha</div>
+            <div class="dado-choque-label">Veg. natural → Mosaico de usos</div>
+            <div class="dado-choque-glosa">Vegetação que deixou de ser vegetação — mas que <strong>não</strong> entra na conta de desmatamento. Ver a ressalva abaixo.</div>
+          </div>
+        </div>
+
+        <aside class="nota-honestidade">
+          <p class="nota-honestidade-rotulo">Uma ressalva que é um achado</p>
+          <p>
+            Seria natural somar o quarto fluxo ao desmatamento — afinal é vegetação que
+            deixou de ser vegetação. <strong>Mas não é isso que os dados independentes
+            dizem.</strong> Ao incluir <em>vegetação → Mosaico</em> na conta de conversão
+            antrópica, a razão entre o nosso número e o do PRODES/INPE salta de
+            <strong>1,00 para 1,35</strong> — ou seja, passaríamos a contar um terço a mais
+            de desmatamento do que o sistema oficial enxerga. A classe "Mosaico" contém
+            transição de ida <em>e de volta</em>, e tratá-la como perda definitiva
+            superestima. Por isso ela fica fora de "conversão antrópica" nesta peça.
+          </p>
+          <p>
+            E há um par de fluxos que quase se cancela e diz muito sobre a medida:
+            <strong>1,72 Mha</strong> de Mosaico → pastagem e <strong>1,62 Mha</strong> de
+            pastagem → Mosaico. Duas correntes quase iguais em sentidos opostos, entre as
+            duas classes que o classificador mais confunde. Boa parte disso não é terra
+            mudando de uso — é o rótulo mudando de ideia.
+          </p>
+        </aside>
+
+        <details class="metric-details" id="matriz-details">
+          <summary>Matriz de transição 7×7 <span class="matriz-toggle" id="matriz-toggle"></span></summary>
+          <div class="matriz-periodos" id="matriz-periodos"></div>
+          <div id="matriz-container"></div>
+          <p class="matriz-caption" id="matriz-caption"></p>
+        </details>
+
+        <p class="bloco-resposta">
+          <span class="bloco-resposta-rotulo">Em uma frase</span>
+          Dois fluxos mandam — vegetação→pasto (o desmatamento antigo) e pasto→lavoura (a
+          conversão recente) —, a pastagem é o elo intermediário de quase tudo, e a classe
+          ambígua do satélite movimenta tanta área quanto os fluxos que a peça consegue
+          nomear.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ======================================================================
+       PARTE 2 · A investigação — a marcha e o que a explica
+       ====================================================================== -->
+  <section class="parte" id="parte-2" aria-labelledby="parte-2-titulo">
+
+    <div class="parte-abertura">
+      <span class="parte-num">Parte 2</span>
+      <h2 class="parte-titulo" id="parte-2-titulo">A investigação</h2>
+      <p class="parte-lede">
+        O saldo disse <em>o quê</em> mudou e <em>de onde para onde</em>. Falta o
+        <em>onde no estado</em> — e o <em>por quê</em>.
+      </p>
+    </div>
+
+    <div class="parte-corpo">
+      <div class="como-bloco" id="p2-hipotese">
+        <h3>A pergunta que o mapa não respondeu</h3>
+        <p>
+          Quarenta anos de conversão têm um saldo — vegetação perdida, agricultura
+          multiplicada, pasto em U invertido. Mas um saldo é mudo sobre a geografia: ele
+          diz <em>quanto</em>, não <em>onde</em>. E o "onde" guarda a história de verdade.
+        </p>
+        <p>
+          Há uma explicação óbvia à espera. Ela diz assim: a lavoura, empurrada pela soja,
+          tomou o pasto no Sul; o pasto, expulso, recuou para o Norte, levando o boi junto.
+          Seria um vazamento de desmatamento dentro do próprio estado — um
+          <strong>iLUC intra-estadual</strong>, a lavoura de um lado empurrando a fronteira
+          do outro. É uma boa história. É a que mais favorecia a tese inicial deste trabalho.
+        </p>
+        <p class="dobradica">
+          <strong>E está errada.</strong> O que a investigação encontrou é mais sutil — e
+          melhor documentado. Ela se responde em quatro perguntas.
+        </p>
+      </div>
+
+      <!-- Pernas: Fase B -->
+      <div class="como-bloco perna-placeholder" id="p2-perna1">
+        <h3>Perna 1 &middot; O padrão existe?</h3>
+        <p class="placeholder-nota">Em construção (Fase B) — copy em <code>docs/BLUEPRINT_PARTE2.md</code>. Peça-central: o mapa animado do centro de massa.</p>
+      </div>
+
+      <div class="como-bloco perna-placeholder" id="p2-perna2">
+        <h3>Perna 2 &middot; Qual é o mecanismo?</h3>
+        <p class="placeholder-nota">Em construção (Fase B). Peça-central: a interativa da idade do pasto (mapa de bimodalidade + histograma por região).</p>
+      </div>
+
+      <div class="como-bloco perna-placeholder" id="p2-perna3">
+        <h3>Perna 3 &middot; É a lavoura do Sul empurrando o Norte?</h3>
+        <p class="placeholder-nota">Em construção (Fase B) — o clímax. Único item visual novo da reforma: o esquema estático de 2 painéis da regressão espúria.</p>
+      </div>
+
+      <div class="como-bloco perna-placeholder" id="p2-perna4">
+        <h3>Perna 4 &middot; Por que a marcha desacelerou?</h3>
+        <p class="placeholder-nota">Em construção (Fase B) — o teto de oferta, o custo de carbono e o preço humano da marcha.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ======================================================================
+       PARTE 3 · O veredito
+       ====================================================================== -->
+  <section class="parte" id="parte-3" aria-labelledby="parte-3-titulo">
+    <div class="parte-abertura">
+      <span class="parte-num">Parte 3</span>
+      <h2 class="parte-titulo" id="parte-3-titulo">O veredito</h2>
+      <p class="parte-lede">A tese em uma frase — e a razão para confiar nela.</p>
+    </div>
+    <div class="parte-corpo">
+      <div class="como-bloco perna-placeholder" id="p3-tese">
+        <h3>A tese, em uma frase</h3>
+        <p class="placeholder-nota">Em construção (Fase C) — copy em <code>docs/BLUEPRINT_PARTES_0-1-3-4.md</code> § 3.1–3.3.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ======================================================================
+       PARTE 4 · A oficina
+       ====================================================================== -->
+  <section class="parte" id="parte-4" aria-labelledby="parte-4-titulo">
+    <div class="parte-abertura">
+      <span class="parte-num">Parte 4</span>
+      <h2 class="parte-titulo" id="parte-4-titulo">A oficina</h2>
+      <p class="parte-lede">
+        Tudo o que você leu tem uma bancada por trás. Não é preciso ler para entender a
+        tese — mas é o que permite <em>confiar</em> nela.
+      </p>
+    </div>
+    <div class="parte-corpo">
+      <div class="como-bloco perna-placeholder" id="p4-oficina">
+        <h3>Periodização · robustez · painel · decisões · limites</h3>
+        <p class="placeholder-nota">Em construção (Fase C) — consolida os blocos M1–M6 da aba Métodos atual, com as decisões D1–D26 em tabela colapsável.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+
+<footer class="page-footer">
+  <div class="footer-inner">
+    <p class="footer-nota">
+      Dissertação CIAMB-UFG &middot; Goiás 1985–2024 &middot; dados MapBiomas Coleção 10.1,
+      IBGE/SIDRA, BACEN/SICOR, IPEA, Trase, INPE. Anexo digital de uma dissertação — não a substitui.
+    </p>
+  </div>
+</footer>
+
+
+<script src="assets/js/vendor/scrollama.min.js?v=3"></script>
+<script src="assets/js/utils.js?v=3"></script>
+<script src="assets/js/timeline.js?v=4"></script>
+<script src="assets/js/rail.js?v=1"></script>
+<script src="assets/js/sankey.js?v=4"></script>
+<script src="assets/js/mini-sankey.js?v=1"></script>
+<script src="assets/js/matriz.js?v=2"></script>
+<script src="assets/js/zoom.js?v=1"></script>
+
+</body>
+</html>

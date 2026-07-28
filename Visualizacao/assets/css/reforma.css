@@ -1,0 +1,356 @@
+/* ==========================================================================
+   reforma.css — camada da visualizacao reformulada (scroll unico, 4 pernas).
+   Carregada DEPOIS de styles.css e escopada em `body.reforma`, para que o
+   index.html publicado continue intocado enquanto a reforma e' construida.
+   Nada aqui deve editar styles.css; ver docs/PLANO_DE_CONSTRUCAO.md §4.
+   ========================================================================== */
+
+body.reforma {
+  /* Sem abas: o offset das barras sticky perde os 40px do seletor de modo. */
+  --tabs-h: 0px;
+  --rail-lateral-w: 216px;
+}
+
+/* ==========================================================================
+   1. Regua dos 40 anos — agora e' peca da Parte 1, nao cabecalho global
+   ========================================================================== */
+body.reforma .timeline-rail {
+  transition: transform 260ms ease, opacity 200ms ease;
+}
+
+body.reforma .timeline-rail.is-recolhida {
+  transform: translateY(-105%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.reforma .timeline-rail { transition: none; }
+}
+
+/* ==========================================================================
+   2. Rail lateral — o sumario do scroll unico
+   ========================================================================== */
+.rail-lateral {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 60;
+  width: var(--rail-lateral-w);
+  height: 100vh;
+  padding: 6.5rem 1rem 2rem 1.5rem;
+  font-family: var(--font-sans);
+  background: linear-gradient(to right, rgba(250, 250, 247, 0.97) 78%, rgba(250, 250, 247, 0));
+  opacity: 0;
+  transform: translateX(-8px);
+  pointer-events: none;
+  transition: opacity 260ms ease, transform 260ms ease;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.rail-lateral.is-visivel {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rail-lateral { transition: none; }
+}
+
+.rail-lateral-lista,
+.rail-subitens {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.rail-item > a {
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  padding: 0.5rem 0.4rem 0.5rem 0;
+  color: var(--color-muted);
+  text-decoration: none;
+  font-size: 0.86rem;
+  line-height: 1.3;
+  border-left: 2px solid transparent;
+  padding-left: 0.7rem;
+  transition: color 140ms ease, border-color 140ms ease;
+}
+
+.rail-item > a:hover,
+.rail-subitem > a:hover {
+  color: var(--color-fg);
+}
+
+.rail-item-num {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--color-rule);
+  min-width: 0.9em;
+}
+
+.rail-item.is-ancestral > a {
+  color: var(--color-fg);
+  border-left-color: var(--color-rule);
+}
+
+.rail-item.is-active > a {
+  color: var(--color-accent);
+  border-left-color: var(--color-accent);
+  font-weight: 600;
+}
+
+.rail-item.is-active > a .rail-item-num,
+.rail-item.is-ancestral > a .rail-item-num {
+  color: inherit;
+}
+
+/* --- as 4 pernas, aninhadas sob a Parte 2 --- */
+.rail-subitens {
+  margin: 0.1rem 0 0.5rem 0.7rem;
+  padding-left: 0.85rem;
+  border-left: 1px solid var(--color-rule);
+}
+
+.rail-subitem > a {
+  display: block;
+  padding: 0.32rem 0 0.32rem 0.55rem;
+  margin-left: -0.85rem;
+  border-left: 2px solid transparent;
+  color: var(--color-muted);
+  text-decoration: none;
+  font-size: 0.79rem;
+  line-height: 1.3;
+  transition: color 140ms ease, border-color 140ms ease;
+}
+
+.rail-subitem.is-active > a {
+  color: var(--color-accent);
+  border-left-color: var(--color-accent);
+  font-weight: 600;
+}
+
+/* --- botao compacto: so' aparece abaixo de 1180px --- */
+.rail-lateral-toggle {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(250, 250, 247, 0.96);
+  border: 1px solid var(--color-rule);
+  border-radius: 4px;
+  padding: 0.45rem 0.75rem;
+  font-family: inherit;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  cursor: pointer;
+}
+
+.rail-lateral-toggle-icone {
+  width: 14px;
+  height: 9px;
+  border-top: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  display: inline-block;
+}
+
+/* ==========================================================================
+   3. Reserva do espaco do rail (evita salto quando ele aparece)
+   ========================================================================== */
+/* O espaco do rail e' reservado a partir da Parte 1 — nao no `body`.
+   Se fosse no body, o hero (onde o rail ainda esta invisivel) apareceria
+   deslocado para a direita com um vazio inexplicavel a esquerda. Como o rail
+   entra exatamente quando o hero sai de cena, o deslocamento nunca e' visto
+   como um salto. A regua dos 40 anos acompanha, para seguir alinhada ao mapa. */
+@media (min-width: 1181px) {
+  body.reforma .parte,
+  body.reforma .page-footer {
+    padding-left: var(--rail-lateral-w);
+  }
+  body.reforma .timeline-rail .rail-inner {
+    padding-left: calc(2rem + var(--rail-lateral-w));
+  }
+}
+
+@media (max-width: 1180px) {
+  .rail-lateral {
+    top: auto;
+    bottom: 1rem;
+    left: 1rem;
+    width: auto;
+    max-width: min(320px, calc(100vw - 2rem));
+    height: auto;
+    max-height: 70vh;
+    padding: 0;
+    background: none;
+  }
+  .rail-lateral-toggle { display: inline-flex; }
+  .rail-lateral-lista {
+    display: none;
+    margin-top: 0.5rem;
+    padding: 0.8rem 1rem;
+    background: rgba(250, 250, 247, 0.98);
+    border: 1px solid var(--color-rule);
+    border-radius: 4px;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.09);
+  }
+  .rail-lateral.is-aberto .rail-lateral-lista { display: block; }
+}
+
+/* ==========================================================================
+   4. Partes — os marcadores estruturais do scroll unico
+   ========================================================================== */
+.parte {
+  scroll-margin-top: calc(var(--rail-h) + 1.5rem);
+}
+
+.parte-abertura {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 6rem 2rem 1.5rem;
+  border-top: 1px solid var(--color-rule);
+}
+
+#parte-1 .parte-abertura { border-top: none; padding-top: 3rem; }
+
+.parte-num {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 0.5rem;
+}
+
+.parte-titulo {
+  font-size: 2.2rem;
+  margin: 0 0 0.5rem;
+}
+
+.parte-lede {
+  color: var(--color-muted);
+  font-size: 1.05rem;
+  margin: 0;
+}
+
+.parte-corpo {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 2rem 4rem;
+}
+
+/* A Parte 1 usa a largura cheia (mapa sticky + steps), entao o corpo do
+   fecho — saldo e fluxos — volta a coluna de leitura sozinho. */
+#parte-1 .parte-corpo { padding-top: 2.5rem; }
+
+/* ==========================================================================
+   5. Blocos de conteudo
+   ========================================================================== */
+.dobradica {
+  font-size: 1.12rem;
+  line-height: 1.5;
+  border-left: 3px solid var(--color-accent);
+  padding-left: 1.1rem;
+  margin-top: 1.4rem;
+}
+
+.nota-honestidade {
+  margin: 1.6rem 0;
+  padding: 1.1rem 1.3rem;
+  background: #f4f2ec;
+  border-left: 3px solid var(--color-mosaico);
+  font-size: 0.94rem;
+}
+
+.nota-honestidade p:last-child { margin-bottom: 0; }
+
+.nota-honestidade-rotulo {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin-bottom: 0.6rem;
+}
+
+.dado-choque--mosaico {
+  border-left: 3px solid var(--color-mosaico);
+}
+
+/* --- detalhes do "como os atos foram definidos" --- */
+.como-ler-detalhe {
+  padding: 0.9rem 1.1rem;
+  border-top: 1px solid var(--color-rule);
+  background: #fcfcfa;
+  font-size: 0.88rem;
+}
+
+.como-ler-detalhe p { margin: 0 0 0.6rem; }
+.como-ler-detalhe .camadas-tabela { margin: 0.5rem 0; font-size: 0.82rem; }
+.como-ler-detalhe .camadas-tabela th:not(:first-child),
+.como-ler-detalhe .camadas-tabela td:not(:first-child) { text-align: right; }
+
+.nota-inline { font-size: 0.85rem; }
+
+.nota-inline--ressalva {
+  margin-top: 0.9rem;
+  padding: 0.7rem 0.9rem;
+  background: #f4f2ec;
+  border-left: 3px solid var(--color-mosaico);
+}
+
+.como-ler-nota {
+  margin-top: 0.7rem;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--color-muted);
+}
+
+/* --- placeholders das fases B e C (some quando cada perna for construida) --- */
+.perna-placeholder {
+  border: 1px dashed var(--color-rule);
+  background: #fbfaf6;
+}
+
+.placeholder-nota {
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  font-style: italic;
+  margin: 0;
+}
+
+.placeholder-nota code {
+  font-style: normal;
+  font-size: 0.85em;
+  background: #efece3;
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+}
+
+/* ==========================================================================
+   6. Rodape
+   ========================================================================== */
+body.reforma .page-footer {
+  border-top: 1px solid var(--color-rule);
+  margin-top: 2rem;
+}
+
+body.reforma .footer-inner {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem 4rem;
+}
+
+body.reforma .footer-nota {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: var(--color-muted);
+  margin: 0;
+}

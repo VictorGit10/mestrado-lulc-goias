@@ -12,6 +12,38 @@
 
 ---
 
+## 0. Estado da reforma — 28/jul/2026
+
+> **A análise fechou.** Não há pendência analítica bloqueando a reforma: a auditoria da
+> mudança de rótulo do Mosaico (D25/D26) e a auditoria dos pipelines de fundação
+> (#12→#12B, #14B, #22B, #23) foram encerradas entre 23 e 27/jul. O que resta é **de
+> visualização**.
+
+**Já construído no site atual** *(a reforma reposiciona, não reconstrói)*:
+
+| peça | onde está hoje | estado |
+|---|---|---|
+| scroll dos 40 anos + régua + sparkline | aba Narrativa | ✅ pronto, vai intocado para a Parte 1 |
+| Ato III com a copy corrigida (D25) | `index.html` §atos | ✅ reescrito em 25/jul |
+| Sankey + matriz **7×7** (#12B) | §2 | ✅ regenerado em 27/jul |
+| Mosaico com faixa própria na barra empilhada | §atos | ✅ 25/jul |
+| mapa animado do centro de massa (`marcha-mapa.js`) | "Movimento III" | ✅ pronto, vira **herói da Perna 1** |
+| idade do pasto: mapa de bimodalidade + histograma por região | §6 | ✅ re-cablado em 25/jul, vira **herói da Perna 2** |
+| oficina M1–M6 + D1–D26 | aba Métodos | ✅ existe, precisa de **consolidação**, não de conteúdo novo |
+
+**O que a reforma ainda precisa criar** *(nenhum item exige análise nova)*:
+
+1. A **arquitetura**: dissolver as abas, reordenar em Partes 0–4, montar as 4 pernas.
+2. O **rail lateral fixo** (navegação) — a única peça de UX genuinamente nova.
+3. O **esquema estático de 2 painéis** do #42 (a regressão espúria) — a Perna 3 é a única
+   sem interativa.
+4. Um punhado de **correções de números** que a auditoria deixou na tela — inclusive um
+   erro de 10× na primeira frase do hero (ver `BLUEPRINT_PARTES_0-1-3-4.md` § Parte 0).
+
+Plano de execução, ordem de trabalho e verificação: [`PLANO_DE_CONSTRUCAO.md`](PLANO_DE_CONSTRUCAO.md).
+
+---
+
 ## 1. Resumo executivo
 
 **A ideia numa frase:** transformar o site de um *catálogo de achados em três
@@ -160,52 +192,57 @@ frase**, contadas como descoberta:
   bootstrap (D19 — a vegetação inclui zero); a "muralha norte" é **a floresta** (#44).
 
 **Perna 2 — Qual o mecanismo? → Dois Goiáses.**
-- ~~Sul **intensifica** (`pasto→lavoura`, pasto jovem ~9 anos); Norte **abre fronteira**
-  (`mata→pasto`, pasto velho **16 anos**)~~ → **a metade da idade caiu.** O Sul
-  intensifica e o Norte abre fronteira (isso vale, e o `veg→pasto` o sustenta); mas a
-  **idade** do pasto convertido **não separa** as regiões — ver o aviso abaixo.
 
-> ✅ **Estado da Perna 2 (25/jul/2026): as três pontas soltas foram fechadas, e uma
-> quarta apareceu no caminho.** Ver [BLUEPRINT_PARTE2.md](BLUEPRINT_PARTE2.md) →
-> "Estado dos dados da Perna 2". Resolvido: (1) o site deixou de servir o coroplético
-> da **amostra**; (2) os cards do §6 passaram aos números do censo; (3) o **eixo
-> temporal segue suspenso** e saiu da copy. **A quarta**: o **gradiente latitudinal de
-> idade também caiu** (23–25/jul) — não é só a tendência temporal. Isso muda o desenho
-> em dois tempos abaixo, que foi escrito antes:
->
-> - o **Tempo 1** perde o toggle de ato como motor da mistura (o tempo está suspenso);
-> - o **Tempo 2** perde a premissa "Sul jovem → Norte velho": o "aha" **não** é
->   escolher o Sul esperando um pico só e ver dois — é ver que **nenhuma** região tem
->   um pico só, e que a região explica 0,5% da variação.
->
-> **A peça implementada seguiu esse caminho**: o toggle passou a ser **por região**, e
-> o mapa deixou de pintar idade para pintar o **veredito de bimodalidade**. O "aha"
-> ficou mais simples e mais forte: um mapa quase sem variação.
-- **A interativa da idade do pasto: re-cablear, não simplificar.** Hoje são duas peças
-  lado a lado (mapa por AMC + histograma bimodal, com toggle de ato). A recomendação é
-  **fazê-las conversar** para que a interação *seja* o argumento — em dois tempos:
-  - *Tempo 1 — "existem dois modos":* o histograma bimodal da idade na conversão, com
-    os dois picos do GMM marcados (~5 anos e ~22 anos). ~~O toggle de ato **fica** —
-    porque o motor honesto da mistura é o **tempo**~~ → **o toggle de ato saiu**: o eixo
-    temporal está suspenso, e o motor da mistura é justamente o que não se pode afirmar.
-  - *Tempo 2 — "a geografia não cria os modos, e nem desloca o peso" (o achado #28C,
-    revisto):* ao **selecionar uma região**, o histograma se redesenha e **continua com
-    duas corcovas**. ~~O "aha" é escolher o Sul profundo esperando um pico só de pasto
-    jovem — e ainda ver os dois.~~ Essa formulação pressupunha o gradiente refutado. O
-    "aha" implementado é mais direto: **percorra as cinco regiões e o desenho não muda**
-    — 5/5 mesorregiões e **162/164 AMCs** bimodais por dentro, com a região explicando
-    0,5% da variação da idade. A persistência *é* a prova de que a bimodalidade mora
-    **dentro** de cada recorte.
-- **Absorve aqui** (deixam de ser cards soltos): "lavoura sobre pasto, não sobre mata"
-  e "crédito → pastagem" como evidência de apoio.
+*(Seção consolidada em 28/jul/2026. A versão anterior acumulava três camadas de
+tachado sobre a mesma frase; o registro do que caiu vive agora em
+[`BLUEPRINT_PARTE2.md`](BLUEPRINT_PARTE2.md) → "Estado dos dados da Perna 2".)*
+
+- **A afirmação, na forma que sobrevive:** o Sul **intensifica** (`pasto→lavoura`), o Norte
+  **abre fronteira** (`mata→pasto`). A segregação é do **tipo de transição** — e quem a
+  sustenta é o `veg→pasto`, a medida **imune** à ambiguidade do rótulo (Sul −49% × Norte
+  −13% entre os Atos II e III).
+- 🛑 **A qualificação por idade caiu, e é ela que muda o desenho da peça.** "Sul converte
+  pasto jovem (~9a) / Norte, pasto velho (~16–20a)" foi afirmado por este trabalho e
+  **refutado** entre 23 e 25/jul, por três caminhos independentes (#40, #28C, #33). A
+  cláusula "a geografia desloca o **peso** da mistura" **também sai**: a região explica
+  **0,5%** da variação da idade. Força da perna rebaixada de "forte" para **moderada** — não
+  porque algo ficou frágil, mas porque ela afirmava três coisas e sobrou **uma**.
+- ✅ **A peça interativa já foi re-cablada (25/jul) e o resultado é melhor do que o
+  planejado.** O plano original era um "aha" de contraste: escolher o Sul profundo esperando
+  um pico só e ver dois. Esse desenho **dependia do gradiente refutado**. O que se
+  implementou é mais direto e mais forte: o toggle passou de **ato → região**, e o mapa
+  deixou de pintar idade para pintar o **veredito de bimodalidade** por AMC. O "aha" virou
+  *a ausência de contraste* — percorra as cinco regiões e **o desenho não muda** (5/5
+  mesorregiões, 162/164 AMCs bimodais por dentro). Um mapa quase uniforme é a forma visual
+  de um η² de 0,5%.
+- **Consequência para a reforma:** esta peça **não precisa ser construída** — precisa ser
+  **movida** para dentro da Perna 2 e receber a copy nova.
+- **Absorve aqui** (deixam de ser cards soltos): "lavoura sobre pasto, não sobre mata" e
+  "crédito → pastagem" como evidência de apoio. ⚠️ **Com duas etiquetas obrigatórias:** o
+  SICOR é o *canal associado mais forte*, **não** um "vetor causal"; e a **intensificação**
+  do painel espacial (#49, M1) é **frágil ao bracket** — o intervalo cruza o zero e a âncora
+  SIDRA dá sinal oposto. Quem sustenta a perna no painel é a **substituição** (M3), robusta.
+  O #22B fecha uma ambiguidade **diferente** (o β<0 é intensificação *within*, não
+  composição) e **não** revoga a dependência de medida.
 - **Autocorreção em destaque:** o #40 derrubou o próprio overclaim no mesmo dia
   (plantio direto era confundidor de latitude → **D14**). É onde o fio "trabalho que
-  se autocorrige" começa a aparecer.
+  se autocorrige" começa a aparecer — e a queda do gradiente de idade, semanas depois,
+  é onde ele fica sério.
 
 **Perna 3 — É a lavoura do Sul empurrando o Norte? → Não. É coordenação. (o clímax)**
-- **A refutação:** o #34 testou a hipótese-mãe e ela falhou (sem precedência temporal;
-  spillover **de sinal trocado**). Enquadre como: *"o autor foi atrás da hipótese que
-  mais o favorecia — e a derrubou."*
+- **A refutação:** o #34 testou a hipótese-mãe e ela falhou. Enquadre como: *"o autor foi
+  atrás da hipótese que mais o favorecia — e a derrubou."*
+  ⚠️ **Precisão obrigatória na copy:** quem refuta é o **spillover de sinal trocado**
+  (θ=−0,16, **p=0,02**), não o nulo de Granger. O nulo é de **baixo poder** (N≈38 anos,
+  ~48% para efeito moderado) — apresentá-lo como a prova entrega à banca a objeção mais
+  barata que existe ("ausência de evidência não é evidência de ausência"). Um efeito
+  **significativo na direção contrária** não tem essa fraqueza. A copy da Parte 2 já foi
+  corrigida nesse ponto.
+- **A simetria que fecha a perna** (beat novo, 28/jul): se alguma infraestrutura *puxasse*
+  a fronteira, seu centro de gravidade estaria à frente dela — e está **atrás**, em todas
+  as camadas medidas. Crédito ~75 km ao sul do pasto (#50); armazenagem CONAB ~150 km ao
+  sul, a camada mais meridional de todas (#53); cadeia exportadora co-move sem liderar
+  (#45). Silo, banco e porto **consolidam**; nenhum lidera.
 - **A obra-prima da autocorreção:** o #42 (o Granger reverso que inverteria tudo,
   demonstrado espúrio — série I(2), Toda-Yamamoto zera as duas direções, placebos). É
   a história metodológica mais empolgante do conjunto — **dê palco a ela.**
@@ -225,15 +262,34 @@ frase**, contadas como descoberta:
   fraca); a terra que resta está **97% desprotegida** (teto **físico, não
   institucional**); custo de carbono ~**973 Mt CO₂e**.
 - **Absorve aqui** "pecuária desacoplada" como contexto.
+- **Beat novo (28/jul): o preço da marcha tem duas contas.** Além do carbono (#47), entra o
+  **#51** — a fronteira norte quase dobra a área cultivada (+93% × +14% no Sul) e termina
+  com desenvolvimento municipal **abaixo** do Sul; a expansão de área é praticamente
+  desacoplada do desenvolvimento. É o achado mais comunicável do conjunto para fora da
+  academia e não tinha endereço em lugar nenhum da peça.
+- ⚠️ **Etiqueta obrigatória:** a queda do *hazard* de conversão **não é**, por si, "queda de
+  demanda" — ela embute proteção, atrito e intensificação. Quem sustenta a leitura de oferta
+  é o teste do plano estoque×hazard, não o rótulo. E o Ato III tem **5 anos**: "sinal
+  inicial de", nunca "consolidou".
 
 ### PARTE 3 · O veredito + a honestidade (o fecho)
 - O **callout da tese** (já existe) — a afirmação central, cristalina.
 - **A assinatura do trabalho: uma investigação que se autocorrige.** Um painel curto e
-  forte com as **7 autocorreções** (#28C, #40, #40B, #41, #42, #44, #45 + D19) como
-  **selo de credibilidade** — não enterradas. É o "por que confiar nisto", e é
-  genuinamente empolgante (puxar do fecho da `narrativa` e do "ativo mais raro" do
-  índice lógico).
-- **O que o trabalho NÃO afirma** (os limites honestos), breve.
+  forte com as autocorreções como **selo de credibilidade** — não enterradas. É o "por que
+  confiar nisto", e é genuinamente empolgante (puxar do fecho da `narrativa` e do "ativo
+  mais raro" do índice lógico).
+  **Revisado em 28/jul:** a lista passa de 7 para **10 itens** e ganha um **segundo bloco**.
+  Entram o **#12B** (a matriz primária descartava 6,5–10,9% do estado por ano, e a própria
+  validação era cega por construção — é a mais severa, abre a lista), a **queda do gradiente
+  de idade** (#28C/#40/#33) e o **#54** (o trabalho rebaixou a significância do próprio drive
+  comum). O segundo bloco registra **três verificações que não derrubaram nada** (#14B, #22B,
+  #48): contar só as auditorias que acham erro é outra forma de selecionar resultado, e a
+  distinção entre os dois blocos *é* o argumento. Copy pronta em
+  [`BLUEPRINT_PARTES_0-1-3-4.md`](BLUEPRINT_PARTES_0-1-3-4.md) § 3.2.
+- **O que o trabalho NÃO afirma** (os limites honestos), breve. **Dois limites novos:** a
+  ambiguidade de medida do fim da série (bracket D26, com âncora SIDRA) e o rebaixamento do
+  **#23** — as políticas testadas são federais, então os marcos da régua **contextualizam,
+  não identificam**.
 - CTA para **"A oficina"**.
 
 ### PARTE 4 · A oficina (era a aba Métodos) — enxugar e pôr no fim do scroll
@@ -242,8 +298,14 @@ frase**, contadas como descoberta:
 - Manter, mas **consolidar**. Fundir M1 (periodização/como os atos foram detectados) +
   M2 (as métricas) + M3 (camadas de evidência) em 2–3 peças enxutas.
 - Manter a **vitrine do painel** (inventário de dados, M4).
-- Mover as **decisões D1–D20** para **uma única tabela colapsável** de referência.
+- Mover as **decisões D1–D26** para **uma única tabela colapsável** de referência.
+  *(São 26, não 20: D21–D24 entraram com o censo do #28 e D25/D26 com a auditoria do
+  Mosaico. Três lugares do site ainda dizem "16 decisões" — corrigir na reforma.)*
 - Manter **M6 fragilidades** (honestidade metodológica).
+- ⚠️ **Qualificar a periodização:** com a matriz recontada (#12B), o pico de KL migrou de
+  2020 para **2022**. A fronteira de 2020 se sustenta pela âncora imune (soja plantada
+  SIDRA), mas a oficina **não pode dizer** que os quatro métodos apontam o mesmo ano sem
+  dizer qual deles se moveu.
 
 ---
 
@@ -254,8 +316,9 @@ frase**, contadas como descoberta:
 | Scroll 40 anos (`timeline.js` + `story`) | **Manter** | Parte 1 (intocado) |
 | Viz trajetórias do centro de massa (`marcha-mapa.js`) | **Manter + promover** | Peça-central da Perna 1 |
 | Sistema de design (CSS, régua, paleta, serifa) | **Manter** | Global |
-| Sankey de fluxos (`sankey.js`/`matriz.js`) | **Manter + realocar** | Fecho da Parte 1 |
-| Interativa idade do pasto (`pastagem-reserva.js`) | **Re-cablear** (mapa↔histograma) | Perna 2 |
+| Sankey de fluxos + matriz **7×7** (`sankey.js`/`matriz.js`) | **Manter + realocar** | Fecho da Parte 1 — já regenerado com o Mosaico (#12B, 27/jul) |
+| Interativa idade do pasto (`pastagem-reserva.js`) | ✅ **já re-cablada** (25/jul) → só **mover** | Perna 2 — mapa pinta bimodalidade, toggle é por região |
+| Faixa própria do Mosaico na barra empilhada | **Manter** | Parte 1 — regra "fluxo pinta, estoque não" (§3.7.2 do `IMPLEMENTACAO.md`) |
 | Callout da tese | **Manter** | Parte 3 |
 | Divisão em abas (Narrativa \| Métodos) | **Cortar** | Vira **scroll único**; oficina no fim |
 | Rótulos "3 Movimentos" (I/II/III) | **Cortar** | Substituídos pelas 4 pernas |
@@ -300,7 +363,25 @@ frase**, contadas como descoberta:
    perna-clímax ser a mais textual e a única sem peça interativa. Não substitui as figuras
    #34/#42; soma-se a elas.
 
-### Próximo passo sugerido
-Detalhar o **blueprint da Parte 2 em nível de copy** (título, pergunta de abertura,
-1–2 parágrafos e a "resposta em uma frase" de cada perna), aprovar esse texto, e só
-então tocar no HTML.
+### Decisões acrescentadas em 28/jul/2026
+
+7. **O Mosaico é personagem da Parte 1, não nota de rodapé.** ✅ A regra é
+   **"fluxo pinta, estoque não"** (`IMPLEMENTACAO.md` §3.7.2, decidida pelo autor em
+   27/jul): onde o objeto é *para onde a área foi*, o Mosaico aparece com cor própria;
+   onde é *o que a área é*, não é pintado mas é contado. O Ato III é onde o leitor
+   **aprende a ler a classe**, e tudo o que vem depois depende disso ter funcionado.
+8. **A copy nomeia qual teste refuta a hipótese-mãe.** ✅ O spillover de sinal trocado
+   (θ=−0,16, p=0,02), **não** o nulo de Granger (baixo poder, N≈38). Vale como regra geral
+   da peça: onde houver um nulo e um efeito de sinal contrário, a manchete é o efeito.
+9. **As autocorreções ganham um segundo bloco: as verificações que confirmaram.** ✅
+   (#14B, #22B, #48.) Listar só as auditorias que derrubaram algo é selecionar resultado —
+   e o contraste entre os dois blocos é mais persuasivo que qualquer um deles sozinho.
+10. **O #51 entra na Perna 4** como a segunda conta do "preço da marcha", ao lado do
+    carbono. ⏳ *Reversível:* se alongar demais a perna, vira coda da Parte 3 — mas não é
+    cortado.
+
+### Próximo passo
+~~Detalhar o blueprint da Parte 2 em nível de copy~~ ✅ **feito** (25/jul, revisado em
+28/jul). Os três documentos de prancheta estão reconciliados com o estado analítico.
+**O próximo passo é a construção** — plano de execução em
+[`PLANO_DE_CONSTRUCAO.md`](PLANO_DE_CONSTRUCAO.md).
