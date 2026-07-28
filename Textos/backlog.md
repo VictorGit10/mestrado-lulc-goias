@@ -479,3 +479,30 @@ Itens 1-2 (~1-2 h totais) são triviais e fecham lacunas menores. Item 3 (IDH-M 
 - CRS para cálculo de área: **EPSG:5880 SIRGAS Albers** (Brasil).
 - Pacote de malha: `geobr`.
 - Mapas finais: pipeline gera GPKG/CSV, QGIS faz layout cartográfico.
+> **🔴 PONTA ABERTA — o #34 nunca passou pela varredura da deriva do Mosaico (28/jul/2026).**
+> Levantada ao construir a Perna 1 da viz, a partir de uma pergunta do autor sobre se o achado
+> do Mosaico conflita com a refutação do iLUC. Fui conferir e o **#34 não aparece na varredura**:
+> não está na tabela do §9 de [`metodologia/tratamento_deriva_mosaico.md`](metodologia/tratamento_deriva_mosaico.md),
+> não está no §5.4 do [#28D](pipelines/28D_deriva_mosaico.md), e o
+> [`34_deslocamento_espacial.md`](pipelines/34_deslocamento_espacial.md) não menciona Mosaico,
+> D25 ou D26 uma única vez. **É a manchete da Perna 3** — o pipeline que carrega a refutação da
+> hipótese-mãe.
+>
+> **A exposição é concreta:** `deslocamento_espacial.py` monta `agric_mha_Sul` a partir de
+> `lulc_agricultura_ha` (linha ~100), a variável exposta, e a usa nos dois blocos — o teste
+> temporal (Granger/CCF sobre `d_agric_mha_Sul`) e o spillover espacial (SLX, agricultura dos
+> vizinhos ao sul).
+>
+> **Sizing, sem fingir que foi auditado:** a deriva morde 2021–2024, ou seja **4 de ~38
+> primeiras diferenças**, e no sentido de **subestimar** a expansão recente da lavoura no Sul.
+> É pouco provável que quatro observações subestimadas virem um nulo de p=0,97 em significância,
+> e o que carrega a refutação não é o nulo e sim o **spillover de sinal trocado** (θ=−0,16,
+> p=0,02). Mas "pouco provável" **não é** "testado" — e essa distinção é a régua do trabalho
+> inteiro.
+>
+> **O que fecharia:** rodar o bracket da D26 no #34 como se fez no #33/#49/#40 — refazer os dois
+> blocos sob `agric` e sob `agric∪mosaico`, com a soja SIDRA como âncora imune. Se os dois
+> vereditos sobreviverem nas duas pontas, a Perna 3 fica blindada no único flanco que restava.
+> **Custo estimado:** baixo — a maquinaria do bracket já existe e o painel AMC já tem as três
+> colunas. Não é pré-requisito da viz: a peça não afirma nada que dependa disso, e a Perna 3
+> já reporta o nulo como de baixo poder.
