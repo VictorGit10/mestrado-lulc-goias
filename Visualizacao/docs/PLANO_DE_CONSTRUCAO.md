@@ -111,21 +111,29 @@ altera o site publicado sem querer. As diferenças vivem em `reforma.css`, sob `
 
 ---
 
-## 5. Correções de números pendentes no site atual
+## 5. Correções de números no site atual — ✅ aplicadas em 28/jul/2026
 
-A auditoria deixou erros na tela. Eles **entram na reforma já corrigidos**; e, como o
-`index.html` continua no ar durante toda a construção, cada um também precisa ser
-decidido: corrigir agora no site antigo ou esperar a troca.
+A auditoria tinha deixado erros na tela. Como o `index.html` continua no ar durante toda a
+construção, **foram corrigidos nele agora** (decisão do autor), além de já entrarem
+corrigidos na reforma.
 
-| # | onde | erro | correto |
-|---|---|---|---|
-| 1 | `index.html:143` (hero) | "38 milhões de pontos… 1,5 bilhão de registros" — **10× menor** | **378 milhões** de pixels/ano · **15,1 bilhões** em 40 anos (34.024.262 ha ÷ 0,09 ha) |
-| 2 | `index.html:415`, `:1514`, `:1580` | "as 16 decisões metodológicas" | **26** (D1–D26) — o próprio bloco M5 já lista as 26 |
-| 3 | `index.html:487`, `:492`, `:497`, `:511` | cards do Sankey com os valores da matriz de 6 grupos (4,11 / 2,73 / 1,29) | **4,10 / 2,72 / 1,29** pela recontagem do #12B — e o texto "três fluxos" precisa virar quatro, com o Mosaico |
-| 4 | `index.html:415` | "avança em três movimentos" | a reforma dissolve os Movimentos; some com a arquitetura nova |
+| # | onde | erro | correto | estado |
+|---|---|---|---|---|
+| 1 | hero | "38 milhões de pontos… 1,5 bilhão de registros" — **10× menor** | **378 milhões** de pixels/ano · **15 bilhões** em 40 anos (34.024.262 ha ÷ 0,09 ha) | ✅ |
+| 2 | lede da síntese, teaser da oficina, sumário de Métodos | "as 16 decisões metodológicas" | **26** (D1–D26) — o próprio bloco M5 já listava as 26 | ✅ |
+| 3 | cards do Sankey (§2) e §4 | valores da matriz de 6 grupos (4,11 / 2,73) | **4,10 / 2,72** pela recontagem do #12B; entrou um **4º card** (`veg→Mosaico`, 1,00 Mha) com a ressalva do PRODES, e a nota do par que quase se cancela (1,72 ↔ 1,62 Mha) | ✅ |
+| 4 | lede da síntese | "avança em três movimentos" | a reforma dissolve os Movimentos; some com a arquitetura nova — **não** se corrige no site antigo | — |
 
-*(1 e 2 são erros factuais simples e independentes da reforma; 3 e 4 se resolvem
-naturalmente na Parte 1 reformulada.)*
+**Um resíduo encontrado ao corrigir o item 3, declarado na tela em vez de silenciado:** o
+`<details>` de método compara a matriz líquida (#12) com a soma dos 39 pares anuais (#19,
+≈3,83 Mha). O #12B recontou a **primeira** com sete grupos; os **pares anuais do #19 não**
+passaram pela recontagem. A comparação virou indicativa, não exata, e o texto agora diz isso.
+*(Recontá-los é trabalho de pipeline, fora do escopo da reforma.)*
+
+**Uma exceção à regra do §4 (não editar `styles.css`)**, feita conscientemente: a nota do
+Mosaico precisava de um estilo (`.sankey-nota-mosaico`). Como a correção do item 3 é do
+**site publicado**, não da reforma, editar `styles.css` era o lugar certo — e a classe nova
+não é usada por `reforma.html`, então não há efeito cruzado.
 
 ---
 

@@ -140,7 +140,7 @@
     <h1 class="hero-title">Buscando histórias em 40 anos de dados</h1>
 
     <p class="hero-lede">
-      Cada pixel nesta tela representa um quadrado de 30 por 30 metros no chão. Multiplique isso por 38 milhões de pontos, ano a ano, durante quatro décadas. Cruzamos essa massa de dados — 1,5 bilhão de registros pixel a pixel do MapBiomas — para rastrear a cicatriz física que as leis, os mercados e as decisões econômicas deixaram em Goiás. A história de como o território se reorganizou se divide em três atos.
+      Cada pixel nesta tela representa um quadrado de 30 por 30 metros no chão. São 378 milhões deles cobrindo Goiás, recontados ano a ano durante quatro décadas — 15 bilhões de observações pixel a pixel do MapBiomas — para rastrear a cicatriz física que as leis, os mercados e as decisões econômicas deixaram em Goiás. A história de como o território se reorganizou se divide em três atos.
     </p>
 
     <p class="hero-cta">Comece pelo mapa de 1985 &darr;</p>
@@ -412,7 +412,7 @@
       agregado; e <strong>a marcha ao norte</strong> — a reorganização espacial que é
       a tese central do trabalho. Cada seção abre com a pergunta que a motivou e fecha
       com a resposta em uma frase. A oficina por trás de tudo — como os atos foram
-      detectados, as camadas de evidência, as 16 decisões metodológicas, os limites —
+      detectados, as camadas de evidência, as 26 decisões metodológicas, os limites —
       tem aba própria: <a href="#metodos">Métodos</a>.
     </p>
 
@@ -484,12 +484,12 @@
 
       <div class="dado-choque-grid">
         <div class="dado-choque">
-          <div class="dado-choque-valor">4,11 Mha</div>
+          <div class="dado-choque-valor">4,10 Mha</div>
           <div class="dado-choque-label">Veg. natural → Pastagem</div>
           <div class="dado-choque-glosa">O maior fluxo da série. Desmatamento histórico para pecuária extensiva — boa parte concentrada nos anos 1980–1990.</div>
         </div>
         <div class="dado-choque">
-          <div class="dado-choque-valor">2,73 Mha</div>
+          <div class="dado-choque-valor">2,72 Mha</div>
           <div class="dado-choque-label">Pastagem → Agricultura</div>
           <div class="dado-choque-glosa">A maior conversão <em>entre classes manejadas</em>. É o que permite a expansão da lavoura sem desmatar diretamente.</div>
         </div>
@@ -498,7 +498,21 @@
           <div class="dado-choque-label">Veg. natural → Agricultura (direta)</div>
           <div class="dado-choque-glosa">Desmatamento direto para lavoura. Menor que via pasto, mas existe — e ganha peso no nordeste após 2010.</div>
         </div>
+        <div class="dado-choque">
+          <div class="dado-choque-valor">1,00 Mha</div>
+          <div class="dado-choque-label">Veg. natural → Mosaico de usos</div>
+          <div class="dado-choque-glosa">Vegetação que deixou de ser vegetação — mas que <strong>não</strong> entra na conta de desmatamento: incluí-la jogaria a razão contra o PRODES/INPE de 1,00 para 1,35. A classe tem transição de ida <em>e de volta</em>.</div>
+        </div>
       </div>
+
+      <p class="sankey-nota-mosaico">
+        Há ainda um par de fluxos que quase se cancela e diz muito sobre a medida:
+        <strong>1,72 Mha</strong> de Mosaico → pastagem e <strong>1,62 Mha</strong> de
+        pastagem → Mosaico — duas correntes quase iguais em sentidos opostos, entre as duas
+        classes que o classificador mais confunde. Boa parte disso não é terra mudando de
+        uso; é o rótulo mudando de ideia
+        (<a href="#metodos/metodo-decisoes">D25/D26</a>).
+      </p>
 
       <details class="metric-details" id="matriz-details">
         <summary>Matriz de transição 7×7 <span class="matriz-toggle" id="matriz-toggle"></span></summary>
@@ -511,7 +525,8 @@
         Dois fluxos dominam: vegetação → pastagem (4,1 Mha, o desmatamento histórico)
         e pastagem → agricultura (2,7 Mha, a conversão moderna). A pastagem é o elo
         intermediário de quase tudo — e é por isso que os quatro processos a seguir
-        giram em torno dela.
+        giram em torno dela. A classe ambígua do satélite, por sua vez, movimenta tanta
+        área quanto os fluxos que conseguimos nomear.
       </p>
     </div>
 
@@ -588,7 +603,7 @@
       <p class="bloco-pergunta">A lavoura que quase quintuplicou cresceu derrubando Cerrado?</p>
       <p>
         O Sankey de § 2 já mostrou: dos 4,4 Mha de agricultura que apareceram
-        entre 1985 e 2024, 2,73 Mha vieram diretamente da pastagem — mais que
+        entre 1985 e 2024, 2,72 Mha vieram diretamente da pastagem — mais que
         o dobro do que veio diretamente da vegetação natural (1,29 Mha). No mapa,
         essa conversão tem endereço: concentra-se no <strong>sudoeste</strong>
         (Rio Verde, Jataí, Mineiros), onde o pasto deu lugar à lavoura.
@@ -650,15 +665,19 @@
             Os números do Sankey vêm do par <strong>1985→2024 (matriz líquida)</strong>
             — cada pixel conta uma única vez na sua trajetória inicial/final. Já a
             soma dos 39 pares anuais dá um total maior para "Pastagem → Agricultura"
-            (≈3,83 Mha contra 2,73 Mha da matriz líquida), porque conta pixels que
+            (≈3,83 Mha contra 2,72 Mha da matriz líquida), porque conta pixels que
             oscilaram entre classes. As duas leituras são complementares; aqui
             preferimos a líquida para destacar trajetórias e não duplicar transições.
+            <em>Nota (28/jul/2026): a matriz líquida foi recontada com sete grupos,
+            incluindo o Mosaico (#12B). Os pares anuais do #19 ainda não passaram por
+            essa recontagem, então o ≈3,83 Mha é da régua antiga — a comparação entre
+            os dois números é indicativa, não exata.</em>
           </p>
         </div>
       </details>
       <p class="bloco-resposta">
         <span class="bloco-resposta-rotulo">Em uma frase</span>
-        Majoritariamente não: 2,73 Mha vieram de pastagem — mais que o dobro do que
+        Majoritariamente não: 2,72 Mha vieram de pastagem — mais que o dobro do que
         veio direto da vegetação (1,29 Mha). A expansão tem endereço (o sudoeste) e
         assinatura de <em>land sparing</em>.
       </p>
@@ -1511,7 +1530,7 @@
       <p class="teaser-rotulo">Como sabemos de tudo isso?</p>
       <p>
         Cada afirmação acima se apoia numa oficina: a detecção estatística dos três atos,
-        três camadas de evidência (descritiva → inferencial → causal), 16 decisões
+        três camadas de evidência (descritiva → inferencial → causal), 26 decisões
         metodológicas documentadas, a vitrine do painel de dados — e a lista honesta do
         que a análise ainda não responde.
       </p>
@@ -1577,7 +1596,7 @@
       <a href="#metodos/metodo-metricas">2 · As métricas do tempo</a>
       <a href="#metodos/metodo-evidencia">3 · Camadas de evidência</a>
       <a href="#metodos/painel-vitrine">4 · Vitrine do painel</a>
-      <a href="#metodos/metodo-decisoes">5 · As 16 decisões</a>
+      <a href="#metodos/metodo-decisoes">5 · As 26 decisões</a>
       <a href="#metodos/limitacoes">6 · Limitações</a>
       <a href="#metodos/glossario">7 · Glossário</a>
     </nav>
