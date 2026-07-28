@@ -27,7 +27,17 @@
 
 * { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  /* Impede que uma decoracao absoluta escapando pela lateral (o tooltip do
+     glossario, o da barra empilhada) crie rolagem horizontal na pagina inteira
+     — sintoma classico no celular, e que estava acontecendo aqui.
+     Precisa dos DOIS (html e body, logo abaixo): sozinho, cada um deixa o
+     scrollWidth da raiz em 396 contra 390 de viewport; juntos zeram a folga.
+     E precisa ser `clip`, nao `hidden`: `hidden` criaria um container de
+     rolagem e quebraria todo o `position: sticky` da peca (o mapa, a regua). */
+  overflow-x: clip;
+}
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -42,6 +52,7 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  overflow-x: clip;   /* ver a nota no seletor `html` acima */
 }
 
 h1, h2, h3 { font-family: var(--font-serif); font-weight: 600; line-height: 1.2; margin: 0 0 0.6em; }
@@ -396,11 +407,29 @@ p  { margin: 0 0 1em; }
   font-size: 0.72rem;
   padding: 0.3rem 0.55rem;
   border-radius: 3px;
-  white-space: nowrap;
+  /* O tooltip lista as sete classes numa linha so'. Com `white-space: nowrap`
+     ele media ~690 px e, por ser `position: absolute`, entrava na area rolavel
+     do documento mesmo com `opacity: 0` — o celular ganhava rolagem horizontal
+     na pagina inteira, inclusive longe do mapa. (`visibility: hidden` nao
+     resolve: elemento invisivel ainda ocupa layout.) Quebra de linha + teto de
+     largura consertam as duas coisas — inclusive quando ele esta' visivel, que
+     no celular tambem transbordava. */
+  white-space: normal;
+  max-width: min(320px, 90vw);
+  text-align: center;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.15s ease;
+  visibility: hidden;
+  transition: opacity 0.15s ease, visibility 0s linear 0.15s;
   z-index: 10;
+}
+
+/* Espelha a regra de opacidade abaixo, para o tooltip voltar a ser medido
+   exatamente quando fica visivel. */
+.composition-bar:hover .bar-tooltip,
+.composition-bar:focus-within .bar-tooltip {
+  visibility: visible;
+  transition: opacity 0.15s ease, visibility 0s;
 }
 .composition-bar:hover .bar-tooltip { opacity: 1; }
 
@@ -1823,7 +1852,10 @@ body[data-modo-ativo="metodos"] .rail-cursor { display: none; }
   bottom: calc(100% + 9px);
   transform: translateX(-50%);
   width: max-content;
-  max-width: 290px;
+  /* No celular o balao centrado no termo escapava da tela (e era clipado pelo
+     `overflow-x: clip` do body). O teto por viewport o mantem legivel inteiro
+     na maioria das posicoes. */
+  max-width: min(290px, 72vw);
   background: #2b2b28;
   color: #f5f4ef;
   font-family: var(--font-sans);

@@ -486,25 +486,526 @@
         </p>
       </div>
 
-      <!-- Pernas: Fase B -->
-      <div class="como-bloco perna-placeholder" id="p2-perna1">
-        <h3>Perna 1 &middot; O padrão existe?</h3>
-        <p class="placeholder-nota">Em construção (Fase B) — copy em <code>docs/BLUEPRINT_PARTE2.md</code>. Peça-central: o mapa animado do centro de massa.</p>
+      <!-- ================= PERNA 1 ================= -->
+      <div class="como-bloco perna" id="p2-perna1">
+        <p class="perna-num">Perna 1 de 4</p>
+        <h3>O padrão existe?</h3>
+        <p class="bloco-pergunta">A fronteira agropecuária de Goiás se moveu? E, se moveu, para onde?</p>
+
+        <p>
+          Para responder sem depender de impressão visual, medimos o <strong>centro de
+          massa</strong> de cada uso da terra — o ponto de equilíbrio geográfico, ponderado
+          pela área de cada classe — e o acompanhamos ano a ano, sobre as 166 Áreas Mínimas
+          Comparáveis (território constante, imune às emancipações municipais).
+        </p>
+        <p>
+          A expectativa era modesta: talvez a agricultura parada e o pasto subindo. O que
+          apareceu foi mais forte e mais uniforme. <strong>Tudo marchou ao norte.</strong> A
+          pastagem avançou +78 km; o rebanho, +67; a agricultura, +65. Só a vegetação natural
+          ficou onde estava — o deslocamento é pequeno e a barra de erro inclui zero, então a
+          leitura honesta é "<strong>ancorada</strong>", não "andou um pouco". E há um padrão
+          que se repete em <em>todos</em> os 40 anos: a lavoura fica sempre ~120–130 km ao sul
+          do pasto e do boi. A fronteira não é uma linha só — são camadas que sobem juntas,
+          mantendo a distância entre si.
+        </p>
+
+        <!-- Peça-central: mapa animado do centro de massa (#32) -->
+        <section id="marcha-mapa-bloco" class="marchamap" hidden
+                 aria-label="Mapa animado do centro de massa, 1985 a 2024">
+          <div class="marchamap-head">
+            <h3 class="marchamap-titulo">O centro de massa em movimento, 1985 → 2024</h3>
+            <p class="marchamap-sub">
+              Cada ponto é o centro de gravidade de um uso da terra no estado — a média
+              das posições das 166 AMCs, ponderada pela quantidade da variável ali. Aperte
+              <em>reproduzir</em> (ou arraste a faixa) e veja os quatro centros caminharem
+              ao norte ao longo de 40 anos. À direita, a mesma marcha lida como latitude,
+              ano a ano.
+            </p>
+          </div>
+          <div class="marchamap-grid">
+            <figure class="marchamap-painel">
+              <div id="marchamap-mapa" class="marchamap-mapa" role="img"
+                   aria-label="Recorte central de Goiás com o centro de massa de agricultura, pastagem, rebanho e vegetação natural caminhando ao norte de 1985 a 2024"></div>
+              <div class="marchamap-controles">
+                <button type="button" id="marchamap-play" class="marchamap-btn"
+                        aria-pressed="false">▶ Reproduzir</button>
+                <input type="range" id="marchamap-slider" class="marchamap-slider"
+                       aria-label="Ano" value="1985" step="1">
+                <span id="marchamap-ano" class="marchamap-ano">1985</span>
+              </div>
+              <div id="marchamap-legenda" class="marchamap-legenda"></div>
+              <label class="marchamap-check">
+                <input type="checkbox" id="marchamap-elipse"> mostrar a dispersão (elipse 1σ do ato)
+              </label>
+            </figure>
+            <figure class="marchamap-painel">
+              <figcaption class="marchamap-cap">Latitude do centro, ano a ano — mais alto = mais ao norte</figcaption>
+              <div id="marchamap-strip" class="marchamap-strip" role="img"
+                   aria-label="Latitude do centro de massa de cada variável por ano, 1985 a 2024, com as faixas dos três atos"></div>
+              <p id="marchamap-nota" class="marchamap-nota"></p>
+            </figure>
+          </div>
+        </section>
+
+        <figure class="grafico-card grafico-card--wide">
+          <img src="img/marcha_norte/deslocamento_latitude.png"
+               alt="Deslocamento norte-sul do centro de massa de cada variável, latitude por ano, 1985-2024, com faixas dos três atos" loading="lazy">
+          <figcaption>A latitude do centro de massa de cada variável, ano a ano (mais alto = mais ao norte; faixas = os três atos). A vegetação natural (verde) é um teto estável; pastagem e rebanho marcham para cima; a agricultura sobe em paralelo, ~1,2° ao sul — o gradiente persistente. Fonte: painel AMC (#32).</figcaption>
+        </figure>
+
+        <div class="dado-choque-grid">
+          <div class="dado-choque">
+            <div class="dado-choque-valor">+78 km</div>
+            <div class="dado-choque-label">Pastagem &middot; deslocamento ao norte (40 anos)</div>
+            <div class="dado-choque-glosa">O maior avanço da série. Rebanho +67 km e agricultura +65 km acompanham.</div>
+          </div>
+          <div class="dado-choque">
+            <div class="dado-choque-valor">~120–130 km</div>
+            <div class="dado-choque-label">Lavoura ao sul de pasto/rebanho — em todos os anos</div>
+            <div class="dado-choque-glosa">Não é só "tudo subiu": existe um gradiente latitudinal persistente. A marca de dois Goiáses.</div>
+          </div>
+          <div class="dado-choque">
+            <div class="dado-choque-valor">ancorada</div>
+            <div class="dado-choque-label">Vegetação natural</div>
+            <div class="dado-choque-glosa">+8 km, e o intervalo de confiança inclui zero. Dizer "andou um pouco" seria ler ruído como sinal.</div>
+          </div>
+        </div>
+
+        <details class="metric-details">
+          <summary>A robustez, em uma linha cada</summary>
+          <div class="perna-detalhe">
+            <p>
+              <strong>Não é artefato de recorte (MAUP).</strong> Refizemos o cálculo pixel a
+              pixel, sem nenhuma malha administrativa: a marcha reaparece a 1–2 km do valor
+              original (pasto +79,2 contra +78 km; agricultura +66,9 contra +65). <em>(#43)</em>
+            </p>
+            <p>
+              <strong>A "muralha norte" é a floresta, não a vegetação inteira.</strong> Ao abrir
+              o agregado em formações, o que resiste é a floresta; o campo nativo recuou +35 km.
+              Foi uma autocorreção: o número médio escondia o oposto acontecendo por dentro.
+              <em>(#44)</em>
+            </p>
+            <p>
+              <strong>Toda a marcha vem com barra de erro.</strong> Bootstrap de AMCs
+              (B=2.000): é daí que sai o veredito "ancorada" para a vegetação. <em>(D19)</em>
+            </p>
+          </div>
+        </details>
+
+        <p class="bloco-resposta">
+          <span class="bloco-resposta-rotulo">Resposta</span>
+          Toda a fronteira agropecuária marchou ~65–78 km ao norte em 40 anos — pasto à
+          frente, lavoura ~120 km atrás, vegetação natural ancorada.
+        </p>
+
+        <aside class="nao-diz">
+          <p class="nao-diz-rotulo">O que isto não diz</p>
+          <p>
+            Um centro de massa descreve <em>que</em> a fronteira andou — não <em>por quê</em>.
+            E é uma média: esconde o que acontece dentro. As duas perguntas seguintes atacam
+            exatamente isso.
+          </p>
+        </aside>
       </div>
 
-      <div class="como-bloco perna-placeholder" id="p2-perna2">
-        <h3>Perna 2 &middot; Qual é o mecanismo?</h3>
-        <p class="placeholder-nota">Em construção (Fase B). Peça-central: a interativa da idade do pasto (mapa de bimodalidade + histograma por região).</p>
+      <!-- ================= PERNA 2 ================= -->
+      <div class="como-bloco perna" id="p2-perna2">
+        <p class="perna-num">Perna 2 de 4</p>
+        <h3>Qual é o mecanismo?</h3>
+        <p class="bloco-pergunta">Se a fronteira inteira marchou, que conversão — e em que parte do estado — a moveu?</p>
+
+        <p>
+          A marcha é o saldo de duas conversões diferentes, e elas não estão no mesmo lugar.
+          No Sul, a transição que manda é <strong>pasto → lavoura</strong>: intensificação,
+          terra que troca de função. No Norte, é <strong>mata → pasto</strong>: fronteira,
+          terra nova sendo aberta. Dois Goiáses. A medida que sustenta essa divisão é
+          justamente a que <em>não</em> depende da classe ambígua do satélite — o
+          <code>veg→pasto</code>, que despenca <strong>−49% no Sul</strong> entre os Atos II e
+          III e cede só <strong>−13% no Norte</strong>.
+        </p>
+
+        <div id="sec-idade-pastagem">
+          <p>
+            A assinatura mais fina do mecanismo está na <strong>idade da pastagem no momento em
+            que ela é convertida</strong>. Não amostramos: contamos <strong>todos os 44,6
+            milhões de eventos</strong> de pasto virando lavoura em Goiás — 3,8 Mha, 11,2% do
+            estado — e perguntamos, para cada um, há quantos anos aquele pasto existia. A
+            distribuição tem <strong>dois picos</strong>: pasto jovem (~4 anos, 31% da massa) e
+            pasto velho (~22 anos, 69%). Dois picos são dois mecanismos: o jovem é reserva de
+            terra rotacionada — plantar pasto já pensando em lavoura; o velho é fronteira antiga
+            sendo finalmente aberta.
+          </p>
+
+          <figure class="grafico-card grafico-card--wide">
+            <img src="img/graficos/sintese_idade_pastagem_atos.png"
+                 alt="Distribuição da idade da pastagem na conversão para agricultura" loading="lazy">
+            <figcaption>Distribuição da idade da pastagem (anos) na conversão para agricultura. O que observar: a curva não tem um pico só, mas <em>dois</em>. É a <strong>forma</strong> que importa aqui, e só ela — a variação das medianas entre os atos <strong>não</strong> pode ser lida como tendência (antes de 2020 ela mede horizonte de observação; depois, a migração do rótulo de destino). Fonte: MapBiomas Coleção 10.1, censo pixel-a-pixel.</figcaption>
+          </figure>
+
+          <!-- Peça-central: mapa de bimodalidade + histograma por região (#28C) -->
+          <div id="reserva-interativo" class="reserva-interativo" hidden>
+            <div class="reserva-grid">
+              <figure class="reserva-painel">
+                <figcaption class="reserva-titulo">Onde os dois mecanismos coexistem</figcaption>
+                <div id="reserva-mapa" class="reserva-mapa" role="img"
+                     aria-label="Mapa das 166 AMCs de Goiás: quais têm distribuição bimodal da idade da pastagem na conversão"></div>
+                <div id="reserva-mapa-legenda" class="reserva-legenda"></div>
+                <p class="reserva-nota">
+                  Cada AMC pintada pelo <em>veredito</em>: a idade tem dois modos ali dentro?
+                  O mapa é quase todo de uma cor — e é esse o achado.
+                </p>
+              </figure>
+              <figure class="reserva-painel">
+                <figcaption class="reserva-titulo">A distribuição por região — os dois picos em cada recorte</figcaption>
+                <div id="reserva-regiao-toggle" class="reserva-toggle" role="tablist"
+                     aria-label="Selecionar a região"></div>
+                <div id="reserva-hist" class="reserva-hist" role="img"
+                     aria-label="Histograma da idade da pastagem na conversão para a região selecionada"></div>
+                <p class="reserva-nota" id="reserva-hist-nota"></p>
+              </figure>
+            </div>
+            <p class="reserva-nota reserva-nota--malha">
+              O mapa mostra o veredito por <strong>AMC</strong>; o histograma agrega por
+              <strong>mesorregião</strong>, onde o n é alto o bastante para o ajuste em todos
+              os recortes.
+            </p>
+            <p class="reserva-cobertura" id="reserva-cobertura"></p>
+            <div class="reserva-coortes">
+              <div class="reserva-coorte">
+                <div class="reserva-coorte-valor">mediana 13 a</div>
+                <div class="reserva-coorte-rotulo">Vegetação → pastagem → agricultura</div>
+                <div class="reserva-coorte-glosa">
+                  n = 6,4 milhões de pixels (14,3%). Terra aberta do Cerrado que passou pela
+                  pastagem antes da lavoura — a <em>reserva</em> de fronteira, com cauda longa.
+                </div>
+              </div>
+              <div class="reserva-coorte">
+                <div class="reserva-coorte-valor">mediana 5 a</div>
+                <div class="reserva-coorte-rotulo">Agricultura → pastagem → agricultura</div>
+                <div class="reserva-coorte-glosa">
+                  n = 3,9 milhões de pixels (8,8%). Pasto de <em>passagem</em> dentro de um
+                  sistema já agrícola — rotação/ILP de ciclo curto, sem abertura de vegetação.
+                </div>
+              </div>
+              <div class="reserva-coorte">
+                <div class="reserva-coorte-valor">mediana 12 a</div>
+                <div class="reserva-coorte-rotulo">Mosaico de usos → pastagem → agricultura</div>
+                <div class="reserva-coorte-glosa">
+                  n = 5,3 milhões de pixels (11,8%). Origem que o MapBiomas não conseguiu
+                  separar entre lavoura e pasto. Esta coorte <em>não aparecia</em> até jul/2026:
+                  um defeito de código a contava como idade desconhecida.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="dado-choque-grid">
+            <div class="dado-choque" id="reserva-card-jovem">
+              <div class="dado-choque-valor" data-campo="valor">μ ≈ 4,2 a (31,5%)</div>
+              <div class="dado-choque-label">Rotação rápida / premeditada</div>
+              <div class="dado-choque-glosa">
+                Na janela 2016–2024, <span data-campo="peso">31,5%</span> dos pixels convertidos
+                pertencem a uma <span class="termo" tabindex="0" data-def="Mistura de gaussianas (GMM): a distribuição é modelada como soma de dois 'sinos'; cada sino (componente) corresponde a um mecanismo de conversão distinto.">componente gaussiana</span>
+                com média de ~4,2 anos e desvio σ ≈ <span data-campo="sigma">1,9</span>.
+              </div>
+            </div>
+            <div class="dado-choque" id="reserva-card-antigo">
+              <div class="dado-choque-valor" data-campo="valor">μ ≈ 22,5 a (68,5%)</div>
+              <div class="dado-choque-label">Reserva histórica / oportunismo</div>
+              <div class="dado-choque-glosa">
+                A segunda componente tem média ~22,5 anos (σ ≈ <span data-campo="sigma">7,4</span>)
+                e <span data-campo="peso">68,5%</span> do peso. Pastagem consolidada, convertida
+                tardiamente.
+              </div>
+            </div>
+          </div>
+          <p class="reserva-nota">
+            Censo pixel-a-pixel, janela 2016–2024, sobre
+            <span id="reserva-cards-n">3.455.514</span> eventos de idade conhecida.
+          </p>
+        </div>
+
+        <p>
+          Aqui o trabalho se corrigiu <strong>duas vezes</strong>, e as duas valem contar. Na
+          primeira, a leitura inicial anunciou que a lógica jovem era <em>estrutural</em>,
+          explicada pelo plantio direto; no mesmo dia o controle derrubou o exagero — ao segurar
+          a latitude, o cruzamento desmancha. Na segunda, mais severa, caiu a própria geografia.
+          Era natural supor que o Sul convertesse pasto jovem e o Norte, pasto velho — e, por
+          algumas semanas, foi isso que este trabalho disse. Não sobrevive: corrigida a
+          ambiguidade de rótulo do fim da série, a amplitude Sul→Norte das medianas encolhe de 7
+          para 2 anos, a ordem se embaralha, e a <strong>região passa a explicar 0,5% da
+          variação da idade</strong>.
+        </p>
+        <p>
+          O que sobrou é mais simples — e mais forte — do que o que caiu. Os dois mecanismos
+          <strong>coexistem em toda parte</strong>: as <strong>5 mesorregiões</strong> são
+          bimodais, e <strong>162 das 164</strong> AMCs com conversão também o são <em>por
+          dentro</em>. Não há uma região de pasto jovem e outra de pasto velho; há o mesmo par
+          de lógicas operando lado a lado no estado inteiro. É esse o "aha" da peça acima, e ele
+          é o inverso do que se esperaria: percorra as cinco regiões e <strong>o desenho não
+          muda</strong>. Um mapa quase sem variação é a forma visual de um η² de 0,5%.
+        </p>
+
+        <p class="bloco-resposta">
+          <span class="bloco-resposta-rotulo">Resposta</span>
+          São dois mecanismos — rotação de curto prazo e abertura de fronteira antiga — e eles
+          <strong>coexistem em toda parte</strong>: a geografia separa o <em>tipo</em> de
+          transição (o Sul intensifica, o Norte abre), <strong>não</strong> a idade do pasto
+          convertido.
+        </p>
+
+        <aside class="nao-diz">
+          <p class="nao-diz-rotulo">O que isto não diz</p>
+          <p>
+            Que a região <em>causa</em> a bimodalidade — foi medido, e explica 0,5%. Que o
+            plantio direto explica a idade do pasto — era confundidor de latitude
+            (<a href="#parte-4">D14</a>). Que "o Sul converte pasto jovem e o Norte, pasto
+            velho" — essa frase <strong>esteve</strong> neste trabalho e caiu por três caminhos
+            independentes. E nada sobre <strong>tendência</strong>: o eixo temporal está
+            suspenso dos dois lados (antes de 2020, censura por horizonte de observação; depois,
+            mudança de rótulo), então não se afirma que "o pasto jovem vem ganhando peso".
+          </p>
+        </aside>
       </div>
 
-      <div class="como-bloco perna-placeholder" id="p2-perna3">
-        <h3>Perna 3 &middot; É a lavoura do Sul empurrando o Norte?</h3>
-        <p class="placeholder-nota">Em construção (Fase B) — o clímax. Único item visual novo da reforma: o esquema estático de 2 painéis da regressão espúria.</p>
+      <!-- ================= PERNA 3 — o clímax ================= -->
+      <div class="como-bloco perna perna--climax" id="p2-perna3">
+        <p class="perna-num">Perna 3 de 4 &middot; o clímax</p>
+        <h3>É a lavoura do Sul empurrando o Norte?</h3>
+        <p class="bloco-pergunta">Então foi a lavoura do Sul que empurrou o pasto e o boi para o Norte?</p>
+
+        <p>
+          Esta é a hipótese que mais favorecia o trabalho — a história limpa do iLUC
+          intra-estadual. Por isso ela foi testada com o maior rigor, em tempo contínuo, de três
+          ângulos. Nenhum a sustenta — mas eles não pesam igual, e a diferença importa.
+          <strong>Primeiro:</strong> não aparece precedência temporal — a lavoura do Sul não
+          antecede o pasto do Norte (p=0,97). É um nulo, e um nulo com 38 anos de série tem
+          pouco poder: ele não <em>prova</em> ausência, apenas deixa de encontrar.
+          <strong>Segundo — e é este que refuta:</strong> onde o empurrão espacial deveria
+          aparecer, ele aparece com o <strong>sinal trocado</strong> (θ=−0,16, p=0,02): os
+          vizinhos ao sul <em>co-expandem</em> com o Norte em vez de empurrá-lo. Um efeito
+          significativo na direção <strong>contrária</strong> é evidência positiva contra a
+          hipótese — coisa diferente de ausência de evidência. <strong>Terceiro:</strong> o
+          único efeito forte é <em>local</em> — onde a lavoura entra, o pasto sai ali mesmo
+          (β=−0,52): é intensificação, não expulsão à distância.
+        </p>
+
+        <p>
+          E então veio a parte que mais orgulha o trabalho. O teste anterior tinha deixado uma
+          ponta solta: rodado ao contrário, ele dava um resultado significativo — <em>o Norte
+          anteciparia o Sul</em> — que, se fosse real, viraria a tese de cabeça para baixo.
+          Seria fácil varrer para baixo do tapete com um "N é pequeno". Em vez disso, fomos
+          atrás. E provamos que era <strong>regressão espúria</strong>.
+        </p>
+
+        <!-- Esquema estático do #42 — o único item visual novo da reforma -->
+        <figure class="esquema-espuria">
+          <div class="esquema-grid">
+            <div class="esquema-painel">
+              <p class="esquema-rotulo">A &middot; o resultado que invertia a tese</p>
+              <svg viewBox="0 0 340 210" role="img"
+                   aria-label="Duas séries suaves e paralelas subindo juntas, com uma seta do pasto do Norte para o pasto do Sul rotulada antecede?">
+                <defs>
+                  <marker id="seta" viewBox="0 0 10 10" refX="8" refY="5"
+                          markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                    <path d="M0,0 L10,5 L0,10 z" fill="#8b3a1d"></path>
+                  </marker>
+                </defs>
+                <line class="esq-eixo" x1="34" y1="182" x2="322" y2="182"></line>
+                <line class="esq-eixo" x1="34" y1="26" x2="34" y2="182"></line>
+                <path class="esq-linha esq-linha--norte" d="M34,158 C120,150 200,112 322,48"></path>
+                <path class="esq-linha esq-linha--sul"   d="M34,174 C120,168 200,138 322,92"></path>
+                <path class="esq-seta" d="M196,120 C206,132 210,140 214,150"
+                      marker-end="url(#seta)"></path>
+                <text class="esq-nota" x="218" y="140">antecede?</text>
+                <text class="esq-serie esq-serie--norte" x="250" y="38">pasto · Norte</text>
+                <text class="esq-serie esq-serie--sul"   x="256" y="108">pasto · Sul</text>
+                <text class="esq-eixo-rot" x="34" y="200">1985</text>
+                <text class="esq-eixo-rot esq-eixo-rot--fim" x="322" y="200">2024</text>
+              </svg>
+              <p class="esquema-legenda">
+                Rodado ao contrário, o teste dava significativo — o Norte "anteciparia" o Sul.
+              </p>
+            </div>
+
+            <div class="esquema-painel">
+              <p class="esquema-rotulo">B &middot; a prova de que é espúrio</p>
+              <svg viewBox="0 0 340 210" role="img"
+                   aria-label="As mesmas duas séries mais uma terceira, sem relação alguma, igualmente suave, que também parece anteceder a série do Sul">
+                <line class="esq-eixo" x1="34" y1="182" x2="322" y2="182"></line>
+                <line class="esq-eixo" x1="34" y1="26" x2="34" y2="182"></line>
+                <path class="esq-linha esq-linha--norte" d="M34,158 C120,150 200,112 322,48"></path>
+                <path class="esq-linha esq-linha--sul"   d="M34,174 C120,168 200,138 322,92"></path>
+                <path class="esq-linha esq-linha--placebo" d="M34,150 C120,142 208,104 322,60"></path>
+                <path class="esq-seta esq-seta--placebo" d="M188,112 C200,126 206,136 212,148"
+                      marker-end="url(#seta)"></path>
+                <text class="esq-serie esq-serie--norte" x="250" y="38">pasto · Norte</text>
+                <text class="esq-serie esq-serie--placebo" x="196" y="66">qualquer série suave</text>
+                <text class="esq-serie esq-serie--sul" x="256" y="108">pasto · Sul</text>
+                <text class="esq-eixo-rot" x="34" y="200">1985</text>
+                <text class="esq-eixo-rot esq-eixo-rot--fim" x="322" y="200">2024</text>
+              </svg>
+              <p class="esquema-legenda">
+                Qualquer série lisa "prevê" qualquer outra — o Norte "antecede" até o pasto do
+                próprio Sul, o que nenhum mecanismo econômico explicaria. Com o método correto
+                para séries integradas (Toda-Yamamoto), a precedência some nas duas direções.
+              </p>
+            </div>
+          </div>
+          <figcaption>
+            Por que uma correlação forte pode não significar nada: quando duas séries são
+            muito "lisas" — sobem devagar e sem sobressaltos —, uma sempre parece prever a
+            outra, mesmo sem relação alguma entre elas. É um defeito do teste, não um achado
+            sobre o campo. <em>(#42 → D16)</em>
+          </figcaption>
+        </figure>
+
+        <figure class="grafico-card grafico-card--wide">
+          <img src="img/marcha_norte/veredito.png"
+               alt="Painel do teste Toda-Yamamoto e dos placebos, mostrando que a precedência some nas duas direções" loading="lazy">
+          <figcaption>O teste que fechou a ponta solta (#42): o método correto (Toda-Yamamoto) zera as duas direções, e os placebos acendem onde não há mecanismo — co-tendência espúria, sem líder.</figcaption>
+        </figure>
+
+        <p>
+          Se ninguém empurra ninguém, o que coordena os dois mecanismos e dá o compasso da
+          marcha? Um <strong>impulso macro comum</strong> — câmbio, crédito e preço agindo sobre
+          um gradiente de aptidão que já estava no chão. O candidato mais forte é o câmbio real.
+          Mas aqui a honestidade pesa: sob a inferência correta para esse tipo de desenho, o
+          achado é <strong>corroborante, não estabelecido</strong> — o que o sustenta é a
+          especificidade (os placebos dão nulo, não há antecipação, o resultado não depende de
+          um ano isolado), não a significância estatística.
+        </p>
+
+        <p>
+          Há ainda um teste de simetria que raramente se faz e que fecha bem esta perna: se
+          alguma infraestrutura <em>puxasse</em> a fronteira, seu centro de gravidade estaria à
+          frente dela. Está atrás — em todas as camadas medidas. O centroide do
+          <strong>crédito</strong> fica ~75 km ao sul da pastagem; o da <strong>capacidade de
+          armazenagem</strong> é a camada mais meridional de todas, ~150 km ao sul do pasto e
+          ~83 km ao sul até do próprio crédito; e a cadeia <strong>exportadora</strong> co-move
+          sem liderar. Silo, banco e porto <strong>consolidam o núcleo</strong> — eles chegam
+          onde a produção já está. Nenhum deles é a ponta da marcha.
+        </p>
+
+        <p class="bloco-resposta">
+          <span class="bloco-resposta-rotulo">Resposta</span>
+          A lavoura do Sul <strong>não</strong> empurra o Norte — a hipótese de deslocamento
+          causal foi testada e refutada; os dois mecanismos são coordenados por um impulso macro
+          comum sobre um gradiente de aptidão.
+        </p>
+
+        <aside class="nao-diz">
+          <p class="nao-diz-rotulo">O que isto não diz</p>
+          <p>
+            Que o iLUC não existe — apenas que o <strong>canal intra-estadual testado</strong>
+            não se confirma. E, por simetria honesta, também não se afirma que "o Sul lidera": o
+            veredito é <em>sem líder</em>. O drive comum é corroborante — não se deve ler o
+            câmbio como causa provada, nem citar o p do erro-padrão agrupado (0,026/0,031) como
+            significância: o p correto para este desenho é ≈0,07–0,13.
+          </p>
+        </aside>
       </div>
 
-      <div class="como-bloco perna-placeholder" id="p2-perna4">
-        <h3>Perna 4 &middot; Por que a marcha desacelerou?</h3>
-        <p class="placeholder-nota">Em construção (Fase B) — o teto de oferta, o custo de carbono e o preço humano da marcha.</p>
+      <!-- ================= PERNA 4 ================= -->
+      <div class="como-bloco perna" id="p2-perna4">
+        <p class="perna-num">Perna 4 de 4</p>
+        <h3>Por que a marcha desacelerou?</h3>
+        <p class="bloco-pergunta">No Ato III (2020–24) a lavoura do Sul desacelera. Acabou a demanda?</p>
+
+        <p>
+          A resposta intuitiva — "esfriou o mercado" — está errada, e é o que torna esta perna
+          interessante. No Ato III os sinais de demanda <strong>subiram</strong>: câmbio, preço
+          e crédito, todos em alta, e a soja plantada que o IBGE mede em campo cresce 38%. A
+          abertura de terra nova no Sul freou <strong>enquanto a demanda apertava</strong>. Isso
+          não é assinatura de demanda fraca; é assinatura de uma restrição de
+          <strong>oferta</strong> — a terra acabando.
+        </p>
+
+        <figure class="grafico-card grafico-card--wide">
+          <img src="img/marcha_norte/decomposicao_oferta_demanda.png"
+               alt="Decomposição da mudança no fluxo de conversão entre os Atos II e III, em efeito-oferta e efeito-demanda, por região" loading="lazy">
+          <figcaption>Por que o fluxo de conversão mudou (Ato II→III), decomposto em efeito-oferta (estoque) e efeito-demanda (hazard), por região. Fonte: #39.</figcaption>
+        </figure>
+
+        <p>
+          E acabou de forma desigual. No agregado do estado, a fronteira <em>não</em> fechou:
+          ainda resta cerca de <strong>60%</strong> do Cerrado convertível, e o fluxo de
+          conversão não caiu — só <strong>migrou ao norte</strong>. Mas, olhando por região, no
+          Sul ela fechou: o estoque convertível está em <strong>~53%</strong> do que era em
+          1985, e a abertura de vegetação nativa cai <strong>−49%</strong> lá contra
+          <strong>−13%</strong> no Norte. A "marcha ao norte" é, em boa parte, a fronteira
+          <strong>perseguindo a terra que só resta no norte</strong>. E a terra que resta está
+          <strong>97% desprotegida</strong> — o teto é <strong>físico, não institucional</strong>:
+          não é a lei que segura a conversão, é o fim do estoque acessível.
+        </p>
+
+        <figure class="grafico-card grafico-card--wide">
+          <img src="img/marcha_norte/estoque_por_regiao.png"
+               alt="Estoque de Cerrado convertível por região ao longo do tempo" loading="lazy">
+          <figcaption>Estoque de Cerrado convertível por região (#39). A "marcha ao norte" é, em parte, a fronteira perseguindo o estoque que só resta no norte.</figcaption>
+        </figure>
+
+        <p>
+          O que essa marcha custou tem duas contas, e nenhuma delas é econômica no sentido
+          usual. A primeira é de carbono: precificada por diferença de estoque, a conversão
+          emite da ordem de <strong>~973 Mt de CO₂e</strong> (751–1208 conforme o cenário de
+          densidade), com a <strong>floresta dominando a emissão</strong> embora perca 2,6×
+          menos área que o savânico. A segunda é humana e mais desconfortável: entre 2013 e 2023
+          a fronteira norte quase <strong>dobrou a área</strong> cultivada (+93%, contra +14% no
+          Sul) e terminou o período com desenvolvimento municipal <strong>abaixo</strong> do Sul
+          — a expansão de área é praticamente <strong>desacoplada</strong> do desenvolvimento.
+          Abrir terra nova, medido assim, não converte em bem-estar onde ela é aberta.
+        </p>
+
+        <div class="dado-choque-grid">
+          <div class="dado-choque">
+            <div class="dado-choque-valor">97%</div>
+            <div class="dado-choque-label">Do convertível remanescente está desprotegido</div>
+            <div class="dado-choque-glosa">6,35 de 6,56 Mha. A Proteção Integral cobre menos de 3% e congelou depois de 2000 — o teto é físico, não institucional.</div>
+          </div>
+          <div class="dado-choque">
+            <div class="dado-choque-valor">~973 Mt</div>
+            <div class="dado-choque-label">CO₂e emitidos pela conversão</div>
+            <div class="dado-choque-glosa">Faixa de 751 a 1.208 conforme o cenário de densidade de carbono. A floresta domina a emissão apesar de perder 2,6× menos área que o savânico.</div>
+          </div>
+          <div class="dado-choque">
+            <div class="dado-choque-valor">+93% × +14%</div>
+            <div class="dado-choque-label">Área cultivada &middot; Norte contra Sul (2013–2023)</div>
+            <div class="dado-choque-glosa">O Norte quase dobra a área e termina com desenvolvimento municipal abaixo do Sul. Expandir área, medido assim, não vira bem-estar onde a terra é aberta.</div>
+          </div>
+        </div>
+
+        <p class="bloco-resposta">
+          <span class="bloco-resposta-rotulo">Resposta</span>
+          A desaceleração do Sul não é falta de demanda — é o estoque de Cerrado convertível se
+          esgotando (um teto de oferta <strong>físico</strong>), e a marcha ao norte é a
+          fronteira perseguindo a terra que só resta lá.
+        </p>
+
+        <aside class="nao-diz">
+          <p class="nao-diz-rotulo">O que isto não diz</p>
+          <p>
+            Que se conhece o estoque <strong>cadastral</strong> de terra: "convertível" e
+            "protegida" são proxies com teto declarado (MapBiomas + malha de unidades de
+            conservação), não o CAR pixel a pixel. Que a queda do <em>hazard</em> de conversão
+            seja, por si, "queda de demanda" — o hazard embute também proteção, atrito e
+            intensificação; quem sustenta a leitura de oferta é o teste do plano estoque×hazard,
+            não o rótulo. E o Ato III tem <strong>cinco anos</strong>: é um sinal inicial, não
+            um regime consolidado.
+          </p>
+        </aside>
+      </div>
+
+      <!-- Ponte para a Parte 3 -->
+      <div class="como-bloco ponte-veredito">
+        <p>
+          Quatro perguntas, quatro respostas — e a hipótese óbvia derrubada pelo caminho. O que
+          sobra não é a história simples do "Sul empurra o Norte", mas uma mais precisa: uma
+          <strong>reorganização espacial coordenada, sob forças de mercado comuns e um teto de
+          oferta</strong>. O que vem a seguir fecha com essa tese em uma frase — e com a coisa
+          mais rara do trabalho, o que dá razão para confiar nela: uma investigação que foi
+          atrás dos próprios erros antes que a banca fosse.
+        </p>
       </div>
     </div>
   </section>
@@ -568,6 +1069,8 @@
 <script src="assets/js/sankey.js?v=4"></script>
 <script src="assets/js/mini-sankey.js?v=1"></script>
 <script src="assets/js/matriz.js?v=2"></script>
+<script src="assets/js/marcha-mapa.js?v=1"></script>
+<script src="assets/js/pastagem-reserva.js?v=1"></script>
 <script src="assets/js/zoom.js?v=1"></script>
 
 </body>

@@ -178,6 +178,8 @@ Registrado para não reabrir a discussão a cada fase:
 |---|---|---|
 | 28/jul/2026 | — | blueprints reconciliados com o estado analítico pós-auditorias; este plano criado; estratégia (arquivo paralelo) e primeira fatia (moldura) decididas |
 | 28/jul/2026 | **A1–A4 ✅** | `reforma.html` + `assets/css/reforma.css` + `assets/js/rail.js`. Scroll único com Partes 0–4, rail lateral funcional, Parte 0 e Parte 1 completas com a copy nova. Verificado com Playwright (script em scratchpad): 40 steps, rail marca e salta, régua recolhe fora da Parte 1, Sankey de 7 grupos com o Mosaico, console limpo, zero 404, mobile sem overflow, nenhuma frase banida no DOM |
+| 28/jul/2026 | **correções no site no ar ✅** | hero 10×, "16 decisões" (3 lugares), cards do Sankey + 4º card do Mosaico. Ver §5 |
+| 28/jul/2026 | **B ✅** | As 4 pernas com a copy do blueprint; as duas interativas movidas; esquema da regressão espúria criado. Corrigido o bug de rolagem horizontal no celular — que era do site publicado. Ver §9 |
 
 ### Dois defeitos encontrados pela verificação da Fase A (e corrigidos)
 
@@ -200,3 +202,52 @@ Registrado para não reabrir a discussão a cada fase:
 O título embutido no PNG do mapa (*"Cobertura e Uso da Terra — Goiás 1986"*) fica
 parcialmente coberto pelo seletor de camadas. Acontece igual no `index.html` publicado —
 é do asset + do overlay, não da reforma. Resolver na Fase D.
+
+---
+
+## 9. Fase B — as 4 pernas (28/jul/2026) ✅
+
+As quatro pernas montadas com a copy do `BLUEPRINT_PARTE2.md`, no padrão
+`pergunta → corpo → resposta → o que isto não diz`. As duas peças heroínas foram
+**movidas, não reconstruídas**; o único visual novo da reforma inteira é o esquema da
+regressão espúria.
+
+| perna | peça | origem |
+|---|---|---|
+| 1 · O padrão existe? | mapa animado do centro de massa + faixa latitude-tempo | `marcha-mapa.js`, movido |
+| 2 · Qual é o mecanismo? | mapa de bimodalidade por AMC + histograma por região | `pastagem-reserva.js`, movido |
+| 3 · O Sul empurrou o Norte? | **esquema de 2 painéis da regressão espúria** | SVG inline, **novo** |
+| 4 · Por que desacelerou? | figuras de decomposição oferta/demanda e estoque por região | `outputs/`, reusadas |
+
+**Contrato de DOM a preservar** (os dois módulos observam um ancestral *visível*, porque o
+bloco que eles montam começa `hidden` e um elemento de área zero nunca intersecta):
+`pastagem-reserva.js` procura `#sec-idade-pastagem` — por isso o interativo da Perna 2 fica
+dentro de um wrapper com esse id; `marcha-mapa.js` procura `#mov-marcha` e, não achando,
+cai no `parentElement`, que na reforma é o próprio bloco da Perna 1 (visível). Mexer nessa
+aninhagem quebra as duas peças **em silêncio** — elas simplesmente não montam.
+
+### O bug de rolagem horizontal no celular — era do site publicado, não da reforma
+
+A verificação acusou rolagem lateral em 390 px. Não era regressão: o `index.html` no ar
+tinha o mesmo defeito. **Duas causas independentes, ambas o mesmo padrão** — decoração
+`position: absolute` invisível que continua entrando na área rolável do documento:
+
+1. `.bar-tooltip` (o resumo da barra empilhada) media ~690 px com `white-space: nowrap`,
+   com `opacity: 0`. Corrigido com quebra de linha e teto de largura — o que também
+   conserta o caso em que ele fica **visível** no celular, onde transbordava igual.
+2. `.termo::after` (o balão do glossário) tem 290 px centrados no termo; num card estreito
+   ele escapa pela direita.
+
+O conserto de raiz é `overflow-x: clip` — e ele precisa estar **em `html` e em `body`**:
+sozinho, cada um deixa o `scrollWidth` da raiz em 396 contra 390 de viewport. Tem que ser
+`clip`, **nunca `hidden`**: `hidden` criaria um container de rolagem e quebraria todo o
+`position: sticky` da peça (o mapa dos 40 anos, a régua). Há agora um teste que verifica
+justamente isso — que o clip não matou o sticky.
+
+### Uma lição sobre o próprio teste
+
+A varredura de "frases banidas" acusou *"o pasto jovem vem ganhando peso"* na Perna 2. Era
+**falso positivo**: a frase aparece dentro do bloco "o que isto **não** diz", que existe
+precisamente para nomeá-la e negá-la. O teste passou a excluir `.nao-diz` da varredura —
+confundir a afirmação com a sua negação seria punir exatamente a parte mais honesta da
+peça. (Antes disso, o mesmo teste tinha acusado "78 mil" dentro de "**3**78 milhões.")
