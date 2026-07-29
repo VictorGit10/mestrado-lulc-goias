@@ -10,7 +10,10 @@ Diferença-em-Diferenças piecewise para avaliar se marcos regulatórios/econôm
 
 **Decisão D9**: GO como tratamento, MT+TO como controles do Cerrado. Também testado com cada estado isoladamente.
 
-**Especificação**: Δlulc_{st} = α_s + γ_t + β·treated_s × post_t + ε_{st}
+**Especificação (DiD pontual)**: Δlulc_{st} = α_s + δ·post_t + β·(treated_s × post_t) + ε_{st}
+— efeitos fixos de UF (`C(treated)`, 3 unidades) + **um dummy `post`** (não efeito-ano). É o 2×2 clássico. **Só o event-study** (robustez) usa efeito-ano completo (`α_s + λ_t + Σ_{k≠-1} β_k·D_k`, via `C(ano)`).
+
+> ⚠️ *Correção jul/2026: a fórmula anterior escrevia `γ_t` (efeito-ano), sugerindo two-way FE. O `piecewise_did.py:264` do DiD pontual usa `C(post)` (dummy binário), não `C(ano)` — não há efeito-ano no DiD principal. Isso reforça o rebaixamento a "co-movimento" (o `post` absorve só o degrau médio, não todo choque anual comum).*
 
 ## Marcos testados
 

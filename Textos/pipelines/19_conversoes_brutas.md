@@ -1,9 +1,11 @@
 # Pipeline #19 — Agregação de transições consecutivas
 
 **Script**: `scripts/agregar_conversoes.py`
-**Depende de**: `data/cache/transicoes/transicao_YYYY_YYYY.csv` (39 pares consecutivos + 9 pares longos, gerados por Pipeline #12 com flag `--consecutivos`)
+**Depende de**: os CSVs de transição em cache. **Fonte default (jul/2026): `--fonte censo`** = o cubo do [#12B](12_transicoes.md) (`data/cache/transicoes_cubo/`, **7 grupos**, Mosaico com identidade própria). A fonte GEE legada (`data/cache/transicoes/`, 6 grupos, `transicoes_mapbiomas.py --consecutivos`) segue disponível via `--fonte gee`.
 **Status**: ✅ executado
 **Outputs**: `data/processed/conversao_bruta_goias.csv`, `conversao_bruta_municipal.csv`
+
+> ⚠️ **Doc parcialmente desatualizado (corrigido no cabeçalho em jul/2026).** As menções a "6×6 classes", "Mosaico excluído do GEE" e ao pré-requisito `transicoes_mapbiomas.py --consecutivos` abaixo descrevem a **fonte GEE legada**. Desde o #12B, o `agregar_conversoes.py` usa o **cubo de 7 grupos por default** (`--fonte censo`; o próprio cabeçalho do script documenta as duas fontes). Onde o texto diz "6 classes", leia "6 na fonte `gee` / 7 na fonte `censo` (default)".
 
 ## O que faz
 

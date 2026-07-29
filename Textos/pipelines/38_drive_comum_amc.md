@@ -74,6 +74,8 @@ O truque econométrico: o **efeito fixo de ano** "limpa" tudo que é comum àque
 | Preço soja × Aptidão agríc. → Δ Agricultura (lag 0) | −0,032 | 0,50 | — | nulo |
 | Preço soja × Pasto → Δ Pastagem (lag 1) | +0,006 | 0,84 | — | nulo |
 
+> **Precisão dos ranges de permutação (esclarecido jul/2026, fonte única = #54).** O `0,07–0,13` citado ao longo deste pipeline é o intervalo do **H2 exógeno** (câmbio × aptidão física, #52 — o headline *preferido* por ser exógeno). O **H1 desta tabela** (câmbio × fronteira, proxy de área) tem intervalo **próprio ≈0,06 (naive) a 0,16 (circular)** — ainda n.s. a 5%, mas **não confundir os dois**: citar 0,13 para o H1 subestima seu p circular (0,158). Ver a tabela do [#54](54_defensabilidade_perna4.md).
+
 > ⚠️ **Leia a coluna da direita, não a do meio.** O `p=0,031` é o SE **clusterizado**, otimista
 > para um shifter único nacional (ver a caixa de atualização no topo). A inferência válida para
 > este desenho é a **permutação do shifter** ([#54](54_defensabilidade_perna4.md)): **p≈0,07

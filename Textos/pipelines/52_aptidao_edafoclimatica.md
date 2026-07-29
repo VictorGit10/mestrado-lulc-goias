@@ -70,7 +70,7 @@ sobre um rio. Em GO aparecem grupos 1-4 e 6 (grupo 5 ausente).
 **52A — exposição + validação** (`aptidao_edafo_exposicao.py`):
 1. WFS paginado (chunks de 2.000) → cache `data/raw/aptidao/aptidao_agr_bra_go.gpkg`.
 2. `simb_apt` → grupo (1..6) → score (7−grupo). Fallback: dígito da legenda.
-3. **Overlay com as 166 AMCs em EPSG:5880** (equal-area, reusa a máquina do #46). Aptidão da AMC =
+3. **Overlay com as 166 AMCs em EPSG:5880** (SIRGAS 2000 / Brazil Polyconic — compromisso, **não** equal-area; reusa a máquina do #46). Aptidão da AMC =
    média do score **ponderada por área** dos polígonos que a cobrem. Variante de robustez guardada:
    `pct_apt_lavoura` = % da AMC com grupo ≤ 3.
 4. **z-score** sobre as 166 AMCs → `exp_apt_edafo` (pronta para o #38).

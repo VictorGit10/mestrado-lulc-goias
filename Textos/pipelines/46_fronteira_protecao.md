@@ -23,7 +23,7 @@ Se o convertível restante no Norte for majoritariamente **desprotegido**, a mar
 
 ## O que faz (overlay vetorial sobre o painel AMC e o estoque do #39)
 
-- **Bloco A — Cobertura de proteção por AMC.** UCs do CNUC (via `geobr`) recortadas em GO e intersectadas com as 166 AMCs em **EPSG:5880** (equal-area). Distingue **Proteção Integral (PI)** de **Uso Sustentável (US)** — só a PI veda a conversão; a US (ex.: APA) admite uso rural. Terras Indígenas entram como camada complementar.
+- **Bloco A — Cobertura de proteção por AMC.** UCs do CNUC (via `geobr`) recortadas em GO e intersectadas com as 166 AMCs em **EPSG:5880** (SIRGAS 2000 / Brazil Polyconic — projeção de compromisso, **não** equal-area; a distorção de área para GO é pequena e o refino pixel do §2b confirma a manchete). Distingue **Proteção Integral (PI)** de **Uso Sustentável (US)** — só a PI veda a conversão; a US (ex.: APA) admite uso rural. Terras Indígenas entram como camada complementar.
 - **Bloco B — O "gap de proteção" da fronteira.** Cruza a cobertura de UC com o **estoque convertível remanescente** do #39 (def. refinada, último ano = 2024). "Convertível desprotegido" = estoque × (1 − fração de PI) — quanto do convertível que resta está fora de Proteção Integral, por região e faixa de latitude.
 - **Bloco C — Tempo da proteção.** O `creation_year` das UCs permite perguntar se a proteção **antecedeu** a fronteira ou chegou depois: curva de área protegida acumulada. Proteção tardia não freia a conversão já ocorrida.
 
