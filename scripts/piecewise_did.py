@@ -105,7 +105,9 @@ def download_uf_series(uf_code: str, uf_name: str) -> pd.DataFrame:
     GEE_PROJECT = "extreme-height-447417-a9"
     ASSET = ("projects/mapbiomas-public/assets/brazil/lulc/"
              "collection10_1/mapbiomas_brazil_collection10_1_coverage_v1")
-    PIXEL_HA = 0.09
+    # (a área do pixel é derivada da escala EFETIVA no laço abaixo:
+    #  pixel_ha = scale**2 / 1e4; não usar uma constante de 30 m aqui, que
+    #  subestimaria 4×/11× no fallback 60/100 m — ver comentário adiante.)
 
     ee.Initialize(project=GEE_PROJECT)
     print(f"GEE inicializado — baixando {uf_name}...")
