@@ -202,8 +202,10 @@ def serie_pastagem_goias(arquivo_xlsx: Path) -> pd.DataFrame:
 
 def baixar_pib_goias() -> pd.DataFrame:
     """
-    Baixa o PIB de Goiás via SIDRA, tabela 5938 (Contas Regionais — PIB municipal).
-    Agrega os 246 municípios de GO para obter o estadual.
+    Baixa o PIB de Goiás via SIDRA, tabela 5938 (Contas Regionais).
+    Busca DIRETO o nível UF (territorial_level=3, código IBGE 52) — não agrega
+    municípios (a docstring anterior dizia "agrega os 246 municípios", o que era
+    incorreto: a chamada abaixo pede o estado inteiro de uma vez).
     
     Disponibilidade: 2002 até o ano mais recente publicado (geralmente t-2).
     Para anos anteriores (1985–2001) seria necessário usar a série retropolada

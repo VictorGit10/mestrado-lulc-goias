@@ -33,7 +33,7 @@ class_nome   str    Nome em pt-BR (15=Pastagem, 39=Soja, 20=Cana-de-açúcar, et
 area_ha      float  Área em hectares (somada sobre Cerrado + Mata Atlântica)
 ```
 
-Total: **137.080 linhas** = 246 munis × 40 anos × 22 classes.
+Total: **137.080 linhas** (≈ 246 munis × 40 anos × ~14 classes presentes por célula). **Não** é o produto cheio 246 × 40 × 22 = 216.480 — nem toda das 22 classes aparece em todo município-ano (linhas com área zero não existem na fonte).
 
 ## Validações realizadas
 

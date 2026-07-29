@@ -353,7 +353,7 @@ Os marcos são referências institucionais/econômicas que contextualizam as tra
 | 2018 Reorganização de mercado | agric 2018, past 2020 | Não (cerrado-amplo) | Não | B |
 | 2024 | N/A | N/A | N/A | C |
 
-- **A (Evidência causal)**: único marco com quebra estrutural GO-específica + DiD robusto. Apenas Lei Kandir (1996).
+- **A (Evidência causal)**: único marco com **quebra estrutural GO-específica** (#26: veg_nat quebra em GO/1998, não em TO). Apenas Lei Kandir (1996). *(Ressalva jul/2026: a coluna "DiD robusto? Sim" da tabela acima é anterior ao rebaixamento do [#23](23_did.md) — que mostrou que **nenhum** DiD de marco identifica causalidade, pois os marcos são federais e tratam GO **e** TO ao mesmo tempo. O standing do "A" repousa na quebra GO-específica, **não** no DiD.)*
 - **B (Referência narrativa)**: evento institucionalmente significativo que contextualiza as transições, sem afirmação causal direta. Cinco marcos.
 - **C (Limite da série)**: 1985 e 2024, sem pretensão causal.
 

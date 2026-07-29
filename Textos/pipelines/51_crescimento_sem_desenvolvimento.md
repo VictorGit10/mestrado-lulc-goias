@@ -32,7 +32,7 @@ enquanto a **área** marcha ao norte — o vão valor↔fronteira alargou de ~84
 - **Painel** (#16): VA agro, PIB, SICOR, área agrícola, rebanho, população. **Janela de crescimento
   = 2013→2021** (VA agro e população têm defasagem IBGE e param em 2021); **níveis de IFDM até 2023**.
 - **Região + latitude**: `amc_para_meso()` (centroide da AMC, EPSG:5880 → lat) + `regiao_de_meso`
-  (Sul = Sul Goiano; Norte = Norte + Noroeste Goiano; Centro = resto). n: Sul 82, Centro 115, Norte 49.
+  (Sul = Sul Goiano; Norte = Norte + Noroeste Goiano; Centro = resto). n: Sul 82, Centro 114, Norte 50 (confere com a tabela do Bloco A; a contagem "115/49" numa versão anterior estava errada).
 
 ## Achados
 

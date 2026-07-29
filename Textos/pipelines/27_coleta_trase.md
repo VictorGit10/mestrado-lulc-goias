@@ -6,7 +6,7 @@
 Trase **baixados manualmente** em `data/raw/trase/`.
 **Consumido por**: #16 (painel unificado, colunas `trase_*`) e **#45** (`analise_trase_lulc.py`, a
 análise — o Eixo A).
-**Outputs**: `data/processed/painel_trase.csv` (4.109 × 12).
+**Outputs**: `data/processed/painel_trase.csv` (4.109 × 18).
 
 ---
 
@@ -40,7 +40,7 @@ caminhos de código serem diferentes.
 
 ## Saída — schema
 
-`data/processed/painel_trase.csv` — **4.109 linhas × 12 colunas**, 244 municípios, 2004–2023.
+`data/processed/painel_trase.csv` — **4.109 linhas × 18 colunas** (2 chaves + 16 de dado), 244 municípios, 2004–2023.
 
 `{cadeia}` = `soja` ou `boi`. As colunas são simétricas nas duas cadeias.
 

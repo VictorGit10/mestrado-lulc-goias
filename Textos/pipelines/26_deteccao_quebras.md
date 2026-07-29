@@ -61,6 +61,11 @@ Tolerância para coincidência marco × quebra: ±2 anos.
 
 ## Marcos teóricos × evidência empírica
 
+> **Nota de nomenclatura (jul/2026):** o marco de **2018** foi **renomeado** em `config_periodos.py`
+> de "Cerrado Manifesto" para **"Reorganização de mercado"** (a quebra é cerrado-ampla, não
+> atribuível ao Manifesto especificamente). As células "Cerrado Manifesto" / "C. Manifesto" nas
+> tabelas desta página referem-se ao **mesmo** marco de 2018, pelo nome do evento histórico.
+
 | Marco | n quebras GO | n quebras TO | Leitura |
 |---|:-:|:-:|---|
 | 1994 Plano Real | 0 | 1 (veg_nat) | **Só TO** — Real não gera quebra em GO |

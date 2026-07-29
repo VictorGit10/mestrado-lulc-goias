@@ -101,6 +101,7 @@ ATOS_FLAT = {k: (v["inicio"], v["fim"], v["titulo"]) for k, v in ATOS.items()}
 # escopo_empirico:
 #   go_especifico  — quebra em GO sem quebra equivalente em TO
 #   cerrado_amplo  — quebra simultanea em GO e TO
+#   so_to          — quebra em TO sem quebra equivalente em GO
 #   sem_quebra     — nenhuma quebra detectavel em GO ou TO (+-2a)
 #   nao_aplicavel  — limites da serie (1985, 2024)
 
@@ -113,9 +114,12 @@ MARCOS = {
     1994: {
         "titulo": "Plano Real",
         "evidencia": "B",       # referencia narrativa
-        "escopo_empirico": "cerrado_amplo",
+        "escopo_empirico": "so_to",   # corrigido jul/2026: #26/#29 nao acham quebra em GO
+                                       # em 1994; ha quebra so em TO (veg_nat ~1993). Era
+                                       # "cerrado_amplo" (implicava quebra em GO tambem, falso).
         "nota": "Perda de veg_nat desacelera de 0,88 pp/a (1990-93) para 0,63 pp/a (1995-98). "
-                "A inflexão mais nítida vem em 1998, alinhada à Kandir.",
+                "A inflexão mais nítida vem em 1998, alinhada à Kandir (o #26 nao detecta "
+                "quebra em GO em 1994; so em TO).",
     },
     1996: {
         "titulo": "Lei Kandir",

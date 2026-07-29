@@ -1322,7 +1322,9 @@ def montar_painel_censo_agro(force: bool = False) -> pd.DataFrame:
         if not rows:
             return pd.DataFrame({"cd_mun": munis["cd_mun"]})
         out = pd.DataFrame(rows)
-        # Aggregate duplicates (same cd_mun + col_name → sum, which is correct for totals)
+        # Consolida em 1 linha por cd_mun: first() pega o único valor não-nulo de cada
+        # coluna. As chaves do Censo 2017 são únicas por (muni, var, cat), então aqui
+        # first() == sum() (não há duplicatas reais a somar).
         out = out.groupby("cd_mun").first().reset_index()
         return out
 

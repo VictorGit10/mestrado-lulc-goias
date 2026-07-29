@@ -184,7 +184,9 @@ causal de mão única.
   como "fogo lidera/causa conversão".** (Correção de overclaim, no espírito da D14.)
 - Granger agregado tem N pequeno (38 anos) → baixo poder; lido junto ao painel, não isolado.
 - Conversão = **perda líquida** veg→pasto (#19), ignora rebrota; fogo = área queimada anual
-  (#14, ~30% abaixo do Fire Dashboard por sub-amostragem nas bordas, scale=30).
+  (#14; o nível está **validado** no #14B — dispersão ±0,04% entre 3 coleções e 2 recortes. A
+  antiga leitura "~30% abaixo do Fire Dashboard por sub-amostragem `scale=30`" foi **refutada**:
+  30 m é a resolução **nativa** do asset, não sub-amostra).
 
 ## Saídas
 
