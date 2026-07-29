@@ -21,6 +21,7 @@
 
   <link rel="stylesheet" href="assets/css/styles.css?v=5">
   <link rel="stylesheet" href="assets/css/reserva.css?v=1">
+  <link rel="stylesheet" href="assets/css/reserva-perna2.css?v=3">
   <link rel="stylesheet" href="assets/css/marchamap.css?v=1">
   <link rel="stylesheet" href="assets/css/reforma.css?v=1">
 </head>
@@ -112,7 +113,7 @@
     <p class="hero-lede">
       Em quarenta anos, toda a fronteira agropecuária de Goiás se moveu para o norte —
       pasto, boi e lavoura, cerca de 70 km cada. A explicação óbvia — a soja do Sul
-      empurrando o pasto para longe — é boa demais para ser verdade, e este trabalho
+      empurrando o pasto para longe — não resiste ao teste, e este trabalho
       mostra por quê. Cada pixel desta tela é um quadrado de 30 metros no chão: são
       <strong>378 milhões</strong> deles cobrindo Goiás, recontados <strong>todo ano</strong>
       por quatro décadas — <strong>15 bilhões</strong> de observações — para rastrear a
@@ -178,7 +179,7 @@
                 </table>
                 <p class="nota-inline">
                   <strong>Validação global — Intensity Analysis</strong> (Aldwaik &amp;
-                  Pontius): Kruskal-Wallis H&nbsp;=&nbsp;22,6, p&nbsp;&lt;&nbsp;0,001 — os
+                  Pontius): Kruskal-Wallis H&nbsp;=&nbsp;20,3, p&nbsp;&lt;&nbsp;0,001 — os
                   3&nbsp;Atos diferem significativamente em taxa de mudança. É <em>um
                   teste único</em> comparando os três períodos ao mesmo tempo, não
                   detecções separadas por fronteira. A candidata a 4º período (~2005/06)
@@ -257,7 +258,7 @@
             <span class="legend-swatch legend-swatch--veg">Veg. natural</span>
             <span class="legend-swatch legend-swatch--pasto">Pastagem</span>
             <span class="legend-swatch legend-swatch--agric">Agricultura</span>
-            <span class="legend-swatch legend-swatch--mosaico" title="Classe 21 do MapBiomas: lavoura ou pastagem, quando o classificador não separa as duas. Aparece na barra, mas não é pintada no mapa.">Mosaico de usos</span>
+            <span class="legend-swatch legend-swatch--mosaico" title="Classe 21 do MapBiomas: lavoura ou pastagem, quando o classificador não separa as duas. Aparece na barra de composição, mas não é pintada no mapa.">Mosaico de usos <em class="legend-nota">(só na barra)</em></span>
             <span class="legend-swatch legend-swatch--agua">Água</span>
             <span class="legend-swatch legend-swatch--urbano">Urbano</span>
             <span class="legend-swatch legend-swatch--outros">Outros</span>
@@ -348,7 +349,7 @@
             <div class="dado-choque-glosa">10,98 → 11,99 Mha. Mas a trajetória é em U invertido: cresce até 2003 (pico ~14,8 Mha) e depois recua. O saldo agregado esconde o ciclo.</div>
           </div>
           <div class="dado-choque">
-            <div class="dado-choque-valor">×1,35</div>
+            <div class="dado-choque-valor">×1,34</div>
             <div class="dado-choque-label">Lotação bovina por hectare</div>
             <div class="dado-choque-glosa">1,01 → 1,36 UA/ha. Rebanho cresce 46% (15,9 → 23,2 M cab) enquanto a área de pasto cresce só 9% — a pecuária se intensifica.</div>
           </div>
@@ -481,14 +482,17 @@
           do outro. É uma boa história. É a que mais favorecia a tese inicial deste trabalho.
         </p>
         <p class="dobradica">
-          <strong>E está errada.</strong> O que a investigação encontrou é mais sutil — e
-          melhor documentado. Ela se responde em quatro perguntas.
+          <strong>E ela não sobrevive ao teste.</strong> Procurada em trinta e seis recortes
+          diferentes, a marca que essa história exigiria não apareceu em nenhum. O que a
+          investigação encontrou no lugar é mais sutil — e melhor documentado. Ela se responde
+          em quatro perguntas.
         </p>
       </div>
 
       <!-- ================= PERNA 1 ================= -->
       <div class="como-bloco perna" id="p2-perna1">
-        <p class="perna-num">Perna 1 de 4</p>
+        <p class="perna-num">Perna 1 de 4
+          <span class="perna-forca perna-forca--forte">evidência: forte</span></p>
         <h3>O padrão existe?</h3>
         <p class="bloco-pergunta">A fronteira agropecuária de Goiás se moveu? E, se moveu, para onde?</p>
 
@@ -562,7 +566,7 @@
           <div class="dado-choque">
             <div class="dado-choque-valor">+65 km</div>
             <div class="dado-choque-label">Agricultura &middot; e uma medida independente confirma</div>
-            <div class="dado-choque-glosa">Mesma régua do pasto e do rebanho, então os três números se comparam entre si. A <strong>soja plantada do IBGE</strong> — medida em campo, imune ao classificador — anda <strong>+49 km</strong> na mesma direção, com intervalo de confiança excluindo zero. Não é o mesmo objeto (a soja é o componente dominante da lavoura, não a lavoura toda), mas é a confirmação por fora do satélite.</div>
+            <div class="dado-choque-glosa">Mesma régua do pasto e do rebanho, então os três números se comparam entre si. A <strong>soja plantada do IBGE</strong> — medida em campo, imune ao classificador — anda <strong>+48 km</strong> na mesma direção, com intervalo de confiança excluindo zero. Não é o mesmo objeto (a soja é o componente dominante da lavoura, não a lavoura toda), mas é a confirmação por fora do satélite.</div>
           </div>
           <div class="dado-choque">
             <div class="dado-choque-valor">~120–130 km</div>
@@ -682,6 +686,11 @@
               duas em 1985 e em 2024 é comparar dois objetos diferentes, e o resultado mede
               principalmente o Mosaico antigo se dissolvendo — não a lavoura recuando.
             </p>
+            <figure class="grafico-card grafico-card--wide">
+              <img src="img/graficos/mosaico_1985_vs_2024.webp"
+                   alt="Dois mapas de Goiás lado a lado com a fração de cada célula classificada como Mosaico de Usos: em 1985 (3,63 Mha) as manchas mais densas ficam no norte-central e no nordeste; em 2024 (3,59 Mha) a mesma área total aparece redistribuída pelo sudoeste e pelo centro, com pouca sobreposição espacial com a de 1985" loading="lazy">
+              <figcaption><strong>O que observar.</strong> O Mosaico ocupa praticamente a mesma área nas duas pontas — 3,63 Mha em 1985, 3,59 em 2024 —, mas as duas manchas quase não se sobrepõem (correlação espacial entre as células <strong>r = 0,15</strong>): a de 1985 se dissolveu; a de 2024 surgiu em <em>outro lugar</em>. É por isso que somar "agricultura ∪ mosaico" ao longo dos 40 anos mede sobretudo esse remanejamento, não a lavoura — e por isso, no mapa dos 40 anos, o Mosaico entra só na barra de composição e não é pintado no mapa. Fonte: MapBiomas Coleção 10.1, cubo pixel-a-pixel do #28.</figcaption>
+            </figure>
             <p>
               Por isso a régua da união entra aqui como <strong>teto de uma janela curta</strong>
               (2019–2024, onde a migração de rótulo de fato ocorre), nunca como régua de
@@ -710,6 +719,37 @@
               <strong>Toda a marcha vem com barra de erro.</strong> Bootstrap de AMCs
               (B=2.000): é daí que sai o veredito "ancorada" para a vegetação. <em>(D19)</em>
             </p>
+            <p>
+              <strong>E não é deriva genérica — dois controles separam a fronteira do resto.</strong>
+              A <em>área urbana</em> não acompanha: ela anda <strong>8 km para o sul</strong>
+              (IC95% [−19; −1,5]), no sentido oposto ao da fronteira. E o <em>leite</em> — pecuária
+              da bacia consolidada do Sul — sobe menos da metade do que sobe o rebanho total
+              (+30 km contra +67 km). O efeito é que o boi <strong>se afasta do leite</strong>:
+              o vão entre os dois centros mais que dobra, de 30 km em 1985 para 68 km em 2024.
+              Quem marcha é a pecuária de corte na fronteira, não "o mapa inteiro subindo".
+              <em>(#44)</em>
+            </p>
+          </div>
+        </details>
+
+        <details class="metric-details">
+          <summary>Uma quinta camada, e ela vai à frente de todas: o fogo</summary>
+          <div class="perna-detalhe">
+            <p>
+              As quatro camadas medidas acima sobem mantendo a distância entre si. Há uma quinta,
+              e ela vai adiante: o centro de massa do <strong>fogo em vegetação</strong> fica ao
+              norte do centro da conversão <strong>em 39 dos 39 anos da série</strong>, com uma
+              dianteira média de <strong>+73 km</strong> — e nunca troca de lado.
+            </p>
+            <p>
+              É uma vanguarda <strong>geográfica</strong>, e só isso. A leitura tentadora seria
+              "o fogo abre o caminho": ela foi testada e <em>não</em> se sustenta no tempo — a
+              liderança temporal some sob transformação logarítmica, inverte quando se tiram os
+              anos de seca de 1985 e 2010, e o teste de precedência agregado dá nulo. O fogo
+              <strong>co-evolui</strong> com a conversão sob um distúrbio comum; ele marca onde a
+              fronteira está, não quando ela vai andar. <em>(#41 &middot; a mesma disciplina da
+              D16 que a Perna 3 aplica ao Granger)</em>
+            </p>
           </div>
         </details>
 
@@ -737,7 +777,8 @@
 
       <!-- ================= PERNA 2 ================= -->
       <div class="como-bloco perna" id="p2-perna2">
-        <p class="perna-num">Perna 2 de 4</p>
+        <p class="perna-num">Perna 2 de 4
+          <span class="perna-forca perna-forca--moderada">evidência: moderada</span></p>
         <h3>Qual é o mecanismo?</h3>
         <p class="bloco-pergunta">Se a fronteira inteira marchou, que conversão — e em que parte do estado — a moveu?</p>
 
@@ -750,181 +791,587 @@
           <code>veg→pasto</code>, que despenca <strong>−49% no Sul</strong> entre os Atos II e
           III e cede só <strong>−13% no Norte</strong>.
         </p>
+        <p>
+          Isso responde <em>onde</em>, e responde bem. Mas não responde <em>como</em>. Saber
+          que o Sul converte pasto em lavoura não diz se aquele pasto era uma etapa planejada
+          de um sistema agrícola ou um pedaço de fazenda parado há vinte anos que enfim virou
+          soja. São duas economias diferentes com o mesmo nome no mapa. É essa distinção que
+          esta perna persegue — e ela obriga a mudar de medida.
+        </p>
 
         <div id="sec-idade-pastagem">
+          <h4 class="perna-subtitulo">A medida que revela a intenção: a idade do pasto</h4>
           <p>
-            A assinatura mais fina do mecanismo está na <strong>idade da pastagem no momento em
-            que ela é convertida</strong>. Não amostramos: contamos <strong>todos os 44,6
-            milhões de eventos</strong> de pasto virando lavoura em Goiás — 3,8 Mha, 11,2% do
-            estado — e perguntamos, para cada um, há quantos anos aquele pasto existia. A
-            distribuição tem <strong>dois picos</strong>: pasto jovem (~4 anos, 31% da massa) e
-            pasto velho (~22 anos, 69%). Dois picos são dois mecanismos: o jovem é reserva de
-            terra rotacionada — plantar pasto já pensando em lavoura; o velho é fronteira antiga
-            sendo finalmente aberta.
+            Um pasto de três anos que vira lavoura foi, quase certamente, plantado já pensando
+            nisso: capim como etapa de um ciclo, não como pecuária. Um pasto de vinte e cinco
+            anos que vira lavoura é outra história — é terra que ficou parada e que alguma
+            oportunidade nova tornou lucrativa. A <strong>idade da pastagem no instante da
+            conversão</strong> é a coisa mais próxima da intenção do produtor que um satélite
+            consegue ver.
+          </p>
+          <p>
+            Não amostramos: contamos, pixel a pixel, <strong>todas as 44,6 milhões</strong> de
+            conversões de pasto para lavoura em Goiás — 3,8 Mha, 11,2% do estado. Dessas,
+            <strong>16,0 milhões</strong> têm idade conhecida; as outras já eram pastagem em
+            1985, quando a série começa, e por isso têm a idade truncada — não se sabe se
+            aquele capim tinha cinco anos ou quarenta.
           </p>
 
           <figure class="grafico-card grafico-card--wide">
-            <img src="img/graficos/sintese_idade_pastagem_atos.png"
-                 alt="Distribuição da idade da pastagem na conversão para agricultura" loading="lazy">
-            <figcaption>Distribuição da idade da pastagem (anos) na conversão para agricultura. O que observar: a curva não tem um pico só, mas <em>dois</em>. É a <strong>forma</strong> que importa aqui, e só ela — a variação das medianas entre os atos <strong>não</strong> pode ser lida como tendência (antes de 2020 ela mede horizonte de observação; depois, a migração do rótulo de destino). Fonte: MapBiomas Coleção 10.1, censo pixel-a-pixel.</figcaption>
+            <img src="img/graficos/sintese_idade_duas_populacoes.png"
+                 alt="Dois painéis: à esquerda, a distribuição da idade da pastagem na conversão com o ajuste de uma população e o de duas; à direita, a composição por origem anterior do pasto ao longo da idade" loading="lazy">
+            <figcaption><strong>O que observar.</strong> À esquerda, a curva cinza é o dado bruto — e ela <em>não</em> tem dois picos visíveis: tem um pico jovem e um ombro longo. A linha tracejada mostra o que uma única população de pastagem produziria: ela erra o pico e erra a cauda. A razão de o segundo grupo não formar um segundo pico está nos desvios — o pasto jovem é concentrado (σ≈1,6 ano), o velho é espalhado por décadas (σ≈7,5 anos), e uma população larga vira platô, não espiga. À direita, a mesma divisão sem ajustar modelo nenhum: entre o pasto convertido aos 3 anos, metade veio de lavoura; entre o convertido aos 33, quase nada veio. Fonte: MapBiomas Coleção 10.1, contagem pixel-a-pixel.</figcaption>
           </figure>
 
-          <!-- Peça-central: mapa de bimodalidade + histograma por região (#28C) -->
+          <p>
+            São, então, <strong>duas populações</strong> de pastagem sendo convertidas em
+            paralelo, e vale nomeá-las com cuidado, porque o nome já é meia interpretação. A
+            jovem é <strong>pasto de ciclo curto</strong> — capim que dura poucos anos entre
+            duas lavouras, e que o painel da direita mostra ter <em>vindo</em> de lavoura. É o
+            que a agronomia chama de <strong>rotação lavoura-pastagem</strong>. Ela é
+            <em>compatível</em> com <span class="termo" tabindex="0" data-def="Integração lavoura-pecuária: sistema em que lavoura e pecuária se alternam na mesma área dentro de um ciclo planejado, aproveitando a palhada e a recuperação do solo. Exige a presença dos dois — e o satélite só enxerga a cobertura do solo, não o gado.">integração lavoura-pecuária</span>,
+            mas não a prova: o satélite vê o capim, não vê se havia boi nele. A velha é
+            <strong>reserva ativada</strong> — pastagem consolidada, aberta no Cerrado uma ou
+            duas décadas antes, que alguma mudança de preço, crédito ou logística tornou
+            compensadora converter agora.
+          </p>
+          <p>
+            Antes de seguir, uma objeção precisa ser eliminada — e ela tem duas versões. Essa
+            curva soma <strong>quarenta anos</strong> de conversões em <strong>todo o
+            estado</strong>. Talvez não haja duas populações convivendo em lugar nenhum:
+            talvez haja regiões diferentes somadas, ou épocas diferentes somadas, e a
+            aparência de dois grupos seja só o efeito de empilhar coisas distintas. É a mesma
+            desconfiança nos dois eixos, e ela merece o mesmo teste: <em>isolar</em> cada
+            pedaço e olhar de novo.
+          </p>
+
+          <h4 class="perna-subtitulo">Primeiro eixo: um mecanismo em cada metade do estado?</h4>
+          <p>
+            Se o Sul intensifica e o Norte abre fronteira, a suposição quase automática é que
+            cada metade do estado tenha ficado com uma das duas populações: pasto de ciclo curto
+            no Sul capitalizado, reserva ativada no Norte de ocupação recente. É elegante, encaixa
+            com tudo o mais, e <strong>esta investigação chegou a afirmá-la</strong>. Testá-la
+            é simples: se ela vale, ao isolar cada região a curva deve mudar de forma — perder
+            um dos dois grupos ou quase.
+          </p>
+          <p class="reserva-instrucao">
+            <strong>Clique numa região do mapa</strong> para ver a distribuição só dela — e,
+            no fim, troque a régua de medida.
+          </p>
+
+          <!-- Peça-central: veredito por AMC + histograma por mesorregião (#28C),
+               nas duas réguas da D26 -->
           <div id="reserva-interativo" class="reserva-interativo" hidden>
             <div class="reserva-grid">
               <figure class="reserva-painel">
-                <figcaption class="reserva-titulo">Onde os dois mecanismos coexistem</figcaption>
-                <div id="reserva-mapa" class="reserva-mapa" role="img"
-                     aria-label="Mapa das 166 AMCs de Goiás: quais têm distribuição bimodal da idade da pastagem na conversão"></div>
+                <figcaption class="reserva-titulo">As duas populações convivem dentro de cada célula do mapa</figcaption>
+                <div id="reserva-mapa" class="reserva-mapa"
+                     aria-label="Mapa de Goiás: 166 AMCs pintadas conforme as duas populações de pastagem coexistam ou não dentro delas, com o contorno das 5 mesorregiões por cima"></div>
                 <div id="reserva-mapa-legenda" class="reserva-legenda"></div>
                 <p class="reserva-nota">
-                  Cada AMC pintada pelo <em>veredito</em>: a idade tem dois modos ali dentro?
-                  O mapa é quase todo de uma cor — e é esse o achado.
+                  Cada célula é uma <span class="termo" tabindex="0" data-def="Área Mínima Comparável: agrupamento de municípios que mantém o mesmo território ao longo de toda a série, apesar das emancipações. Sem isso, um município que se divide em dois falsifica qualquer comparação no tempo.">AMC</span>
+                  e está pintada pelo <em>veredito</em>, não pela idade: as duas populações
+                  aparecem ali dentro? O contorno grosso são as 5 mesorregiões, e é nele que
+                  se clica.
                 </p>
               </figure>
               <figure class="reserva-painel">
-                <figcaption class="reserva-titulo">A distribuição por região — os dois picos em cada recorte</figcaption>
-                <div id="reserva-regiao-toggle" class="reserva-toggle" role="tablist"
-                     aria-label="Selecionar a região"></div>
-                <div id="reserva-hist" class="reserva-hist" role="img"
-                     aria-label="Histograma da idade da pastagem na conversão para a região selecionada"></div>
+                <div class="reserva-hist-cabeca">
+                  <figcaption class="reserva-hist-titulo" id="reserva-hist-titulo">Goiás inteiro</figcaption>
+                  <button type="button" class="reserva-reset" id="reserva-reset" hidden>voltar ao estado inteiro</button>
+                </div>
+                <div id="reserva-hist" class="reserva-hist"
+                     aria-label="Histograma da idade da pastagem na conversão para a região selecionada, com as duas populações ajustadas e a curva de uma população só"></div>
+                <div id="reserva-hist-legenda" class="reserva-legenda"></div>
                 <p class="reserva-nota" id="reserva-hist-nota"></p>
               </figure>
             </div>
+
+            <div class="reserva-regua">
+              <span class="reserva-regua-rotulo">O que conta como conversão:</span>
+              <button type="button" class="reserva-regua-btn" data-regua="uniao" aria-pressed="true">
+                pasto → lavoura <em>ou</em> uso misto
+              </button>
+              <button type="button" class="reserva-regua-btn" data-regua="agric" aria-pressed="false">
+                só pasto → lavoura
+              </button>
+            </div>
             <p class="reserva-nota reserva-nota--malha">
-              O mapa mostra o veredito por <strong>AMC</strong>; o histograma agrega por
-              <strong>mesorregião</strong>, onde o n é alto o bastante para o ajuste em todos
-              os recortes.
+              A primeira régua é a <strong>imune</strong>: ela não depende de o satélite
+              conseguir separar lavoura de uso misto, então nenhuma conversão some da conta
+              quando o classificador muda de ideia. A segunda é a <strong>estrita</strong> —
+              mais limpa de definição, e por isso mesmo exposta.
+            </p>
+            <p class="reserva-aviso" id="reserva-regua-aviso" hidden>
+              Nesta régua, <strong>Norte e Noroeste ganham um vale visível</strong> que Sul,
+              Centro e Leste não têm. É real — e é o artefato: veja o que acontece ao voltar
+              para a régua imune.
             </p>
             <p class="reserva-cobertura" id="reserva-cobertura"></p>
-            <div class="reserva-coortes">
-              <div class="reserva-coorte">
-                <div class="reserva-coorte-valor">mediana 13 a</div>
-                <div class="reserva-coorte-rotulo">Vegetação → pastagem → agricultura</div>
-                <div class="reserva-coorte-glosa">
-                  n = 6,4 milhões de pixels (14,3%). Terra aberta do Cerrado que passou pela
-                  pastagem antes da lavoura — a <em>reserva</em> de fronteira, com cauda longa.
-                </div>
+          </div>
+
+          <p>
+            Percorra as cinco regiões e o desenho é praticamente o mesmo. Não há uma metade
+            de pasto novo e outra de pasto velho: há o mesmo par de populações operando lado a
+            lado no estado inteiro. As <strong>5 mesorregiões</strong> são bimodais, e
+            <strong>todas as 166</strong> AMCs também o são <em>por dentro</em> — na régua imune,
+            que é a do mapa; na estrita, onde 2 AMCs ficam sem conversão suficiente, são 162 de
+            164, e as duas exceções falham pelo mesmo lado (peso do grupo jovem baixo demais para
+            o teste contar, não ausência de dois grupos). Um mapa sem
+            variação nenhuma é a forma visual do número que fecha a questão: a mesorregião
+            explica <strong>0,5% da variação da idade</strong>.
+          </p>
+
+          <h4 class="perna-subtitulo">A régua que muda a resposta — e por que a resposta certa é uma só</h4>
+          <p>
+            Vale insistir num detalhe, porque ele quase enganou esta investigação de novo. Se
+            você trocar a régua na peça acima para <em>só pasto → lavoura</em>, o desenho
+            <strong>passa a mudar</strong>, e muito: Norte e Noroeste ganham um vale nítido no
+            meio da distribuição, enquanto Sul e Leste seguem com pico e ombro — e o Centro fica
+            no meio do caminho, com um vale raso. Não é ilusão de ótica — medido, o vale do
+            Noroeste tem <strong>profundidade de 42%</strong>, o do Norte 27%, o do Centro
+            apenas 8%, e o do Sul e o do Leste simplesmente não existem. Pela distância entre as
+            formas, as cinco regiões se separam em dois blocos: o trio do sul de um lado (o
+            Centro entre eles), a dupla do norte do outro.
+          </p>
+          <p>
+            E é tudo artefato. A régua estrita só enxerga a conversão que o satélite rotulou
+            como <em>agricultura</em> — e o rótulo que ela perde, o <em>uso misto</em>, não se
+            perde por igual no estado: some mais ao norte. O que sobra ao norte é uma amostra
+            enviesada para a ponta velha, e é ela que cava o vale. Fechado o buraco, a
+            diferença some: a distância entre a forma do Sul e a do Norte cai de
+            <strong>0,22 para 0,02</strong> — um décimo —, e o vale do Noroeste, de 42% para
+            6%.
+          </p>
+          <p class="destaque-inline">
+            A hipótese elegante caiu, e caiu duas vezes: primeiro na idade média, agora na
+            forma da distribuição. Quanto <em>menos</em> a região explica, mais robusto fica o
+            achado de que as duas populações são universais no estado — e não uma peculiaridade
+            de meia dúzia de municípios.
+          </p>
+
+          <details class="metric-details">
+            <summary>Como se soube que o gradiente regional era falso &middot; a autocorreção</summary>
+            <div class="perna-detalhe">
+              <p>
+                A afirmação derrubada era: "o Sul converte pasto jovem (mediana 9 anos), o Norte
+                converte pasto velho (16 anos)". O defeito não estava na conta, estava no que
+                entra nela. A idade só é medida quando o destino do pixel recebe o rótulo
+                <em>agricultura</em> — e, no fim da série, boa parte da conversão passa a ser
+                rotulada <strong>Mosaico de Usos</strong> pelo satélite. Esses eventos somem da
+                amostra sem avisar, e não somem por igual em todo lugar: somem mais ao norte.
+                O "gradiente" era, em boa parte, essa seleção.
+              </p>
+              <p>
+                A verificação foi refazer tudo com a pergunta grossa — <code>pasto → (agricultura
+                ∪ mosaico)</code> —, que é imune à mudança de rótulo por construção porque não
+                depende de o classificador separar as duas classes. Sob essa régua a amplitude
+                Sul→Norte cai de <strong>7 anos para 2</strong>, a ordem das regiões se
+                embaralha, e a parcela de variação atribuível à mesorregião despenca de 3,7%
+                para <strong>0,5%</strong>. Três caminhos independentes chegaram ao mesmo
+                lugar. O que <em>não</em> mudou sob a régua nova foi a coexistência: continuou
+                em 5 de 5 regiões, e passou de 9 para 10 das 10 células região×período.
+              </p>
+              <p>
+                É por isso que a peça acima pinta o veredito e não a idade. Um mapa colorido por
+                idade média seria bonito, contaria uma história limpa — e estaria mostrando um
+                artefato do classificador.
+              </p>
+            </div>
+          </details>
+
+          <h4 class="perna-subtitulo">Segundo eixo: e se forem apenas épocas diferentes?</h4>
+          <p>
+            Sobra a outra metade da objeção, e ela é mais séria do que parece. Se Goiás
+            converteu pasto novo nos anos 1990 e pasto velho nos anos 2020, então somar as
+            quatro décadas fabrica duas populações que nunca coexistiram — seriam dois
+            regimes em sequência, não dois mecanismos em paralelo. Mudaria a tese inteira desta
+            perna.
+          </p>
+          <p>
+            Não é o caso. Isolando <strong>cada período</strong>, as duas populações continuam
+            lá dentro: no Ato II sozinho — 32,5 milhões de conversões, o maior bloco da série —
+            e no Ato III sozinho, nas <strong>cinco mesorregiões</strong> de cada um. São
+            <strong>10 de 10</strong> células período×região. Não é empilhamento de épocas.
+          </p>
+          <p>
+            E há um detalhe que vale mais que o resultado. O <strong>Ato I é unimodal em toda
+            parte</strong> — e <em>não poderia ser outra coisa</em>. Uma conversão em 1995
+            acontece sobre um pasto que tem, no máximo, dez anos, porque a série começa em
+            1985; para <em>enxergar</em> um pasto de vinte e dois anos sendo convertido é
+            preciso chegar a 2007. No primeiro período, a população velha é
+            <strong>invisível, não ausente</strong>. Ler aquele "um grupo só" como retrato do
+            território — e não da janela de observação — seria inventar uma história de
+            transformação que os dados não contam. É por isso que a contagem acima começa no
+            Ato II.
+          </p>
+
+          <details class="metric-details">
+            <summary>As duas populações dentro de cada período, célula a célula</summary>
+            <div class="perna-detalhe">
+              <p>
+                Contagem de mesorregiões em que as duas populações aparecem <em>dentro</em> do
+                período, nas duas réguas de medida:
+              </p>
+              <table class="tabela-compacta">
+                <thead>
+                  <tr><th>Período</th><th>só pasto → lavoura</th><th>pasto → lavoura <em>ou</em> uso misto</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Ato I &middot; 1985–2000</td><td colspan="2"><em>fora do teste — a população velha ainda não é observável</em></td></tr>
+                  <tr><td>Ato II &middot; 2001–2019</td><td>4 de 5</td><td><strong>5 de 5</strong></td></tr>
+                  <tr><td>Ato III &middot; 2020–2024</td><td>5 de 5</td><td><strong>5 de 5</strong></td></tr>
+                </tbody>
+              </table>
+              <p>
+                A única falha fica no Noroeste durante o Ato II, e é pelo mesmo critério das
+                exceções do mapa: o grupo jovem existe, mas pesa pouco demais para o teste
+                contar. Na régua imune ela desaparece.
+              </p>
+              <p>
+                <strong>Uma tentação a evitar:</strong> o vale entre as duas populações é bem
+                mais fundo no Ato III que no Ato II. Isso <em>não</em> é o pasto velho
+                ganhando espaço — é o mesmo efeito de janela, agora ao contrário. Quanto mais
+                tarde o período, mais idade cabe dentro dele, e mais separados os dois grupos
+                aparecem. O eixo do tempo continua suspenso.
+              </p>
+            </div>
+          </details>
+
+
+          <h4 class="perna-subtitulo">Se não é a região nem a época, o que decide a idade do pasto?</h4>
+          <p>
+            Os dois eixos óbvios estão descartados: as duas populações não são regiões somadas
+            nem épocas somadas — elas convivem, de fato, dentro de cada recorte. Restavam duas
+            famílias de explicação, e cada uma faz uma previsão diferente e verificável.
+          </p>
+          <p>
+            A primeira é <strong>estrutural</strong>: a idade seria decidida pelo tipo de
+            sistema produtivo instalado. Aqui é preciso ser honesto sobre o instrumento. O
+            Censo Agropecuário <strong>não tem</strong> variável de integração
+            lavoura-pecuária; o mais próximo disponível é o <strong>plantio direto</strong> —
+            semear sem revolver o solo, mantendo a palhada da safra anterior. Isso é uma
+            prática de <em>conservação de solo</em>, não uma prática de integração com
+            pecuária: os dois costumam andar juntos na lavoura tecnificada do Cerrado, mas
+            plantio direto não implica boi na área nem rotação com pastagem. O que ele indexa
+            bem é <em>lavoura de grãos moderna e capitalizada</em> — o ambiente onde o pasto de
+            ciclo curto faria sentido. Com essa ressalva, a previsão é testável:
+            <em>municípios com mais plantio direto deveriam converter pastagens mais novas</em>.
+            É uma previsão que pode falhar, e é por isso que ela foi testada.
+          </p>
+          <p>
+            A segunda é de <strong>fluxo</strong>: a idade seria decidida não pela estrutura
+            instalada, mas pelo choque do momento — crédito rural chegando, valor da produção
+            subindo. Aí o pasto velho seria ativado por oportunidade, e a conversão seguiria o
+            dinheiro, não o sistema.
+          </p>
+
+          <div class="dado-choque-grid">
+            <div class="dado-choque">
+              <div class="dado-choque-valor">não estabelecido</div>
+              <div class="dado-choque-label">Estrutura &middot; plantio direto</div>
+              <div class="dado-choque-glosa">
+                Na correlação simples a previsão se confirma: mais plantio direto, pasto mais
+                novo. Só que o plantio direto também se concentra no Sul — como quase tudo em
+                Goiás. Segurando o gradiente espacial, a associação encolhe cerca de um terço e
+                fica <em>na fronteira</em> da significância, sem cruzá-la; e não sobrevive à
+                correção para testes múltiplos. Vale nas duas réguas de medida. Ou seja:
+                <strong>o dado não decide</strong>. Não é o mesmo que dizer que não há efeito —
+                ver abaixo.
               </div>
-              <div class="reserva-coorte">
-                <div class="reserva-coorte-valor">mediana 5 a</div>
-                <div class="reserva-coorte-rotulo">Agricultura → pastagem → agricultura</div>
-                <div class="reserva-coorte-glosa">
-                  n = 3,9 milhões de pixels (8,8%). Pasto de <em>passagem</em> dentro de um
-                  sistema já agrícola — rotação/ILP de ciclo curto, sem abertura de vegetação.
-                </div>
-              </div>
-              <div class="reserva-coorte">
-                <div class="reserva-coorte-valor">mediana 12 a</div>
-                <div class="reserva-coorte-rotulo">Mosaico de usos → pastagem → agricultura</div>
-                <div class="reserva-coorte-glosa">
-                  n = 5,3 milhões de pixels (11,8%). Origem que o MapBiomas não conseguiu
-                  separar entre lavoura e pasto. Esta coorte <em>não aparecia</em> até jul/2026:
-                  um defeito de código a contava como idade desconhecida.
-                </div>
+            </div>
+            <div class="dado-choque">
+              <div class="dado-choque-valor">real, e ao contrário</div>
+              <div class="dado-choque-label">Fluxo &middot; crédito rural</div>
+              <div class="dado-choque-glosa">
+                É a única associação que resiste ao controle espacial, à correção para testes
+                múltiplos <em>e</em> à troca de régua — na régua imune ela até se fortalece
+                (r&nbsp;+0,22&nbsp;→&nbsp;+0,30). Não é artefato de rotulagem. Mas aponta para o
+                <strong>lado contrário</strong> do esperado: onde o crédito cresceu mais, o
+                pasto convertido é <em>mais velho</em>. Isso combina com reserva sendo ativada
+                por dinheiro novo, e não com "crédito financia rotação". Duas ressalvas
+                grandes: ela <strong>só existe quando os anos recentes entram</strong> — no
+                recorte até 2019 é praticamente zero — e o mecanismo não foi investigado.
               </div>
             </div>
           </div>
 
-          <div class="dado-choque-grid">
-            <div class="dado-choque" id="reserva-card-jovem">
-              <div class="dado-choque-valor" data-campo="valor">μ ≈ 4,2 a (31,5%)</div>
-              <div class="dado-choque-label">Rotação rápida / premeditada</div>
-              <div class="dado-choque-glosa">
-                Na janela 2016–2024, <span data-campo="peso">31,5%</span> dos pixels convertidos
-                pertencem a uma <span class="termo" tabindex="0" data-def="Mistura de gaussianas (GMM): a distribuição é modelada como soma de dois 'sinos'; cada sino (componente) corresponde a um mecanismo de conversão distinto.">componente gaussiana</span>
-                com média de ~4,2 anos e desvio σ ≈ <span data-campo="sigma">1,9</span>.
-              </div>
+          <details class="metric-details">
+            <summary>Por que "não estabelecido" e não "refutado" &middot; um nulo que teve de ser retirado</summary>
+            <div class="perna-detalhe">
+              <p>
+                Esta investigação já publicou, sobre o plantio direto, uma afirmação mais forte
+                do que a de agora: que <em>não havia</em> efeito próprio — um nulo limpo. Ela
+                foi retirada, e o motivo é instrutivo.
+              </p>
+              <p>
+                Aquele nulo tinha sido obtido quando a idade de cada município era estimada a
+                partir de umas poucas dezenas de pixels sorteados. Ruído na variável que se
+                quer explicar puxa qualquer correlação em direção a zero — então um nulo medido
+                sobre um desfecho ruidoso é <strong>indistinguível de falta de poder</strong>.
+                Ao refazer o mesmo teste, nos mesmos municípios, com a idade medida pelo censo
+                de pixels em vez da amostra, a associação que era nula passou a cruzar o limiar
+                usual. Não foi mais dado que mudou a conclusão: foi menos erro de medida.
+              </p>
+              <p>
+                Com o conjunto completo de municípios, a estimativa volta a ficar no fio da
+                navalha. Daí o veredito atual, que é o honesto: <strong>indeterminado</strong>.
+                Um nulo limpo encerraria a pergunta; um indeterminado não encerra — e a
+                diferença entre os dois é justamente o tipo de coisa que uma banca deve poder
+                cobrar.
+              </p>
+              <p>
+                A regra que saiu daqui vale para o trabalho inteiro e está registrada como
+                <a href="#parte-4">D14</a>: em Goiás, quase toda variável de interesse desce
+                para o sudoeste junto com a aptidão agrícola, então nenhum cruzamento
+                transversal pode ser lido antes de segurar o gradiente espacial — e os dois
+                lados de uma comparação precisam receber <em>o mesmo</em> controle, sob pena de
+                o veredito medir o desenho do teste em vez do território.
+              </p>
             </div>
-            <div class="dado-choque" id="reserva-card-antigo">
-              <div class="dado-choque-valor" data-campo="valor">μ ≈ 22,5 a (68,5%)</div>
-              <div class="dado-choque-label">Reserva histórica / oportunismo</div>
-              <div class="dado-choque-glosa">
-                A segunda componente tem média ~22,5 anos (σ ≈ <span data-campo="sigma">7,4</span>)
-                e <span data-campo="peso">68,5%</span> do peso. Pastagem consolidada, convertida
-                tardiamente.
-              </div>
-            </div>
-          </div>
-          <p class="reserva-nota">
-            Censo pixel-a-pixel, janela 2016–2024, sobre
-            <span id="reserva-cards-n">3.455.514</span> eventos de idade conhecida.
+          </details>
+
+          <p>
+            Nenhuma das duas famílias <em>explica</em> a idade do pasto. A estrutura não decide;
+            o crédito deixa uma marca real, mas pequena, recente e apontando para o lado
+            oposto do que a hipótese pedia — e ainda sem mecanismo. A escolha entre girar o
+            capim em três anos ou deixá-lo trinta não se lê na região, não se lê no sistema
+            produtivo do município e mal se lê no dinheiro que chegou até ele. Ela acontece
+            <strong>abaixo da escala que estes dados alcançam</strong> — no talhão, na fazenda,
+            na história daquela propriedade. É um limite honesto de resolução, e aponta para
+            onde uma próxima investigação teria de olhar: dados por imóvel rural, não agregados
+            municipais.
           </p>
         </div>
 
-        <p>
-          Aqui o trabalho se corrigiu <strong>duas vezes</strong>, e as duas valem contar. Na
-          primeira, a leitura inicial anunciou que a lógica jovem era <em>estrutural</em>,
-          explicada pelo plantio direto; no mesmo dia o controle derrubou o exagero — ao segurar
-          a latitude, o cruzamento desmancha. Na segunda, mais severa, caiu a própria geografia.
-          Era natural supor que o Sul convertesse pasto jovem e o Norte, pasto velho — e, por
-          algumas semanas, foi isso que este trabalho disse. Não sobrevive: corrigida a
-          ambiguidade de rótulo do fim da série, a amplitude Sul→Norte das medianas encolhe de 7
-          para 2 anos, a ordem se embaralha, e a <strong>região passa a explicar 0,5% da
-          variação da idade</strong>.
-        </p>
-        <p>
-          O que sobrou é mais simples — e mais forte — do que o que caiu. Os dois mecanismos
-          <strong>coexistem em toda parte</strong>: as <strong>5 mesorregiões</strong> são
-          bimodais, e <strong>162 das 164</strong> AMCs com conversão também o são <em>por
-          dentro</em>. Não há uma região de pasto jovem e outra de pasto velho; há o mesmo par
-          de lógicas operando lado a lado no estado inteiro. É esse o "aha" da peça acima, e ele
-          é o inverso do que se esperaria: percorra as cinco regiões e <strong>o desenho não
-          muda</strong>. Um mapa quase sem variação é a forma visual de um η² de 0,5%.
-        </p>
-
         <p class="bloco-resposta">
           <span class="bloco-resposta-rotulo">Resposta</span>
-          São dois mecanismos — rotação de curto prazo e abertura de fronteira antiga — e eles
-          <strong>coexistem em toda parte</strong>: a geografia separa o <em>tipo</em> de
-          transição (o Sul intensifica, o Norte abre), <strong>não</strong> a idade do pasto
-          convertido.
+          O mecanismo são <strong>duas populações de pastagem convertidas em paralelo</strong> —
+          pasto de ciclo curto, em três a cinco anos, e reserva antiga ativada quinze, vinte,
+          trinta anos depois. A geografia separa <em>qual transição</em> domina cada metade do
+          estado, mas <strong>não</strong> separa essas duas populações: elas convivem em
+          praticamente toda célula do território, e o que decide entre uma e outra está abaixo
+          do alcance destes dados.
         </p>
 
         <aside class="nao-diz">
           <p class="nao-diz-rotulo">O que isto não diz</p>
           <p>
-            Que a região <em>causa</em> a bimodalidade — foi medido, e explica 0,5%. Que o
-            plantio direto explica a idade do pasto — era confundidor de latitude
-            (<a href="#parte-4">D14</a>). Que "o Sul converte pasto jovem e o Norte, pasto
-            velho" — essa frase <strong>esteve</strong> neste trabalho e caiu por três caminhos
-            independentes. E nada sobre <strong>tendência</strong>: o eixo temporal está
-            suspenso dos dois lados (antes de 2020, censura por horizonte de observação; depois,
-            mudança de rótulo), então não se afirma que "o pasto jovem vem ganhando peso".
+            Que a curva tem <em>dois picos visíveis</em> — no estado inteiro não tem: tem um
+            pico e um ombro, e a segunda população é reconhecida por uma população só não dar
+            conta da forma, não por saltar aos olhos. Que a região <em>causa</em> a divisão —
+            foi medido, e explica 0,5%. Que "o Sul converte pasto jovem e o Norte, pasto velho"
+            — essa frase <strong>esteve</strong> nesta investigação e caiu por três caminhos
+            independentes.
+          </p>
+          <p>
+            Que o <strong>pasto de ciclo curto seja integração lavoura-pecuária</strong>. O que
+            se mede é cobertura do solo: capim que dura pouco entre duas lavouras. Se havia
+            gado nele — a metade "pecuária" da integração — o satélite não vê, e o Censo
+            Agropecuário não tem a variável. Compatível não é o mesmo que comprovado.
+          </p>
+          <p>
+            E o que <em>não</em> se afirma sobre o plantio direto: nem que ele explica a idade
+            do pasto, nem que está descartado. A evidência disponível não decide, e chamar isso
+            de refutação seria o mesmo erro que já foi cometido uma vez aqui. Nem que plantio
+            direto <em>seja</em> integração lavoura-pecuária: é conservação de solo, e entrou
+            no teste por ser o indicador mais próximo que existe, não por ser o certo.
+          </p>
+          <p>
+            Nada, também, sobre <strong>tendência</strong>. O eixo do tempo está comprometido
+            dos dois lados — antes de 2020 pela idade truncada no início da série, depois pela
+            mudança de rótulo do satélite —, então não se afirma que uma das duas populações
+            venha ganhando terreno sobre a outra. Em particular: que o primeiro período apareça
+            com uma população só <strong>não</strong> significa que a reserva antiga tenha
+            surgido depois, e que os dois grupos apareçam mais separados no período recente
+            <strong>não</strong> significa que estejam se separando. Nos dois casos o que se lê
+            é o tamanho da janela de observação, não o território.
           </p>
         </aside>
       </div>
 
       <!-- ================= PERNA 3 — o clímax ================= -->
       <div class="como-bloco perna perna--climax" id="p2-perna3">
-        <p class="perna-num">Perna 3 de 4 &middot; o clímax</p>
+        <p class="perna-num">Perna 3 de 4 &middot; o clímax
+          <span class="perna-forca perna-forca--mista">forte no negativo &middot; corroborante no positivo</span></p>
         <h3>É a lavoura do Sul empurrando o Norte?</h3>
-        <p class="bloco-pergunta">Então foi a lavoura do Sul que empurrou o pasto e o boi para o Norte?</p>
+        <p class="bloco-pergunta">O pasto que o Sul perdeu é o pasto que o Norte ganhou?</p>
 
         <p>
-          Esta é a hipótese que mais favorecia o trabalho — a história limpa do iLUC
-          intra-estadual. Por isso ela foi testada com o maior rigor, em tempo contínuo, de três
-          ângulos. Nenhum a sustenta — mas eles não pesam igual, e a diferença importa.
-          <strong>Primeiro:</strong> não aparece precedência temporal — a lavoura do Sul não
-          antecede o pasto do Norte (p=0,97). É um nulo, e um nulo com 38 anos de série tem
-          pouco poder: ele não <em>prova</em> ausência, apenas deixa de encontrar.
-          <strong>Segundo:</strong> onde o empurrão espacial deveria aparecer, o sinal vem
-          <strong>trocado</strong>. A hipótese exige um coeficiente positivo — os vizinhos ao
-          sul empurrando o pasto para cá. Ele é <strong>negativo nas doze especificações
-          testadas</strong>, sem exceção: os vizinhos ao sul <em>co-expandem</em> com o Norte
-          em vez de empurrá-lo. Não é um número que refuta, é a ausência de um: a assinatura
-          que a hipótese pede não aparece em régua nenhuma. <strong>Terceiro:</strong> o único
-          efeito forte é <em>local</em> — onde a lavoura entra, o pasto sai ali mesmo
-          (β=−0,52, e o efeito só cresce quando se corrige a medida): é intensificação, não
-          expulsão à distância.
+          As duas pernas anteriores entregaram dois fatos que, postos lado a lado, quase
+          escrevem sozinhos a conclusão. A fronteira inteira subiu ao norte. E ela subiu
+          fazendo coisas <em>opostas</em> em cada metade do estado: no Sul, a lavoura tomando
+          o lugar do pasto; no Norte, o pasto tomando o lugar da mata.
+        </p>
+        <p>
+          Some os dois e a história se monta sozinha: o pasto expulso do Sul foi reaparecer no
+          Norte, em cima do Cerrado. Seria um <strong>iLUC intra-estadual</strong> — um
+          vazamento de desmatamento dentro do próprio estado, com a soja do Sudoeste na origem
+          e a mata do Norte na conta. É a hipótese que mais favorecia este trabalho.
+        </p>
+        <p>
+          Ela tem um problema de lógica antes de ter um problema de dados. Uma coincidência no
+          espaço não é um mecanismo. Dois processos <em>independentes</em> — a lavoura
+          avançando no Sul, o pasto avançando no Norte — movidos pela <strong>mesma força
+          externa</strong> desenham exatamente o mesmo mapa que um empurrão desenharia. Para
+          separar as duas leituras é preciso sair do mapa e procurar uma
+          <strong>assinatura</strong> que só o empurrão produz.
         </p>
 
+        <h4 class="perna-subtitulo">O que precisaria aparecer — e onde procurar</h4>
         <p>
-          E então veio a parte que mais orgulha o trabalho. O teste anterior tinha deixado uma
-          ponta solta: rodado ao contrário, ele dava um resultado significativo — <em>o Norte
-          anteciparia o Sul</em> — que, se fosse real, viraria a tese de cabeça para baixo.
-          Seria fácil varrer para baixo do tapete com um "N é pequeno". Em vez disso, fomos
-          atrás. E provamos que era <strong>regressão espúria</strong>.
+          São duas assinaturas, e as duas são específicas o bastante para poder falhar. É isso
+          que faz delas um teste, e não uma ilustração.
+        </p>
+        <p>
+          <strong>No tempo.</strong> Se a lavoura do Sul empurra, ela tem de se mover
+          <em>primeiro</em>. A expansão no Sul precisa <strong>anteceder</strong> o avanço do
+          pasto no Norte — não apenas acompanhá-lo.
+        </p>
+        <p>
+          <strong>No espaço.</strong> Um empurrão tem direção. Se a lavoura dos meus vizinhos
+          <em>ao sul</em> cresce e isso expulsa pasto para cima, o meu pasto tem de
+          <strong>crescer</strong>. No teste isso vira um número — chame-o de
+          <strong>θ</strong> — e a hipótese do empurrão exige que ele seja <strong>positivo</strong>.
+          Os vizinhos <em>ao norte</em> entram como placebo: por eles não deveria passar efeito
+          nenhum.
+        </p>
+        <p>
+          Se, em vez de um empurrão, o que existe é co-evolução sob uma força comum, a previsão
+          é outra e igualmente checável: nenhuma precedência, nenhum θ positivo — e um efeito
+          <strong>local</strong> forte, onde a lavoura entra e o pasto sai ali mesmo, sem
+          viajar para lugar nenhum.
+        </p>
+
+        <h4 class="perna-subtitulo">A assinatura que não aparece</h4>
+        <p>
+          O teste espacial foi rodado <strong>doze vezes</strong> — nas três réguas de medida
+          (a estrita, a imune ao rótulo, e a soja que o IBGE mede em campo), nas duas janelas
+          de tempo e nos dois desfechos, pasto e rebanho. A hipótese precisa de um único θ
+          positivo em algum lugar. Não há nenhum.
+        </p>
+
+        <figure class="assinatura">
+          <figcaption class="assinatura-titulo">
+            As doze especificações do teste espacial &middot; a hipótese exige efeito positivo
+          </figcaption>
+          <svg viewBox="0 0 660 280" role="img"
+               aria-label="Gráfico de pontos das doze estimativas de theta, o efeito da lavoura dos vizinhos ao sul sobre o pasto local. Todas as doze são negativas, entre −0,157 e −0,007. A faixa positiva, onde a hipótese do empurrão exigiria que caíssem, está inteiramente vazia.">
+            <!-- a zona que a hipotese exige: pintada porque esta' vazia -->
+            <rect class="as-zona" x="448" y="38" width="197" height="180"></rect>
+            <text class="as-zona-rot" x="546" y="62">a hipótese do empurrão</text>
+            <text class="as-zona-rot" x="546" y="76">exige os pontos aqui</text>
+            <text class="as-zona-vazio" x="546" y="100">nenhum caiu</text>
+
+            <line class="as-grade" x1="185" y1="136" x2="645" y2="136"></line>
+            <line class="as-grade" x1="185" y1="166" x2="645" y2="166"></line>
+            <line class="as-grade" x1="185" y1="196" x2="645" y2="196"></line>
+            <line class="as-zero" x1="448" y1="38" x2="448" y2="218"></line>
+
+            <text class="as-rotulo" x="176" y="140">Agricultura (satélite)</text>
+            <text class="as-rotulo" x="176" y="170">Agricultura &cup; Mosaico</text>
+            <text class="as-rotulo as-rotulo--imune" x="176" y="200">Soja plantada (SIDRA) &#9670;</text>
+
+            <!-- regua estrita: os maiores em modulo — e a unica contaminada -->
+            <circle class="as-ponto as-ponto--destaque" cx="241.7" cy="136" r="5.5"></circle>
+            <circle class="as-ponto" cx="285.0" cy="129" r="5.5"></circle>
+            <circle class="as-ponto" cx="287.7" cy="143" r="5.5"></circle>
+            <circle class="as-ponto" cx="321.9" cy="136" r="5.5"></circle>
+            <!-- regua imune ao rotulo -->
+            <circle class="as-ponto" cx="349.4" cy="166" r="5.5"></circle>
+            <circle class="as-ponto" cx="382.3" cy="166" r="5.5"></circle>
+            <circle class="as-ponto" cx="424.3" cy="159" r="5.5"></circle>
+            <circle class="as-ponto" cx="432.2" cy="173" r="5.5"></circle>
+            <!-- soja medida em campo -->
+            <circle class="as-ponto as-ponto--imune" cx="415.1" cy="189" r="5.5"></circle>
+            <circle class="as-ponto as-ponto--imune" cx="416.5" cy="203" r="5.5"></circle>
+            <circle class="as-ponto as-ponto--imune" cx="432.2" cy="189" r="5.5"></circle>
+            <circle class="as-ponto as-ponto--imune" cx="438.8" cy="203" r="5.5"></circle>
+
+            <line class="as-guia" x1="241.7" y1="128" x2="241.7" y2="114"></line>
+            <text class="as-nota" x="241.7" y="108">o único com p&lt;0,05 — e é a régua contaminada</text>
+
+            <line class="as-eixo" x1="185" y1="232" x2="645" y2="232"></line>
+            <text class="as-escala" x="252" y="248">−0,15</text>
+            <text class="as-escala" x="317" y="248">−0,10</text>
+            <text class="as-escala" x="382" y="248">−0,05</text>
+            <text class="as-escala" x="448" y="248">0</text>
+            <text class="as-escala" x="514" y="248">+0,05</text>
+            <text class="as-escala" x="579" y="248">+0,10</text>
+            <text class="as-escala" x="415" y="270">θ &middot; efeito da lavoura dos vizinhos ao sul sobre o pasto local</text>
+          </svg>
+          <p class="assinatura-legenda">
+            Cada ponto é uma especificação: duas janelas de tempo × dois desfechos (pasto e
+            rebanho), em cada uma das três réguas. &#9670; = medida em campo pelo IBGE,
+            <strong>imune</strong> ao classificador. As doze são negativas — os vizinhos ao sul
+            <em>co-expandem</em> com o Norte em vez de empurrá-lo. Note ainda que as maiores
+            magnitudes estão na régua exposta e encolhem para perto de zero nas duas réguas
+            limpas: o pouco que havia de sinal dependia do rótulo. Fonte: #34, auditoria D26.
+          </p>
+        </figure>
+
+        <p>
+          Vale ser exato sobre a força desse argumento, porque ele não é do tipo que se resume
+          num p-valor. <strong>Não é um número que refuta a hipótese — é a ausência de um.</strong>
+          A hipótese fez uma previsão arriscada, foi procurada em doze recortes diferentes, e a
+          marca que ela exige não apareceu em nenhum. O que apareceu foi o sinal contrário, e o
+          contrário é exatamente o que a co-evolução prevê.
+        </p>
+
+        <div class="dado-choque-grid">
+          <div class="dado-choque">
+            <div class="dado-choque-valor">0 de 12</div>
+            <div class="dado-choque-label">A assinatura espacial &middot; θ nunca é positivo</div>
+            <div class="dado-choque-glosa">
+              Nem uma vez, em nenhuma régua, em nenhuma janela, em nenhum dos dois desfechos.
+              O <em>sinal</em> é o achado robusto. A <strong>significância não é</strong>: só
+              uma das doze células cruza p&lt;0,05, e é justamente a régua que a mudança de
+              rótulo contamina — por isso este trabalho não cita mais aquele p=0,02 como se
+              carregasse a conclusão.
+            </div>
+          </div>
+          <div class="dado-choque">
+            <div class="dado-choque-valor">0 de 24</div>
+            <div class="dado-choque-label">A precedência temporal &middot; o Sul nunca vem antes</div>
+            <div class="dado-choque-glosa">
+              Vinte e quatro combinações de régua, janela, desfecho e defasagem; o menor p é
+              <strong>0,078</strong>. Mas um nulo vale o poder que tem: com 38 diferenças
+              anuais, uma simulação do próprio teste dá <strong>~48% de chance</strong> de
+              detectar um efeito moderado — e ~93% para um grande. Ou seja: este nulo
+              <em>descarta um empurrão forte</em>, e apenas <em>não encontra</em> um moderado.
+              Sozinho, ele não fecharia a questão.
+            </div>
+          </div>
+          <div class="dado-choque">
+            <div class="dado-choque-valor">−0,52 → −1,14</div>
+            <div class="dado-choque-label">O efeito local &middot; o que existe de fato</div>
+            <div class="dado-choque-glosa">
+              Onde a lavoura entra, o pasto sai <em>ali mesmo</em> — e este é o efeito mais
+              firme de toda a perna: p&lt;0,001 em <strong>cinco das seis</strong> células do
+              mesmo desenho (a exceção é a soja do IBGE na janela curta, onde sobram poucos
+              anos). Ele ainda <strong>dobra</strong>
+              quando se corrige a medida (−0,52 na régua crua, −1,14 na imune), o que faz
+              sentido: com o uso misto dentro da conta, a substituição local aparece mais
+              completa. É intensificação — não expulsão à distância.
+            </div>
+          </div>
+        </div>
+
+        <p class="destaque-inline">
+          O contraste é o argumento inteiro. O mecanismo <em>local</em> aparece em quase toda
+          célula do mesmo desenho, com o maior coeficiente da perna. O mecanismo
+          <em>à distância</em> não aparece em nenhuma. A lavoura substitui o pasto onde ela
+          está; ela não o manda para 300 km ao norte.
+        </p>
+
+        <h4 class="perna-subtitulo">A ponta solta que quase inverteu a tese</h4>
+        <p>
+          Falta contar a parte mais desconfortável — e é a de que este trabalho mais se orgulha.
+          O teste temporal, rodado <em>ao contrário</em>, dava um resultado forte:
+          <strong>o Norte anteciparia o Sul</strong> (p=0,0007). Se fosse real, não salvaria a
+          hipótese do empurrão — inverteria a tese inteira de cabeça para baixo. Seria fácil
+          varrer para baixo do tapete com um "o N é pequeno". Em vez disso, fomos atrás. E era
+          <strong>regressão espúria</strong>.
         </p>
 
         <!-- Esquema estático do #42 — o único item visual novo da reforma -->
@@ -989,138 +1436,720 @@
           </figcaption>
         </figure>
 
-        <figure class="grafico-card grafico-card--wide">
-          <img src="img/marcha_norte/veredito.png"
-               alt="Painel do teste Toda-Yamamoto e dos placebos, mostrando que a precedência some nas duas direções" loading="lazy">
-          <figcaption>O teste que fechou a ponta solta (#42): o método correto (Toda-Yamamoto) zera as duas direções, e os placebos acendem onde não há mecanismo — co-tendência espúria, sem líder.</figcaption>
+        <details class="metric-details">
+          <summary>Como se prova que uma precedência é espúria &middot; o método</summary>
+          <div class="perna-detalhe">
+            <p>
+              O diagnóstico veio em três passos, e nenhum deles é "o N é pequeno".
+            </p>
+            <p>
+              <strong>1. A régua estava errada para o material.</strong> O teste original
+              comparava uma série já estabilizada (a lavoura do Sul) com uma que
+              <em>continua</em> instável mesmo depois de convertida em variações ano a ano (o
+              pasto do Norte). Comparar as duas é uma conta desbalanceada — a montagem clássica
+              que fabrica precedência onde não há.
+            </p>
+            <p>
+              <strong>2. O método correto apaga tudo.</strong> Existe um teste desenhado
+              justamente para séries assim (<em>Toda-Yamamoto</em>). Sob ele, a precedência some
+              nas <strong>duas</strong> direções: p=0,45 no sentido Norte→Sul e p=0,25 no
+              Sul→Norte. É importante dizer os dois: isso <em>também</em> retira qualquer
+              autorização para afirmar que o Sul lidera. O veredito é <strong>sem líder</strong>,
+              não "o outro lado ganhou".
+            </p>
+            <p>
+              <strong>3. Os placebos acendem onde não há mecanismo.</strong> É a evidência mais
+              limpa. O pasto do Norte "antecede" o pasto do <em>próprio Sul</em> com exatamente
+              o mesmo p do achado-manchete (0,0007) — e nenhuma economia explicaria isso. Uma
+              precedência que aparece em qualquer par de séries lisas não é um mecanismo; é um
+              defeito do instrumento.
+            </p>
+            <p>
+              Disso saiu uma regra que passou a valer para o trabalho inteiro
+              (<a href="#parte-4">D16</a>): nenhum resultado de "quem vem antes" em série
+              agregada é lido como causal antes de passar por diagnóstico de estabilidade,
+              método robusto e bateria de placebos. Ela foi aplicada retroativamente a outros
+              pipelines. <em>(#42)</em>
+            </p>
+          </div>
+        </details>
+
+        <h4 class="perna-subtitulo">Se ninguém empurra, quem dá o compasso?</h4>
+        <p>
+          Sobra uma pergunta legítima: se os dois mecanismos não se comandam, por que marcham
+          juntos? A resposta é um <strong>impulso macro comum</strong> — câmbio, crédito e preço
+          agindo sobre um gradiente de aptidão que já estava no chão antes de qualquer um deles.
+          O candidato mais forte é o câmbio real.
+        </p>
+        <p>
+          <strong>Por que o câmbio conta como sinal de demanda por terra.</strong> Goiás produz
+          para exportação — soja e carne cotadas em dólar. Quando o real se desvaloriza (o índice
+          de câmbio real <em>sobe</em>), a mesma tonelada rende mais reais ao produtor <em>sem</em>
+          que o preço internacional mude: a rentabilidade de plantar e de criar sobe, e com ela a
+          <strong>demanda derivada por terra</strong> — a terra é o insumo dessa produção. É por
+          isso que uma variável macro (o câmbio) funciona como termômetro da procura por terra em
+          Goiás: quando o real cai, converter Cerrado em lavoura ou pasto passa a compensar mais. A
+          literatura registra o elo direto — a desvalorização do fim dos anos 1990 elevou o retorno
+          esperado da soja e respondeu com cerca de <strong>+20% de área plantada</strong> (Richards,
+          2012). Não é "demanda" no sentido do consumidor final; é o canal de <em>rentabilidade</em>
+          que move a procura do produtor por terra.
+        </p>
+        <p>
+          Antes do impulso, porém, é preciso mostrar o <em>chão</em>. "Gradiente de aptidão" era,
+          até 2026, uma premissa herdada — o Sul é apto, o Norte é fronteira —, e ela vinha sendo
+          provada de forma circular: pelo próprio uso da terra que se queria explicar. Agora é
+          <strong>medida</strong>, com um dado físico que não sabe nada de LULC: o mapa de
+          aptidão agrícola das terras da Embrapa (1:500.000), 8.284 polígonos recortados em Goiás
+          e agregados às 166 AMCs. Ele reproduz a ordenação sozinho —
+          <strong>Sul 4,69 &gt; Centro 4,47 &gt; Norte 4,17</strong> numa escala em que 6 é a
+          melhor aptidão —, e a correlação com a latitude é <strong>−0,44</strong>
+          (−0,40 por Spearman, imune a tratar uma escala ordinal como se fosse numérica; as três
+          regiões diferem com p&nbsp;=&nbsp;0,0002). A premissa deixou de ser assumida.
+          <em>(#52)</em>
+        </p>
+        <p>
+          E aqui a honestidade pesa outra vez. Sob a inferência correta para esse tipo de
+          desenho — um choque único por ano para o estado inteiro —, o achado é
+          <strong>corroborante, não estabelecido</strong>. O que o sustenta é a
+          <em>especificidade</em>: cada teste que <em>deveria</em> dar nulo dá nulo, e o sinal não
+          depende de nenhum ano em particular. Não é a significância estatística; o p honesto fica
+          em ≈0,07–0,13, e por isso o câmbio aparece nesta página como o melhor candidato, nunca
+          como causa provada.
+        </p>
+
+        <details class="metric-details">
+          <summary>A bateria de especificidade, teste a teste &middot; o que sustenta o câmbio</summary>
+          <div class="perna-detalhe">
+            <p>
+              O achado testado é: <em>sob depreciação do câmbio, o rebanho cresce mais onde a
+              aptidão é de fronteira</em>. Um resultado assim pode ser real ou pode ser uma deriva
+              qualquer que a regressão capturou. O que separa os dois casos não é o p do achado —
+              é o comportamento dos testes que, se o achado for real, <strong>têm de sair
+              vazios</strong>.
+            </p>
+            <table class="tabela-compacta tabela-compacta--texto">
+              <thead>
+                <tr><th>Teste</th><th>Se o achado for real…</th><th>Resultado</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>O achado</strong> &middot; câmbio × aptidão → rebanho</td>
+                  <td>efeito, na direção prevista</td>
+                  <td>β = −0,033 na direção prevista, mas <strong>p de permutação 0,07–0,13</strong> — não cruza 5%</td>
+                </tr>
+                <tr>
+                  <td>Placebo de desfecho &middot; → área urbana</td>
+                  <td><em>nulo</em></td>
+                  <td>p = 0,34 &check;</td>
+                </tr>
+                <tr>
+                  <td>Placebo de desfecho &middot; → água</td>
+                  <td><em>nulo</em></td>
+                  <td>p = 0,33 &check;</td>
+                </tr>
+                <tr>
+                  <td>Placebo no tempo &middot; câmbio de <em>t+1</em></td>
+                  <td><em>nulo</em> — o futuro não explica o presente</td>
+                  <td>p = 0,105 &check; <span class="nota-inline">(o menos folgado dos quatro)</span></td>
+                </tr>
+                <tr>
+                  <td>Placebo no tempo &middot; câmbio de <em>t+2</em></td>
+                  <td><em>nulo</em></td>
+                  <td>p = 0,77 &check;</td>
+                </tr>
+                <tr>
+                  <td>Jackknife &middot; refazer tirando cada ano</td>
+                  <td>sinal estável</td>
+                  <td><strong>sinal constante em 38 de 38 anos</strong> &check;</td>
+                </tr>
+              </tbody>
+            </table>
+            <p>
+              <strong>Uma precisão sobre os p desta tabela</strong>, porque misturar réguas de p
+              seria o mesmo erro que a D20 corrigiu. O p do achado é o de
+              <strong>permutação</strong> — o conservador, obtido embaralhando o próprio choque
+              entre os anos. Os p dos placebos são os <strong>clusterizados</strong>, que a D20
+              mostrou serem otimistas. Isso corta a favor da leitura: sob a régua conservadora os
+              placebos ficariam ainda <em>mais</em> nulos do que aparecem aqui. O que não se pode
+              fazer é comparar 0,105 com 0,07–0,13 como se fossem a mesma medida — não são.
+            </p>
+            <p>
+              E uma ressalva que o pipeline registra: o placebo no tempo sai limpo na
+              especificação <strong>exógena</strong> (a da aptidão física). Na especificação
+              antiga, com o proxy de área, o mesmo lead fica <em>limítrofe</em>
+              (p&nbsp;=&nbsp;0,062). É uma das razões de a versão exógena ser a que a página
+              reporta. <em>(#54 → D20 &middot; exposição do #52)</em>
+            </p>
+          </div>
+        </details>
+
+        <h4 class="perna-subtitulo">O teste de simetria: silo, banco e lavoura chegam depois</h4>
+        <p>
+          Falta um teste, e ele fecha a perna por um ângulo diferente dos anteriores — sem série
+          temporal e sem regressão. A lógica é direta: se alguma infraestrutura estivesse
+          <em>puxando</em> a fronteira, seu centro de gravidade estaria <strong>à frente</strong>
+          dela, ao norte. Basta medir onde cada camada está.
+        </p>
+
+        <figure class="simetria">
+          <figcaption class="simetria-titulo">
+            Onde está o centro de gravidade de cada camada, em relação à fronteira
+          </figcaption>
+          <svg viewBox="0 0 760 225" role="img"
+               aria-label="Distância ao sul da fronteira de pasto e boi: crédito rural 69 km ao sul, agricultura 135 km ao sul, armazenagem de grãos 152 km ao sul. Nenhuma camada aparece ao norte da fronteira.">
+            <rect class="sim-zona" x="200" y="30" width="130" height="132"></rect>
+            <text class="sim-zona-rot" x="265" y="56">se puxassem,</text>
+            <text class="sim-zona-rot" x="265" y="70">estariam aqui</text>
+            <text class="as-zona-vazio" x="265" y="104">— vazio —</text>
+
+            <line class="sim-zero" x1="330" y1="26" x2="330" y2="166"></line>
+            <text class="sim-zona-rot" x="338" y="22" style="text-anchor:start">a fronteira &middot; pasto e boi (2024)</text>
+
+            <text class="sim-rotulo" x="190" y="54">Crédito rural &middot; SICOR</text>
+            <rect class="sim-barra" x="330" y="42" width="131.7" height="16"></rect>
+            <text class="sim-valor" x="469.7" y="54">69 km</text>
+
+            <text class="sim-rotulo" x="190" y="98">Agricultura &middot; área</text>
+            <rect class="sim-barra sim-barra--nucleo" x="330" y="86" width="257.6" height="16"></rect>
+            <text class="sim-valor" x="595.6" y="98">135 km</text>
+
+            <text class="sim-rotulo" x="190" y="142">Armazenagem de grãos &middot; CONAB</text>
+            <rect class="sim-barra" x="330" y="130" width="290" height="16"></rect>
+            <text class="sim-valor" x="628" y="142">152 km</text>
+
+            <line class="sim-eixo" x1="330" y1="180" x2="620" y2="180"></line>
+            <text class="sim-escala" x="330" y="196">0</text>
+            <text class="sim-escala" x="425.4" y="196">50</text>
+            <text class="sim-escala" x="520.8" y="196">100</text>
+            <text class="sim-escala" x="616.2" y="196">150</text>
+            <text class="sim-escala" x="475" y="216">km ao sul da fronteira</text>
+          </svg>
+          <p class="simetria-legenda">
+            A barra rosa é contexto, não infraestrutura: é o núcleo de lavoura, o mesmo vão de
+            ~120–130 km que a <a href="#p2-perna1">Perna 1</a> mediu. O que importa é que as
+            duas camadas de <em>infraestrutura</em> estão atrás da fronteira — e a armazenagem,
+            a mais atrás de todas, senta praticamente <strong>em cima</strong> do núcleo de
+            lavoura (a 16 km dele), no cinturão de grãos do Sudoeste. Fontes: #50 (crédito),
+            #53 (armazenagem), #32 (áreas).
+          </p>
         </figure>
 
         <p>
-          Se ninguém empurra ninguém, o que coordena os dois mecanismos e dá o compasso da
-          marcha? Um <strong>impulso macro comum</strong> — câmbio, crédito e preço agindo sobre
-          um gradiente de aptidão que já estava no chão. O candidato mais forte é o câmbio real.
-          Mas aqui a honestidade pesa: sob a inferência correta para esse tipo de desenho, o
-          achado é <strong>corroborante, não estabelecido</strong> — o que o sustenta é a
-          especificidade (os placebos dão nulo, não há antecipação, o resultado não depende de
-          um ano isolado), não a significância estatística.
+          Nenhuma camada aparece na frente. O centroide do <strong>crédito</strong> fica ~70 km
+          ao sul da pastagem, e o vão nunca se fecha na janela em que ele é medido (77 km em
+          2013, 69 km em 2024). O da <strong>capacidade de armazenagem</strong> é o mais
+          meridional já medido neste trabalho — ~150 km ao sul do pasto, e ~83 km ao sul até do
+          próprio crédito. A cadeia <strong>exportadora</strong>, medida à parte, co-move sem
+          liderar. Silo, banco e porto <strong>consolidam o núcleo</strong>: chegam onde a
+          produção já está. Nenhum deles é a ponta da marcha.
         </p>
 
-        <p>
-          Há ainda um teste de simetria que raramente se faz e que fecha bem esta perna: se
-          alguma infraestrutura <em>puxasse</em> a fronteira, seu centro de gravidade estaria à
-          frente dela. Está atrás — em todas as camadas medidas. O centroide do
-          <strong>crédito</strong> fica ~75 km ao sul da pastagem; o da <strong>capacidade de
-          armazenagem</strong> é a camada mais meridional de todas, ~150 km ao sul do pasto e
-          ~83 km ao sul até do próprio crédito; e a cadeia <strong>exportadora</strong> co-move
-          sem liderar. Silo, banco e porto <strong>consolidam o núcleo</strong> — eles chegam
-          onde a produção já está. Nenhum deles é a ponta da marcha.
-        </p>
+        <details class="metric-details">
+          <summary>O que este teste descarta &middot; e o que ele não alcança</summary>
+          <div class="perna-detalhe">
+            <p>
+              É a parte que mais importa numa conclusão negativa, porque é onde ela pode ser
+              cobrada. O que foi testado tem endereço preciso: um canal de deslocamento
+              <strong>intra-estadual</strong>, entre <strong>vizinhos imediatos</strong> (as oito
+              células mais próximas, filtradas por estarem ao sul), no <strong>mesmo ano</strong>,
+              mais precedência temporal de um a dois anos entre os agregados regionais.
+            </p>
+            <p>
+              <strong>Fica descartado</strong>, com margem confortável: que a lavoura do Sul
+              tenha empurrado o pasto para os seus vizinhos ao norte de forma local e visível na
+              série; e que exista um empurrão temporal <em>forte</em> (o poder do teste é ~93%
+              para um efeito grande — se ele existisse nesse tamanho, teríamos visto).
+            </p>
+            <p>
+              <strong>Não fica descartado</strong>, e é honesto dizê-lo: um deslocamento de
+              <em>longo alcance</em>, que pule os vizinhos e reapareça a centenas de quilômetros;
+              um de <em>defasagem muito longa</em>, além dos lags testados; um efeito temporal
+              <em>moderado</em>, que o poder de 48% não alcança; e qualquer canal que atravesse a
+              divisa do estado — soja de Goiás deslocando pecuária para o Pará ou para o
+              Maranhão é <strong>outra pergunta</strong>, que estes dados não fazem.
+            </p>
+            <p>
+              A força do que fica de pé não vem de um p-valor — vem da
+              <strong>especificidade</strong>. A hipótese fez uma previsão arriscada; foi
+              procurada em doze recortes espaciais e vinte e quatro temporais, com placebos
+              direcionais e três réguas de medida independentes, incluindo uma que o satélite não
+              produz; e a marca que ela exige nunca apareceu, enquanto a marca da explicação
+              rival apareceu em todos. É esse conjunto que sustenta a conclusão, e é assim que
+              ele deve ser apresentado. <em>(#34, auditoria D26 &middot; #42 &middot; #50/#53)</em>
+            </p>
+          </div>
+        </details>
 
         <p class="bloco-resposta">
           <span class="bloco-resposta-rotulo">Resposta</span>
-          A lavoura do Sul <strong>não</strong> empurra o Norte — a hipótese de deslocamento
-          causal foi testada e refutada; os dois mecanismos são coordenados por um impulso macro
-          comum sobre um gradiente de aptidão.
+          <strong>Não.</strong> A assinatura que um empurrão do Sul sobre o Norte exigiria não
+          aparece em nenhum dos doze recortes espaciais nem dos vinte e quatro temporais — e o
+          que aparece no lugar é substituição <em>local</em>, forte em todos eles. Os dois
+          mecanismos não se comandam: são coordenados por um impulso macro comum sobre um
+          gradiente de aptidão.
         </p>
 
         <aside class="nao-diz">
           <p class="nao-diz-rotulo">O que isto não diz</p>
           <p>
-            Que o iLUC não existe — apenas que o <strong>canal intra-estadual testado</strong>
-            não se confirma. E, por simetria honesta, também não se afirma que "o Sul lidera": o
-            veredito é <em>sem líder</em>. O drive comum é corroborante — não se deve ler o
-            câmbio como causa provada, nem citar o p do erro-padrão agrupado (0,026/0,031) como
+            <strong>Que o iLUC não existe.</strong> Esta é a leitura errada mais fácil de fazer,
+            e ela seria muito maior do que o teste. O que se afirma é estreito e literal: o
+            <em>canal intra-estadual, local e contemporâneo</em> que foi procurado não aparece.
+            Deslocamento de longo alcance, de defasagem muito longa, ou que atravesse a divisa de
+            Goiás — nenhum desses foi testado aqui, e a soja de Goiás deslocando pecuária para
+            fora do estado continua sendo uma pergunta aberta e legítima.
+          </p>
+          <p>
+            <strong>Que a hipótese foi refutada em absoluto.</strong> O nulo temporal tem ~48% de
+            poder para um efeito moderado — ele descarta um empurrão grande, não um pequeno. O
+            que carrega a conclusão é a conjunção: a assinatura prevista nunca aparece, os
+            placebos direcionais dão nulo em <strong>cinco das seis</strong> células, e a
+            explicação rival aparece em toda régua. A sexta é uma mancha registrada no
+            <em>#34</em>: na régua da soja o placebo ao norte acende (p&nbsp;=&nbsp;0,032)
+            enquanto o alvo ao sul não (p&nbsp;=&nbsp;0,53) — sinal de que, sob essa régua, a
+            especificação espacial não separa direções de forma limpa. É uma razão a mais para
+            a refutação <em>não</em> se apoiar nesse canal, e ela não se apoia. Uma conclusão
+            negativa bem instrumentada — não uma prova de inexistência.
+          </p>
+          <p>
+            <strong>Que "o Sul lidera".</strong> Por simetria honesta: o método correto zera a
+            precedência nas <em>duas</em> direções (p=0,45 e p=0,25). O veredito é
+            <em>sem líder</em>, e isso corta para os dois lados.
+          </p>
+          <p>
+            <strong>Que o câmbio é a causa provada.</strong> O impulso macro comum é
+            corroborante. Não se deve citar o p do erro-padrão agrupado (0,026/0,031) como
             significância: o p correto para este desenho é ≈0,07–0,13.
+          </p>
+          <p>
+            E nada sobre <strong>infraestrutura</strong> além da posição. Os centroides de
+            crédito e armazenagem são descritivos — dizem <em>onde</em> cada camada está, não
+            que ela seja incapaz de puxar. O argumento é de simetria: quem puxa costuma estar na
+            frente, e nenhuma delas está.
           </p>
         </aside>
       </div>
 
       <!-- ================= PERNA 4 ================= -->
       <div class="como-bloco perna" id="p2-perna4">
-        <p class="perna-num">Perna 4 de 4</p>
+        <p class="perna-num">Perna 4 de 4 &middot; o teto
+          <span class="perna-forca perna-forca--forte">forte no diagnóstico</span></p>
         <h3>Por que a marcha desacelerou?</h3>
-        <p class="bloco-pergunta">No Ato III (2020–24) a lavoura do Sul desacelera. Acabou a demanda?</p>
+        <p class="bloco-pergunta">No Ato III (2020&ndash;24) o Sul quase para de abrir terra nova. Acabou a demanda?</p>
 
         <p>
-          A resposta intuitiva — "esfriou o mercado" — está errada, e é o que torna esta perna
-          interessante. No Ato III os sinais de demanda <strong>subiram</strong>: câmbio, preço
-          e crédito, todos em alta, e a soja plantada que o IBGE mede em campo cresce 38%. A
-          abertura de terra nova no Sul freou <strong>enquanto a demanda apertava</strong>. Isso
-          não é assinatura de demanda fraca; é assinatura de uma restrição de
-          <strong>oferta</strong> — a terra acabando.
+          A perna anterior terminou sem um comandante: nem o Sul manda no Norte, nem o Norte no
+          Sul &mdash; os dois respondem à mesma força de mercado, cada um sobre o terreno que
+          tem. Só que uma força de mercado, sozinha, não sabe parar. Enquanto o preço subir, ela
+          empurra. E no Ato III alguma coisa parou de andar.
+        </p>
+        <p>
+          A explicação intuitiva é que o mercado esfriou. Ela está errada, e é o erro que torna
+          esta última perna interessante: <strong>no Ato III a demanda estava no pico</strong>.
+          O que faltou não foi comprador. Foi terra.
         </p>
 
-        <figure class="grafico-card grafico-card--wide">
-          <img src="img/marcha_norte/decomposicao_oferta_demanda.png"
-               alt="Decomposição da mudança no fluxo de conversão entre os Atos II e III, em efeito-oferta e efeito-demanda, por região" loading="lazy">
-          <figcaption>Por que o fluxo de conversão mudou (Ato II→III), decomposto em efeito-oferta (estoque) e efeito-demanda (hazard), por região. Fonte: #39.</figcaption>
-        </figure>
-
+        <h4 class="perna-subtitulo">Primeiro: o que exatamente parou &mdash; e onde</h4>
         <p>
-          E acabou de forma desigual. No agregado do estado, a fronteira <em>não</em> fechou:
-          ainda resta cerca de <strong>60%</strong> do Cerrado convertível, e o fluxo de
-          conversão não caiu — só <strong>migrou ao norte</strong>. Mas, olhando por região, no
-          Sul ela fechou: o estoque convertível está em <strong>~53%</strong> do que era em
-          1985, e a abertura de vegetação nativa cai <strong>−49%</strong> lá contra
-          <strong>−13%</strong> no Norte. A "marcha ao norte" é, em boa parte, a fronteira
-          <strong>perseguindo a terra que só resta no norte</strong>. E a terra que resta está
-          <strong>97% desprotegida</strong> — o teto é <strong>físico, não institucional</strong>:
-          não é a lei que segura a conversão, é o fim do estoque acessível.
+          Duas precisões antes de qualquer conta, e as duas mudam a pergunta.
+        </p>
+        <p>
+          <strong>Não foi "a lavoura" que freou.</strong> Essa leitura seria exatamente o
+          artefato de rótulo que a <a href="#p2-perna1">Perna 1</a> desarmou &mdash; a lavoura
+          <em>parece</em> parar no fim da série porque o satélite passa a chamar de "Mosaico de
+          Usos" o que antes chamava de agricultura. O que freou é a
+          <strong>abertura de vegetação nativa</strong>, medida pelo <code>veg&rarr;pasto</code>:
+          uma transição cuja origem e cujo destino ficam <em>fora</em> da classe ambígua, e que
+          por isso a mudança de rótulo não toca. Ela cai <strong>&minus;49%</strong> no Sul e
+          apenas <strong>&minus;13%</strong> no Norte.
+        </p>
+        <p>
+          <strong>E não foi o estado que desacelerou &mdash; foi o Sul.</strong> No agregado de
+          Goiás o fluxo de conversão de Cerrado passou de <strong>0,071</strong> Mha/ano no Ato
+          II para <strong>0,072</strong> no Ato III: praticamente o mesmo número. O que mudou foi
+          o endereço. Caiu 37% no Sul, subiu no Centro e no Norte. A marcha não perdeu
+          velocidade; ela <strong>mudou de lugar</strong>. É por isso que a pergunta desta perna
+          não é "por que a fronteira parou" &mdash; ela não parou &mdash;, e sim
+          <em>o que a expulsou do Sul</em>.
         </p>
 
-        <figure class="grafico-card grafico-card--wide">
-          <img src="img/marcha_norte/estoque_por_regiao.png"
-               alt="Estoque de Cerrado convertível por região ao longo do tempo" loading="lazy">
-          <figcaption>Estoque de Cerrado convertível por região (#39). A "marcha ao norte" é, em parte, a fronteira perseguindo o estoque que só resta no norte.</figcaption>
-        </figure>
+        <h4 class="perna-subtitulo">A demanda não caiu: ela estava no pico</h4>
+        <p>
+          Os três sinais de demanda que o trabalho acompanha desde a <a href="#p2-perna3">Perna
+          3</a> subiram todos no Ato III, e não pouco: o câmbio real vai de 134,5 a
+          <strong>169,0</strong> (quanto maior o índice, mais desvalorizado o real — e mais
+          compensa exportar), o preço recebido pela soja de 104,4 a <strong>186,4</strong>,
+          e o crédito rural de Goiás de 14,3 para <strong>24,1 bilhões</strong> de reais. A soja
+          efetivamente plantada, que o IBGE mede em campo e o satélite não classifica, cresce
+          <strong>38%</strong> na mesma janela.
+        </p>
+        <p>
+          Mas o teste que fecha a questão não é o do estado &mdash; é o do próprio Sul, onde a
+          freada aconteceu. Se o Sul tivesse perdido apetite por terra, ele teria parado de
+          converter <em>qualquer</em> terra. Não foi o que houve: no Sul do Ato III a conversão
+          de pasto em lavoura-ou-uso-misto <strong>sobe 51%</strong> e a soja plantada
+          <strong>sobe 244%</strong>, ao mesmo tempo em que a abertura de Cerrado novo cai pela
+          metade. O Sul não parou de querer terra. <strong>Parou de tirar terra do
+          Cerrado</strong> e passou a tirá-la de pasto que já estava aberto.
+        </p>
 
         <p>
-          O que essa marcha custou tem duas contas, e nenhuma delas é econômica no sentido
-          usual. A primeira é de carbono: precificada por diferença de estoque, a conversão
-          emite da ordem de <strong>~973 Mt de CO₂e</strong> (751–1208 conforme o cenário de
-          densidade), com a <strong>floresta dominando a emissão</strong> embora perca 2,6×
-          menos área que o savânico. A segunda é humana e mais desconfortável: entre 2013 e 2023
-          a fronteira norte quase <strong>dobrou a área</strong> cultivada (+93%, contra +14% no
-          Sul) e terminou o período com desenvolvimento municipal <strong>abaixo</strong> do Sul
-          — a expansão de área é praticamente <strong>desacoplada</strong> do desenvolvimento.
-          Abrir terra nova, medido assim, não converte em bem-estar onde ela é aberta.
+          Aqui cabe a pergunta que essa diferenciação sempre provoca — e ela tem duas metades. A
+          primeira: <strong>sim, esse contraste regional é a própria marcha</strong> — a fronteira
+          que sai do Sul e reaparece no Centro e no Norte é exatamente o que "marcha ao norte"
+          quer dizer. A segunda é mais delicada, porque o padrão <em>parece</em> iLUC (o
+          vazamento, a atividade de uma região empurrando a conversão de outra): se o Sul troca
+          Cerrado por pasto já aberto, o gado que saiu desse pasto teria de ir para algum lugar, e
+          o Norte, que acelera, seria o destino. Essa hipótese é legítima, e por isso foi
+          <em>testada</em> — em <strong>36 recortes</strong>, a assinatura de deslocamento que ela
+          exige (uma região <em>antecedendo</em> a outra no tempo) não apareceu em nenhum. O que os
+          dados sustentam é uma <strong>reorganização coordenada</strong> sob o mesmo impulso de
+          mercado (<a href="#p2-perna3">Perna 3</a>) e o mesmo teto de oferta, não um empurrão
+          causal de uma região sobre a outra. Importante: isso <em>não refuta</em> o iLUC — nega
+          apenas o canal testado, a precedência temporal; a substituição pode existir sem essa
+          assinatura. <a href="#p3-tese">O veredito</a> retoma o ponto.
         </p>
 
         <div class="dado-choque-grid">
           <div class="dado-choque">
-            <div class="dado-choque-valor">97%</div>
-            <div class="dado-choque-label">Do convertível remanescente está desprotegido</div>
-            <div class="dado-choque-glosa">6,35 de 6,56 Mha. A Proteção Integral cobre menos de 3% e congelou depois de 2000 — o teto é físico, não institucional.</div>
+            <div class="dado-choque-valor">0,071 &rarr; 0,072</div>
+            <div class="dado-choque-label">Conversão de Cerrado em Goiás &middot; Mha/ano, Ato II &rarr; Ato III</div>
+            <div class="dado-choque-glosa">No estado, a fronteira <em>não</em> desacelerou &mdash; trocou de endereço. Caiu 37% no Sul e subiu no Centro e no Norte.</div>
           </div>
           <div class="dado-choque">
-            <div class="dado-choque-valor">~973 Mt</div>
-            <div class="dado-choque-label">CO₂e emitidos pela conversão</div>
-            <div class="dado-choque-glosa">Faixa de 751 a 1.208 conforme o cenário de densidade de carbono. A floresta domina a emissão apesar de perder 2,6× menos área que o savânico.</div>
+            <div class="dado-choque-valor">+51% &times; &minus;49%</div>
+            <div class="dado-choque-label">No Sul do Ato III: pasto convertido &middot; Cerrado aberto</div>
+            <div class="dado-choque-glosa">A procura por terra no Sul <em>subiu</em> (soja plantada +244%); o que secou foi a fonte. Não é falta de demanda &mdash; é troca de origem da terra.</div>
           </div>
           <div class="dado-choque">
-            <div class="dado-choque-valor">+93% × +14%</div>
-            <div class="dado-choque-label">Área cultivada &middot; Norte contra Sul (2013–2023)</div>
-            <div class="dado-choque-glosa">O Norte quase dobra a área e termina com desenvolvimento municipal abaixo do Sul. Expandir área, medido assim, não vira bem-estar onde a terra é aberta.</div>
+            <div class="dado-choque-valor">94&ndash;97%</div>
+            <div class="dado-choque-label">Do Cerrado convertível que resta está desprotegido</div>
+            <div class="dado-choque-glosa">6,35 de 6,56 Mha fora de Proteção Integral pela malha de unidades de conservação (97%); 94,3% na conferência pixel a pixel. A PI cobre menos de 3% e congelou depois de 2000.</div>
+          </div>
+          <div class="dado-choque">
+            <div class="dado-choque-valor">+93% &times; +14%</div>
+            <div class="dado-choque-label">Área cultivada &middot; Norte contra Sul (2013&ndash;2021)</div>
+            <div class="dado-choque-glosa">O Norte quase dobra a área, ganha desenvolvimento no <em>mesmo ritmo</em> do Sul e termina com o vão intacto (IFDM 2023, Norte&minus;Sul = &minus;0,083, IC95% [&minus;0,108; &minus;0,058]).</div>
           </div>
         </div>
 
+        <h4 class="perna-subtitulo">O que a decomposição mostra &mdash; e o que ela não mostra</h4>
+        <p>
+          Dá para separar aritmeticamente a mudança do fluxo em duas parcelas: quanto dela vem
+          de <strong>haver menos Cerrado</strong> para converter, e quanto vem de se converter a
+          uma <strong>taxa diferente</strong> o Cerrado que ainda há. Esta figura é a peça mais
+          importante da perna, e ela precisa ser lida com cuidado &mdash; porque a leitura
+          descuidada dela diz o contrário do que a evidência sustenta.
+        </p>
+
+        <figure class="decomp">
+          <figcaption class="decomp-titulo">
+            Por que o fluxo de conversão mudou &middot; Ato II &rarr; Ato III, por região
+          </figcaption>
+          <svg viewBox="0 0 660 306" role="img"
+               aria-label="Gráfico de barras horizontais decompondo a mudança do fluxo de conversão de Cerrado entre os Atos II e III em três regiões. O efeito do estoque menor é negativo nas três (Sul −0,0010; Centro −0,0026; Norte −0,0029). O resíduo, a taxa de conversão, é fortemente negativo no Sul (−0,0047) e positivo no Centro (+0,0057) e no Norte (+0,0069).">
+            <rect class="dec-barra--estoque" x="160" y="22" width="12" height="12"></rect>
+            <text class="dec-legenda" x="178" y="32">menos Cerrado disponível (&Delta;estoque)</text>
+            <rect class="dec-barra--resto" x="400" y="22" width="12" height="12"></rect>
+            <text class="dec-legenda" x="418" y="32">o resto &mdash; a taxa de conversão</text>
+
+            <line class="dec-zero" x1="400" y1="44" x2="400" y2="266"></line>
+
+            <!-- Sul: os dois puxam para baixo, mas o estoque e' a menor parte -->
+            <text class="dec-rotulo" x="150" y="71">Sul</text>
+            <text class="dec-sub" x="150" y="87">&Delta; fluxo &minus;0,0056</text>
+            <rect class="dec-barra--estoque" x="370" y="58" width="30" height="16"></rect>
+            <text class="dec-valor dec-sub" x="365" y="70">&minus;0,0010</text>
+            <rect class="dec-barra--resto" x="259" y="78" width="141" height="16"></rect>
+            <text class="dec-valor dec-sub" x="254" y="90">&minus;0,0047</text>
+            <text class="dec-nota" x="412" y="72">no Sul os dois freiam &mdash; mas 83% do freio</text>
+            <text class="dec-nota" x="412" y="88">está na taxa, não no tamanho do estoque</text>
+
+            <!-- Centro -->
+            <text class="dec-rotulo" x="150" y="151">Centro</text>
+            <text class="dec-sub" x="150" y="167">&Delta; fluxo +0,0030</text>
+            <rect class="dec-barra--estoque" x="322" y="138" width="78" height="16"></rect>
+            <text class="dec-valor dec-sub" x="317" y="150">&minus;0,0026</text>
+            <rect class="dec-barra--resto" x="400" y="158" width="171" height="16"></rect>
+            <text class="dec-valor dec-sub" x="576" y="170">+0,0057</text>
+
+            <!-- Norte -->
+            <text class="dec-rotulo" x="150" y="231">Norte</text>
+            <text class="dec-sub" x="150" y="247">&Delta; fluxo +0,0040</text>
+            <rect class="dec-barra--estoque" x="313" y="218" width="87" height="16"></rect>
+            <text class="dec-valor dec-sub" x="308" y="230">&minus;0,0029</text>
+            <rect class="dec-barra--resto" x="400" y="238" width="207" height="16"></rect>
+            <text class="dec-valor dec-sub" x="612" y="250">+0,0069</text>
+
+            <line class="dec-eixo" x1="160" y1="272" x2="650" y2="272"></line>
+            <text class="dec-escala" x="280" y="286">&minus;0,004</text>
+            <text class="dec-escala" x="340" y="286">&minus;0,002</text>
+            <text class="dec-escala" x="400" y="286">0</text>
+            <text class="dec-escala" x="460" y="286">+0,002</text>
+            <text class="dec-escala" x="520" y="286">+0,004</text>
+            <text class="dec-escala" x="580" y="286">+0,006</text>
+            <text class="dec-escala" x="405" y="302">contribuição à mudança do fluxo de conversão (Mha/ano)</text>
+          </svg>
+          <p class="decomp-legenda">
+            <strong>O que se lê direto:</strong> a barra verde é negativa nas <em>três</em>
+            regiões &mdash; em toda parte há menos Cerrado do que havia, inclusive onde a
+            conversão acelerou. O que separa as regiões é a barra cinza: a taxa desabou no Sul e
+            subiu no Centro e no Norte. <strong>O que não se pode ler:</strong> a barra cinza não
+            é "demanda". Ela é o <em>resíduo</em> &mdash; tudo o que não é o tamanho do estoque:
+            propensão a converter, atrito de acesso, proteção, e a troca de fonte de terra
+            descrita acima. O pipeline a chama de <em>efeito-residual</em> exatamente por isso.
+            Fonte: #39.
+          </p>
+        </figure>
+
+        <p>
+          Essa figura impõe uma honestidade que vale declarar em voz alta, porque ela é a parte
+          difícil desta perna: <strong>só 17% da freada do Sul é, mecanicamente, "ter menos
+          Cerrado"</strong>. Os outros 83% são a taxa de conversão caindo. Se o argumento de
+          oferta dependesse do tamanho da barra verde, ele seria fraco.
+        </p>
+        <p>
+          Ele não depende. O argumento se monta por eliminação e por regularidade:
+          <strong>(i)</strong> a taxa do Sul caiu enquanto a demanda estava no pico &mdash; então
+          o que a derrubou não é falta de comprador; <strong>(ii)</strong> não é a lei: o pouco
+          que resta está quase todo fora de proteção (adiante); <strong>(iii)</strong> a própria
+          demanda de terra do Sul continuou existindo, e foi atendida por pasto já aberto, não
+          por Cerrado; e <strong>(iv)</strong> entre as 166 unidades, a taxa de conversão
+          <em>não</em> cai sistematicamente com a depleção (p=0,48) &mdash; ou seja, ela é
+          aproximadamente constante, e quando a taxa é constante o fluxo passa a ser
+          <strong>ditado pelo tamanho do estoque</strong>. É esse resultado, e não a barra verde,
+          que põe a fronteira onde ainda há Cerrado.
+        </p>
+
+        <h4 class="perna-subtitulo">O estoque, na mesma escala: o Sul chegou ao fundo primeiro</h4>
+        <p>
+          Comparar os estoques em milhões de hectares esconde o que interessa, porque o Sul
+          sempre foi a menor das três regiões. Postos na mesma régua &mdash; cada região como
+          percentual do que <em>ela</em> tinha em 1985 &mdash; as trajetórias se separam.
+        </p>
+
+        <figure class="estoquefig">
+          <figcaption class="estoquefig-titulo">
+            Cerrado convertível restante &middot; cada região como % do seu próprio estoque de 1985
+          </figcaption>
+          <svg viewBox="0 0 660 300" role="img"
+               aria-label="Gráfico de linhas do estoque de Cerrado convertível restante por mesorregião, de 1985 a 2024, normalizado para 100% em 1985. O Sul cai mais rápido e mais cedo, chegando a 53% e ficando praticamente estável a partir de 2019. Centro e Norte descem juntos e mais devagar, terminando em 63% e 65%.">
+            <rect class="est-banda" x="495.4" y="44" width="52.6" height="206"></rect>
+            <text class="est-banda-rot" x="521" y="38">Ato III</text>
+
+            <line class="est-grade" x1="92" y1="44" x2="548" y2="44"></line>
+            <line class="est-grade" x1="92" y1="81.5" x2="548" y2="81.5"></line>
+            <line class="est-grade" x1="92" y1="118.9" x2="548" y2="118.9"></line>
+            <line class="est-grade" x1="92" y1="156.4" x2="548" y2="156.4"></line>
+            <line class="est-grade" x1="92" y1="193.8" x2="548" y2="193.8"></line>
+            <line class="est-grade" x1="92" y1="231.3" x2="548" y2="231.3"></line>
+
+            <text class="est-escala" x="84" y="47" text-anchor="end">100%</text>
+            <text class="est-escala" x="84" y="85" text-anchor="end">90%</text>
+            <text class="est-escala" x="84" y="122" text-anchor="end">80%</text>
+            <text class="est-escala" x="84" y="160" text-anchor="end">70%</text>
+            <text class="est-escala" x="84" y="197" text-anchor="end">60%</text>
+            <text class="est-escala" x="84" y="235" text-anchor="end">50%</text>
+
+            <path class="est-linha est-linha--norte" d="M92.0,44.0 L103.7,55.0 L115.4,59.9 L127.1,61.6 L138.8,65.9 L150.5,72.2 L162.2,77.3 L173.8,85.5 L185.5,90.1 L197.2,94.9 L208.9,98.7 L220.6,102.1 L232.3,107.7 L244.0,111.9 L255.7,115.2 L267.4,120.7 L279.1,124.9 L290.8,127.6 L302.5,130.5 L314.2,133.5 L325.8,136.2 L337.5,138.8 L349.2,141.0 L360.9,141.5 L372.6,141.8 L384.3,143.9 L396.0,144.7 L407.7,148.1 L419.4,152.8 L431.1,157.2 L442.8,159.7 L454.5,161.0 L466.2,161.7 L477.8,162.1 L489.5,163.1 L501.2,165.1 L512.9,167.3 L524.6,170.2 L536.3,174.3 L548.0,176.0"></path>
+            <path class="est-linha est-linha--centro" d="M92.0,44.0 L103.7,55.4 L115.4,59.9 L127.1,64.7 L138.8,71.8 L150.5,78.4 L162.2,83.8 L173.8,90.0 L185.5,95.1 L197.2,100.0 L208.9,104.6 L220.6,109.1 L232.3,114.4 L244.0,120.2 L255.7,124.5 L267.4,128.9 L279.1,132.5 L290.8,136.3 L302.5,140.3 L314.2,143.9 L325.8,146.9 L337.5,148.9 L349.2,150.4 L360.9,151.4 L372.6,152.4 L384.3,153.6 L396.0,153.9 L407.7,156.5 L419.4,159.9 L431.1,162.7 L442.8,164.6 L454.5,166.6 L466.2,168.3 L477.8,169.5 L489.5,171.3 L501.2,172.4 L512.9,174.8 L524.6,177.3 L536.3,181.6 L548.0,184.3"></path>
+            <path class="est-linha est-linha--sul" d="M92.0,44.0 L103.7,62.4 L115.4,75.1 L127.1,84.8 L138.8,97.9 L150.5,108.0 L162.2,116.3 L173.8,129.9 L185.5,140.1 L197.2,148.6 L208.9,154.9 L220.6,158.9 L232.3,164.3 L244.0,167.2 L255.7,168.6 L267.4,171.7 L279.1,176.6 L290.8,181.2 L302.5,187.7 L314.2,192.9 L325.8,194.5 L337.5,194.5 L349.2,196.0 L360.9,198.9 L372.6,200.6 L384.3,202.6 L396.0,203.6 L407.7,204.5 L419.4,205.7 L431.1,207.9 L442.8,209.7 L454.5,211.1 L466.2,212.4 L477.8,212.6 L489.5,212.7 L501.2,212.7 L512.9,214.2 L524.6,215.8 L536.3,218.7 L548.0,220.1"></path>
+
+            <circle class="est-ponto" cx="489.5" cy="212.7" r="3.5"></circle>
+            <line class="est-guia" x1="489.5" y1="212.7" x2="430" y2="243"></line>
+            <text class="est-nota" x="428" y="247" text-anchor="end">&minus;2 pontos em cinco anos: o Sul virtualmente parou</text>
+
+            <text class="est-rotulo est-rotulo--sul" x="556" y="223">Sul 53%</text>
+            <text class="est-rotulo" x="556" y="174">Norte 65%</text>
+            <text class="est-rotulo" x="556" y="188">Centro 63%</text>
+
+            <line class="est-eixo" x1="92" y1="250" x2="548" y2="250"></line>
+            <text class="est-escala" x="92" y="266" text-anchor="middle">1985</text>
+            <text class="est-escala" x="208.9" y="266" text-anchor="middle">1995</text>
+            <text class="est-escala" x="325.8" y="266" text-anchor="middle">2005</text>
+            <text class="est-escala" x="442.8" y="266" text-anchor="middle">2015</text>
+            <text class="est-escala" x="548" y="266" text-anchor="middle">2024</text>
+          </svg>
+          <p class="estoquefig-legenda">
+            O Sul desce mais rápido e mais cedo &mdash; é o único dos três que chega a cruzar os
+            60%, em meados dos anos 2000 &mdash; e <strong>estabiliza a partir de 2019</strong>:
+            perde 2 pontos em cinco anos,
+            contra 3,5 do Centro e do Norte, que continuam descendo juntos. Não é que o Sul tenha
+            passado a preservar: é que sobrou pouco para converter. Em hectares, restam
+            <strong>6,56 Mha</strong> convertíveis em Goiás (~60% do que havia em 1985), e o
+            <strong>Norte concentra 44%</strong> deles. "Convertível" aqui é formação savânica +
+            campo nativo &mdash; as duas classes efetivamente convertidas (D13); ver o detalhe
+            abaixo. Fonte: #39.
+          </p>
+        </figure>
+
+        <details class="metric-details">
+          <summary>O que "convertível" quer dizer &mdash; e por que é um teto, não uma medida</summary>
+          <div class="perna-detalhe">
+            <p>
+              Não existe, para Goiás, um cadastro público que diga hectare a hectare qual terra
+              pode legalmente virar lavoura. "Convertível" é, portanto, uma
+              <strong>aproximação declarada</strong> (decisão D13), construída em três definições
+              testadas lado a lado; a usada aqui é a <em>refinada</em>:
+              <strong>formação savânica + campo nativo</strong>.
+            </p>
+            <p>
+              A escolha não é arbitrária &mdash; é o que a própria depleção mostra. Entre 1985 e
+              2024 a formação savânica perdeu <strong>38,2%</strong> da sua área e o campo nativo
+              <strong>42,5%</strong>, enquanto a floresta nativa (mata de galeria, APP) perdeu
+              <strong>22,8%</strong>. Savana e campo são as classes que a fronteira de fato come;
+              a floresta fica fora da conta de oferta &mdash; e volta, adiante, na conta de
+              carbono, onde ela domina.
+            </p>
+            <p>
+              O limite: como não há CAR, unidade de conservação e PRODES integrados pixel a
+              pixel, esse estoque inclui Reserva Legal e APP que na prática não podem ser
+              convertidas. Ele é um <strong>teto</strong> &mdash; a terra realmente disponível é
+              menor que 6,56 Mha, nunca maior. Um cenário de sensibilidade que desconta 20% de
+              Reserva Legal foi rodado e não muda o ordenamento entre regiões.
+            </p>
+          </div>
+        </details>
+
+        <h4 class="perna-subtitulo">O teto é físico, não institucional</h4>
+        <p>
+          Uma fronteira pode parar por duas razões muito diferentes: porque a terra acabou, ou
+          porque a lei a barrou. As duas produzem o mesmo gráfico e pedem políticas opostas, e é
+          por isso que vale separá-las.
+        </p>
+        <p>
+          Em Goiás não é a lei &mdash; mas o que isso quer dizer precisa ser exato, porque a
+          palavra engana. "<strong>Desprotegido</strong>", aqui, tem um sentido estreito:
+          <em>fora de Unidade de Conservação de Proteção Integral</em>, a única categoria que
+          <em>veda</em> a conversão. <strong>Não</strong> quer dizer "livre para desmatar": Reserva
+          Legal e APP, que o Código Florestal impõe <em>dentro</em> de cada propriedade, continuam
+          valendo e protegem parte desse mesmo estoque (é por isso que os 6,56 Mha são um
+          <em>teto</em>, não a terra realmente disponível &mdash; a de verdade é menor). A conta
+          mede outra coisa: se o <em>instrumento de política</em> que poderia deter a fronteira de
+          propósito &mdash; a rede pública de unidades de proteção integral &mdash; está no caminho
+          dela. Não está.
+        </p>
+        <p>
+          O estado protege formalmente cerca de 6% do território, mas quase tudo em
+          <strong>Uso Sustentável</strong> (APAs, que admitem uso rural); a
+          <strong>Proteção Integral</strong> cobre <strong>menos de 3%</strong> em qualquer região.
+          Cruzada com o estoque, ela deixa <strong>6,35 dos 6,56 Mha convertíveis fora de proteção
+          integral: 97%</strong> pela malha de unidades de conservação, e <strong>94,3%</strong>
+          quando a mesma conta é refeita pixel a pixel, que é a régua mais exigente. E ela
+          <strong>congelou</strong>: 89% da Proteção Integral de Goiás já existia em 2000, enquanto
+          a marcha ao norte se intensificava. O teto que o Sul encontrou é o fim do seu estoque
+          acessível &mdash; e o Norte, que guarda 44% do que resta, não tem pela frente nenhuma
+          área protegida que barre a conversão.
+        </p>
+
+        <h4 class="perna-subtitulo">O que essa marcha custou</h4>
+        <p>
+          Duas contas, e nenhuma delas é econômica no sentido usual.
+        </p>
+        <p>
+          <strong>A primeira é de carbono.</strong> Precificada por diferença de estoque, a
+          conversão comprometeu da ordem de <strong>973 Mt de CO<sub>2</sub>e</strong> (751 a
+          1.208 conforme o cenário de densidade). Duas coisas surpreendem nessa conta. A primeira
+          é <em>quem</em> paga: a <strong>floresta</strong> nativa perde 2,6&times; menos área
+          que a savânica e ainda assim emite mais (499 contra 458 Mt), porque é cerca de três
+          vezes mais densa &mdash; o custo de carbono não é proporcional à área. A segunda é
+          <em>quando</em> se pagou: <strong>80% do total (774 Mt) saiu no Ato I</strong>, entre
+          1985 e 2000, e saiu no Sul, a 20,5 Mt/ano. Depois de 2001 o ritmo cai cerca de seis
+          vezes e inverte a geografia &mdash; no Ato III o Sul é o menor emissor (1,4 Mt/ano) e
+          o Centro o maior (4,6). <strong>O centroide da emissão marcha 98 km ao norte</strong>,
+          atrás da fronteira. O grosso do dano ambiental desta história já estava feito antes de
+          a marcha começar a ser notada.
+        </p>
+        <p>
+          <strong>A segunda é humana</strong>, e precisa de cuidado para não virar outra coisa.
+          Entre 2013 e 2021 a fronteira norte quase <strong>dobrou</strong> a área cultivada
+          (+93%, contra +14% no Sul). O desenvolvimento municipal <strong>subiu em toda
+          parte</strong> no período &mdash; medido pelo <strong>IFDM</strong>, o Índice FIRJAN de
+          Desenvolvimento Municipal (emprego&amp;renda, educação e saúde numa escala de 0 a 1), que
+          em Goiás foi de 0,49 a 0,63 &mdash;, mas subiu
+          no Norte <em>na mesma medida</em> que no Sul, e o Norte terminou onde começou em
+          relação a ele: abaixo, com o vão intacto. Quase dobrar a área não comprou
+          desenvolvimento <em>extra</em> nem aproximou a fronteira do núcleo. Entre todas as
+          variáveis de crescimento testadas, a expansão de área é a mais
+          <strong>desacoplada</strong> do desenvolvimento &mdash; mais até que o valor que ela
+          gera, que ao menos mostra um dividendo pequeno.
+        </p>
+
+        <details class="metric-details">
+          <summary>Como se separa "acabou a terra" de "acabou a demanda"</summary>
+          <div class="perna-detalhe">
+            <p>
+              A conta tem duas peças. O <strong>estoque</strong> é quanto Cerrado convertível
+              resta numa unidade. O <strong>hazard</strong> é a fração desse estoque que é
+              convertida por ano &mdash; a "taxa". O fluxo anual é o produto dos dois:
+              <em>fluxo = estoque &times; taxa</em>. Quando o fluxo muda entre dois atos, a
+              mudança se separa exatamente em duas parcelas &mdash; a de ter menos estoque, e a
+              de converter a uma taxa diferente. É a figura acima.
+            </p>
+            <p>
+              A separação é aritmética, não causal: ela diz <em>quanto</em> de cada parcela,
+              nunca <em>por quê</em>. Quem dá o "por quê" são três testes independentes, e os
+              três apontam para oferta. <strong>Um</strong>: a taxa não cai com a depleção nas
+              166 unidades (p=0,48) &mdash; não há um atrito geral que trave a conversão quando o
+              estoque rareia, logo a taxa é aproximadamente constante e o fluxo acompanha o
+              estoque. <strong>Dois</strong>: não há saturação &mdash; o termo quadrático do
+              estoque é nulo (p=0,92). <strong>Três</strong>: o efeito do estoque sobre o fluxo
+              sobrevive a controlar câmbio, preço e crédito, isto é, a oferta acrescenta poder
+              explicativo <em>além</em> da demanda.
+            </p>
+            <p>
+              A ressalva que o próprio pipeline registra: os dois primeiros modelos são
+              <strong>parcialmente mecânicos</strong> (o fluxo <em>é</em> estoque &times; taxa
+              por definição), então o coeficiente grande do estoque não deve impressionar
+              sozinho. O teste informativo é o do <strong>hazard</strong> &mdash; e é ele que
+              está reportado aqui. <em>(#39, blocos B e C.)</em>
+            </p>
+          </div>
+        </details>
+
         <p class="bloco-resposta">
           <span class="bloco-resposta-rotulo">Resposta</span>
-          A desaceleração do Sul não é falta de demanda — é o estoque de Cerrado convertível se
-          esgotando (um teto de oferta <strong>físico</strong>), e a marcha ao norte é a
-          fronteira perseguindo a terra que só resta lá.
+          <strong>Não acabou a demanda &mdash; ela estava no pico.</strong> O que o Sul perdeu
+          foi a <em>fonte</em>: seu Cerrado convertível é o menor e o mais gasto do estado (53%
+          do que havia em 1985, praticamente parado desde 2019), e a procura por terra que
+          continuou lá passou a ser atendida por pasto já aberto. A marcha ao norte é, em parte,
+          a fronteira seguindo o estoque que só resta no norte &mdash; e o teto que ela encontra
+          é <strong>físico, não institucional</strong>.
         </p>
 
         <aside class="nao-diz">
           <p class="nao-diz-rotulo">O que isto não diz</p>
           <p>
-            Que se conhece o estoque <strong>cadastral</strong> de terra: "convertível" e
-            "protegida" são proxies com teto declarado (MapBiomas + malha de unidades de
-            conservação), não o CAR pixel a pixel. Que a queda do <em>hazard</em> de conversão
-            seja, por si, "queda de demanda" — o hazard embute também proteção, atrito e
-            intensificação; quem sustenta a leitura de oferta é o teste do plano estoque×hazard,
-            não o rótulo. E o Ato III tem <strong>cinco anos</strong>: é um sinal inicial, não
-            um regime consolidado.
+            <strong>Que a decomposição meça a restrição de oferta.</strong> Ela não mede: apenas
+            17% da freada do Sul é, aritmeticamente, o estoque menor. Os outros 83% estão numa
+            parcela <em>residual</em>, que guarda junto a propensão a converter, o atrito de
+            acesso, a proteção e a troca de fonte de terra. A leitura de oferta vem de
+            <em>eliminar</em> as alternativas (a demanda subiu; a lei não barra) e do teste da
+            taxa plana &mdash; não do tamanho da barra. Quem quiser derrubar esta perna deve
+            atacar aí, e é o lugar certo para atacar.
+          </p>
+          <p>
+            <strong>Que se conheça o estoque cadastral de terra.</strong> "Convertível" e
+            "protegida" são aproximações com teto declarado (MapBiomas + malha de unidades de
+            conservação), não o CAR pixel a pixel. E o Ato III tem <strong>cinco anos</strong>:
+            é um sinal inicial, não um regime consolidado &mdash; a estabilização do Sul depois
+            de 2019 pode ainda se revelar uma pausa.
+          </p>
+          <p>
+            <strong>Que a fronteira não se desenvolveu.</strong> O índice é o <strong>IFDM</strong>
+            (emprego&amp;renda, educação, saúde) &mdash; proxy de desenvolvimento, não de
+            bem-estar amplo, e sem substituto de IDH-M para a janela. Ele <em>subiu</em> em Goiás
+            inteiro (0,49 &rarr; 0,63) e o ganho do Norte foi estatisticamente igual ao do Sul. O
+            que se afirma é estreito: a expansão de área não comprou desenvolvimento <em>além</em>
+            do que houve em toda parte, e não fechou o vão de nível. A leitura é
+            <strong>associativa</strong> (D14: segura-se o gradiente espacial), não causal.
+          </p>
+          <p>
+            E o custo de carbono não é medido em campo: as densidades são de literatura
+            (<strong>IPCC Tier 1</strong>, biomassa aérea + radicular, <em>sem</em> carbono de
+            solo), por isso o número vem como faixa. O que é robusto ali é a <em>ordenação</em>
+            (floresta &#8819; savânica &#8811; campo) e a <em>cronologia</em> (o grosso saiu cedo,
+            no Sul), não o valor central.
           </p>
         </aside>
       </div>
@@ -1162,9 +2191,12 @@
           oferta</strong> de Cerrado convertível que só resta no norte.
         </p>
         <p>
-          Não foi um <strong>deslocamento causal</strong> de uma região sobre a outra — a
-          hipótese óbvia do vazamento intra-estadual (iLUC) foi <strong>testada e
-          refutada</strong>. É uma descrição empiricamente verificável, não uma metáfora.
+          Não foi um <strong>deslocamento causal</strong> de uma região sobre a outra: a
+          hipótese óbvia do vazamento intra-estadual (iLUC) foi testada em trinta e seis
+          recortes, e <strong>a assinatura que ela exige não apareceu em nenhum</strong>. É uma
+          descrição empiricamente verificável, não uma metáfora — e o que ela afirma é o nulo do
+          <em>canal testado</em>, não a inexistência do fenômeno
+          (<a href="#p4-limites">ver os limites</a>).
         </p>
       </div>
 
@@ -1376,8 +2408,11 @@
             Enquanto os métodos acima <strong>detectam</strong> as fronteiras, o Intensity
             Analysis tem papel diferente: <strong>valida globalmente</strong> se os períodos
             resultantes são de fato distintos. O teste Kruskal-Wallis compara os três Atos
-            simultaneamente: <strong>H = 22,6, p &lt; 0,001</strong>. É um resultado único, não
-            detecções separadas para ~2001 e ~2020.
+            simultaneamente: <strong>H = 20,3, p &lt; 0,001</strong>. É um resultado único, não
+            detecções separadas para ~2001 e ~2020. <em>(A partição alternativa em quatro
+            períodos — a que inclui a candidata de ~2005/06 — dá H = 22,6; é a partição que
+            este trabalho rejeita, e o número dela não deve ser citado como se fosse o
+            desta.)</em>
           </p>
         </div>
 
@@ -1440,6 +2475,11 @@
               <td class="regua-decidiu">A marcha reaparece a 1&ndash;2 km sem malha nenhuma &mdash; não é MAUP <em class="autoc-ref">#43</em></td>
             </tr>
             <tr>
+              <td><strong>Dependência espacial</strong></td>
+              <td>O efeito sobrevive quando o painel modela o vizinho explicitamente?</td>
+              <td class="regua-decidiu">Sim &mdash; a dependência é forte, mas os β mal se movem <em class="autoc-ref">#49</em></td>
+            </tr>
+            <tr>
               <td><strong>Confundidor</strong></td>
               <td>O efeito sobrevive ao controle da latitude e do gradiente 2D?</td>
               <td class="regua-decidiu">Derrubou plantio direto, calcário e assistência técnica <em class="autoc-ref">#40, #40B &rarr; D14</em></td>
@@ -1463,8 +2503,11 @@
         </table>
 
         <p>
-          Sob essas réguas, as afirmações se organizam em três camadas de força — e a peça
-          declara em qual delas cada uma está, em vez de tratar todas como iguais.
+          Há ainda uma segunda coisa que se declara, e vale não confundir com a primeira. O selo
+          no alto de cada perna diz <em>quanta evidência aquela perna carrega</em>. A tabela
+          abaixo é outra coisa: diz <em>que tipo de pergunta cada método consegue responder</em> —
+          são três camadas de exigência, e a peça declara em qual delas cada afirmação está, em
+          vez de tratar todas como iguais.
         </p>
 
         <table class="camadas-tabela">
@@ -1570,7 +2613,7 @@
         <div class="decisao-card">
           <span class="decisao-badge">D17</span>
           <div class="decisao-titulo">Proteção legal entra como malha vetorial, não como classe</div>
-          <div class="decisao-por-que">Unidades de Conservação e Terras Indígenas vêm do CNUC e são cruzadas por sobreposição com as AMCs — no espírito da D13, um proxy-teto. Foi assim que se mediu que 97% do Cerrado convertível que resta está desprotegido: o teto de oferta é físico, não institucional.</div>
+          <div class="decisao-por-que">Unidades de Conservação e Terras Indígenas vêm do CNUC e são cruzadas por sobreposição com as AMCs — no espírito da D13, um proxy-teto. Foi assim que se mediu que 97% do Cerrado convertível que resta está <strong>fora de proteção integral</strong> — a única categoria que veda conversão, não "livre para desmatar" (Reserva Legal e APP do Código Florestal ainda valem). O teto de oferta é físico: o que não barra a fronteira é a <strong>rede de áreas protegidas</strong>, não a lei inteira.</div>
         </div>
         <div class="decisao-card">
           <span class="decisao-badge">D18</span>
@@ -1701,7 +2744,7 @@
         <div class="decisao-card">
           <span class="decisao-badge">D26</span>
           <div class="decisao-titulo">Medir em intervalo, com uma âncora de fora</div>
-          <div class="decisao-por-que">Todo número que tenha "agricultura" no destino é reportado entre duas réguas — só <code>agric</code> (piso) e <code>agric ∪ mosaico</code> (teto) — e comparado a uma fonte imune (SIDRA/IBGE). Robusto = sobrevive nas duas pontas. Foi essa régua que derrubou o gradiente de idade e o "−88%" da conversão do Sul — os dois na <a href="#p2-perna2">Perna 2</a>.</div>
+          <div class="decisao-por-que">Todo número que tenha "agricultura" no destino é reportado entre duas réguas — só <code>agric</code> (piso) e <code>agric ∪ mosaico</code> (teto) — e comparado a uma fonte imune (SIDRA/IBGE). Robusto = sobrevive nas duas pontas. Foi essa régua que derrubou o gradiente latitudinal de idade da <a href="#p2-perna2">Perna 2</a> — e, com ele, o "−88%" da conversão do Sul que a mesma seção publicava.</div>
         </div>
       </div>
           </div>
@@ -1730,25 +2773,64 @@
         <div class="fragilidade-item">
           <div class="fragilidade-titulo">O drive comum está inferido, não provado</div>
           <p class="fragilidade-glosa">
-            Câmbio e crédito <em>antecedem</em> as inflexões (<a href="#p2-perna3">Perna 3</a>), mas precedência preditiva
-            (Granger) não é causalidade dura. N ≈ 38 na série UF; o gradiente câmbio × aptidão no
-            painel AMC não sobrevive ao FDR. É evidência consistente, não fechada.
+            O câmbio é o candidato mais forte (<a href="#p2-perna3">Perna 3</a>), e o que o
+            sustenta <strong>não é p-valor</strong>: na série UF são ~7 acertos em ~135 testes —
+            o que o acaso já entrega — e <strong>nada sobrevive à correção de
+            multiplicidade</strong>; no painel AMC o gradiente câmbio × aptidão também não
+            sobrevive ao FDR, e sob permutação do choque o p honesto é ≈0,07–0,13. O que dá
+            crédito ao câmbio é <em>replicar em construções independentes</em> (→ pastagem e →
+            rebanho do Norte) e a especificidade dos placebos. Evidência corroborante, não
+            fechada — e ler precedência de Granger em série agregada como causa é justamente o
+            que a <strong>D16</strong> proíbe depois do #42.
           </p>
         </div>
         <div class="fragilidade-item">
           <div class="fragilidade-titulo">A desaceleração do Ato III tem só 4–5 anos</div>
           <p class="fragilidade-glosa">
-            A freada da agricultura no Sul (<a href="#p2-perna1">Perna 1</a>) e o "fechamento" da fronteira sulista (<a href="#p2-perna4">Perna 4</a>) são
-            recentes. "Desaceleração recente" é o termo honesto — não há série suficiente para chamar
-            de reversão estrutural.
+            A freada da <strong>abertura de terra nova</strong> no Sul e o "fechamento" da
+            fronteira sulista (<a href="#p2-perna4">Perna 4</a>) são recentes. "Desaceleração
+            recente" é o termo honesto — não há série suficiente para chamar de reversão
+            estrutural. <em>Atenção ao objeto:</em> não se trata de "a agricultura desacelerou",
+            leitura que vem do rótulo do satélite e que a <a href="#p2-perna1">Perna 1</a>
+            explicitamente retira; o que freou é o <code>veg→pasto</code>, medida imune.
           </p>
         </div>
         <div class="fragilidade-item">
+          <div class="fragilidade-titulo">O teto de oferta é lido por eliminação, não medido</div>
+          <p class="fragilidade-glosa">
+            A decomposição do freio do Sul (<a href="#p2-perna4">Perna 4</a>) atribui só
+            <strong>17%</strong> dele ao estoque menor; os outros 83% caem numa parcela
+            <em>residual</em> que mistura propensão a converter, atrito de acesso, proteção e
+            troca da fonte de terra. A leitura de restrição de oferta se apoia em
+            <strong>descartar</strong> as alternativas (a demanda subiu no Ato III; a Proteção
+            Integral é desprezível) e no teste da taxa de conversão plana sob depleção
+            (p=0,48) — não numa medição direta da oferta. É o ponto mais atacável da perna, e
+            está declarado nela.
+          </p>
+        </div>
+        <div class="fragilidade-item">
+          <div class="fragilidade-titulo">O custo de carbono é de literatura, não medido em campo</div>
+          <p class="fragilidade-glosa">
+            As densidades usadas para converter hectare perdido em CO<sub>2</sub>e
+            (<a href="#p2-perna4">Perna 4</a>) são valores de referência de literatura
+            (<strong>IPCC Tier 1</strong>), não medições feitas em Goiás, e cobrem
+            <strong>biomassa aérea + radicular sem carbono de solo</strong> — por isso o número
+            aparece como faixa (751–1.208 Mt) e não como valor. O que sobrevive à troca de
+            cenário é a <em>ordenação</em> entre formações e a <em>cronologia</em> da emissão,
+            não o valor central. Estoque convertível e proteção têm o mesmo estatuto: são
+            aproximações-teto (D13/D17), sem CAR pixel a pixel.
+          </p>
+        </div>
+<div class="fragilidade-item">
           <div class="fragilidade-titulo">O recorte mesorregional (5 unidades) é grosso</div>
           <p class="fragilidade-glosa">
-            O mecanismo Sul→Norte (<a href="#p2-perna2">Perna 2</a>) é lido em 5 mesorregiões — há heterogeneidade interna. Onde foi
-            possível descer à malha AMC (158 unidades), a conclusão se manteve (a bimodalidade do #28C);
-            o mecanismo de transições do #33, esse, segue em resolução mesorregional.
+            A divisão "o Sul intensifica, o Norte abre" (<a href="#p2-perna2">Perna 2</a>) é lida em
+            5 mesorregiões — há heterogeneidade interna que esse recorte não mostra. Onde foi
+            possível descer à malha AMC, a conclusão se manteve — é o caso da coexistência das
+            duas populações de pastagem (#28C), e ela se manteve <em>nas duas réguas</em>: 162 de
+            164 AMCs com conversão na régua estrita, <strong>166 de 166</strong> na régua imune
+            (que é a do mapa). O mecanismo de transições do #33, esse, segue em resolução
+            mesorregional.
           </p>
         </div>
         <div class="fragilidade-item">
@@ -1774,16 +2856,36 @@
           <p class="fragilidade-glosa">
             No multivariado, R²<sub>within</sub> chega a 0,122 em agricultura (0,047 no univariado)
             e 0,072 em pastagem. β preciso e significativo, mas grande parte da mudança
-            vem de fatores não modelados. Extensão: painel espacial dinâmico.
+            vem de fatores não modelados. Um R² baixo aqui não invalida o coeficiente —
+            diz que o painel explica pouco da variação total, não que o pouco que explica
+            esteja errado.
           </p>
         </div>
         <div class="fragilidade-item">
-          <div class="fragilidade-titulo">Autocorrelação espacial não modelada</div>
+          <div class="fragilidade-titulo">
+            Autocorrelação espacial: estrutural — e agora modelada
+          </div>
           <p class="fragilidade-glosa">
             115 de 140 modelos (classe × ano × W) têm Moran's I global significativo —
-            pico em 2018 (I = +0,53 para pastagem). SEM (Spatial Error) vence OLS por margem
-            pequena (AIC −2.924 vs −2.924 em agric). Limitação reconhecida: análise é
-            cross-section em 1 ano; painel espacial dinâmico fica para extensão.
+            pico em 2018 (I = +0,53 para pastagem). Isso é dependência espacial
+            <em>estrutural</em>, e por um tempo ela ficou apenas declarada: o painel-manchete
+            não tinha termo espacial. <strong>Fechado desde julho de 2026</strong>: os três
+            canais foram reestimados em painel espacial dinâmico (Elhorst, <em>lag</em> e
+            <em>error</em>, sobre as 166 AMCs). A dependência aparece forte
+            (ρ +0,35 a +0,53; λ +0,37 a +0,56, todos p&lt;0,001) e os coeficientes
+            substantivos <strong>quase não se movem</strong> — a substituição local vai de
+            −0,546 para −0,536, o crédito→pasto de −0,0040 para −0,0035, a intensificação
+            de −0,0047 para −0,0046. Ignorar o espaço não estava enviesando os β.
+            <em>(#49)</em>
+          </p>
+          <p class="fragilidade-glosa">
+            <strong>O que continua em aberto</strong>, e é mais estreito: o modelo não é um
+            SDM completo, e sob o intervalo de medida da D26 os dois canais recebem vereditos
+            <em>diferentes</em> — a substituição local sobrevive nas três réguas e nas duas
+            janelas, enquanto a intensificação é frágil: na régua da união o coeficiente
+            atravessa o zero e na âncora da soja do IBGE ele troca de sinal. É a mesma
+            fragilidade que a <a href="#p2-perna2">Perna 2</a> declara, e por isso quem
+            sustenta aquela perna no painel espacial é a substituição, não a intensificação.
           </p>
         </div>
         <div class="fragilidade-item">
@@ -1879,7 +2981,7 @@
 <script src="assets/js/mini-sankey.js?v=1"></script>
 <script src="assets/js/matriz.js?v=2"></script>
 <script src="assets/js/marcha-mapa.js?v=1"></script>
-<script src="assets/js/pastagem-reserva.js?v=1"></script>
+<script src="assets/js/reserva-perna2.js?v=2"></script>
 <script src="assets/js/inventario.js?v=1"></script>
 <script src="assets/js/zoom.js?v=1"></script>
 

@@ -111,7 +111,7 @@ tese** — a régua crua faz a marcha parecer mais fraca do que foi.
 
 **Três decisões de implementação:**
 1. **Manchete mantém +65 km** (mesma régua de pasto/rebanho, comparável entre si), com a
-   âncora imune declarada na glosa: soja SIDRA **+49 km**, mesma direção, IC exclui zero.
+   âncora imune declarada na glosa: soja SIDRA **+48 km**, mesma direção, IC exclui zero.
    Não é bracket do mesmo objeto — a soja é o componente dominante da lavoura, não a
    lavoura toda —, e a copy diz isso.
 2. **A peça interativa anota:** o trecho da agricultura a partir de 2019 vira
@@ -138,72 +138,219 @@ anos.
 
 ## Perna 2 — Qual é o mecanismo?
 
-> ♻️ **Copy reescrita em 28/jul/2026.** A versão anterior afirmava o gradiente latitudinal
-> de idade ("o Sul converte pasto jovem, o Norte pasto velho") e a cláusula "a geografia
-> desloca o peso da mistura" — **as duas caíram** entre 23 e 25/jul, por três caminhos
-> independentes (#40, #28C, #33). O registro do que caiu e por quê está no §"Estado dos
-> dados" ao fim deste documento; o texto abaixo é o que vai para a tela.
+> ♻️ **Reescrita estrutural em 28/jul/2026 — a segunda desta perna, e por outro motivo.**
+> A reescrita anterior corrigiu o *conteúdo* (caíram o gradiente latitudinal de idade e a
+> cláusula "a geografia desloca o peso da mistura"). Esta corrige a **arquitetura do
+> argumento**, a partir da revisão do autor. Quatro defeitos, todos reais:
+>
+> | defeito apontado | o que se fez |
+> |---|---|
+> | a perna **abria** afirmando uma diferença Sul×Norte e **fechava** dizendo que não há diferença | os dois registros passam a ser explícitos e sequenciais: a geografia separa **qual transição** (abertura), **não** separa **as duas populações de pastagem** (fecho). O que era anticlímax virou a espinha |
+> | a figura não correspondia ao texto — falava em "dois picos" e em linhas tracejadas difíceis de enxergar | figura **substituída** (ver abaixo). A antiga era organizada por Ato, e a própria legenda pedia para não ler variação entre atos: o eixo que estruturava a figura era o que o texto desautorizava |
+> | "bimodalidade" não é visível no histograma | **o site parou de afirmar que é.** A copy passa a dizer "um pico jovem e um ombro", e tanto a figura quanto a peça interativa desenham **o ajuste de uma população só** para o leitor ver onde ele falha. É a forma honesta do argumento: a segunda população é larga (σ≈7,5a contra 1,6a), e população larga vira platô, não espiga |
+> | os cards pareciam colcha de retalhos | os 3 cards de coorte e os 2 do GMM **saíram como cards** e viraram, respectivamente, o **painel B da figura** (corroboração sem modelo) e as **curvas desenhadas sobre o histograma**. Os 2 cards que sobraram têm função narrativa: são os dois candidatos a explicar a idade, com o veredito de cada um |
+>
+> Uma quinta mudança veio da mesma revisão e é de **conteúdo**: a copy dizia que o
+> cruzamento com plantio direto "desmancha" sob controle de latitude. **Isso é mais forte
+> do que o #40 sustenta** — o veredito de lá é *não estabelecido* (p≈0,058; 0 de 8 pares
+> sobrevivem a FDR-BH), e o nulo limpo anterior **foi retirado** por ser artefato de erro
+> de medida. A tela agora diz "não estabelecido" e explica a diferença.
 
-🎞️ **Peça-central: a interativa da idade do pasto** (`pastagem-reserva.js`) — mapa e
-histograma conversam: selecionar uma região redesenha o histograma, que **continua
-bimodal**, e o mapa pinta o **veredito de bimodalidade** por AMC (não a idade). A
-interação *é* o argumento. *(Já construída no site em 25/jul/2026 — a reforma
-**reposiciona**, não reconstrói.)*
-🔗 #33 (mecanismo por mesorregião) · #28/#28C (o censo da idade, bimodalidade) · #22/#22B
+> ### ⚠️ Segunda rodada da mesma revisão — três correções de fundo
+>
+> **(a) "O desenho não muda" estava ERRADO na régua que a peça desenhava.** O autor olhou
+> os histogramas e disse que Norte e Noroeste pareciam mais bimodais que Sul e Centro.
+> Medido (`forma_regional_bimodalidade.py`), o olho estava certo: sob `pasto→agricultura`
+> o vale do Noroeste tem profundidade **0,415** e o do Norte **0,271**, enquanto Sul e
+> Leste **não têm vale nenhum**; pela distância de variação total as cinco regiões se
+> partem em dois blocos (dentro dos blocos TV 0,05–0,09; entre eles **0,18–0,23**). O
+> #28C nunca tinha medido isso — ele mede *coexistência*, não *forma*, e as duas podem
+> divergir. Sob a régua da união a diferença colapsa (TV Sul×Norte **0,223 → 0,023**;
+> vale do Noroeste **0,415 → 0,058**): é o mesmo artefato de rotulagem.
+>
+> **Consequência estrutural:** a peça desenhava a régua exposta enquanto o texto ao lado
+> afirmava a conclusão da união — a mesma classe de defeito de quando o mapa pintava a
+> amostra sob manchete de censo. A peça passou a oferecer **as duas réguas**, com a imune
+> por padrão, e a troca virou o beat mais didático da perna. Novo bloco de copy: *"A régua
+> que muda a resposta — e por que a resposta certa é uma só"*.
+>
+> **(b) O fio do crédito foi RODADO** (`duas_logicas_bracket_fluxo.py`). Δ SICOR × idade
+> mediana, parcial | lat+lon: **sobrevive à união e se fortalece** (+0,22 → **+0,30**,
+> p<0,0001, passa o FDR em 2 janelas em vez de 1). Não é artefato de rotulagem — e a
+> assimetria com o gradiente latitudinal (que morreu) é ela própria informativa. **Mas**
+> na janela limpa (≤2019) o coeficiente é ~zero nas duas réguas: a associação só existe
+> com os anos recentes dentro, e isso *não* pode ser creditado ao Mosaico (a união é imune
+> por construção). O card da tela deixou de dizer "não foi testado" e passa a dizer o que
+> é: real, invertida em sinal, recente, sem mecanismo.
+>
+> **(c) Terminologia corrigida — duas frases que não se sustentavam.**
+> - **"giro de lavoura"** era termo inventado. Vira **"pasto de ciclo curto"**, com o nome
+>   técnico ao lado (*rotação lavoura-pastagem*) e a ressalva de que é **compatível** com
+>   ILP sem prová-la: o satélite vê o capim, não vê o boi.
+> - **"plantio direto = proxy de ILP"** é frouxo demais. Plantio direto é **conservação de
+>   solo**; o Censo Agropecuário **não tem** variável de ILP, e foi por isso que o no-till
+>   entrou — por ser o mais próximo, não por ser o certo. O que ele indexa é lavoura de
+>   grãos tecnificada. A tela agora declara isso antes de apresentar o teste.
+
+🎞️ **Peça-central: a interativa da idade do pasto** (`reserva-perna2.js`) — **o clique saiu
+dos botões e foi para o mapa**. Antes: mapa por AMC de um lado, fileira de 6 pastilhas por
+mesorregião do outro, duas malhas sem relação visível na tela. Agora o contorno dissolvido
+das 5 mesorregiões (`malha_mesorregiao.geojson`) fica **sobre** as 166 AMCs e recebe o
+clique; as AMCs continuam desenhadas por baixo porque são elas que sustentam o "162 de
+164". Selecionar uma região vela as outras e redesenha o histograma — que continua com as
+duas populações. **Segundo controle: a régua** (`pasto→lavoura ou uso misto` × `só
+pasto→lavoura`), que redesenha os DOIS painéis ao mesmo tempo, porque o veredito por AMC
+e a forma do histograma mudam juntos. A interação *é* o argumento.
+
+> A legenda do histograma saiu de dentro do SVG e virou HTML abaixo do gráfico, no mesmo
+> componente da legenda do mapa. Dentro do SVG ela competia com as curvas por espaço e
+> encolhia junto com o `viewBox` — no celular ficava com ~6 px.
+
+> ⚠️ `reserva-perna2.js` e `reserva-perna2.css` são **fork deliberado** de
+> `pastagem-reserva.js` / `reserva.css`. O `index.html` no ar tem outra marcação (pastilhas,
+> 3 cards de coorte) e continua servido pelo módulo antigo, intocado, conforme a estratégia
+> de arquivo paralelo. **Na troca final, o módulo antigo é apagado junto com o `index.html`
+> antigo.** (`reserva.css` segue carregado pelos dois: a base é comum, o fork só acrescenta.)
+
+🔗 #33 (mecanismo por mesorregião) · #28/#28C (o censo da idade, coexistência) · #22/#22B
 (substituição local; intensificação *within*) · #49 (M3 robusto, M1 frágil) · #40/#40B (a
 autocorreção da latitude, D14) · #28D (a mudança de rótulo, D25/D26).
+
+🖼️ **Figura-âncora: `sintese_idade_duas_populacoes.png`** (gerada por
+`Visualizacao/scripts/gerar_grafico_duas_populacoes.py`), dois painéis **empilhados** —
+empilhados porque a coluna do site tem 760 px e lado a lado ficaria ilegível:
+- **A — "Uma população só não produz esta curva."** Histograma bruto + o melhor ajuste de
+  **uma** gaussiana (tracejado) + as duas componentes. O tracejado erra o pico e erra a
+  cauda: é assim que a bimodalidade fica visível quando não há dois picos.
+- **B — "A mesma divisão sem ajustar modelo nenhum."** Composição por **origem anterior** ao
+  longo da idade. Entre o pasto convertido aos 3 anos, **50%** veio de lavoura; entre o
+  convertido aos 33, **1%**. O Mosaico tem faixa própria (D25/D26), não é somado à rotação.
+- 🚫 `sintese_idade_pastagem_atos.png` **sai da Perna 2**. Continua no repositório como
+  export do #28, mas não volta para esta seção.
 
 **PERGUNTA**
 > Se a fronteira inteira marchou, que conversão — e em que parte do estado — a moveu?
 
-**CORPO**
-A marcha é o saldo de duas conversões diferentes, e elas não estão no mesmo lugar. No
-Sul, a transição que manda é **pasto → lavoura**: intensificação, terra que troca de
-função. No Norte, é **mata → pasto**: fronteira, terra nova sendo aberta. Dois Goiáses. A
-medida que sustenta essa divisão é justamente a que **não** depende da classe ambígua do
-satélite — o `veg→pasto`, que despenca **−49% no Sul** entre os Atos II e III e cede só
-**−13% no Norte**.
+**CORPO — em cinco movimentos**
 
-A assinatura mais fina do mecanismo está na **idade da pastagem no momento em que ela é
-convertida**. Não amostramos: contamos **todos os 44,6 milhões de eventos** de pasto
-virando lavoura em Goiás — 3,8 Mha, 11,2% do estado — e perguntamos, para cada um, há
-quantos anos aquele pasto existia. A distribuição tem **dois picos**: pasto jovem (**~4
-anos**, 31% da massa) e pasto velho (**~22 anos**, 69%). Dois picos são dois mecanismos:
-o jovem é reserva de terra rotacionada — plantar pasto já pensando em lavoura; o velho é
-fronteira antiga sendo finalmente aberta.
+**1. A geografia responde, e responde bem — mas só metade.** A marcha é o saldo de duas
+conversões diferentes, e elas não estão no mesmo lugar. No Sul manda **pasto → lavoura**:
+intensificação. No Norte, **mata → pasto**: fronteira. Dois Goiáses. A medida que sustenta
+a divisão é a que **não** depende da classe ambígua do satélite — o `veg→pasto`, que
+despenca **−49% no Sul** entre os Atos II e III e cede só **−13% no Norte**. Isso responde
+*onde*, não *como*: saber que o Sul converte pasto em lavoura não diz se aquele pasto era
+etapa planejada de um sistema agrícola ou fazenda parada há vinte anos.
 
-Aqui o trabalho se corrigiu **duas vezes**, e as duas valem contar. Na primeira, a leitura
-inicial anunciou que a lógica jovem era *estrutural*, explicada pelo plantio direto; no
-mesmo dia o controle derrubou o exagero — ao segurar a latitude, o cruzamento desmancha
-(**D14**). Na segunda, mais severa, caiu a própria geografia. Era natural supor que o Sul
-convertesse pasto jovem e o Norte, pasto velho — e, por algumas semanas, foi isso que este
-trabalho disse. Não sobrevive: corrigida a ambiguidade de rótulo do fim da série, a
-amplitude Sul→Norte das medianas encolhe de 7 para 2 anos, a ordem se embaralha, e a
-**região passa a explicar 0,5% da variação da idade**.
+**2. A medida que revela a intenção.** Pasto de três anos que vira lavoura foi plantado já
+pensando nisso; pasto de vinte e cinco anos é terra parada que uma oportunidade tornou
+lucrativa. A **idade da pastagem no instante da conversão** é a coisa mais próxima da
+intenção do produtor que um satélite consegue ver. Censo, não amostra: **44,6 milhões** de
+conversões (3,8 Mha, 11,2% do estado), das quais **16,0 milhões** com idade conhecida — as
+outras já eram pastagem em 1985 e têm a idade truncada.
 
-O que sobrou é mais simples — e mais forte — do que o que caiu. Os dois mecanismos
-**coexistem em toda parte**: as **5 mesorregiões** são bimodais, e **162 das 164** AMCs com
-conversão também o são *por dentro*. Não há uma região de pasto jovem e outra de pasto
-velho; há o mesmo par de lógicas operando lado a lado no estado inteiro. É esse o "aha" da
-peça interativa, e ele é o inverso do que se esperaria: percorra as cinco regiões e **o
-desenho não muda**. Um mapa quase sem variação é a forma visual de um η² de 0,5%.
+**3. Duas populações, não dois picos.** A curva bruta é decrescente: um pico jovem e um
+ombro longo. O que estabelece a segunda população não é enxergar um segundo pico — é uma
+população só não dar conta da forma. Jovem: μ≈3,9a, **σ≈1,6a**, 33% da massa. Velha:
+μ≈16,3a, **σ≈7,5a** (5× mais larga, por isso vira platô), 67%. E a mesma divisão aparece
+**sem modelo nenhum**, pela origem: pasto que veio de lavoura tem mediana **5a**; pasto que
+veio de vegetação nativa, **13a** com cauda longa. Nomes: **pasto de ciclo curto**
+(*rotação lavoura-pastagem*; compatível com ILP, não prova de ILP — o satélite não vê o
+gado) e **reserva ativada**.
+
+**4. A hipótese natural cai — e o que fica é mais forte.** Se o Sul intensifica e o Norte
+abre, o esperado seria uma população em cada metade do estado. Esta investigação chegou a
+afirmá-lo. Não sobrevive: **5 de 5** mesorregiões e **todas as 166** AMCs são bimodais *por
+dentro*, e a mesorregião explica **0,5%** da variação da idade. Quanto menos a região
+explica, mais universal fica o par de mecanismos.
+
+**4b. A régua que muda a resposta.** Beat novo, e o mais didático da perna. Trocando para a
+régua estrita, o desenho **passa a mudar**: Norte e Noroeste ganham vale nítido (0,271 e
+**0,415**), Sul e Leste não têm nenhum, e as cinco regiões se separam em dois blocos pela
+distância entre formas. É real — e é o artefato: o rótulo perdido some mais ao norte, e o
+que sobra lá é amostra enviesada para a ponta velha. Fechado o buraco, TV Sul×Norte cai de
+**0,22 para 0,02** e o vale do Noroeste de **42% para 6%**. ⚠️ Ressalva na tela: mesmo na
+união o Noroeste guarda um vale raso — a frase certa é "praticamente o mesmo desenho",
+nunca "idêntico".
+
+**4c. Segundo eixo: e se forem apenas épocas diferentes?** A objeção "isso é só composição"
+tem duas versões, e até 28/jul a perna só respondia uma. Se Goiás converteu pasto novo nos
+anos 1990 e velho nos 2020, somar as décadas fabrica duas populações que nunca coexistiram —
+dois regimes em sequência, não dois mecanismos em paralelo. Isolando cada período: **10 de 10**
+células período×região na régua imune (9/10 na estrita; falha Noroeste × Ato II por peso).
+O **Ato I é unimodal em toda parte — e não poderia ser outra coisa**: conversão em 1995 se dá
+sobre pasto de no máximo 10 anos, e para *enxergar* pasto de 22 anos é preciso chegar a 2007.
+A população velha ali é **invisível, não ausente**; por isso a contagem começa no Ato II. É o
+beat que mais ensina a ler janela de observação, e ele fecha a simetria: o movimento seguinte
+passa a ser *"Se não é a região **nem a época**…"*.
+⚠️ Contrapartida obrigatória no "não diz": nem Ato I unimodal = "a reserva surgiu depois",
+nem vale mais fundo no Ato III = "os grupos estão se separando". Nos dois casos lê-se a
+janela.
+
+**5. Então o que decide a idade? Nada que estes dados alcancem.** Duas famílias de
+explicação, cada uma com previsão falsificável. **Estrutura** — o plantio direto, proxy de
+o indicador mais próximo de sistema tecnificado que o Censo Agropecuário oferece — **não**
+é variável de ILP, que o Censo não tem, e é conservação de solo, não integração com
+pecuária. Com a ressalva declarada: se a população jovem é pasto de ciclo curto,
+municípios com mais plantio direto deveriam converter pasto mais novo. Na bivariada,
+confirma; segurando o gradiente espacial, encolhe cerca de um terço, fica **na fronteira** da
+significância e **não sobrevive a FDR-BH**: **não estabelecido**. **Fluxo** — o crédito
+rural: é a única associação que resiste ao controle, à multiplicidade **e à troca de
+régua** — na união ela se fortalece (+0,22 → **+0,30**), então **não é** artefato de
+rotulagem. Mas o sinal é **invertido** (mais crédito → pasto **mais velho**), ela **só
+existe com os anos recentes dentro** (≤2019 dá ~zero nas duas réguas) e o mecanismo não foi
+investigado. A dupla ausência é o
+resultado: a escolha entre girar o capim em três anos ou deixá-lo trinta acontece **abaixo
+da escala destes dados** — no talhão, na fazenda. Aponta para dados fundiários por imóvel.
 
 **RESPOSTA (uma frase)**
-> São dois mecanismos — rotação de curto prazo e abertura de fronteira antiga — e eles
-> **coexistem em toda parte**: a geografia separa o *tipo* de transição (o Sul intensifica,
-> o Norte abre), **não** a idade do pasto convertido.
+> O mecanismo são **duas populações de pastagem convertidas em paralelo** — pasto de ciclo
+> curto, em três a cinco anos, e reserva antiga ativada quinze, vinte, trinta anos depois. A geografia
+> separa *qual transição* domina cada metade do estado, mas **não** separa essas duas
+> populações: elas convivem em praticamente toda célula do território, e o que decide entre
+> uma e outra está abaixo do alcance destes dados.
 
 **O QUE ISTO NÃO DIZ**
-Que a região *causa* a bimodalidade — foi medido, e explica 0,5%. Que o plantio direto
-explica a idade do pasto — era confundidor de latitude (**D14**). Que "o Sul converte pasto
-jovem e o Norte, pasto velho" — essa frase **esteve** neste trabalho e caiu por três
-caminhos independentes. E nada sobre **tendência**: o eixo temporal está suspenso dos dois
-lados (antes de 2020, censura por horizonte de observação; depois, mudança de rótulo), então
-não se afirma que "o pasto jovem vem ganhando peso".
+Que a curva tem *dois picos visíveis* — não tem: tem um pico e um ombro. Que a região
+*causa* a divisão (foi medido: 0,5%). Que "o Sul converte pasto jovem e o Norte, pasto
+velho" — esteve nesta investigação e caiu por três caminhos independentes. Sobre o plantio
+direto, **nem que explica nem que está descartado**: a evidência não decide, e chamar isso
+de refutação repetiria um erro já cometido aqui. E nada sobre **tendência**: o eixo do tempo
+está comprometido dos dois lados (idade truncada antes, mudança de rótulo depois).
+
+**DOIS BLOCOS RECOLHIDOS** (`<details>`, para não pesar a leitura corrida)
+- *"Como se soube que o gradiente regional era falso"* — a autocorreção: a idade só é medida
+  sob o rótulo `agricultura`, esses eventos somem mais ao norte, e sob
+  `pasto → (agric ∪ mosaico)` a amplitude cai de **7a para 2a**, a ordem embaralha e o η² vai
+  de 3,7% a **0,5%**. O que **não** mudou: a coexistência (5/5 regiões; 9/10 → **10/10**
+  células). Fecha explicando por que a peça pinta veredito e não idade.
+- *"Por que 'não estabelecido' e não 'refutado'"* — o nulo limpo do plantio direto foi
+  **retirado**: medido sobre desfecho ruidoso, era indistinguível de falta de poder; com a
+  idade medida pelo censo nos mesmos municípios, a associação cruza o limiar usual. Termina
+  na **D14** e no corolário de que os dois lados de uma comparação precisam do *mesmo*
+  controle.
+
+**SEM DATAS NA TELA.** A perna conta *como* a investigação se corrigiu, não *quando* —
+"por algumas semanas este trabalho disse X" vale como narrativa; "em 23/jul/2026" não
+acrescenta nada ao leitor e envelhece a peça. As datas ficam nesta prancheta e nos
+pipelines.
 
 ---
 
 ## Perna 3 — É a lavoura do Sul empurrando o Norte? *(o clímax)*
+
+> ⚠️ **Esta seção foi reescrita em 28/jul/2026 pela revisão do autor.** A copy abaixo é a
+> versão **antiga** e está mantida só como registro do que mudou. A versão em vigor vive no
+> `reforma.html` e está descrita em [`PLANO_DE_CONSTRUCAO.md` §16](PLANO_DE_CONSTRUCAO.md).
+> O que a revisão mudou, em uma linha cada: **(a)** a perna ganhou os cinco `h4` que as
+> Pernas 1 e 2 já tinham, no lugar de quatro parágrafos corridos; **(b)** a pergunta passou
+> a ser *"O pasto que o Sul perdeu é o pasto que o Norte ganhou?"*, que engancha direto na
+> Perna 2, e a abertura passa a **montar** a hipótese antes de testá-la; **(c)** o beat novo
+> *"o que precisaria aparecer"* explicita as duas assinaturas **antes** dos resultados;
+> **(d)** duas figuras novas — a das **12 especificações** (o argumento-manchete, que antes
+> não tinha figura nenhuma) e a do **teste de simetria** (que antes era um parágrafo);
+> **(e)** o `veredito.png` do #42 foi **removido** (jargão, e redundante com o esquema SVG),
+> virando um `<details>` de método; **(f)** o veredito deixou de dizer **"refutada"** — ver
+> abaixo.
 
 🎞️ Ancora nas figuras do #34 (lead-lag / spillover direcional) e no painel de
 autocorreção do #42. É a única perna sem peça interativa — compensa com um **esquema
@@ -271,15 +418,42 @@ pastagem; o da **capacidade de armazenagem** (CONAB) é a camada mais meridional
 co-move sem liderar. Silo, banco e porto **consolidam o núcleo** — eles chegam onde a
 produção já está. Nenhum deles é a ponta da marcha.
 
-**RESPOSTA (uma frase)**
-> A lavoura do Sul **não** empurra o Norte — a hipótese de deslocamento causal foi testada
+**RESPOSTA (uma frase)** — 🚫 **versão antiga, retirada em 28/jul/2026**
+> ~~A lavoura do Sul **não** empurra o Norte — a hipótese de deslocamento causal foi testada
 > e refutada; os dois mecanismos são coordenados por um impulso macro comum sobre um
-> gradiente de aptidão.
+> gradiente de aptidão.~~
 
-**O QUE ISTO NÃO DIZ**
-Que o iLUC não existe — apenas que o **canal intra-estadual testado** não se confirma. E,
-por simetria honesta, também não se afirma que "o Sul lidera": o veredito é *sem líder*. O
-drive comum é corroborante — não se deve ler o câmbio como causa provada.
+**O problema com ela**, levantado pelo autor na revisão: "**refutada**" afirma mais do que
+o desenho sustenta, e afirma **contra o próprio pipeline**. O #34 registra, nas suas
+limitações, que o teste espacial é *local e contemporâneo* e "**não descarta** deslocamento
+de longo alcance ou de defasagem muito longa"; e a simulação de poder dá **~48%** para um
+efeito temporal moderado. Pior: a Parte 3 da mesma página já dizia, na lista de
+fragilidades, "iLUC: **não confirmado, não refutado em absoluto**" — a peça se contradizia
+a duas telas de distância. E "refutada" é a palavra **mais fácil de derrubar numa banca**:
+a primeira pergunta é "com que poder?".
+
+**RESPOSTA (uma frase)** — ✅ **em vigor**
+> **Não.** A assinatura que um empurrão do Sul sobre o Norte exigiria não aparece em nenhum
+> dos doze recortes espaciais nem dos vinte e quatro temporais — e o que aparece no lugar é
+> substituição *local*, forte em todos eles. Os dois mecanismos não se comandam: são
+> coordenados por um impulso macro comum sobre um gradiente de aptidão.
+
+A troca não enfraquece a perna, **muda o tipo de argumento**: sai um veredito apoiado em
+p-valor, entra um apoiado em **especificidade** — previsão arriscada, procurada em 36
+recortes com placebos e três réguas independentes, nunca encontrada, enquanto a explicação
+rival aparece em todos. É o mesmo movimento do [#54](../../Textos/pipelines/54_defensabilidade_perna4.md)
+na Perna 4 e o que a auditoria do [#34](../../Textos/pipelines/34_deslocamento_espacial.md)
+já mandava escrever.
+
+**O QUE ISTO NÃO DIZ** *(ampliado — era um parágrafo, virou cinco)*
+Que o iLUC não existe — apenas que o **canal intra-estadual, local e contemporâneo** que
+foi procurado não aparece; canal de longo alcance, de defasagem longa, ou que **atravesse a
+divisa de Goiás** (soja daqui deslocando pecuária para o Pará/Maranhão) não foi testado e
+segue aberto. Que a hipótese foi refutada em absoluto — o nulo temporal tem ~48% de poder
+para efeito moderado. Que "o Sul lidera" — o Toda-Yamamoto zera a precedência nas **duas**
+direções (p=0,45 e 0,25), e isso corta para os dois lados. Que o câmbio é causa provada — é
+corroborante, e não se cita o p agrupado (0,026/0,031) como significância; o correto é
+≈0,07–0,13. E nada sobre infraestrutura além da **posição**: os centroides são descritivos.
 
 ---
 
@@ -298,10 +472,32 @@ beat novo, ver nota abaixo) · #33 (o `veg→pasto` imune que substituiu o −88
 > a alternativa é movê-lo para a Parte 3 como coda — **não** cortá-lo, porque é o achado mais
 > comunicável do conjunto para fora da academia.
 
-**PERGUNTA**
+> ♻️ **Seção revisada em 28/jul/2026 — o que está abaixo em "PERGUNTA / CORPO / RESPOSTA"
+> é REGISTRO HISTÓRICO.** A revisão do autor encontrou aqui os mesmos sintomas da Perna 3
+> (pouca estrutura, figuras que não casam com o texto, veredito mais forte que a evidência),
+> mais um defeito novo e pior: **a figura publicada contradizia a manchete**. A copy em vigor
+> é a de `reforma.html`; ver `PLANO_DE_CONSTRUCAO.md` §18. Três pontos mudam de conteúdo:
+>
+> 1. **"A marcha desacelerou" é falso no estado.** O fluxo de conversão de Goiás vai de
+>    0,071 a 0,072 Mha/ano do Ato II ao III — não desacelerou, **mudou de endereço**. Quem
+>    freou foi o Sul (−37%). A perna passa a abrir corrigindo a própria pergunta.
+> 2. **A decomposição não mede a oferta.** Só **17%** do freio do Sul é o estoque menor; 83%
+>    é a taxa caindo, e a taxa é um **resíduo**. A leitura de oferta vem de eliminação
+>    (demanda no pico + proteção desprezível) e do teste da taxa plana (p=0,48). Declarado na
+>    perna e agora com dono em `p4-limites`.
+> 3. **O beat que faltava** e fecha o argumento: no Sul do Ato III a conversão de pasto em
+>    lavoura-ou-uso-misto **sobe 51%** e a soja plantada **sobe 244%** — a procura por terra
+>    subiu; o que secou foi a **fonte**.
+>
+> Correções de número: `+93%/+14%` é **2013→2021** (era "2013–2023"; a janela de crescimento
+> para no lag do IBGE), e o desprotegido vira **94–97%** (97% pelo proxy vetorial, 94,3% no
+> refino pixel do #46). E a frase *"não converte em bem-estar"*, abaixo, é **proibida** pelo
+> #51 — já corrigida na peça, mantida aqui só como registro do que foi escrito.
+
+**PERGUNTA** *(registro histórico)*
 > No Ato III (2020–24) a lavoura do Sul desacelera. Acabou a demanda?
 
-**CORPO**
+**CORPO** *(registro histórico)*
 A resposta intuitiva — "esfriou o mercado" — está errada, e é o que torna esta perna
 interessante. No Ato III os sinais de demanda **subiram**: câmbio, preço e crédito, todos
 em alta, e a soja plantada que o IBGE mede em campo cresce 38%. A abertura de terra nova no
@@ -325,12 +521,19 @@ desconfortável: entre 2013 e 2023 a fronteira norte quase **dobrou a área** cu
 Sul — a expansão de área é praticamente **desacoplada** do desenvolvimento. Abrir terra
 nova, medido assim, não converte em bem-estar onde ela é aberta.
 
-**RESPOSTA (uma frase)**
+**RESPOSTA (uma frase)** — ⛔ *substituída*
 > A desaceleração do Sul não é falta de demanda — é o estoque de Cerrado convertível se
 > esgotando (um teto de oferta **físico**), e a marcha ao norte é a fronteira perseguindo
 > a terra que só resta lá.
 
-**O QUE ISTO NÃO DIZ**
+**RESPOSTA (uma frase)** — ✅ **em vigor**
+> **Não acabou a demanda — ela estava no pico.** O que o Sul perdeu foi a *fonte*: seu
+> Cerrado convertível é o menor e o mais gasto do estado (53% do que havia em 1985,
+> praticamente parado desde 2019), e a procura por terra que continuou lá passou a ser
+> atendida por pasto já aberto. A marcha ao norte é, em parte, a fronteira seguindo o estoque
+> que só resta no norte — e o teto que ela encontra é **físico, não institucional**.
+
+**O QUE ISTO NÃO DIZ** *(registro histórico — ampliado na peça, ver §18)*
 Que se conhece o estoque **cadastral** de terra: "convertível" e "protegida" são proxies
 com teto declarado (MapBiomas + malha de unidades de conservação), não o CAR pixel a pixel.
 Que a queda do *hazard* de conversão seja, por si, "queda de demanda" — o hazard embute
@@ -461,16 +664,25 @@ a narrativa de *avanço no tempo*.
   | número | perna | fonte | estado |
   |---|---|---|---|
   | marcha +78 / +67 / +65 km · veg. ancorada (IC inclui zero) | 1 | #32 + D19 | ✅ |
-  | soja SIDRA (âncora imune) **+49 km** em 1988–2024, IC exclui zero | 1 | #44 | ✅ |
+  | soja SIDRA (âncora imune) **+48 km** em 1988–2024, IC exclui zero | 1 | #44 | ✅ |
   | 2019→24: pasto **+12,9** · rebanho **+11,9** · soja **+10,1** · ∪mosaico **+4,4** · agric **+0,5** km | 1 | `centro_massa_deriva_check.csv` | ✅ |
   | massa reetiquetada **+46,5 km** ao norte da agric. visível; r=0,84 com Δsoja | 1 | `centro_massa_deriva_resumo.csv` | ✅ |
   | ∪mosaico em 40 anos = **−60 km** (não usar como bracket longo) | 1 | `..._deriva_desloc.csv` | ✅ |
   | lavoura ~120–130 km ao sul do pasto, em todos os anos | 1 | #32 | ⏳ |
   | 166 AMCs (malha); **164** com conversão (base do #28C) | 1 · 2 | #25 · #28C | ✅ |
   | pixel-a-pixel a 1–2 km do valor original (MAUP) | 1 | #43 | ✅ |
-  | censo: 44,6 M eventos · 3,8 Mha · 11,2% de GO | 2 | #28 | ✅ |
-  | μ₁ **4,24a / w₁ 31,5%** · μ₂ **22,49a / w₂ 68,5%** (janela 2016–24) | 2 | `idade_pastagem_gmm.json` | ✅ |
-  | bimodalidade **5/5** mesos · **162/164** AMCs · 10/10 células | 2 | #28C | ✅ |
+  | censo: 44,6 M eventos · 3,8 Mha · 11,2% de GO · **16,0 M com idade conhecida** | 2 | #28 | ✅ |
+  | série inteira: μ₁ **3,9a / σ 1,6 / w 33%** · μ₂ **16,3a / σ 7,5 / w 67%** · uma-só μ 12,2 | 2 | `idade_pastagem_regional.json` | ✅ |
+  | BC de Sarle **0,609** (GO) · **0,568–0,639** nas 5 mesos, todas acima de 0,555 | 2 | idem (via #28C) | ✅ |
+  | coortes por origem: lavoura **5a** (3.910.537) · veg. nativa **13a** (6.379.954) | 2 | #28 §6 | ✅ |
+  | composição por origem: aos 3a **50%** veio de lavoura, aos 33a **1%** | 2 | censo, painel B da figura | ✅ |
+  | bimodalidade **5/5** mesos · **162/164** AMCs (régua estrita) · **166/166** (união) | 2 | #28C · `_bracket_viz` | ✅ |
+  | coexistência **dentro de cada ato**: **10/10** células período×região (união), 9/10 (estrita) | 2 | #28C | ✅ |
+  | Ato I unimodal em 0/5 — horizonte, não ausência (μ 3,4 e 7,6; separação 4,2a < limiar 5a) | 2 | #28C | ✅ |
+  | vale no histograma bruto — Noroeste **0,415→0,058**, Norte **0,271→sem vale** | 2 | `forma_regional_bimodalidade.py` | ✅ |
+  | distância entre formas (TV) Sul×Norte **0,223 → 0,023** sob a união | 2 | idem | ✅ |
+  | Δ SICOR × idade, parcial lat+lon: **+0,22 (agric) → +0,30 (união)**, p<0,0001 | 2 | `duas_logicas_bracket_fluxo.py` | ✅ |
+  | o mesmo par na janela limpa ≤2019: **+0,04 / +0,06, n.s. nas duas réguas** | 2 | idem | ✅ |
   | η²(mesorregião) da idade: 3,7% cru → **0,5%** sob a união | 2 | #28C | ✅ |
   | amplitude Sul→Norte da mediana: 7a → **2a**, ordem embaralhada | 2 | #28C | ✅ |
   | `veg→pasto` Ato II→III: Sul **−49%** · Norte **−13%** | 2 · 4 | #33 | ✅ |
@@ -489,7 +701,11 @@ a narrativa de *avanço no tempo*.
   🚫 **Números banidos** (estiveram na copy e caíram — não reintroduzir por descuido):
   "~78 mil pontos amostrados"; "Sul ~9a / Norte ~16a (ou ~20a)"; "a geografia desloca o peso
   da mistura"; "34 de 36 AMCs"; "tempo explica 20%, região 2,5–7,3%"; "o `pasto→agric` do Sul
-  cai −88%"; "o pasto jovem vem ganhando peso"; e, na Parte 1, "a vegetação encontra um piso".
+  cai −88%"; "o pasto jovem vem ganhando peso"; **"giro de lavoura"** (termo inventado, virou "pasto
+  de ciclo curto"); **"plantio direto é a melhor aproximação para ILP"** (é conservação de
+  solo; o Censo não tem variável de ILP); **"percorra as cinco regiões e o desenho não
+  muda"** sem declarar a régua (é falso na régua estrita); e, na Parte 1, "a vegetação
+  encontra um piso".
 - **A Perna 3 é a única sem interativa nova** — compensar com o esquema estático de 2
   painéis (ver acima) e as figuras #34/#42. É a perna que mais se beneficia de puxar frases
   direto do `ensaio_a_investigacao.md`.
@@ -501,9 +717,20 @@ a narrativa de *avanço no tempo*.
   municípios têm menos de 20 pixels não-censurados, contra 44% na amostra. **Consequência para
   a reforma:** esta peça **não precisa ser construída** — precisa ser **movida** para dentro da
   Perna 2 e receber a copy nova acima.
-- ⚠️ **O que sobrou de dívida na peça da Perna 2.** O toggle hoje tem **6 botões** (5
-  mesorregiões + "todas"), e a malha desenhada é a de **166 AMCs** — ou seja, o mapa está numa
-  resolução e o histograma em outra. Isso é intencional (Opção A, decidida em jul/2026: em AMC
-  o histograma sairia ralo em ~¾ dos cliques na amostra) mas **não está declarado na tela**. Na
-  reforma, declarar em uma linha: *"o mapa mostra o veredito por AMC; o histograma agrega por
-  mesorregião, onde n é alto o bastante para o ajuste"*.
+- ✅ **A dívida das duas malhas — quitada em 28/jul/2026.** O problema era que o mapa estava
+  numa resolução (166 AMCs) e o toggle noutra (6 pastilhas por mesorregião), sem nada na tela
+  ligando as duas. Resolvido pela raiz em vez de por uma nota de rodapé: o contorno das
+  mesorregiões passou a ser **desenhado sobre o mapa e a receber o clique**, então as duas
+  malhas ficam visivelmente sobrepostas e a relação é óbvia sem texto. A justificativa
+  continua declarada em uma linha abaixo da peça — mas agora explica *por que cada malha faz
+  o que faz* (a fina é o teste duro; a grossa é onde o n sustenta o ajuste), não apenas que
+  são diferentes.
+- 📐 **Exports novos que a peça passou a exigir** (rodar os dois antes de conferir a Perna 2):
+  - `scripts/export_malha_amc_viz.py` → agora gera também `malha_mesorregiao.geojson` (5
+    feições). O dissolve sela as fendas entre AMCs vizinhas com um buffer de ~55 m; sem isso
+    as bordas internas sobrevivem à união e o arquivo sai com 7.784 vértices em vez de 1.977.
+  - `scripts/export_idade_histograma_regional.py` → o bloco `gmm` ganhou `sig_jovem`,
+    `sig_velho`, `mu_1c`, `sig_1c` e `bc_sarle`. Os três primeiros são o que permite desenhar
+    as curvas (inclusive a de **uma população só**, que é o argumento); o `bc_sarle` é a
+    corroboração *model-free* que a nota do histograma cita. Chaves **acrescentadas**, nenhuma
+    removida — o `index.html` no ar lê o mesmo arquivo e não quebrou (verificado).

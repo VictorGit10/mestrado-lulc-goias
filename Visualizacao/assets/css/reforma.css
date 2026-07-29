@@ -330,6 +330,27 @@ body.reforma .timeline-rail.is-recolhida {
   margin: 0 0 0.35rem;
 }
 
+/* Selo de forca da evidencia — o indice logico declara isto por perna;
+   a peca declarava so' os limites, entao as 4 pernas liam-se igualmente firmes. */
+.perna-forca {
+  display: inline-block;
+  margin-left: 0.6rem;
+  padding: 0.1rem 0.5rem;
+  border: 1px solid currentColor;
+  border-radius: 2px;
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+}
+/* Variante da tabela-compacta para conteudo em prosa (bateria do #54):
+   a base alinha colunas 2+ a' direita, o que so' serve para numero. */
+.tabela-compacta--texto td + td,
+.tabela-compacta--texto th + th { text-align: left; padding-right: 0.7rem; }
+.tabela-compacta--texto td:first-child { padding-right: 1rem; }
+
+.perna-forca--forte { color: var(--color-veg); }
+.perna-forca--mista { color: var(--color-accent); }
+.perna-forca--moderada { color: var(--color-muted); }
+
 .perna > h3 {
   font-family: var(--font-serif);
   font-size: 1.65rem;
@@ -535,6 +556,166 @@ body.reforma .timeline-rail.is-recolhida {
 .esq-serie--placebo { fill: var(--color-muted); }
 .esq-eixo-rot { font-size: 10px; }
 .esq-eixo-rot--fim { text-anchor: end; }
+
+/* ==========================================================================
+   5d. "A assinatura que nunca aparece" — as 12 especificacoes do spillover
+   O argumento da Perna 3 e' uma AUSENCIA: a zona onde a hipotese exige que os
+   pontos caiam fica visivelmente vazia. Por isso a zona positiva e' pintada
+   (o vazio precisa de moldura para ser lido como vazio, nao como falta de dado).
+   ========================================================================== */
+.assinatura,
+.simetria,
+.decomp,
+.estoquefig {
+  margin: 1.6rem 0;
+  padding: 1.2rem 1.3rem 1rem;
+  background: #fcfcfa;
+  border: 1px solid var(--color-rule);
+}
+
+.assinatura svg,
+.simetria svg,
+.decomp svg,
+.estoquefig svg { width: 100%; height: auto; display: block; }
+
+.assinatura-titulo,
+.simetria-titulo,
+.decomp-titulo,
+.estoquefig-titulo {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin-bottom: 0.9rem;
+}
+
+.assinatura-legenda,
+.simetria-legenda,
+.decomp-legenda,
+.estoquefig-legenda {
+  font-family: var(--font-sans);
+  font-size: 0.84rem;
+  line-height: 1.55;
+  color: var(--color-muted);
+  margin: 0.9rem 0 0;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--color-rule);
+}
+
+.as-eixo { stroke: var(--color-rule); stroke-width: 1; }
+.as-grade { stroke: var(--color-rule); stroke-width: 1; opacity: 0.55; }
+.as-zero  { stroke: var(--color-accent); stroke-width: 1.5; }
+
+/* A zona proibida para a hipotese — pintada justamente por estar vazia. */
+.as-zona { fill: #f2e7e0; }
+
+.as-rotulo,
+.as-escala,
+.as-zona-rot,
+.as-nota {
+  font-family: var(--font-sans);
+  fill: var(--color-muted);
+}
+.as-rotulo { font-size: 12px; text-anchor: end; }
+.as-escala { font-size: 10px; text-anchor: middle; font-variant-numeric: tabular-nums; }
+.as-zona-rot { font-size: 11px; text-anchor: middle; }
+.as-zona-vazio {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-style: italic;
+  text-anchor: middle;
+  fill: var(--color-accent);
+}
+.as-nota { font-size: 10.5px; text-anchor: middle; font-style: italic; }
+.as-guia { stroke: var(--color-accent); stroke-width: 1; }
+
+.as-ponto { fill: var(--color-muted); opacity: 0.85; }
+/* A regua imune ao classificador — mesma convencao de cor da Perna 1. */
+.as-ponto--imune { fill: var(--color-veg); }
+/* O unico p<0,05, e e' a regua contaminada: destacado para ser desarmado. */
+.as-ponto--destaque { fill: var(--color-accent); }
+.as-rotulo--imune { fill: var(--color-fg); font-weight: 600; }
+
+/* --- o teste de simetria: quem esta atras de quem --- */
+.sim-eixo { stroke: var(--color-rule); stroke-width: 1; }
+.sim-zero { stroke: var(--color-accent); stroke-width: 2; }
+.sim-zona { fill: #f2e7e0; }
+
+.sim-rotulo,
+.sim-valor,
+.sim-escala,
+.sim-zona-rot {
+  font-family: var(--font-sans);
+  fill: var(--color-muted);
+}
+.sim-rotulo { font-size: 11.5px; text-anchor: end; }
+.sim-valor  { font-size: 12px; font-variant-numeric: tabular-nums; }
+.sim-escala { font-size: 10px; text-anchor: middle; font-variant-numeric: tabular-nums; }
+.sim-zona-rot { font-size: 11px; text-anchor: middle; }
+
+.sim-barra { fill: var(--color-mosaico); }
+/* A lavoura entra como referencia de contexto, nao como infraestrutura. */
+.sim-barra--nucleo { fill: var(--color-agric); opacity: 0.5; }
+.sim-fronteira { fill: var(--color-pasto); }
+
+/* ==========================================================================
+   5e. Perna 4 — a decomposicao honesta e o estoque normalizado
+   A figura antiga do #39 (PNG de pipeline) rotulava a barra do hazard como
+   "efeito-DEMANDA", rotulo que o proprio pipeline retratou: o hazard e' o
+   RESIDUO (propensao + atrito + troca de fonte de terra), nao demanda medida.
+   Desenhada aqui, a barra do residuo e' CINZA de proposito — cinza e' a cor
+   do que nao foi identificado, e e' exatamente o que ela contem.
+   ========================================================================== */
+.dec-eixo  { stroke: var(--color-rule); stroke-width: 1; }
+.dec-zero  { stroke: var(--color-accent); stroke-width: 1.5; }
+
+.dec-rotulo,
+.dec-sub,
+.dec-valor,
+.dec-escala,
+.dec-nota,
+.dec-legenda {
+  font-family: var(--font-sans);
+  fill: var(--color-muted);
+}
+.dec-rotulo { font-size: 13px; text-anchor: end; fill: var(--color-fg); font-weight: 600; }
+.dec-sub    { font-size: 10px; text-anchor: end; font-variant-numeric: tabular-nums; }
+.dec-valor  { font-size: 10.5px; font-variant-numeric: tabular-nums; }
+.dec-escala { font-size: 10px; text-anchor: middle; font-variant-numeric: tabular-nums; }
+.dec-legenda { font-size: 11px; }
+.dec-nota   { font-size: 11px; font-style: italic; fill: var(--color-accent); }
+
+/* O estoque de Cerrado: verde, porque e' vegetacao nativa que some. */
+.dec-barra--estoque { fill: var(--color-veg); }
+/* O residuo: cinza, porque e' o que a decomposicao NAO identifica. */
+.dec-barra--resto   { fill: var(--color-muted); opacity: 0.55; }
+
+/* --- o estoque convertivel normalizado a 1985 = 100% --- */
+.est-eixo  { stroke: var(--color-rule); stroke-width: 1; }
+.est-grade { stroke: var(--color-rule); stroke-width: 1; opacity: 0.5; }
+/* O Ato III, que e' a janela em discussao. */
+.est-banda { fill: #f2e7e0; opacity: 0.55; }
+
+.est-linha { fill: none; stroke-width: 2.2; stroke-linejoin: round; stroke-linecap: round; }
+.est-linha--sul    { stroke: var(--color-accent); }
+.est-linha--centro { stroke: var(--color-muted); }
+.est-linha--norte  { stroke: var(--color-veg); }
+
+.est-rotulo,
+.est-escala,
+.est-nota,
+.est-banda-rot {
+  font-family: var(--font-sans);
+  fill: var(--color-muted);
+}
+.est-escala { font-size: 10px; font-variant-numeric: tabular-nums; }
+.est-rotulo { font-size: 11.5px; font-variant-numeric: tabular-nums; }
+.est-rotulo--sul { fill: var(--color-accent); font-weight: 600; }
+.est-banda-rot { font-size: 10px; text-anchor: middle; }
+.est-nota { font-size: 10.5px; font-style: italic; fill: var(--color-accent); }
+.est-guia { stroke: var(--color-accent); stroke-width: 1; stroke-dasharray: 2 2; }
+.est-ponto { fill: var(--color-accent); }
 
 /* --- placeholders das fases B e C (some quando cada perna for construida) --- */
 .perna-placeholder {

@@ -152,7 +152,7 @@ acabou de ensinar o leitor a lê-lo, e porque é o único da lista cuja trajetó
 > **−5,8 Mha** · Vegetação natural perdida — 17,65 → 11,88 Mha (51,9% → 34,9% do estado).
 > **×4,8** · Agricultura — 1,17 → 5,58 Mha (a soja sozinha: ×12 em área, ×13 em produção).
 > **+1,0 Mha** · Pastagem — saldo enganoso: sobe até ~14,8 Mha em 2003 e recua (U invertido).
-> **×1,35** · Lotação bovina — 1,01 → 1,36 UA/ha: o rebanho cresce 46% e a área de pasto, só 9%.
+> **×1,34** · Lotação bovina — 1,01 → 1,36 UA/ha: o rebanho cresce 46% e a área de pasto, só 9%.
 > **≈0** · Mosaico de Usos — 3,63 → 3,59 Mha, saldo de 40 anos praticamente **nulo**. Mas o
 > caminho não é: cai de **10,7%** do estado (1985) a **6,1%** (2019) e volta a **10,5%** (2024).
 > A classe que absorve a conversão do fim da série é a mesma que estava lá no começo.

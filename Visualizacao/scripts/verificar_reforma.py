@@ -119,21 +119,92 @@ def main():
             marchaStrip: !!document.querySelector('#marchamap-strip svg'),
             reservaMapa: !!document.querySelector('#reserva-mapa svg'),
             reservaHist: !!document.querySelector('#reserva-hist svg'),
-            toggleRegioes: document.querySelectorAll('#reserva-regiao-toggle button').length,
-            amcs: document.querySelectorAll('#reserva-mapa path').length,
+            mesos: document.querySelectorAll('#reserva-mapa .reserva-meso').length,
+            amcs: document.querySelectorAll('#reserva-mapa .reserva-amcs path').length,
             esquema: document.querySelectorAll('.esquema-painel svg').length
         })""")
         print(f"pecas: {pecas}")
-        for k, minimo in [("marchaMapa", True), ("marchaStrip", True),
-                          ("reservaMapa", True), ("reservaHist", True)]:
+        for k in ("marchaMapa", "marchaStrip", "reservaMapa", "reservaHist"):
             if not pecas.get(k):
                 erros.append(f"peca interativa nao montou: {k}")
-        if pecas.get("toggleRegioes", 0) < 5:
-            erros.append(f"toggle de regioes com {pecas.get('toggleRegioes')} botoes (esperava >=5)")
+        if pecas.get("mesos") != 5:
+            erros.append(f"mapa com {pecas.get('mesos')} mesorregioes clicaveis (esperava 5)")
         if pecas.get("amcs", 0) < 150:
             erros.append(f"mapa de AMCs com {pecas.get('amcs')} poligonos (esperava ~166)")
         if pecas.get("esquema") != 2:
             erros.append(f"esquema da regressao espuria com {pecas.get('esquema')} paineis (esperava 2)")
+
+        # --- 6b-bis. o clique no mapa e o argumento da Perna 2 ---
+        # Sem interacao a peca nao entrega nada: o leitor precisa ver a curva
+        # ser redesenhada por regiao e continuar com as duas populacoes.
+        pg.evaluate("""() => {
+            const alvo = [...document.querySelectorAll('#reserva-mapa .reserva-meso')]
+                .find(p => (p.getAttribute('aria-label') || '').includes('Norte Goiano'));
+            if (alvo) alvo.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+        }""")
+        pg.wait_for_timeout(700)
+        clique = pg.evaluate("""() => ({
+            titulo: (document.getElementById('reserva-hist-titulo') || {}).textContent,
+            ativos: document.querySelectorAll('#reserva-mapa .reserva-meso.is-ativo').length,
+            veladas: [...document.querySelectorAll('#reserva-mapa .reserva-veu path')]
+                .filter(p => +p.getAttribute('opacity') > 0).length,
+            resetVisivel: !(document.getElementById('reserva-reset') || {}).hidden
+        })""")
+        print(f"clique no mapa: {clique}")
+        if clique.get("titulo") != "Norte Goiano":
+            erros.append(f"clicar no mapa nao trocou a regiao do histograma ({clique})")
+        if clique.get("ativos") != 1 or clique.get("veladas") != 4:
+            erros.append(f"selecao no mapa inconsistente: {clique}")
+        if not clique.get("resetVisivel"):
+            erros.append("sem saida para voltar ao estado inteiro depois de selecionar")
+
+        # --- 6b-ter. a troca de regua (D26) ---
+        # A peca desenha as DUAS reguas de proposito: sob a estrita, Noroeste
+        # ganha um vale visivel que some sob a imune. Se a troca parar de
+        # funcionar, o texto ao lado passa a descrever algo que nao esta na tela
+        # — que foi exatamente o defeito que originou este bloco.
+        pg.evaluate("""() => {
+            const a = [...document.querySelectorAll('#reserva-mapa .reserva-meso')]
+                .find(p => (p.getAttribute('aria-label') || '').includes('Noroeste'));
+            if (a) a.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+        }""")
+        pg.wait_for_timeout(500)
+        leitura = "() => (document.getElementById('reserva-hist-nota')||{}).textContent || ''"
+        nota_uniao = pg.evaluate(leitura)
+        pg.click(".reserva-regua-btn[data-regua='agric']")
+        pg.wait_for_timeout(700)
+        nota_agric = pg.evaluate(leitura)
+        regua = pg.evaluate("""() => ({
+            ativos: [...document.querySelectorAll('.reserva-regua-btn.is-ativo')]
+                .map(e => e.dataset.regua),
+            avisoVisivel: !(document.getElementById('reserva-regua-aviso') || {}).hidden,
+            legendaMapa: (document.querySelector('#reserva-mapa-legenda') || {}).textContent || '',
+            itensLegendaHist: document.querySelectorAll('#reserva-hist-legenda li').length
+        })""")
+        print(f"troca de regua: {regua}")
+        if regua.get("ativos") != ["agric"] or not regua.get("avisoVisivel"):
+            erros.append(f"a troca de regua nao pegou: {regua}")
+        if regua.get("itensLegendaHist") != 3:
+            erros.append(f"legenda do histograma com {regua.get('itensLegendaHist')} itens "
+                         "(esperava 3: ciclo curto, antigo, uma populacao so)")
+        # O achado que a peca existe para mostrar: o vale aparece na regua estrita.
+        if "vale visível" not in nota_agric or "vale visível" not in nota_uniao:
+            erros.append("o Noroeste deveria acusar vale nas duas reguas (fundo e raso)")
+
+        # Contrato de dado por tras da frase "de 42% para 6%" na copy da perna.
+        # E o par de numeros que sustenta o argumento inteiro do bloco da regua:
+        # se ele deixar de valer, a copy vira ficcao e o teste tem de gritar.
+        dips = pg.evaluate("""async () => {
+            const d = await fetch('assets/data/idade_pastagem_bracket.json').then(r => r.json());
+            const g = k => d.reguas[k].mesorregiao['Noroeste Goiano'].gmm;
+            return { agric: g('agric').dip_emp, uniao: g('uniao').dip_emp };
+        }""")
+        print(f"vale do Noroeste por regua: {dips}")
+        if not (dips.get("agric", 0) >= 0.30 and dips.get("uniao", 1) <= 0.10):
+            erros.append(f"o vale do Noroeste nao colapsa como a copy afirma: {dips}")
+
+        pg.click(".reserva-regua-btn[data-regua='uniao']")
+        pg.wait_for_timeout(500)
 
         # --- 6c. Partes 3 e 4 (a oficina) ---
         pg.evaluate("document.getElementById('parte-3').scrollIntoView()")

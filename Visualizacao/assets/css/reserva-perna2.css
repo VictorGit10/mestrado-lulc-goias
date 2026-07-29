@@ -1,0 +1,153 @@
+/* reserva-perna2.css — o que a reforma acrescenta à peça da Perna 2.
+ *
+ * Carregado DEPOIS de `reserva.css`, que continua fornecendo a base (grid,
+ * painéis, legenda, notas, tooltip) para as duas versões da peça. Aqui vive só
+ * o que nasceu com a reforma: a camada de mesorregiões como alvo de clique, o
+ * cabeçalho do histograma com o botão de voltar, e a chamada de interação.
+ * Na troca final, este arquivo pode ser fundido em `reserva.css`.
+ */
+
+/* A peça agora vem logo depois da chamada de clique — o respiro é dela. */
+.reserva-interativo { margin: 0.8rem 0 0.4rem; }
+
+/* Chamada de interação: a peça só entrega o argumento se o leitor clicar. */
+.reserva-instrucao {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--color-muted);
+  margin: 1.4rem 0 0;
+  padding-left: 0.7rem;
+  border-left: 3px solid var(--color-accent);
+}
+
+/* --- mesorregiões: a camada de clique sobre as AMCs --- */
+.reserva-meso {
+  stroke: #6b6b6b;
+  stroke-width: 1;
+  cursor: pointer;
+  transition: stroke-width 0.12s, stroke 0.12s;
+}
+.reserva-meso.is-hover { stroke: #1a1a1a; stroke-width: 2.2; }
+.reserva-meso.is-ativo { stroke: #1a1a1a; stroke-width: 2.6; }
+.reserva-meso:focus-visible { outline: none; stroke: #1a1a1a; stroke-width: 2.6; }
+.reserva-veu path { transition: opacity 0.15s; }
+
+/* --- cabeçalho do histograma --- */
+.reserva-hist-cabeca {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin-bottom: 0.4rem;
+  min-height: 1.7rem;
+}
+.reserva-hist-titulo {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-fg);
+}
+.reserva-reset {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  padding: 0.2rem 0.6rem;
+  border: 1px solid var(--color-rule);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--color-muted);
+  cursor: pointer;
+  flex: none;
+}
+.reserva-reset:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+/* Chip de linha tracejada — a legenda precisa distinguir "área preenchida"
+   (as duas populações) de "curva de referência" (o ajuste de uma só). */
+.reserva-legenda-chip--linha {
+  background: none;
+  border: 0;
+  border-top: 2px dashed currentColor;
+  height: 0;
+  border-radius: 0;
+  align-self: center;
+}
+
+/* --- tabela compacta dentro dos <details> ---
+   Primeira tabela da peça: o projeto não tinha nenhum estilo de `table`. Fica
+   escopada aqui (arquivo só da reforma) para não alcançar o index.html no ar. */
+.tabela-compacta {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  margin: 0.8rem 0;
+}
+.tabela-compacta th,
+.tabela-compacta td {
+  text-align: left;
+  padding: 0.4rem 0.7rem 0.4rem 0;
+  border-bottom: 1px solid var(--color-rule);
+  vertical-align: top;
+}
+.tabela-compacta thead th {
+  font-weight: 600;
+  color: var(--color-muted);
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  border-bottom-width: 2px;
+}
+.tabela-compacta td + td,
+.tabela-compacta th + th { text-align: right; padding-right: 0; }
+.tabela-compacta td[colspan] { text-align: left; color: var(--color-muted); }
+.tabela-compacta tbody tr:last-child td { border-bottom: none; }
+
+@media (max-width: 560px) {
+  .tabela-compacta { font-size: 0.76rem; }
+  .tabela-compacta th,
+  .tabela-compacta td { padding: 0.35rem 0.4rem 0.35rem 0; }
+}
+
+/* --- troca de régua (D26) --- */
+.reserva-regua {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.6rem;
+  margin-top: 1.1rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--color-rule);
+}
+.reserva-regua-rotulo {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  color: var(--color-muted);
+  margin-right: 0.1rem;
+}
+.reserva-regua-btn {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--color-rule);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--color-muted);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.reserva-regua-btn em { font-style: italic; opacity: 0.75; }
+.reserva-regua-btn:hover { border-color: var(--color-accent); }
+.reserva-regua-btn.is-ativo {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #fff;
+}
+.reserva-aviso {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  line-height: 1.45;
+  margin: 0.7rem 0 0;
+  padding: 0.55rem 0.75rem;
+  border-left: 3px solid var(--color-accent);
+  background: rgba(139, 58, 29, 0.06);
+  color: var(--color-fg);
+}
