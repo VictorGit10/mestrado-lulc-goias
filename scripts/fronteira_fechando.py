@@ -350,8 +350,11 @@ def decomposicao(est: pd.DataFrame) -> pd.DataFrame:
         h2, h3 = piv[("hazard", "II")][reg],     piv[("hazard", "III")][reg]
         f2, f3 = piv[("fluxo_mha_ano", "II")][reg], piv[("fluxo_mha_ano", "III")][reg]
         sbar, hbar = (s2 + s3) / 2, (h2 + h3) / 2
-        ef_estoque = hbar * (s3 - s2)        # efeito-OFERTA  (menos terra disponível)
-        ef_hazard  = sbar * (h3 - h2)        # efeito-DEMANDA (conversão por unidade muda)
+        ef_estoque = hbar * (s3 - s2)        # efeito-OFERTA   (menos terra disponível)
+        # RESIDUAL, não "demanda": o hazard capta tudo o que não é o volume do
+        # estoque — propensão a converter, atrito de acesso, proteção e troca da
+        # fonte de terra. Ver a "Ressalva de rótulo" no §3 do 39_fronteira_fechando.md.
+        ef_hazard  = sbar * (h3 - h2)        # efeito-RESIDUAL (a taxa por unidade muda)
         dflow = f3 - f2
         # Shares só quando Δfluxo não é ~ruído; senão os efeitos opostos quase se
         # cancelam e a razão explode → reportar NaN.
@@ -446,12 +449,13 @@ def figuras(reg_df: pd.DataFrame, est: pd.DataFrame, dec: pd.DataFrame) -> None:
     fig, ax = plt.subplots(figsize=(9, 5.5))
     x = np.arange(len(dd)); w = 0.38
     ax.bar(x - w / 2, dd["efeito_estoque"], w, color="#2e7d32", label="Efeito-OFERTA (Δestoque)")
-    ax.bar(x + w / 2, dd["efeito_hazard"], w, color="#c2185b", label="Efeito-DEMANDA (Δhazard)")
+    ax.bar(x + w / 2, dd["efeito_hazard"], w, color="#8a8a8a",
+           label="Efeito-RESIDUAL (Δhazard) — NÃO é demanda medida")
     ax.plot(x, dd["d_fluxo"], "D", color="k", ms=8, label="Δ fluxo observado")
     ax.axhline(0, color="k", lw=0.8)
     ax.set_xticks(x); ax.set_xticklabels(dd["regiao"])
     ax.set_ylabel("Contribuição à Δ do fluxo de conversão (Mha/ano), Ato II→III")
-    ax.set_title("Por que a fronteira desacelerou? oferta (estoque) vs demanda (hazard)")
+    ax.set_title("Por que o fluxo mudou? oferta (estoque) vs o resto (hazard)")
     ax.legend()
     fig.tight_layout(); fig.savefig(DIR_OUT / "decomposicao_oferta_demanda.png", dpi=140); plt.close(fig)
 

@@ -126,6 +126,19 @@ Decomposição do Δ do fluxo de conversão de vegetação (Mha/ano):
 > desaceleração do Sul é oferta, e não demanda fraca, não repousa neste rótulo, e sim no teste
 > hazard-plano (B2) somado à demanda macro **subindo** no Ato III (item 4).
 
+> ⚠️ **Autocorreção (2026-07-28) — a ressalva acima valeu para o texto e não para a figura.**
+> `outputs/fronteira_fechando/decomposicao_oferta_demanda.png` continuou exportando a barra com o
+> rótulo retratado, **"Efeito-DEMANDA"**, e foi essa figura que a visualização publicou — ao lado
+> da manchete "não foi a demanda, foi a oferta", sendo que no Sul aquela barra é **83% da freada**
+> (`share_hazard = 0,828`). Ou seja: a peça afirmava uma coisa no texto e a oposta na figura.
+> Corrigido na origem em `scripts/fronteira_fechando.py` — a barra agora é cinza e se chama
+> *"Efeito-RESIDUAL (Δhazard) — NÃO é demanda medida"*, e o título pergunta "oferta (estoque) vs o
+> resto (hazard)". **Quem reusar este PNG precisa re-exportá-lo**; versões geradas antes de
+> 28/07/2026 carregam o rótulo errado. O episódio gerou a **D27**
+> ([metodologia/auditoria_de_figuras.md](../metodologia/auditoria_de_figuras.md)): o rótulo de uma
+> figura é uma afirmação, e ele envelhece quando a auditoria muda a conclusão sem re-rodar o
+> script.
+
 ### 4. A demanda NÃO esfriou no Ato III — reforça a leitura de oferta no Sul
 
 Níveis médios dos drivers (#37) por ato: câmbio real 134,5→**169,0**; preço recebido soja
