@@ -23,7 +23,7 @@
   <link rel="stylesheet" href="assets/css/reserva.css?v=1">
   <link rel="stylesheet" href="assets/css/reserva-perna2.css?v=3">
   <link rel="stylesheet" href="assets/css/marchamap.css?v=1">
-  <link rel="stylesheet" href="assets/css/reforma.css?v=1">
+  <link rel="stylesheet" href="assets/css/reforma.css?v=2">
 </head>
 
 <body class="reforma">
@@ -351,7 +351,7 @@
           <div class="dado-choque">
             <div class="dado-choque-valor">×1,34</div>
             <div class="dado-choque-label">Lotação bovina por hectare</div>
-            <div class="dado-choque-glosa">1,01 → 1,36 UA/ha. Rebanho cresce 46% (15,9 → 23,2 M cab) enquanto a área de pasto cresce só 9% — a pecuária se intensifica.</div>
+            <div class="dado-choque-glosa">1,45 → 1,94 cab/ha. Rebanho cresce 46% (15,9 → 23,2 M cab) enquanto a área de pasto cresce só 9% — a pecuária se intensifica.</div>
           </div>
           <div class="dado-choque dado-choque--mosaico">
             <div class="dado-choque-valor">≈ 0</div>
@@ -373,9 +373,12 @@
         <p class="bloco-pergunta">De onde veio a terra que cada classe ganhou — e para onde foi a que ela perdeu?</p>
         <p>
           O saldo acima é líquido: diz quanto cada classe ganhou ou perdeu, mas esconde de
-          <em>onde</em> vieram e para <em>onde</em> foram esses hectares. O diagrama cruza
-          o uso de cada pixel em 1985 com o uso do mesmo pixel em 2024, nos
-          <strong>sete grupos</strong> de cobertura.
+          <em>onde</em> vieram e para <em>onde</em> foram esses hectares. O diagrama cruza o
+          uso de cada pixel em 1985 com o uso do mesmo pixel em 2024. Ele foi desenhado para
+          contar a <strong>marcha</strong> — a vegetação que virou pasto, o pasto que virou
+          lavoura. Uma sétima classe entra <em>esmaecida</em> de propósito: o
+          <strong>Mosaico de Usos</strong>, que não conta marcha nenhuma e ganha um painel
+          só seu logo abaixo.
         </p>
 
         <div id="sankey-container" class="sankey-container">
@@ -386,7 +389,7 @@
           Larguras proporcionais à área em milhões de hectares. Fonte: MapBiomas Coleção 10.1 via GEE.
         </p>
 
-        <p>Quatro fluxos enquadram a paisagem:</p>
+        <p>Três fluxos desenham a marcha:</p>
 
         <div class="dado-choque-grid">
           <div class="dado-choque">
@@ -404,31 +407,86 @@
             <div class="dado-choque-label">Veg. natural → Agricultura (direta)</div>
             <div class="dado-choque-glosa">Desmatamento direto para lavoura. Menor que via pasto, mas existe — e ganha peso no nordeste após 2010.</div>
           </div>
-          <div class="dado-choque dado-choque--mosaico">
-            <div class="dado-choque-valor">1,00 Mha</div>
-            <div class="dado-choque-label">Veg. natural → Mosaico de usos</div>
-            <div class="dado-choque-glosa">Vegetação que deixou de ser vegetação — mas que <strong>não</strong> entra na conta de desmatamento. Ver a ressalva abaixo.</div>
+        </div>
+
+        <!-- Painel do Mosaico: separado da marcha porque conta OUTRA coisa — o rotulo, nao a terra -->
+        <div class="mosaico-panel">
+          <p class="mosaico-panel-rotulo">O nó que não é marcha</p>
+          <h4 class="mosaico-panel-titulo">O Mosaico de Usos, à parte</h4>
+          <p class="mosaico-panel-lede">
+            No diagrama acima o Mosaico está apagado de propósito. É a classe que o MapBiomas
+            usa (classe&nbsp;21) quando <strong>não consegue separar lavoura de pasto</strong> —
+            e, isolado, o que ele mostra não é terra mudando de uso, e sim
+            <strong>correntes de ida e volta quase iguais</strong>: o rótulo mudando de ideia.
+          </p>
+
+          <div class="churn" role="img"
+               aria-label="Trocas de área entre o Mosaico de Usos e as demais classes, 1985 a 2024, em milhões de hectares. Pastagem: 1,62 vira Mosaico e 1,72 volta do Mosaico. Vegetação: 1,00 vira Mosaico e 0,46 volta. Agricultura: 0,06 vira Mosaico e 0,56 volta.">
+            <div class="churn-eixo">
+              <span class="churn-eixo-lado">vira Mosaico&nbsp;→</span>
+              <span class="churn-eixo-spine">MOSAICO</span>
+              <span class="churn-eixo-lado">→&nbsp;Mosaico vira</span>
+            </div>
+
+            <div class="churn-linha">
+              <div class="churn-in">
+                <span class="churn-val">1,62</span>
+                <span class="churn-bar churn-bar--pasto" style="--w:94%"></span>
+              </div>
+              <span class="churn-classe">Pastagem</span>
+              <div class="churn-out">
+                <span class="churn-bar churn-bar--pasto" style="--w:100%"></span>
+                <span class="churn-val">1,72</span>
+              </div>
+            </div>
+
+            <div class="churn-linha">
+              <div class="churn-in">
+                <span class="churn-val">1,00</span>
+                <span class="churn-bar churn-bar--veg" style="--w:58%"></span>
+              </div>
+              <span class="churn-classe">Vegetação</span>
+              <div class="churn-out">
+                <span class="churn-bar churn-bar--veg" style="--w:27%"></span>
+                <span class="churn-val">0,46</span>
+              </div>
+            </div>
+
+            <div class="churn-linha">
+              <div class="churn-in">
+                <span class="churn-val">0,06</span>
+                <span class="churn-bar churn-bar--agric" style="--w:4%"></span>
+              </div>
+              <span class="churn-classe">Agricultura</span>
+              <div class="churn-out">
+                <span class="churn-bar churn-bar--agric" style="--w:33%"></span>
+                <span class="churn-val">0,56</span>
+              </div>
+            </div>
           </div>
+
+          <p class="churn-unidade">Áreas em milhões de hectares (Mha) · cruzamento pixel-a-pixel 1985 ↔ 2024</p>
+
+          <p class="churn-leitura">
+            A Pastagem quase <strong>empata</strong>: 1,62 Mha entram no Mosaico e 1,72 Mha
+            saem dele — terra que vai e volta entre "pasto" e "Mosaico" sem nada mudar no
+            campo. Por isso, nesta peça, todo número com "agricultura" no destino é reportado
+            entre <strong>duas réguas</strong> — o piso (<code>agricultura</code>) e o teto
+            (<code>agricultura ∪ mosaico</code>) — e ancorado na soja que o IBGE mede em campo.
+          </p>
         </div>
 
         <aside class="nota-honestidade">
           <p class="nota-honestidade-rotulo">Uma ressalva que é um achado</p>
           <p>
-            Seria natural somar o quarto fluxo ao desmatamento — afinal é vegetação que
-            deixou de ser vegetação. <strong>Mas não é isso que os dados independentes
-            dizem.</strong> Ao incluir <em>vegetação → Mosaico</em> na conta de conversão
-            antrópica, a razão entre o nosso número e o do PRODES/INPE salta de
-            <strong>1,00 para 1,35</strong> — ou seja, passaríamos a contar um terço a mais
-            de desmatamento do que o sistema oficial enxerga. A classe "Mosaico" contém
-            transição de ida <em>e de volta</em>, e tratá-la como perda definitiva
-            superestima. Por isso ela fica fora de "conversão antrópica" nesta peça.
-          </p>
-          <p>
-            E há um par de fluxos que quase se cancela e diz muito sobre a medida:
-            <strong>1,72 Mha</strong> de Mosaico → pastagem e <strong>1,62 Mha</strong> de
-            pastagem → Mosaico. Duas correntes quase iguais em sentidos opostos, entre as
-            duas classes que o classificador mais confunde. Boa parte disso não é terra
-            mudando de uso — é o rótulo mudando de ideia.
+            Seria natural somar o fluxo <em>vegetação → Mosaico</em> (1,00&nbsp;Mha) ao
+            desmatamento — afinal é vegetação que deixou de ser vegetação. <strong>Mas não é
+            isso que os dados independentes dizem.</strong> Incluí-lo na conta de conversão
+            antrópica faria a razão entre o nosso número e o do PRODES/INPE saltar de
+            <strong>1,00 para 1,35</strong> — um terço a mais de desmatamento do que o sistema
+            oficial enxerga. Como o Mosaico tem transição de ida <em>e de volta</em> (as
+            barras acima), tratá-lo como perda definitiva superestima. Por isso ele fica fora
+            de "conversão antrópica" nesta peça.
           </p>
         </aside>
 
@@ -640,7 +698,7 @@
           </svg>
           <p class="cinco-medidas-legenda">
             ◆ = medida em campo pelo IBGE, <strong>imune</strong> ao classificador de imagens.
-            Quatro medidas dizem que tudo andou ~10 a 13 km ao norte nesses cinco anos. A
+            Quatro medidas dizem que tudo andou ao norte nesses cinco anos — três delas ~10 a 13 km, a quarta 4,4 km. A
             quinta diz que nada andou — e é justamente a única cujo <em>rótulo</em> mudou no
             período.
           </p>
@@ -1974,7 +2032,7 @@
             O Sul desce mais rápido e mais cedo &mdash; é o único dos três que chega a cruzar os
             60%, em meados dos anos 2000 &mdash; e <strong>estabiliza a partir de 2019</strong>:
             perde 2 pontos em cinco anos,
-            contra 3,5 do Centro e do Norte, que continuam descendo juntos. Não é que o Sul tenha
+            contra 3,5 do Centro e 3,4 do Norte, que continuam descendo juntos. Não é que o Sul tenha
             passado a preservar: é que sobrou pouco para converter. Em hectares, restam
             <strong>6,56 Mha</strong> convertíveis em Goiás (~60% do que havia em 1985), e o
             <strong>Norte concentra 44%</strong> deles. "Convertível" aqui é formação savânica +
@@ -2675,7 +2733,7 @@
         <div class="decisao-card">
           <span class="decisao-badge">D9</span>
           <div class="decisao-titulo">DiD GO vs MT/TO — lido como sensibilidade, não como causa</div>
-          <div class="decisao-por-que">Estados do Cerrado; Tocantins é o controle mais credível. <strong>Revisado em jul/2026</strong>: os marcos testados (Plano Real, Kandir, Código Florestal, Cerrado Manifesto) são <em>federais</em> — incidem sobre Goiás <em>e</em> sobre os controles, então não existe grupo não-tratado. O resultado mede <strong>exposição diferencial a um choque comum</strong>, não o efeito da lei. Nenhuma conclusão desta página se apoia nele.</div>
+          <div class="decisao-por-que">Estados do Cerrado; Tocantins é o controle mais credível. <strong>Revisado em jul/2026</strong>: os marcos testados (Plano Real, Commodity Boom, Código Florestal, Cerrado Manifesto) são <em>federais</em> — incidem sobre Goiás <em>e</em> sobre os controles, então não existe grupo não-tratado. O resultado mede <strong>exposição diferencial a um choque comum</strong>, não o efeito da lei. Nenhuma conclusão desta página se apoia nele.</div>
         </div>
         <div class="decisao-card">
           <span class="decisao-badge">D14</span>
@@ -2854,7 +2912,7 @@
         <div class="fragilidade-item">
           <div class="fragilidade-titulo">R² <em>within</em> modesto no painel</div>
           <p class="fragilidade-glosa">
-            No multivariado, R²<sub>within</sub> chega a 0,122 em agricultura (0,047 no univariado)
+            No multivariado, R²<sub>within</sub> chega a 0,122 em agricultura (0,105 no univariado, mesma janela)
             e 0,072 em pastagem. β preciso e significativo, mas grande parte da mudança
             vem de fatores não modelados. Um R² baixo aqui não invalida o coeficiente —
             diz que o painel explica pouco da variação total, não que o pouco que explica
@@ -2977,7 +3035,7 @@
 <script src="assets/js/utils.js?v=3"></script>
 <script src="assets/js/timeline.js?v=4"></script>
 <script src="assets/js/rail.js?v=1"></script>
-<script src="assets/js/sankey.js?v=4"></script>
+<script src="assets/js/sankey.js?v=5"></script>
 <script src="assets/js/mini-sankey.js?v=1"></script>
 <script src="assets/js/matriz.js?v=2"></script>
 <script src="assets/js/marcha-mapa.js?v=1"></script>

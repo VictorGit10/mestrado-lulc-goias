@@ -8,6 +8,10 @@
 
   const G = root.GO40 || {};
   let loaded = false;
+  let cachedData = null;
+
+  // Modos do Mosaico: 'full' (exibir normal), 'faded' (esmaecer marcha), 'hidden' (ocultar/filtrar)
+  let currentMode = root.GO40 && root.GO40.sankeyMode ? root.GO40.sankeyMode : "faded";
 
   // -------------------- carregar vendors --------------------
   function loadScript(src) {
@@ -26,13 +30,70 @@
     await loadScript("assets/js/vendor/d3-sankey.min.js?v=2");
   }
 
+  // -------------------- controles de interface --------------------
+  function renderControls(container) {
+    if (!container || !container.parentElement) return;
+    let ctrl = container.parentElement.querySelector(".sankey-controls");
+    if (!ctrl) {
+      ctrl = document.createElement("div");
+      ctrl.className = "sankey-controls";
+      container.parentElement.insertBefore(ctrl, container);
+    }
+
+    ctrl.innerHTML = `
+      <span class="sankey-controls-label">Mosaico de Usos:</span>
+      <div class="sankey-controls-group" role="radiogroup" aria-label="Modo de exibição do Mosaico de Usos">
+        <button type="button" class="sankey-ctrl-btn ${currentMode === 'full' ? 'active' : ''}" data-mode="full">Exibir normal</button>
+        <button type="button" class="sankey-ctrl-btn ${currentMode === 'faded' ? 'active' : ''}" data-mode="faded">Esmaecer (Marcha)</button>
+        <button type="button" class="sankey-ctrl-btn ${currentMode === 'hidden' ? 'active' : ''}" data-mode="hidden">Ocultar (Filtrar)</button>
+      </div>
+    `;
+
+    ctrl.querySelectorAll(".sankey-ctrl-btn").forEach(btn => {
+      btn.onclick = (e) => {
+        const mode = e.currentTarget.dataset.mode;
+        if (mode) setMode(mode);
+      };
+    });
+  }
+
+  function setMode(mode) {
+    if (currentMode === mode && root.GO40 && root.GO40.sankeyMode === mode) return;
+    currentMode = mode;
+    root.GO40 = root.GO40 || {};
+    root.GO40.sankeyMode = mode;
+
+    if (cachedData) {
+      renderizar(cachedData);
+    }
+    if (root.GO40.miniSankey && typeof root.GO40.miniSankey.setMode === "function") {
+      root.GO40.miniSankey.setMode(mode);
+    }
+  }
+
   // -------------------- renderizar Sankey --------------------
   function renderizar(data) {
+    cachedData = data;
     const container = document.getElementById("sankey-container");
     if (!container) return;
 
-    // Limpar placeholder
+    renderControls(container);
+
+    // Limpar SVG e mensagens anteriores
     container.innerHTML = "";
+
+    const isHidden = currentMode === "hidden";
+    const isFaded = currentMode === "faded";
+    const ehMosaicoId = id => /Mosaico/.test(id);
+
+    // Filtrar dados caso o mosaico esteja oculto
+    let nodesToUse = data.nodes;
+    let linksToUse = data.links;
+
+    if (isHidden) {
+      nodesToUse = data.nodes.filter(n => !ehMosaicoId(n.id));
+      linksToUse = data.links.filter(l => !ehMosaicoId(l.source) && !ehMosaicoId(l.target));
+    }
 
     const containerWidth = container.clientWidth || 800;
     const width = Math.min(containerWidth, 900);
@@ -40,17 +101,17 @@
 
     // Mapear IDs para indices
     const nodeById = {};
-    data.nodes.forEach((n, i) => { nodeById[n.id] = i; });
+    nodesToUse.forEach((n, i) => { nodeById[n.id] = i; });
 
     // Construir links com indices numericos
-    const links = data.links.map(l => ({
+    const links = linksToUse.map(l => ({
       source: nodeById[l.source],
       target: nodeById[l.target],
       value: l.value,
       color: l.color
     }));
 
-    const nodes = data.nodes.map(n => ({
+    const nodes = nodesToUse.map(n => ({
       ...n,
       nodeId: nodeById[n.id]
     }));
@@ -77,6 +138,12 @@
       .style("max-width", "100%")
       .style("height", "auto");
 
+    const tocaMosaico = d => {
+      const srcNode = graph.nodes[d.source.index];
+      const tgtNode = graph.nodes[d.target.index];
+      return (srcNode && ehMosaicoId(srcNode.id)) || (tgtNode && ehMosaicoId(tgtNode.id));
+    };
+
     // Links
     svg.append("g")
       .attr("fill", "none")
@@ -85,13 +152,13 @@
       .join("path")
       .attr("d", d3.sankeyLinkHorizontal())
       .attr("stroke", d => d.color || "#999")
-      .attr("stroke-opacity", 0.4)
+      .attr("stroke-opacity", d => isFaded ? (tocaMosaico(d) ? 0.06 : 0.5) : 0.4)
       .attr("stroke-width", d => Math.max(1, d.width))
       .append("title")
       .text(d => {
-        const src = data.nodes[d.source.index];
-        const tgt = data.nodes[d.target.index];
-        return `${src.label} → ${tgt.label}: ${d.value.toFixed(2)} Mha`;
+        const src = graph.nodes[d.source.index];
+        const tgt = graph.nodes[d.target.index];
+        return `${src.label || src.id} → ${tgt.label || tgt.id}: ${d.value.toFixed(2)} Mha`;
       });
 
     // Nodes
@@ -106,7 +173,9 @@
       .attr("height", d => Math.max(1, d.y1 - d.y0))
       .attr("width", d => d.x1 - d.x0)
       .attr("fill", d => d.color)
+      .attr("fill-opacity", d => isFaded && ehMosaicoId(d.id) ? 0.18 : 1)
       .attr("stroke", "#1a1a1a")
+      .attr("stroke-opacity", d => isFaded && ehMosaicoId(d.id) ? 0.25 : 1)
       .attr("stroke-width", 0.5);
 
     // Labels dos nodes
@@ -116,10 +185,11 @@
       .attr("dy", "0.35em")
       .attr("text-anchor", d => d.x0 < width / 2 ? "start" : "end")
       .attr("fill", "#1a1a1a")
+      .attr("opacity", d => isFaded && ehMosaicoId(d.id) ? 0.4 : 1)
       .attr("font-size", "11px")
       .attr("font-family", "var(--font-sans)")
       .text(d => {
-        const nome = d.label
+        const nome = (d.label || d.id)
           .replace("Vegetacao Natural", "Veg. natural")
           .replace("Agricultura", "Agricultura")
           .replace("Pastagem", "Pastagem")
@@ -177,7 +247,7 @@
   }
 
   root.GO40 = root.GO40 || {};
-  root.GO40.sankey = { init, renderizar };
+  root.GO40.sankey = { init, renderizar, setMode };
 
   init();
 

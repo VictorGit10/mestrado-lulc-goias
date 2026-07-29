@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Preview — Headers Criativos Hero (Goiás 1985-2024)</title>
+  <style>
+    :root {
+      --bg-color: #fafaf7;
+      --card-bg: #ffffff;
+      --text-main: #1a1a1a;
+      --text-muted: #555555;
+      --accent-terracota: #8b3a1d;
+      --accent-cerrado: #2d5a27;
+      --accent-pasto: #d4a373;
+      --accent-agri: #bc6c25;
+      --rule-color: #e2e2dc;
+      --font-serif: "Georgia", "Times New Roman", serif;
+      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: #f2f2eb;
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      padding: 2rem 1rem;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    header.top-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      border-bottom: 1px solid #d0d0c8;
+      padding-bottom: 1.5rem;
+    }
+
+    header.top-header h1 {
+      font-family: var(--font-serif);
+      font-size: 2rem;
+      color: var(--accent-terracota);
+      margin-bottom: 0.5rem;
+    }
+
+    .btn-replay-all {
+      background: var(--text-main);
+      color: #fff;
+      border: none;
+      padding: 0.7rem 1.6rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-radius: 24px;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: all 0.2s ease;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+    }
+    .btn-replay-all:hover {
+      background: var(--accent-terracota);
+      transform: translateY(-2px);
+    }
+
+    .hero-card {
+      background: var(--bg-color);
+      border: 1px solid var(--rule-color);
+      border-radius: 12px;
+      padding: 3rem 2.5rem;
+      margin-bottom: 3rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .concept-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent-terracota);
+      background: rgba(139, 58, 29, 0.08);
+      padding: 4px 10px;
+      border-radius: 4px;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 0.6rem;
+    }
+
+    .hero-title {
+      font-family: var(--font-serif);
+      font-size: 2.5rem;
+      line-height: 1.25;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 1.2rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-lede {
+      font-size: 1.05rem;
+      color: #333333;
+      max-width: 720px;
+      line-height: 1.7;
+      position: relative;
+      z-index: 2;
+    }
+
+    .concept-explain {
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px dashed var(--rule-color);
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ========================================================
+       CONCEITO 1: MATRIZ DE PIXELS MAPBIOMAS (30x30m)
+       ======================================================== */
+    .pixel-grid-bg {
+      position: absolute;
+      top: 0; right: 0; bottom: 0; left: 0;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.85;
+      display: grid;
+      grid-template-columns: repeat(20, 1fr);
+      grid-template-rows: repeat(10, 1fr);
+      gap: 6px;
+      padding: 1rem;
+    }
+
+    .pixel-cell {
+      width: 100%;
+      height: 100%;
+      border-radius: 2px;
+      opacity: 0;
+      transform: scale(0.3) translateY(10px);
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .anim-on .pixel-cell {
+      opacity: 0.18;
+      transform: scale(1) translateY(0);
+    }
+
+    .pixel-cell.active-cerrado { background: var(--accent-cerrado); }
+    .pixel-cell.active-pasto { background: #d4a373; }
+    .pixel-cell.active-agri { background: #c24f92; }
+    .pixel-cell.active-water { background: #2874a6; }
+
+    /* ========================================================
+       CONCEITO 2: CONTORNO CARTOGRÁFICO DE GOIÁS + VETOR NORTE
+       ======================================================== */
+    .goias-svg-bg {
+      position: absolute;
+      right: 2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 280px;
+      height: 280px;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.25;
+    }
+
+    .goias-path {
+      stroke-dasharray: 600;
+      stroke-dashoffset: 600;
+      transition: stroke-dashoffset 2s ease-in-out;
+    }
+
+    .vector-line-path {
+      stroke-dasharray: 300;
+      stroke-dashoffset: 300;
+      transition: stroke-dashoffset 1.5s ease-out 1.2s;
+    }
+
+    .anim-on .goias-path { stroke-dashoffset: 0; }
+    .anim-on .vector-line-path { stroke-dashoffset: 0; }
+
+    /* ========================================================
+       CONCEITO 3: ESCANEAR DE 40 ANOS & LATITUDE (1985 -> 2024)
+       ======================================================== */
+    .timeline-scanner {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      background: rgba(0, 0, 0, 0.04);
+      padding: 4px 12px;
+      border-radius: 20px;
+      border: 1px solid var(--rule-color);
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--accent-terracota);
+      margin-bottom: 0.8rem;
+    }
+
+    .scanner-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-terracota);
+      display: inline-block;
+      animation: pulseDot 1.5s infinite;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.6); opacity: 0.4; }
+    }
+
+    /* ========================================================
+       CONCEITO 4: CONTADORES VIVOS DE DADOS (15 BILHÕES DE PIXELS)
+       ======================================================== */
+    .stat-highlight {
+      font-weight: 700;
+      color: var(--accent-terracota);
+      background: rgba(139, 58, 29, 0.08);
+      padding: 0 4px;
+      border-radius: 3px;
+      transition: background 0.3s ease;
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header class="top-header">
+    <h1>Headers Criativos para a Introdução</h1>
+    <p>Quatro conceitos visuais para impressionar no primeiro impacto da página</p>
+    <button class="btn-replay-all" onclick="triggerAllAnimations()">&#x21bb; Reiniciar Animações</button>
+  </header>
+
+  <!-- CONCEITO 1 -->
+  <div class="hero-card" id="card-concept-1">
+    <div class="pixel-grid-bg" id="pixel-grid"></div>
+    <span class="concept-tag">Conceito 1</span>
+    <p class="hero-eyebrow">Dissertação CIAMB-UFG &middot; 1985-2024</p>
+    <h1 class="hero-title">Buscando histórias em 40 anos de dados</h1>
+    <p class="hero-lede">
+      Cada pixel nesta tela representa um quadrado de 30 por 30 metros no chão. São 378 milhões deles cobrindo Goiás, recontados ano a ano durante quatro décadas — 15 bilhões de observações pixel a pixel do MapBiomas — para rastrear a cicatriz física que as leis e a economia deixaram no território.
+    </p>
+    <p class="concept-explain">
+      <strong>Por que funciona:</strong> À medida que o leitor entra na página, uma grade atmosférica de micro-pixels (em tons de Cerrado, Pasto e Agricultura) ganha vida suavemente ao fundo. Faz a metáfora dos *"378 milhões de pixels de 30x30m"* ganhar forma visual instantânea.
+    </p>
+  </div>
+
+  <!-- CONCEITO 2 -->
+  <div class="hero-card" id="card-concept-2">
+    <svg class="goias-svg-bg" viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Silhueta estilizada de Goiás -->
+      <path class="goias-path" d="M30 10 L70 15 L85 45 L75 85 L50 110 L20 85 L15 40 Z" stroke="#8b3a1d" stroke-width="1.5" stroke-dasharray="4 2"/>
+      <!-- Vetor do Sul para o Norte -->
+      <path class="vector-line-path" d="M48 95 L48 25 M48 25 L40 35 M48 25 L56 35" stroke="#2d5a27" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    <span class="concept-tag">Conceito 2</span>
+    <p class="hero-eyebrow">Dissertação CIAMB-UFG &middot; 1985-2024</p>
+    <h1 class="hero-title">Buscando histórias em 40 anos de dados</h1>
+    <p class="hero-lede">
+      Cada pixel nesta tela representa um quadrado de 30 por 30 metros no chão. São 378 milhões deles cobrindo Goiás, recontados ano a ano durante quatro décadas para rastrear a reorganização espacial do território.
+    </p>
+    <p class="concept-explain">
+      <strong>Por que funciona:</strong> Um traço vetorial elegante desenha a silhueta cartográfica de Goiás ao fundo acompanhado de um vetor fluindo do Sul ao Norte. É sóbrio, acadêmico e visualmente marcante.
+    </p>
+  </div>
+
+  <!-- CONCEITO 3 -->
+  <div class="hero-card" id="card-concept-3">
+    <span class="concept-tag">Conceito 3</span>
+    <div class="timeline-scanner">
+      <span class="scanner-dot"></span>
+      <span>Série Temporal: <span id="year-counter">1985</span> &rarr; 2024 &middot; Lat: <span id="lat-counter">18.2°S</span> &rarr; 13.0°S</span>
+    </div>
+    <h1 class="hero-title">Buscando histórias em 40 anos de dados</h1>
+    <p class="hero-lede">
+      Cada pixel nesta tela representa um quadrado de 30 por 30 metros no chão. São 378 milhões deles cobrindo Goiás, recontados ano a ano durante quatro décadas para rastrear a cicatriz física que as leis e os mercados deixaram em Goiás.
+    </p>
+    <p class="concept-explain">
+      <strong>Por que funciona:</strong> Adiciona uma barra de scanner temporal no topo do cabeçalho que faz os anos (1985 &rarr; 2024) e as latitudes (18°S &rarr; 13°S) contarem rapidamente ao carregar a tela.
+    </p>
+  </div>
+
+  <!-- CONCEITO 4 -->
+  <div class="hero-card" id="card-concept-4">
+    <span class="concept-tag">Conceito 4</span>
+    <p class="hero-eyebrow">Dissertação CIAMB-UFG &middot; 1985-2024</p>
+    <h1 class="hero-title">Buscando histórias em 40 anos de dados</h1>
+    <p class="hero-lede">
+      Cada pixel nesta tela representa um quadrado de 30 por 30 metros no chão. São <span class="stat-highlight" id="stat-pixels">0</span> milhões deles cobrindo Goiás, recontados ano a ano durante <span class="stat-highlight" id="stat-anos">0</span> décadas — <span class="stat-highlight" id="stat-obs">0</span> bilhões de observações pixel a pixel do MapBiomas — para rastrear a cicatriz física do território.
+    </p>
+    <p class="concept-explain">
+      <strong>Por que funciona:</strong> Os números impressionantes do *Big Data* (378 milhões de pixels, 40 anos, 15 bilhões de observações) contam de zero até o valor final em tempo real na própria leitura do parágrafo.
+    </p>
+  </div>
+</div>
+
+<script>
+  // Gerar grid de pixels para o Conceito 1
+  const gridContainer = document.getElementById('pixel-grid');
+  const classes = ['active-cerrado', 'active-pasto', 'active-agri', 'active-water'];
+  for (let i = 0; i < 200; i++) {
+    const cell = document.createElement('div');
+    const randomClass = classes[Math.floor(Math.random() * classes.length)];
+    cell.className = `pixel-cell ${randomClass}`;
+    cell.style.transitionDelay = `${(i % 20) * 0.04 + Math.random() * 0.2}s`;
+    gridContainer.appendChild(cell);
+  }
+
+  function triggerAllAnimations() {
+    const cards = document.querySelectorAll('.hero-card');
+    cards.forEach(c => c.classList.remove('anim-on'));
+
+    void document.body.offsetHeight; // reflow
+
+    setTimeout(() => {
+      cards.forEach(c => c.classList.add('anim-on'));
+      animateCounters();
+    }, 50);
+  }
+
+  function animateCounters() {
+    // Animar anos Conceito 3
+    let yr = 1985;
+    const yrEl = document.getElementById('year-counter');
+    const latEl = document.getElementById('lat-counter');
+    const yrTimer = setInterval(() => {
+      yr++;
+      if (yrEl) yrEl.textContent = yr;
+      if (latEl) latEl.textContent = (18.2 - ((yr - 1985) / 39) * 5.2).toFixed(1) + '°S';
+      if (yr >= 2024) clearInterval(yrTimer);
+    }, 35);
+
+    // Animar números Conceito 4
+    animateValue('stat-pixels', 0, 378, 1200);
+    animateValue('stat-anos', 0, 4, 800);
+    animateValue('stat-obs', 0, 15, 1400);
+  }
+
+  function animateValue(id, start, end, duration) {
+    const obj = document.getElementById(id);
+    if (!obj) return;
+    let startTimestamp = null;
+    const step = (timestamp) => {
+      if (!startTimestamp) startTimestamp = timestamp;
+      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+      obj.textContent = Math.floor(progress * (end - start) + start);
+      if (progress < 1) {
+        window.requestAnimationFrame(step);
+      }
+    };
+    window.requestAnimationFrame(step);
+  }
+
+  window.addEventListener('DOMContentLoaded', triggerAllAnimations);
+</script>
+</body>
+</html>

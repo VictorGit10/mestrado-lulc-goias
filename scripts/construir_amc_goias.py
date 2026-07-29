@@ -116,7 +116,6 @@ ARQ_IMPACTO   = DIR_DIAG / "amc_impacto_goias.csv"
 
 UF_CODIGO_IBGE = 52            # Goiás (prefixo do código IBGE de 7 dígitos)
 AMC_START, AMC_END = 1980, 2010
-FATOR_UA_BOVINO = 0.7          # idêntico ao Pipeline #16
 
 # Colunas-chave do painel municipal.
 KEYS = ["cd_mun", "nm_mun", "ano"]
@@ -127,7 +126,7 @@ KEYS = ["cd_mun", "nm_mun", "ano"]
 # taxa_abate_*, que difere ~0,02% porque o #16 ARMAZENA o valor arredondado a
 # 4 casas — aqui recalculamos das componentes não-arredondadas (mais preciso).
 COLS_DERIVADAS = [
-    "lotacao_bov_ha", "pec_bovinos_ua", "lotacao_ua_ha_pasto",
+    "lotacao_bov_ha",
     "credito_por_ha_pastagem", "produtividade_soja_ton_ha",
     "pct_pastagem_lulc", "pct_agricultura_lulc", "pct_natural_lulc",
     "pib_per_capita_real", "densidade_demografica_hab_km2",
@@ -292,9 +291,6 @@ def recalcular_derivadas(df: pd.DataFrame) -> pd.DataFrame:
         return df[num] / df[den] if num in df and den in df else np.nan
 
     df["lotacao_bov_ha"]          = ratio("pec_bovinos_cab", "lulc_pastagem_ha")
-    if "pec_bovinos_cab" in df:
-        df["pec_bovinos_ua"]      = df["pec_bovinos_cab"] * FATOR_UA_BOVINO
-        df["lotacao_ua_ha_pasto"] = df["pec_bovinos_ua"] / df["lulc_pastagem_ha"]
     df["credito_por_ha_pastagem"] = ratio("sicor_total_real_rs", "lulc_pastagem_ha")
     df["produtividade_soja_ton_ha"] = ratio("agri_soja_ton", "agri_soja_ha_plantada")
 

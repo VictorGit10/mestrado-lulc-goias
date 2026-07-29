@@ -51,7 +51,6 @@ def carregar_uf() -> pd.DataFrame:
         "ano",
         "lulc_pastagem_ha",
         "pec_bovinos_cab",
-        "pec_bovinos_ua",
         "agri_soja_ton",
         "agri_milho_total_ton",
         "agri_cana_ton",
@@ -64,7 +63,7 @@ def carregar_uf() -> pd.DataFrame:
         "populacao",
     ]
     grp = df.groupby("ano", as_index=False)[cols[1:]].sum(min_count=1)
-    grp["lotacao_ua_ha_pasto"] = grp["pec_bovinos_ua"] / grp["lulc_pastagem_ha"]
+    grp["lotacao_bov_ha"] = grp["pec_bovinos_cab"] / grp["lulc_pastagem_ha"]
     return grp.sort_values("ano").reset_index(drop=True)
 
 
@@ -108,11 +107,11 @@ def grafico_pecuaria(grp: pd.DataFrame) -> None:
 
     pasto_n = norm(grp["lulc_pastagem_ha"])
     rebanho_n = norm(grp["pec_bovinos_cab"])
-    lotacao_n = norm(grp["lotacao_ua_ha_pasto"])
+    lotacao_n = norm(grp["lotacao_bov_ha"])
 
     ax.plot(grp["ano"], pasto_n,   color=COR_PASTO,  linewidth=2.2, label="Área de pasto (Mha)")
     ax.plot(grp["ano"], rebanho_n, color=COR_ACCENT, linewidth=2.2, label="Rebanho bovino (M cab)")
-    ax.plot(grp["ano"], lotacao_n, color=COR_VEG,    linewidth=2.2, label="Lotação (UA/ha)")
+    ax.plot(grp["ano"], lotacao_n, color=COR_VEG,    linewidth=2.2, label="Lotação (cab/ha)")
 
     # Sombrear a era de intensificação (2012-)
     ax.axvspan(2012, grp["ano"].max(), color="#5c8a6f", alpha=0.07, zorder=0)

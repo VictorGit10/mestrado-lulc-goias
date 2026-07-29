@@ -8,7 +8,7 @@ um painel completo com 4 análises:
   1. Cobertura do solo — 5 classes (pastagem, soja/lavoura, cerrado/savana,
      floresta nativa, área urbana) empilhadas numa área chart.
   2. Rebanho bovino em Goiás (SIDRA PPM — tabela 3939), 1985–2024.
-  3. Pastagem × Rebanho: "taxa de lotação implícita" (UA/ha).
+  3. Pastagem × Rebanho: "taxa de lotação implícita" (cab/ha).
   4. PIB agropecuário real vs PIB total real de Goiás (participação %).
 
 Como rodar (dependências já instaladas):

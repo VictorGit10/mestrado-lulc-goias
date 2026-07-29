@@ -32,7 +32,7 @@ apresentação ou arredondamento. O restante bate com a fonte — em boa parte a
 
 | bloco | o que foi conferido | resultado |
 |---|---|---|
-| **Parte 1 · os 5 cards do saldo** | veg 17,65→11,88 Mha (51,9%→34,9%); agric ×4,8 (1,17→5,58); soja ×12 área e ×13 produção; pasto +1,0 Mha com pico 14,80 em 2003; lotação 1,01→1,36; rebanho +46%; Mosaico 3,63→3,59 (10,7%→6,1%→10,5%) | **exatos** contra `painel_goias.json` + `transicoes_resumo.json` |
+| **Parte 1 · os 5 cards do saldo** | veg 17,65→11,88 Mha (51,9%→34,9%); agric ×4,8 (1,17→5,58); soja ×12 área e ×13 produção; pasto +1,0 Mha com pico 14,80 em 2003; lotação 1,45→1,94 cab/ha; rebanho +46%; Mosaico 3,63→3,59 (10,7%→6,1%→10,5%) | **exatos** contra `painel_goias.json` + `transicoes_resumo.json` |
 | **Parte 1 · Sankey** | 4,10 / 2,72 / 1,29 / 1,00 Mha; o par que se cancela (1,72 ↔ 1,62); razão PRODES 1,00→1,35 | **exatos** contra `sankey_data.json` |
 | **Parte 1 · Ato III** | −88% (narrado como artefato); soja SIDRA +38%; união acelera ~50% (0,2697→0,4055 Mha/ano); pasto perde 0,076→0,273 Mha/ano; 34,9% | **exatos** |
 | **Perna 1 · centro de massa** | +78 / +67 / +65 / +8 km e o IC que inclui zero; as **cinco medidas** 2019→2024 (+12,9 / +11,9 / +10,1 / +4,4 / +0,5); vãos 135 / 111 / 122 km; união −60 km; massa escondida +46,5 km e r=0,84; #43 pixel +79,2 / +66,9; campo nativo +35 km | **exatos** contra `centro_massa_*.csv` |
@@ -40,7 +40,7 @@ apresentação ou arredondamento. O restante bate com a fonte — em boa parte a
 | **Perna 3 · a refutação** | θ<0 em **12/12** e p<0,05 em **1/12** (e é a régua exposta, θ=−0,157 p=0,0204); **0/24** temporais, menor p **0,0782**; poder 48%/93% (T=38); β −0,515→−1,144; simetria 69 km (77 em 2013) / 135 / 152 / 16 / 83 km | **exatos** contra `deslocamento_bracket_*.csv` e `centro_massa_capacidade_vaos.csv` |
 | **Perna 4 · o teto** | decomposição inteira (Sul −0,0056 = −0,0010 + −0,0047, share 17,2%/82,8%; Centro e Norte idem); 0,0706→0,0721; −37% no Sul; p=0,4809 e p=0,9196; estoque 6,56 Mha, 61,5% de 1985, Norte 44,0%; Sul 53,0 / Centro 62,5 / Norte 64,7; −1,98 contra −3,48/−3,44 pontos; proteção 6,35/6,56=96,8% e 94,3% pixel, PI <3%, 89,1% da PI antes de 2000; carbono 973 (751–1208), floresta 499 × savânica 458, 80% (774 Mt) no Ato I a 20,5 Mt/ano, Ato III Sul 1,4 × Centro 4,6, centroide +98 km; câmbio 134,5→169,0, preço 104,4→186,4, crédito 14,3→24,1 bi; +51% × +244%; IFDM 0,49→0,63 e −0,083 [−0,108; −0,058]; +93% × +14% | **exatos** |
 | **Parte 3 · autocorreções** | fechamento 7,26%→0,08%; 6,5–10,9% do estado; r=0,912 contra PRODES no regime anual (2013+); 24/24 subamostras; 3 das 4 hipóteses do fogo caíram; #45 caiu 9×; #54 p 0,03→0,07–0,13 | **exatos** |
-| **Parte 4 · oficina** | F=62,152 e F=21,470; MW p=0,060 e poder 0,63; 6/9; ΔBIC 844.789; 43,7%; 63,7%/74,9%; razão 0,6→32,5; 115/140 Moran e I=+0,53; R² 0,122/0,047/0,072; 11/12; 9/36 placebos; N=11 | **exatos** |
+| **Parte 4 · oficina** | F=62,152 e F=21,470; MW p=0,060 e poder 0,63; 6/9; ΔBIC 844.789; 43,7%; 63,7%/74,9%; razão 0,6→32,5; 115/140 Moran e I=+0,53; R² 0,122/0,105/0,072; 11/12; 9/36 placebos; N=11 | **exatos** |
 
 ### 3.1 As figuras SVG desenham o que rotulam
 
@@ -190,6 +190,13 @@ Registrado para não virar falsa garantia:
 - **O que o Sankey e as duas peças interativas desenham em tela**: verifiquei o JSON que as
   alimenta, não o traço renderizado.
 - Prosa sem número, glossário, mobile, cross-browser.
+- **Lotação na `reforma.html`** — só o card endpoint (linha 354). Auditado em 28/jul como
+  "1,01→1,36 UA/ha" (exato); reescrito em 29/jul para "1,45→1,94 cab/ha" ao remover a UA —
+  verificado contra `painel_goias.json` (`lotacao_bov_ha_pasto` 1,449→1,936). Esta versão **não
+  tem** bloco "Lotação por ato". (Aquele bloco, com valores stale — 0,98 em "2000", 1,17 em
+  "2019", não batiam com o painel: 0,88 e 1,20 UA — existia no `index.html`, o site pré-reforma
+  publicado, e foi corrigido lá: Ato I 1,45→1,25; Ato II 1,30→1,71; Ato III 1,80→1,94. Origem
+  provável do stale: digitado antes de uma revisão da série de pastagem.)
 
 ## 7. O outro item da D27 — a legenda de classes do mapa da Parte 1: **fechado**
 
@@ -230,3 +237,55 @@ Três padrões a vigiar, todos observados aqui:
    nulo ("os placebos não acendem", "nada sobrevive", "não aparece em nenhum") precisa da
    contagem exata ao lado.* Nulo sem denominador é o overclaim mais fácil de cometer no bloco
    que existe justamente para evitá-lo.
+
+## 9. A varredura estendida — Perna 3, Perna 4, Parte 3, Parte 4 e mapas (29/jul/2026)
+
+A passagem de 28/jul (§3) confirmou ao decimal os números-manchete de Parte 1, Perna 1 e Perna 2,
+e listou como "exatos" os cabeçalhos de Perna 3, Perna 4, Parte 3 e Parte 4 — mas o conteúdo
+dessas quatro seções entrou em 29/jul (commit `50393c7`) *depois* daquela passagem, e a varredura
+mecânica frase-a-frase delas ficou pendente. Feita agora por quatro agentes independentes (um por
+seção), cobrindo **~230 afirmações numéricas**.
+
+**Veredito: nenhuma conclusão cai.** 0 WRONG que sustente tese; 1 WRONG factual (contagem
+stale); 5 IMPRECISE; 0 UNTRACEABLE que importe. Os números-manchete que o §3 afirmava exatos
+efetivamente o são — os defeitos estão na prosa ao redor (rótulo de marco, janela de um R²,
+arredondamento de um decimal, contagem de uma lista).
+
+### 9.1 Corrigidos em `reforma.html`
+
+| linha | defeito | correção | fonte primária |
+|---|---|---|---|
+| 2736 | D9 lista o 2º marco DiD como "Kandir" | → "Commodity Boom" | `23_did.md` tabela linhas 22–25: 2003 = Commodity Boom. Kandir (1996) é a *atribuição* da quebra de 1998 dentro da janela 1990–2000 do 1º marco, não marco testado |
+| 2915 | "R² within chega a 0,122 (0,047 no univariado)" mistura janelas | → "(0,105 no univariado, mesma janela)" | `22_correlacoes_painel.md` linha 65: R²w uni(máx) 0,105 → mv 0,122, ambos 2013–2021; 0,047 é a janela estendida (linha 53). Ganho mv real ×1,16, não ×2,6 |
+| 2034 | "contra 3,5 do Centro e do Norte" — Norte é 3,4 | → "3,5 do Centro e 3,4 do Norte" | `fronteira_regional.csv` 2019→2024: Centro 66,01→62,53 = −3,48; Norte 68,19→64,75 = −3,44 (arredonda 3,4) |
+| 701 | "Quatro medidas… ~10 a 13 km" — a 4ª (agric∪mosaico) é 4,4 km | → "Quatro medidas andaram ao norte — três delas ~10 a 13 km, a quarta 4,4 km" | SVG cinco-medidas + `centro_massa_desagregado_anual.csv`: pasto 12,9 / rebanho 11,9 / soja 10,1 / agric∪mosaico 4,4 / agric-sat 0,5 |
+
+### 9.2 Sinalizado, não corrigido (decisão de autor)
+
+**"As vinte e seis decisões (D1–D26)"** — linhas 2636/2639/2647. A **D27** existe
+(`auditoria_de_figuras.md:3`, "Decisão D27 (2026-07-28)") e é referenciada em `backlog.md`,
+`guia_de_leitura.md` e vários pipelines. A seção `p4-decisoes` lista 26 badges (D1–D26) e não
+inclui D27 — formalizada no mesmo dia (28/jul) da reforma, a contagem não foi atualizada.
+Stale-by-one real, mas adicionar um card D27 é **adição de conteúdo**, não correção de número;
+fica a critério do autor: bump para 27 + card, ou manter 26 tratando D27 como regra de auditoria
+fora do conjunto estrutural.
+
+### 9.3 Residual em pipeline (não no site)
+
+**`23_did.md` linha 96:** a nota de rebaixamento lista "Plano Real, Lei Kandir, Código Florestal
+e Cerrado Manifesto" como os quatro marcos federais — mas a tabela do próprio #23 (linhas 22–25)
+testa "Commodity Boom (2003)" como 2º marco, não Kandir. A reforma copiou a nota; corrigida no
+site (§9.1), a nota do #23 segue com a substituição. Kandir é federal e reforça o argumento do
+rebaixamento ("sem grupo não-tratado"), mas é inconsistente com a tabela. Pendência de
+alinhamento no doc do pipeline.
+
+### 9.4 Não-defeitos (agentes over-flagaram, confirmado contra fonte)
+
+- **L1411 "−1,14 na imune"** — "a imune" = régua "imune ao rótulo" = `agric_uniao` (β local
+  −1,144, `deslocamento_bracket_slx.csv` linha 8); a prosa ao redor já explica ("com o uso misto
+  dentro da conta"). O "imune ao classificador" da Soja (◆, β −0,072, linha 14) é outra régua;
+  número correto, terminologia localmente definida em L1306–1308.
+- **L1687 "~120–130 km que a Perna 1 mediu"** — refere-se ao vão *típico* do núcleo de lavoura
+  ao longo da série (L569 "sempre ~120–130 km"), não ao endpoint 2024 (135 km). Prosa de
+  contexto, não afirmação de endpoint.
+- **L1422 "não o manda para 300 km ao norte"** — retórica de negação, não afirmação factual.

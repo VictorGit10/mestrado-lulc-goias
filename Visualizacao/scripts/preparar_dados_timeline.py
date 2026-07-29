@@ -52,7 +52,6 @@ LULC_CLASSES = LULC_NATIVO + [
 SOMAR = LULC_CLASSES + [
     "lulc_area_total_ha",
     "pec_bovinos_cab",
-    "pec_bovinos_ua",
     "pec_suinos_cab",
     "pec_galinaceos_cab",
     "pec_ovinos_tosquiados_cab",
@@ -117,7 +116,6 @@ AMC_COLS_SERIE = [
     "lulc_corpo_dagua_ha",
     "lulc_area_urbana_ha",
     "pec_bovinos_cab",
-    "pec_bovinos_ua",
     "pec_suinos_cab",
     "pec_galinaceos_cab",
     "pec_ovinos_tosquiados_cab",
@@ -142,7 +140,6 @@ AMC_COLS_SERIE = [
     "sicor_total_real_rs",
     "fogo_total_ha",
     "lotacao_bov_ha",
-    "lotacao_ua_ha_pasto",
 ]
 
 AMC_COLS_PCT = [
@@ -202,7 +199,6 @@ def agregar_uf(df: pd.DataFrame) -> pd.DataFrame:
     grp["pct_agua"] = grp["lulc_corpo_dagua_ha"] / grp["lulc_area_total_ha"]
     grp["pct_area_urbana"] = grp["lulc_area_urbana_ha"] / grp["lulc_area_total_ha"]
     grp["lotacao_bov_ha_pasto"] = grp["pec_bovinos_cab"] / grp["lulc_pastagem_ha"]
-    grp["lotacao_ua_ha_pasto"] = grp["pec_bovinos_ua"] / grp["lulc_pastagem_ha"]
 
     # Serie UF nativa IPEA (1985-2023), paralela ao pib_real_rs/va_agro_real_rs
     # que vem da agregacao municipal SIDRA (so 2002+).
@@ -231,7 +227,6 @@ def montar_serie(grp: pd.DataFrame) -> list[dict]:
         "lulc_corpo_dagua_ha",
         "lulc_area_urbana_ha",
         "pec_bovinos_cab",
-        "pec_bovinos_ua",
         "pec_suinos_cab",
         "pec_galinaceos_cab",
         "pec_ovinos_tosquiados_cab",
@@ -261,7 +256,6 @@ def montar_serie(grp: pd.DataFrame) -> list[dict]:
         "sicor_total_real_rs",
         "fogo_total_ha",
         "lotacao_bov_ha_pasto",
-        "lotacao_ua_ha_pasto",
     ]
     out = []
     for _, row in grp.iterrows():

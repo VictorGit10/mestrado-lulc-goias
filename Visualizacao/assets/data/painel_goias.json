@@ -19,7 +19,6 @@
       "lulc_corpo_dagua_ha": 279033.93552683014,
       "lulc_area_urbana_ha": 70032.43018956915,
       "pec_bovinos_cab": 15913990.0,
-      "pec_bovinos_ua": 11139793.0,
       "pec_suinos_cab": 1893032.0,
       "pec_galinaceos_cab": 14488088.0,
       "pec_ovinos_tosquiados_cab": 5427.0,
@@ -48,8 +47,7 @@
       "populacao": null,
       "sicor_total_real_rs": null,
       "fogo_total_ha": 2091625.36,
-      "lotacao_bov_ha_pasto": 1.4487951229254112,
-      "lotacao_ua_ha_pasto": 1.014156586047788
+      "lotacao_bov_ha_pasto": 1.4487951229254112
     },
     {
       "ano": 1986,
@@ -68,7 +66,6 @@
       "lulc_corpo_dagua_ha": 276779.5526241078,
       "lulc_area_urbana_ha": 73139.19910559099,
       "pec_bovinos_cab": 15255665.0,
-      "pec_bovinos_ua": 10678965.5,
       "pec_suinos_cab": 1588872.0,
       "pec_galinaceos_cab": 13461060.0,
       "pec_ovinos_tosquiados_cab": 5874.0,
@@ -97,8 +94,7 @@
       "populacao": null,
       "sicor_total_real_rs": null,
       "fogo_total_ha": 1363084.0,
-      "lotacao_bov_ha_pasto": 1.3108729672382522,
-      "lotacao_ua_ha_pasto": 0.9176110770667766
+      "lotacao_bov_ha_pasto": 1.3108729672382522
     },
     {
       "ano": 1987,
@@ -117,7 +113,6 @@
       "lulc_corpo_dagua_ha": 277572.769572051,
       "lulc_area_urbana_ha": 75243.47039542881,
       "pec_bovinos_cab": 16012235.0,
-      "pec_bovinos_ua": 11208564.5,
       "pec_suinos_cab": 1674928.0,
       "pec_galinaceos_cab": 12916620.0,
       "pec_ovinos_tosquiados_cab": 5784.0,
@@ -146,8 +141,7 @@
       "populacao": null,
       "sicor_total_real_rs": null,
       "fogo_total_ha": 1819472.86,
-      "lotacao_bov_ha_pasto": 1.3268373810503529,
-      "lotacao_ua_ha_pasto": 0.9287861667352469
+      "lotacao_bov_ha_pasto": 1.3268373810503529
     },
     {
       "ano": 1988,
@@ -166,7 +160,6 @@
       "lulc_corpo_dagua_ha": 280004.59906550194,
       "lulc_area_urbana_ha": 78838.67925410198,
       "pec_bovinos_cab": 16563745.0,
-      "pec_bovinos_ua": 11594621.5,
       "pec_suinos_cab": 1768020.0,
       "pec_galinaceos_cab": 13287115.0,
       "pec_ovinos_tosquiados_cab": 2377.0,
@@ -195,8 +188,7 @@
       "populacao": null,
       "sicor_total_real_rs": null,
       "fogo_total_ha": 2365356.93,
-      "lotacao_bov_ha_pasto": 1.3329618107612888,
-      "lotacao_ua_ha_pasto": 0.9330732675329022
+      "lotacao_bov_ha_pasto": 1.3329618107612888
     },
     {
       "ano": 1989,
@@ -215,7 +207,6 @@
       "lulc_corpo_dagua_ha": 279829.33239572664,
       "lulc_area_urbana_ha": 82456.63413290435,
       "pec_bovinos_cab": 17095470.0,
-      "pec_bovinos_ua": 11966829.0,
       "pec_suinos_cab": 1824405.0,
       "pec_galinaceos_cab": 13830600.0,
       "pec_ovinos_tosquiados_cab": 2199.0,
@@ -244,8 +235,7 @@
       "populacao": null,
       "sicor_total_real_rs": null,
       "fogo_total_ha": 694304.88,
-      "lotacao_bov_ha_pasto": 1.3481404973917712,
-      "lotacao_ua_ha_pasto": 0.9436983481742398
+      "lotacao_bov_ha_pasto": 1.3481404973917712
     },
     {
       "ano": 1990,
@@ -264,7 +254,6 @@
       "lulc_corpo_dagua_ha": 282798.01688598574,
       "lulc_area_urbana_ha": 85419.07474992715,
       "pec_bovinos_cab": 17635390.0,
-      "pec_bovinos_ua": 12344773.0,
       "pec_suinos_cab": 1876735.0,
       "pec_galinaceos_cab": 14156650.0,
       "pec_ovinos_tosquiados_cab": 1324.0,
@@ -293,8 +282,7 @@
       "populacao": null,
       "sicor_total_real_rs": null,
       "fogo_total_ha": 600365.89,
-      "lotacao_bov_ha_pasto": 1.3638544091533553,
-      "lotacao_ua_ha_pasto": 0.9546980864073487
+      "lotacao_bov_ha_pasto": 1.3638544091533553
     },
     {
       "ano": 1991,
@@ -313,7 +301,6 @@
       "lulc_corpo_dagua_ha": 285286.52849818056,
       "lulc_area_urbana_ha": 89069.70301742018,
       "pec_bovinos_cab": 18574234.0,
-      "pec_bovinos_ua": 13001963.799999999,
       "pec_suinos_cab": 1933455.0,
       "pec_galinaceos_cab": 14990740.0,
       "pec_ovinos_tosquiados_cab": 120.0,
@@ -342,8 +329,7 @@
       "populacao": null,
       "sicor_total_real_rs": null,
       "fogo_total_ha": 511538.45,
-      "lotacao_bov_ha_pasto": 1.4177180117821417,
-      "lotacao_ua_ha_pasto": 0.992402608247499
+      "lotacao_bov_ha_pasto": 1.4177180117821417
     },
     {
       "ano": 1992,
@@ -362,7 +348,6 @@
       "lulc_corpo_dagua_ha": 286467.10784187546,
       "lulc_area_urbana_ha": 94202.66495681168,
       "pec_bovinos_cab": 18147923.0,
-      "pec_bovinos_ua": 12703546.1,
       "pec_suinos_cab": 1887139.0,
       "pec_galinaceos_cab": 15081960.0,
       "pec_ovinos_tosquiados_cab": null,
@@ -391,8 +376,7 @@
       "populacao": null,
       "sicor_total_real_rs": null,
       "fogo_total_ha": 436709.16000000003,
-      "lotacao_bov_ha_pasto": 1.3565388001213932,
-      "lotacao_ua_ha_pasto": 0.9495771600849753
+      "lotacao_bov_ha_pasto": 1.3565388001213932
     },
     {
       "ano": 1993,
@@ -411,7 +395,6 @@
       "lulc_corpo_dagua_ha": 284517.61427147756,
       "lulc_area_urbana_ha": 100254.99166845118,
       "pec_bovinos_cab": 18580908.0,
-      "pec_bovinos_ua": 13006635.6,
       "pec_suinos_cab": 1904893.0,
       "pec_galinaceos_cab": 15720415.0,
       "pec_ovinos_tosquiados_cab": null,
@@ -440,8 +423,7 @@
       "populacao": null,
       "sicor_total_real_rs": null,
       "fogo_total_ha": 1150287.26,
-      "lotacao_bov_ha_pasto": 1.3701949237697204,
-      "lotacao_ua_ha_pasto": 0.9591364466388043
+      "lotacao_bov_ha_pasto": 1.3701949237697204
     },
     {
       "ano": 1994,
@@ -460,7 +442,6 @@
       "lulc_corpo_dagua_ha": 280571.74704309634,
       "lulc_area_urbana_ha": 107238.79312849764,
       "pec_bovinos_cab": 18397064.0,
-      "pec_bovinos_ua": 12877944.799999999,
       "pec_suinos_cab": 1896470.0,
       "pec_galinaceos_cab": 16901648.0,
       "pec_ovinos_tosquiados_cab": 540.0,
@@ -489,8 +470,7 @@
       "populacao": null,
       "sicor_total_real_rs": null,
       "fogo_total_ha": 1258809.31,
-      "lotacao_bov_ha_pasto": 1.339148739496234,
-      "lotacao_ua_ha_pasto": 0.9374041176473638
+      "lotacao_bov_ha_pasto": 1.339148739496234
     },
     {
       "ano": 1995,
@@ -509,7 +489,6 @@
       "lulc_corpo_dagua_ha": 274051.1863584831,
       "lulc_area_urbana_ha": 115497.97123240323,
       "pec_bovinos_cab": 18492318.0,
-      "pec_bovinos_ua": 12944622.6,
       "pec_suinos_cab": 1869052.0,
       "pec_galinaceos_cab": 17566915.0,
       "pec_ovinos_tosquiados_cab": 540.0,
@@ -538,8 +517,7 @@
       "populacao": null,
       "sicor_total_real_rs": null,
       "fogo_total_ha": 671966.76,
-      "lotacao_bov_ha_pasto": 1.3270905581350187,
-      "lotacao_ua_ha_pasto": 0.9289633906945131
+      "lotacao_bov_ha_pasto": 1.3270905581350187
     },
     {
       "ano": 1996,
@@ -558,7 +536,6 @@
       "lulc_corpo_dagua_ha": 271045.9896597093,
       "lulc_area_urbana_ha": 122126.51745665798,
       "pec_bovinos_cab": 16954667.0,
-      "pec_bovinos_ua": 11868266.9,
       "pec_suinos_cab": 1065789.0,
       "pec_galinaceos_cab": 15842240.0,
       "pec_ovinos_tosquiados_cab": null,
@@ -587,8 +564,7 @@
       "populacao": null,
       "sicor_total_real_rs": null,
       "fogo_total_ha": 957245.01,
-      "lotacao_bov_ha_pasto": 1.2024060631558464,
-      "lotacao_ua_ha_pasto": 0.8416842442090926
+      "lotacao_bov_ha_pasto": 1.2024060631558464
     },
     {
       "ano": 1997,
@@ -607,7 +583,6 @@
       "lulc_corpo_dagua_ha": 350126.7554209036,
       "lulc_area_urbana_ha": 126210.66279401827,
       "pec_bovinos_cab": 17182332.0,
-      "pec_bovinos_ua": 12027632.4,
       "pec_suinos_cab": 1027963.0,
       "pec_galinaceos_cab": 17864966.0,
       "pec_ovinos_tosquiados_cab": 120.0,
@@ -636,8 +611,7 @@
       "populacao": null,
       "sicor_total_real_rs": null,
       "fogo_total_ha": 649936.63,
-      "lotacao_bov_ha_pasto": 1.2065909076640642,
-      "lotacao_ua_ha_pasto": 0.8446136353648449
+      "lotacao_bov_ha_pasto": 1.2065909076640642
     },
     {
       "ano": 1998,
@@ -656,7 +630,6 @@
       "lulc_corpo_dagua_ha": 378980.87938665185,
       "lulc_area_urbana_ha": 129782.3534432727,
       "pec_bovinos_cab": 18118412.0,
-      "pec_bovinos_ua": 12682888.4,
       "pec_suinos_cab": 1034767.0,
       "pec_galinaceos_cab": 19033637.0,
       "pec_ovinos_tosquiados_cab": 150.0,
@@ -685,8 +658,7 @@
       "populacao": null,
       "sicor_total_real_rs": null,
       "fogo_total_ha": 1555916.32,
-      "lotacao_bov_ha_pasto": 1.2556843212918942,
-      "lotacao_ua_ha_pasto": 0.878979024904326
+      "lotacao_bov_ha_pasto": 1.2556843212918942
     },
     {
       "ano": 1999,
@@ -705,7 +677,6 @@
       "lulc_corpo_dagua_ha": 376723.56697632547,
       "lulc_area_urbana_ha": 133570.76858467274,
       "pec_bovinos_cab": 18297357.0,
-      "pec_bovinos_ua": 12808149.9,
       "pec_suinos_cab": 1113518.0,
       "pec_galinaceos_cab": 22247147.0,
       "pec_ovinos_tosquiados_cab": 160.0,
@@ -734,8 +705,7 @@
       "populacao": null,
       "sicor_total_real_rs": null,
       "fogo_total_ha": 726136.97,
-      "lotacao_bov_ha_pasto": 1.2569922376423492,
-      "lotacao_ua_ha_pasto": 0.8798945663496445
+      "lotacao_bov_ha_pasto": 1.2569922376423492
     },
     {
       "ano": 2000,
@@ -754,7 +724,6 @@
       "lulc_corpo_dagua_ha": 344567.44412467745,
       "lulc_area_urbana_ha": 137319.42346610647,
       "pec_bovinos_cab": 18399222.0,
-      "pec_bovinos_ua": 12879455.4,
       "pec_suinos_cab": 1174360.0,
       "pec_galinaceos_cab": 26321366.0,
       "pec_ovinos_tosquiados_cab": 160.0,
@@ -783,8 +752,7 @@
       "populacao": null,
       "sicor_total_real_rs": null,
       "fogo_total_ha": 946935.33,
-      "lotacao_bov_ha_pasto": 1.2518421889827542,
-      "lotacao_ua_ha_pasto": 0.876289532287928
+      "lotacao_bov_ha_pasto": 1.2518421889827542
     },
     {
       "ano": 2001,
@@ -803,7 +771,6 @@
       "lulc_corpo_dagua_ha": 332291.8427412823,
       "lulc_area_urbana_ha": 140227.76912900826,
       "pec_bovinos_cab": 19132372.0,
-      "pec_bovinos_ua": 13392660.4,
       "pec_suinos_cab": 1231251.0,
       "pec_galinaceos_cab": 27001711.0,
       "pec_ovinos_tosquiados_cab": 150.0,
@@ -832,8 +799,7 @@
       "populacao": 5116462.0,
       "sicor_total_real_rs": null,
       "fogo_total_ha": 785334.24,
-      "lotacao_bov_ha_pasto": 1.29992057467388,
-      "lotacao_ua_ha_pasto": 0.909944402271716
+      "lotacao_bov_ha_pasto": 1.29992057467388
     },
     {
       "ano": 2002,
@@ -852,7 +818,6 @@
       "lulc_corpo_dagua_ha": 347606.3234627257,
       "lulc_area_urbana_ha": 142926.13011091232,
       "pec_bovinos_cab": 20101893.0,
-      "pec_bovinos_ua": 14071325.1,
       "pec_suinos_cab": 1360573.0,
       "pec_galinaceos_cab": 32429105.0,
       "pec_ovinos_tosquiados_cab": 160.0,
@@ -881,8 +846,7 @@
       "populacao": 5210335.0,
       "sicor_total_real_rs": null,
       "fogo_total_ha": 950872.44,
-      "lotacao_bov_ha_pasto": 1.3631142988323057,
-      "lotacao_ua_ha_pasto": 0.954180009182614
+      "lotacao_bov_ha_pasto": 1.3631142988323057
     },
     {
       "ano": 2003,
@@ -901,7 +865,6 @@
       "lulc_corpo_dagua_ha": 354236.2419588193,
       "lulc_area_urbana_ha": 145517.73700901875,
       "pec_bovinos_cab": 20178516.0,
-      "pec_bovinos_ua": 14124961.2,
       "pec_suinos_cab": 1499050.0,
       "pec_galinaceos_cab": 35808632.0,
       "pec_ovinos_tosquiados_cab": 170.0,
@@ -930,8 +893,7 @@
       "populacao": 5306459.0,
       "sicor_total_real_rs": null,
       "fogo_total_ha": 449982.99,
-      "lotacao_bov_ha_pasto": 1.363769336412702,
-      "lotacao_ua_ha_pasto": 0.9546385354888913
+      "lotacao_bov_ha_pasto": 1.363769336412702
     },
     {
       "ano": 2004,
@@ -950,7 +912,6 @@
       "lulc_corpo_dagua_ha": 362301.86320524255,
       "lulc_area_urbana_ha": 148521.1544268597,
       "pec_bovinos_cab": 20419803.0,
-      "pec_bovinos_ua": 14293862.1,
       "pec_suinos_cab": 1493837.0,
       "pec_galinaceos_cab": 38557856.0,
       "pec_ovinos_tosquiados_cab": 160.0,
@@ -979,8 +940,7 @@
       "populacao": 5508245.0,
       "sicor_total_real_rs": null,
       "fogo_total_ha": 998182.98,
-      "lotacao_bov_ha_pasto": 1.3951840735910406,
-      "lotacao_ua_ha_pasto": 0.9766288515137284
+      "lotacao_bov_ha_pasto": 1.3951840735910406
     },
     {
       "ano": 2005,
@@ -999,7 +959,6 @@
       "lulc_corpo_dagua_ha": 379207.5172317737,
       "lulc_area_urbana_ha": 150966.87357739033,
       "pec_bovinos_cab": 20726586.0,
-      "pec_bovinos_ua": 14508610.2,
       "pec_suinos_cab": 1499138.0,
       "pec_galinaceos_cab": 39831197.0,
       "pec_ovinos_tosquiados_cab": 150.0,
@@ -1028,8 +987,7 @@
       "populacao": 5619917.0,
       "sicor_total_real_rs": null,
       "fogo_total_ha": 705892.73,
-      "lotacao_bov_ha_pasto": 1.4207912264630185,
-      "lotacao_ua_ha_pasto": 0.9945538585241128
+      "lotacao_bov_ha_pasto": 1.4207912264630185
     },
     {
       "ano": 2006,
@@ -1048,7 +1006,6 @@
       "lulc_corpo_dagua_ha": 387525.78819139936,
       "lulc_area_urbana_ha": 153496.6898001379,
       "pec_bovinos_cab": 20646560.0,
-      "pec_bovinos_ua": 14452592.0,
       "pec_suinos_cab": 1516285.0,
       "pec_galinaceos_cab": 42380225.0,
       "pec_ovinos_tosquiados_cab": 160.0,
@@ -1077,8 +1034,7 @@
       "populacao": 5730753.0,
       "sicor_total_real_rs": null,
       "fogo_total_ha": 463108.94,
-      "lotacao_bov_ha_pasto": 1.4225538450873172,
-      "lotacao_ua_ha_pasto": 0.995787691561122
+      "lotacao_bov_ha_pasto": 1.4225538450873172
     },
     {
       "ano": 2007,
@@ -1097,7 +1053,6 @@
       "lulc_corpo_dagua_ha": 392095.72643401445,
       "lulc_area_urbana_ha": 156347.99754731168,
       "pec_bovinos_cab": 20471490.0,
-      "pec_bovinos_ua": 14330043.0,
       "pec_suinos_cab": 1537430.0,
       "pec_galinaceos_cab": 44319790.0,
       "pec_ovinos_tosquiados_cab": 150.0,
@@ -1126,8 +1081,7 @@
       "populacao": null,
       "sicor_total_real_rs": null,
       "fogo_total_ha": 1622336.12,
-      "lotacao_bov_ha_pasto": 1.4172305014278461,
-      "lotacao_ua_ha_pasto": 0.9920613509994922
+      "lotacao_bov_ha_pasto": 1.4172305014278461
     },
     {
       "ano": 2008,
@@ -1146,7 +1100,6 @@
       "lulc_corpo_dagua_ha": 390590.5774102406,
       "lulc_area_urbana_ha": 159645.3685738981,
       "pec_bovinos_cab": 20466360.0,
-      "pec_bovinos_ua": 14326452.0,
       "pec_suinos_cab": 1592760.0,
       "pec_galinaceos_cab": 47651370.0,
       "pec_ovinos_tosquiados_cab": 100.0,
@@ -1175,8 +1128,7 @@
       "populacao": 5844995.0,
       "sicor_total_real_rs": null,
       "fogo_total_ha": 570430.54,
-      "lotacao_bov_ha_pasto": 1.4266830844015423,
-      "lotacao_ua_ha_pasto": 0.9986781590810796
+      "lotacao_bov_ha_pasto": 1.4266830844015423
     },
     {
       "ano": 2009,
@@ -1195,7 +1147,6 @@
       "lulc_corpo_dagua_ha": 392413.73323925026,
       "lulc_area_urbana_ha": 163091.9025614718,
       "pec_bovinos_cab": 20874943.0,
-      "pec_bovinos_ua": 14612460.1,
       "pec_suinos_cab": 1929062.0,
       "pec_galinaceos_cab": 53618123.0,
       "pec_ovinos_tosquiados_cab": 100.0,
@@ -1224,8 +1175,7 @@
       "populacao": 5926300.0,
       "sicor_total_real_rs": null,
       "fogo_total_ha": 289305.67,
-      "lotacao_bov_ha_pasto": 1.467485834229577,
-      "lotacao_ua_ha_pasto": 1.0272400839607039
+      "lotacao_bov_ha_pasto": 1.467485834229577
     },
     {
       "ano": 2010,
@@ -1244,7 +1194,6 @@
       "lulc_corpo_dagua_ha": 422544.52109366417,
       "lulc_area_urbana_ha": 166649.00558102696,
       "pec_bovinos_cab": 21347881.0,
-      "pec_bovinos_ua": 14943516.7,
       "pec_suinos_cab": 2046727.0,
       "pec_galinaceos_cab": 54913212.0,
       "pec_ovinos_tosquiados_cab": 90.0,
@@ -1273,8 +1222,7 @@
       "populacao": null,
       "sicor_total_real_rs": null,
       "fogo_total_ha": 1803402.27,
-      "lotacao_bov_ha_pasto": 1.5083813798270915,
-      "lotacao_ua_ha_pasto": 1.0558669658789641
+      "lotacao_bov_ha_pasto": 1.5083813798270915
     },
     {
       "ano": 2011,
@@ -1293,7 +1241,6 @@
       "lulc_corpo_dagua_ha": 434908.7254490407,
       "lulc_area_urbana_ha": 170478.83821549322,
       "pec_bovinos_cab": 21744650.0,
-      "pec_bovinos_ua": 15221255.0,
       "pec_suinos_cab": 2049376.0,
       "pec_galinaceos_cab": 60917961.0,
       "pec_ovinos_tosquiados_cab": 645.0,
@@ -1322,8 +1269,7 @@
       "populacao": 6080716.0,
       "sicor_total_real_rs": null,
       "fogo_total_ha": 681792.28,
-      "lotacao_bov_ha_pasto": 1.5442857806063184,
-      "lotacao_ua_ha_pasto": 1.0810000464244227
+      "lotacao_bov_ha_pasto": 1.5442857806063184
     },
     {
       "ano": 2012,
@@ -1342,7 +1288,6 @@
       "lulc_corpo_dagua_ha": 431410.6493256617,
       "lulc_area_urbana_ha": 175251.3002502406,
       "pec_bovinos_cab": 22045776.0,
-      "pec_bovinos_ua": 15432043.2,
       "pec_suinos_cab": 2016444.0,
       "pec_galinaceos_cab": 59424726.0,
       "pec_ovinos_tosquiados_cab": 460.0,
@@ -1371,8 +1316,7 @@
       "populacao": 6154996.0,
       "sicor_total_real_rs": null,
       "fogo_total_ha": 798537.76,
-      "lotacao_bov_ha_pasto": 1.5728306146588658,
-      "lotacao_ua_ha_pasto": 1.100981430261206
+      "lotacao_bov_ha_pasto": 1.5728306146588658
     },
     {
       "ano": 2013,
@@ -1391,7 +1335,6 @@
       "lulc_corpo_dagua_ha": 412852.55925635406,
       "lulc_area_urbana_ha": 179431.88475624612,
       "pec_bovinos_cab": 21580398.0,
-      "pec_bovinos_ua": 15106278.6,
       "pec_suinos_cab": 2060360.0,
       "pec_galinaceos_cab": 58580410.0,
       "pec_ovinos_tosquiados_cab": 462.0,
@@ -1420,8 +1363,7 @@
       "populacao": 6434048.0,
       "sicor_total_real_rs": 18362553189.13253,
       "fogo_total_ha": 212610.37,
-      "lotacao_bov_ha_pasto": 1.546718962791389,
-      "lotacao_ua_ha_pasto": 1.0827032739539724
+      "lotacao_bov_ha_pasto": 1.546718962791389
     },
     {
       "ano": 2014,
@@ -1440,7 +1382,6 @@
       "lulc_corpo_dagua_ha": 402128.63429466955,
       "lulc_area_urbana_ha": 183008.99044334932,
       "pec_bovinos_cab": 21538072.0,
-      "pec_bovinos_ua": 15076650.399999999,
       "pec_suinos_cab": 2016940.0,
       "pec_galinaceos_cab": 62360986.0,
       "pec_ovinos_tosquiados_cab": 313.0,
@@ -1469,8 +1410,7 @@
       "populacao": 6523222.0,
       "sicor_total_real_rs": 20470708415.970448,
       "fogo_total_ha": 854255.74,
-      "lotacao_bov_ha_pasto": 1.5528935657082685,
-      "lotacao_ua_ha_pasto": 1.087025495995788
+      "lotacao_bov_ha_pasto": 1.5528935657082685
     },
     {
       "ano": 2015,
@@ -1489,7 +1429,6 @@
       "lulc_corpo_dagua_ha": 387886.5138023684,
       "lulc_area_urbana_ha": 186628.1492742143,
       "pec_bovinos_cab": 21887720.0,
-      "pec_bovinos_ua": 15321404.0,
       "pec_suinos_cab": 2033914.0,
       "pec_galinaceos_cab": 64174315.0,
       "pec_ovinos_tosquiados_cab": 203.0,
@@ -1518,8 +1457,7 @@
       "populacao": 6610681.0,
       "sicor_total_real_rs": 17603900497.304016,
       "fogo_total_ha": 488391.56,
-      "lotacao_bov_ha_pasto": 1.5843910428708172,
-      "lotacao_ua_ha_pasto": 1.109073730009572
+      "lotacao_bov_ha_pasto": 1.5843910428708172
     },
     {
       "ano": 2016,
@@ -1538,7 +1476,6 @@
       "lulc_corpo_dagua_ha": 376169.16721501364,
       "lulc_area_urbana_ha": 189930.621953877,
       "pec_bovinos_cab": 22919070.0,
-      "pec_bovinos_ua": 16043349.0,
       "pec_suinos_cab": 1988478.0,
       "pec_galinaceos_cab": 68720592.0,
       "pec_ovinos_tosquiados_cab": 260.0,
@@ -1567,8 +1504,7 @@
       "populacao": 6695855.0,
       "sicor_total_real_rs": 13155836837.324245,
       "fogo_total_ha": 457159.79,
-      "lotacao_bov_ha_pasto": 1.6680108856389761,
-      "lotacao_ua_ha_pasto": 1.1676076199472833
+      "lotacao_bov_ha_pasto": 1.6680108856389761
     },
     {
       "ano": 2017,
@@ -1587,7 +1523,6 @@
       "lulc_corpo_dagua_ha": 371861.9606881038,
       "lulc_area_urbana_ha": 193300.7680711007,
       "pec_bovinos_cab": 22835005.0,
-      "pec_bovinos_ua": 15984503.5,
       "pec_suinos_cab": 2053065.0,
       "pec_galinaceos_cab": 76475102.0,
       "pec_ovinos_tosquiados_cab": 255.0,
@@ -1616,8 +1551,7 @@
       "populacao": 6778772.0,
       "sicor_total_real_rs": 18665776621.530704,
       "fogo_total_ha": 734681.85,
-      "lotacao_bov_ha_pasto": 1.677182864138806,
-      "lotacao_ua_ha_pasto": 1.174028004897164
+      "lotacao_bov_ha_pasto": 1.677182864138806
     },
     {
       "ano": 2018,
@@ -1636,7 +1570,6 @@
       "lulc_corpo_dagua_ha": 377688.50477484794,
       "lulc_area_urbana_ha": 196928.2344688361,
       "pec_bovinos_cab": 22651910.0,
-      "pec_bovinos_ua": 15856337.0,
       "pec_suinos_cab": 1969922.0,
       "pec_galinaceos_cab": 90391195.0,
       "pec_ovinos_tosquiados_cab": 265.0,
@@ -1665,8 +1598,7 @@
       "populacao": 6921161.0,
       "sicor_total_real_rs": 19590400435.471348,
       "fogo_total_ha": 220927.36000000002,
-      "lotacao_bov_ha_pasto": 1.6776646978334617,
-      "lotacao_ua_ha_pasto": 1.1743652884834233
+      "lotacao_bov_ha_pasto": 1.6776646978334617
     },
     {
       "ano": 2019,
@@ -1685,7 +1617,6 @@
       "lulc_corpo_dagua_ha": 377290.3579429327,
       "lulc_area_urbana_ha": 200603.03774008877,
       "pec_bovinos_cab": 22823401.0,
-      "pec_bovinos_ua": 15976380.7,
       "pec_suinos_cab": 1878638.0,
       "pec_galinaceos_cab": 95934173.0,
       "pec_ovinos_tosquiados_cab": 271.0,
@@ -1714,8 +1645,7 @@
       "populacao": 7018354.0,
       "sicor_total_real_rs": 19452260094.917095,
       "fogo_total_ha": 782540.61,
-      "lotacao_bov_ha_pasto": 1.7091502585175986,
-      "lotacao_ua_ha_pasto": 1.196405180962319
+      "lotacao_bov_ha_pasto": 1.7091502585175986
     },
     {
       "ano": 2020,
@@ -1734,7 +1664,6 @@
       "lulc_corpo_dagua_ha": 394664.734552428,
       "lulc_area_urbana_ha": 204169.4202728163,
       "pec_bovinos_cab": 23626608.0,
-      "pec_bovinos_ua": 16538625.6,
       "pec_suinos_cab": 1822133.0,
       "pec_galinaceos_cab": 90187594.0,
       "pec_ovinos_tosquiados_cab": 263.0,
@@ -1763,8 +1692,7 @@
       "populacao": 7113540.0,
       "sicor_total_real_rs": 21998566279.774754,
       "fogo_total_ha": 410095.49,
-      "lotacao_bov_ha_pasto": 1.7972485550519082,
-      "lotacao_ua_ha_pasto": 1.2580739885363357
+      "lotacao_bov_ha_pasto": 1.7972485550519082
     },
     {
       "ano": 2021,
@@ -1783,7 +1711,6 @@
       "lulc_corpo_dagua_ha": 393445.3788636474,
       "lulc_area_urbana_ha": 207457.14152454396,
       "pec_bovinos_cab": 24293954.0,
-      "pec_bovinos_ua": 17005767.8,
       "pec_suinos_cab": 1592498.0,
       "pec_galinaceos_cab": 97747163.0,
       "pec_ovinos_tosquiados_cab": null,
@@ -1812,8 +1739,7 @@
       "populacao": 7206589.0,
       "sicor_total_real_rs": 29063399626.395557,
       "fogo_total_ha": 712613.11,
-      "lotacao_bov_ha_pasto": 1.8758538003232461,
-      "lotacao_ua_ha_pasto": 1.3130976602262725
+      "lotacao_bov_ha_pasto": 1.8758538003232461
     },
     {
       "ano": 2022,
@@ -1832,7 +1758,6 @@
       "lulc_corpo_dagua_ha": 430437.142279826,
       "lulc_area_urbana_ha": 210557.70740289404,
       "pec_bovinos_cab": 24410182.0,
-      "pec_bovinos_ua": 17087127.4,
       "pec_suinos_cab": 1521186.0,
       "pec_galinaceos_cab": 107546747.0,
       "pec_ovinos_tosquiados_cab": null,
@@ -1861,8 +1786,7 @@
       "populacao": null,
       "sicor_total_real_rs": 34994991048.91713,
       "fogo_total_ha": 405995.2,
-      "lotacao_bov_ha_pasto": 1.9269978718268304,
-      "lotacao_ua_ha_pasto": 1.3488985102787812
+      "lotacao_bov_ha_pasto": 1.9269978718268304
     },
     {
       "ano": 2023,
@@ -1881,7 +1805,6 @@
       "lulc_corpo_dagua_ha": 453110.4365468049,
       "lulc_area_urbana_ha": 212421.88981220213,
       "pec_bovinos_cab": 23729878.0,
-      "pec_bovinos_ua": 16610914.6,
       "pec_suinos_cab": 1542237.0,
       "pec_galinaceos_cab": 96930708.0,
       "pec_ovinos_tosquiados_cab": null,
@@ -1910,8 +1833,7 @@
       "populacao": null,
       "sicor_total_real_rs": 34090669883.958103,
       "fogo_total_ha": 260820.24000000002,
-      "lotacao_bov_ha_pasto": 1.917517746658455,
-      "lotacao_ua_ha_pasto": 1.3422624226609186
+      "lotacao_bov_ha_pasto": 1.917517746658455
     },
     {
       "ano": 2024,
@@ -1930,7 +1852,6 @@
       "lulc_corpo_dagua_ha": 443781.72533674346,
       "lulc_area_urbana_ha": 214425.52839500862,
       "pec_bovinos_cab": 23216460.0,
-      "pec_bovinos_ua": 16251522.0,
       "pec_suinos_cab": 1555453.0,
       "pec_galinaceos_cab": 98977773.0,
       "pec_ovinos_tosquiados_cab": null,
@@ -1959,8 +1880,7 @@
       "populacao": 7350483.0,
       "sicor_total_real_rs": 28334442514.73,
       "fogo_total_ha": 450243.14999999997,
-      "lotacao_bov_ha_pasto": 1.9364591001852887,
-      "lotacao_ua_ha_pasto": 1.355521370129702
+      "lotacao_bov_ha_pasto": 1.9364591001852887
     }
   ]
 }

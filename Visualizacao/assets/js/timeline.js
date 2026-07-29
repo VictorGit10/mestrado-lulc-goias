@@ -240,7 +240,7 @@
     function acordeaoPecuaria(dado) {
       const linhas = [
         linhaTabela('Rebanho bovino', valorOuTraco(dado.pec_bovinos_cab, v => fmtNum(v / 1e6, 2) + ' M cab')),
-        linhaTabela('Lotação',        valorOuTraco(dado.lotacao_ua_ha_pasto, v => fmtNum(v, 2) + ' UA/ha')),
+        linhaTabela('Lotação',        valorOuTraco(dado.lotacao_bov_ha, v => fmtNum(v, 2) + ' cab/ha')),
         linhaTabela('Leite',          valorOuTraco(dado.agri_leite_mil_litros, v => fmtNum(v / 1e3, 1) + ' Mi L')),
       ].join('');
       return acordeao('pecuaria', 'Pecuária', linhas);

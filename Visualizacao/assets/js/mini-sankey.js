@@ -9,6 +9,8 @@
   const renderizados = new Set();
   const cache = {};
 
+  let currentMode = root.GO40 && root.GO40.sankeyMode ? root.GO40.sankeyMode : "faded";
+
   function loadScript(src) {
     return new Promise((resolve, reject) => {
       const s = document.createElement("script");
@@ -33,24 +35,81 @@
     return cache[ato];
   }
 
+  function renderControls(container) {
+    if (!container || !container.parentElement) return;
+    let ctrl = container.parentElement.querySelector(".sankey-controls");
+    if (!ctrl) {
+      ctrl = document.createElement("div");
+      ctrl.className = "sankey-controls";
+      container.parentElement.insertBefore(ctrl, container);
+    }
+
+    ctrl.innerHTML = `
+      <span class="sankey-controls-label">Mosaico:</span>
+      <div class="sankey-controls-group" role="radiogroup" aria-label="Modo de exibição do Mosaico de Usos">
+        <button type="button" class="sankey-ctrl-btn ${currentMode === 'full' ? 'active' : ''}" data-mode="full">Normal</button>
+        <button type="button" class="sankey-ctrl-btn ${currentMode === 'faded' ? 'active' : ''}" data-mode="faded">Esmaecer</button>
+        <button type="button" class="sankey-ctrl-btn ${currentMode === 'hidden' ? 'active' : ''}" data-mode="hidden">Ocultar</button>
+      </div>
+    `;
+
+    ctrl.querySelectorAll(".sankey-ctrl-btn").forEach(btn => {
+      btn.onclick = (e) => {
+        const mode = e.currentTarget.dataset.mode;
+        if (mode) setMode(mode);
+      };
+    });
+  }
+
+  function setMode(mode) {
+    if (currentMode === mode && root.GO40 && root.GO40.sankeyMode === mode) return;
+    currentMode = mode;
+    root.GO40 = root.GO40 || {};
+    root.GO40.sankeyMode = mode;
+
+    ATOS.forEach(ato => {
+      const container = document.querySelector(`.mini-sankey-svg[data-ato="${ato}"]`);
+      if (container && cache[ato]) {
+        renderizar(container, cache[ato]);
+      }
+    });
+
+    if (root.GO40.sankey && typeof root.GO40.sankey.setMode === "function") {
+      root.GO40.sankey.setMode(mode);
+    }
+  }
+
   function renderizar(container, data) {
+    renderControls(container);
     container.innerHTML = "";
+
+    const isHidden = currentMode === "hidden";
+    const isFaded = currentMode === "faded";
+    const ehMosaicoId = id => /Mosaico/.test(id);
+
+    let nodesToUse = data.nodes;
+    let linksToUse = data.links;
+
+    if (isHidden) {
+      nodesToUse = data.nodes.filter(n => !ehMosaicoId(n.id));
+      linksToUse = data.links.filter(l => !ehMosaicoId(l.source) && !ehMosaicoId(l.target));
+    }
 
     const containerWidth = container.clientWidth || 720;
     const width = Math.min(containerWidth, 720);
     const height = 280;
 
     const nodeById = {};
-    data.nodes.forEach((n, i) => { nodeById[n.id] = i; });
+    nodesToUse.forEach((n, i) => { nodeById[n.id] = i; });
 
-    const links = data.links.map(l => ({
+    const links = linksToUse.map(l => ({
       source: nodeById[l.source],
       target: nodeById[l.target],
       value: l.value,
       color: l.color,
     }));
 
-    const nodes = data.nodes.map(n => ({ ...n, nodeId: nodeById[n.id] }));
+    const nodes = nodesToUse.map(n => ({ ...n, nodeId: nodeById[n.id] }));
 
     const sankey = d3.sankey()
       .nodeId(d => d.nodeId)
@@ -85,6 +144,12 @@
       .attr("fill", "#6b6b6b")
       .text(data.ano_fim);
 
+    const tocaMosaico = d => {
+      const srcNode = graph.nodes[d.source.index];
+      const tgtNode = graph.nodes[d.target.index];
+      return (srcNode && ehMosaicoId(srcNode.id)) || (tgtNode && ehMosaicoId(tgtNode.id));
+    };
+
     // Links
     svg.append("g")
       .attr("fill", "none")
@@ -93,13 +158,13 @@
       .join("path")
       .attr("d", d3.sankeyLinkHorizontal())
       .attr("stroke", d => d.color || "#999")
-      .attr("stroke-opacity", 0.4)
+      .attr("stroke-opacity", d => isFaded ? (tocaMosaico(d) ? 0.06 : 0.4) : 0.4)
       .attr("stroke-width", d => Math.max(1, d.width))
       .append("title")
       .text(d => {
-        const src = data.nodes[d.source.index];
-        const tgt = data.nodes[d.target.index];
-        return `${src.label} -> ${tgt.label}: ${d.value.toFixed(3)} Mha`;
+        const src = graph.nodes[d.source.index];
+        const tgt = graph.nodes[d.target.index];
+        return `${src.label || src.id} -> ${tgt.label || tgt.id}: ${d.value.toFixed(3)} Mha`;
       });
 
     // Nodes
@@ -114,7 +179,9 @@
       .attr("height", d => Math.max(1, d.y1 - d.y0))
       .attr("width", d => d.x1 - d.x0)
       .attr("fill", d => d.color)
+      .attr("fill-opacity", d => isFaded && ehMosaicoId(d.id) ? 0.18 : 1)
       .attr("stroke", "#1a1a1a")
+      .attr("stroke-opacity", d => isFaded && ehMosaicoId(d.id) ? 0.25 : 1)
       .attr("stroke-width", 0.4);
 
     nodeGroup.append("text")
@@ -123,13 +190,16 @@
       .attr("dy", "0.35em")
       .attr("text-anchor", d => d.x0 < width / 2 ? "start" : "end")
       .attr("fill", "#1a1a1a")
+      .attr("opacity", d => isFaded && ehMosaicoId(d.id) ? 0.4 : 1)
       .attr("font-size", "9px")
       .attr("font-family", "var(--font-sans)")
       .text(d => {
-        const label = d.label.split(" (")[0];
+        const raw = d.label || d.id;
+        const label = raw.split(" (")[0];
         const map = {
           "Vegetacao Natural": "Veg.",
           "Area Urbana": "Urb.",
+          "Mosaico de Usos": "Mosaico"
         };
         return map[label] || label;
       });
@@ -154,9 +224,6 @@
 
   let observer = null;
 
-  // Idempotente: timeline.js chama init() logo apos gerar os containers e o
-  // self-init por timeout tambem chama. Se ja houver observer, reconecta nos
-  // containers atuais em vez de empilhar observers duplicados.
   function init() {
     const containers = document.querySelectorAll(".mini-sankey-svg[data-ato]");
     if (containers.length === 0) return;
@@ -175,9 +242,8 @@
   }
 
   root.GO40 = root.GO40 || {};
-  root.GO40.miniSankey = { init };
+  root.GO40.miniSankey = { init, setMode };
 
-  // Init quando timeline ja gerou os containers. Atraso pequeno para garantir.
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", () => setTimeout(init, 300));
   } else {

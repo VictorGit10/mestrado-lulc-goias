@@ -18,7 +18,7 @@
   const fmtKt     = v => v == null ? "—" : fmtNum(v / 1e3, 0) + " kt";
   const fmtMcab   = v => v == null ? "—" : fmtNum(v / 1e6, 2) + " M cab";
   const fmtMhab   = v => v == null ? "—" : fmtNum(v / 1e6, 2) + " Mi hab";
-  const fmtUA     = v => v == null ? "—" : fmtNum(v, 2) + " UA/ha";
+  const fmtCabHa  = v => v == null ? "—" : fmtNum(v, 2) + " cab/ha";
   const fmtBiRs   = v => v == null ? "—" : "R$ " + fmtNum(v / 1e9, 1) + " bi";
   const fmtBiL    = v => v == null ? "—" : fmtNum(v / 1e6, 2) + " Bi L";  // mil_litros → Bi L
   const fmtMhaPlt = v => v == null ? "—" : fmtNum(v / 1e6, 2) + " Mha";   // ha_plantada → Mha
@@ -57,7 +57,7 @@
       rotulo: "Pecuária · IBGE/PPM",
       series: [
         { campo: "pec_bovinos_cab",          nome: "Rebanho bovino",          format: fmtMcab, fonte: "IBGE/PPM (Pipeline #3)" },
-        { campo: "lotacao_ua_ha_pasto",      nome: "Lotação bovina",          format: fmtUA, fonte: "Derivada · MapBiomas × IBGE/PPM" },
+        { campo: "lotacao_bov_ha",           nome: "Lotação bovina",          format: fmtCabHa, fonte: "Derivada · MapBiomas × IBGE/PPM" },
         { campo: "agri_leite_mil_litros",    nome: "Produção de leite",       format: fmtBiL, fonte: "IBGE/PPM (Pipeline #3)" },
       ],
     },

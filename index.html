@@ -16,7 +16,7 @@
       --color-card-bg: #ffffff;
       --font-serif: "Source Serif Pro", "Crimson Pro", Georgia, "Times New Roman", serif;
       --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, system-ui, sans-serif;
-      --max-width: 720px;
+      --max-width: 960px;
       --radius: 6px;
     }
     * { box-sizing: border-box; }
@@ -52,7 +52,7 @@
     }
     .cards {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 1.2rem;
       width: 100%;
       max-width: var(--max-width);
@@ -117,15 +117,26 @@
   <p class="subtitle">Projetos de pesquisa em uso da terra e dinâmica agropecuária</p>
 
   <div class="cards">
+    <a class="card" href="Visualizacao/reforma.html">
+      <div class="card-eyebrow">Versão Reforma</div>
+      <div class="card-title">A Marcha ao Norte</div>
+      <p class="card-desc">
+        Investigação da dinâmica agropecuária de Goiás (1985–2024).
+        Análise em quatro perguntas com dados pixel-a-pixel,
+        fluxos Sankey e decomposição por ato.
+      </p>
+      <span class="card-arrow">Acessar versão reforma →</span>
+    </a>
+
     <a class="card" href="Visualizacao/">
       <div class="card-eyebrow">Visualização Interativa</div>
       <div class="card-title">Goiás 1985–2024</div>
       <p class="card-desc">
         Linha do tempo interativa do uso e cobertura da terra em Goiás,
-        com marcos políticos como motores causais. Mapas pixel-a-pixel,
-        painel municipal e análise estatística.
+        com marcos políticos como motores causais. Mapas pixel-a-pixel
+        e painel municipal.
       </p>
-      <span class="card-arrow">Acessar visualização →</span>
+      <span class="card-arrow">Acessar visualização clássica →</span>
     </a>
 
     <a class="card" href="paralelo/TrabalhoParalelo/">
@@ -134,7 +145,7 @@
       <p class="card-desc">
         Levantamento de média e mediana de cabeças bovinas por município
         brasileiro (PPM/IBGE, 1985–2024). Análise de viés de composição
-        e comparação entre recortes de amostra.
+        e recortes de amostra.
       </p>
       <span class="card-arrow">Acessar página →</span>
     </a>

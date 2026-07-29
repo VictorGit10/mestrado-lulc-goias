@@ -85,15 +85,13 @@ DECISÕES METODOLÓGICAS E LIMITAÇÕES — LEIA ANTES DE USAR
    Demais (equino, bubalino, ovino, caprino) excluídas — pouca relevância
    para o eixo LULC × pecuária da dissertação.
 
-   UNIDADE ANIMAL (UA): PPM 3939 e 73 não desagregam bovinos por idade no
-   nível municipal, e Censo Agro 2017 (tabelas 6910–6913) também não publica
-   essa estratificação na API SIDRA. Por isso o painel aplica o fator
-   convencional FATOR_UA_BOVINO = 0.7 UA/cabeça (média Embrapa/CONAB para
-   rebanho de corte misto brasileiro: ~50% adultos de 1.0 UA, ~30% novilhos
-   de 0.7 UA, ~20% bezerros de 0.5 UA → ponderado ≈ 0.71). Coluna derivada:
-   `pec_bovinos_ua` e `lotacao_ua_ha_pasto`. Limitação: o fator é
-   estado-estacionário, não captura variação inter-anual da composição
-   etária. Documentado em Textos/glossario_metricas.md.
+   LOTAÇÃO BOVINA: `lotacao_bov_ha` = `pec_bovinos_cab / lulc_pastagem_ha`
+   (cabeças por hectare de pastagem). Métrica crua, sem conversão para
+   Unidade Animal — SIDRA (PPM 3939/73 e Censo Agro 2017) não publica
+   desagregação etária a nível municipal, e o fator convencional 0,7
+   UA/cabeça é estacionário no tempo (não captura a mudança da composição
+   etária/peso entre 1985 e 2024), o que tornaria o nível de UA não
+   comparável ao longo da série. Cabeças/ha é dado medido.
 
 8. PIB MUNICIPAL: SIDRA 5938 (Contas Regionais IBGE). Variáveis selecionadas:
        - pib_real_rs:     variavel_id 37  (PIB a preços correntes, deflacionado)
@@ -160,11 +158,6 @@ from deflator_ipca import DATA_BASE_DEFLATOR, carregar_ipca, deflacionar  # noqa
 
 ANO_INI = 1985
 ANO_FIM = 2024
-
-# Conversão cabeças → Unidade Animal. Fator único aplicado por falta de
-# breakdown etário a nível municipal nos dados SIDRA (PPM 3939/73 e Censo
-# Agro 2017). Ver decisão metodológica #7 acima.
-FATOR_UA_BOVINO = 0.7
 
 # Agrupamento de classes MapBiomas Col 10.1 → coluna do painel.
 # class_ids confirmados via inspeção de mapbiomas_munis_goias.csv.
@@ -706,8 +699,6 @@ def load_abate() -> pd.DataFrame:
 def derivar_metricas(df: pd.DataFrame) -> pd.DataFrame:
     """Calcula ratios e densidades onde insumos existem (NaN propaga)."""
     df["lotacao_bov_ha"] = df["pec_bovinos_cab"] / df["lulc_pastagem_ha"]
-    df["pec_bovinos_ua"] = df["pec_bovinos_cab"] * FATOR_UA_BOVINO
-    df["lotacao_ua_ha_pasto"] = df["pec_bovinos_ua"] / df["lulc_pastagem_ha"]
     df["credito_por_ha_pastagem"] = df["sicor_total_real_rs"] / df["lulc_pastagem_ha"]
     df["produtividade_soja_ton_ha"] = (
         df["agri_soja_ton"] / df["agri_soja_ha_plantada"]
