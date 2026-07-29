@@ -257,6 +257,16 @@ Consome `pastagem_idade_conversao.csv` e produz:
 
 ## Achados consolidados (censo, 2026-07-21)
 
+> 🛑 **LEIA O TOPO ANTES DESTA SEÇÃO (reconciliação 29/jul/2026).** As subseções abaixo
+> foram escritas em 21/jul e **antecedem as retratações de 23–25/jul** que estão no bloco-hub
+> no início da página. Onde §3/§5/§7 afirmam **gradiente latitudinal de idade** ("Sul→Norte
+> sobrevive", "Idade menor no Sul: Confirmada") ou **tendência de w₁** ("ganha peso
+> sistematicamente"), essas afirmações estão **retratadas** — o gradiente de idade **inverte**
+> sob o bracket `pasto→(agric∪mosaico)` (D26; Sul 16a→32a, Norte 27a→23a) e a subida de w₁
+> acompanha a **mudança de rótulo do Mosaico** (#28D), não o tempo. O que sobrevive é a
+> **coexistência bimodal** (μ₁≈4,4a, μ₂≈22,9a) *dentro* de cada região. Marcadores inline
+> abaixo apontam cada trecho retratado; o texto é mantido como registro forense.
+
 ### 1. Mudança de regime ao longo dos ATOs
 
 | ATO | Período | Descrição do Regime Político | Pixels não-cens. ($N$) | Idade Mediana | Média | P10–P90 |
@@ -304,7 +314,7 @@ Para avaliar a robustez temporal do achado em relação a diferentes marcos hist
 | **5 Anos** (Ato III) | 2020–2024 | 952.698 | 4,4 anos | **51,5%** | 22,9 anos | **48,5%** |
 
 *   **Estabilidade**: A posição dos picos ($\mu_1 \approx 4,2$–$4,5$a e $\mu_2 \approx 22,5$–$23,5$a) é notavelmente estável em todas as janelas. **Este é o achado robusto** e sobrevive intacto à troca de amostra por censo.
-*   **Transição de Peso**: $w_1$ sobe de 31,5% para 51,5% — o componente jovem **ganha peso sistematicamente**, e a direção é inequívoca. Mas ele apenas *alcança* o antigo no período recente; não passa a dominar. A amostra (corrigida) sugeria 47,1% → 62,3%, o que teria justificado falar em dominância. O censo não sustenta essa leitura.
+*   **Transição de Peso**: 🛑 **RETRATADO como achado temporal (#28D, ver topo)** — ~~$w_1$ sobe de 31,5% para 51,5% — o componente jovem **ganha peso sistematicamente**, e a direção é inequívoca~~. A subida de w₁ **acompanha a mudança de rótulo do destino** (razão P→mosaico/P→agric 0,6→32,5), não o tempo: em janela limpa (2014-18) w₁ é 20,8%. Mantido como registro. Mas ele apenas *alcança* o antigo no período recente; não passa a dominar. A amostra (corrigida) sugeria 47,1% → 62,3%, o que teria justificado falar em dominância. O censo não sustenta essa leitura.
 *   ΔBIC omitido de propósito: ver a ressalva no cabeçalho.
 
 ### 4. Quantificação dos Mecanismos por Regra de Decisão
@@ -337,7 +347,7 @@ Classificamos os pixels não-censurados cruzando idade de conversão com origem 
 
 A mediana é **só dos não-censurados**, como todo o resto do #28 e o JSON do site; a % de censura vai em coluna própria porque varia de 37% (Leste) a 71% (Sul/Centro) e é substantiva. Mediana calculada *com* censurados é limite inferior e distorce a leitura: Centro Goiano (71% de censura) aparece como 3ª mais velha (19a) com censurado dentro, mas é empatada em mais jovem (9a) sem — a diferença é censura, não idade de pasto.
 
-O Sul Goiano concentra 64,4% dos eventos de conversão — 64,1% em área (diferença de só 0,27 pp: o Sul se espalha em latitude e o efeito cos(lat) quase se cancela) — com pastagens mais jovens (mediana 9a); Norte/Noroeste com mediana 16a indicam pastagens antigas convertidas tardiamente. **O gradiente Sul→Norte sobrevive ao censo** — era 7→14 na amostra (não-cens.) e é 9→16 no censo (não-cens.). A ordenação das pontas se mantém (Sul/Leste jovens, Norte/Noroeste velhos); o meio (Centro) é sensível à convenção de censura.
+O Sul Goiano concentra 64,4% dos eventos de conversão — 64,1% em área (diferença de só 0,27 pp: o Sul se espalha em latitude e o efeito cos(lat) quase se cancela) — com pastagens mais jovens (mediana 9a); Norte/Noroeste com mediana 16a indicam pastagens antigas convertidas tardiamente. 🛑 **CONCORDÂNCIA censo×amostra, NÃO validade (retratado 25/jul, ver topo).** ~~O gradiente Sul→Norte sobrevive ao censo~~ — era 7→14 na amostra (não-cens.) e é 9→16 no censo (não-cens.): as duas fontes medem o **mesmo subconjunto rotulado "agricultura"**, então concordam entre si, mas o **gradiente latitudinal de idade foi refutado** sob o bracket `pasto→(agric∪mosaico)` (D26; as pontas invertem: Sul 16a→32a, Norte 27a→23a). A ordenação Sul/Leste-jovens vale só dentro do rótulo "agricultura"; o meio (Centro) é sensível à convenção de censura. **Não citar como gradiente de idade estabelecido.**
 
 ### 6. Coortes por origem anterior à pastagem
 
@@ -379,7 +389,7 @@ Pixels já classificados como pastagem em 1985 não têm idade verdadeira conhec
 |---|---|
 | Distribuição bimodal global | **Confirmada e robusta** — dois modos em todas as janelas, posições estáveis (μ₁≈4,4a, μ₂≈22,9a). Robustez vem da *estabilidade entre janelas*, não do ΔBIC |
 | Idade mediana decrescente ao longo dos ATOs | **Refutada**: cresce I→II (4→14a); recua no III (8a) sem voltar ao nível do I |
-| Idade menor no Sul de GO vs Norte/Nordeste | **Confirmada**: Sul 12a, Norte/Noroeste 21a |
+| Idade menor no Sul de GO vs Norte/Nordeste | 🛑 **REFUTADA sob a união (D26, ver topo)** — sob `pasto→(agric∪mosaico)` a ordenação inverte (Sul passa a 2ª mais velha). ~~Confirmada: Sul 12a, Norte/Noroeste 21a~~ |
 | Coorte veg.nat→pastagem→agric com mediana <15a | **Confirmada** (mediana 13a, cauda longa) |
 | Componente jovem torna-se dominante | **Não sustentada pelo censo**: $w_1$ sobe de 31,5% para 51,5% — alcança o antigo, não o supera. A amostra sugeria dominância (62,3%) |
 | Correlação Δ SICOR vs idade mediana | **Sem correlação** — mecanismos operam abaixo da escala municipal |
