@@ -22,6 +22,6 @@ Dinâmica de uso e cobertura da terra em Goiás (1985–2024) e fatores socioeco
 | `visao_geral/` | Escopo, estrutura de diretórios, como retomar |
 | `pipelines/` | pipelines #1–#54 (+ #28C, #40B) — ver [pipelines/README.md](pipelines/README.md) |
 | `outputs/` | Catálogo de gráficos, mapas, CSVs — com interpretação |
-| `metodologia/` | Deflação, validação, glossário, decisões transversais — inclui [censo_vs_amostra.md](metodologia/censo_vs_amostra.md) (D21–D24: auditoria do #28, quando trocar amostra por censo, e as armadilhas que o censo cria; **§7.4 = a mudança do rótulo de destino, D25**) |
+| `metodologia/` | Deflação, validação, glossário, decisões transversais — inclui [censo_vs_amostra.md](metodologia/censo_vs_amostra.md) (D21–D24: auditoria do #28, quando trocar amostra por censo, e as armadilhas que o censo cria; **§7.4 = a mudança do rótulo de destino, D25**) e [auditoria_de_figuras.md](metodologia/auditoria_de_figuras.md) (**D27**: o rótulo de uma figura é uma afirmação e envelhece — conferir antes de publicar; audita-se por exposição, não por inventário) |
 | `referencia/` | Ambiente Python, fontes, plano original, memórias |
 | `_arquivo/` | Análises e prompts históricos (opcional) |

@@ -1160,6 +1160,30 @@ censura de 64% é limite da série MapBiomas (começa em 1985), não do tamanho 
 classificação do próprio MapBiomas agora é a **maior** incerteza restante, justamente porque o erro
 amostral saiu de cena.
 
+**"Como o senhor garante que as suas figuras dizem o mesmo que o seu texto?"**
+Hoje eu garanto por uma regra escrita; antes eu não garantia, e **isso me custou uma figura
+publicada que afirmava o contrário da própria manchete**. O caso: a decomposição do #39 exportava
+duas barras rotuladas "Efeito-OFERTA" e "Efeito-DEMANDA", e a figura ilustrava a frase "não foi a
+demanda que acabou, foi a oferta de terra" — só que no Sul a barra da *demanda* é **83% da
+freada**. O pior é que **o pipeline já sabia**: o §3 do #39 tem uma seção chamada "Ressalva de
+rótulo" explicando que aquela coluna é um **resíduo** (propensão + atrito de acesso + proteção +
+troca da fonte de terra), e não demanda medida. Eu corrigi a prosa e não re-rodei a figura. O
+diagnóstico é estrutural, não distração: **um PNG exportado é uma citação congelada de uma versão
+anterior da análise** — o rótulo está dentro do binário, então não é grepável, não aparece no
+`git diff` e só muda se alguém rodar o script de novo. Como uma auditoria costuma mudar a
+*interpretação* sem mexer no cálculo, texto e figura divergem exatamente nos pipelines **mais**
+auditados. A regra que passou a valer é a **D27**
+([metodologia/auditoria_de_figuras.md](metodologia/auditoria_de_figuras.md)): antes de publicar,
+toda figura importada responde *"o rótulo ainda diz o que o pipeline conclui hoje, ou o que ele
+concluía antes da última auditoria?"*, com desfecho obrigatório (re-rodar, substituir por figura
+autorada, ou manter com ressalva na legenda — nunca "manter sem olhar"). E uma regra companheira:
+**se eu ressalvei uma série em algum lugar da peça, todas as representações dela carregam a
+ressalva**. O escopo é por **exposição, não por inventário**: `outputs/` tem 434 figuras e a
+esmagadora maioria é figura de trabalho, que não afirma nada a ninguém; auditam-se as que um
+leitor vê. E o que a D27 **não** faz: ela confere o rótulo contra o pipeline, não confere o
+pipeline; e não acha figura **ausente** — o beat que faltava na Perna 4 estava nos dados desde a
+auditoria da D26 e nenhuma varredura o encontraria, só a leitura de cima a baixo.
+
 **"Você diz 'marcha ao norte' — não é só efeito do desenho das suas unidades (AMC)?"**
 Não. O #43 refez o centro de massa **pixel-a-pixel**, sem nenhuma malha, e a concordância é de
 1–2 km (`+79 vs +78 km` no pasto). O MAUP foi testado e descartado para essa métrica.

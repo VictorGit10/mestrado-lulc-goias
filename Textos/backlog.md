@@ -15,6 +15,33 @@ Itens alinhados com o plano-mestre e [fontes_dados_adicionais.md](referencia/fon
 As histórias mais ricas ainda não contadas, em ordem de **riqueza × viabilidade com o dado
 que já existe**. Nenhuma exige redação; todas são investigação.
 
+> **REVISÃO PESADA DE OUTPUTS × VISUALIZAÇÃO — ABERTA (2026-07-28).** Decidida pelo autor depois
+> da revisão da Perna 4: *"teremos que em algum momento fazer uma revisão pesada sobre o quanto os
+> outputs e a visualização estão corretos"*. Método e escopo canonizados em
+> [`metodologia/auditoria_de_figuras.md`](metodologia/auditoria_de_figuras.md) (**D27**).
+> **O gatilho:** a figura `decomposicao_oferta_demanda.png` (#39) rotulava a barra do resíduo como
+> "Efeito-DEMANDA" e ficava ao lado da manchete "não foi a demanda, foi a oferta" — no Sul aquela
+> barra é **83% da freada**. O próprio #39 já retratara o rótulo em prosa (§3, "Ressalva de
+> rótulo"); a figura não foi re-rodada. **Um PNG é uma citação congelada de uma versão anterior da
+> análise**, e não é grepável, não aparece no `git diff` e só muda se alguém rodar o script — logo
+> prancheta e figura divergem **exatamente nos pipelines mais auditados**.
+> **A regra (D27):** toda figura importada de script responde, antes de publicar, *"o rótulo ainda
+> diz o que o pipeline conclui hoje, ou o que ele concluía antes da última auditoria?"*; e **se a
+> peça ressalvou uma série em algum lugar, todas as representações dela carregam a ressalva**.
+> **Escopo — audita-se por exposição, não por inventário:** `outputs/` tem **434 PNGs** e não é o
+> alvo (figura de trabalho não afirma nada a ninguém); o alvo são as ~25 que um leitor vê.
+> **Estado:** `reforma.html` inventariado (12 figuras: 2 classe A, 4 B, 8 SVG inline) — 1 caso
+> **fechado** (#39) e **2 abertos**, ambos bloqueando a troca: (a) `deslocamento_latitude.png`
+> (#32) plota a série da agricultura **sem** a ressalva de 2019 que o interativo logo acima carrega
+> (`ANO_ROTULO_DERIVA`); (b) a legenda de classes do mapa da Parte 1, única classe B nunca
+> auditada — e o bug conhecido da classe 21 é justamente uma categoria de legenda. O `index.html`
+> publicado tem **25 figuras classe A**, nenhuma auditada, **incluindo a do caso 1** — não se
+> audita: a troca aposenta 23 das 25 por construção.
+> **Varredura irmã, separada de propósito: número na tela × CSV.** Outro método (abrir o CSV e
+> conferir um a um), outro dia — misturar as duas faz as duas ficarem pela metade. Feita *ad hoc*
+> na Perna 4, achou 3 erros de transcrição (janela 2013→2021 publicada como 2013–2023; "97%
+> desprotegido" tendo a régua melhor do #46 em 94,3%; carbono sem cronologia).
+
 > **AUDITORIA DA MUDANÇA DE RÓTULO DO MOSAICO (#28D/D25) — FECHADA (2026-07-23).** Varredura completa dos consumidores.
 > Método canonizado em [`metodologia/tratamento_deriva_mosaico.md`](metodologia/tratamento_deriva_mosaico.md)
 > (**D26**: bracket `[agric, agric∪mosaico]` + âncora SIDRA; a união é **limite superior**, não correção; responde a

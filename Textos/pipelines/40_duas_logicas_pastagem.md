@@ -265,6 +265,48 @@ Logo a dicotomia "estrutura > fluxo" **cai**, e agora com base numa comparação
 > do que se esperaria de "crédito puxa rotação de pasto jovem", e o mecanismo **não foi
 > investigado**. Escrever com cuidado — a frase é fácil de ler ao contrário.
 
+#### Bracket da D26 sobre estrutura e fluxo — FECHADO (28/jul/2026)
+
+**O fio que estava aberto.** A D26 tinha sido aplicada ao gradiente latitudinal (§1) e o
+derrubou. Os cruzamentos desta seção e da §3 medem a idade sobre **o mesmo subconjunto
+selecionado pela mudança de rótulo** e nunca tinham passado pela mesma régua — ou seja, o
+único par "robusto" do pipeline estava apoiado numa régua que já havia falhado noutro
+teste do próprio #40. Rodado em `scripts/duas_logicas_bracket_fluxo.py` (mesmo
+`agregar_mix`, mesmos controles, mesmo FDR-BH), Δ SICOR × idade mediana, parcial | lat+lon:
+
+| janela | `pasto→agric` | **`pasto→(agric∪mosaico)`** |
+|---|---|---|
+| limpa 2010–2019 | +0,040 (p=0,53) ns | **+0,061 (p=0,34) ns** |
+| cheia 2010–2024 | +0,221 (p=0,0006) ✅FDR | **+0,299 (p<0,0001) ✅FDR** |
+| exposta 2016–2024 | +0,161 (p=0,013) ✗FDR | **+0,246 (p=0,0001) ✅FDR** |
+
+**Duas leituras, e as duas importam.**
+
+1. **A associação NÃO é artefato de rotulagem** — ao contrário do gradiente latitudinal,
+   ela **sobrevive e se fortalece** sob a união (+0,22 → +0,30), e passa a sobreviver ao
+   FDR em duas janelas em vez de uma. Isto é evidência genuína, e é o oposto do que
+   aconteceu com o gradiente. Vale registrar a assimetria: a D26 não condena tudo que
+   toca — ela **separa** o que era artefato do que não era.
+2. **Mas ela só existe com os anos recentes dentro.** Na janela limpa (≤2019) o
+   coeficiente é ~zero e não significativo **nas duas réguas**. Como a união é imune à
+   reetiquetagem por construção, a dependência de janela **não** pode ser creditada ao
+   Mosaico: ou é um efeito genuinamente recente (crédito de 2020–24 ativando reserva
+   antiga), ou é outro confundidor de período não identificado. **Não foi investigado.**
+
+**Estrutura sob a mesma régua** (no-till × idade mediana, parcial | lat+lon): −0,132
+(p=0,058) no `agric` contra **−0,125 (p=0,073)** na união, janela cheia; na exposta,
+−0,080 (p=0,25) contra −0,135 (p=0,052). O veredito **"não estabelecido" é robusto ao
+bracket** — não muda de lado em nenhuma combinação, e nenhum par de estrutura sobrevive
+ao FDR em nenhuma das seis células.
+
+> ⚠️ **O que "plantio direto" mede, e o que ele não mede.** O texto acima e o §2 chamam o
+> no-till de "proxy de ILP/rotação". Isso é **frouxo demais** e foi corrigido na redação do
+> site: plantio direto é **conservação de solo** (semear sem revolver, mantendo palhada),
+> não integração lavoura-pecuária. O Censo Agropecuário **não tem** variável de ILP — foi
+> por isso que o no-till entrou, por ser o mais próximo disponível, não por ser o certo. O
+> que ele indexa bem é *lavoura de grãos tecnificada e capitalizada*. Qualquer frase que
+> derive "há rotação com pecuária" de "há plantio direto" é inferência, não medida.
+
 ### 4. Tipologia "carreira da terra" (244 municípios, 2010–24)
 
 Com o censo **todos** os 244 municípios entram (antes 88 passavam no corte de ≥20 px);

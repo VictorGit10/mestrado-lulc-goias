@@ -179,6 +179,20 @@ Latitude do centro de massa **ano a ano**. As bandas de fundo marcam os três at
 
 ![Latitude no tempo](../../outputs/centro_massa/deslocamento_latitude.png)
 
+> ⚠️ **Ressalva de leitura, pendente na figura (D27, 2026-07-28).** O trecho acima lê o
+> achatamento da linha magenta no Ato III como "desaceleração da agricultura" — **e é exatamente
+> aí que a mudança de rótulo do Mosaico morde** (§ "Robustez à mudança de rótulo", D25/D26): a
+> partir de ~2019 a lavoura nova migra para a classe 21 e some do centroide de "Agricultura", o
+> que **produz achatamento por artefato de rótulo**, além do que houver de real. A régua-espelho
+> desta mesma seção quantifica o viés (+10 km pontual em 2019→24) e mostra que o **deslocamento
+> agregado sobrevive**; o que não sobrevive sem ressalva é a leitura ano-a-ano do fim da série.
+> A visualização já trata isso (corte `ANO_ROTULO_DERIVA = 2019`, com a série ressalvada a partir
+> daí), mas **este PNG ainda plota a agricultura em linha cheia, período inteiro, sem marca
+> alguma** — pendência aberta pela D27
+> ([metodologia/auditoria_de_figuras.md](../metodologia/auditoria_de_figuras.md) §7, caso 2).
+> Enquanto não for re-exportado: ler o fim da linha magenta **junto com** o
+> `robustez_deriva_regua.png`, nunca sozinho.
+
 ### C. `trajetorias.png` — o caminho de cada uma, com zoom
 Um painel por variável, com **zoom apertado** na trajetória (que tem ~80 km, minúscula perante os ~700 km do estado). Mostra as **setas por ato** e os rótulos de ano. O traçado **mediano (tracejado)** ao lado do **médio (sólido)** revela onde o cluster do Sudoeste "puxa" o médio para longe do ponto robusto.
 

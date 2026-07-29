@@ -187,6 +187,81 @@ o veredito.**
 > 23,2% na união, η²(região) some). A frase para a banca: bimodalidade robusta + coexistência
 > within-região; **retirar a afirmação de gradiente latitudinal na idade**.
 
+> ### ➕ A FORMA também difere entre regiões — e também é artefato (28/jul/2026)
+>
+> **Como apareceu.** Na revisão da Perna 2 do site, o autor olhou os histogramas por
+> mesorregião e notou que Norte e Noroeste *parecem* mais bimodais que Sul e Centro. O #28C
+> nunca tinha medido isso: ele mede **coexistência** (os dois componentes existem ali?) e
+> responde 5/5. Coexistência e **forma** são coisas diferentes — uma mistura pode ter os
+> dois componentes e mesmo assim não produzir vale nenhum, se o componente velho for largo
+> o bastante para virar ombro. Medido em `scripts/forma_regional_bimodalidade.py`:
+>
+> | mesorregião | vale no histograma bruto — `agric` | sob a **união** |
+> |---|---|---|
+> | Sul · Centro · Leste | **não há** (Centro: 0,08, marginal) | não há |
+> | Noroeste | **0,415** | **0,058** |
+> | Norte | **0,271** | não há |
+>
+> O olho estava certo: sob a régua exposta a diferença de forma é grande e sistemática. O
+> peso do componente jovem varia de 0,239 (Norte) a 0,390 (Centro), e a **distância de
+> variação total** entre os histogramas separa as cinco regiões em dois blocos —
+> dentro de {Sul, Centro, Leste} TV = 0,053–0,092; dentro de {Norte, Noroeste} TV = 0,076;
+> **entre os blocos, 0,177–0,234**.
+>
+> **E é o mesmo artefato.** Sob `pasto→(agric∪mosaico)` a diferença colapsa: w₁ passa a
+> 0,380–0,435 (quase plano), o vale só sobrevive no Noroeste e raso (0,058), e a TV
+> Sul × Norte cai de **0,223 para 0,023** — um décimo. A mudança de rótulo perde mais
+> conversão ao norte, e o que sobra lá é uma amostra enviesada para a ponta velha; é ela
+> que cava o vale.
+>
+> **Consequência para a redação.** "As cinco regiões têm o mesmo desenho" é verdadeiro
+> **sob a régua imune** e falso sob a exposta — então a afirmação precisa vir com a régua
+> declarada, e qualquer figura que a acompanhe tem de ser desenhada na régua certa. Foi
+> exatamente esse o defeito encontrado no site: a peça desenhava `agric` enquanto o texto
+> ao lado afirmava a conclusão da união. Corrigido — a peça passou a oferecer as duas, com
+> a imune por padrão (`export_idade_bracket_viz.py`).
+>
+> **Ressalva honesta:** mesmo na união o Noroeste guarda um vale raso e é a região mais
+> distante das demais (TV 0,072–0,115). "Praticamente o mesmo desenho" é a frase certa;
+> "idêntico" não é.
+
+> ### ➕ A bimodalidade por ATO — e por que o Ato I não conta (28/jul/2026)
+>
+> **A pergunta.** Levantada na revisão da Perna 2: "a bimodalidade não se sustentava só no
+> Ato III?" É a pergunta certa a fazer, porque se ela só aparecesse ao juntar os três
+> períodos, seria **composição temporal** e não coexistência. Recomputado por célula
+> região×ato nas duas réguas:
+>
+> | recorte | `agric` | **união** |
+> |---|---|---|
+> | **Ato I** (1985–2000) | **0/5** unimodal em toda parte | **0/5** unimodal em toda parte |
+> | **Ato II** (2001–2019) | 4/5 (falha Noroeste, w₁=0,121) | **5/5** |
+> | **Ato III** (2020–2024) | 5/5 | **5/5** |
+> | Ato II + III (o recorte do §1) | 9/10 | **10/10** |
+>
+> **A resposta é não — e o Ato I é justamente a prova.** O Ato I é unimodal em toda parte
+> porque **não pode ser outra coisa**: uma conversão em 1995 se dá sobre um pasto que tem,
+> no máximo, 10 anos, e a série só começa em 1985. Para *observar* um pasto de 22 anos
+> sendo convertido é preciso chegar a 2007. Ou seja, a população velha é **inobservável**
+> no Ato I, não ausente — o GMM ali ajusta dois componentes a 3,3a e 7,6a, separação 4,2a,
+> abaixo do limiar de 5a. Ler isso como "a segunda população não existia nos anos 1990"
+> seria confundir horizonte de observação com fenômeno, exatamente o erro que a censura à
+> esquerda existe para evitar.
+>
+> **O que sustenta o achado:** Ato II sozinho (32,5 M eventos na união — o maior bloco) é
+> bimodal por si, e Ato III sozinho também, em todas as regiões. A coexistência **não** é
+> subproduto de empilhar períodos. É por isso que o §1 conta células de Ato II e III e
+> exclui as de Ato I por construção: incluí-las mediria o desenho da série, não o
+> território.
+>
+> ⚠️ **Não derivar tendência disto.** Que o vale seja mais fundo no Ato III (dip 0,21–0,48
+> na união, contra 0,00–0,06 no Ato II) é, em boa parte, o mesmo efeito de horizonte
+> operando ao contrário — quanto mais tarde a janela, mais idade cabe nela. O eixo temporal
+> segue suspenso (D25/D26).
+>
+> Reproduzível com `scripts/forma_regional_bimodalidade.py` (as células por ato saem do
+> mesmo `carregar`/`carregar_uniao` usados ali).
+
 ## Conexão com a narrativa
 
 - **Fecha a pergunta de precisão deixada por #28/#40.** O #40 entregou a *geografia* das duas
