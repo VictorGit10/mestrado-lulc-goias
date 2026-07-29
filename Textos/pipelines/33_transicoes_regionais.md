@@ -56,7 +56,9 @@ Em **todos** os atos, `pasto→agric` (a barra magenta da figura A) é mais alto
 A grade de **conversão dominante** (figura B) deixa explícito: na **maioria** das células, a conversão líder é `vegetação→pasto` — o Cerrado virando pastagem é a transformação pervasiva do estado. O `pasto→agric` só **assume a liderança** em **duas células**: **Sul e Centro no Ato II** (2001–2019, o boom de commodities). É ali que a intensificação/substituição supera a expansão de fronteira.
 
 ### 3. O deslocamento, medido em hectares líquidos
-O **balanço líquido de pastagem** quantifica a mudança da fronteira:
+O **balanço líquido de pastagem** quantifica a mudança da fronteira. 🛑 **Os Mha da tabela abaixo
+são pré-cubo #12B — ver a ressalva logo após** (o *sinal* vale; os valores absolutos e a coluna do
+Ato III, não):
 
 | Mesorregião | Ato I | **Ato II** | Ato III |
 | :--- | :---: | :---: | :---: |
@@ -66,7 +68,27 @@ O **balanço líquido de pastagem** quantifica a mudança da fronteira:
 | Noroeste Goiano | +0,71 | +0,09 | −0,00 |
 | Norte Goiano | +0,42 | +0,13 | +0,01 |
 
-*(Mha; + ganha pasto, − perde.)* No **Ato II**, o **Sul perde pasto líquido (−0,57 Mha)** enquanto ganha agricultura (+0,76 Mha) — lavoura **deslocando** pasto. No mesmo período, **Norte (+0,13) e Noroeste (+0,09) ganham pasto**. Em hectares: **o pasto sai do Sul e reaparece no Norte.** É exatamente o que move o centro de massa para cima (#32).
+*(Mha; + ganha pasto, − perde.)* No **Ato II**, o **Sul perde pasto líquido** enquanto ganha agricultura — lavoura **deslocando** pasto. No mesmo período, **Norte e Noroeste ganham pasto**. Em hectares: **o pasto sai do Sul e reaparece no Norte.** É exatamente o que move o centro de massa para cima (#32).
+
+> [!CAUTION]
+> **Os Mha desta tabela são pré-cubo #12B — o *sinal* sobrevive, os *valores absolutos* não, e a
+> coluna do Ato III é exposta à D26 (verificado 29/jul/2026 contra
+> `transicoes_regionais_fluxos_chave.csv`).** A tabela foi escrita em 06/jun/2026, antes de o
+> recont do [#12B](12B_transicoes_cubo.md) separar `pasto→mosaico` como perna própria. O CSV atual
+> dá totais **maiores em módulo** (Ato II: Sul `net_pastagem` = **−1,32** e agric **+1,35**; Centro
+> −0,35; Leste +0,02; Noroeste +0,13; Norte +0,16). **A conclusão não muda**: o padrão de sinal dos
+> Atos I e II é idêntico ao publicado — todos ganham pasto no Ato I; no Ato II **Sul e Centro perdem,
+> Leste/Noroeste/Norte ganham** —, e é o sinal (não o Mha exato) que sustenta "o pasto sai do Sul e
+> reaparece no Norte".
+>
+> **A coluna do Ato III, porém, agora está do lado errado da régua.** Sob o cubo #12B o `net_pastagem`
+> do Ato III é **negativo em todas as cinco mesorregiões** (Sul −0,70; Centro −0,14; Leste −0,12;
+> Noroeste −0,16; Norte −0,04), dominado pelo `pasto→mosaico` (Sul 0,201 Mha/ano contra `pasto→agric`
+> 0,008) — isto é, a mesma seleção de rótulo que o achado 4 já ressalva. **Leia a coluna do Ato III
+> desta tabela junto com a régua superior do bracket** (§ achado 4 e "Como ler as figuras"), nunca
+> como saldo líquido isolado. Re-tabelar sob a régua da D26 (crua × união) é decisão de redação
+> pendente — o balanço bruto do #12B (−1,32 no Sul/II) é a régua-de-cima, que a própria D26 diz
+> superestimar o quanto de pasto virou *lavoura*.
 
 ### 4. O Ato III conecta o mecanismo à "desaceleração" do #32
 Em taxa anual, no Ato III (2020–2024):
