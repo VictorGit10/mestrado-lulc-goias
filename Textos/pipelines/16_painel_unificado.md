@@ -48,7 +48,7 @@ python scripts/construir_painel_unificado.py
 2. **Deflação**: PIB, VA agro e SICOR convertidos para R$ de **dezembro/2024** via IPCA dez-a-dez (tabela SIDRA 1737). Padrão idêntico ao Pipeline #8. Ver [metodologia/deflacao_ipca.md](../metodologia/deflacao_ipca.md).
 
 3. **Unidade R$**: SIDRA 5938 reporta em "Mil R$"; este pipeline **multiplica por 1000** para sair em R$ — coerência com SICOR (R$).
-   - **Divergência conhecida** com `painel_credito_lulc.csv` (Pipeline #8): aquele arquivo reporta `pib_real_rs` ~38% maior; causa não auditada. O cálculo aqui é determinístico e bate com SIDRA bruto.
+   - **Compatibilidade com `painel_credito_lulc.csv` (Pipeline #8): VERIFICADA idêntica.** `outputs/diagnosticos/auditoria_pib_ratio.csv` dá razão `pib_8/pib_16 = 1,0000` em 2.692 linhas (após o fix de alinhamento de índice do #8 em mai/2026). A antiga nota de "~38% maior, causa não auditada" era anterior a esse fix e estava **incorreta** — removida em jul/2026.
 
 4. **Censo 2017 replicado** como atributo estático em todos os anos do município. Decisão pragmática para regressão pooled. Limitação: não captura mudanças estruturais pré- ou pós-2017.
 

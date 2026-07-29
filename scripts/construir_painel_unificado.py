@@ -103,11 +103,11 @@ DECISÕES METODOLÓGICAS E LIMITAÇÕES — LEIA ANTES DE USAR
    `participacao_agro_pct` = VA agro / VA total × 100 (variavel_id 498),
    invariante à deflação por construção.
 
-   DIVERGÊNCIA conhecida com `painel_credito_lulc.csv` (Pipeline #8):
-   aquele arquivo reporta `pib_real_rs` ~38% maior que o cálculo aqui,
-   apesar de declarar a mesma base IPCA. Causa exata não auditada;
-   a fórmula deste pipeline é determinística e bate com SIDRA bruto.
-   Se a regressão exigir compatibilidade, usar este painel.
+   COMPATIBILIDADE com `painel_credito_lulc.csv` (Pipeline #8): VERIFICADA
+   idêntica — `outputs/diagnosticos/auditoria_pib_ratio.csv` dá razão
+   pib_8/pib_16 = 1,0000 em 2.692 linhas (após o fix de alinhamento de índice
+   do #8 em mai/2026). A antiga nota de "~38% maior, causa não auditada" era
+   anterior a esse fix e estava incorreta (removida em jul/2026).
 
 9. SICOR: agregado por (cd_mun, ano, finalidade) somando `valor` e
    `n_operacoes`. Pivotado em Custeio/Investimento. Valores deflacionados.
@@ -562,6 +562,28 @@ def load_fogo() -> pd.DataFrame | None:
     return out
 
 
+def load_idhm() -> pd.DataFrame | None:
+    """IDH-M municipal (IPEA Data, Pipeline #13) — 1991/2000/2010.
+
+    Retorna None se o CSV ainda não foi gerado (pipeline #13 não rodou).
+    Renomeia os sub-índices do schema do #13 (idhm_r/idhm_l/idhm_e) para o do
+    painel (idhm_renda/idhm_long/idhm_educ). Sem esta função os slots idhm*
+    ficavam 100% NaN e eram descartados — a doc afirmava 738 linhas que não
+    existiam (corrigido em jul/2026).
+    """
+    path = DIR_PROCESSED / "idhm_goias_municipal.csv"
+    if not path.exists():
+        print("[idhm] CSV ausente — slot permanecerá NaN (rode coleta_idhm.py)")
+        return None
+    df = pd.read_csv(path, encoding="utf-8")
+    out = (df[["cd_mun", "ano", "idhm", "idhm_r", "idhm_l", "idhm_e"]]
+           .rename(columns={"idhm_r": "idhm_renda",
+                            "idhm_l": "idhm_long",
+                            "idhm_e": "idhm_educ"}))
+    print(f"[idhm] {len(out):,} linhas, anos {sorted(out['ano'].unique())}")
+    return out
+
+
 def load_trase() -> pd.DataFrame | None:
     """Trase.earth — cadeia exportadora soja (2004-2022) e bovinos (2011-2023 sem 2018).
 
@@ -765,6 +787,7 @@ def main() -> None:
     pop     = load_populacao()
     sicor   = load_sicor(df_ipca)
     fogo    = load_fogo()
+    idhm    = load_idhm()
     censo   = load_censo_2017()
     abate   = load_abate()
     trase   = load_trase()
@@ -779,6 +802,8 @@ def main() -> None:
         fontes.append(("fogo", fogo))
     if trase is not None:
         fontes.append(("trase", trase))
+    if idhm is not None:
+        fontes.append(("idhm", idhm))
     for nome, df in fontes:
         painel = painel.merge(df, on=["cd_mun", "ano"], how="left")
         print(f"  + {nome}: shape = {painel.shape}")
@@ -822,7 +847,7 @@ def main() -> None:
     print("=" * 70)
     print(f"Painel: {painel.shape[0]:,} linhas × {painel.shape[1]} colunas")
     print(f"Cobertura plena (todas as fontes): ano in [2013, 2023]")
-    print(f"Slots vazios reservados: idhm* (1991/2000/2010 disponíveis pós-merge IDH-M)")
+    print(f"IDH-M: {'preenchido (1991/2000/2010, via #13)' if idhm is not None else 'slot NaN — rode coleta_idhm.py'}")
 
 
 if __name__ == "__main__":
