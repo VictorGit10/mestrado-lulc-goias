@@ -55,6 +55,7 @@ CW_AMC = ROOT / "data" / "processed" / "amc_crosswalk_goias.csv"
 DIR_VIZ = ROOT / "Visualizacao" / "assets" / "data"
 MUNICIPAL = DIR_VIZ / "idade_pastagem_municipal.json"
 SAIDA = DIR_VIZ / "malha_amc.geojson"
+SAIDA_MESO = DIR_VIZ / "malha_mesorregiao.geojson"
 
 # 5 casas decimais ≈ 1 m no equador: mais do que suficiente para um mapa de
 # 460 px de largura, e corta ~40% do arquivo.
@@ -83,6 +84,61 @@ def mesorregiao_por_amc(cw: pd.DataFrame) -> pd.DataFrame:
     return m[["code_amc", "mesorregiao"]]
 
 
+def arredonda(coords, casas: int = CASAS):
+    if isinstance(coords[0], (int, float)):
+        return [round(float(c), casas) for c in coords]
+    return [arredonda(c, casas) for c in coords]
+
+
+def n_vertices(coords) -> int:
+    if isinstance(coords[0], (int, float)):
+        return 1
+    return sum(n_vertices(c) for c in coords)
+
+
+def exportar_mesorregioes(gdf: gpd.GeoDataFrame) -> None:
+    """Dissolve as AMCs em 5 mesorregiões — o contorno que o site usa como
+    *alvo de clique* na peça da Perna 2.
+
+    POR QUE ESTE SEGUNDO ARQUIVO (2026-07-28)
+    -----------------------------------------
+    A peça mostra duas malhas ao mesmo tempo, de propósito: o **veredito de
+    bimodalidade** é por AMC (166 células, quase todas da mesma cor — é a forma
+    visual do η² de 0,5%), mas o **histograma** só é ajustável por mesorregião,
+    onde o n sustenta o GMM em todos os recortes. Até 28/jul isso ficava numa
+    malha para o mapa e noutra para uma fileira de botões, e o leitor não tinha
+    como saber que as duas conversavam. Com o contorno dissolvido, o clique
+    acontece no mapa: hover acende a mesorregião inteira, clique redesenha o
+    histograma. A resolução fina continua desenhada por baixo.
+
+    A dissolução simplifica DEPOIS de unir (união primeiro evita fendas entre
+    AMCs vizinhas que a simplificação independente abriria).
+    """
+    sub = gdf[gdf["mesorregiao"].notna()].copy()
+    orfas = len(gdf) - len(sub)
+    meso = sub.dissolve(by="mesorregiao", as_index=False)[["mesorregiao", "geometry"]]
+    # As AMCs vizinhas não compartilham vértices exatamente coincidentes, então o
+    # dissolve deixa fendas capilares e as bordas internas SOBREVIVEM à união
+    # (7.784 vértices para 5 polígonos — mais que as 166 AMCs somadas). Fechar e
+    # reabrir com ~55 m sela as fendas e derruba para ~1.980 vértices, bem abaixo
+    # do pixel do mapa (≈0,015°/px). Feito em graus de propósito: o desvio é
+    # isotrópico o bastante nesta latitude e evita duas reprojeções.
+    meso["geometry"] = meso.geometry.buffer(0.0005).buffer(-0.0005)
+    meso["geometry"] = meso.geometry.simplify(TOLERANCIA, preserve_topology=True)
+
+    geo = json.loads(meso.to_json(drop_id=True, to_wgs84=False))
+    geo["name"] = "malha_mesorregiao"
+    for f in geo["features"]:
+        f["geometry"]["coordinates"] = arredonda(f["geometry"]["coordinates"])
+
+    SAIDA_MESO.write_text(json.dumps(geo, ensure_ascii=False), encoding="utf-8")
+    verts = sum(n_vertices(f["geometry"]["coordinates"]) for f in geo["features"])
+    kb = SAIDA_MESO.stat().st_size / 1024
+    print(f"[OK] {SAIDA_MESO.relative_to(ROOT)} — {len(geo['features'])} mesorregiões, "
+          f"{verts:,} vértices, {kb:.0f} KB"
+          + (f" ({orfas} AMC sem mesorregião ficaram de fora do contorno)" if orfas else ""))
+
+
 def main() -> None:
     gdf = gpd.read_file(GPKG)
     gdf["code_amc"] = gdf["code_amc"].astype(int)
@@ -99,14 +155,13 @@ def main() -> None:
     gdf["n_munis"] = gdf["n_munis"].fillna(0).astype(int)
 
     gdf = gdf[["code_amc", "mesorregiao", "n_munis", "geometry"]].copy()
+    # O contorno das mesorregiões sai da malha ANTES da simplificação por AMC,
+    # para que a união não herde as fendas que a simplificação individual abre.
+    exportar_mesorregioes(gdf)
+
     gdf["geometry"] = gdf.geometry.simplify(TOLERANCIA, preserve_topology=True)
     geo = json.loads(gdf.to_json(drop_id=True, to_wgs84=False))
     geo["name"] = "malha_amc"
-
-    def arredonda(coords):
-        if isinstance(coords[0], (int, float)):
-            return [round(float(c), CASAS) for c in coords]
-        return [arredonda(c) for c in coords]
 
     for f in geo["features"]:
         f["geometry"]["coordinates"] = arredonda(f["geometry"]["coordinates"])
@@ -114,13 +169,8 @@ def main() -> None:
     SAIDA.write_text(json.dumps(geo, ensure_ascii=False), encoding="utf-8")
     kb = SAIDA.stat().st_size / 1024
 
-    def n_vertices(coords) -> int:
-        if isinstance(coords[0], (int, float)):
-            return 1
-        return sum(n_vertices(c) for c in coords)
-
     verts = sum(n_vertices(f["geometry"]["coordinates"]) for f in geo["features"])
-    print(f"\n[OK] {SAIDA.relative_to(ROOT)} — {len(geo['features'])} feições, "
+    print(f"[OK] {SAIDA.relative_to(ROOT)} — {len(geo['features'])} feições, "
           f"{verts:,} vértices, {kb:.0f} KB")
     print("     properties:", sorted(geo["features"][0]["properties"]))
 

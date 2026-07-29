@@ -57,6 +57,7 @@ import pandas as pd
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from config_periodos import ATOS_FLAT as ATOS                        # noqa: E402
 from analise_reserva_terra import carregar, ajustar_gmm_unidim       # noqa: E402
+from bimodalidade_regional import bimodality_coef                    # noqa: E402
 from estatistica_ponderada import mediana as mediana_p               # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -101,10 +102,15 @@ def _bloco_celula(idade_nc: np.ndarray, n_censurado: float,
         delta_bic = g["bic_1c"] - g["bic_2c"]
         sep = abs(g["mu2"] - g["mu1"])
         peso_menor = min(g["w1"], g["w2"])
+        bc = bimodality_coef(idade_nc.astype(float), w)
         celula["gmm"] = {
             "mu_jovem": round(g["mu1"], 1), "w_jovem": round(g["w1"], 3),
+            "sig_jovem": round(g["sig1"], 2),
             "mu_velho": round(g["mu2"], 1), "w_velho": round(g["w2"], 3),
+            "sig_velho": round(g["sig2"], 2),
+            "mu_1c": round(g["mu_1c"], 1), "sig_1c": round(g["sig_1c"], 2),
             "separacao_anos": round(sep, 1), "delta_bic": round(delta_bic, 1),
+            "bc_sarle": round(bc, 3) if bc == bc else None,
         }
         celula["bimodal"] = bool(
             (delta_bic > BIC_MIN) and (sep > SEP_MIN) and (peso_menor > PESO_MIN)
