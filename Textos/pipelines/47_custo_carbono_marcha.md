@@ -66,7 +66,17 @@ Ritmo de emissão (Mt CO₂e/ano) por região × ato:
 | II (2001–2019) | 1,6 | 2,9 | 3,0 |
 | III (2020–2024) | 1,4 | **4,6** | 3,1 |
 
-**80% do carbono comprometido (774 de 973 Mt) saiu no Ato I** (1985–2000) — a expansão inicial do pasto sobre o Cerrado, concentrada no **Sul** (20,5 Mt/ano). Depois de 2001 o ritmo despenca ~6× e **inverte a geografia**: no Ato III o **Sul é o menor** (1,4) e Centro/Norte lideram (4,6 / 3,1). O **centróide da perda de carbono marcha +98 km ao norte** de Ato I (lat −16,06) a Ato III (−15,17). Isto **amarra diretamente com o #39**: o Sul esgotou o Cerrado convertível (fronteira fechada) e o custo residual de carbono migrou para onde ainda há o que converter — o Norte/Centro. A soma cumulativa por região fica quase equilibrada (Sul 36% / Centro 32% / Norte 32%) *porque o Sul carrega a herança do Ato I*.
+**80% do carbono comprometido saiu no Ato I** (1985–2000) — a expansão inicial do pasto sobre o Cerrado, concentrada no **Sul** (20,5 Mt/ano). Depois de 2001 o ritmo despenca ~6× e **inverte a geografia**: no Ato III o **Sul é o menor** (1,4) e Centro/Norte lideram (4,6 / 3,1). O **centróide da perda de carbono marcha +98 km ao norte** de Ato I (lat −16,06) a Ato III (−15,17). Isto **amarra diretamente com o #39**: o Sul esgotou o Cerrado convertível (fronteira fechada) e o custo residual de carbono migrou para onde ainda há o que converter — o Norte/Centro. A soma cumulativa por região fica quase equilibrada (Sul 36% / Centro 32% / Norte 32%) *porque o Sul carrega a herança do Ato I*.
+
+> **Nota de reconciliação (29/jul/2026).** A decomposição por ato (`carbono_regional_ato.csv`)
+> soma **946,7 Mt = 97,3% do total-manchete de 973 Mt** (`carbono_por_formacao.csv`), porque cada
+> ato é medido por **diferença de estoque entre seus endpoints** (I=1985→2000, II=2001→2019,
+> III=2020→2024) e as transições dos **dois anos-fronteira entre atos (2000→01 e 2019→20)** não
+> caem em ato nenhum — verificado: `perda(2000,01) + perda(2019,20) = 26,4 Mt`, exatamente o gap.
+> Portanto **não divida uma tabela pela outra**: o Ato I vale **79,5% do total de estoque** (774
+> de 973) *ou* **81,7% da decomposição por ato** (774 de 947) — o "~80%" é robusto às duas réguas.
+> O total-manchete (973) e o cross-check bruto×líquido (§3) usam a diferença de estoque de período
+> inteiro, que é a régua correta para a métrica-manchete.
 
 ### 3. Cross-check bruto × líquido — consistente
 Fluxo bruto veg→antrópico das transições (#12/#19) = 6,24 Mha × densidade ponderada 48 Mg C/ha ≈ **1.095 Mt CO₂e** (cota-teto); o líquido por diferença de estoque = **974 Mt CO₂e**; razão líq/bruto = **0,89**. O líquido é 89% do bruto — a rebrota/regeneração compensa ~11% da conversão bruta, coerente com uma fronteira que ainda avança (pouca regeneração líquida).
