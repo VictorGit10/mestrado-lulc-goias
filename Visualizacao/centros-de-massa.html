@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atlas dos Centros de Massa — Goiás 1985-2024</title>
+  <meta name="description" content="Visualização comparativa completa de todos os centros de massa do uso da terra, pecuária de leite, área urbana, fogo, crédito rural, silos e validação cruzada da soja em Goiás.">
+  <meta property="og:title" content="Atlas dos Centros de Massa — Goiás 1985-2024">
+  <meta property="og:description" content="Explore a trajetória espacial de 19 centros de massa em Goiás: lavoura, pasto, rebanho, leite, área urbana, fogo, crédito rural, armazenagem e soja (MapBiomas × SIDRA).">
+  <meta property="og:type" content="website">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23fafaf7'/%3E%3Ccircle cx='32' cy='32' r='14' fill='%238b3a1d'/%3E%3C/svg%3E">
+
+  <link rel="stylesheet" href="assets/css/styles.css?v=5">
+  <link rel="stylesheet" href="assets/css/marchamap.css?v=1">
+  <link rel="stylesheet" href="assets/css/centros-massa.css?v=1">
+</head>
+<body class="cm-page">
+
+  <!-- Top Navigation Bar -->
+  <header class="cm-nav-bar" aria-label="Navegação da visualização">
+    <div class="cm-nav-inner">
+      <a href="index.html" class="cm-back-link">
+        ← Voltar à visualização principal
+      </a>
+      <div class="cm-nav-brand">
+        Goiás 1985–2024
+      </div>
+      <span class="cm-nav-badge">
+        Atlas dos Centros de Massa
+      </span>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="cm-container">
+
+    <!-- Page Header Intro -->
+    <header class="cm-intro">
+      <h1 class="cm-title">Atlas dos Centros de Massa (1985 → 2024)</h1>
+      <p class="cm-subtitle">
+        Comparativo espacial de 19 centroides calculados no estudo. Cada ponto representa o centro de gravidade ponderado de uma variável sobre as 166 AMCs de Goiás. Enquanto a fronteira agropecuária marcha ao norte, o gado de leite, a área urbana, o crédito rural e os silos permanecem ancorados ao centro-sul — e a soja mostra por que o raster do MapBiomas e a área plantada do SIDRA divergem no Ato III.
+      </p>
+    </header>
+
+    <!-- Category Filter Bar -->
+    <section class="cm-filter-bar" aria-label="Filtro por Categorias">
+      <div class="cm-filter-header">
+        <h2 class="cm-filter-title">Categorias Temáticas</h2>
+        <div class="cm-cat-pills" id="cm-cat-pills">
+          <!-- Populated by centros-massa-pagina.js -->
+        </div>
+      </div>
+
+      <div class="cm-series-controls">
+        <span style="font-size: 0.8rem; font-weight: 600; color: var(--color-muted);">Séries Visíveis no Mapa:</span>
+        <div class="cm-btn-group">
+          <button type="button" class="cm-btn-small" id="cm-btn-select-all">Selecionar Todos</button>
+          <button type="button" class="cm-btn-small" id="cm-btn-clear-all">Limpar Seleção</button>
+        </div>
+      </div>
+
+      <div class="cm-series-grid" id="cm-series-grid">
+        <!-- Populated dynamically with checkboxes, colors, and net shift info -->
+      </div>
+    </section>
+
+    <!-- Visualization Block -->
+    <section class="cm-viz-block" aria-label="Visualizador Interativo">
+      <div class="cm-viz-header">
+        <div>
+          <h2 style="font-size: 1.1rem; font-weight: 700; margin: 0; color: var(--color-fg);">Trajetória e Latitudes</h2>
+          <span style="font-size: 0.84rem; color: var(--color-muted);">Arraste a faixa temporal ou aperte reproduzir para acompanhar a evolução</span>
+        </div>
+
+        <div class="cm-controls-bar">
+          <button type="button" id="cm-play-btn" class="cm-play-btn">
+            ▶ Reproduzir
+          </button>
+          <input type="range" id="cm-year-slider" class="cm-year-slider" min="1985" max="2024" value="1985" step="1">
+          <span id="cm-year-display" class="cm-year-display">1985</span>
+        </div>
+      </div>
+
+      <div class="cm-grid-panels">
+        <!-- Left Panel: Mercator Map -->
+        <figure class="cm-panel">
+          <h3 class="cm-panel-title">Mapa das Trajetórias Espaciais</h3>
+          <div id="cm-mapa-container" class="cm-svg-container"></div>
+        </figure>
+
+        <!-- Right Panel: Latitude-Time Strip -->
+        <figure class="cm-panel">
+          <h3 class="cm-panel-title">Evolução por Latitude (°S ↑ Norte)</h3>
+          <div id="cm-strip-container" class="cm-svg-container"></div>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Analytical Cards Section -->
+    <section class="cm-cards-section">
+      <h2 class="cm-section-title">Diagnóstico Espacial por Centro de Massa</h2>
+      <p class="cm-section-desc">
+        Resumo dos principais achados estatísticos e interpretações geográficas para cada variável.
+      </p>
+
+      <div class="cm-cards-grid" id="cm-cards-grid">
+        <!-- Populated by centros-massa-pagina.js -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Vendor Scripts & Page Engine -->
+  <script src="assets/js/vendor/d3.v7.min.js?v=2"></script>
+  <script src="assets/js/centros-massa-pagina.js?v=2"></script>
+</body>
+</html>
