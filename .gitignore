@@ -25,6 +25,9 @@ paralelo/Trabalho paralelo/
 # Scripts auxiliares descartáveis
 scripts/_preview_*.py
 
+# Rascunhos e prévias da visualização (não publicáveis)
+Visualizacao/scratch/
+
 # IDE e Sistema
 .claude/
 .vscode/
