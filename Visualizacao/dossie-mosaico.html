@@ -1,0 +1,1710 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>O Caso do Mosaico de Usos — Goiás, MapBiomas × SIDRA (1985–2024)</title>
+
+  <meta name="description" content="Uma classe do MapBiomas pensada para a ambiguidade — lavoura ou pasto, indistinguíveis a 30 metros — passou a concentrar quase toda a expansão agrícola recente de Goiás. A investigação completa: contagem de pixels, centros de massa, quatro coleções do MapBiomas e o Sentinel-2 de 10 metros.">
+  <meta property="og:title" content="O Caso do Mosaico de Usos — Goiás, MapBiomas × SIDRA (1985–2024)">
+  <meta property="og:description" content="Uma classe pensada para a ambiguidade classificatória passou a concentrar quase toda a expansão agrícola recente de Goiás. A investigação completa, coleção a coleção.">
+  <meta property="og:type" content="website">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23fafaf7'/%3E%3Ccircle cx='32' cy='32' r='14' fill='%238b3a1d'/%3E%3C/svg%3E">
+
+  <link rel="stylesheet" href="assets/css/styles.css?v=5">
+
+  <style>
+    body.investigacao-page {
+      line-height: 1.7;
+    }
+
+    /* ── Barra de navegação ─────────────────────────────────────────── */
+    .ds-nav-bar {
+      background: #ffffff;
+      border-bottom: 1px solid var(--color-rule);
+      padding: 0.8rem 1.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+    }
+    .ds-nav-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+    .ds-back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--color-accent);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.88rem;
+      padding: 0.4rem 0.8rem;
+      border-radius: 999px;
+      background: rgba(139, 58, 29, 0.08);
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .ds-back-link:hover {
+      background: var(--color-accent);
+      color: #ffffff;
+    }
+    .ds-nav-brand {
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--color-fg);
+      display: none;
+    }
+    .ds-nav-badge {
+      font-family: var(--font-sans);
+      background: var(--color-rule);
+      color: var(--color-fg);
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    @media (min-width: 640px) {
+      .ds-nav-brand { display: inline; }
+    }
+
+    .investigacao-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 5rem;
+    }
+
+    /* ── Cabeçalho ──────────────────────────────────────────────────── */
+    .investigacao-header {
+      border-bottom: 2px solid var(--color-rule);
+      padding-bottom: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .investigacao-tag {
+      display: inline-block;
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      background: #8b3a1d15;
+      color: var(--color-accent);
+      padding: 0.25rem 0.75rem;
+      border-radius: 4px;
+      border: 1px solid #8b3a1d33;
+      margin-bottom: 1rem;
+    }
+
+    .investigacao-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--color-fg);
+      line-height: 1.15;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .investigacao-subtitle {
+      font-size: 1.2rem;
+      color: var(--color-muted);
+      margin-bottom: 1.5rem;
+      max-width: 68ch;
+    }
+
+    .investigacao-meta-bar {
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      color: var(--color-muted);
+      background: rgba(216, 214, 207, 0.25);
+      padding: 0.9rem 1.25rem;
+      border-radius: 6px;
+      border: 1px solid var(--color-rule);
+      line-height: 1.6;
+    }
+    .investigacao-meta-bar strong { color: var(--color-fg); }
+
+    /* ── KPIs ───────────────────────────────────────────────────────── */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1.1rem;
+      margin-bottom: 2.5rem;
+    }
+    .kpi-card {
+      background: #ffffff;
+      border: 1px solid var(--color-rule);
+      border-radius: 8px;
+      padding: 1.1rem 1.3rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+      position: relative;
+      overflow: hidden;
+    }
+    .kpi-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 4px; height: 100%;
+    }
+    .kpi-card.kpi-soja::before { background-color: var(--color-soja); }
+    .kpi-card.kpi-agric::before { background-color: var(--color-agric); }
+    .kpi-card.kpi-mosaico::before { background-color: var(--color-mosaico); }
+    .kpi-card.kpi-razao::before { background-color: #5a3d8b; }
+    .kpi-label {
+      font-family: var(--font-sans);
+      font-size: 0.76rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--color-muted);
+      margin-bottom: 0.4rem;
+    }
+    .kpi-value {
+      font-family: var(--font-sans);
+      font-size: 1.7rem;
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--color-fg);
+      margin-bottom: 0.4rem;
+    }
+    .kpi-sub {
+      font-size: 0.83rem;
+      color: var(--color-muted);
+      line-height: 1.4;
+    }
+
+    /* ── Roteiro (TOC) ──────────────────────────────────────────────── */
+    .roteiro {
+      background: #fff;
+      border: 1px solid var(--color-rule);
+      border-radius: 10px;
+      padding: 1.5rem 1.75rem;
+      margin-bottom: 3rem;
+    }
+    .roteiro h2 {
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-muted);
+      margin-bottom: 1rem;
+    }
+    .roteiro ol {
+      margin: 0;
+      padding-left: 1.35rem;
+      columns: 1;
+    }
+    .roteiro li { margin-bottom: 0.6rem; }
+    .roteiro a {
+      color: var(--color-fg);
+      text-decoration: none;
+      font-weight: 600;
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+    }
+    .roteiro a:hover { color: var(--color-accent); }
+    .roteiro-teaser {
+      display: block;
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: 0.92rem;
+      color: var(--color-muted);
+      margin-top: 0.1rem;
+    }
+
+    /* ── Capítulos ──────────────────────────────────────────────────── */
+    .capitulo {
+      margin-bottom: 3.25rem;
+      scroll-margin-top: 5rem;
+    }
+    .capitulo-eyebrow {
+      font-family: var(--font-sans);
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--color-accent);
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      margin-bottom: 0.4rem;
+    }
+    .capitulo h2 {
+      font-size: 1.7rem;
+      margin-bottom: 1.1rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--color-rule);
+    }
+    .capitulo h3 {
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      text-transform: none;
+      letter-spacing: 0;
+      color: var(--color-fg);
+      font-weight: 700;
+      margin: 1.6rem 0 0.7rem;
+    }
+    .voltar-topo {
+      display: inline-block;
+      margin-top: 0.5rem;
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+      color: var(--color-muted);
+      text-decoration: none;
+      border-bottom: 1px dotted var(--color-rule);
+    }
+    .voltar-topo:hover { color: var(--color-accent); }
+
+    /* ── Blocos utilitários ─────────────────────────────────────────── */
+    .pista {
+      background: rgba(139, 58, 29, 0.045);
+      border-left: 4px solid var(--color-accent);
+      padding: 1.1rem 1.4rem;
+      margin: 1.5rem 0;
+      border-radius: 0 8px 8px 0;
+    }
+    .pista h4 {
+      font-family: var(--font-sans);
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--color-accent);
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .pista p:last-child { margin-bottom: 0; }
+
+    .veredito-box {
+      background: rgba(45, 90, 61, 0.05);
+      border-left: 4px solid var(--color-veg);
+      padding: 1.1rem 1.4rem;
+      margin: 1.5rem 0;
+      border-radius: 0 8px 8px 0;
+    }
+    .veredito-box h4 {
+      font-family: var(--font-sans);
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--color-veg);
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .veredito-box p:last-child { margin-bottom: 0; }
+
+    .nao-mostra {
+      border: 1px dashed var(--color-rule);
+      background: #fbfaf7;
+      padding: 1rem 1.3rem;
+      margin: 1.5rem 0;
+      border-radius: 8px;
+      font-size: 0.94rem;
+    }
+    .nao-mostra h4 {
+      font-family: var(--font-sans);
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--color-muted);
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .nao-mostra p:last-child { margin-bottom: 0; }
+
+    /* ── Gráficos ───────────────────────────────────────────────────── */
+    .chart-box {
+      background: #fafaf7;
+      border: 1px solid var(--color-rule);
+      border-radius: 8px;
+      padding: 1.4rem 1.4rem 1.2rem;
+      margin: 1.6rem 0;
+    }
+    .chart-container { position: relative; width: 100%; }
+    .chart-container svg {
+      width: 100%;
+      max-width: 700px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+    .chart-caption {
+      font-family: var(--font-sans);
+      font-size: 0.81rem;
+      color: var(--color-muted);
+      margin-top: 0.75rem;
+      text-align: center;
+      line-height: 1.5;
+    }
+    .chart-legend {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem 1.1rem;
+      margin-bottom: 0.75rem;
+      font-family: var(--font-sans);
+      font-size: 0.77rem;
+      color: var(--color-fg);
+    }
+    .legend-item { display: inline-flex; align-items: center; gap: 0.35rem; }
+    .legend-line { display: inline-block; width: 18px; height: 3px; border-radius: 1px; flex-shrink: 0; }
+    .legend-line--dash { background: transparent !important; height: 0; border-top: 2.5px dashed; }
+    .legend-swatch { display: inline-block; width: 11px; height: 11px; border-radius: 2px; flex-shrink: 0; }
+
+    /* ── Tabelas ────────────────────────────────────────────────────── */
+    .tabela-wrap { overflow-x: auto; margin: 1.4rem 0; }
+    .tabela-dados {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-sans);
+      font-size: 0.84rem;
+    }
+    .tabela-dados th {
+      background: rgba(216, 214, 207, 0.4);
+      color: var(--color-fg);
+      font-weight: 700;
+      text-align: left;
+      padding: 0.6rem 0.85rem;
+      border-bottom: 2px solid var(--color-rule);
+      white-space: nowrap;
+    }
+    .tabela-dados td {
+      padding: 0.6rem 0.85rem;
+      border-bottom: 1px solid var(--color-rule);
+      white-space: nowrap;
+    }
+    .tabela-dados tr:hover { background: rgba(250, 250, 247, 0.8); }
+    .tabela-dados .num { text-align: right; font-variant-numeric: tabular-nums; }
+
+    /* ── Detalhes (progressive disclosure) ──────────────────────────── */
+    details.leia-mais {
+      background: #fff;
+      border: 1px solid var(--color-rule);
+      border-radius: 6px;
+      margin: 1.4rem 0;
+      overflow: hidden;
+    }
+    details.leia-mais summary {
+      font-family: var(--font-sans);
+      font-size: 0.83rem;
+      font-weight: 600;
+      color: var(--color-fg);
+      padding: 0.7rem 1rem;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    details.leia-mais summary::-webkit-details-marker { display: none; }
+    details.leia-mais summary::after {
+      content: "ver tabela +";
+      font-size: 0.78rem;
+      font-weight: 400;
+      color: var(--color-accent);
+    }
+    details.leia-mais[open] summary::after { content: "recolher −"; }
+    details.leia-mais summary:hover { background: #f5f3ed; }
+    details.leia-mais .leia-mais-corpo { padding: 0 1rem 1rem; }
+
+    /* ── Barra de composição (reaproveita o vocabulário visual do site) */
+    .composicao-bloco { margin: 1.2rem 0 1.6rem; }
+    .composicao-linha {
+      display: flex; align-items: center; gap: 0.9rem; margin-bottom: 0.55rem;
+    }
+    .composicao-rotulo {
+      font-family: var(--font-sans); font-size: 0.82rem; color: var(--color-fg);
+      width: 165px; flex-shrink: 0;
+    }
+    .composicao-valor {
+      font-family: var(--font-sans); font-size: 0.82rem; font-weight: 700;
+      color: var(--color-fg); width: 52px; flex-shrink: 0; text-align: right;
+    }
+    .composicao-trilho {
+      flex: 1 1 auto;
+      min-width: 0;
+      height: 20px;
+      background: #f1efe8;
+      border: 1px solid var(--color-rule);
+      border-radius: 3px;
+      overflow: hidden;
+      display: block;
+    }
+    .composicao-trilho .bar-segment { display: block; }
+
+    /* ── Gradiente geográfico (barras horizontais simples) ──────────── */
+    .gradiente-bloco { margin: 1.4rem 0; }
+    .gradiente-linha {
+      display: grid;
+      grid-template-columns: 128px 1fr 46px;
+      align-items: center;
+      gap: 0.7rem;
+      margin-bottom: 0.5rem;
+      font-family: var(--font-sans);
+      font-size: 0.82rem;
+    }
+    .gradiente-rotulo { color: var(--color-fg); }
+    .gradiente-trilho {
+      background: #f1efe8;
+      border-radius: 3px;
+      height: 14px;
+      overflow: hidden;
+      border: 1px solid var(--color-rule);
+    }
+    .gradiente-preenchimento {
+      height: 100%;
+      background: var(--color-agric);
+      border-radius: 2px 0 0 2px;
+    }
+    .gradiente-valor { text-align: right; font-weight: 700; color: var(--color-fg); }
+
+    /* ── Rodapé ─────────────────────────────────────────────────────── */
+    .ds-footer {
+      border-top: 2px solid var(--color-rule);
+      padding-top: 2rem;
+      margin-top: 3rem;
+      font-family: var(--font-sans);
+      font-size: 0.83rem;
+      color: var(--color-muted);
+      line-height: 1.6;
+    }
+    .ds-footer-bottom {
+      text-align: center;
+      margin-top: 1.5rem;
+      color: #8a8a82;
+    }
+    .ds-footer-bottom a { color: var(--color-accent); text-decoration: underline; }
+  </style>
+</head>
+
+<body class="investigacao-page" id="top">
+
+  <header class="ds-nav-bar">
+    <div class="ds-nav-inner">
+      <a href="index.html" class="ds-back-link">← Voltar à visualização principal</a>
+      <div class="ds-nav-brand">Goiás 1985–2024</div>
+      <span class="ds-nav-badge">Investigação · Mosaico de Usos</span>
+    </div>
+  </header>
+
+  <div class="investigacao-container">
+
+    <header class="investigacao-header">
+      <span class="investigacao-tag">Uma investigação sobre um rótulo do mapa</span>
+      <h1 class="investigacao-title">O Caso do Mosaico de Usos</h1>
+      <p class="investigacao-subtitle">
+        Uma classe pensada para a ambiguidade — lavoura ou pasto, indistinguíveis a 30 metros —
+        passou a concentrar quase toda a expansão agrícola recente de Goiás. Esta página reconstrói,
+        passo a passo, a investigação que fizemos para descobrir se é a paisagem que mudou ou o mapa
+        que perdeu o rastro dela.
+      </p>
+      <div class="investigacao-meta-bar">
+        Esta página é um recorte autocontido de uma dissertação de mestrado sobre uso e cobertura da
+        terra em Goiás (1985–2024). Não é preciso conhecer o resto do projeto para acompanhar —
+        só saber que existe um mapa anual de uso da terra (o <strong>MapBiomas</strong>, construído a
+        partir de imagens de satélite) e que, dentro dele, uma classe chamada <strong>"Mosaico de
+        Usos"</strong> começou a se comportar de um jeito estranho. <strong>Leitura:</strong> ~20–25
+        minutos. <strong>Fontes:</strong> MapBiomas (coleções 6, 8, 9, 10.1 e a coleção de 10&nbsp;m) e
+        IBGE/SIDRA (Produção Agrícola e Pecuária Municipal).
+      </div>
+    </header>
+
+    <div class="kpi-grid">
+      <div class="kpi-card kpi-soja">
+        <div class="kpi-label">Lavoura nova, medida no campo</div>
+        <div class="kpi-value">+38,1%</div>
+        <div class="kpi-sub">Soja plantada em Goiás, 2020→2024 (IBGE/SIDRA): 3,58 → 4,94 milhões de hectares.</div>
+      </div>
+      <div class="kpi-card kpi-agric">
+        <div class="kpi-label">A mesma janela, no mapa</div>
+        <div class="kpi-value">+1,1%</div>
+        <div class="kpi-sub">Classe "Agricultura" do MapBiomas, 2020→2024: praticamente congelada (+0,06 Mha).</div>
+      </div>
+      <div class="kpi-card kpi-mosaico">
+        <div class="kpi-label">Para onde ela foi parar</div>
+        <div class="kpi-value">+60,5%</div>
+        <div class="kpi-sub">"Mosaico de Usos", 2020→2024: +1,35 Mha — quase exatamente o tamanho do descompasso acima.</div>
+      </div>
+      <div class="kpi-card kpi-razao">
+        <div class="kpi-label">A troca de destino</div>
+        <div class="kpi-value">0,6× → 32,5×</div>
+        <div class="kpi-sub">Razão Mosaico/Agricultura entre os destinos da pastagem que sai, 2015→2024.</div>
+      </div>
+    </div>
+
+    <nav class="roteiro" aria-label="Roteiro da investigação">
+      <h2>Roteiro desta investigação</h2>
+      <ol>
+        <li><a href="#origem">1. Como isso começou</a><span class="roteiro-teaser">Uma classe que estávamos ignorando, e o defeito de contabilidade que a trouxe à tona.</span></li>
+        <li><a href="#primeiro-sinal">2. O primeiro sinal</a><span class="roteiro-teaser">A idade das pastagens convertidas desabou nos últimos anos da série — e nenhum suspeito óbvio explica por quê.</span></li>
+        <li><a href="#contando">3. Contando para onde o pasto vai</a><span class="roteiro-teaser">Paramos de olhar só para "virou lavoura" e contamos todos os destinos possíveis.</span></li>
+        <li><a href="#nao-parou">4. Isso não é "a conversão parou"</a><span class="roteiro-teaser">A soja plantada em Goiás cresceu 38% no exato período em que a "Agricultura" do mapa ficou parada.</span></li>
+        <li><a href="#duas-hipoteses">5. Câmera ou paisagem?</a><span class="roteiro-teaser">Duas explicações concorrentes — e por que os dados, sozinhos, não escolhem entre elas.</span></li>
+        <li><a href="#teste-forma">6. Teste 1 — a forma do sinal</a><span class="roteiro-teaser">O campo cresce liso; a régua do mapa sobe em degraus. Isso já diz alguma coisa.</span></li>
+        <li><a href="#teste-centro-massa">7. Teste 2 — onde está a massa escondida</a><span class="roteiro-teaser">Duas fontes que concordaram por quase 40 anos e, de repente, discordam.</span></li>
+        <li><a href="#teste-colecoes">8. Teste 3 — perguntando às coleções antigas</a><span class="roteiro-teaser">Baixamos três versões mais velhas do mesmo mapa para separar borda de calendário.</span></li>
+        <li><a href="#teste-sentinel">9. Teste 4 — olhando mais de perto</a><span class="roteiro-teaser">Um satélite diferente, 3× mais fino. O que ele mostra dentro de cada pixel ambíguo.</span></li>
+        <li><a href="#veredito">10. O que ficamos sabendo</a><span class="roteiro-teaser">Um balanço: o que caiu, o que se sustentou, o que continua sem resposta.</span></li>
+        <li><a href="#tratamento">11. Como passamos a lidar com isso</a><span class="roteiro-teaser">A regra que adotamos para nunca publicar um número que dependa de um rótulo em movimento.</span></li>
+        <li><a href="#em-aberto">12. O que fica em aberto</a><span class="roteiro-teaser">Uma pergunta que, honestamente, só quem constrói o mapa consegue responder.</span></li>
+      </ol>
+    </nav>
+
+    <!-- 1 — ORIGEM ============================================================ -->
+    <section class="capitulo" id="origem">
+      <div class="capitulo-eyebrow">Capítulo 1</div>
+      <h2>Como isso começou</h2>
+
+      <p>
+        Esta investigação nasceu de uma pergunta bem mais modesta do que ela virou. Dentro do projeto
+        maior — como o uso da terra em Goiás mudou entre 1985 e 2024 — havia uma pergunta específica:
+        quando uma pastagem vira lavoura, quanto tempo ela durou como pastagem antes disso? Para
+        responder, é preciso um mapa anual de cobertura da terra (o MapBiomas fornece exatamente isso,
+        pixel a pixel, desde 1985) e uma forma de separar, em cada pixel, se aquele ano é
+        <strong>Pastagem</strong> (classe 15) ou <strong>Agricultura</strong> (classe 19).
+      </p>
+
+      <p>
+        O problema é que existe uma terceira classe que não é nem uma coisa nem outra: o
+        <strong>"Mosaico de Usos"</strong> (classe 21) — a categoria que o próprio MapBiomas reserva
+        para quando a imagem de satélite, a 30 metros de resolução, não permite distinguir com
+        segurança se aquele pixel é lavoura, pasto, ou uma mistura das duas coisas dentro da mesma
+        propriedade. É uma classe honesta: em vez de forçar uma resposta que a imagem não sustenta, o
+        classificador admite a dúvida.
+      </p>
+
+      <p>
+        No início da nossa contagem, essa classe simplesmente não tinha lugar. Ela não era pastagem,
+        não era agricultura, e o código que calculava a idade de cada conversão a tratava como se
+        fosse dado ausente — um pixel cuja história anterior era "desconhecida", igual a qualquer outro
+        registro incompleto. Não foi uma escolha deliberada de descartar o Mosaico; foi uma tabela de
+        correspondência com uma linha faltando, e um preenchimento automático de valores vazios que
+        cobriu o buraco com a resposta errada — a mesma usada para "não sei", quando a resposta certa
+        para aqueles pixels específicos era conhecida.
+      </p>
+
+      <div class="pista">
+        <h4>O defeito de contabilidade</h4>
+        <p>
+          Quando fomos auditar a base de pixels que sustentava essa análise, encontramos o problema:
+          cerca de <strong>4.900 pixels</strong>, cuja classe anterior era Mosaico de Usos, estavam
+          sendo descartados como "idade desconhecida" — quando na verdade tinham idade perfeitamente
+          conhecida, só não cabiam na tabela de categorias. Corrigido isso e dada à classe 21 um grupo
+          próprio, o volume de dados aproveitáveis para as análises principais subiu <strong>44%</strong>.
+          E os pixels resgatados não eram um recorte aleatório: eram desproporcionalmente os de origem
+          mista lavoura/pastagem — justamente a categoria mais próxima do fenômeno que a pergunta
+          original queria isolar.
+        </p>
+      </div>
+
+      <p>
+        Esse conserto, sozinho, já teria sido o fim da história: uma correção de contabilidade, um
+        número atualizado, seguir em frente. Mas foi só depois de arrumar essa contagem — e de trocar
+        uma amostra de pixels por um <strong>censo completo</strong>, contando literalmente todo pixel
+        de Goiás em todos os 40 anos, em vez de uma fração deles — que outra coisa, mais estranha,
+        apareceu debaixo da primeira. Foi esse sintoma que abriu o caso que esta página conta.
+      </p>
+
+      <a class="voltar-topo" href="#top">↑ roteiro</a>
+    </section>
+
+    <!-- 2 — PRIMEIRO SINAL ==================================================== -->
+    <section class="capitulo" id="primeiro-sinal">
+      <div class="capitulo-eyebrow">Capítulo 2</div>
+      <h2>O primeiro sinal: uma idade que não parava de cair</h2>
+
+      <p>
+        Com a contagem corrigida, olhamos para a idade das pastagens no momento em que viravam
+        lavoura, ano a ano. Quatro coisas caíram juntas nos anos mais recentes da série, e nenhuma
+        delas, isoladamente, fazia sentido:
+      </p>
+
+      <div class="tabela-wrap">
+        <table class="tabela-dados">
+          <thead>
+            <tr>
+              <th>Ano</th>
+              <th class="num">Conversões registradas</th>
+              <th class="num">% com idade desconhecida</th>
+              <th class="num">Idade mediana (conhecida)</th>
+              <th class="num">Horizonte de observação</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>2019</td><td class="num">1.117.213</td><td class="num">54,9%</td><td class="num">22 anos</td><td class="num">34 anos</td></tr>
+            <tr><td>2020</td><td class="num">606.821</td><td class="num">47,1%</td><td class="num">20 anos</td><td class="num">35 anos</td></tr>
+            <tr><td>2021</td><td class="num">224.282</td><td class="num">28,6%</td><td class="num">11 anos</td><td class="num">36 anos</td></tr>
+            <tr><td>2022</td><td class="num">285.236</td><td class="num">18,2%</td><td class="num"><strong>4 anos</strong></td><td class="num">37 anos</td></tr>
+            <tr><td>2023</td><td class="num">131.265</td><td class="num">33,6%</td><td class="num">10 anos</td><td class="num">38 anos</td></tr>
+            <tr><td>2024</td><td class="num">157.245</td><td class="num"><strong>4,0%</strong></td><td class="num">5 anos</td><td class="num">39 anos</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="chart-caption" style="text-align:left; margin-top:-0.6rem;">
+        Cada linha de "idade desconhecida" aqui é legítima (a idade só pode ser calculada quando a
+        conversão anterior também foi observada dentro da série) — a coluna que importa é a de
+        conversões registradas, que despenca, e a mediana, que cai junto.
+      </p>
+
+      <p>
+        O número de conversões catalogadas cai de mais de um milhão em 2019 para 157 mil em 2024. A
+        idade mediana das que sobram cai de 22 anos para uma faixa entre 4 e 11. E a fração de dados
+        com "idade desconhecida" oscila de forma que não acompanha nada óbvio. Colocamos quatro
+        suspeitos na mesa:
+      </p>
+
+      <ul>
+        <li><strong>Reclassificação:</strong> novas subclasses de agricultura entrando na contagem? Não — a área total de Agricultura no mapa está, como o próximo capítulo mostra, praticamente parada.</li>
+        <li><strong>Concentração espacial:</strong> a queda vem de menos municípios sendo observados? Não — a queda é estadual e cai de forma monotônica, ano após ano, em todo o território.</li>
+        <li><strong>Mudança de comportamento do produtor:</strong> os agricultores pararam de converter pasto em lavoura? Não é o que os dados de campo mostram — o próximo capítulo traz os números.</li>
+        <li><strong>Um problema pontual de uma versão do mapa:</strong> um "soluço" isolado de uma coleção específica do MapBiomas? Também não — e o Capítulo 8 é inteiramente dedicado a testar exatamente essa hipótese, baixando coleções antigas para verificar.</li>
+      </ul>
+
+      <p>
+        Nenhum dos quatro, na forma como foi formulado, resistiu. A pergunta que restou era mais
+        desconfortável: e se a coisa que estávamos medindo — "pastagem que virou lavoura" — não
+        significasse mais, em 2024, a mesma coisa que significava em 2015?
+      </p>
+
+      <a class="voltar-topo" href="#top">↑ roteiro</a>
+    </section>
+
+    <!-- 3 — CONTANDO ========================================================== -->
+    <section class="capitulo" id="contando">
+      <div class="capitulo-eyebrow">Capítulo 3</div>
+      <h2>Contando para onde o pasto vai</h2>
+
+      <p>
+        Até aqui, toda a análise olhava só para uma pergunta: "essa pastagem virou lavoura?" — e
+        ignorava qualquer pastagem que tivesse saído para outro destino. Era hora de parar de fazer
+        essa pergunta estreita e fazer a pergunta completa: <strong>de tudo que deixa de ser pastagem
+        em um determinado ano, para onde vai?</strong>
+      </p>
+
+      <p>
+        Isso exige contar, pixel a pixel, todos os 379 milhões de pixels de 30 metros que cobrem
+        Goiás, em cada um dos 40 anos da série — um censo completo, não uma amostra. Restringimos o
+        olhar a um recorte simples: de toda a pastagem que sai (que deixa de ser classe 15 de um ano
+        para o outro), quanto vai para Agricultura e quanto vai para Mosaico de Usos?
+      </p>
+
+      <div class="chart-box">
+        <div class="chart-legend">
+          <span class="legend-item"><span class="legend-swatch" style="background:rgba(217,106,163,0.65); border:1px solid #d96aa3"></span> Pasto → Agricultura</span>
+          <span class="legend-item"><span class="legend-swatch" style="background:rgba(201,138,75,0.65); border:1px solid #c98a4b"></span> Pasto → Mosaico de Usos</span>
+          <span class="legend-item"><span class="legend-line" style="background:#5a3d8b"></span> Razão Mosaico/Agricultura (eixo direito)</span>
+        </div>
+        <div class="chart-container" id="chartDestino"></div>
+        <div class="chart-caption">
+          Figura 1. Pixels de pastagem que saem para Agricultura versus para Mosaico de Usos, por ano
+          (censo completo, escala de milhões de pixels de 30&nbsp;m). A razão entre os dois destinos
+          sobe de forma monotônica a partir de 2015.
+        </div>
+      </div>
+
+      <div class="tabela-wrap">
+        <table class="tabela-dados">
+          <thead>
+            <tr>
+              <th>Ano</th>
+              <th class="num">Pasto→Agricultura</th>
+              <th class="num">Pasto→Mosaico</th>
+              <th class="num">Razão M/A</th>
+              <th class="num">% das saídas → Agric.</th>
+              <th class="num">% das saídas → Mosaico</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>2000</td><td class="num">1.612.565</td><td class="num">3.111.159</td><td class="num">1,93×</td><td class="num">25,5%</td><td class="num">49,2%</td></tr>
+            <tr><td>2010</td><td class="num">2.601.149</td><td class="num">2.661.703</td><td class="num">1,02×</td><td class="num">38,4%</td><td class="num">39,2%</td></tr>
+            <tr><td>2015</td><td class="num">4.040.382</td><td class="num">2.442.452</td><td class="num"><strong>0,60×</strong></td><td class="num">52,0%</td><td class="num">31,4%</td></tr>
+            <tr><td>2019</td><td class="num">2.072.349</td><td class="num">3.346.353</td><td class="num">1,61×</td><td class="num">29,1%</td><td class="num">47,0%</td></tr>
+            <tr><td>2020</td><td class="num">1.287.587</td><td class="num">4.635.043</td><td class="num">3,60×</td><td class="num">16,8%</td><td class="num">60,6%</td></tr>
+            <tr><td>2021</td><td class="num">615.153</td><td class="num">5.506.210</td><td class="num">8,95×</td><td class="num">8,3%</td><td class="num">73,9%</td></tr>
+            <tr><td>2022</td><td class="num">648.197</td><td class="num">6.774.799</td><td class="num">10,45×</td><td class="num">7,2%</td><td class="num">75,7%</td></tr>
+            <tr><td>2023</td><td class="num">402.679</td><td class="num">7.517.721</td><td class="num">18,67×</td><td class="num">4,3%</td><td class="num">79,8%</td></tr>
+            <tr><td>2024</td><td class="num">303.432</td><td class="num">9.875.689</td><td class="num"><strong>32,55×</strong></td><td class="num"><strong>2,6%</strong></td><td class="num"><strong>85,9%</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="chart-caption" style="text-align:left; margin-top:-0.6rem;">
+        Contagem sobre o retângulo que envolve Goiás (inclui faixas finas de estados vizinhos) —
+        adequado para razões e participações, que é o que estas colunas mostram; os totais absolutos
+        em hectares, restritos ao polígono real do estado, aparecem no próximo capítulo.
+      </p>
+
+      <p>
+        Em 2015, de cada dez pixels que deixavam de ser pastagem rumo a um dos dois destinos, cerca de
+        cinco e meio viravam Agricultura e três e meio viravam Mosaico — o equivalente à razão de
+        0,60×. Em 2024, essa proporção se inverteu de forma quase completa: apenas 2,6% das saídas de
+        pastagem chegam a Agricultura; <strong>85,9% chegam a Mosaico de Usos</strong>. A razão entre
+        os dois destinos foi de 0,6× para <strong>32,5×</strong> — ou seja, para cada pixel que o mapa
+        registra como tendo virado lavoura pura em 2024, trinta e dois outros pixels de pastagem que
+        também saíram ficaram etiquetados como "não consigo separar".
+      </p>
+
+      <div class="veredito-box">
+        <h4>O que isso significa</h4>
+        <p>
+          A análise original — "pastagem que virou lavoura" — não estava medindo um fenômeno
+          constante ao longo dos 40 anos. Estava medindo uma fatia cada vez menor e mais atípica dele.
+          Em 2024, a classe "Agricultura" só captura cerca de <strong>7,5%</strong> do volume de
+          conversão que capturava em 2015 — não porque a conversão tenha diminuído nessa proporção,
+          mas porque o destino que o mapa atribui a ela mudou.
+        </p>
+      </div>
+
+      <a class="voltar-topo" href="#top">↑ roteiro</a>
+    </section>
+
+    <!-- 4 — NÃO PAROU ========================================================= -->
+    <section class="capitulo" id="nao-parou">
+      <div class="capitulo-eyebrow">Capítulo 4</div>
+      <h2>Isso não é "a conversão parou"</h2>
+
+      <p>
+        A leitura mais simples do capítulo anterior seria: a conversão de pasto em lavoura desacelerou
+        demais depois de 2015. É uma hipótese razoável — e é falsa. Quatro âncoras, a maioria delas
+        completamente fora do sensoriamento remoto, mostram por quê.
+      </p>
+
+      <div class="chart-box">
+        <div class="chart-legend">
+          <span class="legend-item"><span class="legend-line" style="background:#8b3a1d"></span> Soja plantada — SIDRA/IBGE (medida em campo)</span>
+          <span class="legend-item"><span class="legend-line legend-line--dash" style="border-color:#d96aa3"></span> Agricultura — MapBiomas</span>
+          <span class="legend-item"><span class="legend-line" style="background:#c98a4b"></span> Mosaico de Usos — MapBiomas</span>
+          <span class="legend-item"><span class="legend-line legend-line--dash" style="border-color:#1a1a1a"></span> União (Agricultura + Mosaico)</span>
+        </div>
+        <div class="chart-container" id="chartDivergencia"></div>
+        <div class="chart-caption">
+          Figura 2. Área acumulada em Goiás, 2015–2024, em milhões de hectares (Mha), restrita ao
+          polígono do estado. A soja de campo e o Mosaico sobem quase lado a lado; a Agricultura do
+          mapa mal se move.
+        </div>
+      </div>
+
+      <p><strong>(a) A lavoura cresceu, muito, na janela exata.</strong> A área de soja plantada em
+      Goiás — um dado de campo, apurado pelo IBGE junto a produtores, que não passa por nenhum
+      classificador de imagem de satélite — foi de 3,578 milhões de hectares em 2020 para 4,942
+      milhões em 2024: <strong>+1,364 Mha, +38,1%</strong> em quatro anos.</p>
+
+      <p><strong>(b) A "Agricultura" do MapBiomas não se mexeu.</strong> No mesmo intervalo, ela foi de
+      5,668 para 5,732 Mha — um acréscimo de apenas <strong>63.930 hectares (+1,1%)</strong>, contra um
+      ritmo de +150 a +180 mil hectares por ano que a própria série mostrava entre 2015 e 2017.</p>
+
+      <p><strong>(c) O Mosaico de Usos cresceu quase exatamente o tamanho do descompasso.</strong> De
+      2,235 para 3,586 Mha: <strong>+1,351 Mha</strong> — praticamente idêntico aos +1,364 Mha de soja
+      nova que o IBGE registrou no campo. A coincidência de magnitude é grande demais para ser
+      acidental, mas — e isto importa — <strong>uma coincidência de totais não é, sozinha, uma prova</strong>;
+      ela mostra que as contas fecham, não que sabemos exatamente quais pixels se movimentaram. É
+      esse o motivo de existir todo o resto desta investigação.</p>
+
+      <p><strong>(d) A pastagem continua saindo.</strong> De 13,146 para 11,989 Mha: <strong>−1,157
+      Mha (−8,8%)</strong>. O pasto está desaparecendo do mapa; só não está sendo contabilizado como
+      chegando à Agricultura.</p>
+
+      <p>
+        Em resumo: há expansão agrícola real e acelerada em Goiás nesses anos, ela aparece no dado de
+        campo, e o MapBiomas até a registra — só que sob o rótulo "Mosaico de Usos", não "Agricultura".
+      </p>
+
+      <a class="voltar-topo" href="#top">↑ roteiro</a>
+    </section>
+
+    <!-- 5 — DUAS HIPÓTESES ==================================================== -->
+    <section class="capitulo" id="duas-hipoteses">
+      <div class="capitulo-eyebrow">Capítulo 5</div>
+      <h2>Câmera ou paisagem? As duas hipóteses</h2>
+
+      <p>
+        Uma classe "Mosaico de Usos" que cresce pode significar duas coisas muito diferentes, e é
+        importante dizer com clareza que os capítulos anteriores <strong>não</strong> separam uma da
+        outra:
+      </p>
+
+      <h3>Hipótese A — um comportamento do classificador no fim da série</h3>
+      <p>
+        A documentação técnica pública da Coleção 10 do MapBiomas (o "ATBD", o documento que descreve
+        o algoritmo) declara que os filtros de pós-classificação usam janelas retroativas de três e
+        quatro anos — isto é, para decidir com confiança que um pixel virou lavoura em determinado
+        ano, o algoritmo se apoia em parte no que acontece <em>depois</em> daquele ano. A própria
+        documentação prevê regras adicionais especificamente "para os últimos anos da série, quando a
+        janela de análise é limitada". Uma conversão perto da borda temporal do mapa não tem anos
+        futuros suficientes para ser confirmada — e é plausível que, nessa situação, o classificador
+        prefira a resposta mais cautelosa: "não sei separar", isto é, Mosaico.
+      </p>
+
+      <h3>Hipótese B — uma mudança real na paisagem</h3>
+      <p>
+        A integração lavoura-pecuária (sistemas em que a mesma área alterna, ou combina, lavoura e
+        pasto ao longo do tempo ou do espaço) é uma prática real e crescente em Goiás — em outra parte
+        deste projeto, ao mapear o padrão de manejo predominante por município, encontramos esse tipo
+        de rotação como a categoria mais comum em quase metade dos municípios estudados. Uma paisagem
+        genuinamente mais misturada <em>deveria</em> produzir mais Mosaico — não por falha do
+        classificador, mas porque ele está certo: aquele pixel de fato alterna entre os dois usos.
+      </p>
+
+      <div class="nao-mostra">
+        <h4>O que os capítulos 1 a 4 não provam</h4>
+        <p>
+          O balanço de contas do Capítulo 4 é <strong>sugestivo, não é uma demonstração</strong>. Ele
+          mostra que os totais fecham (a soja que cresceu ≈ o Mosaico que cresceu), mas não mostra que
+          são <em>os mesmos pixels</em>. As duas hipóteses acima produzem exatamente o mesmo padrão
+          agregado. Separá-las exige sair da conta de totais e ir atrás de evidência que trate as duas
+          hipóteses de formas diferentes — é isso que os próximos quatro capítulos fazem, um teste de
+          cada vez.
+        </p>
+      </div>
+
+      <a class="voltar-topo" href="#top">↑ roteiro</a>
+    </section>
+
+    <!-- 6 — TESTE 1: FORMA ==================================================== -->
+    <section class="capitulo" id="teste-forma">
+      <div class="capitulo-eyebrow">Capítulo 6 · Teste 1</div>
+      <h2>O ritmo do campo é liso; a régua do mapa sobe em degraus</h2>
+
+      <p>
+        Antes de qualquer teste mais caro, havia um teste barato à mão: comparar a <em>forma</em> das
+        duas curvas, ano a ano, não apenas o total acumulado. Se a causa fosse inteiramente uma
+        mudança real e gradual no campo, esperaríamos que a métrica do mapa acompanhasse — em forma,
+        não só em tendência — o crescimento suave que o IBGE mede na lavoura. Se a causa fosse (ao
+        menos em parte) um comportamento do classificador, esperaríamos uma métrica que se move aos
+        solavancos, sem relação clara com o ritmo ano a ano do campo.
+      </p>
+
+      <div class="chart-box">
+        <div class="chart-legend">
+          <span class="legend-item"><span class="legend-line" style="background:#8b3a1d"></span> Soja plantada, variação anual (campo)</span>
+          <span class="legend-item"><span class="legend-line" style="background:#c98a4b"></span> Pasto→Agricultura, variação anual (mapa)</span>
+        </div>
+        <div class="chart-container" id="chartFormaDegrau"></div>
+        <div class="chart-caption">
+          Figura 3. Variação percentual ano a ano. A soja de campo oscila em uma faixa estreita e
+          quase sempre positiva; o fluxo pasto→Agricultura do mapa despenca em degraus cada vez mais
+          acentuados.
+        </div>
+      </div>
+
+      <p>
+        A soja de campo cresce de forma <strong>lisa</strong>: variações anuais entre −0,5% e +10,6%,
+        sempre nessa faixa estreita, ano após ano, sem nenhum salto abrupto. O fluxo pasto→Agricultura
+        do mapa, no mesmo período, se move em <strong>degraus</strong>: −37,2% em 2016, +11,5% em
+        2017, −22,9% em 2018, e então uma sequência de quedas cada vez mais violentas — <strong>−37,9%
+        em 2020 e −52,2% em 2021</strong>, justamente no ano em que a soja de campo cresceu um
+        tranquilo +7,8%.
+      </p>
+
+      <div class="pista">
+        <h4>Por que a forma importa mais que o nível</h4>
+        <p>
+          Um processo real da paisagem — decisões de milhares de produtores independentes, em anos
+          diferentes, por motivos diferentes — tende a se mover de forma suave quando agregado em
+          escala estadual; é assim que a série da soja se comporta desde sempre. Uma mudança abrupta e
+          crescente de <em>régua de medição</em> — um limiar de decisão do classificador se deslocando
+          — tende a produzir exatamente o padrão de degraus que vemos no fluxo pasto→Agricultura. A
+          forma do sinal aponta para a régua, não para o campo.
+        </p>
+      </div>
+
+      <div class="nao-mostra">
+        <h4>O que este teste não prova</h4>
+        <p>
+          Um sinal em degraus é consistente com uma mudança de classificador — mas não descarta, por
+          si só, que parte do efeito seja integração lavoura-pecuária real se espalhando de forma
+          desigual pelo território. É um indício, o primeiro de vários, não um veredito.
+        </p>
+      </div>
+
+      <a class="voltar-topo" href="#top">↑ roteiro</a>
+    </section>
+
+    <!-- 7 — TESTE 2: CENTRO DE MASSA ========================================== -->
+    <section class="capitulo" id="teste-centro-massa">
+      <div class="capitulo-eyebrow">Capítulo 7 · Teste 2</div>
+      <h2>Onde está a massa escondida</h2>
+
+      <p>
+        Em outra frente deste projeto, calculamos o <strong>centro de massa</strong> de várias
+        variáveis do uso da terra em Goiás — o ponto médio, ponderado pela área de cada região, de
+        onde aquela variável está concentrada a cada ano. Ao longo de quatro décadas, a fronteira
+        agropecuária inteira marcha para o norte: pastagem, rebanho bovino e lavoura sobem juntos o
+        mapa. Isso deu um jeito indireto — e independente de qualquer contagem de pixels — de checar
+        a mesma pergunta: se a Agricultura do mapa está subestimando a expansão real, o centro de
+        massa dela devia estar puxado para trás, mais ao sul do que devia.
+      </p>
+
+      <div class="chart-box">
+        <div class="chart-legend">
+          <span class="legend-item"><span class="legend-line legend-line--dash" style="border-color:#d96aa3"></span> Agricultura (MapBiomas)</span>
+          <span class="legend-item"><span class="legend-line" style="background:#8b3a1d"></span> Soja plantada (SIDRA, campo)</span>
+          <span class="legend-item"><span class="legend-line" style="background:#c98a4b"></span> Mosaico de Usos (MapBiomas)</span>
+          <span class="legend-item"><span class="legend-line" style="background:#d4b65a"></span> Rebanho bovino (SIDRA, campo)</span>
+        </div>
+        <div class="chart-container" id="chartCentroMassa"></div>
+        <div class="chart-caption">
+          Figura 4. Latitude do centro de massa de cada variável, 2018–2024 (graus Sul; para cima no
+          gráfico = mais ao norte). A Agricultura do mapa é a única linha que não se move.
+        </div>
+      </div>
+
+      <p>
+        E era exatamente isso que aparecia: entre 2019 e 2024, o centro de massa da Agricultura visível
+        no mapa avançou apenas <strong>+0,2 km ao norte</strong> (intervalo de confiança de 95% inclui
+        zero — estatisticamente, parado). No mesmo período, duas fontes <em>completamente
+        independentes</em> uma da outra — a soja plantada do IBGE e o rebanho bovino do IBGE, nenhuma
+        das duas derivada do classificador de imagem — avançaram <strong>+8 a +12 km ao norte</strong>.
+        Se misturamos o crescimento do Mosaico à conta de Agricultura, o centro de massa da união
+        avança um valor intermediário, robusto e estatisticamente distinto de zero: <strong>+4,1 km
+        [+1,0; +6,9]</strong>.
+      </p>
+
+      <p>
+        Fomos além e perguntamos: onde, exatamente, está a massa que o Mosaico ganhou entre 2019 e
+        2024? Calculamos o centro de massa apenas do <em>crescimento</em> do Mosaico nesses cinco
+        anos — não do seu estoque total, só do que foi adicionado — e comparamos com o centro de massa
+        da Agricultura visível em 2024.
+      </p>
+
+      <div class="veredito-box">
+        <h4>A massa escondida aterrissa exatamente onde a fronteira está avançando</h4>
+        <p>
+          O centro de massa do crescimento recente do Mosaico está <strong>46,5 km ao norte</strong>
+          do centro de massa da Agricultura visível — ou seja, a massa "desaparecida" não está
+          espalhada ao acaso: ela está concentrada precisamente na direção em que a fronteira
+          agropecuária avança. E, por município, o crescimento do Mosaico entre 2019 e 2024 tem
+          correlação de <strong>r = 0,84</strong> com o crescimento da soja plantada do IBGE no mesmo
+          período, com magnitudes quase idênticas (1,53 contra 1,54 Mha). O mosaico novo está,
+          espacialmente, onde a soja nova está.
+        </p>
+      </div>
+
+      <p>
+        Um último fio, talvez o mais revelador, veio de comparar a soja medida por sensoriamento
+        remoto (o raster de soja do próprio MapBiomas) com a soja medida em campo pelo IBGE. Essas
+        duas fontes concordaram de perto por 37 anos seguidos — correlação de 0,89 na posição
+        latitudinal ao longo de toda a série. No período mais recente (2020–2024), pela primeira vez,
+        elas se separam: o centro de massa da soja <em>vista pelo satélite</em> recua <strong>7,1 km
+        ao sul</strong>, enquanto o centro de massa da soja <em>medida em campo</em> avança <strong>8,2
+        km ao norte</strong> — as duas fontes se afastando por quase 15 km em quatro anos, depois de
+        quase quatro décadas de concordância.
+      </p>
+
+      <p>
+        Não é que a lavoura de soja tenha recuado para o sul. É que o <em>rótulo</em> "Soja" perdeu de
+        vista a soja nova, que estava nascendo mais ao norte — no mesmo lugar para onde o Mosaico
+        estava crescendo.
+      </p>
+
+      <div class="nao-mostra">
+        <h4>O que este teste não prova</h4>
+        <p>
+          A geografia mostra <em>onde</em> a massa reetiquetada está — na fronteira, junto com a soja
+          nova — mas continua sem dizer se, pixel a pixel, ela é soja "pura" que o classificador não
+          conseguiu confirmar a tempo, ou se é genuinamente uma mistura de usos. Uma correlação
+          espacial forte não distingue coincidência de identidade.
+        </p>
+      </div>
+
+      <a class="voltar-topo" href="#top">↑ roteiro</a>
+    </section>
+
+    <!-- 8 — TESTE 3: COLEÇÕES ANTIGAS ========================================= -->
+    <section class="capitulo" id="teste-colecoes">
+      <div class="capitulo-eyebrow">Capítulo 8 · Teste 3</div>
+      <h2>Perguntando às coleções antigas</h2>
+
+      <p>
+        O MapBiomas relança o mapa todo ano como uma "coleção" nova, cada uma reprocessando a série
+        inteira com melhorias de algoritmo e mais um ano de dados. Isso deu acesso a um teste que a
+        Coleção 10.1 sozinha não permite: coleções mais antigas têm a <strong>borda da série em anos
+        diferentes</strong>. Baixamos e reprocessamos, além da 10.1 (que vai até 2024), as Coleções 9
+        (até 2023), 8 (até 2022) e 6 (até 2020) — quatro fotografias do mesmo território, cada uma
+        parando em um ano de calendário diferente.
+      </p>
+
+      <p>
+        A lógica do teste: se o salto na razão Mosaico/Agricultura é um artefato de <strong>borda</strong>
+        — o classificador ficando mais hesitante nos últimos anos de qualquer coleção, por falta de
+        anos futuros para confirmar —, então o salto deveria acompanhar a borda de cada coleção. A
+        Coleção 6, que termina em 2020, deveria mostrar o salto <em>nela</em>, perto de 2020. Se em vez
+        disso o salto está fixo em um ano de calendário específico — aparecendo em toda coleção que
+        alcança aquele ano, e ausente nas que não alcançam —, a explicação é outra: alguma coisa
+        aconteceu naquele momento específico do tempo, não naquela distância da borda.
+      </p>
+
+      <div class="chart-box">
+        <div class="chart-legend">
+          <span class="legend-item"><span class="legend-line" style="background:#c4ad8a"></span> Coleção 6 (até 2020)</span>
+          <span class="legend-item"><span class="legend-line" style="background:#c97052"></span> Coleção 8 (até 2022)</span>
+          <span class="legend-item"><span class="legend-line" style="background:#c98a4b"></span> Coleção 9 (até 2023)</span>
+          <span class="legend-item"><span class="legend-line" style="background:#8b3a1d"></span> Coleção 10.1 (até 2024)</span>
+        </div>
+        <div class="chart-container" id="chartBordaMovel"></div>
+        <div class="chart-caption">
+          Figura 5. Razão Mosaico/Agricultura por coleção, escala logarítmica. Cada linha termina no
+          seu próprio último ano — e nenhuma delas dispara perto do próprio fim; todas disparam a
+          partir de 2021, mesmo a que nunca chega lá.
+        </div>
+      </div>
+
+      <p>
+        Três achados, cada um checável de forma independente:
+      </p>
+
+      <p>
+        <strong>1. A subida está presa ao calendário, não à borda.</strong> A razão explode a partir de
+        2021 em toda coleção que alcança esse ano (8, 9 e 10.1) — e está simplesmente <strong>ausente
+        na Coleção 6</strong>, que termina em 2020: seus últimos valores (4,66 em 2018, 4,06 em 2019,
+        2,59 em 2020) estão <em>caindo</em>, não subindo, na aproximação da própria borda. Se o efeito
+        fosse de borda, seria a Coleção 6 — a mais perto do seu próprio fim nesses anos — a mostrar o
+        salto. Mostra o oposto.
+      </p>
+
+      <p>
+        <strong>2. O ano final de cada coleção não vem inflado.</strong> Recontamos, pixel a pixel e
+        com o mesmo método exato, o ano de <strong>2023</strong> de duas formas: como o ano
+        <em>terminal</em> da Coleção 9 (sem nenhum ano futuro para confirmar) e como um ano
+        <em>interior</em> da Coleção 10.1 (com 2024 disponível para confirmar). Se a borda inflasse a
+        razão, o valor terminal da Coleção 9 deveria ser <em>maior</em>. Encontramos o oposto: Coleção
+        9 (terminal) = <strong>32,5</strong>; Coleção 10.1 (interior) = <strong>34,7</strong>. Ganhar
+        um ano de futuro não reduziu a razão — ela é, se algo, um pouco maior com mais dados.
+      </p>
+
+      <p>
+        <strong>3. O rótulo, uma vez atribuído, é estável.</strong> Cruzamos, pixel a pixel, todo o
+        Mosaico que a Coleção 9 via em 2023 contra o que a Coleção 10.1 (um ano mais nova) via no
+        mesmo local em 2024.
+      </p>
+
+      <details class="leia-mais">
+        <summary>Ver a tabela completa da reclassificação pixel a pixel</summary>
+        <div class="leia-mais-corpo">
+          <div class="tabela-wrap">
+            <table class="tabela-dados">
+              <thead>
+                <tr>
+                  <th>Ano (Coleção 9)</th>
+                  <th class="num">Permanece Mosaico</th>
+                  <th class="num">Vira Agricultura</th>
+                  <th class="num">Vira Pastagem</th>
+                  <th class="num">Outro destino</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>2010 (interior profundo)</td><td class="num">62,7%</td><td class="num"><strong>2,4%</strong></td><td class="num">12,9%</td><td class="num">22,0%</td></tr>
+                <tr><td>2015</td><td class="num">64,0%</td><td class="num">4,0%</td><td class="num">12,4%</td><td class="num">19,7%</td></tr>
+                <tr><td>2019</td><td class="num">63,5%</td><td class="num">7,3%</td><td class="num">11,9%</td><td class="num">17,3%</td></tr>
+                <tr><td>2023 (borda da Coleção 9)</td><td class="num">68,7%</td><td class="num"><strong>2,5%</strong></td><td class="num">13,9%</td><td class="num">15,0%</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="font-size:0.85rem; color:var(--color-muted); margin-top:0.8rem;">
+            "Outro destino" agrupa classes fora das três acompanhadas (vegetação natural, área urbana,
+            água etc.). O destino é lido um ano depois, na Coleção 10.1.
+          </p>
+        </div>
+      </details>
+
+      <p>
+        Apenas <strong>2,5%</strong> dos pixels que a Coleção 9 rotulava Mosaico em 2023 "curam" para
+        Agricultura quando revistos pela Coleção 10.1 um ano depois — uma taxa estatisticamente igual
+        aos <strong>2,4%</strong> de pixels que já eram Mosaico havia mais de uma década, em pleno
+        interior tranquilo da série, sem nenhuma proximidade de borda. Ganhar um ano inteiro de futuro
+        não resolveu o impasse: a esmagadora maioria continua Mosaico, ou vira alguma coisa que não é
+        Agricultura.
+      </p>
+
+      <div class="veredito-box">
+        <h4>Veredito do Teste 3</h4>
+        <p>
+          Os três achados, juntos, eliminam a hipótese mais simples e mais fácil de corrigir: a de que
+          isto seria um problema temporário e localizado na borda de cada coleção, que o próprio
+          reprocessamento anual resolveria sozinho. Não é. É um traço <strong>estável, reproduzido de
+          forma independente em três coleções</strong>, ancorado num momento específico do calendário
+          (2021 em diante) — coincidindo, mais uma vez, com a aceleração real da soja medida pelo
+          IBGE.
+        </p>
+      </div>
+
+      <div class="nao-mostra">
+        <h4>O que este teste não prova</h4>
+        <p>
+          Refutar "instabilidade de borda" não é o mesmo que provar "artefato do classificador". Uma
+          tendência <em>compartilhada</em> por todas as coleções — por exemplo, uma mudança no próprio
+          sensor de satélite usado como insumo por volta de 2021 (a transição operacional entre os
+          satélites Landsat 7 e Landsat 9), ou uma atualização de metodologia aplicada de forma
+          retroativa a toda a série — produziria exatamente esse padrão sem que fosse, tecnicamente,
+          um "erro de borda". Esse teste separa borda de calendário; não separa classificador de
+          paisagem. Por isso foi preciso um quarto teste.
+        </p>
+      </div>
+
+      <a class="voltar-topo" href="#top">↑ roteiro</a>
+    </section>
+
+    <!-- 9 — TESTE 4: SENTINEL ================================================= -->
+    <section class="capitulo" id="teste-sentinel">
+      <div class="capitulo-eyebrow">Capítulo 9 · Teste 4</div>
+      <h2>Olhando mais de perto, com outro satélite</h2>
+
+      <p>
+        Restava um ângulo que nenhum dos testes anteriores tinha tocado: e se o problema fosse
+        simplesmente <strong>resolução</strong>? Um pixel de 30 metros (Landsat, a fonte de toda a
+        série até aqui) cobre 900 m² — área suficiente para conter, ao mesmo tempo, uma beirada de
+        lavoura e uma beirada de pasto, sem que nenhum dos dois domine claramente. Se essa mistura de
+        borda fosse a explicação inteira, um sensor mais fino deveria conseguir "abrir" o pixel
+        ambíguo e revelar, lá dentro, uma parcela de lavoura limpa esperando para ser contada.
+      </p>
+
+      <p>
+        O próprio MapBiomas publica uma coleção separada baseada no <strong>Sentinel-2</strong>, um
+        satélite europeu de resolução espacial três vezes mais fina (10 metros), cobrindo 2017–2024.
+        É um teste de dois gumes: por vir de um satélite diferente, é imune à hipótese de que a causa
+        seja uma mudança no insumo Landsat por volta de 2021 — mas, por usar a mesma legenda e a mesma
+        metodologia geral do MapBiomas, não pode arbitrar sozinho entre "a paisagem é mesmo mista" e
+        "a legenda rotula conversão recente como Mosaico por cautela".
+      </p>
+
+      <p>
+        O teste: dentro de cada célula de 30 metros que a Landsat rotula Mosaico de Usos, olhamos o
+        que as nove células de 10 metros correspondentes, do Sentinel-2, enxergam lá dentro.
+      </p>
+
+      <div class="composicao-bloco">
+        <div class="composicao-linha">
+          <span class="composicao-rotulo">Agricultura</span>
+          <div class="composicao-trilho"><span class="bar-segment bar-agric" style="width:11.5%"></span></div>
+          <span class="composicao-valor">11,5%</span>
+        </div>
+        <div class="composicao-linha">
+          <span class="composicao-rotulo">Pastagem</span>
+          <div class="composicao-trilho"><span class="bar-segment bar-pasto" style="width:24.5%"></span></div>
+          <span class="composicao-valor">24,5%</span>
+        </div>
+        <div class="composicao-linha">
+          <span class="composicao-rotulo">Mosaico de Usos</span>
+          <div class="composicao-trilho"><span class="bar-segment bar-mosaico" style="width:33.5%"></span></div>
+          <span class="composicao-valor">33,5%</span>
+        </div>
+        <div class="composicao-linha">
+          <span class="composicao-rotulo">Veg. natural e outros</span>
+          <div class="composicao-trilho"><span class="bar-segment bar-veg" style="width:30.5%"></span></div>
+          <span class="composicao-valor">30,5%</span>
+        </div>
+      </div>
+      <p class="chart-caption" style="text-align:left; margin-top:-0.6rem;">
+        Figura 6. Composição, vista pelo Sentinel-2 (10&nbsp;m), do que está dentro de cada célula que
+        a Landsat (30&nbsp;m) rotula Mosaico de Usos em Goiás, 2024. Média de seis recortes de
+        latitude cobrindo o estado de sul a norte.
+      </p>
+
+      <p>
+        Para calibrar o que esses números significam, medimos a mesma composição dentro de células que
+        a Landsat classifica, sem ambiguidade, como Pastagem pura ou como Agricultura pura. Dentro de
+        uma célula "Pastagem" de verdade, o Sentinel-2 enxerga lavoura em apenas <strong>2%</strong>
+        dos casos — o piso. Dentro de uma célula "Agricultura" de verdade, enxerga lavoura em
+        <strong>78%</strong> — o teto (o resto já é normal: bordas de talhão, estradas, solo exposto
+        entre safras). Nessa régua, o Mosaico de Usos, com seus 11,5% de composição-lavoura, está a
+        apenas <strong>12% do caminho</strong> entre "isso é pasto" e "isso é lavoura".
+      </p>
+
+      <div class="veredito-box">
+        <h4>Não há lavoura limpa escondida ali dentro</h4>
+        <p>
+          Um sensor independente e três vezes mais fino <strong>não resolve</strong> o Mosaico em
+          lavoura. O maior pedaço, mesmo vendo em detalhe três vezes maior, continua sendo Mosaico
+          (33,5%) — o sensor mais fino também hesita. E a fração que ele consegue rotular com
+          confiança é majoritariamente pasto e vegetação, não lavoura. A hipótese de que bastaria
+          "olhar mais de perto" para encontrar a soja nova, limpa e pronta para contar, não se
+          sustenta.
+        </p>
+      </div>
+
+      <p>
+        Um último corte: olhando só para os pixels mais "quentes" — pastagem em 2017 que a Landsat já
+        rotulava Mosaico de Usos em 2024 (a população mais próxima da mudança de rótulo em si, não o
+        estoque acumulado de décadas de Mosaico antigo) — a composição muda um pouco: 18% lavoura, 31%
+        pasto, 43% ainda Mosaico até no Sentinel-2, 8% outra coisa. E essa fração de lavoura tem um
+        gradiente geográfico nítido:
+      </p>
+
+      <div class="gradiente-bloco">
+        <div class="gradiente-linha">
+          <span class="gradiente-rotulo">Rio Verde (sudoeste)</span>
+          <div class="gradiente-trilho"><div class="gradiente-preenchimento" style="width:27.5%; background:var(--color-agric);"></div></div>
+          <span class="gradiente-valor">27,5%</span>
+        </div>
+        <div class="gradiente-linha">
+          <span class="gradiente-rotulo">Itumbiara (sul)</span>
+          <div class="gradiente-trilho"><div class="gradiente-preenchimento" style="width:16.0%; background:var(--color-agric);"></div></div>
+          <span class="gradiente-valor">16,0%</span>
+        </div>
+        <div class="gradiente-linha">
+          <span class="gradiente-rotulo">Catalão (sudeste)</span>
+          <div class="gradiente-trilho"><div class="gradiente-preenchimento" style="width:20.0%; background:var(--color-agric);"></div></div>
+          <span class="gradiente-valor">20,0%</span>
+        </div>
+        <div class="gradiente-linha">
+          <span class="gradiente-rotulo">Goiânia (centro)</span>
+          <div class="gradiente-trilho"><div class="gradiente-preenchimento" style="width:13.0%; background:var(--color-agric);"></div></div>
+          <span class="gradiente-valor">13,0%</span>
+        </div>
+        <div class="gradiente-linha">
+          <span class="gradiente-rotulo">Posse (nordeste)</span>
+          <div class="gradiente-trilho"><div class="gradiente-preenchimento" style="width:11.9%; background:var(--color-agric);"></div></div>
+          <span class="gradiente-valor">11,9%</span>
+        </div>
+        <div class="gradiente-linha">
+          <span class="gradiente-rotulo">Porangatu (norte)</span>
+          <div class="gradiente-trilho"><div class="gradiente-preenchimento" style="width:8.6%; background:var(--color-agric);"></div></div>
+          <span class="gradiente-valor">8,6%</span>
+        </div>
+      </div>
+      <p class="chart-caption" style="text-align:left; margin-top:-0.6rem;">
+        Figura 7. Fração-lavoura, vista pelo Sentinel-2, dentro dos pixels de pastagem-2017 que viraram
+        Mosaico-2024, por recorte de latitude (sul → norte). O mesmo gradiente que o Teste 2 encontrou
+        pelo centro de massa aparece de novo, agora dentro do próprio pixel.
+      </p>
+
+      <p>
+        Quanto mais ao sul — mais perto do núcleo agrícola já consolidado do sudoeste de Goiás — mais
+        parecida com lavoura de verdade é a mistura que o Sentinel-2 encontra dentro do Mosaico. Quanto
+        mais ao norte — mais perto da fronteira em expansão —, mais essa mistura se parece com
+        pastagem e vegetação. É o terceiro caminho independente, depois da forma do sinal (Teste 1) e
+        da geografia do centro de massa (Teste 2), a apontar para o mesmo lugar.
+      </p>
+
+      <div class="nao-mostra">
+        <h4>O que este teste não prova</h4>
+        <p>
+          Ele elimina a hipótese de "resolução" (um sensor mais fino não desfaz o Mosaico em lavoura) —
+          mas continua sem separar "a legenda rotula com cautela" de "a paisagem é mesmo mista", porque
+          o Sentinel-2 do MapBiomas herda a mesma legenda e, em boa medida, a mesma lógica de decisão
+          do produto Landsat. Além disso, a coleção de 10&nbsp;m é recente e o próprio MapBiomas alerta
+          para não comparar anos entre si dentro dela — por isso não a usamos para medir tendência,
+          só composição num único ano.
+        </p>
+      </div>
+
+      <a class="voltar-topo" href="#top">↑ roteiro</a>
+    </section>
+
+    <!-- 10 — VEREDITO ========================================================= -->
+    <section class="capitulo" id="veredito">
+      <div class="capitulo-eyebrow">Capítulo 10</div>
+      <h2>O que ficamos sabendo</h2>
+
+      <p>
+        Quatro testes, quatro ângulos independentes — forma do sinal, geografia do centro de massa,
+        comparação entre coleções, e resolução espacial. Nenhum deles, sozinho, prova a hipótese A (um
+        comportamento do classificador) além de qualquer dúvida. Juntos, formam um padrão consistente
+        demais para ser ignorado.
+      </p>
+
+      <h3>O que caiu</h3>
+      <ul>
+        <li>A ideia de que a conversão de pasto em lavoura simplesmente desacelerou depois de 2015 (Capítulo 4).</li>
+        <li>A ideia de que isto é um problema pontual e temporário, restrito à borda de uma única coleção do mapa, que o próximo reprocessamento resolveria sozinho (Capítulo 8).</li>
+        <li>A ideia de que bastaria mais resolução espacial para "abrir" o Mosaico e encontrar lavoura limpa lá dentro (Capítulo 9).</li>
+        <li>Como consequência direta, qualquer leitura de tendência que dependa da classe "Agricultura" do MapBiomas numa janela que toque 2020–2024 — por exemplo, a composição etária das pastagens convertidas nesse período — deixa de ser confiável como está. Não porque o método de análise esteja errado, mas porque o objeto que ele mede mudou de composição no meio do caminho.</li>
+      </ul>
+
+      <h3>O que se sustenta</h3>
+      <ul>
+        <li>A mudança de rótulo é <strong>real, estável e ancorada num momento específico do calendário</strong> (2021 em diante) — não um ruído aleatório nem um artefato que desaparece ao trocar de coleção.</li>
+        <li>Ela está <strong>espacialmente concentrada</strong> exatamente onde a fronteira agropecuária está avançando — não distribuída ao acaso pelo território.</li>
+        <li>Sua <strong>magnitude coincide</strong>, de forma consistente em três testes diferentes (balanço de contas, correlação municipal, composição por pixel), com a expansão real da soja medida em campo.</li>
+        <li>As fontes que não dependem do classificador de imagem — soja plantada e rebanho bovino, ambas do IBGE — continuam mostrando a fronteira avançando ao norte sem interrupção.</li>
+      </ul>
+
+      <div class="pista">
+        <h4>O que continua genuinamente sem resposta</h4>
+        <p>
+          Nenhum dos quatro testes separa, de forma definitiva, um <strong>comportamento do
+          classificador</strong> (cautela crescente diante de janelas temporais curtas, ou uma mudança
+          de insumo compartilhada por toda a série a partir de 2021) de uma <strong>integração
+          lavoura-pecuária genuinamente mais intensa</strong> na fronteira. As duas explicações
+          continuam compatíveis com tudo o que encontramos. O que os testes permitem dizer, com
+          segurança, é que a fatia de "artefato de mapeamento" no que estamos vendo é grande demais
+          para ser descartada — e que qualquer leitura que ignore essa possibilidade está, na melhor
+          das hipóteses, incompleta.
+        </p>
+      </div>
+
+      <a class="voltar-topo" href="#top">↑ roteiro</a>
+    </section>
+
+    <!-- 11 — TRATAMENTO ======================================================= -->
+    <section class="capitulo" id="tratamento">
+      <div class="capitulo-eyebrow">Capítulo 11</div>
+      <h2>Como passamos a lidar com isso</h2>
+
+      <p>
+        Diante de uma ambiguidade que a evidência não fecha por completo, a resposta mais honesta não
+        é escolher um lado e seguir em frente — é mudar a forma como se reporta qualquer número que
+        passe perto dela. Adotamos uma regra simples para o restante do trabalho:
+      </p>
+
+      <div class="veredito-box" style="background: rgba(139,58,29,0.045); border-left-color: var(--color-accent);">
+        <h4>A regra</h4>
+        <p>
+          Toda vez que uma pergunta depende de "quanto virou lavoura" numa janela que toca 2020 em
+          diante, reportamos um <strong>intervalo</strong>, não um número solto: o <strong>piso</strong>
+          — só a classe Agricultura, que provavelmente subconta a expansão recente — e o
+          <strong>teto</strong> — Agricultura somada ao Mosaico de Usos inteiro, que provavelmente
+          superconta, porque inclui integração lavoura-pecuária legítima e Mosaico antigo que nada tem
+          a ver com este episódio. Uma conclusão só é declarada robusta se ela se sustenta nas duas
+          pontas do intervalo. E sempre que existe uma fonte que não passa pelo classificador — soja
+          plantada, rebanho bovino, crédito rural, valor da produção, todas do IBGE ou do Banco Central
+          —, é essa fonte, não o intervalo, que tem a palavra final.
+        </p>
+      </div>
+
+      <p>
+        É importante dizer o que essa soma <strong>não é</strong>: somar Agricultura e Mosaico não é
+        "desfazer" o problema e recuperar o número verdadeiro. Isso exigiria assumir que <em>todo</em>
+        o Mosaico é, na verdade, lavoura mal-rotulada — o que é falso, porque o Mosaico de Usos já
+        existia, estável, em torno de 2 milhões de hectares desde muito antes de 2020, e inclui
+        integração lavoura-pecuária genuína. A soma responde a uma pergunta diferente e mais grossa —
+        "quanto saiu de pasto puro para lavoura-ou-uso-misto?" — que é robusta à mudança de rótulo por
+        construção (mover um pixel de "Agricultura" para "Mosaico" não muda essa soma), mas que
+        mistura conversão produtiva com integração real. As duas perguntas são legítimas; o erro seria
+        confundir uma com a outra.
+      </p>
+
+      <a class="voltar-topo" href="#top">↑ roteiro</a>
+    </section>
+
+    <!-- 12 — EM ABERTO ========================================================= -->
+    <section class="capitulo" id="em-aberto">
+      <div class="capitulo-eyebrow">Capítulo 12</div>
+      <h2>O que fica em aberto</h2>
+
+      <p>
+        Chegamos ao limite do que dava para resolver com os instrumentos de um trabalho acadêmico
+        individual: contagem exaustiva de pixels, comparação entre quatro coleções públicas do mapa, e
+        cruzamento com um segundo sensor de satélite. Isso foi suficiente para eliminar as explicações
+        mais simples e para estabelecer que a fatia de artefato de mapeamento é grande. Não foi
+        suficiente para medir essa fatia com exatidão, nem para separá-la, pixel a pixel, da
+        integração lavoura-pecuária real que certamente também está lá.
+      </p>
+
+      <p>
+        Se alguém da equipe do MapBiomas ler esta página — e é para essa possibilidade que ela foi
+        escrita com o cuidado que tem —, a pergunta que deixamos é direta: existe, na base de
+        validação usada para calcular a acurácia por classe, um conjunto de pontos de campo ou de
+        imagens de altíssima resolução que cubra especificamente a fronteira norte de Goiás entre 2020
+        e 2024? Esse é exatamente o tipo de referência que resolveria o que esta investigação não
+        conseguiu: dizer, para uma amostra de pixels reais, qual fração do Mosaico recente era lavoura
+        que o algoritmo não teve tempo de confirmar, e qual fração era, de fato, uso misto.
+      </p>
+
+      <p>
+        Não escrevemos isto como uma acusação. A classe Mosaico de Usos existe precisamente para
+        situações em que forçar uma resposta binária seria pior do que admitir a incerteza — e é
+        louvável que o MapBiomas prefira essa honestidade a um mapa que finge mais certeza do que tem.
+        O que encontramos é o efeito colateral, provavelmente não-intencional, dessa mesma honestidade
+        num ponto específico da série temporal: quando a cautela do classificador se concentra
+        desproporcionalmente nos anos mais recentes, quem usa a série para medir <em>tendência</em> —
+        como este projeto tentou fazer — herda um viés que não é óbvio a partir de um único ano do
+        mapa, só aparece quando se compara a série inteira com uma fonte de fora dela. Se este
+        documento ajudar a tornar esse efeito colateral um pouco mais visível, ele já cumpriu para o
+        que foi escrito.
+      </p>
+
+      <a class="voltar-topo" href="#top">↑ roteiro</a>
+    </section>
+
+    <footer class="ds-footer">
+      <p>
+        <strong>Fontes de dados:</strong> MapBiomas — Coleções 6, 8, 9 e 10.1 (Landsat, 30&nbsp;m) e
+        Coleção 3 da série de 10&nbsp;m (Sentinel-2); documento técnico do algoritmo (ATBD) da Coleção
+        10. IBGE/SIDRA — Produção Agrícola Municipal (soja plantada) e Pesquisa Pecuária Municipal
+        (rebanho bovino).
+      </p>
+      <p>
+        <strong>Método:</strong> censo completo de pixels (não amostra) sobre o cubo raster de Goiás,
+        1985–2024; comparação entre coleções por reprocessamento local e por leitura server-side;
+        composição por pixel obtida por cruzamento de grade entre a coleção Landsat e a coleção
+        Sentinel-2. Todos os números desta página vêm de contagem direta sobre os mapas públicos do
+        MapBiomas ou de tabelas públicas do IBGE — nenhum é estimado por extrapolação.
+      </p>
+      <div class="ds-footer-bottom">
+        Página independente, parte de uma dissertação de mestrado em andamento.
+        <a href="index.html">Voltar à visualização principal</a>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="assets/js/vendor/d3.v7.min.js?v=2"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+      var CR = "#d8d6cf", CM = "#6b6b6b";
+
+      function axStyle(g) {
+        g.select(".domain").attr("stroke", CR);
+        g.selectAll(".tick line").attr("stroke", CR);
+        g.selectAll(".tick text").attr("fill", CM)
+          .style("font-size", "11px").style("font-family", "var(--font-sans)");
+      }
+
+      function axisLabel(svg, x, y, rotate, text) {
+        var t = svg.append("text")
+          .attr("x", x).attr("y", y)
+          .attr("text-anchor", "middle").attr("fill", CM)
+          .style("font-size", "11px").style("font-family", "var(--font-sans)")
+          .text(text);
+        if (rotate) t.attr("transform", "rotate(-90)");
+        return t;
+      }
+
+      // ─── Figura 1: Contando o destino (Capítulo 3) ──────────────────
+      (function () {
+        var W = 660, H = 380;
+        var M = { t: 16, r: 60, b: 44, l: 58 };
+        var anos = ["2000", "2010", "2015", "2019", "2020", "2021", "2022", "2023", "2024"];
+        var pa = [1.612565, 2.601149, 4.040382, 2.072349, 1.287587, 0.615153, 0.648197, 0.402679, 0.303432];
+        var pm = [3.111159, 2.661703, 2.442452, 3.346353, 4.635043, 5.506210, 6.774799, 7.517721, 9.875689];
+        var razao = [1.93, 1.02, 0.60, 1.61, 3.60, 8.95, 10.45, 18.67, 32.55];
+
+        var svg = d3.select("#chartDestino").append("svg").attr("viewBox", "0 0 " + W + " " + H);
+
+        var xB = d3.scaleBand().domain(anos).range([M.l, W - M.r]).padding(0.28);
+        var xSub = d3.scaleBand().domain(["pa", "pm"]).range([0, xB.bandwidth()]).padding(0.1);
+        var yL = d3.scaleLinear().domain([0, 10.5]).range([H - M.b, M.t]);
+        var yR = d3.scaleLinear().domain([0, 35]).range([H - M.b, M.t]);
+
+        svg.append("g").selectAll("line").data(yL.ticks(5)).join("line")
+          .attr("x1", M.l).attr("x2", W - M.r)
+          .attr("y1", function (d) { return yL(d); }).attr("y2", function (d) { return yL(d); })
+          .attr("stroke", CR).attr("stroke-width", 0.5).attr("opacity", 0.5);
+
+        svg.append("g").attr("transform", "translate(0," + (H - M.b) + ")").call(d3.axisBottom(xB)).call(axStyle);
+        svg.append("g").attr("transform", "translate(" + M.l + ",0)").call(d3.axisLeft(yL).ticks(5)).call(axStyle);
+        svg.append("g").attr("transform", "translate(" + (W - M.r) + ",0)").call(d3.axisRight(yR).ticks(5))
+          .call(function (g) {
+            g.select(".domain").attr("stroke", CR);
+            g.selectAll(".tick line").remove();
+            g.selectAll(".tick text").attr("fill", "#5a3d8b").style("font-size", "11px").style("font-family", "var(--font-sans)");
+          });
+
+        axisLabel(svg, 0, 0, true, "Pixels de 30 m que saem da pastagem (milhões)")
+          .attr("x", -(M.t + (H - M.b - M.t) / 2)).attr("y", 14);
+        svg.append("text").attr("transform", "rotate(90)")
+          .attr("x", M.t + (H - M.b - M.t) / 2).attr("y", -(W - 10))
+          .attr("text-anchor", "middle").attr("fill", "#5a3d8b")
+          .style("font-size", "11px").style("font-family", "var(--font-sans)")
+          .text("Razão Mosaico/Agricultura (×)");
+
+        anos.forEach(function (ano, i) {
+          var g1 = svg.append("g");
+          g1.append("rect")
+            .attr("x", xB(ano) + xSub("pa")).attr("y", yL(pa[i]))
+            .attr("width", xSub.bandwidth()).attr("height", yL(0) - yL(pa[i]))
+            .attr("fill", "rgba(217,106,163,0.65)").attr("stroke", "#d96aa3").attr("stroke-width", 1);
+          g1.append("title").text("Pasto→Agricultura: " + pa[i].toFixed(2) + " milhões de px (" + ano + ")");
+
+          var g2 = svg.append("g");
+          g2.append("rect")
+            .attr("x", xB(ano) + xSub("pm")).attr("y", yL(pm[i]))
+            .attr("width", xSub.bandwidth()).attr("height", yL(0) - yL(pm[i]))
+            .attr("fill", "rgba(201,138,75,0.65)").attr("stroke", "#c98a4b").attr("stroke-width", 1);
+          g2.append("title").text("Pasto→Mosaico: " + pm[i].toFixed(2) + " milhões de px (" + ano + ")");
+        });
+
+        var lineGen = d3.line()
+          .x(function (d, i) { return xB(anos[i]) + xB.bandwidth() / 2; })
+          .y(function (d) { return yR(d); });
+        svg.append("path").attr("d", lineGen(razao)).attr("fill", "none").attr("stroke", "#5a3d8b").attr("stroke-width", 2.5);
+        razao.forEach(function (r, i) {
+          var g = svg.append("g");
+          g.append("circle").attr("cx", xB(anos[i]) + xB.bandwidth() / 2).attr("cy", yR(r)).attr("r", 3.5)
+            .attr("fill", "#5a3d8b").attr("stroke", "#fff").attr("stroke-width", 1.2);
+          g.append("title").text("Razão M/A: " + r.toFixed(2) + "× (" + anos[i] + ")");
+        });
+      })();
+
+      // ─── Figura 2: Divergência (Capítulo 4) ─────────────────────────
+      (function () {
+        var W = 660, H = 380;
+        var M = { t: 16, r: 20, b: 44, l: 58 };
+        var anos = [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024];
+        var series = [
+          { vals: [3.26, 3.32, 3.33, 3.32, 3.40, 3.58, 3.86, 4.12, 4.56, 4.94], cor: "#8b3a1d", dash: null, w: 2.5, lbl: "Soja SIDRA" },
+          { vals: [5.15, 5.30, 5.48, 5.54, 5.61, 5.67, 5.68, 5.71, 5.71, 5.73], cor: "#d96aa3", dash: "5,5", w: 2.5, lbl: "Agricultura MapBiomas" },
+          { vals: [1.96, 1.93, 1.90, 1.95, 2.06, 2.23, 2.47, 2.75, 3.11, 3.59], cor: "#c98a4b", dash: null, w: 2.5, lbl: "Mosaico de Usos" },
+          { vals: [7.12, 7.23, 7.38, 7.49, 7.67, 7.90, 8.15, 8.46, 8.82, 9.32], cor: "#1a1a1a", dash: "2,2", w: 1.6, lbl: "União" }
+        ];
+
+        var svg = d3.select("#chartDivergencia").append("svg").attr("viewBox", "0 0 " + W + " " + H);
+        var x = d3.scaleLinear().domain([2015, 2024]).range([M.l, W - M.r]);
+        var y = d3.scaleLinear().domain([1.0, 10.0]).range([H - M.b, M.t]);
+
+        svg.append("g").selectAll("line").data(y.ticks(6)).join("line")
+          .attr("x1", M.l).attr("x2", W - M.r)
+          .attr("y1", function (d) { return y(d); }).attr("y2", function (d) { return y(d); })
+          .attr("stroke", CR).attr("stroke-width", 0.5).attr("opacity", 0.5);
+
+        svg.append("g").attr("transform", "translate(0," + (H - M.b) + ")").call(d3.axisBottom(x).ticks(10).tickFormat(d3.format("d"))).call(axStyle);
+        svg.append("g").attr("transform", "translate(" + M.l + ",0)").call(d3.axisLeft(y).ticks(6)).call(axStyle);
+
+        axisLabel(svg, -(M.t + (H - M.b - M.t) / 2), 14, true, "Área acumulada em Goiás (Mha)");
+        axisLabel(svg, M.l + (W - M.l - M.r) / 2, H - 4, false, "Ano");
+
+        var lineGen = d3.line()
+          .x(function (d, i) { return x(anos[i]); }).y(function (d) { return y(d); })
+          .curve(d3.curveMonotoneX);
+
+        series.forEach(function (s) {
+          svg.append("path").attr("d", lineGen(s.vals)).attr("fill", "none").attr("stroke", s.cor)
+            .attr("stroke-width", s.w).attr("stroke-dasharray", s.dash || "none");
+          s.vals.forEach(function (v, i) {
+            var g = svg.append("g");
+            g.append("circle").attr("cx", x(anos[i])).attr("cy", y(v)).attr("r", 3.2)
+              .attr("fill", s.cor).attr("stroke", "#fff").attr("stroke-width", 1.1);
+            g.append("title").text(s.lbl + ": " + v.toFixed(2) + " Mha (" + anos[i] + ")");
+          });
+        });
+      })();
+
+      // ─── Figura 3: Forma lisa × degrau (Capítulo 6) ─────────────────
+      (function () {
+        var W = 660, H = 340;
+        var M = { t: 16, r: 20, b: 44, l: 58 };
+        var anos = [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024];
+        var soja = [1.82, 0.29, -0.47, 2.60, 5.14, 7.81, 6.87, 10.64, 8.36];
+        var pAgric = [-37.22, 11.47, -22.85, -4.99, -37.87, -52.23, 5.37, -37.89, -24.64];
+
+        var svg = d3.select("#chartFormaDegrau").append("svg").attr("viewBox", "0 0 " + W + " " + H);
+        var x = d3.scaleLinear().domain([2016, 2024]).range([M.l, W - M.r]);
+        var y = d3.scaleLinear().domain([-58, 16]).range([H - M.b, M.t]);
+
+        svg.append("g").selectAll("line").data(y.ticks(6)).join("line")
+          .attr("x1", M.l).attr("x2", W - M.r)
+          .attr("y1", function (d) { return y(d); }).attr("y2", function (d) { return y(d); })
+          .attr("stroke", CR).attr("stroke-width", 0.5).attr("opacity", 0.5);
+
+        svg.append("line").attr("x1", M.l).attr("x2", W - M.r).attr("y1", y(0)).attr("y2", y(0))
+          .attr("stroke", CM).attr("stroke-width", 1).attr("stroke-dasharray", "3,3");
+
+        svg.append("g").attr("transform", "translate(0," + (H - M.b) + ")").call(d3.axisBottom(x).ticks(9).tickFormat(d3.format("d"))).call(axStyle);
+        svg.append("g").attr("transform", "translate(" + M.l + ",0)").call(d3.axisLeft(y).ticks(6).tickFormat(function (d) { return d + "%"; })).call(axStyle);
+
+        axisLabel(svg, -(M.t + (H - M.b - M.t) / 2), 14, true, "Variação ano a ano");
+
+        var lineGen = d3.line().x(function (d, i) { return x(anos[i]); }).y(function (d) { return y(d); }).curve(d3.curveMonotoneX);
+
+        [{ vals: soja, cor: "#8b3a1d", lbl: "Soja SIDRA (campo)" },
+         { vals: pAgric, cor: "#c98a4b", lbl: "Pasto→Agricultura (mapa)" }].forEach(function (s) {
+          svg.append("path").attr("d", lineGen(s.vals)).attr("fill", "none").attr("stroke", s.cor).attr("stroke-width", 2.5);
+          s.vals.forEach(function (v, i) {
+            var g = svg.append("g");
+            g.append("circle").attr("cx", x(anos[i])).attr("cy", y(v)).attr("r", 3.4)
+              .attr("fill", s.cor).attr("stroke", "#fff").attr("stroke-width", 1.1);
+            g.append("title").text(s.lbl + ": " + (v > 0 ? "+" : "") + v.toFixed(1) + "% (" + anos[i] + ")");
+          });
+        });
+      })();
+
+      // ─── Figura 4: Centro de massa (Capítulo 7) ─────────────────────
+      (function () {
+        var W = 660, H = 380;
+        var M = { t: 16, r: 20, b: 44, l: 72 };
+        var anos = [2018, 2019, 2020, 2021, 2022, 2023, 2024];
+        var series = [
+          { vals: [-17.10325, -17.09506, -17.09212, -17.09086, -17.08921, -17.08773, -17.09022], cor: "#d96aa3", dash: "5,5", lbl: "Agricultura MapBiomas" },
+          { vals: [-17.07402, -17.06452, -17.04592, -17.02929, -16.98247, -16.97178, -16.97401], cor: "#8b3a1d", dash: null, lbl: "Soja SIDRA" },
+          { vals: [-16.40528, -16.41420, -16.44313, -16.48625, -16.52921, -16.53947, -16.52429], cor: "#c98a4b", dash: null, lbl: "Mosaico de Usos" },
+          { vals: [-16.05073, -16.02110, -15.98789, -15.95068, -15.93970, -15.94406, -15.91412], cor: "#d4b65a", dash: null, lbl: "Rebanho bovino" }
+        ];
+
+        var svg = d3.select("#chartCentroMassa").append("svg").attr("viewBox", "0 0 " + W + " " + H);
+        var x = d3.scaleLinear().domain([2018, 2024]).range([M.l, W - M.r]);
+        var y = d3.scaleLinear().domain([-17.15, -15.85]).range([H - M.b, M.t]);
+
+        svg.append("g").selectAll("line").data(y.ticks(6)).join("line")
+          .attr("x1", M.l).attr("x2", W - M.r)
+          .attr("y1", function (d) { return y(d); }).attr("y2", function (d) { return y(d); })
+          .attr("stroke", CR).attr("stroke-width", 0.5).attr("opacity", 0.5);
+
+        svg.append("g").attr("transform", "translate(0," + (H - M.b) + ")").call(d3.axisBottom(x).ticks(7).tickFormat(d3.format("d"))).call(axStyle);
+        svg.append("g").attr("transform", "translate(" + M.l + ",0)").call(d3.axisLeft(y).ticks(6).tickFormat(function (d) { return Math.abs(d).toFixed(1) + "°S"; })).call(axStyle);
+
+        svg.append("text").attr("x", M.l - 6).attr("y", M.t + 10).attr("text-anchor", "end").attr("fill", CM)
+          .style("font-size", "9px").style("font-family", "var(--font-sans)").text("↑ Norte");
+        svg.append("text").attr("x", M.l - 6).attr("y", H - M.b - 4).attr("text-anchor", "end").attr("fill", CM)
+          .style("font-size", "9px").style("font-family", "var(--font-sans)").text("↓ Sul");
+
+        var lineGen = d3.line().x(function (d, i) { return x(anos[i]); }).y(function (d) { return y(d); }).curve(d3.curveMonotoneX);
+
+        series.forEach(function (s) {
+          svg.append("path").attr("d", lineGen(s.vals)).attr("fill", "none").attr("stroke", s.cor)
+            .attr("stroke-width", 2.5).attr("stroke-dasharray", s.dash || "none");
+          s.vals.forEach(function (v, i) {
+            var g = svg.append("g");
+            g.append("circle").attr("cx", x(anos[i])).attr("cy", y(v)).attr("r", 3.4)
+              .attr("fill", s.cor).attr("stroke", "#fff").attr("stroke-width", 1.1);
+            g.append("title").text(s.lbl + ": " + Math.abs(v).toFixed(4) + "°S (" + anos[i] + ")");
+          });
+        });
+      })();
+
+      // ─── Figura 5: Borda móvel (Capítulo 8) ─────────────────────────
+      (function () {
+        var W = 660, H = 380;
+        var M = { t: 16, r: 20, b: 44, l: 50 };
+
+        var series = [
+          { nome: "col6", lbl: "Coleção 6 (até 2020)", cor: "#c4ad8a", pts: [[2018, 4.662], [2019, 4.059], [2020, 2.590]] },
+          { nome: "col8", lbl: "Coleção 8 (até 2022)", cor: "#c97052", pts: [[2018, 2.160], [2019, 2.768], [2020, 5.417], [2021, 22.886], [2022, 8.739]] },
+          { nome: "col9", lbl: "Coleção 9 (até 2023)", cor: "#c98a4b", pts: [[2018, 1.722], [2019, 2.336], [2020, 4.780], [2021, 21.405], [2022, 13.653], [2023, 32.601]] },
+          { nome: "col10", lbl: "Coleção 10.1 (até 2024)", cor: "#8b3a1d", pts: [[2018, 1.453], [2019, 1.845], [2020, 4.614], [2021, 13.868], [2022, 13.524], [2023, 29.083], [2024, 32.843]] }
+        ];
+
+        var svg = d3.select("#chartBordaMovel").append("svg").attr("viewBox", "0 0 " + W + " " + H);
+        var x = d3.scaleLinear().domain([2018, 2024]).range([M.l, W - M.r]);
+        var y = d3.scaleLog().domain([1, 40]).range([H - M.b, M.t]);
+        var tickVals = [1, 2, 5, 10, 20, 40];
+
+        svg.append("g").selectAll("line").data(tickVals).join("line")
+          .attr("x1", M.l).attr("x2", W - M.r)
+          .attr("y1", function (d) { return y(d); }).attr("y2", function (d) { return y(d); })
+          .attr("stroke", CR).attr("stroke-width", 0.5).attr("opacity", 0.5);
+
+        svg.append("g").attr("transform", "translate(0," + (H - M.b) + ")").call(d3.axisBottom(x).ticks(7).tickFormat(d3.format("d"))).call(axStyle);
+        svg.append("g").attr("transform", "translate(" + M.l + ",0)")
+          .call(d3.axisLeft(y).tickValues(tickVals).tickFormat(function (d) { return d + "×"; })).call(axStyle);
+
+        axisLabel(svg, -(M.t + (H - M.b - M.t) / 2), 14, true, "Razão Mosaico/Agricultura (escala log)");
+
+        var lineGen = d3.line().x(function (d) { return x(d[0]); }).y(function (d) { return y(d[1]); }).curve(d3.curveMonotoneX);
+
+        series.forEach(function (s) {
+          svg.append("path").attr("d", lineGen(s.pts)).attr("fill", "none").attr("stroke", s.cor).attr("stroke-width", 2.4);
+          s.pts.forEach(function (p, i) {
+            var isUltimo = (i === s.pts.length - 1);
+            var g = svg.append("g");
+            g.append("circle").attr("cx", x(p[0])).attr("cy", y(p[1])).attr("r", isUltimo ? 5 : 3.2)
+              .attr("fill", isUltimo ? "#fff" : s.cor).attr("stroke", s.cor).attr("stroke-width", isUltimo ? 2.2 : 1.1);
+            g.append("title").text(s.lbl + (isUltimo ? " — último ano da coleção: " : ": ") + p[1].toFixed(2) + "× (" + p[0] + ")");
+          });
+        });
+      })();
+
+    });
+  </script>
+</body>
+
+</html>
