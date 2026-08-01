@@ -10,6 +10,11 @@ de frases banidas, console/rede e o comportamento no celular.
 import sys
 from playwright.sync_api import sync_playwright
 
+# O console do Windows abre em cp1252 e engasga com os caracteres das frases
+# banidas (ex.: o menos tipografico U+2212). Sem isto, uma FALHA legitima morre
+# em UnicodeEncodeError e esconde justamente o erro que deveria reportar.
+sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
 URL = "http://127.0.0.1:8765/reforma.html"
 # Frases que ja estiveram na peca e cairam (BLUEPRINT_PARTE2.md, "Numeros
 # banidos"). Precisam ser especificas: "78 mil" sozinho casa com "378 milhoes".
@@ -216,7 +221,6 @@ def main():
             const det = document.getElementById('p4-decisoes-tabela');
             return {
                 autocorrecoes: document.querySelectorAll('.autocorrecoes > li').length,
-                verificacoes: document.querySelectorAll('.verificacoes-ok li').length,
                 limites: document.querySelectorAll('.limites-lista > li').length,
                 decisoesColapsadas: det ? !det.open : null,
                 decisoes: document.querySelectorAll('.decisao-card').length,
@@ -225,14 +229,15 @@ def main():
             };
         }""")
         print(f"fecho: {fecho}")
-        if fecho.get("autocorrecoes") != 10:
-            erros.append(f"painel de autocorrecoes com {fecho.get('autocorrecoes')} itens (esperava 10)")
-        if fecho.get("verificacoes") != 3:
-            erros.append(f"bloco de verificacoes com {fecho.get('verificacoes')} itens (esperava 3)")
-        if fecho.get("decisoes") != 26:
-            erros.append(f"{fecho.get('decisoes')} cards de decisao (esperava 26 = D1-D26)")
+        # 4 autocorrecoes: so as que mudam a leitura da tese (Mosaico, Granger,
+        # significancia do drive comum, barra de erro). As outras cinco moram ao
+        # lado do metodo que as pegou, na Perna ou na Oficina — nao aqui.
+        if fecho.get("autocorrecoes") != 4:
+            erros.append(f"painel de autocorrecoes com {fecho.get('autocorrecoes')} itens (esperava 4)")
+        if fecho.get("decisoes") != 27:
+            erros.append(f"{fecho.get('decisoes')} cards de decisao (esperava 27 = D1-D27)")
         if not fecho.get("decisoesColapsadas"):
-            erros.append("as 26 decisoes deveriam comecar colapsadas (sao referencia)")
+            erros.append("as 27 decisoes deveriam comecar colapsadas (sao referencia)")
         if not fecho.get("inventarioCarregou"):
             erros.append("a vitrine do painel nao carregou")
 
@@ -244,7 +249,7 @@ def main():
         # da peca — e o teste passaria a premiar quem varre o erro para debaixo
         # do tapete. Por isso sao excluidos da varredura, por classe explicita.
         EXCLUIR = [".nao-diz", ".nota-honestidade", ".autocorrecoes",
-                   ".verificacoes-ok", ".decisoes-corpo", ".regua-decidiu"]
+                   ".decisoes-corpo", ".regua-decidiu", ".decisao-por-que"]
         texto = pg.evaluate("""(sel) => {
             const c = document.body.cloneNode(true);
             c.querySelectorAll(sel.join(',')).forEach(e => e.remove());

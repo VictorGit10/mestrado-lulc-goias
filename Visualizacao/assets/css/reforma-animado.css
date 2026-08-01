@@ -1,0 +1,202 @@
+/* reforma-animado.css — Estilos e animações para a versão de testes com catalogação numerada */
+
+/* Banner do Modo Laboratório no topo */
+.anim-lab-banner {
+  background: #8b3a1d;
+  color: #ffffff;
+  padding: 0.9rem 1.5rem;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: 0.88rem;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.anim-lab-banner strong {
+  background: #ffffff;
+  color: #8b3a1d;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+/* Crachá numerado para identificar cada animação */
+.anim-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: #8b3a1d;
+  color: #ffffff;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 3px 8px;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+  box-shadow: 0 2px 6px rgba(139, 58, 29, 0.3);
+  z-index: 10;
+}
+
+/* =========================================================================
+   [ANIMAÇÃO #1] — CONTADOR NUMÉRICO PROGRESSIVO (COUNT-UP NUMBERS)
+   ========================================================================= */
+.count-up-val {
+  display: inline-block;
+  color: #8b3a1d;
+  font-weight: 700;
+  background: rgba(139, 58, 29, 0.08);
+  padding: 0 4px;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+/* =========================================================================
+   [ANIMAÇÃO #2] — ENTRADA SUAVE POR SCROLL (FADE & SLIDE-UP NOS BLOCOS)
+   ========================================================================= */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.scroll-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =========================================================================
+   [ANIMAÇÃO #3] — PINO DE MARCO INSTITUCIONAL PULSANTE NA RÉGUA
+   ========================================================================= */
+.rail-marco-pin {
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.rail-marco-pin:hover,
+.rail-marco-pin.is-active-pin {
+  transform: scale(1.3);
+  filter: drop-shadow(0 0 6px rgba(139, 58, 29, 0.6));
+}
+
+/* =========================================================================
+   [ANIMAÇÃO #4] — SHIMMER & REVELAÇÃO SUAVE DE IMAGENS DE MAPAS
+   ========================================================================= */
+.map-image-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.map-image-animated {
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 1.2s ease;
+  transform: scale(1.04);
+  filter: brightness(0.96);
+}
+
+.map-image-animated.is-loaded-map {
+  transform: scale(1);
+  filter: brightness(1);
+}
+
+.map-shimmer-sweep {
+  position: absolute;
+  top: 0; left: -100%; width: 50%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+  transform: skewX(-25deg);
+  pointer-events: none;
+}
+
+.map-shimmer-sweep.is-sweeping {
+  animation: mapSweepAnim 1.4s ease-out forwards;
+}
+
+@keyframes mapSweepAnim {
+  0% { left: -100%; }
+  100% { left: 200%; }
+}
+
+/* =========================================================================
+   [ANIMAÇÃO #5] — BARRAS DE DADOS ANIMADAS NOS GRÁFICOS
+   ========================================================================= */
+.data-bar-animated {
+  height: 6px;
+  background: linear-gradient(90deg, #8b3a1d, #c8963e);
+  border-radius: 3px;
+  width: 0%;
+  transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* =========================================================================
+   [ANIMAÇÃO #6] — REVELAÇÃO TIPO EDITORIAL DE TÍTULOS (LETTER-SPACING REVEAL)
+   ========================================================================= */
+.title-reveal-animated {
+  opacity: 0;
+  letter-spacing: -0.02em;
+  transform: translateY(12px);
+  transition: opacity 0.8s ease, transform 0.8s ease, letter-spacing 1s ease;
+}
+
+.title-reveal-animated.is-revealed {
+  opacity: 1;
+  letter-spacing: 0.02em;
+  transform: translateY(0);
+}
+
+/* =========================================================================
+   [ANIMAÇÃO #7] — MICRO-INTERAÇÕES DE HOVER EM CARDS & GLOSSÁRIO
+   ========================================================================= */
+.card-hover-animated {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.card-hover-animated:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  border-color: #8b3a1d;
+}
+
+/* =========================================================================
+   [ANIMAÇÃO #8] — INDICADOR DE TRACER ATIVO NO SUMÁRIO LATERAL
+   ========================================================================= */
+.rail-lateral .rail-item > a {
+  position: relative;
+}
+
+.rail-lateral .rail-item.is-ancestral > a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 20%;
+  bottom: 20%;
+  width: 3px;
+  background: #8b3a1d;
+  border-radius: 2px;
+  animation: tracerPulse 2s infinite ease-in-out;
+}
+
+@keyframes tracerPulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-reveal,
+  .map-image-animated,
+  .title-reveal-animated,
+  .card-hover-animated {
+    transition: none !important;
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

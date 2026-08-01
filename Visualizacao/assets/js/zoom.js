@@ -6,7 +6,7 @@
   "use strict";
 
   const doc = root.document;
-  const SELETOR = ".grafico-card img, .marcha-figura-frame img";
+  const SELETOR = ".grafico-card img, .marcha-figura-frame img, .bastidores-card:not(.bastidores-card--link) img";
 
   let overlay = null;
   let focoAnterior = null;

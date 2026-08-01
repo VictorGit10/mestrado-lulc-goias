@@ -157,12 +157,12 @@ def painel_a(ax, df):
 # Origens da fase pastagem. O Mosaico ganha faixa própria em vez de ser somado a
 # uma das duas (D25/D26): é a classe que o MapBiomas usa quando NÃO consegue
 # separar lavoura de pasto, ou seja incerteza de classificação — escondê-la
-# dentro de "veio de lavoura" importaria essa incerteza para dentro do achado.
+# dentro de "antes era lavoura" importaria essa incerteza para dentro do achado.
 COORTES = [
-    ("agricultura", "veio de LAVOURA — rotação lavoura-pastagem", COR_JOVEM),
-    ("mosaico", "veio de MOSAICO DE USOS (o classificador não separou)", "#c8b9a0"),
+    ("agricultura", "antes era LAVOURA — rotação lavoura-pastagem", COR_JOVEM),
+    ("mosaico", "antes era MOSAICO DE USOS (o classificador não separou)", "#c8b9a0"),
     ("outros", "outras origens", "#e6e3dc"),
-    ("vegetacao_natural", "veio de VEGETAÇÃO NATIVA — reserva antiga", COR_VELHO),
+    ("vegetacao_natural", "antes era VEGETAÇÃO NATIVA — reserva antiga", COR_VELHO),
 ]
 
 
@@ -197,7 +197,7 @@ def painel_b(ax, df):
     ax.stackplot(centros[m], *[p[m] for p in partes], colors=cores, labels=rotulos,
                  edgecolor="white", linewidth=0.3)
 
-    # Os dois extremos da faixa "veio de lavoura" — é a leitura inteira do painel.
+    # Os dois extremos da faixa "antes era lavoura" — é a leitura inteira do painel.
     laranja = partes[0]
     for xi, ha in [(3.0, "left"), (33.0, "right")]:
         i = int(np.argmin(np.abs(centros - xi)))

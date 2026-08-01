@@ -124,6 +124,28 @@ não sobram; o que sobra é a Perna 1.)
 
 Saldo da reforma: **2 figuras de classe A** (uma verificada, uma aberta) contra **8 de classe C**.
 
+### 6.1b `reforma.html` §"Para além da tese" — 4 figuras novas (31/jul/2026)
+
+A seção "À margem" foi refeita como **"Para além da tese"**: os seis cards antigos (panoramas de
+abertura e embriões já absorvidos pela narrativa) saíram; entraram quatro achados laterais com
+figura autorada. Todas nascem sob a regra D27 — script único, rótulo derivado do dado, número na
+legenda batendo com o `print` do script.
+
+| Figura | Classe | Origem | Estado |
+|---|---|---|---|
+| `alem_da_tese/oscilacao_pasto_savana.png` | **A** | `gerar_figuras_alem_da_tese.py` ← `data/processed/checar_transicao_pasto_natural_classe.csv` | ✅ autorada sob a regra; razões 8,42→1,22 conferem com `oscilacao_pasto_savana.md` §3 |
+| `alem_da_tese/malha_fundiaria_buckets.png` | **A** | idem ← `outputs/diag_malha_fundiaria_por_classe.csv` | ✅ 90,6% / 4,0% / 1,7% conferem com `malha_fundiaria_ambiental.md` §10 |
+| `alem_da_tese/amc_emancipacoes.png` | **A** | idem ← `outputs/diagnosticos/amc_impacto_goias.csv` | ✅ nomes (Formoso/Mambaí) vêm de `areas_minimas_comparaveis.md`; valores plotados são os do CSV |
+| `alem_da_tese/quebras_calendario.png` | **A** | idem ← `outputs/correlacoes/quebras_resultados.csv` | ✅ 15 quebras, 0 a ±2 anos de 2012 — recontado pelo script a cada rodada |
+
+**Risco residual conhecido**: o card-link do atlas continua exibindo
+`img/marcha_norte/deslocamento_latitude.png` — o **caso 2, ainda aberto** (§7). A troca da seção
+não o resolveu; só mudou de vizinhança.
+
+**Regra herdada**: essas quatro não são importadas de `outputs/`. Elas são geradas por um script
+da própria `Visualizacao/`, que imprime os números que a legenda cita. Reconferir = rodar
+`python scripts/gerar_figuras_alem_da_tese.py` e comparar o `print` com o texto do card.
+
 ### 6.2 `Visualizacao/index.html` — o site **publicado**: 25 figuras, todas classe A
 
 Nenhuma delas passou por esta regra. Inclui `decomposicao_oferta_demanda.png` — ou seja, **o site

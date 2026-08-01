@@ -36,6 +36,7 @@
     { id: "p2-perna4", pai: "parte-2" },
     { id: "parte-3" },
     { id: "parte-4" },
+    { id: "alem-da-tese" },
   ];
 
   let alvos = [];            // [{ id, el, pai }] — so' os que existem no DOM

@@ -82,7 +82,7 @@ IDs são **definitivos** desde a Fase A: o rail, os links internos e a copy depe
 | 7 | `p2-perna3` | Perna 3 · o clímax | BP-2 § Perna 3 | esquema 2 painéis **(novo)** | — (SVG inline) |
 | 8 | `p2-perna4` | Perna 4 · o teto | BP-2 § Perna 4 + §18 | 2 esquemas SVG **(novos, §18.3)** | — (SVG inline) |
 | 9 | `p3-tese` | Parte 3 · o veredito | BP-0134 § 3.1 | callout | — |
-| 10 | `p3-autocorrecao` | Parte 3 · a assinatura | BP-0134 § 3.2 | painel 10 + 3 | — |
+| 10 | `p3-autocorrecao` | Parte 3 · a assinatura | BP-0134 § 3.2 | painel de 4 (ver §22) | — |
 | 11 | `p3-limites` | Parte 3 · o que não afirma | BP-0134 § 3.3 | lista | — |
 | 12 | `p4-oficina` | Parte 4 · a oficina | BP-0134 § Parte 4 | M1–M6 + `inventario.js` | `painel_amc_indice.json` |
 
@@ -187,6 +187,7 @@ Registrado para não reabrir a discussão a cada fase:
 | 28/jul/2026 | **revisão do autor → Perna 3 ✅** | quatro questões: falta de cuidado vs. Pernas 1–2, abertura desconectada, texto longo e opaco, duas figuras confusas — e a dúvida sobre o overclaim do iLUC, que estava certa. Perna reescrita inteira: 5 `h4`, 2 figuras novas, 1 figura removida, 2 `<details>`, veredito corrigido em **4 lugares** da peça. Ver §16 |
 | 28/jul/2026 | **varredura número × CSV ✅** | a §19.4 pedia "dia próprio" — feito sobre a peça inteira. 442 blocos com número extraídos mecanicamente, ~160 rastreados até a fonte. **Nenhuma conclusão cai**; 4 defeitos + 3 imprecisões, todos corrigidos; a legenda do mapa da Parte 1 (D27, item 2) auditada e aprovada. Ver §20 e `Textos/metodologia/auditoria_numeros_tela.md` |
 | 28/jul/2026 | **revisão do autor → Perna 4 ✅** | mesmos sintomas da Perna 3 e um defeito pior: **a figura publicada contradizia a manchete** (o PNG do #39 rotulava o resíduo como "efeito-DEMANDA", rótulo que o próprio pipeline retratou). Perna reescrita inteira: 6 `h4`, 2 `<details>`, 4 cards, os **dois PNGs de pipeline removidos** e substituídos por SVG inline; 3 correções de número; 2 fragilidades novas; rótulo consertado na origem (`fronteira_fechando.py`). Ver §18 |
+| 31/jul/2026 | **D27 na tabela da viz + verificação limpa ✅** | a decisão D27 (auditoria de figuras, §19) existia desde 28/jul mas só entrava no `index.html` publicado — a `reforma.html` listava D1–D26. Entrou como tema próprio ("Auditoria de figuras (jul/2026)") com lede e card, após o bloco D25/D26; contagens atualizadas (rail, h3, lede, summary: 26→27) e asserção do `verificar_reforma.py` (26→27). No mesmo passe, fechou o item da §10 ("falta decidir a classe" do "−88%"): `.decisao-por-que` na lista `EXCLUIR` + `class="regua-decidiu"` no `<p>` "Transições regionais". Verificação da §7 agora passa 100% limpa — `frases banidas: []`, `decisoes: 27` |
 
 ### Dois defeitos encontrados pela verificação da Fase A (e corrigidos)
 
@@ -305,9 +306,23 @@ Depois do `.nao-diz` da Fase B, a Fase C trouxe mais casos: o card da **D26** ci
 "−88%" para dizer que ele caiu, e a tabela de réguas cita o gradiente de idade pelo mesmo
 motivo. A regra que fechou o assunto: **a lista guarda contra *reafirmar* um achado que
 caiu; texto que *narra* a queda é o oposto disso.** Ficam fora da varredura, por classe
-explícita: `.nao-diz`, `.nota-honestidade`, `.autocorrecoes`, `.verificacoes-ok`,
-`.decisoes-corpo` e `.regua-decidiu`. Sem essa regra, o teste passaria a premiar quem varre
-o próprio erro para debaixo do tapete — exatamente o contrário do que a peça defende.
+explícita: `.nao-diz`, `.nota-honestidade`, `.autocorrecoes`, `.decisoes-corpo` e
+`.regua-decidiu`. Sem essa regra, o teste passaria a premiar quem varre o próprio erro para
+debaixo do tapete — exatamente o contrário do que a peça defende.
+
+> **Atualização (31/jul/2026).** `.verificacoes-ok` saiu da lista junto com o bloco que a
+> usava (§22). E a regra tem hoje um caso **não coberto**: o parágrafo da D26 em
+> `p4-metodos-perna2` narra a queda do "−88%" (ele *inverte para +51%* sob a régua imune),
+> mas não tem classe excluída — o verificador acusa. É a regra funcionando ao contrário do
+> que ela mesma prescreve; falta decidir a classe.
+>
+> **Resolvido (31/jul/2026).** Dois sítios citavam o "−88%" para narrar a queda, em
+> caracteres distintos: o card da D26 em `.decisao-por-que` (U+2212 literal, linha 3895) e o
+> `<p>` "Transições regionais" da oficina via entidade `&minus;` (linha 3245). O card entrou
+> na lista `EXCLUIR` do `verificar_reforma.py` (`.decisao-por-que`, sem CSS — os
+> `decisao-por-que` dos 26 cards inerentemente narram o que a régua derrubou); o `<p>` ganhou
+> `class="regua-decidiu"` (marcador puro, sem CSS, já na lista — e o nome é literalmente o que
+> o parágrafo diz: a régua decidiu derrubar o "−88%"). Verificação da §7 agora passa limpa.
 
 ---
 
@@ -947,3 +962,189 @@ bateu*. Dois padrões a vigiar, ambos observados aqui:
    isto não diz" que afirme um nulo ("os placebos não acendem", "não aparece em nenhum")
    precisa da contagem exata ao lado.* É o overclaim mais fácil de cometer no bloco que existe
    justamente para evitá-lo — e já aconteceu três vezes.
+
+---
+
+## 21. A revisão do veredito (Parte 3) — os "nãos" precisam de um motivo, e o fora-de-escopo precisa de casa (29/jul/2026)
+
+Continuação da Fase D: a leitura do autor chegou à Parte 3 (o veredito). O primeiro passe
+(reescrita da prosa telegráfica para o registro das pernas) foi aprovado como "melhor, mas
+ainda com problemas". Dois problemas nomeados e uma ideia de estrutura.
+
+### 21.1 Os "nãos" leem como confissão de erro — faltava o motivo de estar ali
+
+O bloco `p3-autocorrecao` lista 10 autocorreções no formato "eu achava X; o dado disse Y".
+O defeito apontado pelo autor: **do jeito que estão, parecem uma lista dos erros do trabalho.**
+O exemplo foi a matriz de conversão — "a matriz estava certa? Não, ela excluía o Mosaico…" lê
+como "nós erramos".
+
+O reframe pedido: cada "não" deve **partir de uma decisão ou hipótese que *parece* razoável**
+e então mostrar, com ilustração, por que falha. Na matriz: *tirar uma classe ambígua como o
+"Mosaico de Usos" de uma matriz de conversão parece higiene — é a decisão certa? Não* — e aí uma
+figura clara mostra o motivo. Com essa estrutura o "não" ganha um motivo para existir: deixa de
+ser mea-culpa e vira a demonstração de uma armadilha sutil que o trabalho evitou.
+
+**Correção do autor sobre o modelo (mesma sessão).** O 1º rascunho do "não" da matriz ancorou no
+**erro de fechamento** (`#12→#12B`: sem Mosaico 7,26% × com 0,08%, ~90×, com figura). O autor
+rejeitou: *"o que você está usando pra explicação nem era o problema mais real"*. A lição —
+**ancore o "não" na consequência que importa para a narrativa, não na falha tecnicamente-correta
+mas abstrata.** O problema real de tratar mal o Mosaico não é a contabilidade não fechar; é
+concluir que **a agricultura desacelerou / o centro de massa parou** depois de 2019, quando não
+parou — só o rótulo mudou (o MapBiomas passa a chamar a lavoura nova de "Mosaico"). E esse "não"
+ainda ganha **antecedente forte** (a figura das cinco medidas da Perna 1), ao contrário do fogo.
+
+Modelo reancorado (`#28D, #32 → D25/D26`): pergunta = "*a agricultura desacelerou depois de
+2019?*" → Não; a resposta mostra a linha do satélite achatando por mudança de rótulo, enquanto as
+medidas imunes (soja plantada e rebanho, medidas em campo pelo IBGE) seguem subindo. Ilustração
+nova (SVG inline, classes **`.ab-*`** reutilizáveis + wrapper `.autoc-fig` na `reforma.css`, bloco
+5d): duas barras — **agricultura satélite +0,5 km (cinza) × soja plantada em campo +10,1 km
+(verde)**, janela 2019–2024 (números vindos da figura das cinco medidas da Perna 1, sem
+introduzir novo). Verificado em página isolada no navegador (a página cheia da reforma **não pinta
+no screenshot** — DOM ok pelo `find`, paint sai em branco; provável observer/mapa sticky). **O
+"não" do fechamento/#12 saiu do veredito**; se o autor quiser, volta como item enxuto à parte.
+
+### 21.2 O "não" do fogo parece solto — e daí a ideia da seção "À margem"
+
+O "não" do fogo ("o fogo abre o caminho? Não") **aparece do nada**: em nenhum ponto anterior da
+narrativa corrida o fogo é mencionado — a história dele (sempre ~73 km à frente, 39/39 anos, mas
+co-evolui e não antecede) vive só num `<details>` da Perna 1, e o mesmo vale para o centro de
+massa do **leite** (o boi se afastando da bacia leiteira, vão de 30 km em 1985 para 68 km em
+2024).
+
+Ideia do autor, **documentada aqui como possibilidade** (não decidida para construir agora):
+criar um lugar dedicado às **coisas que os dados mostraram, são interessantes, mas não entram no
+escopo da narrativa central** — uma seção "À margem" (ou vitrine de curiosidades). Fogo e leite
+são os dois primeiros candidatos. Isso resolveria de vez o "aparece do nada": o achado ganha casa
+e setup próprios, e o veredito para de importar um "não" sem antecedente.
+
+Perguntas em aberto sobre a seção (decidir antes de construir):
+- **Onde no fio** — uma "Parte 3½" entre veredito e oficina? um apêndice/margem fora da linha
+  principal do detetive?
+- **Que tom** — vitrine leve de curiosidades, ou "achados robustos que ficaram fora do argumento
+  central"? Muda o peso visual e a escrita.
+- **Relação com o veredito** — o "não" do fogo *migra* para a seção (sai do veredito) ou
+  *duplica* (fica no veredito com link)?
+
+#### 21.2-b Resolvido em 31/jul/2026 — a seção virou "Para além da tese"
+
+As três perguntas acima foram fechadas na refação da seção:
+
+- **Onde no fio**: fica onde estava — depois da oficina, fora da linha do detetive. O rail agora
+  a chama "Para além da tese" (`id="alem-da-tese"`; a classe CSS segue `bastidores-*`, que é
+  identificador interno).
+- **Que tom**: "achados que ficaram fora do argumento", **não** vitrine de curiosidades. O que
+  faz a diferença é a **anatomia do card**: figura + afirmação + um bloco lateral fixo
+  *"Por que ficou fora"*. Sem essa declaração a seção vira gaveta.
+- **Critério de entrada**: precisa ser **achado** (afirmação + evidência), **lateral** (não é
+  degrau de nenhuma perna) e **com figura própria**. Panorama de abertura e embrião já absorvido
+  por painel da narrativa **não entram** — foi por isso que os seis cards antigos (#10, #2, #15,
+  #24, #14, #21) saíram inteiros.
+
+Elenco final: 4 cards de achado (oscilação pasto↔savana; malha fundiária 90/4/2; AMC e as ondas
+de emancipação; quebras data-driven × marcos) + os 2 links de página (atlas, dossiê). Figuras
+por `Visualizacao/scripts/gerar_figuras_alem_da_tese.py`.
+
+**Fogo (#41) e aptidão (#52) foram avaliados e recusados** — não por serem fracos, mas por já
+estarem *afirmados na narrativa*: o fogo no `<details>` da Perna 1 (73 km, 39/39 anos, sem
+liderança temporal) e a aptidão como premissa declarada da Perna 3 (Sul 4,69 > Norte 4,17). Um
+card deles seria eco, não achado lateral. **O "aparece do nada" do fogo no veredito, que motivou
+esta seção, portanto continua de pé** — a seção não é o lugar de resolvê-lo; o setup do fogo
+precisa entrar na narrativa corrida da Perna 1, ou o "não" precisa sair do veredito. **O leite
+segue sem casa.**
+
+### 21.3 O plano para os outros nove "nãos" (a §21.1 aplicada em série)
+
+Cada um reescrito como "decisão/hipótese que parece razoável → por que falha", com figura onde o
+achado é visual, e os que não têm setup na narrativa migram para a §21.2. Aguardando aprovação do
+modelo (a matriz) antes de aplicar em série:
+- **gradiente de idade** (parece um gradiente real S→N) → é o horizonte do satélite disfarçado;
+  região explica 0,5%. Figura candidata.
+- **plantio direto** (concentra no Sul, logo "explica") → confundidor de latitude; some sob
+  controle. **Calcário e assistência técnica (#40B) foldam aqui** — mesma família, param de
+  entrar como linha à parte.
+- **Norte antecede o Sul** (um teste diz que sim) → regressão espúria; some nas duas direções sob
+  teste estacionário.
+- **fogo (#41)** → §21.2 (sem setup na narrativa).
+- **muralha = vegetação inteira** (parece que a mata segura tudo) → só a floresta; campo nativo
+  recuou. Candidato a §21.2 ou a figura própria.
+- **infra de exportação (#45)** (parece puxar a fronteira) → o regressor "volume" era produção
+  disfarçada (r≈0,99); β cai 9×. Figura forte, fica.
+- **significância do drive comum (#54)** (p≈0,03) → inferência ingênua; design correto dá
+  0,07–0,13. Figura: reta de p com o corte de 5%.
+- **barra de erro (D19)** — o único "Sim"; fica como contraponto honesto (a correção que foi a
+  favor da prudência, não do achado).
+
+**Progresso do rollout (29/jul, mesma sessão).** (a) Figura da agricultura **refinada** a pedido
+do autor ("melhore disposição/tamanho e alinhe a legenda"): viewBox 560×122, barras 26px,
+`dominant-baseline: central` nos rótulos/valores (alinhamento vertical à prova de erro), max-width
+512px; verificada no navegador em página isolada. (b) **Calcário/AT fundidos** no "não" do plantio
+direto (mesma navalha do confundidor de latitude) — o item solto saiu; refs `#40, #40B → D14`.
+(c) **Figuras novas** (mesmo template `.ab-*`, verificadas isoladas): **#45** = duas barras,
+estimativa bruta **+0,335** (vermelha) × após corrigir **+0,037** (verde), o ÷9 visível [⚠️ os
+dois β entram como **números novos na tela** — vêm da correção Trase, [[project_indice_logico]]];
+**#54** = reta de p-valor com corte de 5% tracejado, ponto "reportado 0,03" à esquerda × faixa
+"correto 0,07–0,13" à direita (helpers CSS `.ab-escala/.ab-corte/.ab-ponto/.ab-nota-fig`).
+(d) **Item da idade (0,5%) ficou SEM figura** — 0,5% não vira barra/pizza legível (fica um fiapo
+que parece bug); candidato a uma figura de "duas populações de pasto" (`sintese_idade_duas_populacoes.png`
+existe) se o autor quiser. (e) **Fogo** segue sem antecedente na narrativa (a seção "À margem" da
+§21.2 está adiada por decisão do autor).
+
+---
+
+## 22. O painel de autocorreções cortado de 9 para 4 (31/jul/2026)
+
+**Leitura do autor.** O bloco `p3-autocorrecao` e as "três verificações que não derrubaram
+nada" pareciam "jogados e um pouco mal explicados". Exemplo dado: o item do **#14B** (a área
+queimada 30% abaixo do painel oficial) — *"surge do nada, o leitor não perguntou, não sabia da
+existência e não tem grande valor pra narrativa"*.
+
+**Diagnóstico.** O bloco misturava duas espécies sob um título só:
+
+1. **Resultado superado** — a leitura que teria ficado de pé se um teste não tivesse sido feito.
+   Vale a pena porque muda como se lê a tese logo acima.
+2. **Registro de auditoria** — checagem sobre algo que o leitor nunca duvidou. Sem carga
+   narrativa, e é o que lia como "jogado".
+
+Confirmação empírica: o "30% abaixo" do #14B **não aparecia em nenhum outro ponto da peça**
+(a única outra menção a área queimada é o mapa dos bastidores). Órfão de fato.
+
+**Correção do autor sobre o enquadramento.** O registro não é *"ah, o que eu vi na Perna X não
+queria dizer o que eu achei"* — na Perna o leitor já lê a **interpretação corrigida**. O que a
+seção mostra é que, **sem aquele teste, o resultado da Perna teria sido outro**. É um resultado
+*superado*, não uma crença desfeita do leitor. Título e lede foram reescritos nesse registro
+("Quatro resultados que este trabalho publicaria se tivesse parado um teste antes").
+
+**O que ficou (4).** Só o que muda a leitura da tese: **#28D** (Mosaico), **#42** (Granger →
+D16), **#54** (significância → D20), **D19** (barra de erro, o único "Sim").
+
+**O que saiu — e para onde.** O princípio: *uma auditoria mora onde mora o objeto dela, não numa
+pilha.* Boa parte já estava contada melhor em outro lugar; três não tinham casa e ganharam uma.
+
+| Item | Destino |
+|---|---|
+| #28C idade do pasto | já em `p4-metodos-perna2` (η²=0,5%) + régua "Medida" |
+| #40 plantio direto | já em `p4-metodos-perna2` (D14) + régua "Confundidor" |
+| #41 fogo | já contado (e melhor: 3 testes) no `<details>` da Perna 1 |
+| #44 muralha verde | já em `p4-metodos-perna1` ("Desagregação") |
+| #45 infraestrutura | **novo** `<h4>` em `p4-metodos-perna3`, com a figura `.ab-*` |
+| #22B composição | **novo** parágrafo após o 2-way FE em `p4-metodos-perna2` |
+| #48 PRODES | já em `p4-metodos-perna4` ("Validação cruzada"), mais rico |
+| #14B área queimada | **novo** parágrafo em `p4-painel`, concretizando "sem anomalias graves" |
+
+O #14B ganhou o que lhe faltava: **por que** havia o vão. Três das quatro hipóteses caíram
+(recorte de classes, recorte geográfico −0,01%, versão do asset 0,04%); sobra por eliminação
+"o dashboard conta outro objeto", que não é sobre o cálculo daqui.
+
+**Voz.** Saíram dois pedidos de confiança, no espírito de [[feedback_voz_sem_autoelogio]]: o
+título ("Por que confiar nisto") e o fecho ("uma tese que perseguiu a hipótese que mais a
+favorecia … é mais forte"). O fecho novo é factual: *"não é a lista dos erros deste trabalho —
+é a lista dos que ele encontrou"*. A lista de limites logo abaixo já **mostra** o que a frase
+antiga **afirmava**.
+
+**Verificação.** `verificar_reforma.py` atualizado: contagem 10 → **4**, asserção do bloco
+`.verificacoes-ok` removida, classe fora da EXCLUIR. Corrigido também um bug do próprio script
+— `print("FALHA:", e)` estourava `UnicodeEncodeError` em cp1252 quando o erro continha "−",
+escondendo o erro que deveria reportar (`sys.stdout.reconfigure`). Rodada limpa exceto **uma
+falha pré-existente** (não está no HEAD): o "−88%" do parágrafo da D26 em `p4-metodos-perna2`
+— ver a atualização em §10. **Fechada em 31/jul/2026** (§10): a verificação da §7 agora passa
+100% limpa — `frases banidas encontradas: []`.

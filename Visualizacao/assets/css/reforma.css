@@ -168,12 +168,13 @@ body.reforma .timeline-rail.is-recolhida {
    entra exatamente quando o hero sai de cena, o deslocamento nunca e' visto
    como um salto. A regua dos 40 anos acompanha, para seguir alinhada ao mapa. */
 @media (min-width: 1181px) {
+  /* Alinhamento perfeito da coluna centralizada (760px) com o Hero. */
   body.reforma .parte,
   body.reforma .page-footer {
-    padding-left: var(--rail-lateral-w);
+    padding-left: 0;
   }
   body.reforma .timeline-rail .rail-inner {
-    padding-left: calc(2rem + var(--rail-lateral-w));
+    padding-left: 2rem;
   }
 }
 
@@ -907,38 +908,14 @@ body.reforma .timeline-rail.is-recolhida {
   white-space: nowrap;
 }
 
-/* O segundo bloco: as verificacoes que NAO derrubaram nada. Tratamento visual
-   distinto de proposito — a distincao entre os dois blocos e' o argumento. */
-.verificacoes-ok {
-  margin: 1.6rem 0 0;
-  padding: 1.1rem 1.3rem;
-  background: #f2f5f0;
-  border-left: 3px solid var(--color-veg);
-}
-
-.verificacoes-titulo {
-  font-family: var(--font-sans);
-  font-size: 0.86rem;
-  font-weight: 600;
-  line-height: 1.4;
-  margin-bottom: 0.4rem;
-}
-
-.verificacoes-lede {
-  font-size: 0.92rem;
-  color: var(--color-muted);
-  margin-bottom: 0.8rem;
-}
-
-.verificacoes-ok ul {
-  margin: 0;
-  padding-left: 1.1rem;
-  font-size: 0.92rem;
+/* Ponteiro para as correcoes que nao ficam aqui: elas moram ao lado do metodo
+   que as pegou, e este rodape diz onde. */
+.autoc-rodape {
+  margin: 1rem 0 0;
+  font-size: 0.9rem;
   line-height: 1.55;
+  color: var(--color-muted);
 }
-
-.verificacoes-ok li { margin-bottom: 0.6rem; }
-.verificacoes-ok li:last-child { margin-bottom: 0; }
 
 .limites-lista {
   margin: 1rem 0;
@@ -955,6 +932,70 @@ body.reforma .timeline-rail.is-recolhida {
   font-size: 0.96rem;
   color: var(--color-muted);
 }
+
+/* --- mini-gráfico inline de um "não" (o motivo pelo qual a decisão tentadora falha).
+   Reutilizável entre os "nãos" do veredito; classes .ab-* = autocorreção-barra. --- */
+.autoc-fig {
+  margin: 0.95rem 0 0.5rem;
+}
+.autoc-fig svg {
+  width: 100%;
+  max-width: 512px;
+  height: auto;
+  display: block;
+}
+.autoc-fig-cap {
+  max-width: 512px;
+  margin-top: 0.55rem;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--color-muted);
+}
+.autoc-fig-nota { font-style: italic; opacity: 0.85; }
+
+.ab-titulo {
+  font-family: var(--font-sans);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  fill: var(--color-fg);
+}
+.ab-eixo { stroke: var(--color-rule); stroke-width: 1; }
+.ab-rotulo {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  fill: var(--color-muted);
+  text-anchor: end;
+  dominant-baseline: central;
+}
+.ab-valor {
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  dominant-baseline: central;
+}
+.ab-barra--acento, .ab-valor--acento { fill: var(--color-accent); }
+.ab-barra--veg,    .ab-valor--veg    { fill: var(--color-veg); }
+.ab-barra--muted,  .ab-valor--muted  { fill: var(--color-muted); }
+
+/* helpers para a reta de p-valor (#54) e afins */
+.ab-escala {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  fill: var(--color-muted);
+  text-anchor: middle;
+}
+.ab-corte { stroke: var(--color-accent); stroke-width: 1; stroke-dasharray: 3 3; }
+.ab-ponto { fill: var(--color-accent); }
+.ab-nota-fig {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  text-anchor: middle;
+}
+.ab-nota-fig--acento { fill: var(--color-accent); }
+.ab-nota-fig--veg { fill: var(--color-veg); }
 
 /* ==========================================================================
    5e. Parte 4 — a oficina
@@ -984,6 +1025,186 @@ body.reforma .timeline-rail.is-recolhida {
 .decisoes-corpo .decisao-tema:first-of-type { margin-top: 0; }
 
 /* ==========================================================================
+   5f. "Para alem da tese" — achados laterais, com evidencia propria, que
+   nenhuma das quatro pernas precisou.
+
+   O prefixo `bastidores-` e' anterior ao nome atual da secao. Fica: a classe
+   e' identificador interno (o zoom.js casa por ela), e trocar prefixo em
+   HTML + CSS + JS nao muda nada para quem le a pagina.
+   ========================================================================== */
+.bastidores-secao .parte-abertura {
+  border-top: 1px solid var(--color-rule);
+}
+
+.bastidores-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2rem;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 900px) {
+  .bastidores-grid { grid-template-columns: 1fr; }
+}
+
+.bastidores-card {
+  background: #fcfcfa;
+  border: 1px solid var(--color-rule);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 0;
+}
+
+.bastidores-etiqueta {
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  padding: 0.6rem 0.9rem 0.3rem;
+}
+
+.bastidores-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+  background: #fcfcfa;
+  cursor: zoom-in;
+}
+
+.bastidores-card figcaption {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--color-muted);
+  padding: 0.8rem 0.9rem;
+  border-top: 1px solid var(--color-rule);
+}
+
+/* So' o <strong> que ABRE a legenda vira titulo de bloco. Sem o `>`, todo
+   destaque dentro do paragrafo virava linha propria e picotava o texto. */
+.bastidores-card figcaption > strong,
+.bastidores-card .bastidores-corpo > strong {
+  color: var(--color-fg);
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.88rem;
+}
+
+.bastidores-card figcaption p { margin: 0; }
+.bastidores-card figcaption p strong { color: var(--color-fg); font-weight: 600; }
+
+/* ---- Card de achado: ocupa a faixa inteira --------------------------- */
+/* As quatro figuras sao densas (dois paineis, rotulos pequenos). Em meia
+   coluna virariam miniatura ilegivel; em faixa cheia o texto do eixo ainda
+   e' legivel sem abrir o zoom. */
+.bastidores-card--largo { grid-column: 1 / -1; }
+
+.bastidores-card--largo .bastidores-etiqueta { padding: 0.8rem 1.2rem 0.4rem; }
+
+.bastidores-card--largo figcaption {
+  display: grid;
+  grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr);
+  gap: 1.8rem;
+  align-items: start;
+  padding: 1rem 1.2rem 1.15rem;
+}
+
+.bastidores-card--largo figcaption strong { font-size: 0.94rem; }
+
+/* O "por que ficou fora" e' o que impede a secao de virar gaveta: cada
+   achado declara, ao lado de si mesmo, por que nao esta na investigacao. */
+.bastidores-fora {
+  border-left: 2px solid var(--color-rule);
+  padding-left: 0.95rem;
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.bastidores-fora em {
+  display: block;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 0.66rem;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 0.3rem;
+}
+
+@media (max-width: 760px) {
+  .bastidores-card--largo figcaption {
+    grid-template-columns: 1fr;
+    gap: 0.9rem;
+  }
+  .bastidores-fora {
+    border-left: 0;
+    border-top: 1px dashed var(--color-rule);
+    padding-left: 0;
+    padding-top: 0.75rem;
+  }
+}
+
+/* ---- CTA para peças-página (atlas / dossiê) -------------------------- */
+.peca-cta { margin: 1.5rem 0 0.4rem; }
+.peca-cta-link {
+  display: block;
+  border: 1px solid var(--color-rule);
+  border-left: 3px solid var(--color-accent);
+  background: #fcfcfa;
+  border-radius: 4px;
+  padding: 0.85rem 1.1rem 0.95rem;
+  text-decoration: none;
+  transition: background .15s ease, border-color .15s ease, transform .15s ease;
+}
+.peca-cta-link:hover,
+.peca-cta-link:focus-visible {
+  background: #f5f3ed;
+  border-color: var(--color-accent);
+  outline: none;
+}
+.peca-cta-rotulo {
+  display: block;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  color: var(--color-fg);
+  font-size: 0.95rem;
+  line-height: 1.35;
+}
+.peca-cta-desc {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--color-muted);
+  margin-top: 0.25rem;
+}
+.peca-cta-seta {
+  display: inline-block;
+  margin-top: 0.55rem;
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  font-weight: 600;
+}
+.peca-cta-seta::after { content: " →"; }
+
+/* ---- Card de bastidores que é um link p/ outra página ---------------- */
+.bastidores-card--link { cursor: pointer; text-decoration: none; transition: border-color .15s ease, transform .15s ease; }
+.bastidores-card--link:hover figcaption strong { text-decoration: underline; }
+.bastidores-card--link:hover { border-color: var(--color-accent); transform: translateY(-2px); }
+.bastidores-card--link img { cursor: pointer; }
+.bastidores-card--link figcaption strong { color: var(--color-accent); }
+.bastidores-card--link .bastidores-etiqueta { color: var(--color-accent); }
+
+/* A secao "a margem" precisa da faixa larga para o grid caber. */
+.bastidores-secao .parte-corpo {
+  max-width: 1080px;
+}
+
+/* ==========================================================================
    6. Rodape
    ========================================================================== */
 body.reforma .page-footer {
@@ -1004,3 +1225,351 @@ body.reforma .footer-nota {
   color: var(--color-muted);
   margin: 0;
 }
+
+/* ==========================================================================
+   7. Marca d'Água Cartográfica Animada no Hero (#p0-hero)
+   ========================================================================== */
+#p0-hero {
+  position: relative;
+  overflow: hidden;
+}
+
+#p0-hero .hero-eyebrow,
+#p0-hero .hero-title,
+#p0-hero .hero-lede,
+#p0-hero .hero-cta {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-bg-watermark-continuous {
+  position: absolute;
+  right: -25px;
+  top: -10px;
+  bottom: -10px;
+  width: 440px;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.18;
+}
+
+.base-map-line {
+  stroke: var(--color-accent, #8b3a1d);
+  stroke-width: 0.8px;
+  fill: rgba(139, 58, 29, 0.025);
+  stroke-opacity: 0.25;
+}
+
+.animated-drawing-line {
+  stroke: var(--color-accent, #8b3a1d);
+  stroke-width: 1.5px;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  animation: continuousDrawLoop 7s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes continuousDrawLoop {
+  0% {
+    stroke-dashoffset: var(--path-len);
+    stroke-opacity: 0;
+  }
+  15% {
+    stroke-opacity: 0.65;
+  }
+  50% {
+    stroke-dashoffset: 0;
+    stroke-opacity: 0.65;
+  }
+  75% {
+    stroke-dashoffset: 0;
+    stroke-opacity: 0.65;
+  }
+  90% {
+    stroke-dashoffset: 0;
+    stroke-opacity: 0;
+  }
+  100% {
+    stroke-dashoffset: var(--path-len);
+    stroke-opacity: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-bg-watermark-continuous {
+    width: 300px;
+    right: -50px;
+    opacity: 0.12;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animated-drawing-line {
+    animation: none !important;
+    stroke-dashoffset: 0 !important;
+    stroke-opacity: 0.3 !important;
+  }
+}
+
+/* ==========================================================================
+   8. Animação #2 — Entrada Suave por Scroll (Scroll Reveal nos Blocos)
+   ========================================================================== */
+body.reforma .scroll-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+body.reforma .scroll-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ==========================================================================
+   9. Animação #6 — Revelação Editorial de Títulos (Letter-Spacing Reveal)
+   ========================================================================== */
+body.reforma .parte-titulo {
+  opacity: 0;
+  letter-spacing: -0.02em;
+  transform: translateY(12px);
+  transition: opacity 0.8s ease, transform 0.8s ease, letter-spacing 1s ease;
+  will-change: opacity, transform, letter-spacing;
+}
+
+body.reforma .parte-titulo.is-revealed {
+  opacity: 1;
+  letter-spacing: 0.02em;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.reforma .scroll-reveal,
+  body.reforma .parte-titulo {
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    letter-spacing: normal !important;
+  }
+}
+
+/* ==========================================================================
+   5f. Perna 4 — figuras dos dois trechos densos da perna
+   ("O teto e fisico, nao institucional" e "O que essa marcha custou").
+   Todas as coordenadas destas SVGs sao geradas por
+   Visualizacao/scripts/gerar_figuras_perna4.py a partir de data/processed/ —
+   nao editar a mao: rodar o script de novo. Sem tema escuro (site single-light).
+
+   COR: a pagina ja fixou Sul = terracota, Centro = cinza, Norte = verde na
+   figura do estoque. O par verde/cinza fica abaixo do piso de separacao para
+   visao normal e verde/terracota e fraco sob deuteranopia, entao nenhuma marca
+   regional daqui depende de cor: todas levam rotulo direto e posicao propria.
+   ========================================================================== */
+
+/* --- moldura comum --- */
+.p4fig {
+  margin: 1.9rem 0;
+  padding: 1.25rem 1.35rem 1.1rem;
+  background: #fcfcfa;
+  border: 1px solid var(--color-rule);
+}
+.p4fig-svg { overflow-x: auto; overscroll-behavior-x: contain; }
+.p4fig svg { width: 100%; height: auto; display: block; }
+.p4fig-titulo {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-fg);
+  margin: 0 0 1rem;
+  line-height: 1.35;
+}
+.p4fig-sub {
+  display: block;
+  margin-top: 0.3rem;
+  font-weight: 400;
+  font-size: 0.85rem;
+  color: var(--color-muted);
+  line-height: 1.5;
+}
+.p4fig-sub strong { color: var(--color-fg); font-weight: 600; }
+
+.p4fig-painel { margin-bottom: 1.5rem; }
+.p4fig-painel:last-of-type { margin-bottom: 0.4rem; }
+.p4fig-painel-rot {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+  color: var(--color-muted);
+  margin: 0 0 0.55rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+.p4fig-painel-rot span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.15rem;
+  height: 1.15rem;
+  flex: 0 0 auto;
+  border: 1px solid var(--color-rule);
+  background: #fff;
+  color: var(--color-accent);
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+.p4fig-painel-nota {
+  margin: 0.6rem 0 0;
+  font-size: 0.84rem;
+  line-height: 1.55;
+  color: var(--color-muted);
+}
+.p4fig-painel-nota strong { color: var(--color-fg); }
+.p4fig-legenda {
+  margin-top: 1rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--color-rule);
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--color-muted);
+}
+.p4fig-legenda strong { color: var(--color-fg); }
+
+/* --- tipografia dentro das SVGs --- */
+.p4-eixo       { stroke: var(--color-rule); stroke-width: 1; }
+.p4-grade      { stroke: var(--color-rule); stroke-width: 1; opacity: 0.5; }
+.p4-escala {
+  font-family: var(--font-sans); font-size: 10px;
+  fill: var(--color-muted); font-variant-numeric: tabular-nums;
+}
+.p4-eixo-titulo {
+  font-family: var(--font-sans); font-size: 10.5px;
+  letter-spacing: 0.04em; text-transform: uppercase; fill: var(--color-muted);
+}
+.p4-anot { font-family: var(--font-sans); font-size: 10.5px; fill: var(--color-muted); }
+.p4-anot--forte { fill: var(--color-fg); font-weight: 600; }
+.p4-rot {
+  font-family: var(--font-sans); font-size: 11px;
+  dominant-baseline: central;
+}
+.p4-rot--val { font-weight: 700; font-variant-numeric: tabular-nums; }
+
+/* Fig. 1A — protecao x conversao, mesmo eixo */
+.p4-linha { fill: none; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.p4-area-conv   { fill: var(--color-accent); opacity: 0.09; }
+.p4-linha--conv { stroke: var(--color-accent); }
+.p4-linha--pi   { stroke: var(--color-agua); }
+.p4-linha--us   { stroke: var(--color-muted); stroke-dasharray: 5 3; }
+.p4-rot--conv { fill: var(--color-accent); }
+.p4-rot--pi   { fill: var(--color-agua); }
+.p4-rot--us   { fill: var(--color-muted); }
+.p4-ato     { stroke: var(--color-rule); stroke-width: 1; stroke-dasharray: 2 4; }
+.p4-ato-rot { font-family: var(--font-sans); font-size: 9.5px; fill: var(--color-muted); }
+
+/* Fig. 1B — Cerrado exposto por regiao, com a fatia sob Protecao Integral */
+.p4-seg--prot { fill: var(--color-agua); }
+.p4-seg--expo { fill: var(--color-veg); opacity: 0.34; }
+.p4-legenda-rot {
+  font-family: var(--font-sans); font-size: 10.5px; fill: var(--color-muted);
+  dominant-baseline: alphabetic;
+}
+
+/* Fig. 2 — emissao = area x densidade (retangulos area-verdadeiros) */
+.p4-ret--flor  { fill: #2d5a3d; }
+.p4-ret--sav   { fill: #6f9a72; }
+.p4-ret--campo { fill: #b9cdae; }
+.p4-whisk { stroke: var(--color-fg); stroke-width: 1.2; opacity: 0.45; }
+.p4-guia  { stroke: var(--color-rule); stroke-width: 1; }
+.p4-ret-nome {
+  font-family: var(--font-sans); font-size: 11px; fill: var(--color-fg);
+  text-anchor: middle;
+}
+.p4-ret-val {
+  font-family: var(--font-sans); font-size: 13px; font-weight: 700;
+  fill: var(--color-fg); text-anchor: middle; font-variant-numeric: tabular-nums;
+}
+.p4-ret-dim {
+  font-family: var(--font-sans); font-size: 10px; fill: var(--color-muted);
+  text-anchor: middle; font-variant-numeric: tabular-nums;
+}
+
+/* Fig. 3 — ritmo por ato e regiao */
+.p4-mini-titulo {
+  font-family: var(--font-sans); font-size: 12px; font-weight: 700;
+  fill: var(--color-fg); letter-spacing: 0.03em;
+}
+.p4-mini-sub { font-family: var(--font-sans); font-size: 10px; fill: var(--color-muted); }
+.p4-mini-tot {
+  font-family: var(--font-sans); font-size: 10.5px; fill: var(--color-muted);
+  font-variant-numeric: tabular-nums;
+}
+.p4-bar--norte  { fill: var(--color-veg); }
+.p4-bar--centro { fill: var(--color-muted); }
+.p4-bar--sul    { fill: var(--color-accent); }
+.p4-bar-rot {
+  font-family: var(--font-sans); font-size: 10.5px; fill: var(--color-fg);
+}
+.p4-bar-val {
+  font-family: var(--font-sans); font-size: 10.5px; fill: var(--color-muted);
+  font-variant-numeric: tabular-nums;
+}
+.p4-cent {
+  font-family: var(--font-sans); font-size: 9.5px; fill: var(--color-muted);
+  letter-spacing: 0.03em;
+}
+.p4-cent--val {
+  font-size: 12px; font-weight: 700; fill: var(--color-accent);
+  font-variant-numeric: tabular-nums; letter-spacing: 0;
+}
+.p4-guia-cent { stroke: var(--color-rule); stroke-width: 1; }
+
+/* Fig. 4A — IFDM por regiao e o vao que nao fecha */
+.p4-linha--sul    { stroke: var(--color-accent); }
+.p4-linha--centro { stroke: var(--color-muted); stroke-dasharray: 5 3; }
+.p4-linha--norte  { stroke: var(--color-veg); }
+.p4-rot--sul    { fill: var(--color-accent); font-weight: 600; }
+.p4-rot--centro { fill: var(--color-muted); }
+.p4-rot--norte  { fill: var(--color-veg); font-weight: 600; }
+.p4-faixa-vao { fill: var(--color-fg); opacity: 0.055; }
+.p4-vao-med   { stroke: var(--color-fg); stroke-width: 1; opacity: 0.5; }
+.p4-vao-rot {
+  font-family: var(--font-sans); font-size: 10px; fill: var(--color-fg);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 720px) {
+  .p4fig { padding: 1rem 0.9rem 0.9rem; }
+  .p4fig-svg svg { min-width: 560px; }
+}
+
+/* Fig. 4 — par de numeros do "esforco" (2 valores nao merecem grafico) */
+.p4-stats {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 1.1rem;
+  margin: -0.4rem 0 1.3rem;
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid var(--color-rule);
+}
+.p4-stats-rot {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-muted);
+  margin-right: 0.2rem;
+}
+.p4-stat {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  color: var(--color-muted);
+}
+.p4-stat b {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  font-variant-numeric: tabular-nums;
+  margin-right: 0.15rem;
+}
+.p4-stat--fraco b { color: var(--color-muted); }
