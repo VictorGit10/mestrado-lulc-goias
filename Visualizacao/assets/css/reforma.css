@@ -1573,3 +1573,168 @@ body.reforma .parte-titulo.is-revealed {
   margin-right: 0.15rem;
 }
 .p4-stat--fraco b { color: var(--color-muted); }
+
+
+/* ==========================================================================
+   Modal de pipeline / script — pipeline-modal.js
+   Mostra o doc (Textos/pipelines/) ou o script (scripts/) buscado no raw do
+   GitHub, por cima da página, sem sair do texto.
+   ========================================================================== */
+body.reforma .pl-link {
+  color: var(--color-accent);
+  cursor: pointer;
+  text-decoration: none;
+  border-bottom: 1px dotted var(--color-accent-soft);
+  transition: background 0.12s ease, color 0.12s ease;
+}
+body.reforma .pl-link:hover,
+body.reforma .pl-link:focus-visible {
+  background: rgba(139, 58, 29, 0.08);
+  color: var(--color-accent);
+  outline: none;
+}
+/* <code> de script: mantém o visual monoespaçado, só ganha pontilhado */
+body.reforma .pl-link--script {
+  font-family: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
+  border-bottom: 1px dotted var(--color-accent-soft);
+}
+/* <strong>#NN</strong> na coluna Pipeline das tabelas de método */
+body.reforma .camadas-tabela strong.pl-link { letter-spacing: 0; }
+
+body.reforma.pl-lock { overflow: hidden; }
+
+body.reforma .pl-modal { position: fixed; inset: 0; z-index: 1000; }
+body.reforma .pl-modal[hidden] { display: none; }
+
+body.reforma .pl-modal__overlay {
+  position: absolute; inset: 0;
+  background: rgba(26, 26, 26, 0.55);
+  backdrop-filter: blur(2px);
+}
+
+body.reforma .pl-modal__panel {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(840px, calc(100vw - 32px));
+  max-height: 85vh;
+  display: flex; flex-direction: column;
+  background: var(--color-bg);
+  border: 1px solid var(--color-rule);
+  border-radius: 10px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+  overflow: hidden;
+}
+
+body.reforma .pl-modal__cabecalho {
+  display: flex; align-items: center; gap: 0.75rem;
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--color-rule);
+  background: #fff;
+  flex: 0 0 auto;
+}
+body.reforma .pl-modal__titulo {
+  font-family: var(--font-sans);
+  font-size: 0.95rem; font-weight: 700;
+  color: var(--color-fg);
+  margin-right: auto;
+}
+body.reforma .pl-modal__github {
+  font-family: var(--font-sans);
+  font-size: 0.8rem; font-weight: 600;
+  color: var(--color-accent);
+  text-decoration: none;
+  white-space: nowrap;
+}
+body.reforma .pl-modal__github:hover { text-decoration: underline; }
+body.reforma .pl-modal__fechar {
+  flex: 0 0 auto;
+  width: 30px; height: 30px;
+  border: 1px solid var(--color-rule);
+  border-radius: 6px;
+  background: var(--color-bg);
+  color: var(--color-muted);
+  font-size: 1.3rem; line-height: 1;
+  cursor: pointer;
+  padding: 0;
+}
+body.reforma .pl-modal__fechar:hover { color: var(--color-fg); border-color: var(--color-muted); }
+
+body.reforma .pl-modal__corpo {
+  overflow: auto;
+  padding: 1.25rem 1.5rem 2rem;
+  font-family: var(--font-serif);
+  font-size: 1rem; line-height: 1.65;
+  color: var(--color-fg);
+}
+body.reforma .pl-modal__carregando,
+body.reforma .pl-modal__erro {
+  font-family: var(--font-sans);
+  color: var(--color-muted);
+  font-style: italic;
+}
+
+/* ---- markdown renderizado (docs de pipeline) ---- */
+body.reforma .pl-modal__corpo > h1:first-child,
+body.reforma .pl-modal__corpo > h2:first-child { margin-top: 0; }
+body.reforma .pl-modal__corpo h1 {
+  font-size: 1.4rem; margin: 1.4rem 0 0.6rem;
+  padding-bottom: 0.3rem; border-bottom: 2px solid var(--color-rule);
+}
+body.reforma .pl-modal__corpo h2 { font-size: 1.15rem; margin: 1.3rem 0 0.5rem; color: var(--color-accent); }
+body.reforma .pl-modal__corpo h3 { font-size: 1.02rem; margin: 1.1rem 0 0.4rem; }
+body.reforma .pl-modal__corpo h4 { font-size: 0.95rem; margin: 1rem 0 0.35rem; color: var(--color-muted); }
+body.reforma .pl-modal__corpo p { margin: 0.55rem 0; }
+body.reforma .pl-modal__corpo ul,
+body.reforma .pl-modal__corpo ol { margin: 0.5rem 0; padding-left: 1.4rem; }
+body.reforma .pl-modal__corpo li { margin: 0.2rem 0; }
+body.reforma .pl-modal__corpo blockquote {
+  margin: 0.8rem 0; padding: 0.3rem 0.9rem;
+  border-left: 3px solid var(--color-accent-soft);
+  background: rgba(201, 112, 82, 0.07);
+  color: var(--color-muted);
+}
+body.reforma .pl-modal__corpo a { color: var(--color-accent); }
+body.reforma .pl-modal__corpo code {
+  font-family: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
+  font-size: 0.85em;
+  background: rgba(26, 26, 26, 0.06);
+  padding: 0.1em 0.3em; border-radius: 3px;
+}
+body.reforma .pl-modal__corpo pre {
+  background: #1a1a1a; color: #f4f1ea;
+  padding: 0.9rem 1rem; border-radius: 6px;
+  overflow-x: auto; font-size: 0.82rem; line-height: 1.55;
+  margin: 0.7rem 0;
+}
+body.reforma .pl-modal__corpo pre code {
+  background: none; padding: 0; color: inherit; font-size: inherit;
+}
+body.reforma .pl-modal__corpo table {
+  display: block; overflow-x: auto;
+  border-collapse: collapse; margin: 0.8rem 0; font-size: 0.88rem;
+  font-family: var(--font-sans);
+}
+body.reforma .pl-modal__corpo th,
+body.reforma .pl-modal__corpo td {
+  border: 1px solid var(--color-rule);
+  padding: 0.35rem 0.6rem; text-align: left;
+}
+body.reforma .pl-modal__corpo th { background: rgba(26, 26, 26, 0.05); font-weight: 700; }
+body.reforma .pl-modal__corpo tr:nth-child(even) td { background: rgba(26, 26, 26, 0.025); }
+body.reforma .pl-modal__corpo hr { border: none; border-top: 1px solid var(--color-rule); margin: 1.2rem 0; }
+
+/* ---- bloco de script Python ---- */
+body.reforma .pl-src {
+  background: #1a1a1a; color: #f4f1ea;
+  padding: 1rem 1.1rem; border-radius: 6px;
+  overflow: auto; font-size: 0.8rem; line-height: 1.55;
+  font-family: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
+  max-height: 70vh;
+}
+body.reforma .pl-src code { background: none; color: inherit; }
+
+@media (max-width: 600px) {
+  body.reforma .pl-modal__panel { width: calc(100vw - 16px); max-height: 92vh; }
+  body.reforma .pl-modal__corpo { padding: 1rem 1rem 1.5rem; font-size: 0.95rem; }
+}
