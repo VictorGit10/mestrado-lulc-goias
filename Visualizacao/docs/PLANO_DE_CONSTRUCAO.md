@@ -39,6 +39,19 @@ Visualizacao/
 **Critério de aceite para trocar:** as Partes 0–4 completas, console limpo, verificação
 da §7 passando, e o autor tendo lido a peça inteira de cima a baixo pelo menos uma vez.
 
+> **Troca executada (2/ago/2026, commit `129425e`).** O `reforma.html` tornou-se o
+> `Visualizacao/index.html` publicado; o antigo tab-based foi arquivado como
+> `Visualizacao/index-original.html` (e não `docs/_arquivo/…` como esboçado acima —
+> paths relativos a `assets/` mantidos, então o arquivado ainda renderiza). A landing
+> da raiz (`index.html`) aponta o card principal para `Visualizacao/` e o "clássico
+> (anterior)" para o arquivado. **`tabs.css`, `router.js` e `secoes.js` permanecem**:
+> o arquivado e o paralelo `index-Victor-Lapig.html` ainda os usam (não são órfãos).
+> Polimento following: `.tabela-compacta` promovida de `reserva-perna2.css` ao
+> `styles.css` (commit `d8d5423`, a razão do escopo caducou). A verificação da §7 agora
+> roda em CI — `.github/workflows/verificar-viz.yml` — sobe o servidor e dispara o
+> verificador a cada push/PR em `Visualizacao/`. O que ficou acima descreve a
+> estratégia da construção e vale como histórico.
+
 ---
 
 ## 2. Ordem de trabalho

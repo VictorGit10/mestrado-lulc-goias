@@ -1,0 +1,62 @@
+name: Verificar visualização
+
+# Valida o site publicado (Visualizacao/index.html) em CI: sobe o servidor
+# local e roda o verificador §7 (scripts/verificar_reforma.py) — âncoras,
+# frases banidas, erros de console, respostas 4xx, Sankey, peças interativas,
+# rail, mobile. Falha (exit 1) se algo quebrar. Único runtime: Playwright.
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'Visualizacao/**'
+      - '.github/workflows/verificar-viz.yml'
+  pull_request:
+    branches: [master]
+    paths:
+      - 'Visualizacao/**'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: verificar-viz-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: Visualizacao
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Instalar Playwright + Chromium
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install playwright
+          python -m playwright install --with-deps chromium
+
+      - name: Verificador §7 (servidor local + checagens)
+        run: |
+          # Sobe o servidor em background; o trap garante o kill ao sair (ok ou falha).
+          python servir.py &
+          SERVER_PID=$!
+          trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
+          for i in $(seq 1 30); do
+            if curl -sf -o /dev/null http://127.0.0.1:8765/index.html; then
+              echo ":: Servidor no ar"
+              break
+            fi
+            sleep 1
+          done
+          # O verificador hardcodeia http://127.0.0.1:8765/index.html e faz
+          # sys.exit(1) em qualquer falha — passo falha se a validação falhar.
+          python scripts/verificar_reforma.py
