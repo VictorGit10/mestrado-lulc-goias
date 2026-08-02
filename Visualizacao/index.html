@@ -425,66 +425,28 @@
           <p class="mosaico-panel-rotulo">A classe que não avança</p>
           <h4 class="mosaico-panel-titulo">O Mosaico de Usos, fora da marcha</h4>
           <p class="mosaico-panel-lede">
-            No diagrama acima o Mosaico está apagado de propósito. É a classe que o MapBiomas
-            reserva (classe&nbsp;21) para o pixel em que lavoura e pasto se misturam dentro da
-            mesma propriedade — às vezes porque o satélite de 30&nbsp;m não os separa, às vezes
-            porque a área alterna de fato entre os dois. E, isolado, o que ele mostra não é terra
-            mudando de uso, e sim <strong>correntes de ida e volta quase iguais</strong>: o
-            rótulo mudando de ideia.
+            No diagrama acima o Mosaico está apagado de propósito. É a classe (nº&nbsp;21) que o
+            MapBiomas reserva para o pixel em que lavoura e pasto se misturam dentro da mesma
+            propriedade. Tratá-lo à parte não é contabilidade: no fim da série, o destino da
+            pastagem que sai <strong>mudou de rótulo</strong> — o que o mapa registrava como
+            conversão em Agricultura passou a ser registrado como Mosaico.
           </p>
 
-          <div class="churn" role="img"
-               aria-label="Trocas de área entre o Mosaico de Usos e as demais classes, 1985 a 2024, em milhões de hectares. Pastagem: 1,62 entra no Mosaico e 1,72 sai do Mosaico. Vegetação: 1,00 entra no Mosaico e 0,46 sai. Agricultura: 0,06 entra no Mosaico e 0,56 sai.">
-            <div class="churn-eixo">
-              <span class="churn-eixo-lado">entra no Mosaico&nbsp;→</span>
-              <span class="churn-eixo-spine">MOSAICO</span>
-              <span class="churn-eixo-lado">→&nbsp;sai do Mosaico</span>
-            </div>
-
-            <div class="churn-linha">
-              <div class="churn-in">
-                <span class="churn-val">1,62</span>
-                <span class="churn-bar churn-bar--pasto" style="--w:94%"></span>
-              </div>
-              <span class="churn-classe">Pastagem</span>
-              <div class="churn-out">
-                <span class="churn-bar churn-bar--pasto" style="--w:100%"></span>
-                <span class="churn-val">1,72</span>
-              </div>
-            </div>
-
-            <div class="churn-linha">
-              <div class="churn-in">
-                <span class="churn-val">1,00</span>
-                <span class="churn-bar churn-bar--veg" style="--w:58%"></span>
-              </div>
-              <span class="churn-classe">Vegetação</span>
-              <div class="churn-out">
-                <span class="churn-bar churn-bar--veg" style="--w:27%"></span>
-                <span class="churn-val">0,46</span>
-              </div>
-            </div>
-
-            <div class="churn-linha">
-              <div class="churn-in">
-                <span class="churn-val">0,06</span>
-                <span class="churn-bar churn-bar--agric" style="--w:4%"></span>
-              </div>
-              <span class="churn-classe">Agricultura</span>
-              <div class="churn-out">
-                <span class="churn-bar churn-bar--agric" style="--w:33%"></span>
-                <span class="churn-val">0,56</span>
-              </div>
+          <div class="dado-choque dado-choque--mosaico">
+            <div class="dado-choque-valor">0,6× → 32,5×</div>
+            <div class="dado-choque-label">Razão Mosaico / Agricultura entre os destinos da pastagem que sai</div>
+            <div class="dado-choque-glosa">
+              Em 2015, de cada dez pixels de pastagem que saíam, cerca de cinco e meio iam para
+              Agricultura e três e meio para o Mosaico. Em 2024 a proporção se inverteu quase por
+              completo: <strong>85,9% das saídas de pastagem chegam ao Mosaico</strong> e apenas
+              2,6% à Agricultura. A magnitude do que migrou para o Mosaico acompanha a soja que o
+              IBGE mede em campo — indício de que é a mesma conversão, sob outro rótulo.
             </div>
           </div>
 
-          <p class="churn-unidade">Áreas em milhões de hectares (Mha) · cruzamento pixel-a-pixel 1985 ↔ 2024</p>
-
           <p class="churn-leitura">
-            A Pastagem quase <strong>empata</strong>: 1,62 Mha entram no Mosaico e 1,72 Mha
-            saem dele — terra que vai e volta entre "pasto" e "Mosaico" sem nada mudar no
-            campo. Por isso, nesta seção, todo número com "agricultura" no destino é reportado
-            entre <strong>duas réguas</strong> — o piso (<code>agricultura</code>) e o teto
+            Por isso, nesta seção, todo número com "agricultura" no destino é reportado entre
+            <strong>duas réguas</strong> — o piso (<code>agricultura</code>) e o teto
             (<code>agricultura ∪ mosaico</code>) — e ancorado na soja que o IBGE mede em campo.
           </p>
 
@@ -898,9 +860,15 @@
           </p>
 
           <figure class="grafico-card grafico-card--wide">
-            <img src="img/graficos/sintese_idade_duas_populacoes.png"
-                 alt="Dois painéis: à esquerda, a distribuição da idade da pastagem na conversão com o ajuste de uma população e o de duas; à direita, a composição por origem anterior do pasto ao longo da idade" loading="lazy">
-            <figcaption><strong>O que observar.</strong> À esquerda, a curva cinza é o dado bruto — e ela <em>não</em> tem dois picos visíveis: tem um pico jovem e um ombro longo. A linha tracejada mostra o que uma única população de pastagem produziria: ela erra o pico e erra a cauda. A razão de o segundo grupo não formar um segundo pico está nos desvios — o pasto jovem é concentrado (σ≈1,6 ano), o velho é espalhado por décadas (σ≈7,5 anos), e uma população larga vira platô, não espiga. <strong>À direita</strong>, todos os eventos são a mesma coisa: pastagem que virou lavoura. A cor mostra <strong>o que havia naquele pixel antes de ele virar pastagem</strong> — ou seja, olhando para trás no tempo. Pasto de 3 anos que vira lavoura, em metade dos casos, já tinha sido lavoura antes (lavoura→pasto→lavoura: é rotação). Pasto de 33 anos quase sempre veio de vegetação natural (cerrado→pasto→lavoura: é reserva ativada). Fonte: MapBiomas Coleção 10.1, contagem pixel-a-pixel.</figcaption>
+            <img src="img/graficos/sintese_idade_painel_topo.png"
+                 alt="Distribuição da idade da pastagem na conversão para lavoura: a curva cinza do dado bruto tem um pico jovem e um ombro longo; a linha tracejada do ajuste de uma única população erra o pico e erra a cauda" loading="lazy">
+            <figcaption><strong>O que observar.</strong> A curva cinza é o dado bruto — e ela <em>não</em> tem dois picos visíveis: tem um pico jovem e um ombro longo. A linha tracejada mostra o que uma única população de pastagem produziria: ela erra o pico e erra a cauda. A razão de o segundo grupo não formar um segundo pico está nos desvios — o pasto jovem é concentrado (σ≈1,6 ano), o velho é espalhado por décadas (σ≈7,5 anos), e uma população larga vira platô, não espiga. Fonte: MapBiomas Coleção 10.1, contagem pixel-a-pixel.</figcaption>
+          </figure>
+
+          <figure class="grafico-card grafico-card--wide">
+            <img src="img/graficos/sintese_idade_painel_base.png"
+                 alt="Composição da origem anterior do pasto ao longo da idade: pasto jovem vem majoritariamente de lavoura anterior (rotação lavoura-pasto-lavoura); pasto velho vem de vegetação natural (reserva ativada)" loading="lazy">
+            <figcaption><strong>O que observar.</strong> Todos os eventos são a mesma coisa: pastagem que virou lavoura. A cor mostra <strong>o que havia naquele pixel antes de ele virar pastagem</strong> — ou seja, olhando para trás no tempo. Pasto de 3 anos que vira lavoura, em metade dos casos, já tinha sido lavoura antes (lavoura→pasto→lavoura: é rotação). Pasto de 33 anos quase sempre veio de vegetação natural (cerrado→pasto→lavoura: é reserva ativada). Fonte: MapBiomas Coleção 10.1, contagem pixel-a-pixel.</figcaption>
           </figure>
 
           <p>
