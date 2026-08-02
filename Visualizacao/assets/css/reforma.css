@@ -462,11 +462,7 @@ body.reforma .timeline-rail.is-recolhida {
   font-size: 0.66rem;
   letter-spacing: 0.08em;
 }
-/* Variante da tabela-compacta para conteudo em prosa (bateria do #54):
-   a base alinha colunas 2+ a' direita, o que so' serve para numero. */
-.tabela-compacta--texto td + td,
-.tabela-compacta--texto th + th { text-align: left; padding-right: 0.7rem; }
-.tabela-compacta--texto td:first-child { padding-right: 1rem; }
+/* .tabela-compacta--texto promovida ao styles.css junto da base (ago/2026). */
 
 .perna-forca--forte { color: var(--color-veg); }
 .perna-forca--mista { color: var(--color-accent); }

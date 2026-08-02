@@ -2339,3 +2339,47 @@ body[data-modo-ativo="metodos"] .rail-cursor { display: none; }
     transform: none;
   }
 }
+
+/* --- tabela compacta ----------------------------------------------------
+   Estilo unico de <table> do projeto (usado nos <details> da Perna 2 e na
+   bateria do #54). Antes escopado no arquivo so da reforma (reserva-perna2.css)
+   para nao alcancar o index.html publicado; promovido ao styles.css quando a
+   reforma tornou-se o index (ago/2026) e a razao do escopo caducou. */
+.tabela-compacta {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  margin: 0.8rem 0;
+}
+.tabela-compacta th,
+.tabela-compacta td {
+  text-align: left;
+  padding: 0.4rem 0.7rem 0.4rem 0;
+  border-bottom: 1px solid var(--color-rule);
+  vertical-align: top;
+}
+.tabela-compacta thead th {
+  font-weight: 600;
+  color: var(--color-muted);
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  border-bottom-width: 2px;
+}
+.tabela-compacta td + td,
+.tabela-compacta th + th { text-align: right; padding-right: 0; }
+.tabela-compacta td[colspan] { text-align: left; color: var(--color-muted); }
+.tabela-compacta tbody tr:last-child td { border-bottom: none; }
+
+@media (max-width: 560px) {
+  .tabela-compacta { font-size: 0.76rem; }
+  .tabela-compacta th,
+  .tabela-compacta td { padding: 0.35rem 0.4rem 0.35rem 0; }
+}
+
+/* Variante da tabela-compacta para conteudo em prosa (bateria do #54):
+   a base alinha colunas 2+ a direita, o que so serve para numero. */
+.tabela-compacta--texto td + td,
+.tabela-compacta--texto th + th { text-align: left; padding-right: 0.7rem; }
+.tabela-compacta--texto td:first-child { padding-right: 1rem; }
