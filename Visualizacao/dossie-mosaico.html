@@ -555,7 +555,6 @@
         <li><a href="#teste-sentinel">9. Teste 4 — olhando mais de perto</a><span class="roteiro-teaser">Um satélite diferente, 3× mais fino. O que ele mostra dentro de cada pixel ambíguo.</span></li>
         <li><a href="#veredito">10. O que ficamos sabendo</a><span class="roteiro-teaser">Um balanço: o que caiu, o que se sustentou, o que continua sem resposta.</span></li>
         <li><a href="#tratamento">11. Como passamos a lidar com isso</a><span class="roteiro-teaser">A regra que adotamos para nunca publicar um número que dependa de um rótulo em movimento.</span></li>
-        <li><a href="#em-aberto">12. O que fica em aberto</a><span class="roteiro-teaser">Uma pergunta que, honestamente, só quem constrói o mapa consegue responder.</span></li>
       </ol>
     </nav>
 
@@ -584,12 +583,14 @@
 
       <p>
         No início da nossa contagem, essa classe simplesmente não tinha lugar. Ela não era pastagem,
-        não era agricultura, e o código que calculava a idade de cada conversão a tratava como se
-        fosse dado ausente — um pixel cuja história anterior era "desconhecida", igual a qualquer outro
-        registro incompleto. Não foi uma escolha deliberada de descartar o Mosaico; foi uma tabela de
-        correspondência com uma linha faltando, e um preenchimento automático de valores vazios que
-        cobriu o buraco com a resposta errada — a mesma usada para "não sei", quando a resposta certa
-        para aqueles pixels específicos era conhecida.
+        não era agricultura — e por isso decidimos deixá-la de fora: parecia uma categoria que não
+        faria diferença nos resultados, e mantê-la só adicionaria ruído a uma contagem pensada para
+        pasto e lavoura. A escolha foi deliberada, e foi um erro. Ela entrou no código como uma linha
+        faltando na tabela de correspondência, e um preenchimento automático de valores vazios cobriu
+        o buraco com a resposta errada — a mesma usada para "não sei", quando a resposta certa para
+        aqueles pixels específicos era conhecida. O que parecia uma omissão acidental era uma decisão
+        tomada de propósito, cuja consequência é que ficou silenciosa: nenhuma mensagem de erro, só
+        pixels sumindo da conta como se não existissem.
       </p>
 
       <div class="pista">
@@ -947,13 +948,14 @@
         <div class="chart-legend">
           <span class="legend-item"><span class="legend-line legend-line--dash" style="border-color:#d96aa3"></span> Agricultura (MapBiomas)</span>
           <span class="legend-item"><span class="legend-line" style="background:#8b3a1d"></span> Soja plantada (SIDRA, campo)</span>
-          <span class="legend-item"><span class="legend-line" style="background:#c98a4b"></span> Mosaico de Usos (MapBiomas)</span>
+          <span class="legend-item"><span class="legend-line" style="background:#c98a4b"></span> Agricultura ∪ Mosaico (MapBiomas)</span>
           <span class="legend-item"><span class="legend-line" style="background:#d4b65a"></span> Rebanho bovino (SIDRA, campo)</span>
         </div>
         <div class="chart-container" id="chartCentroMassa"></div>
         <div class="chart-caption">
           Figura 4. Latitude do centro de massa de cada variável, 2018–2024 (graus Sul; para cima no
-          gráfico = mais ao norte). A Agricultura do mapa é a única linha que não se move.
+          gráfico = mais ao norte). A Agricultura do mapa é a única linha que não se move; somar o
+          Mosaico de volta (linha da união) devolve o avanço ao norte.
         </div>
       </div>
 
@@ -1385,46 +1387,6 @@
       <a class="voltar-topo" href="#top">↑ roteiro</a>
     </section>
 
-    <!-- 12 — EM ABERTO ========================================================= -->
-    <section class="capitulo" id="em-aberto">
-      <div class="capitulo-eyebrow">Capítulo 12</div>
-      <h2>O que fica em aberto</h2>
-
-      <p>
-        Chegamos ao limite do que dava para resolver com os instrumentos de um trabalho acadêmico
-        individual: contagem exaustiva de pixels, comparação entre quatro coleções públicas do mapa, e
-        cruzamento com um segundo sensor de satélite. Isso foi suficiente para eliminar as explicações
-        mais simples e para estabelecer que a fatia de artefato de mapeamento é grande. Não foi
-        suficiente para medir essa fatia com exatidão, nem para separá-la, pixel a pixel, da
-        integração lavoura-pecuária real que certamente também está lá.
-      </p>
-
-      <p>
-        Se alguém da equipe do MapBiomas ler esta página — e é para essa possibilidade que ela foi
-        escrita com o cuidado que tem —, a pergunta que deixamos é direta: existe, na base de
-        validação usada para calcular a acurácia por classe, um conjunto de pontos de campo ou de
-        imagens de altíssima resolução que cubra especificamente a fronteira norte de Goiás entre 2020
-        e 2024? Esse é exatamente o tipo de referência que resolveria o que esta investigação não
-        conseguiu: dizer, para uma amostra de pixels reais, qual fração do Mosaico recente era lavoura
-        que o algoritmo não teve tempo de confirmar, e qual fração era, de fato, uso misto.
-      </p>
-
-      <p>
-        Não escrevemos isto como uma acusação. A classe Mosaico de Usos existe precisamente para
-        situações em que forçar uma resposta binária seria pior do que admitir a incerteza — e é
-        louvável que o MapBiomas prefira essa honestidade a um mapa que finge mais certeza do que tem.
-        O que encontramos é o efeito colateral, provavelmente não-intencional, dessa mesma honestidade
-        num ponto específico da série temporal: quando a cautela do classificador se concentra
-        desproporcionalmente nos anos mais recentes, quem usa a série para medir <em>tendência</em> —
-        como este projeto tentou fazer — herda um viés que não é óbvio a partir de um único ano do
-        mapa, só aparece quando se compara a série inteira com uma fonte de fora dela. Se este
-        documento ajudar a tornar esse efeito colateral um pouco mais visível, ele já cumpriu para o
-        que foi escrito.
-      </p>
-
-      <a class="voltar-topo" href="#top">↑ roteiro</a>
-    </section>
-
     <footer class="ds-footer">
       <p>
         <strong>Fontes de dados:</strong> MapBiomas — Coleções 6, 8, 9 e 10.1 (Landsat, 30&nbsp;m) e
@@ -1626,7 +1588,7 @@
         var series = [
           { vals: [-17.10325, -17.09506, -17.09212, -17.09086, -17.08921, -17.08773, -17.09022], cor: "#d96aa3", dash: "5,5", lbl: "Agricultura MapBiomas" },
           { vals: [-17.07402, -17.06452, -17.04592, -17.02929, -16.98247, -16.97178, -16.97401], cor: "#8b3a1d", dash: null, lbl: "Soja SIDRA" },
-          { vals: [-16.40528, -16.41420, -16.44313, -16.48625, -16.52921, -16.53947, -16.52429], cor: "#c98a4b", dash: null, lbl: "Mosaico de Usos" },
+          { vals: [-16.91769, -16.90852, -16.90507, -16.90430, -16.90384, -16.89110, -16.86871], cor: "#c98a4b", dash: null, lbl: "Agricultura ∪ Mosaico" },
           { vals: [-16.05073, -16.02110, -15.98789, -15.95068, -15.93970, -15.94406, -15.91412], cor: "#d4b65a", dash: null, lbl: "Rebanho bovino" }
         ];
 
