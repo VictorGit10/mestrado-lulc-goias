@@ -422,21 +422,23 @@
 
         <!-- Painel do Mosaico: separado da marcha porque conta OUTRA coisa — o rotulo, nao a terra -->
         <div class="mosaico-panel">
-          <p class="mosaico-panel-rotulo">O nó que não é marcha</p>
-          <h4 class="mosaico-panel-titulo">O Mosaico de Usos, à parte</h4>
+          <p class="mosaico-panel-rotulo">A classe que não avança</p>
+          <h4 class="mosaico-panel-titulo">O Mosaico de Usos, fora da marcha</h4>
           <p class="mosaico-panel-lede">
             No diagrama acima o Mosaico está apagado de propósito. É a classe que o MapBiomas
-            usa (classe&nbsp;21) quando <strong>não consegue separar lavoura de pasto</strong> —
-            e, isolado, o que ele mostra não é terra mudando de uso, e sim
-            <strong>correntes de ida e volta quase iguais</strong>: o rótulo mudando de ideia.
+            reserva (classe&nbsp;21) para o pixel em que lavoura e pasto se misturam dentro da
+            mesma propriedade — às vezes porque o satélite de 30&nbsp;m não os separa, às vezes
+            porque a área alterna de fato entre os dois. E, isolado, o que ele mostra não é terra
+            mudando de uso, e sim <strong>correntes de ida e volta quase iguais</strong>: o
+            rótulo mudando de ideia.
           </p>
 
           <div class="churn" role="img"
-               aria-label="Trocas de área entre o Mosaico de Usos e as demais classes, 1985 a 2024, em milhões de hectares. Pastagem: 1,62 vira Mosaico e 1,72 volta do Mosaico. Vegetação: 1,00 vira Mosaico e 0,46 volta. Agricultura: 0,06 vira Mosaico e 0,56 volta.">
+               aria-label="Trocas de área entre o Mosaico de Usos e as demais classes, 1985 a 2024, em milhões de hectares. Pastagem: 1,62 entra no Mosaico e 1,72 sai do Mosaico. Vegetação: 1,00 entra no Mosaico e 0,46 sai. Agricultura: 0,06 entra no Mosaico e 0,56 sai.">
             <div class="churn-eixo">
-              <span class="churn-eixo-lado">vira Mosaico&nbsp;→</span>
+              <span class="churn-eixo-lado">entra no Mosaico&nbsp;→</span>
               <span class="churn-eixo-spine">MOSAICO</span>
-              <span class="churn-eixo-lado">→&nbsp;Mosaico vira</span>
+              <span class="churn-eixo-lado">→&nbsp;sai do Mosaico</span>
             </div>
 
             <div class="churn-linha">

@@ -36,6 +36,12 @@
     { id: "p2-perna4", pai: "parte-2" },
     { id: "parte-3" },
     { id: "parte-4" },
+    { id: "p4-periodizacao", pai: "parte-4" },
+    { id: "p4-metodos-perna1", pai: "parte-4" },
+    { id: "p4-metodos-perna2", pai: "parte-4" },
+    { id: "p4-metodos-perna3", pai: "parte-4" },
+    { id: "p4-metodos-perna4", pai: "parte-4" },
+    { id: "p4-decisoes", pai: "parte-4" },
     { id: "alem-da-tese" },
   ];
 

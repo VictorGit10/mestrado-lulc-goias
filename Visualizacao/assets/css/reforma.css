@@ -360,7 +360,7 @@ body.reforma .timeline-rail.is-recolhida {
 .churn-bar--pasto { background: var(--color-pasto); }
 .churn-bar--veg   { background: var(--color-veg); }
 .churn-bar--agric { background: var(--color-agric); }
-.churn-in .churn-bar { opacity: 0.5; }  /* "virando Mosaico" = mais claro */
+.churn-in .churn-bar { opacity: 0.5; }  /* "entra no Mosaico" = barra mais clara */
 .churn-val {
   font-family: var(--font-sans);
   font-size: 0.82rem;
