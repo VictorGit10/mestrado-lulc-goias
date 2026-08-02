@@ -1193,6 +1193,10 @@ body.reforma .timeline-rail.is-recolhida {
 
 /* ---- Card de bastidores que é um link p/ outra página ---------------- */
 .bastidores-card--link { cursor: pointer; text-decoration: none; transition: border-color .15s ease, transform .15s ease; }
+/* Variante sem imagem (ex.: o card do atlas, cuja thumbnail saiu pela D27):
+   como o grid estica os cards até a altura do maior, um card só-texto ficaria
+   com o conteúdo no topo e espaço vazio embaixo. Centraliza verticalmente. */
+.bastidores-card--text { display: flex; flex-direction: column; justify-content: center; }
 .bastidores-card--link:hover figcaption strong { text-decoration: underline; }
 .bastidores-card--link:hover { border-color: var(--color-accent); transform: translateY(-2px); }
 .bastidores-card--link img { cursor: pointer; }

@@ -199,4 +199,10 @@
     opacity: 1 !important;
     transform: none !important;
   }
+  /* O traço-pulsante do rail lateral é uma animação infinita: para quem pede
+     menos movimento, fica estático (visível, sem pulsar). */
+  .rail-lateral .rail-item.is-ancestral > a::after {
+    animation: none !important;
+    opacity: 0.85 !important;
+  }
 }
