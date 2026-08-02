@@ -312,79 +312,7 @@ body.reforma .timeline-rail.is-recolhida {
   margin: 0 0 1.2rem;
 }
 
-/* barras espelhadas: quanto de cada classe VIRA Mosaico (esquerda, esmaecido)
-   x quanto o Mosaico DEVOLVE para a classe (direita, cheio). Coluna central
-   fixa = espinha vertical alinhada. Escala: 1,72 Mha = 100%. */
-.churn {
-  max-width: 560px;
-  margin: 0 auto;
-}
-.churn-eixo,
-.churn-linha {
-  display: grid;
-  grid-template-columns: 1fr 7rem 1fr;
-  align-items: center;
-}
-.churn-eixo {
-  font-family: var(--font-sans);
-  font-size: 0.68rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--color-muted);
-  margin-bottom: 0.55rem;
-}
-.churn-eixo-lado:first-child { text-align: right; padding-right: 0.6rem; }
-.churn-eixo-lado:last-child  { text-align: left;  padding-left: 0.6rem; }
-.churn-eixo-spine {
-  text-align: center;
-  color: var(--color-mosaico);
-  font-weight: 700;
-  letter-spacing: 0.08em;
-}
-.churn-linha { margin: 0.4rem 0; }
-.churn-in,
-.churn-out {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-.churn-in  { justify-content: flex-end; }
-.churn-out { justify-content: flex-start; }
-.churn-bar {
-  display: block;
-  height: 0.75rem;
-  width: var(--w);
-  border-radius: 2px;
-  border: 0.5px solid rgba(0, 0, 0, 0.28);
-}
-.churn-bar--pasto { background: var(--color-pasto); }
-.churn-bar--veg   { background: var(--color-veg); }
-.churn-bar--agric { background: var(--color-agric); }
-.churn-in .churn-bar { opacity: 0.5; }  /* "entra no Mosaico" = barra mais clara */
-.churn-val {
-  font-family: var(--font-sans);
-  font-size: 0.82rem;
-  font-variant-numeric: tabular-nums;
-  min-width: 2.1em;
-}
-.churn-in  .churn-val { text-align: right; }
-.churn-out .churn-val { text-align: left; }
-.churn-classe {
-  text-align: center;
-  padding: 0 0.65rem;
-  font-family: var(--font-sans);
-  font-size: 0.82rem;
-  white-space: nowrap;
-  border-left: 2px solid var(--color-mosaico);
-  border-right: 2px solid var(--color-mosaico);
-}
-.churn-unidade {
-  text-align: center;
-  font-family: var(--font-sans);
-  font-size: 0.72rem;
-  color: var(--color-muted);
-  margin: 0.7rem 0 0;
-}
+/* parágrafo de leitura dentro do painel do Mosaico (herdado do antigo churn-chart) */
 .churn-leitura {
   font-size: 0.93rem;
   line-height: 1.55;
@@ -395,13 +323,6 @@ body.reforma .timeline-rail.is-recolhida {
   background: rgba(201, 138, 75, 0.14);
   padding: 0.05em 0.32em;
   border-radius: 3px;
-}
-@media (max-width: 540px) {
-  .churn-eixo,
-  .churn-linha { grid-template-columns: 1fr 5.4rem 1fr; }
-  .churn-classe { font-size: 0.74rem; padding: 0 0.35rem; }
-  .churn-val { font-size: 0.74rem; min-width: 1.9em; }
-  .churn-eixo { font-size: 0.6rem; }
 }
 
 /* --- detalhes do "como os atos foram definidos" --- */
