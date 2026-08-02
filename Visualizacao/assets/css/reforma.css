@@ -1072,6 +1072,15 @@ body.reforma .timeline-rail.is-recolhida {
   cursor: zoom-in;
 }
 
+/* SVG inline (card do leite #44): mesmo comportamento do <img> — full-bleed,
+   escala pelo viewBox. Reusa as classes .ab-* do veredito. */
+.bastidores-card svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  background: #fcfcfa;
+}
+
 .bastidores-card figcaption {
   font-family: var(--font-sans);
   font-size: 0.82rem;
