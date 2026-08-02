@@ -1,0 +1,2452 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Goiás 1985-2024 — Cerrado, política e uso da terra</title>
+
+  <meta name="description" content="Linha do tempo interativa do uso e cobertura da terra em Goiás (1985-2024), com periodização data-driven e referências institucionais.">
+  <meta property="og:title" content="Goiás 1985-2024 — Cerrado, política e uso da terra">
+  <meta property="og:description" content="Linha do tempo interativa do uso e cobertura da terra em Goiás (1985-2024), com periodização data-driven e referências institucionais.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="img/mapas_gee/cobertura_2024.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Goiás 1985-2024 — Cerrado, política e uso da terra">
+  <meta name="twitter:description" content="Linha do tempo interativa do uso e cobertura da terra em Goiás (1985-2024), com periodização data-driven e referências institucionais.">
+  <meta name="twitter:image" content="img/mapas_gee/cobertura_2024.webp">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23fafaf7'/%3E%3Ccircle cx='32' cy='32' r='14' fill='%238b3a1d'/%3E%3C/svg%3E">
+
+  <link rel="stylesheet" href="assets/css/styles.css?v=5">
+
+  <link rel="stylesheet" href="assets/css/tabs.css?v=4">
+
+  <link rel="stylesheet" href="assets/css/reserva.css?v=1">
+
+  <link rel="stylesheet" href="assets/css/marchamap.css?v=1">
+
+
+</head>
+
+<body>
+
+
+
+<!-- Regua superior fixa -->
+
+<header class="timeline-rail" aria-label="Linha do tempo">
+
+  <div class="rail-inner">
+
+    <div class="rail-meta">
+      <div class="rail-context" id="rail-context-anos" aria-live="polite">
+        <span class="rail-context-era" id="rail-active-era">Ato I · 1985-2000</span>
+        <strong class="rail-context-label" id="rail-active-label">1985 · Linha de base da serie</strong>
+      </div>
+      <div class="rail-context" id="rail-context-secoes" aria-live="polite" hidden>
+        <span class="rail-context-era">Depois dos mapas</span>
+        <strong class="rail-context-label" id="rail-secao-label">Movimento I · O saldo e os fluxos</strong>
+      </div>
+      <span class="rail-hint" id="rail-hint-anos">Faixas = atos · pontos = referências · clique para navegar</span>
+      <span class="rail-hint" id="rail-hint-secoes" hidden>Blocos do argumento · clique para saltar</span>
+    </div>
+
+    <div class="rail-body">
+
+      <span class="rail-label rail-label--start">1985</span>
+
+      <div class="rail-track-wrap">
+        <div class="rail-track" id="rail-track">
+          <button type="button" class="rail-era-band rail-era-band--heranca" data-era="heranca" data-start-year="1985" style="left: 0%; width: 38.46%;" aria-label="Ir para o Ato I, 1985 a 2000"></button>
+          <button type="button" class="rail-era-band rail-era-band--expansao" data-era="expansao" data-start-year="2001" style="left: 38.46%; width: 46.15%;" aria-label="Ir para o Ato II, 2001 a 2019"></button>
+          <button type="button" class="rail-era-band rail-era-band--conversao" data-era="conversao" data-start-year="2020" style="left: 84.62%; width: 15.38%;" aria-label="Ir para o Ato III, 2020 a 2024"></button>
+          <div class="rail-marcos" id="rail-marcos" aria-hidden="false"></div>
+          <span class="rail-cursor" id="rail-cursor" aria-hidden="true"></span>
+        </div>
+        <div class="rail-secoes" id="rail-secoes" hidden aria-label="Blocos do argumento depois dos mapas"></div>
+      </div>
+
+      <span class="rail-label rail-label--end">2024</span>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+
+<!-- Tabs Narrativa | Métodos -->
+
+<nav class="mode-tabs" aria-label="Modo de visualização">
+
+  <div class="mode-tabs-inner" role="tablist">
+
+    <button class="mode-tab mode-tab--active" data-modo="narrativa" id="tab-narrativa" role="tab" aria-selected="true" aria-controls="panel-narrativa" tabindex="0">
+
+      Narrativa
+
+      <span class="mode-tab-hint">3 atos &middot; 40 anos</span>
+
+    </button>
+
+    <button class="mode-tab" data-modo="metodos" id="tab-metodos" role="tab" aria-selected="false" aria-controls="panel-metodos" tabindex="-1">
+
+      Métodos
+
+      <span class="mode-tab-hint">a oficina</span>
+
+    </button>
+
+  </div>
+
+</nav>
+
+
+
+<noscript>
+
+  <p style="text-align:center; padding:2rem;">
+
+    Esta visualização interativa requer JavaScript habilitado.
+
+  </p>
+
+</noscript>
+
+
+
+<main>
+
+
+
+  <!-- ===================== MODO NARRATIVA ===================== -->
+
+  <section data-modo="narrativa" id="panel-narrativa" role="tabpanel" aria-labelledby="tab-narrativa">
+
+
+
+  <!-- Hero -->
+
+  <section class="hero">
+
+    <p class="hero-eyebrow">Dissertação CIAMB-UFG &middot; 1985-2024</p>
+
+    <h1 class="hero-title">Buscando histórias em 40 anos de dados</h1>
+
+    <p class="hero-lede">
+      Cada pixel nesta tela representa um quadrado de 30 por 30 metros no chão. São 378 milhões deles cobrindo Goiás, recontados ano a ano durante quatro décadas — 15 bilhões de observações pixel a pixel do MapBiomas — para rastrear a cicatriz física que as leis, os mercados e as decisões econômicas deixaram em Goiás. A história de como o território se reorganizou se divide em três atos.
+    </p>
+
+    <p class="hero-cta">Comece pelo mapa de 1985 &darr;</p>
+
+  </section>
+
+
+
+  <!-- Como ler: contrato de leitura (atos x referencias x navegacao) -->
+  <section class="como-ler" aria-label="Como ler esta linha do tempo">
+    <div class="como-ler-inner">
+      <h2 class="como-ler-titulo">Como ler esta linha do tempo</h2>
+      <p class="como-ler-lede">
+        Os 40 anos da série se organizam em dois níveis. No agregado, a série se divide em
+        <strong>três atos</strong> — períodos macro de 5 a 19 anos, definidos por triangulação
+        estatística e marcados pelas <strong>faixas coloridas</strong> da régua acima.
+        Dentro dos atos, <strong>referências institucionais</strong> (pinos pretos na régua)
+        marcam eventos que contextualizam as transições observadas.
+      </p>
+      <div class="como-ler-grid">
+        <div class="como-ler-bloco">
+          <h3 class="como-ler-rotulo">Os três atos</h3>
+          <ul class="como-ler-lista como-ler-atos">
+            <li><span class="como-ler-swatch como-ler-swatch--heranca"></span>I &middot; Pastagem como herança &middot; 1985–2000</li>
+            <li><span class="como-ler-swatch como-ler-swatch--expansao"></span>II &middot; Expansão e intensificação &middot; 2001–2019</li>
+            <li><span class="como-ler-swatch como-ler-swatch--conversao"></span>III &middot; Conversão acelerada &middot; 2020–2024</li>
+          </ul>
+          <details class="metric-details" style="margin-top: 0.8rem;">
+            <summary>Como os atos foram definidos?</summary>
+            <div style="padding: 0.9rem 1.1rem; border-top: 1px solid var(--color-rule); background: #fcfcfa;">
+              <p style="margin: 0 0 0.6rem;">
+                As fronteiras ~2001 e ~2020 não foram escolhidas — foram <strong>detectadas</strong> por
+                triangulação de quatro métodos estatísticos independentes:
+              </p>
+              <table class="camadas-tabela" style="margin: 0.5rem 0; font-size: 0.82rem;">
+                <thead><tr><th>Método</th><th style="text-align:right;">~2001</th><th style="text-align:right;">~2020</th></tr></thead>
+                <tbody>
+                  <tr><td>sup-F multivariado (primário)</td><td style="text-align:right;">F = 62,2 ✓</td><td style="text-align:right;">F = 21,5 ✓</td></tr>
+                  <tr><td>STARS (sensibilidade)</td><td style="text-align:right;">2004/06 ✓</td><td style="text-align:right;">—</td></tr>
+                  <tr><td>KL/TV de transições</td><td style="text-align:right;">pico 2003 ✓</td><td style="text-align:right;">pico 2018–20 ✓</td></tr>
+                </tbody>
+              </table>
+              <p style="margin: 0.5rem 0 0.4rem; font-size: 0.85rem;">
+                <strong>Convergência (detecção):</strong> 3/3 para ~2001, 2/3 para ~2020.
+              </p>
+              <p style="margin: 0 0 0.4rem; font-size: 0.85rem;">
+                <strong>Validação global — Intensity Analysis</strong> (Aldwaik &amp; Pontius):<br>
+                Kruskal-Wallis H&nbsp;=&nbsp;20,3, p&nbsp;&lt;&nbsp;0,001 — os 3&nbsp;Atos diferem
+                significativamente em taxa de mudança. Este resultado é <em>um teste único</em>
+                que compara os 3&nbsp;períodos simultaneamente, não detecções separadas por fronteira.
+              </p>
+              <p style="margin: 0 0 0.4rem; font-size: 0.85rem;">
+                A candidata a 4º período (~2005/06) foi rejeitada: taxa total NS (p&nbsp;=&nbsp;0,060),
+                embora composicionalmente diferente (perda de veg. natural 5× mais intensa, p&nbsp;=&nbsp;0,0008).
+              </p>
+              <p style="margin: 0; font-size: 0.82rem; color: var(--color-muted);">
+                Detalhes na <a href="#metodos/metodo-periodizacao">aba Métodos</a>.
+              </p>
+            </div>
+          </details>
+        </div>
+        <div class="como-ler-bloco">
+          <h3 class="como-ler-rotulo">Referências institucionais</h3>
+          <ul class="como-ler-lista como-ler-marcos">
+            <li><span class="como-ler-pin"></span>1994 &middot; Plano Real</li>
+            <li><span class="como-ler-pin"></span>1996 &middot; Lei Kandir</li>
+            <li><span class="como-ler-pin"></span>2002 &middot; Crédito e demanda chinesa</li>
+            <li><span class="como-ler-pin"></span>2003 &middot; Boom de commodities</li>
+            <li><span class="como-ler-pin"></span>2012 &middot; Código Florestal</li>
+            <li><span class="como-ler-pin"></span>2018 &middot; Reorganização de mercado</li>
+          </ul>
+        </div>
+        <div class="como-ler-bloco">
+          <h3 class="como-ler-rotulo">Como navegar</h3>
+          <ul class="como-ler-lista como-ler-navegacao">
+            <li>Role para avançar no tempo — cada parágrafo lateral é um ano.</li>
+            <li>Clique em uma <strong>faixa</strong> ou em um <strong>pino</strong> da régua para saltar.</li>
+            <li>O mapa e os cards laterais sincronizam com o ano em foco.</li>
+            <li>Os cards laterais têm acordeões para <strong>agricultura</strong>, <strong>pecuária</strong> e <strong>socioeconômico</strong>.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- Narrativa principal (mapa sticky + steps) -->
+
+  <section class="story">
+
+
+
+    <!-- Mapa fixo (sticky) -->
+
+    <div class="story-figure" >
+
+      <div class="map-frame">
+
+        <div class="map-layer-toggle" role="tablist" aria-label="Camada do mapa">
+          <button type="button" class="map-layer-btn is-active" data-layer="cobertura" role="tab" aria-selected="true">Cobertura</button>
+          <button type="button" class="map-layer-btn" data-layer="delta" role="tab" aria-selected="false">Δ vs 1985</button>
+          <button type="button" class="map-layer-btn" data-layer="fogo" role="tab" aria-selected="false">Fogo</button>
+          <button type="button" class="map-layer-btn" data-layer="transicoes" role="tab" aria-selected="false">Transições</button>
+        </div>
+
+        <img id="mapa" src="img/mapas_gee/cobertura_1985.webp"
+
+             alt="Mapa pixel-a-pixel do uso e cobertura da terra em Goiás"
+
+             loading="eager" width="1313" height="1318">
+
+        <div class="composition-bar" id="composition-bar" aria-label="Composição do uso e cobertura da terra">
+
+          <span class="bar-segment bar-veg"     data-class="veg"     title="Vegetação natural"></span>
+
+          <span class="bar-segment bar-pasto"   data-class="pasto"   title="Pastagem"></span>
+
+          <span class="bar-segment bar-agric"   data-class="agric"   title="Agricultura (inclui soja)"></span>
+
+          <span class="bar-segment bar-mosaico" data-class="mosaico" title="Mosaico de usos (lavoura ou pastagem, indistinguíveis)"></span>
+
+          <span class="bar-segment bar-agua"    data-class="agua"    title="Água"></span>
+
+          <span class="bar-segment bar-urbano"  data-class="urbano"  title="Área urbana"></span>
+
+          <span class="bar-segment bar-outros"  data-class="outros"  title="Outros (silvicultura, mineração)"></span>
+
+          <div class="bar-tooltip" id="bar-tooltip"></div>
+
+        </div>
+
+        <div class="map-legend">
+
+          <span class="legend-swatch legend-swatch--veg">Veg. natural</span>
+
+          <span class="legend-swatch legend-swatch--pasto">Pastagem</span>
+
+          <span class="legend-swatch legend-swatch--agric">Agricultura</span>
+
+          <span class="legend-swatch legend-swatch--mosaico" title="Classe 21 do MapBiomas: lavoura ou pastagem, quando o classificador não separa as duas. Aparece na barra de composição, mas não é pintada no mapa.">Mosaico de usos <em class="legend-nota">(só na barra)</em></span>
+
+          <span class="legend-swatch legend-swatch--agua">Água</span>
+
+          <span class="legend-swatch legend-swatch--urbano">Urbano</span>
+
+          <span class="legend-swatch legend-swatch--outros">Outros</span>
+
+        </div>
+
+        <div class="map-caption">
+
+          <div class="caption-row caption-row--main">
+
+            <span class="map-caption-year" id="map-year">1985</span>
+
+            <span class="map-caption-anchor" id="map-anchor"></span>
+
+          </div>
+
+          <span class="map-caption-source">Fonte: MapBiomas Coleção 10.1 &middot; pixel-a-pixel (30 m) &middot; o <em>Mosaico de usos</em> entra na barra, mas fica transparente no mapa</span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- Steps (1 por ano) -->
+
+    <div class="story-steps" id="steps">
+
+
+
+      <!-- Ato I: Pastagem como herança (1985-2000) -->
+
+      <article class="step step--era" data-era="heranca">
+
+        <h2 class="era-title">I. Pastagem como herança (1985–2000)</h2>
+
+        <p class="era-tese">
+          O ponto de partida não é uma paisagem natural — é uma fronteira que já se moveu.
+        </p>
+
+        <p class="era-contexto">
+          O fim do regime militar e a hiperinflação dos anos 1980 enquadram o início da série. Mas o que o mapa mostra em 1985 é o legado da década anterior: POLOCENTRO e PRODECER abriram cerca de um terço do estado para pecuária extensiva. Sem estabilidade macroeconômica, qualquer cálculo agrícola de longo prazo segue bloqueado.
+        </p>
+
+        <p class="era-mapa">
+          O dourado que domina o centro-sul é pastagem. O verde escuro do norte e nordeste — Paranã, Vão do Paranã — é o cerrado que sobreviveu. A agricultura aparece em manchas pontuais de rosa no sudoeste; ainda é incipiente.
+        </p>
+
+      </article>
+
+
+
+
+
+
+      <!-- Ato II: Expansão e intensificação (2001-2019) -->
+
+      <article class="step step--era" data-era="expansao">
+
+        <h2 class="era-title">II. Expansão e intensificação (2001–2019)</h2>
+
+        <p class="era-tese">
+          A soja abre caminho no sudoeste impulsionada pela estabilização da moeda.
+        </p>
+
+        <p class="era-contexto">
+          O Plano Real em 1994 faz o que nenhuma política agrícola isolada conseguiria: permite calcular o futuro. Logo depois, em 1996, a Lei Kandir zera o ICMS sobre exportações de grãos. Essa conjunção de estabilidade e isenção atrai o capital privado e inicia a grande transformação.
+        </p>
+
+        <p class="era-mapa">
+          No mapa, o sudoeste (Rio Verde, Jataí e Mineiros) começa a se vestir de rosa com o avanço da lavoura sobre o pasto. Embora a pecuária continue gigante no total do estado, a dinâmica econômica do agronegócio agora pertence à soja.
+        </p>
+
+      </article>
+
+
+
+
+
+
+      <!-- Ato III: Conversao acelerada, mascarada (2020-2024) -->
+
+      <article class="step step--era" data-era="conversao">
+
+        <h2 class="era-title">III. Conversão acelerada, mascarada (2020–2024)</h2>
+
+        <p class="era-tese">
+          A lavoura avança sobre o pasto mais rápido do que nunca — e o mapa, sozinho, diz o contrário.
+        </p>
+
+        <p class="era-contexto">
+          Este é o ato em que a medida engana. Olhando só a classe &ldquo;agricultura&rdquo; do satélite, a conversão parece ter parado: no Sul goiano ela cai 88%. Mas a área de soja plantada que o IBGE recolhe em campo — que não passa por classificador nenhum — <strong>cresce 38%</strong> na mesma janela. O que mudou foi o rótulo: a partir de 2021 a conversão de pasto em lavoura passa a ser classificada como &ldquo;Mosaico de Usos&rdquo;, a categoria que o MapBiomas usa quando não consegue separar as duas coisas. Contada pela régua corrigida, a saída de pasto para lavoura-ou-uso-misto <strong>acelera cerca de 50%</strong>.
+        </p>
+
+        <p class="era-mapa">
+          O que o pasto perde, a lavoura ganha: o recuo da pastagem <strong>triplica de velocidade</strong> (de 0,07 para 0,27 Mha por ano). A vegetação natural, essa sim, não muda de ritmo — segue cedendo o mesmo tanto de sempre, agora concentrada ao norte, onde ainda resta Cerrado. Com 34,9% do estado em vegetação natural em 2024, Goiás não encontrou um piso: mudou o endereço da fronteira.
+        </p>
+
+      </article>
+
+
+
+
+
+
+
+    </div>
+
+  </section>
+
+
+
+  <!-- Depois dos mapas -->
+
+    <section class="sintese" id="depois-dos-mapas" aria-labelledby="sintese-titulo">
+    <span id="como-sabemos-titulo"></span>
+    <h2 id="sintese-titulo">Depois dos mapas: do saldo à tese</h2>
+
+    <p class="sintese-lede">
+      A narrativa cobriu o tempo ano a ano. Daqui em diante a leitura muda de escala e
+      avança em três movimentos, até a tese: <strong>o saldo e os fluxos</strong> de
+      40 anos; <strong>o que esses números revelam</strong> sobre os processos no
+      agregado; e <strong>a marcha ao norte</strong> — a reorganização espacial que é
+      a tese central do trabalho. Cada seção abre com a pergunta que a motivou e fecha
+      com a resposta em uma frase. A oficina por trás de tudo — como os atos foram
+      detectados, as camadas de evidência, as 26 decisões metodológicas, os limites —
+      tem aba própria: <a href="#metodos">Métodos</a>.
+    </p>
+
+    <!-- ===================== PARTE I — O saldo e os fluxos ===================== -->
+    <div class="parte-divisor" id="mov-saldo">
+      <span class="parte-num">Movimento I</span>
+      <h2>O saldo e os fluxos</h2>
+      <p class="parte-lede">Quanto cada classe ganhou ou perdeu em 40 anos — e, por trás do saldo líquido, de onde para onde os hectares se moveram.</p>
+    </div>
+
+    <!-- S1 — Saldo 40 anos -->
+    <div class="como-bloco" id="sec-saldo">
+      <h3>1 &middot; O que mudou em 40 anos</h3>
+      <p class="bloco-pergunta">Depois de 40 anos, quem ganhou e quem perdeu área em Goiás?</p>
+      <p>
+        Quatro números enquadram a transformação que os três atos descreveram
+        em detalhe. Eles vêm direto do painel agregado UF (MapBiomas Coleção
+        10.1 e IBGE/PPM) e podem ser conferidos na
+        <a href="#metodos/painel-vitrine">vitrine do painel</a> (aba Métodos).
+      </p>
+      <div class="dado-choque-grid">
+        <div class="dado-choque">
+          <div class="dado-choque-valor">−5,8 Mha</div>
+          <div class="dado-choque-label">Vegetação natural perdida &middot; 1985→2024</div>
+          <div class="dado-choque-glosa">17,65 → 11,88 Mha (51,9% → 34,9% do território). A 15 pontos do limite legal de Reserva Legal no Cerrado (20%).</div>
+        </div>
+        <div class="dado-choque">
+          <div class="dado-choque-valor">×4,8</div>
+          <div class="dado-choque-label">Crescimento da agricultura</div>
+          <div class="dado-choque-glosa">1,17 → 5,58 Mha. A soja sozinha cresce ×12 em área (0,37 → 4,50 Mha) e ×13 em produção (1,3 → 17,0 Mt).</div>
+        </div>
+        <div class="dado-choque">
+          <div class="dado-choque-valor">+1,0 Mha</div>
+          <div class="dado-choque-label">Pastagem &middot; saldo líquido enganoso</div>
+          <div class="dado-choque-glosa">10,98 → 11,99 Mha. Mas a trajetória é em U invertido: cresce até 2003 (pico ~14,8 Mha) e depois recua. O saldo agregado esconde o ciclo.</div>
+        </div>
+        <div class="dado-choque">
+          <div class="dado-choque-valor">×1,34</div>
+          <div class="dado-choque-label">Lotação bovina por hectare</div>
+          <div class="dado-choque-glosa">1,45 → 1,94 cab/ha. Rebanho cresce 46% (15,9 → 23,2 M cab) enquanto a área de pasto cresce só 9% — a pecuária se intensifica.</div>
+        </div>
+      </div>
+      <p class="bloco-resposta">
+        <span class="bloco-resposta-rotulo">Em uma frase</span>
+        A vegetação natural perdeu 5,8 Mha, a agricultura quase quintuplicou e a
+        pastagem parece estável no saldo — mas saldo líquido esconde os caminhos.
+        A pergunta seguinte é de onde vieram e para onde foram esses hectares.
+      </p>
+    </div>
+
+    <!-- S2 — Para onde foram os hectares -->
+    <div class="como-bloco" id="sec-fluxos">
+      <h3>2 &middot; Para onde foram os hectares</h3>
+      <p class="bloco-pergunta">De onde veio a terra que cada classe ganhou — e para onde foi a que ela perdeu?</p>
+      <p>
+        O saldo de § 1 é líquido: diz quanto cada classe ganhou ou perdeu,
+        mas esconde de <em>onde</em> vieram e para <em>onde</em> foram esses
+        hectares. O diagrama abaixo cruza o uso de cada pixel em 1985 com o
+        uso do mesmo pixel em 2024 e abre os fluxos por trás dos saldos.
+      </p>
+
+      <div id="sankey-container" class="sankey-container">
+        <p class="resumo-loading">Carregando diagrama…</p>
+      </div>
+      <p class="sankey-caption">
+        Diagrama de Sankey &middot; cruzamento pixel-a-pixel 1985 ↔ 2024 (30 m).
+        Larguras proporcionais à área em milhões de hectares. Fonte: MapBiomas Coleção 10.1 via GEE.
+      </p>
+
+      <div class="dado-choque-grid">
+        <div class="dado-choque">
+          <div class="dado-choque-valor">4,10 Mha</div>
+          <div class="dado-choque-label">Veg. natural → Pastagem</div>
+          <div class="dado-choque-glosa">O maior fluxo da série. Desmatamento histórico para pecuária extensiva — boa parte concentrada nos anos 1980–1990.</div>
+        </div>
+        <div class="dado-choque">
+          <div class="dado-choque-valor">2,72 Mha</div>
+          <div class="dado-choque-label">Pastagem → Agricultura</div>
+          <div class="dado-choque-glosa">A maior conversão <em>entre classes manejadas</em>. É o que permite a expansão da lavoura sem desmatar diretamente.</div>
+        </div>
+        <div class="dado-choque">
+          <div class="dado-choque-valor">1,29 Mha</div>
+          <div class="dado-choque-label">Veg. natural → Agricultura (direta)</div>
+          <div class="dado-choque-glosa">Desmatamento direto para lavoura. Menor que via pasto, mas existe — e ganha peso no nordeste após 2010.</div>
+        </div>
+        <div class="dado-choque">
+          <div class="dado-choque-valor">1,00 Mha</div>
+          <div class="dado-choque-label">Veg. natural → Mosaico de usos</div>
+          <div class="dado-choque-glosa">Vegetação que deixou de ser vegetação — mas que <strong>não</strong> entra na conta de desmatamento: incluí-la jogaria a razão contra o PRODES/INPE de 1,00 para 1,35. A classe tem transição de ida <em>e de volta</em>.</div>
+        </div>
+      </div>
+
+      <p class="sankey-nota-mosaico">
+        Há ainda um par de fluxos que quase se cancela e diz muito sobre a medida:
+        <strong>1,72 Mha</strong> de Mosaico → pastagem e <strong>1,62 Mha</strong> de
+        pastagem → Mosaico — duas correntes quase iguais em sentidos opostos, entre as duas
+        classes que o classificador mais confunde. Boa parte disso não é terra mudando de
+        uso; é o rótulo mudando de ideia
+        (<a href="#metodos/metodo-decisoes">D25/D26</a>).
+      </p>
+
+      <details class="metric-details" id="matriz-details">
+        <summary>Matriz de transição 7×7 <span class="matriz-toggle" id="matriz-toggle"></span></summary>
+        <div class="matriz-periodos" id="matriz-periodos"></div>
+        <div id="matriz-container"></div>
+        <p class="matriz-caption" id="matriz-caption"></p>
+      </details>
+      <p class="bloco-resposta">
+        <span class="bloco-resposta-rotulo">Em uma frase</span>
+        Dois fluxos dominam: vegetação → pastagem (4,1 Mha, o desmatamento histórico)
+        e pastagem → agricultura (2,7 Mha, a conversão moderna). A pastagem é o elo
+        intermediário de quase tudo — e é por isso que os quatro processos a seguir
+        giram em torno dela. A classe ambígua do satélite, por sua vez, movimenta tanta
+        área quanto os fluxos que conseguimos nomear.
+      </p>
+    </div>
+
+    <!-- ===================== PARTE II — O que os dados revelam (no agregado) ===================== -->
+    <div class="parte-divisor" id="mov-processos">
+      <span class="parte-num">Movimento II</span>
+      <h2>O que os dados revelam — no agregado</h2>
+      <p class="parte-lede">Quatro processos que o painel estadual deixa nítidos. Eles descrevem <em>o quê</em> mudou na produção goiana — e, juntos, levantam a pergunta espacial que o próximo movimento responde: <em>onde</em>, no território, isso aconteceu? (As séries que alimentam estas análises estão inventariadas na <a href="#metodos/painel-vitrine">vitrine do painel</a>, aba Métodos.)</p>
+    </div>
+
+    <!-- 3 — Pecuária desacoplada -->
+    <div class="como-bloco" id="sec-desacoplamento">
+      <h3>3 &middot; A pecuária se desacoplou da área de pasto</h3>
+      <p class="bloco-pergunta">Se a área de pasto encolhe desde ~2010, a pecuária encolheu junto?</p>
+      <p>
+        Até cerca de 2003 a área de pasto cresce junto com o rebanho. Depois ela
+        recua — a partir do pico de ~14,8 Mha — mas o rebanho <strong>não</strong>
+        acompanha a queda: segue subindo. No gráfico, esse é o momento em que as
+        duas curvas se descolam, por volta de 2010. Em 40 anos o rebanho cresce
+        <strong>+46%</strong> (de 15,9 para 23,2 milhões de cabeças) sobre uma área
+        de pasto que aumenta só <strong>+9%</strong>. A diferença vai para a
+        <strong>lotação</strong> — cabeças por hectare —, que sobe de 1,45 para
+        1,94 cab/ha (×1,34): mais animais no mesmo chão. É a assinatura de uma troca
+        de modelo, a pecuária de área dando lugar à pecuária de manejo.
+      </p>
+      <figure class="grafico-card grafico-card--wide">
+        <img src="img/graficos/sintese_pecuaria_intensificacao.png" alt="Desacoplamento entre área de pasto, rebanho bovino e lotação (1985-2024)" loading="lazy">
+        <figcaption>Três séries normalizadas (cada uma em 0–1 do próprio máximo) para comparar a <em>forma</em> das curvas, não o nível absoluto. O que observar: o ponto em que a curva do pasto (sobe até ~2003, depois cai) se separa da do rebanho (que segue subindo) — é aí que a lotação dispara. Fonte: MapBiomas (área de pasto), IBGE/PPM (rebanho bovino).</figcaption>
+      </figure>
+      <div class="dado-choque-grid">
+        <div class="dado-choque">
+          <div class="dado-choque-valor">+46%</div>
+          <div class="dado-choque-label">Rebanho bovino &middot; 1985→2024</div>
+          <div class="dado-choque-glosa">15,9 → 23,2 milhões de cabeças. O efetivo cresce de forma contínua e não inflete para baixo nem quando a área de pasto começa a recuar.</div>
+        </div>
+        <div class="dado-choque">
+          <div class="dado-choque-valor">+9%</div>
+          <div class="dado-choque-label">Área de pastagem &middot; saldo de 40 anos</div>
+          <div class="dado-choque-glosa">Cresce até o pico de ~14,8 Mha (≈2003) e depois recua. Rebanho 5× mais veloz que a área é exatamente o que força a intensificação.</div>
+        </div>
+        <div class="dado-choque">
+          <div class="dado-choque-valor">×1,34</div>
+          <div class="dado-choque-label">Lotação &middot; cabeças por hectare</div>
+          <div class="dado-choque-glosa">1,45 → 1,94 cab/ha. O salto começa após 2001 e acelera no Ato III (1,80 → 1,94 cab/ha) — pecuária de manejo, não de área.</div>
+        </div>
+      </div>
+      <details class="metric-details">
+        <summary>Lotação bovina por ato &middot; valores e leitura inferencial</summary>
+        <div style="padding: 0.9rem 1.1rem; border-top: 1px solid var(--color-rule); background: #fcfcfa;">
+          <div class="metric-rows" style="border: none; padding: 0; background: transparent;">
+            <div class="metric-row"><span class="metric-row-label">Ato I &middot; 1985 → 2000</span><span class="metric-row-value">1,45 → 1,25 cab/ha</span></div>
+            <div class="metric-row"><span class="metric-row-label">Ato II &middot; 2001 → 2019</span><span class="metric-row-value">1,30 → 1,71 cab/ha</span></div>
+            <div class="metric-row"><span class="metric-row-label">Ato III &middot; 2020 → 2024</span><span class="metric-row-value">1,80 → 1,94 cab/ha</span></div>
+          </div>
+          <p style="font-size: 0.88rem; line-height: 1.55; margin: 0.9rem 0 0;">
+            O salto acontece após 2001 e se acelera no Ato II. Inferencialmente,
+            o <span class="termo" tabindex="0" data-def="Regressão em painel com efeitos fixos de AMC e de ano (2-way Fixed Effects): compara cada AMC com ela mesma ao longo do tempo, descontando os choques comuns a todas. Detalhe na aba Métodos.">painel 2FE</span>
+            Δ Pastagem × Δ Rebanho (AMC) confirma o padrão
+            mesmo controlando heterogeneidade da AMC e tendências comuns
+            — detalhes na <a href="#metodos/metodo-evidencia">aba Métodos</a>.
+          </p>
+        </div>
+      </details>
+      <p class="bloco-resposta">
+        <span class="bloco-resposta-rotulo">Em uma frase</span>
+        Não — o rebanho seguiu crescendo e a lotação subiu de ~1,45 para 1,94 cab/ha:
+        a pecuária trocou área por manejo. É intensificação, não retração.
+      </p>
+    </div>
+
+    <!-- 4 — Lavoura sobre pasto, não sobre mata -->
+    <div class="como-bloco" id="sec-lavoura-pasto">
+      <h3>4 &middot; Lavoura cresceu sobre pasto, não sobre mata</h3>
+      <p class="bloco-pergunta">A lavoura que quase quintuplicou cresceu derrubando Cerrado?</p>
+      <p>
+        O Sankey de § 2 já mostrou: dos 4,4 Mha de agricultura que apareceram
+        entre 1985 e 2024, 2,72 Mha vieram diretamente da pastagem — mais que
+        o dobro do que veio diretamente da vegetação natural (1,29 Mha). No mapa,
+        essa conversão tem endereço: concentra-se no <strong>sudoeste</strong>
+        (Rio Verde, Jataí, Mineiros), onde o pasto deu lugar à lavoura.
+      </p>
+      <figure class="grafico-card grafico-card--wide">
+        <img src="img/graficos/mapa_pastagem_agricultura_1985_2024.png" alt="Mapa da conversão de pastagem para agricultura em Goiás, 1985-2024, concentrada no sudoeste" loading="lazy">
+        <figcaption>Conversão Pastagem → Agricultura por município (ha), 1985→2024. O vermelho intenso marca o sudoeste — o coração do agronegócio goiano. Fonte: transições pixel-a-pixel MapBiomas (#12).</figcaption>
+      </figure>
+      <p>
+        A expansão sobre pastagem, não sobre mata, é a assinatura do <em>land sparing</em>:
+        a agricultura cresce em área (×4,8) enquanto o valor agregado agropecuário por hectare
+        sobe — ou seja, mais produção por m², não apenas mais m². O painel 2FE confirma
+        (<span class="termo" tabindex="0" data-def="Coeficiente da regressão: quanto Y muda por unidade de X. Sinal negativo = relação inversa.">β</span> = −0,004,
+        <span class="termo" tabindex="0" data-def="p-valor: probabilidade de um efeito tão extremo surgir por acaso, se não houvesse efeito real. Abaixo de 0,05 = estatisticamente significativo.">p</span> &lt; 0,001):
+        AMCs onde o VA agro cresceu mais não foram os que
+        mais expandiram área agrícola. A safrinha de milho (2ª safra) amplifica esse efeito
+        a partir dos anos 2000 — mesma área, duas colheitas por ano.
+      </p>
+      <details class="metric-details">
+        <summary>E o que foi plantado? &middot; perfil de culturas (e por que a cana parece dominar)</summary>
+        <div style="padding: 0.9rem 1.1rem; border-top: 1px solid var(--color-rule); background: #fcfcfa;">
+          <figure class="grafico-card grafico-card--wide" style="margin: 0 0 0.9rem;">
+            <img src="img/graficos/sintese_culturas_comparadas.png" alt="Pequenos múltiplos com produção de soja, milho, cana, algodão, sorgo, arroz e feijão (1985-2024)" loading="lazy">
+            <figcaption>Produção anual por cultura, em milhões de toneladas (eixo Y compartilhado). Fonte: IBGE/SIDRA-PAM.</figcaption>
+          </figure>
+          <p style="margin: 0 0 0.7rem;">
+            <strong>Massa, não importância.</strong> A cana-de-açúcar é colhida em
+            massa fresca (colmo, ~70–80 t/ha de produtividade); a soja e o milho
+            são grãos secos (~3–4 t/ha cada). Por hectare, a cana pesa cerca de
+            20× mais que a soja. Portanto a barra alta da cana no gráfico de
+            toneladas <em>não significa</em> importância econômica nem área
+            plantada maior — significa apenas massa fresca colhida.
+          </p>
+          <p style="margin: 0 0 0.7rem;">
+            <strong>Em área plantada</strong>, a soja é hoje (2024) a principal
+            cultura goiana com ~4,5 Mha; a cana ocupa menos de 1 Mha. Para
+            <strong>importância econômica</strong>, ver o Valor Agregado da
+            Agropecuária na <a href="#metodos/painel-vitrine">vitrine do painel</a>
+            (aba Métodos, tema "Macroeconomia").
+          </p>
+          <p style="margin: 0;">
+            A escolha por mostrar toneladas alinha com a maioria das séries
+            históricas do IBGE/SIDRA-PAM, que registram volume colhido — mas
+            um gráfico complementar em hectares ou em R$ daria leitura mais
+            imediata da importância relativa (no backlog).
+          </p>
+        </div>
+      </details>
+      <details class="metric-details">
+        <summary>Conversão sobre pasto vs sobre mata &middot; método pixel-a-pixel</summary>
+        <div style="padding: 0.9rem 1.1rem; border-top: 1px solid var(--color-rule); background: #fcfcfa;">
+          <p style="margin: 0 0 0.6rem;">
+            As matrizes de transição cruzam o uso de cada pixel (30 × 30 m) em
+            dois anos. Pipeline #12 produz a matriz pixel-a-pixel para pares
+            1985→1995, →2005, →2015, →2024 e 1985→2024. Pipeline #19 produz
+            39 pares anuais consecutivos.
+          </p>
+          <p style="margin: 0;">
+            Os números do Sankey vêm do par <strong>1985→2024 (matriz líquida)</strong>
+            — cada pixel conta uma única vez na sua trajetória inicial/final. Já a
+            soma dos 39 pares anuais dá um total maior para "Pastagem → Agricultura"
+            (≈3,83 Mha contra 2,72 Mha da matriz líquida), porque conta pixels que
+            oscilaram entre classes. As duas leituras são complementares; aqui
+            preferimos a líquida para destacar trajetórias e não duplicar transições.
+            <em>Nota (28/jul/2026): a matriz líquida foi recontada com sete grupos,
+            incluindo o Mosaico (#12B). Os pares anuais do #19 ainda não passaram por
+            essa recontagem, então o ≈3,83 Mha é da régua antiga — a comparação entre
+            os dois números é indicativa, não exata.</em>
+          </p>
+        </div>
+      </details>
+      <p class="bloco-resposta">
+        <span class="bloco-resposta-rotulo">Em uma frase</span>
+        Majoritariamente não: 2,72 Mha vieram de pastagem — mais que o dobro do que
+        veio direto da vegetação (1,29 Mha). A expansão tem endereço (o sudoeste) e
+        assinatura de <em>land sparing</em>.
+      </p>
+    </div>
+
+    <!-- 5 — Crédito → pastagem -->
+    <div class="como-bloco" id="sec-credito">
+      <h3>5 &middot; Onde o crédito apareceu, a pastagem recuou</h3>
+      <p class="bloco-pergunta">O dinheiro do crédito rural deixa marca visível no mapa do uso da terra?</p>
+      <p>
+        A partir de 2013, o SICOR (BACEN) registra o crédito rural por
+        <span class="termo" tabindex="0" data-def="Área Mínima Comparável: município-pai agrupado com os filhos que se emanciparam dele, formando 166 unidades de território constante de 1985 a 2024 — sem isso, emancipações fabricariam quedas espúrias nas séries.">AMC</span>.
+        Cruzando com a variação anual de pastagem no painel
+        AMC (2-way FE), encontra-se uma associação inversa
+        significativa: onde o crédito aumentou, a pastagem encolheu. O sinal
+        é consistente com a transição financiada pastagem → agricultura
+        mostrada no Sankey de § 2.
+      </p>
+      <figure class="grafico-card grafico-card--wide">
+        <img src="img/graficos/13_scatter_credito_pastagem.png" alt="Dispersão por município: crédito rural por hectare de pastagem versus variação da área de pastagem 1985-2024" loading="lazy">
+        <figcaption>Cada ponto é um município: crédito rural por hectare de pastagem (eixo Y) × variação da área de pastagem 1985→2024 (eixo X). Os municípios de maior crédito por hectare concentram-se à esquerda do zero — onde o pasto recuou ou ficou estável. Fonte: BACEN/SICOR + MapBiomas.</figcaption>
+      </figure>
+      <details class="metric-details">
+        <summary>A série do crédito rural no estado (SICOR, 2013–2024)</summary>
+        <div style="padding: 0.9rem 1.1rem; border-top: 1px solid var(--color-rule); background: #fcfcfa;">
+          <figure class="grafico-card grafico-card--wide" style="margin: 0;">
+            <img src="img/graficos/12_credito_uf_serie_2013-2024.png" alt="Evolução anual do SICOR em Goiás, 2013-2024" loading="lazy">
+            <figcaption>Crédito rural agregado em Goiás (R$ reais, deflacionado IPCA). Fonte: BACEN/SICOR.</figcaption>
+          </figure>
+        </div>
+      </details>
+      <details class="metric-details">
+        <summary>Painel 2FE &middot; Δ Pastagem × Δ SICOR &middot; coeficientes em duas janelas</summary>
+        <div style="padding: 0.9rem 1.1rem; border-top: 1px solid var(--color-rule); background: #fcfcfa;">
+          <p style="margin: 0 0 0.6rem;">
+            Especificação:
+            <code>Δ Pastagem<sub>it</sub> = α<sub>i</sub> + γ<sub>t</sub> + β · Δ SICOR<sub>it</sub> + ε<sub>it</sub></code>.
+            O efeito fixo de AMC (α<sub>i</sub>) absorve heterogeneidade local;
+            o efeito fixo de ano (γ<sub>t</sub>) absorve choques nacionais.
+            Erro padrão clusterizado por AMC.
+          </p>
+          <table class="camadas-tabela" style="margin: 0.5rem 0;">
+            <thead>
+              <tr>
+                <th>Janela</th>
+                <th style="text-align:right;">β</th>
+                <th style="text-align:right;">SE</th>
+                <th style="text-align:right;">p</th>
+                <th style="text-align:right;">N</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>2013–2021 (plena)</td><td style="text-align:right; font-variant-numeric: tabular-nums;">−0,0034</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,0006</td><td style="text-align:right; font-variant-numeric: tabular-nums;">&lt;0,001</td><td style="text-align:right; font-variant-numeric: tabular-nums;">1.956</td></tr>
+              <tr><td>2002–2023 (estendida)</td><td style="text-align:right; font-variant-numeric: tabular-nums;">−0,0029</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,0007</td><td style="text-align:right; font-variant-numeric: tabular-nums;">&lt;0,001</td><td style="text-align:right; font-variant-numeric: tabular-nums;">2.444</td></tr>
+            </tbody>
+          </table>
+          <p style="font-size: 0.88rem; margin: 0;">
+            Sinal negativo persiste em duas janelas independentes — robustez
+            forte. <strong>Atenção:</strong> a associação 2FE não estabelece
+            causalidade pelo painel isolado. Tendências paralelas, confundidores
+            espaciais e o sentido da relação (crédito puxa transição vs. transição
+            atrai crédito) são discutidos na aba Métodos
+            (<a href="#metodos/metodo-evidencia">camadas de evidência</a> e
+            <a href="#metodos/limitacoes">limitações</a>).
+          </p>
+        </div>
+      </details>
+      <p class="bloco-resposta">
+        <span class="bloco-resposta-rotulo">Em uma frase</span>
+        Sim, e com sinal claro: onde o crédito por AMC cresceu, a pastagem recuou
+        (β = −0,003, p &lt; 0,001, robusto em duas janelas) — consistente com a
+        conversão pasto → lavoura financiada. É associação forte; o que ela pode e
+        não pode afirmar sobre causa está na aba Métodos.
+      </p>
+    </div>
+
+    <!-- 6 — Pastagem como reserva de terra -->
+    <div class="como-bloco" id="sec-idade-pastagem">
+      <h3>6 &middot; Pastagem como reserva de terra: duas populações de conversão</h3>
+      <p class="bloco-pergunta">Quando o pasto vira lavoura, ele era pasto "de passagem" ou reserva antiga de terra?</p>
+    <p>
+      Se a pecuária se desacoplou da área (§ 3) e a lavoura cresceu sobre pasto (§ 4),
+      resta uma pergunta: <em>quanto tempo a pastagem permaneceu antes de virar lavoura?</em>
+      A resposta importa porque distinguir conversão premeditada de oportunística muda a leitura
+      política: se a pastagem funciona como reserva de terra de longo prazo, políticas de
+      crédito e regulação fundiária têm alavancagem diferente do que se toda conversão fosse
+      rotação agrícola de curto prazo. A idade da pastagem no momento da conversão
+      pixel-a-pixel — <strong>todos</strong> os 44,6 milhões de eventos de conversão de Goiás,
+      3,8 milhões de hectares, 11,2% do estado — revela que não existe uma única
+      resposta: existem <strong>duas populações</strong>.
+    </p>
+    <figure class="grafico-card grafico-card--wide">
+      <img src="img/graficos/sintese_idade_pastagem_atos.png"
+           alt="Distribuição da idade da pastagem na conversão para agricultura, por Ato" loading="lazy">
+      <figcaption>Distribuição da idade da pastagem (anos) na conversão para agricultura, por Ato. O que observar: a curva não tem um pico só, mas <em>dois</em> — um perto de ~4 anos (pasto jovem) e outro perto de ~23 anos (pasto antigo). É a <strong>forma</strong> que importa aqui, e só ela: a variação das medianas <em>entre</em> os atos <strong>não</strong> pode ser lida como tendência — antes de 2020 ela mede horizonte de observação (a série começa em 1985), e depois de 2020 mede a migração do rótulo de destino para "Mosaico de Usos" (<a href="#metodos/metodo-decisoes">D25/D26</a>). 64% dos pixels já eram pastagem em 1985, e desses a idade real é desconhecida (censura à esquerda). Fonte: MapBiomas Coleção 10.1, censo pixel-a-pixel.</figcaption>
+    </figure>
+
+    <!-- #28-C — bloco interativo (progressive enhancement; sem JS, a figura acima assume) -->
+    <div id="reserva-interativo" class="reserva-interativo" hidden>
+      <div class="reserva-grid">
+        <figure class="reserva-painel">
+          <figcaption class="reserva-titulo">Onde os dois mecanismos coexistem</figcaption>
+          <div id="reserva-mapa" class="reserva-mapa" role="img"
+               aria-label="Mapa das 166 AMCs de Goiás: quais têm distribuição bimodal da idade da pastagem na conversão"></div>
+          <div id="reserva-mapa-legenda" class="reserva-legenda"></div>
+          <p class="reserva-nota">
+            Cada AMC pintada pelo <em>veredito</em>: a idade tem dois modos ali dentro?
+            O mapa é quase todo de uma cor — e é esse o achado. A região explica
+            <strong>0,5%</strong> da variação da idade; os dois mecanismos rodam em toda
+            parte. <strong>Até julho de 2026 este painel mostrava outra coisa</strong>:
+            as AMCs pintadas pela idade média, sob a legenda "jovem no Sul, antigo no
+            Norte". Esse gradiente não sobreviveu — medido pela régua superior
+            (<code>pasto → agricultura ∪ mosaico</code>) a amplitude Sul→Norte cai de
+            7 para 2 anos e as pontas trocam de lugar. Três testes independentes
+            chegaram lá (#28C, #40, #33). Ver
+            <a href="#metodos/metodo-decisoes">D26</a>.
+          </p>
+        </figure>
+        <figure class="reserva-painel">
+          <figcaption class="reserva-titulo">A distribuição por região — os dois picos em cada recorte</figcaption>
+          <div id="reserva-regiao-toggle" class="reserva-toggle" role="tablist"
+               aria-label="Selecionar a região"></div>
+          <div id="reserva-hist" class="reserva-hist" role="img"
+               aria-label="Histograma da idade da pastagem na conversão para a região selecionada"></div>
+          <p class="reserva-nota" id="reserva-hist-nota"></p>
+        </figure>
+      </div>
+      <p class="reserva-cobertura" id="reserva-cobertura"></p>
+      <div class="reserva-coortes">
+        <div class="reserva-coorte">
+          <div class="reserva-coorte-valor">mediana 13 a</div>
+          <div class="reserva-coorte-rotulo">Vegetação → pastagem → agricultura</div>
+          <div class="reserva-coorte-glosa">
+            n = 6,4 milhões de pixels (14,3%). Terra aberta do Cerrado que passou
+            pela pastagem antes da lavoura — a <em>reserva</em> de fronteira, com
+            cauda longa.
+          </div>
+        </div>
+        <div class="reserva-coorte">
+          <div class="reserva-coorte-valor">mediana 5 a</div>
+          <div class="reserva-coorte-rotulo">Agricultura → pastagem → agricultura</div>
+          <div class="reserva-coorte-glosa">
+            n = 3,9 milhões de pixels (8,8%). Pasto de <em>passagem</em> dentro de
+            um sistema já agrícola — rotação/ILP de ciclo curto, sem abertura de
+            vegetação.
+          </div>
+        </div>
+        <div class="reserva-coorte">
+          <div class="reserva-coorte-valor">mediana 12 a</div>
+          <div class="reserva-coorte-rotulo">Mosaico de usos → pastagem → agricultura</div>
+          <div class="reserva-coorte-glosa">
+            n = 5,3 milhões de pixels (11,8%). Origem que o MapBiomas não conseguiu
+            separar entre lavoura e pasto. Esta coorte <em>não aparecia</em> até
+            jul/2026: um defeito de código a contava como idade desconhecida.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dado-choque-grid">
+      <div class="dado-choque" id="reserva-card-jovem">
+        <div class="dado-choque-valor" data-campo="valor">μ ≈ 4,2 a (31,5%)</div>
+        <div class="dado-choque-label">Rotação rápida / premeditada</div>
+        <div class="dado-choque-glosa">
+          Na janela 2016–2024, <span data-campo="peso">31,5%</span> dos pixels convertidos pertencem a uma
+          <span class="termo" tabindex="0" data-def="Mistura de gaussianas (GMM): a distribuição é modelada como soma de dois 'sinos'; cada sino (componente) corresponde a um mecanismo de conversão distinto.">componente gaussiana</span> com
+          média de ~4,2 anos e desvio σ ≈ <span data-campo="sigma">1,9</span>. Pastagem jovem convertida rapidamente — consistente
+          com planejamento (abertura para lavoura em 2–7 anos) ou rotação agricultura → pastagem → agricultura.
+        </div>
+      </div>
+      <div class="dado-choque" id="reserva-card-antigo">
+        <div class="dado-choque-valor" data-campo="valor">μ ≈ 22,5 a (68,5%)</div>
+        <div class="dado-choque-label">Reserva histórica / oportunismo</div>
+        <div class="dado-choque-glosa">
+          A segunda componente tem média ~22,5 anos (σ ≈ <span data-campo="sigma">7,4</span>) e <span data-campo="peso">68,5%</span> do peso.
+          Pastagem consolidada, convertida tardiamente —
+          consistente com o mecanismo oportunístico: produtores ativam reservas de terra antigas quando
+          o preço da commodity ou o crédito tornam a conversão viável.
+        </div>
+      </div>
+    </div>
+    <p class="reserva-nota">
+      Censo pixel-a-pixel, janela 2016–2024, sobre <span id="reserva-cards-n">3.455.514</span>
+      eventos de idade conhecida. Até jul/2026 estes cards traziam 4,6 a (44%) e 21,8 a (56%) —
+      números da <em>amostra</em> de 78 mil pontos, publicados sob uma seção que já anunciava o censo.
+    </p>
+
+    <p>
+      A bimodalidade é estável no que importa: os dois modos aparecem em todas as janelas
+      testadas (2016–24, 2017–24, 2018–24, 2020–24) e <em>mal se movem</em> — o jovem entre
+      4,2 e 4,5 anos, o antigo entre 22,5 e 23,5. E aparecem em toda parte: <strong>5 de 5
+      mesorregiões</strong> e <strong>162 de 164 AMCs</strong> são bimodais por dentro.
+      O que <em>não</em> se pode ler aqui é uma tendência: o peso relativo entre os dois modos
+      varia com a janela escolhida, mas essa variação acompanha a migração do rótulo de destino
+      para "Mosaico de Usos", não o calendário (<a href="#metodos/metodo-decisoes">D25</a>).
+      A coexistência dos dois mecanismos conecta § 4 (lavoura sobre pasto) com § 5 (crédito
+      → retração de pasto): o crédito rural financia tanto a conversão premeditada (projetos
+      integrados) quanto a oportunística (arrendamento de pastagem consolidada).
+    </p>
+
+    <details class="metric-details" style="margin-top: 1rem;">
+      <summary>O que esta seção mede — e o que ela deixou de afirmar</summary>
+      <div style="padding: 0.9rem 1.1rem; border-top: 1px solid var(--color-rule); background: #fcfcfa;">
+        <div class="metric-rows" style="border: none; padding: 0; background: transparent;">
+          <div class="metric-row"><span class="metric-row-label">Modo jovem (giro/ILP)</span><span class="metric-row-value">μ ≈ 4,4 a</span></div>
+          <div class="metric-row"><span class="metric-row-label">Modo antigo (reserva)</span><span class="metric-row-value">μ ≈ 22,9 a</span></div>
+          <div class="metric-row"><span class="metric-row-label">Mesorregiões bimodais</span><span class="metric-row-value">5 de 5</span></div>
+          <div class="metric-row"><span class="metric-row-label">AMCs bimodais</span><span class="metric-row-value">162 de 164</span></div>
+          <div class="metric-row"><span class="metric-row-label">Variação da idade explicada pela região</span><span class="metric-row-value">0,5%</span></div>
+        </div>
+        <p style="font-size: 0.85rem; margin: 0.8rem 0 0.3rem;">
+          <strong>Censura à esquerda:</strong> 64% dos 44,6 milhões de eventos já eram pastagem em 1985.
+          A idade real desses pixels é desconhecida. Análises interpretativas restringem-se aos
+          16,0 milhões não-censurados.
+        </p>
+        <p style="font-size: 0.85rem; margin: 0.3rem 0;">
+          <strong>Duas afirmações foram retiradas em jul/2026, e vale saber quais.</strong>
+          (1) <em>A mediana por Ato</em> — 4 a / 14 a / 8 a — saiu: nos Atos I e II a censura consome
+          a mediana (o número mediria o horizonte de observação, não a idade), e no Ato III a
+          população medida é selecionada pelo rótulo de destino. Com esta série não se pode dizer
+          que a idade do pasto convertido subiu ou caiu ao longo do tempo.
+          (2) <em>O gradiente latitudinal de idade</em> — "Sul jovem, Norte velho" — caiu em três
+          testes independentes: sob <code>pasto → (agricultura ∪ mosaico)</code> a amplitude vai de
+          7 a para 2 a (#28C), o gradiente índice-jovem × latitude some (#40) e a tabela do Ato III
+          <em>inverte</em>: Sul 16 a → 32 a, Norte 27 a → 23 a (#33).
+        </p>
+        <p style="font-size: 0.85rem; margin: 0.3rem 0;">
+          <strong>Composição de origem (janela 2020–24, não-censurados):</strong> rotação
+          agricultura→pastagem→agricultura 43,0%, mosaico de usos 19,8%, ambíguo 18,1%,
+          oportunístico clássico 16,6%, premeditado curto 2,5%. Vale para o subconjunto cujo destino
+          foi rotulado "agricultura" — que é justamente o recorte que a
+          <a href="#metodos/metodo-decisoes">D25</a> mostra ser seletivo nesta janela.
+        </p>
+        <p style="font-size: 0.85rem; margin: 0.3rem 0;">
+          <strong>Limitação:</strong> a análise é descritiva — não estabelece causalidade.
+          Sem dados de CAR/SICAR para testar a hipótese de arrendamento diretamente.
+        </p>
+      </div>
+    </details>
+
+    <p class="bloco-resposta">
+      <span class="bloco-resposta-rotulo">Em uma frase</span>
+      Os dois — e é isso que importa: a idade na conversão é bimodal (~5 anos × ~22 anos),
+      a assinatura de dois mecanismos coexistindo no mesmo estado: rotação premeditada e
+      ativação oportunística de reservas antigas de terra. E coexistindo <em>em toda parte</em>:
+      não há um Goiás da rotação e outro da reserva — há os dois, em cada recorte que se olhe.
+    </p>
+
+    <p>
+      Desacoplamento, lavoura sobre pasto e duas idades de pastagem têm algo em comum: são
+      retratos <em>estaduais</em>. Dizem <em>o quê</em> mudou, mas não <em>onde</em>. E o "onde"
+      não é detalhe: a idade do pasto não separa as regiões, mas a <em>fronteira</em> sim — ela
+      se move, e num eixo nítido, do Sul ao Norte. É o que o próximo movimento — o coração do
+      trabalho — revela.
+    </p>
+    </div>
+
+    <!-- ===================== PARTE III — A marcha ao norte (a tese central) ===================== -->
+    <div class="parte-divisor parte-divisor--clima" id="mov-marcha">
+      <span class="parte-num">Movimento III &middot; o clímax</span>
+      <h2>A marcha ao norte</h2>
+      <p class="parte-lede">
+        Aqui o trabalho deixa de descrever <em>o quê</em> mudou e passa a mostrar <em>onde</em> —
+        e essa é a tese central. Entre 1985 e 2024, Goiás passou por uma <strong>reorganização
+        espacial da produção agropecuária</strong>: intensificação no Sul, fronteira no Norte,
+        coordenadas por forças de mercado comuns sobre um gradiente de aptidão. Cinco passos
+        constroem e testam essa afirmação.
+      </p>
+    </div>
+
+    <!-- #32 interativo — mapa animado da marcha + faixa latitude-tempo (marcha-mapa.js).
+         Progressive enhancement: sem d3/JS fica hidden e o scrollytelling de PNGs abaixo assume. -->
+    <section id="marcha-mapa-bloco" class="marchamap" hidden
+             aria-label="Mapa animado do centro de massa, 1985 a 2024">
+      <div class="marchamap-head">
+        <h3 class="marchamap-titulo">O centro de massa em movimento, 1985 → 2024</h3>
+        <p class="marchamap-sub">
+          Cada ponto é o centro de gravidade de um uso da terra no estado — a média
+          das posições das 166 AMCs, ponderada pela quantidade da variável ali. Aperte
+          <em>reproduzir</em> (ou arraste a faixa) e veja os quatro centros caminharem
+          ao norte ao longo de 40 anos. À direita, a mesma marcha lida como latitude,
+          ano a ano.
+        </p>
+        <div style="margin-top: 0.8rem;">
+          <a href="centros-de-massa.html" class="marchamap-btn" style="text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; background: #264653; border-color: #264653;">
+            📍 Explorar Atlas Completo (Leite, Área Urbana, Fogo, Crédito e Silos) →
+          </a>
+        </div>
+      </div>
+      <div class="marchamap-grid">
+        <figure class="marchamap-painel">
+          <div id="marchamap-mapa" class="marchamap-mapa" role="img"
+               aria-label="Recorte central de Goiás com o centro de massa de agricultura, pastagem, rebanho e vegetação natural caminhando ao norte de 1985 a 2024"></div>
+          <div class="marchamap-controles">
+            <button type="button" id="marchamap-play" class="marchamap-btn"
+                    aria-pressed="false">▶ Reproduzir</button>
+            <input type="range" id="marchamap-slider" class="marchamap-slider"
+                   aria-label="Ano" value="1985" step="1">
+            <span id="marchamap-ano" class="marchamap-ano">1985</span>
+          </div>
+          <div id="marchamap-legenda" class="marchamap-legenda"></div>
+          <label class="marchamap-check">
+            <input type="checkbox" id="marchamap-elipse"> mostrar a dispersão (elipse 1σ do ato)
+          </label>
+        </figure>
+        <figure class="marchamap-painel">
+          <figcaption class="marchamap-cap">Latitude do centro, ano a ano — mais alto = mais ao norte</figcaption>
+          <div id="marchamap-strip" class="marchamap-strip" role="img"
+               aria-label="Latitude do centro de massa de cada variável por ano, 1985 a 2024, com as faixas dos três atos"></div>
+          <p id="marchamap-nota" class="marchamap-nota"></p>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Scrolly da marcha: figura-âncora fixa + passos (marcha.js) -->
+    <div class="marcha-scrolly" id="marcha-scrolly">
+      <div class="marcha-figura">
+        <div class="marcha-figura-frame">
+          <img id="marcha-figura-img" src="img/marcha_norte/deslocamento_latitude.png"
+               alt="Figura-chave do passo atual da marcha ao norte" loading="lazy">
+          <p class="marcha-figura-caption" id="marcha-figura-caption">Latitude do centro de massa de cada variável, ano a ano (#32).</p>
+        </div>
+      </div>
+      <div class="marcha-steps">
+
+    <!-- 7 — O padrão: centro de massa migrou ao norte (#32) -->
+    <div class="como-bloco" id="sec-centro-massa"
+         data-figura="img/marcha_norte/deslocamento_latitude.png"
+         data-figcap="O gráfico-chave (#32): latitude do centro de massa, ano a ano. Tudo sobe; a agricultura permanece ~1,2° ao sul — o gradiente dos dois Goiáses.">
+      <h3>7 &middot; O padrão: o centro de massa migrou ao norte</h3>
+      <p class="bloco-pergunta">Dá para medir, num único número por ano, para onde a produção está indo?</p>
+      <p>
+        Como medir, num número, se "a produção subiu para o norte"? A resposta é o
+        <strong>centro de massa</strong>: para cada ano e cada variável, toma-se a posição de
+        cada uma das 166 AMCs e pondera-se pela quantidade da variável ali (hectares de pasto,
+        cabeças de gado, etc.). O resultado é um ponto único — o "centro de gravidade" daquela
+        atividade no estado. Acompanhá-lo ano a ano mostra para onde a atividade se desloca.
+      </p>
+      <figure class="grafico-card grafico-card--wide figura-chave">
+        <img src="img/marcha_norte/deslocamento_latitude.png" alt="Deslocamento norte-sul do centro de massa de cada variável, latitude por ano, 1985-2024, com faixas dos três atos" loading="lazy">
+        <figcaption>O gráfico-chave: a latitude do centro de massa de cada variável, ano a ano (mais alto = mais ao norte; faixas = os três atos). A vegetação natural (verde) é um teto estável; pastagem e rebanho marcham para cima; a agricultura sobe em paralelo, ~1,2° ao sul — o gradiente persistente. Fonte: painel AMC (#32).</figcaption>
+      </figure>
+      <div class="dado-choque-grid">
+        <div class="dado-choque">
+          <div class="dado-choque-valor">+78 km</div>
+          <div class="dado-choque-label">Pastagem &middot; deslocamento ao norte (40 anos)</div>
+          <div class="dado-choque-glosa">O maior avanço da série. Rebanho +67 km e agricultura +65 km acompanham; a vegetação natural quase não se moveu (+8 km) — mas esse agregado engana: é a floresta que está presa, enquanto o campo nativo e a savânica recuaram ao norte (ver robustez abaixo).</div>
+        </div>
+        <div class="dado-choque">
+          <div class="dado-choque-valor">~120–130 km</div>
+          <div class="dado-choque-label">Agricultura ao sul de pasto/rebanho — em todos os anos</div>
+          <div class="dado-choque-glosa">Não é só "tudo subiu": existe um gradiente latitudinal persistente. A lavoura permanece sistematicamente mais ao sul que pasto e rebanho — a marca de dois Goiáses.</div>
+        </div>
+        <div class="dado-choque">
+          <div class="dado-choque-valor">Ato III</div>
+          <div class="dado-choque-label">Só agora a agricultura desacelera</div>
+          <div class="dado-choque-glosa">A partir de 2020, pasto e rebanho seguem subindo, mas a agricultura quase estaciona — o sinal de deslocamento mais limpo da série, e é recente.</div>
+        </div>
+      </div>
+      <figure class="grafico-card grafico-card--wide">
+        <img src="img/marcha_norte/overview_posicoes.png" alt="Mapa de Goiás com o centro de massa de cada variável em 1985 e 2024, ligados por setas de trajetória" loading="lazy">
+        <figcaption>O mesmo no mapa: o centro de massa de cada variável em 1985 (círculo vazado) e 2024 (preenchido), ligados pela seta de trajetória. Todas as setas apontam ao norte; a da vegetação natural é a mais curta. Fonte: painel AMC (#32).</figcaption>
+      </figure>
+      <details class="metric-details">
+        <summary>A dispersão também mudou? &middot; elipses de desvio-padrão por ato</summary>
+        <div style="padding: 0.9rem 1.1rem; border-top: 1px solid var(--color-rule); background: #fcfcfa;">
+          <p style="margin: 0 0 0.8rem;">
+            Além do centro, a <em>elipse de desvio-padrão</em> mostra como cada atividade se
+            espalha pelo território em cada ato — útil para separar "deslocou o centro" de
+            "também concentrou ou espalhou".
+          </p>
+          <figure class="grafico-card grafico-card--wide" style="margin: 0;">
+            <img src="img/marcha_norte/elipses_por_ato.png" alt="Elipses de desvio-padrão da distribuição de cada variável por ato" loading="lazy">
+            <figcaption>Elipses de 1 desvio-padrão por ato (#32) — cada uma cobre ~68% da atividade naquele ato. O que observar: a elipse da agricultura não só sobe como <em>cresce</em> (eixo maior 160→183 km) em vez de encolher — ou seja, a lavoura se espalhou mais, não se consolidou num núcleo.</figcaption>
+          </figure>
+        </div>
+      </details>
+      <details class="metric-details">
+        <summary>A marcha resiste ao escrutínio? &middot; quatro provas de robustez (malha, fonte, especificidade, formações)</summary>
+        <div style="padding: 0.9rem 1.1rem; border-top: 1px solid var(--color-rule); background: #fcfcfa;">
+          <p style="margin: 0 0 0.9rem;">
+            Antes de tratar a marcha ao norte como fato, ela foi submetida a cinco testes que poderiam
+            derrubá-la — trocando a malha, trocando a fonte de dados, checando se o movimento é
+            específico da fronteira e medindo o quanto a mudança de rótulo do MapBiomas a distorce.
+            As três primeiras passaram; a quarta ainda <em>reforça</em> a leitura; a quinta encontrou
+            um viés real, quantificou-o e mostrou que ele não derruba a manchete.
+          </p>
+
+          <p style="margin: 0 0 0.4rem;"><strong>1 &middot; Não é artefato da malha (#43).</strong>
+            O centro de massa usa o centroide de cada AMC — e as AMCs do Norte (fronteira) são maiores
+            e mais irregulares que as do Sul. Recalculando pixel a pixel do raster MapBiomas,
+            <em>sem malha administrativa nenhuma</em>, o resultado é o mesmo: as curvas colam a ~1–2 km
+            ao longo dos 40 anos. O Sul→Norte não é efeito de como as unidades foram desenhadas
+            (<span class="termo" tabindex="0" data-def="Modifiable Areal Unit Problem: o resultado de uma análise espacial pode mudar conforme o tamanho e o recorte das unidades geográficas usadas para agregar os dados.">MAUP</span>).</p>
+          <figure class="grafico-card grafico-card--wide" style="margin: 0 0 1.1rem;">
+            <img src="img/marcha_norte/comparacao_pixel_amc.png" alt="Centro de massa: centroide-AMC (#32) versus pixel-a-pixel (#43), praticamente sobrepostos ao longo de 1985-2024" loading="lazy">
+            <figcaption>Centroide-AMC (linha cheia, #32) vs pixel-a-pixel bruto (tracejado, #43) para as três classes com raster. Sobrepostos o tempo todo — a leitura Sul→Norte não vem da agregação por AMC. Fonte: #43.</figcaption>
+          </figure>
+
+          <p style="margin: 0 0 0.4rem;"><strong>2 &middot; Duas fontes independentes concordam (#44).</strong>
+            A soja tem posição pelo raster (satélite, MapBiomas) <em>e</em> pela SIDRA (censo agropecuário).
+            Os dois centroides andam juntos (correlação 0,89; diferença média ~7 km) — validação cruzada que,
+            por tabela, empresta credibilidade ao centroide do <em>rebanho</em>, que só existe em dado tabular.
+            E revela que, quando o trabalho diz "agricultura", é essencialmente soja: as curvas são quase a mesma.</p>
+          <figure class="grafico-card grafico-card--wide" style="margin: 0 0 1.1rem;">
+            <img src="img/marcha_norte/desagregado_soja.png" alt="Centro de massa da soja pelo raster e pela SIDRA, colados entre si e ao agregado agrícola" loading="lazy">
+            <figcaption>Soja pelo raster (roxo escuro) e pela SIDRA (roxo claro), coladas entre si e ao agregado "agricultura" (tracejado magenta). Fontes independentes, mesmo centroide. Fonte: #44.</figcaption>
+          </figure>
+
+          <p style="margin: 0 0 0.4rem;"><strong>3 &middot; A marcha é específica da fronteira (#44).</strong>
+            Se tudo simplesmente "derivasse ao norte", seria um artefato. Dois controles mostram que não:
+            a <strong>área urbana fica parada</strong> (placebo limpo, no eixo Goiânia–Anápolis) e o
+            <strong>leite</strong> — pecuária da bacia consolidada do Sul — fica ancorado ao sul enquanto o
+            rebanho de corte marcha; o vão entre os dois dobra (30 → 67 km).</p>
+          <figure class="grafico-card grafico-card--wide" style="margin: 0 0 1.1rem;">
+            <img src="img/marcha_norte/desagregado_controle.png" alt="Área urbana estável e leite ao sul, contra pasto e rebanho que marcham ao norte" loading="lazy">
+            <figcaption>Controles: a área urbana (cinza) é horizontal por 40 anos; o leite (azul) fica ao sul do rebanho o tempo todo. A marcha ao norte é da fronteira agropecuária, não deriva genérica. Fonte: #44.</figcaption>
+          </figure>
+
+          <p style="margin: 0 0 0.4rem;"><strong>4 &middot; O "teto" é a floresta — a vegetação convertível recuou (#44).</strong>
+            O +8 km "quase parado" da vegetação natural é média enganosa. Abrindo as formações: a
+            <strong>floresta</strong> está presa (segue os rios, +9 km), mas o <strong>campo nativo recuou
+            fortemente ao norte</strong> e a savânica +12 — as formações convertíveis recuaram <em>com</em> a
+            fronteira, e o pasto as alcança em latitude por volta de 2021. O agregado escondia isso; a
+            versão aberta é ainda mais consistente com a fronteira.</p>
+          <figure class="grafico-card grafico-card--wide" style="margin: 0 0 1.1rem;">
+            <img src="img/marcha_norte/desagregado_vegetacao.png" alt="Vegetação natural aberta em floresta (presa), savânica e campo nativo (que recuam ao norte)" loading="lazy">
+            <figcaption>Vegetação natural aberta: floresta (verde escuro) presa; campo nativo (verde claro) e savânica recuam ao norte; o pasto (laranja) os alcança ~2021. Fonte: #44.</figcaption>
+          </figure>
+
+          <p style="margin: 0 0 0.4rem;"><strong>5 &middot; A mudança de rótulo enviesa a ponta da série — e o viés foi medido (#28D).</strong>
+            Este é o teste que <em>achou</em> alguma coisa. Como a terra que sai da pastagem passou a ser
+            rotulada "Mosaico de Usos" em vez de "agricultura" no fim da série (D25), o centroide da
+            agricultura para de enxergar parte da conversão recente — e a massa que ele deixa de ver está
+            <strong>ao norte</strong> dele. Medindo pelo bracket (D26): o centroide da agricultura no Ato III
+            é subestimado em <strong>~4 a 10 km</strong>, e o centro de massa do crescimento do Mosaico entre
+            2019 e 2024 fica <strong>46,5 km ao norte</strong> da agricultura visível. Ou seja, o
+            congelamento aparente da linha magenta depois de 2020 é assinatura do classificador, não do
+            campo: sob a régua <code>agricultura ∪ Mosaico</code> a agricultura <em>continua subindo</em>
+            (+4,1 km, com intervalo de confiança excluindo zero).
+          </p>
+          <p style="margin: 0 0 0.4rem; padding-left: 0.9rem; border-left: 2px solid var(--color-rule); color: var(--color-muted); font-size: 0.94rem;">
+            <strong>Por que isso não derruba a marcha.</strong> O viés é de <em>poucos quilômetros</em> e
+            só na ponta recente de <em>uma</em> das linhas. A manchete desta seção — os <strong>+78 km</strong>
+            da pastagem ao longo de 40 anos — vem de uma classe que a mudança de rótulo quase não drena, e o
+            rebanho vem da SIDRA, que nunca passa pelo classificador. O gradiente (agricultura sempre ao sul)
+            e o sentido do movimento ficam de pé nas duas pontas do bracket. O que se abandona é uma frase
+            menor: "a agricultura parou de subir depois de 2020".
+          </p>
+        </div>
+      </details>
+      <p class="bloco-resposta">
+        <span class="bloco-resposta-rotulo">Em uma frase</span>
+        Sim — o centro de massa. E ele diz que tudo marchou ao norte (pastagem +78 km,
+        rebanho +67 km, agricultura +65 km), com a agricultura sempre ~120–130 km ao sul:
+        o gradiente persistente dos dois Goiáses.
+      </p>
+    </div>
+
+    <!-- 8 — O mecanismo: dois Goiáses (#33) -->
+    <div class="como-bloco" id="sec-dois-goiases"
+         data-figura="img/marcha_norte/fluxos_chave.png"
+         data-figcap="O mecanismo (#33): conversão por mesorregião (Sul→Norte) e ato. O pasto→agric (rosa) só lidera no Sul; o veg→pasto (verde) domina o resto e persiste no Norte. No painel do Ato III, o rosa que encolhe é medida crua — a conversão mudou de rótulo, não parou.">
+      <h3>8 &middot; O mecanismo: dois Goiáses</h3>
+      <p class="bloco-pergunta">Qual transição, em qual região, moveu o centro de massa?</p>
+      <p>
+        Se o centro de gravidade se moveu, <em>qual transição, em qual região</em> o moveu?
+        Recortando as conversões pixel-a-pixel por mesorregião (ordenadas por latitude) e por
+        ato, aparece um gradiente nítido: ao sul, <strong>pasto → agricultura</strong> (rosa);
+        ao norte, <strong>vegetação → pasto</strong> (verde). Duas lógicas convivendo no mesmo
+        estado.
+      </p>
+      <figure class="grafico-card grafico-card--wide figura-chave">
+        <img src="img/marcha_norte/fluxos_chave.png" alt="Mecanismo Sul-Norte: pasto-agricultura no sul versus vegetação-pasto no norte, por mesorregião e ato" loading="lazy">
+        <figcaption>Conversão (Mha/ano) por mesorregião (Sul→Norte) e ato. O pasto→agric (rosa) só lidera no Sul, e sobretudo no Ato II (o boom da soja); o veg→pasto (verde) domina o resto e <em>persiste</em> no Norte. <strong>Atenção ao painel do Ato III</strong>: o rosa que encolhe ali é medida crua — a conversão não parou, mudou de rótulo (ver o bloco abaixo). Fonte: transições pixel-a-pixel por mesorregião (#33).</figcaption>
+      </figure>
+      <div class="dado-choque-grid">
+        <div class="dado-choque">
+          <div class="dado-choque-valor">Sul</div>
+          <div class="dado-choque-label">Intensificação: a lavoura entra sobre o pasto</div>
+          <div class="dado-choque-glosa">No Ato II o Sul perde pasto líquido (−0,57 Mha) e ganha lavoura (+0,76 Mha). É a única região onde <code>pasto→agric</code> chega a ser a conversão dominante.</div>
+        </div>
+        <div class="dado-choque">
+          <div class="dado-choque-valor">Norte</div>
+          <div class="dado-choque-label">Fronteira: o pasto entra sobre o Cerrado</div>
+          <div class="dado-choque-glosa">Enquanto o Sul intensifica, Norte e Noroeste ganham pasto novo a partir de vegetação — a fronteira de expansão clássica.</div>
+        </div>
+        <div class="dado-choque">
+          <div class="dado-choque-valor">−49% × −13%</div>
+          <div class="dado-choque-label">Queda do veg→pasto no Ato III: Sul × Norte</div>
+          <div class="dado-choque-glosa">A abertura de Cerrado praticamente cessa no Sul e <em>persiste</em> no Norte (e cresce 3% no Centro). É esta medida — imune à mudança de rótulo — que sustenta "o Sul trava, o Norte avança".</div>
+        </div>
+      </div>
+      <details class="metric-details">
+        <summary>Transição dominante por região e ato &middot; grade completa</summary>
+        <div style="padding: 0.9rem 1.1rem; border-top: 1px solid var(--color-rule); background: #fcfcfa;">
+          <figure class="grafico-card grafico-card--wide" style="margin: 0;">
+            <img src="img/marcha_norte/dominante_grid.png" alt="Transição dominante por mesorregião e ato" loading="lazy">
+            <figcaption>Transição dominante em cada célula região × ato (#33). Lendo de baixo (Sul) para cima (Norte): o pasto→agric só aparece como dominante nas faixas do Sul; o veg→pasto toma conta do Norte — a mesma divisão da figura principal, agora célula a célula. Na faixa do Ato III vale a mesma ressalva: a coluna do destino "agricultura" está subregistrada.</figcaption>
+          </figure>
+        </div>
+      </details>
+      <details class="metric-details">
+        <summary>🛑 O "−88%" que esta seção publicava até jul/2026 — e por que ele saiu</summary>
+        <div style="padding: 0.9rem 1.1rem; border-top: 1px solid var(--color-rule); background: #fcfcfa;">
+          <p style="margin: 0 0 0.7rem; font-size: 0.9rem;">
+            Este bloco trazia um terceiro número de destaque: no Ato III o <code>pasto→agric</code>
+            do Sul <strong>cairia 88%</strong> — "a lavoura para de comer pasto no Sul". A auditoria
+            da mudança de rótulo (<a href="#metodos/metodo-decisoes">D25/D26</a>) testou a frase nas
+            duas réguas e ela <strong>inverteu de sinal, nas cinco mesorregiões</strong>. Variação da
+            taxa anual, Ato II → Ato III:
+          </p>
+          <div style="overflow-x: auto;">
+            <table class="camadas-tabela" style="margin: 0.5rem 0; font-size: 0.85rem;">
+              <thead>
+                <tr>
+                  <th>régua</th>
+                  <th style="text-align:right;">Sul</th>
+                  <th style="text-align:right;">Leste</th>
+                  <th style="text-align:right;">Centro</th>
+                  <th style="text-align:right;">Noroeste</th>
+                  <th style="text-align:right;">Norte</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><code>pasto→agric</code> (o número antigo)</td><td style="text-align:right; font-variant-numeric: tabular-nums;">−88,4%</td><td style="text-align:right; font-variant-numeric: tabular-nums;">−88,3%</td><td style="text-align:right; font-variant-numeric: tabular-nums;">−85,6%</td><td style="text-align:right; font-variant-numeric: tabular-nums;">−66,1%</td><td style="text-align:right; font-variant-numeric: tabular-nums;">−89,5%</td></tr>
+                <tr><td><code>pasto→(agric ∪ mosaico)</code></td><td style="text-align:right; font-variant-numeric: tabular-nums;">+51,0%</td><td style="text-align:right; font-variant-numeric: tabular-nums;">+28,6%</td><td style="text-align:right; font-variant-numeric: tabular-nums;">+38,7%</td><td style="text-align:right; font-variant-numeric: tabular-nums;">+119,5%</td><td style="text-align:right; font-variant-numeric: tabular-nums;">+31,9%</td></tr>
+                <tr><td>soja plantada, IBGE/SIDRA (imune)</td><td style="text-align:right; font-variant-numeric: tabular-nums;">+244%</td><td style="text-align:right; font-variant-numeric: tabular-nums;">+73%</td><td style="text-align:right; font-variant-numeric: tabular-nums;">+583%</td><td style="text-align:right; font-variant-numeric: tabular-nums;">+567%</td><td style="text-align:right; font-variant-numeric: tabular-nums;">+35%</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="margin: 0.8rem 0 0; font-size: 0.88rem;">
+            O intervalo não apenas cruza zero — ele <strong>troca de sinal</strong>, e a âncora que a
+            mudança de rótulo não toca (a área de soja plantada do IBGE) fica do lado de cima. Pela
+            regra da D26, a queda de 88% <em>não é um achado sobre o campo</em>: é a assinatura do
+            rótulo. O que se pode dizer do Ato III é a pergunta grossa — a saída de pasto puro para
+            lavoura-ou-uso-misto <strong>acelerou em todas as mesorregiões</strong>.
+          </p>
+          <p style="margin: 0.5rem 0 0; font-size: 0.88rem;">
+            <strong>A outra metade sobrevive.</strong> O <code>veg→pasto</code> tem origem e destino
+            fora do Mosaico, então é imune: ele cai 49% no Sul e só 13% no Norte. O contraste
+            "Sul trava, Norte avança" continua de pé — por uma medida que o rótulo não alcança. É
+            essa que o § 11 usa, e a conclusão de lá sai <em>reforçada</em>: se a demanda por terra no
+            Sul seguiu firme, o que acabou por lá foi o Cerrado, não o apetite.
+          </p>
+        </div>
+      </details>
+      <p class="bloco-resposta">
+        <span class="bloco-resposta-rotulo">Em uma frase</span>
+        Duas lógicas em paralelo: no Sul, pasto vira lavoura (intensificação); no Norte,
+        vegetação vira pasto (fronteira). E no Ato III o que trava no Sul é a <em>abertura de
+        Cerrado</em> (−49%, contra −13% no Norte) — não a conversão de pasto, que acelerou.
+      </p>
+    </div>
+
+    <!-- 9 — Não é deslocamento causal (#34, fechado por #42) -->
+    <div class="como-bloco" id="sec-reorganizacao"
+         data-figura="img/marcha_norte/veredito.png"
+         data-figcap="O teste que fechou a ponta solta (#42): o método correto (Toda-Yamamoto) zera as duas direções, e os placebos acendem onde não há mecanismo — co-tendência espúria, sem líder.">
+      <h3>9 &middot; Não é deslocamento causal — é reorganização</h3>
+      <p class="bloco-pergunta">A lavoura do Sul empurrou o pasto para o Norte?</p>
+      <p>
+        A tentação é dizer que a lavoura do Sul <em>empurrou</em> o pasto para o Norte — um
+        "vazamento" de uso da terra dentro do estado (iLUC intra-estadual). Essa hipótese é
+        forte, intuitiva… e foi <strong>testada e não confirmada</strong>. E esse nulo é um
+        resultado, não uma lacuna.
+      </p>
+      <div class="dado-choque-grid">
+        <div class="dado-choque">
+          <div class="dado-choque-valor">p = 0,97</div>
+          <div class="dado-choque-label">Sem precedência temporal</div>
+          <div class="dado-choque-glosa">A expansão agrícola do Sul <em>não</em> antecede o avanço de pasto/rebanho no Norte (<span class="termo" tabindex="0" data-def="Teste de Granger: o passado de X ajuda a prever Y, além do que o próprio passado de Y já prevê? Mede precedência preditiva — não causalidade.">Granger</span> ΔAgric_Sul → ΔPasto_Norte). Não há "primeiro o Sul, depois o Norte".</div>
+        </div>
+        <div class="dado-choque">
+          <div class="dado-choque-valor">θ = −0,16</div>
+          <div class="dado-choque-label">Sem empurrão espacial</div>
+          <div class="dado-choque-glosa">Vizinhos ao sul não "empurram" o pasto local — o sinal é o oposto do previsto: eles co-expandem. Não é spillover direcional.</div>
+        </div>
+        <div class="dado-choque">
+          <div class="dado-choque-valor">β = −0,52</div>
+          <div class="dado-choque-label">Mas há substituição local forte</div>
+          <div class="dado-choque-glosa">Onde a lavoura entra, o pasto sai <em>ali mesmo</em> — intensificação local, coerente com o painel 2FE (aba Métodos). O que não existe é o canal de longa distância Sul→Norte.</div>
+        </div>
+      </div>
+      <p>
+        A leitura defensável: não é um motor empurrando o outro, são <strong>dois mecanismos
+        locais paralelos</strong> — intensificar no Sul, abrir fronteira no Norte — respondendo
+        ao <em>mesmo</em> impulso de mercado, sobre um gradiente de aptidão. Por isso o trabalho
+        nunca diz "deslocamento" sem qualificar: o termo honesto é <strong>reorganização
+        espacial</strong>, ou "marcha ao norte da fronteira".
+      </p>
+      <details class="metric-details">
+        <summary>A ponta solta: e o teste reverso que dava significativo? (#42)</summary>
+        <div style="padding: 0.9rem 1.1rem; border-top: 1px solid var(--color-rule); background: #fcfcfa;">
+          <p style="margin: 0 0 0.7rem;">
+            Um detalhe ameaçava inverter tudo: o teste <em>reverso</em> (ΔPasto_Norte →
+            ΔAgric_Sul) dava significativo (p = 0,0007). Lido ao pé da letra, seria o Norte
+            antecedendo o Sul — a história de cabeça para baixo. O pipeline #42 mostrou que é
+            <strong>artefato espúrio</strong>, com três pregos:
+          </p>
+          <ul style="margin: 0 0 0.7rem; padding-left: 1.2rem; font-size: 0.88rem; line-height: 1.6;">
+            <li>A série <code>pasto_Norte</code> é <strong>I(2)</strong> — nem sua 1ª diferença é estacionária; cruzá-la com uma série I(0) é a montagem-padrão da regressão espúria.</li>
+            <li>O método correto (<strong>Toda-Yamamoto</strong>, robusto a integração) <strong>zera as duas direções</strong> (reverso 0,45; forward 0,25): co-movimento sem líder.</li>
+            <li>Os <strong>placebos</strong> acendem em pares sem mecanismo (o pasto do Norte "lidera" até o pasto do Sul, mesmo p) — assinatura de co-tendência, não de causa.</li>
+          </ul>
+          <figure class="grafico-card grafico-card--wide" style="margin: 0.4rem 0 0;">
+            <img src="img/marcha_norte/veredito.png" alt="Veredito do pipeline 42: o Granger reverso é espúrio" loading="lazy">
+            <figcaption>Síntese do #42 (Decisão D16): lead-lag de séries AMC integradas exige Toda-Yamamoto + placebos. Não inverte a leitura — reforça o nulo.</figcaption>
+          </figure>
+        </div>
+      </details>
+      <p class="bloco-resposta">
+        <span class="bloco-resposta-rotulo">Em uma frase</span>
+        Não — a hipótese foi testada e não se confirmou: sem precedência temporal, sem
+        empurrão espacial; o que há é substituição local forte. O termo honesto é
+        <strong>reorganização espacial</strong>, não deslocamento. E esse nulo é um
+        resultado, não uma lacuna.
+      </p>
+    </div>
+
+    <!-- 10 — O drive comum (#37/#38) -->
+    <div class="como-bloco" id="sec-drive-comum"
+         data-figura="img/marcha_norte/timeline_drivers.png"
+         data-figcap="Os drivers macro (#37): preço recebido da soja, câmbio real efetivo e crédito rural × as quebras empíricas da série. Câmbio e crédito antecedem; o preço co-move.">
+      <h3>10 &middot; O drive comum: câmbio, crédito, preço</h3>
+      <p class="bloco-pergunta">Se uma região não empurra a outra, o que move as duas ao mesmo tempo?</p>
+      <p>
+        Se não é uma região empurrando a outra, o que move as duas ao mesmo tempo? Um
+        <strong>impulso macro comum</strong>. Coletando drivers exógenos (preço internacional de
+        soja/boi/milho, câmbio real efetivo, crédito rural) e testando se suas viradas
+        <em>antecedem</em> as inflexões do uso da terra, dois sinais se destacam.
+      </p>
+      <figure class="grafico-card grafico-card--wide figura-chave">
+        <img src="img/marcha_norte/timeline_drivers.png" alt="Linha do tempo dos drivers macro (câmbio, crédito, preço) versus inflexões do uso da terra" loading="lazy">
+        <figcaption>Drivers macro exógenos × marcos da série (1985–2024). Câmbio e crédito antecedem as inflexões; o preço co-move sem liderar. A órfã de 1991 ganha nome: o colapso de crédito do Plano Collor (−56%). Fonte: IPEA Data, série em primeiras diferenças (#37).</figcaption>
+      </figure>
+      <div class="dado-choque-grid">
+        <div class="dado-choque">
+          <div class="dado-choque-valor">câmbio + crédito</div>
+          <div class="dado-choque-label">Antecedem o uso da terra</div>
+          <div class="dado-choque-glosa">O câmbio competitivo (REER) precede pasto e rebanho do Norte; o crédito rural precede agricultura e vegetação — com exogeneidade confirmada (placebos reversos nulos).</div>
+        </div>
+        <div class="dado-choque">
+          <div class="dado-choque-valor">preço</div>
+          <div class="dado-choque-label">Co-move, mas não lidera</div>
+          <div class="dado-choque-glosa">O preço de commodity sobe junto, contemporaneamente, mas não antecede (Granger p = 0,24–0,81) — a transmissão de preço é simultânea, não dianteira.</div>
+        </div>
+      </div>
+      <details class="metric-details">
+        <summary>O choque comum bate mais forte onde a exposição é maior? &middot; painel AMC (#38)</summary>
+        <div style="padding: 0.9rem 1.1rem; border-top: 1px solid var(--color-rule); background: #fcfcfa;">
+          <p style="margin: 0 0 0.8rem;">
+            Como o driver é nacional (o mesmo número para todas as AMCs num ano), o painel não
+            testa "o driver mexe o uso da terra?" e sim "o <strong>choque comum</strong> bate
+            mais forte <strong>onde a exposição é maior</strong>?" (interação driver × aptidão de
+            fronteira, 2-way FE). A hipótese <strong>câmbio × fronteira → rebanho</strong>
+            confirma a direção (p = 0,031), mas a grade completa não sobrevive à correção de
+            multiplicidade (<span class="termo" tabindex="0" data-def="False Discovery Rate: correção para múltiplos testes. Com 144 testes, alguns saem 'significativos' por puro acaso; o FDR desconta essa sorte estatística.">FDR</span>): é <strong>indício sugestivo, não achado estabelecido</strong>.
+            N ≈ 38, drive comum <em>inferido</em>, não provado — uma honestidade que a tese carrega.
+          </p>
+          <figure class="grafico-card grafico-card--wide" style="margin: 0;">
+            <img src="img/marcha_norte/interacoes_confirmatorias.png" alt="Interações confirmatórias driver × exposição no painel AMC" loading="lazy">
+            <figcaption>Coeficientes das interações driver × exposição de fronteira (#38). Barras à direita do zero = o choque comum bate mais forte onde a aptidão de fronteira é maior. Só câmbio×fronteira→rebanho cruza o limiar (p=0,031) — e mesmo essa não sobrevive ao FDR, por isso "sugestivo, não estabelecido".</figcaption>
+          </figure>
+        </div>
+      </details>
+      <p class="bloco-resposta">
+        <span class="bloco-resposta-rotulo">Em uma frase</span>
+        Um impulso macro comum: câmbio e crédito <em>antecedem</em> as inflexões do uso
+        da terra; o preço co-move sem liderar. Evidência consistente — mas inferida,
+        não provada (N pequeno, e a grade AMC não sobrevive ao FDR).
+      </p>
+    </div>
+
+    <!-- 11 — O teto de oferta (#39) -->
+    <div class="como-bloco" id="sec-teto-oferta"
+         data-figura="img/marcha_norte/decomposicao_oferta_demanda.png"
+         data-figcap="A perna de oferta (#39): por que o fluxo de conversão mudou (Ato II→III), decomposto em efeito-oferta (estoque, verde) e efeito-demanda (hazard, rosa), por região.">
+      <h3>11 &middot; O teto de oferta: o Cerrado convertível só resta no norte</h3>
+      <p class="bloco-pergunta">E a oferta de terra? A fronteira agropecuária está fechando?</p>
+      <p>
+        Falta uma perna. Tudo até aqui foi <em>demanda</em> (preço, câmbio, crédito). Mas e a
+        <strong>oferta</strong> de terra? A desaceleração recente do Sul seria o estoque de
+        Cerrado convertível se esgotando? A resposta é escalonada — e fecha o argumento.
+      </p>
+      <figure class="grafico-card grafico-card--wide figura-chave">
+        <img src="img/marcha_norte/decomposicao_oferta_demanda.png" alt="Decomposição oferta versus demanda da mudança no fluxo de conversão por região" loading="lazy">
+        <figcaption>Por que o fluxo de conversão mudou (Ato II→III), por região: efeito-oferta (estoque ↓, verde) vs efeito-demanda (hazard ↑, rosa); o losango é a mudança observada. No Sul, o estoque baixo <em>segura</em> o fluxo; no Centro/Norte, a demanda ainda domina. Fonte: decomposição da conversão (#39).</figcaption>
+      </figure>
+      <div class="dado-choque-grid">
+        <div class="dado-choque">
+          <div class="dado-choque-valor">~60%</div>
+          <div class="dado-choque-label">Do Cerrado convertível de 1985 ainda resta — no estado</div>
+          <div class="dado-choque-glosa">No agregado a fronteira NÃO fechou: o fluxo de conversão não desacelerou, apenas migrou ao norte (a faixa norte concentra ≈62% do convertível remanescente).</div>
+        </div>
+        <div class="dado-choque">
+          <div class="dado-choque-valor">Sul: fechou</div>
+          <div class="dado-choque-label">Estoque baixo + hazard caindo</div>
+          <div class="dado-choque-glosa">Só no Sul o fluxo caiu (53% do estoque de 1985, estabilizado) — fronteira fechada e giro à intensificação, coerente com o veg→pasto do Sul caindo 49% no Ato III, contra 13% no Norte (§ 8).</div>
+        </div>
+        <div class="dado-choque">
+          <div class="dado-choque-valor">sob demanda forte</div>
+          <div class="dado-choque-label">Logo, é restrição de oferta</div>
+          <div class="dado-choque-glosa">A demanda NÃO esfriou no Ato III (câmbio, preço e crédito todos em alta) — e a soja plantada do IBGE mais que triplicou de ritmo no Sul. Se mesmo assim a abertura de Cerrado parou por lá, a trava é de <em>oferta</em>: o que acabou foi o Cerrado, não o apetite.</div>
+        </div>
+      </div>
+      <details class="metric-details">
+        <summary>Estoque convertível por região &middot; a fronteira perseguindo o que resta</summary>
+        <div style="padding: 0.9rem 1.1rem; border-top: 1px solid var(--color-rule); background: #fcfcfa;">
+          <figure class="grafico-card grafico-card--wide" style="margin: 0;">
+            <img src="img/marcha_norte/estoque_por_regiao.png" alt="Estoque de Cerrado convertível por região ao longo do tempo" loading="lazy">
+            <figcaption>Estoque de Cerrado convertível por região (#39). A "marcha ao norte" é, em parte, a fronteira perseguindo o estoque que só resta no norte.</figcaption>
+          </figure>
+        </div>
+      </details>
+      <p class="bloco-resposta">
+        <span class="bloco-resposta-rotulo">Em uma frase</span>
+        No estado, não — restam ~60% do Cerrado convertível, concentrado no norte. No Sul,
+        sim: estoque baixo sob demanda forte é a assinatura de restrição de <em>oferta</em>.
+        A marcha ao norte é, em parte, a fronteira perseguindo o estoque que resta.
+      </p>
+    </div>
+
+      </div>
+    </div>
+    <!-- ===================== / scrolly da marcha ===================== -->
+
+    <!-- 12 — Mais fios + autocorreção (#41, #40, #28C) -->
+    <div class="como-bloco" id="sec-autocorrecao">
+      <h3>12 &middot; Mais três fios — e o método se autocorrigindo</h3>
+      <p class="bloco-pergunta">O que mais a marcha revela — e o que impediu este trabalho de dizer mais do que os dados autorizam?</p>
+      <p>
+        Três investigações enriquecem o quadro sem mudar a tese. As três têm a mesma forma:
+        uma <strong>primeira leitura</strong> empolgante, uma <strong>verificação</strong> que
+        derruba parte dela, e um achado menor — porém defensável — que <strong>sobrevive</strong>.
+        Não é acidente: é a Decisão D14 (controlar o gradiente Sul→Norte antes de atribuir
+        efeito próprio) operando. Junto com o caso do Granger reverso (§ 9), são a melhor
+        amostra do método deste trabalho: a autocorreção documentada.
+      </p>
+      <div class="fio-grid">
+        <article class="fio-card">
+          <span class="fio-card-badge">Pipeline #41 &middot; fogo</span>
+          <h4>O fogo é a vanguarda da fronteira?</h4>
+          <p class="fio-etapa fio-etapa--leitura"><strong>Primeira leitura</strong>
+            O fogo lidera a marcha — está à frente no espaço e ~1 ano à frente no tempo.</p>
+          <p class="fio-etapa fio-etapa--verificacao"><strong>A verificação derrubou</strong>
+            A liderança <em>temporal</em> é frágil: some sob log1p, inverte sem os anos de
+            seca de 1985/2010, e o Granger agregado é nulo.</p>
+          <p class="fio-etapa fio-etapa--sobrevive"><strong>O que sobrevive</strong>
+            Uma vanguarda <em>espacial</em> robusta: o centroide do fogo está ao norte da
+            conversão em 39 de 39 anos (+73 km). Dianteira geográfica, não temporal —
+            co-evolução sob distúrbio comum.</p>
+          <details class="metric-details">
+            <summary>Ver o mapa das trajetórias</summary>
+            <div style="padding: 0.9rem 1.1rem; border-top: 1px solid var(--color-rule); background: #fcfcfa;">
+              <figure class="grafico-card grafico-card--wide" style="margin: 0;">
+                <img src="img/marcha_norte/mapa_trajetorias.png" alt="Trajetória dos centroides de fogo e de conversão, mostrando o fogo ao norte" loading="lazy">
+                <figcaption>Centroides de fogo (vermelho) e de conversão veg→pasto (1985→2023): o fogo fica ao norte. Fonte: #41.</figcaption>
+              </figure>
+            </div>
+          </details>
+        </article>
+        <article class="fio-card">
+          <span class="fio-card-badge">Pipeline #40 &middot; duas lógicas</span>
+          <h4>O plantio direto explica o pasto jovem?</h4>
+          <p class="fio-etapa fio-etapa--leitura"><strong>Primeira leitura</strong>
+            A lógica jovem é estrutural: onde há plantio direto, o pasto é convertido cedo
+            (r = −0,37).</p>
+          <p class="fio-etapa fio-etapa--verificacao"><strong>A verificação derrubou</strong>
+            Controlando a latitude, a correlação colapsa (−0,22, no fio). O plantio direto
+            <em>co-localiza</em> com a lógica jovem — daqui nasceu a Decisão D14. (Com a idade
+            medida pelo censo o par volta a p = 0,031: o veredito honesto é <em>não
+            estabelecido</em>, não "sem efeito".)</p>
+          <p class="fio-etapa fio-etapa--verificacao"><strong>E a segunda verificação derrubou o resto</strong>
+            Em jul/2026, medindo cada evento nas duas réguas (<code>agric</code> e
+            <code>agric ∪ mosaico</code>), o gradiente índice-jovem × latitude
+            <strong>desaparece</strong> — ρ ≈ 0, não significativo nas três janelas. A "geografia
+            das duas lógicas" era o rótulo de destino, não o campo.</p>
+          <p class="fio-etapa fio-etapa--sobrevive"><strong>O que sobrevive</strong>
+            A regra: em corte transversal estadual, reporte a parcial controlando latitude antes de
+            atribuir efeito próprio (D14). E a coexistência das duas lógicas — em toda parte, não
+            uma por região.</p>
+          <details class="metric-details">
+            <summary>Ver o mapa da lógica dominante</summary>
+            <div style="padding: 0.9rem 1.1rem; border-top: 1px solid var(--color-rule); background: #fcfcfa;">
+              <figure class="grafico-card grafico-card--wide" style="margin: 0;">
+                <img src="img/marcha_norte/mapa_logica_dominante_amc.png" alt="Mapa da lógica de conversão dominante por AMC" loading="lazy">
+                <figcaption>Lógica dominante de conversão por AMC, na régua crua: rotação jovem (sul) × oportunismo antigo (norte). Fonte: #40. <strong>Mantido como registro do que caiu</strong> — sob o bracket por evento este gradiente não se sustenta.</figcaption>
+              </figure>
+            </div>
+          </details>
+        </article>
+        <article class="fio-card">
+          <span class="fio-card-badge">Pipeline #28C &middot; bimodalidade</span>
+          <h4>A região causa as duas idades do pasto?</h4>
+          <p class="fio-etapa fio-etapa--leitura"><strong>Primeira leitura (a tentação)</strong>
+            Sul jovem + Norte velho ⇒ a bimodalidade da idade (§ 6) seria <em>causada</em>
+            pela região.</p>
+          <p class="fio-etapa fio-etapa--verificacao"><strong>A verificação derrubou</strong>
+            Decompondo within/between: a geografia explica uma fração pequena da separação
+            jovem/velho, e a maior parte mora <em>dentro</em> das células. Os dois modos coexistem
+            em <strong>5/5 mesorregiões</strong> e <strong>162/164 AMCs</strong> (censo).</p>
+          <p class="fio-etapa fio-etapa--verificacao"><strong>E a segunda verificação foi mais longe</strong>
+            Sob a régua superior, a região explica <strong>0,5%</strong> da variação da idade (era
+            3,7%) e a amplitude Sul→Norte cai de 7 para 2 anos. Caiu também a versão fraca da
+            primeira leitura — "um gradiente regional no <em>peso</em> da mistura" —, que esta
+            página defendeu até julho de 2026.</p>
+          <p class="fio-etapa fio-etapa--sobrevive"><strong>O que sobrevive</strong>
+            A coexistência, e mais forte do que antes: quanto menos a região explica, mais claro
+            fica que os dois mecanismos rodam em toda parte. O que a fronteira do Norte tem de
+            diferente não é uma lógica própria — é mais Cerrado restante (§ 11).</p>
+          <details class="metric-details">
+            <summary>Ver a bimodalidade por célula</summary>
+            <div style="padding: 0.9rem 1.1rem; border-top: 1px solid var(--color-rule); background: #fcfcfa;">
+              <figure class="grafico-card grafico-card--wide" style="margin: 0;">
+                <img src="img/marcha_norte/bimodalidade_unidade_ato_amc.png" alt="Bimodalidade da idade da pastagem por unidade e ato, malha AMC" loading="lazy">
+                <figcaption>Bimodalidade por célula região × ato na malha AMC (#28C).</figcaption>
+              </figure>
+            </div>
+          </details>
+        </article>
+      </div>
+      <p class="bloco-resposta">
+        <span class="bloco-resposta-rotulo">Em uma frase</span>
+        Fogo na dianteira geográfica; duas lógicas que coexistem em toda parte, e não uma por
+        região; bimodalidade que a região não cria nem modula. Três vezes uma primeira leitura
+        mais forte foi testada e rebaixada antes de virar afirmação — e, em dois casos, uma
+        <em>segunda</em> rodada derrubou o que a primeira tinha deixado de pé. É isso que separa
+        um conjunto de gráficos de uma tese.
+      </p>
+    </div>
+
+    <!-- Fecho do Movimento III — a tese central -->
+    <div class="tese-callout" id="sec-tese">
+      <p class="tese-rotulo">A afirmação central</p>
+      <p>
+        Goiás passou por uma <strong>reorganização espacial da produção agropecuária</strong>
+        entre 1985 e 2024 — intensificação no Sul, fronteira no Norte — coordenada por forças de
+        mercado comuns (câmbio, crédito, preço) sobre um <strong>gradiente estrutural de
+        aptidão</strong>, e limitada por um <strong>teto de oferta</strong> de Cerrado convertível
+        que só resta no norte. O padrão é empiricamente verificável (centro de massa, mecanismo
+        por mesorregião, robustez multi-resolução) e <strong>não</strong> é explicável como
+        deslocamento causal direto de uma região sobre a outra — hipótese que foi testada e refutada.
+      </p>
+      <p class="tese-ressalva">
+        O que a tese <em>não</em> afirma: que o iLUC não existe (o canal intra-estadual testado
+        não se confirma — outros não foram testados); que o drive comum está provado (está
+        inferido); que a desaceleração do Ato III é reversão estrutural (são 4–5 anos). São essas
+        qualificações que transformam um conjunto de gráficos numa tese.
+      </p>
+    </div>
+
+    <!-- Teaser da oficina (aba Métodos) -->
+    <div class="teaser-metodos">
+      <p class="teaser-rotulo">Como sabemos de tudo isso?</p>
+      <p>
+        Cada afirmação acima se apoia numa oficina: a detecção estatística dos três atos,
+        três camadas de evidência (descritiva → inferencial → causal), 26 decisões
+        metodológicas documentadas, a vitrine do painel de dados — e a lista honesta do
+        que a análise ainda não responde.
+      </p>
+      <a class="teaser-botao" href="#metodos">Abrir a aba Métodos &rarr;</a>
+    </div>
+  </section>
+  <!-- ===================== / Depois dos mapas ===================== -->
+
+<!-- Footer -->
+
+  <footer class="page-footer">
+    <div class="footer-grid">
+      <div>
+        <h3>Sobre</h3>
+        <p>Victor Amaral</p>
+        <p class="footer-muted">Mestrando em Ciências Ambientais (CIAMB-UFG)</p>
+        <p class="footer-muted">Dissertação em desenvolvimento · 2026</p>
+      </div>
+      <div>
+        <h3>Fontes de dados</h3>
+        <ul class="footer-list">
+          <li><a href="https://brasil.mapbiomas.org/" target="_blank" rel="noopener">MapBiomas</a> — Coleção 10.1 (cobertura) e Coleção 4 (fogo)</li>
+          <li><a href="https://sidra.ibge.gov.br/" target="_blank" rel="noopener">IBGE/SIDRA</a> — PAM, PPM, PIB municipal, população</li>
+          <li><a href="https://www.bcb.gov.br/estatisticas/tabelasespeciais/creditorural" target="_blank" rel="noopener">BACEN/SICOR</a> — Crédito rural (2013-2024)</li>
+          <li><a href="http://www.ipeadata.gov.br/" target="_blank" rel="noopener">IPEA Data</a> — IDH-M (1991/2000/2010)</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Links úteis</h3>
+        <ul class="footer-list">
+          <li><a href="https://github.com/victoreoa" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="http://lattes.cnpq.br/" target="_blank" rel="noopener">Currículo Lattes</a></li>
+          <li><a href="mailto:victor.amaral@ufg.br">E-mail institucional</a></li>
+          <li><a href="../">Voltar à página inicial</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <p>© 2026 Victor Amaral · Dados abertos sob licença CC BY 4.0 onde aplicável</p>
+    </div>
+  </footer>
+
+  </section>
+  <!-- ===================== / MODO NARRATIVA ===================== -->
+
+
+
+  <!-- ===================== MODO MÉTODOS ===================== -->
+
+  <section data-modo="metodos" id="panel-metodos" role="tabpanel" aria-labelledby="tab-metodos" hidden>
+
+  <section class="metodos-hero">
+    <p class="hero-eyebrow">A oficina da dissertação</p>
+    <h1>Como sabemos — métodos, decisões e limites</h1>
+    <p class="metodos-lede">
+      A aba Narrativa conta o que aconteceu com o território e qual é a tese. Esta aba
+      abre o capô: como os três atos foram detectados, que tipos de evidência sustentam
+      cada afirmação, o inventário dos dados, as decisões que mantêm tudo na mesma régua —
+      e o que a análise ainda não responde.
+    </p>
+    <nav class="metodos-sumario" aria-label="Sumário da aba Métodos">
+      <a href="#metodos/metodo-periodizacao">1 · Os três atos</a>
+      <a href="#metodos/metodo-metricas">2 · As métricas do tempo</a>
+      <a href="#metodos/metodo-evidencia">3 · Camadas de evidência</a>
+      <a href="#metodos/painel-vitrine">4 · Vitrine do painel</a>
+      <a href="#metodos/metodo-decisoes">5 · As 26 decisões</a>
+      <a href="#metodos/limitacoes">6 · Limitações</a>
+      <a href="#metodos/glossario">7 · Glossário</a>
+    </nav>
+  </section>
+
+  <section class="sintese sintese--metodos" aria-label="Métodos da dissertação">
+
+    <!-- M1 — Periodização -->
+    <div class="como-bloco" id="metodo-periodizacao">
+      <h3>1 · Como os três atos foram detectados</h3>
+      <p>
+        A divisão da nossa história em três períodos não é uma escolha narrativa subjetiva — é 
+        um resultado matemático. Para encontrá-los, submetemos a série de transições a quatro 
+        testes estatísticos independentes de quebra estrutural. A convergência dos algoritmos para 
+        marcos muito próximos nos dá a segurança física de que o regime de ocupação do estado de 
+        fato mudou nesses anos, isolando qualquer ruído da série histórica.
+      </p>
+
+      <table class="camadas-tabela" style="margin: 0.8rem 0;">
+        <thead>
+          <tr>
+            <th>Método</th>
+            <th>O que faz</th>
+            <th style="text-align:right;">~2001</th>
+            <th style="text-align:right;">~2020</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>sup-F multivariado</strong> (primário)</td>
+            <td>Encontra o ponto que melhor divide a série multivariada em dois segmentos</td>
+            <td style="text-align:right;">F = 62,2 ✓</td>
+            <td style="text-align:right;">F = 21,5 ✓</td>
+          </tr>
+          <tr>
+            <td><strong>STARS</strong> (Rodionov)</td>
+            <td>Detecta mudanças abruptas na média sequencialmente</td>
+            <td style="text-align:right;">2004/06 ✓</td>
+            <td style="text-align:right;">—</td>
+          </tr>
+          <tr>
+            <td><strong>KL/TV de transições</strong></td>
+            <td>Mede o quanto a matriz de transição LULC muda ano a ano</td>
+            <td style="text-align:right;">pico 2003 ✓</td>
+            <td style="text-align:right;">pico 2018–20 ✓</td>
+          </tr>
+          <tr>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="como-bloco" style="margin: 1.2rem 0 0.8rem; padding: 1rem 1.2rem; border-left: 3px solid var(--color-accent, #8b3a1d); background: #faf8f5;">
+        <h4 style="margin: 0 0 0.4rem; font-size: 0.92rem;">Validação global — Intensity Analysis (Aldwaik &amp; Pontius)</h4>
+        <p style="margin: 0; font-size: 0.88rem; line-height: 1.6;">
+          Enquanto os 3 métodos acima <strong>detectam</strong> as fronteiras (cada um aponta anos específicos),
+          o Intensity Analysis tem papel diferente: ele <strong>valida globalmente</strong> se os períodos
+          resultantes são de fato distintos. O teste Kruskal-Wallis compara os 3&nbsp;Atos simultaneamente:<br>
+          <strong>H&nbsp;=&nbsp;20,3, p&nbsp;&lt;&nbsp;0,001</strong> — os três períodos diferem significativamente
+          em taxa de mudança LULC.<br>
+          <em>H</em> e <em>p</em> são do mesmo teste — não são detecções separadas para ~2001 e ~2020.
+          É um resultado único que confirma que o que existe de cada lado das fronteiras é qualitativamente diferente.
+        </p>
+      </div>
+
+      <div class="dado-choque-grid">
+        <div class="dado-choque">
+          <div class="dado-choque-valor">3/3</div>
+          <div class="dado-choque-label">Convergência de detecção para ~2001</div>
+          <div class="dado-choque-glosa">Os 3 métodos de detecção apontam uma mudança de regime por volta de 2001 — entrada da China na OMC, sistematização do crédito rural.</div>
+        </div>
+        <div class="dado-choque">
+          <div class="dado-choque-valor">2/3</div>
+          <div class="dado-choque-label">Convergência de detecção para ~2020</div>
+          <div class="dado-choque-glosa">STARS não detecta quebra em 2020 (as mudanças são gradativas, não abruptas). A fronteira é real mas menos nítida.</div>
+        </div>
+        <div class="dado-choque">
+          <div class="dado-choque-valor">✓</div>
+          <div class="dado-choque-label">Validação global (Intensity Analysis)</div>
+          <div class="dado-choque-glosa">O teste Kruskal-Wallis confirma que os 3 períodos diferem significativamente entre si (H = 20,3; p &lt; 0,001) — valida ambas as fronteiras simultaneamente.</div>
+        </div>
+      </div>
+
+      <details class="metric-details" style="margin-top: 1rem;">
+        <summary>Por que não 4 ou 5 períodos? · robustez e sub-fase 2001–2005</summary>
+        <div style="padding: 0.9rem 1.1rem; border-top: 1px solid var(--color-rule); background: #fcfcfa;">
+          <p style="margin: 0 0 0.6rem;">
+            Uma candidata a 4ª fronteira apareceu em ~2005/06 (STARS e KL/TV).
+            O Intensity Analysis foi decisivo para rejeitá-la:
+          </p>
+          <ul style="margin: 0 0 0.6rem; padding-left: 1.2rem; font-size: 0.88rem; line-height: 1.6;">
+            <li><strong>Taxa total de mudança</strong>: Mann-Whitney p = 0,060 (NS) — as sub-fases não diferem em velocidade geral.</li>
+            <li><strong>Perda de veg. natural</strong>: p = 0,0008 (***) — diferem em <em>composição</em>, não em volume.</li>
+            <li><strong>Robustez do sup-F</strong>: 2001 estável em 9/9 combinações; 2020 em 6/9; ~1991 instável.</li>
+            <li><strong>Poder estatístico</strong>: com n = 4 anos na sub-fase, o teste tem poder de 0,63 — insuficiente para concluir.</li>
+          </ul>
+          <p style="margin: 0; font-size: 0.85rem;">
+            Decisão: documentar como sub-fase do Ato II (aceleração composicional 2001–05),
+            sem promover a fronteira de período.
+          </p>
+        </div>
+      </details>
+    </div>
+
+    <!-- M2 — As quatro métricas do tempo -->
+    <div class="como-bloco" id="metodo-metricas">
+      <h3>2 · As quatro métricas do tempo (área, Δ, slope, aceleração)</h3>
+      <div>
+      <p>
+        Para descrever como o uso da terra muda, usamos quatro métricas encadeadas. A
+        analogia mais simples é a de um carro numa rodovia: <strong>posição</strong> diz
+        onde ele está, <strong>velocidade</strong> diz quanto ele se moveu, e
+        <strong>aceleração</strong> diz se ele está pisando no acelerador ou freando.
+        Cada métrica responde uma pergunta diferente — e cada uma tem seu ruído.
+      </p>
+
+      <div class="metricas-grid">
+        <div class="metrica-card">
+          <h5>Posição</h5>
+          <div class="metrica-nome">Área</div>
+          <p class="metrica-glosa">Quanto há de cada classe no ano <em>t</em>, em milhões de hectares (Mha).</p>
+          <code class="metrica-formula">area<sub>t</sub></code>
+        </div>
+        <div class="metrica-card">
+          <h5>Velocidade instantânea</h5>
+          <div class="metrica-nome">Delta (Δ)</div>
+          <p class="metrica-glosa">Variação ano-a-ano. Mostra a mudança imediata, mas é ruidosa — mistura sinal real com erro de classificação.</p>
+          <code class="metrica-formula">Δ<sub>t</sub> = area<sub>t</sub> − area<sub>t−1</sub></code>
+        </div>
+        <div class="metrica-card">
+          <h5>Velocidade média (5 anos)</h5>
+          <div class="metrica-nome">Slope</div>
+          <p class="metrica-glosa">Ajusta uma reta por mínimos quadrados em 5 anos consecutivos. Filtra o ruído anual e revela a tendência.</p>
+          <code class="metrica-formula">OLS(area ~ ano), janela t−4 .. t</code>
+        </div>
+        <div class="metrica-card">
+          <h5>Segunda derivada</h5>
+          <div class="metrica-nome">Aceleração</div>
+          <p class="metrica-glosa">Variação do slope. Diz se a expansão (ou retração) está se acelerando ou desacelerando.</p>
+          <code class="metrica-formula">accel<sub>t</sub> = slope<sub>t</sub> − slope<sub>t−1</sub></code>
+        </div>
+      </div>
+
+      <div class="como-inset">
+        <div class="como-inset-titulo">Valores reais — Goiás, 2024 (três classes principais)</div>
+        <div class="como-inset-rows">
+          <span class="row-header row-classe">Classe</span>
+          <span class="row-header">Área (Mha)</span>
+          <span class="row-header">Slope (Mha/ano)</span>
+          <span class="row-header">Aceleração</span>
+
+          <span class="row-classe">Pastagem</span>
+          <span class="row-valor">11,99</span>
+          <span class="row-valor row-valor-neg">−0,289</span>
+          <span class="row-valor row-valor-neg">−0,045</span>
+
+          <span class="row-classe">Agricultura</span>
+          <span class="row-valor">5,73</span>
+          <span class="row-valor row-valor-pos">+0,016</span>
+          <span class="row-valor row-valor-neg">−0,009</span>
+
+          <span class="row-classe">Vegetação natural</span>
+          <span class="row-valor">11,41</span>
+          <span class="row-valor row-valor-neg">−0,076</span>
+          <span class="row-valor row-valor-neg">−0,016</span>
+        </div>
+        <p class="metrica-glosa" style="margin-top: 0.7rem; font-size: 0.82rem; color: var(--color-muted);">
+          Leitura: em 2024, a pastagem perdia área a uma taxa média de 0,289 Mha por
+          ano (slope) — e essa <em>perda</em> estava se intensificando (aceleração negativa).
+          A agricultura ainda crescia, mas <em>desacelerando</em>.
+        </p>
+      </div>
+
+      <details class="metric-details">
+        <summary>Detalhes técnicos · janela, HAC, trailing vs centrada</summary>
+        <div style="padding: 0.9rem 1.1rem; font-size: 0.88rem; line-height: 1.55; border-top: 1px solid var(--color-rule); background: #fcfcfa;">
+          <p style="margin: 0 0 0.6rem;">
+            <strong>Janela = 5 anos.</strong> Compromisso entre suavização (janelas maiores filtram mais) e responsividade
+            (janelas menores detectam viradas mais rápido). Cinco anos é o intervalo usual em estudos LULC.
+          </p>
+          <p style="margin: 0 0 0.6rem;">
+            <strong>Trailing × centrada.</strong> A versão trailing usa apenas o passado (t−4 a t) e serve para inferência —
+            quando se está no ano <em>t</em>, só se conhece o passado. A versão centrada (t−2 a t+2) suaviza melhor mas
+            "trapaceia" usando o futuro: é só para visualização.
+          </p>
+          <p style="margin: 0 0 0.6rem;">
+            <strong>Erro padrão HAC Newey-West (maxlags=2).</strong> Resíduos de uma regressão em 5 anos consecutivos
+            são autocorrelacionados; o ajuste HAC corrige o erro padrão para que p-valores não fiquem otimistas.
+          </p>
+          <p style="margin: 0;">
+            <strong>Filtro 2σ na aceleração.</strong> Como <code>slope<sub>t</sub></code> e <code>slope<sub>t−1</sub></code>
+            sobrepõem 4 anos, a aceleração é autocorrelacionada por construção. Só pontos &gt;2σ entram nos gráficos —
+            destaca eventos realmente fora do normal.
+          </p>
+        </div>
+      </details>
+      </div>
+    </div>
+
+    <!-- M3 — Três camadas de evidência -->
+    <div class="como-bloco" id="metodo-evidencia">
+      <h3>3 · Três camadas de evidência</h3>
+      <p>
+        O delta é um saldo líquido: se a pastagem perde 0,3 Mha num ano, isso não diz
+        para onde foi essa área — pode ter virado lavoura, regeneração ou solo exposto.
+        As <strong>matrizes de transição</strong> resolvem isso. Para cada par de anos
+        consecutivos, o MapBiomas é cruzado pixel-a-pixel (30 m × 30 m): cada pixel
+        guarda seu uso em t e em t+1. O resultado é uma matriz 7×7 (origem × destino)
+        que abre o que o delta agrega — as seis classes unificadas mais o
+        <strong>Mosaico de Usos</strong>, que desde jul/2026 entra como grupo próprio em vez
+        de ser descartado (era por onde escapava a conversão recente; ver D25/D26 abaixo).
+        O Sankey do Movimento I (aba
+        <a href="#narrativa/sec-fluxos">Narrativa</a>) representa essa matriz somada de
+        1985 a 2024. Sobre essa base de transições, a dissertação constrói três camadas
+        de evidência, cada uma com força e fraqueza distintas — descritivo → inferencial
+        → causal.
+      </p>
+
+      <div class="dado-choque-grid">
+        <div class="dado-choque">
+          <div class="dado-choque-valor">1,90 Mha</div>
+          <div class="dado-choque-label">Pastagem → Agricultura · 2003–2018</div>
+          <div class="dado-choque-glosa">Conversão acumulada entre o boom de commodities e a intensificação pós-Código Florestal — o "core" da reorganização agrícola.</div>
+        </div>
+        <div class="dado-choque">
+          <div class="dado-choque-valor">3,83 Mha</div>
+          <div class="dado-choque-label">Pastagem → Agricultura · 1985–2024</div>
+          <div class="dado-choque-glosa">Total da série. Confirma que a expansão da lavoura em Goiás se deu predominantemente sobre pastagem, não sobre vegetação natural.</div>
+        </div>
+      </div>
+
+      <p>
+        Quando dizemos que "o crédito rural acelerou a transição pastagem → agricultura",
+        que tipo de afirmação estamos fazendo? A tabela abaixo organiza os três níveis.
+      </p>
+
+      <table class="camadas-tabela">
+        <thead>
+          <tr>
+            <th>Camada</th>
+            <th>Pergunta</th>
+            <th>Força</th>
+            <th>Fraqueza</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Correlação UF</td>
+            <td>"Houve coincidência temporal entre as duas séries no estado?"</td>
+            <td>Simples e comunicativa; comparação direta com a literatura.</td>
+            <td>N pequeno (11–39 obs); sem controle por confundidores.</td>
+          </tr>
+          <tr>
+            <td>Painel 2-way FE</td>
+            <td>"Dentro de cada AMC, X explica Y depois de remover choques nacionais?"</td>
+            <td>Causalmente forte; absorve heterogeneidade da AMC e tendências comuns.</td>
+            <td>Não isola marcos específicos; R² <em>within</em> baixo.</td>
+          </tr>
+          <tr>
+            <td>DiD piecewise</td>
+            <td>"Este marco regulatório teve impacto diferencial em GO vs estados-controle?"</td>
+            <td>Identifica efeito de política em janela curta.</td>
+            <td>Depende de tendências paralelas (não testado aqui).</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>3.1 · Correlação UF — camada descritiva</h4>
+      <p>
+        Agrega tudo no nível estadual (uma linha por ano) e correlaciona séries de
+        primeiras diferenças. Decisão metodológica importante: nunca correlacionar
+        níveis com níveis — duas séries que crescem juntas geram correlação
+        espúria (regressão fajuta). Dos 36 pares testados, <strong>apenas 1 ficou
+        significativo</strong>: Δ Agricultura × Δ Soja, r = −0,30 (p = 0,022). A camada
+        UF é principalmente comunicativa, não inferencial.
+      </p>
+      <figure class="grafico-card" style="max-width: 720px; margin: 1.2rem 0;">
+        <img src="img/correlacoes/uf_scatter_agricultura_agri_soja_ton.png"
+             alt="Dispersão UF: slope da agricultura × Δ produção de soja, com linha de regressão" loading="lazy">
+        <figcaption>UF, 1985–2024: variação da agricultura plotada contra a variação anual da produção de soja em Goiás. Cada ponto é um ano.</figcaption>
+      </figure>
+
+      <h4>3.2 · Painel 2-way FE — camada inferencial (núcleo da dissertação)</h4>
+      <p>
+        Usa as 166 AMCs × ~10 anos como painel. A especificação é
+        <code>Δlulc<sub>it</sub> = α<sub>i</sub> + γ<sub>t</sub> + β·Δx<sub>it</sub> + ε<sub>it</sub></code>:
+        o efeito fixo de AMC (α<sub>i</sub>) absorve tudo que é constante no
+        local (bioma, solo, distância de estradas, cultura local); o efeito fixo de
+        ano (γ<sub>t</sub>) absorve choques nacionais (preço da soja global, política
+        monetária federal). O coeficiente β que sobra é o efeito <em>dentro</em> de
+        cada AMC, líquido de tendências comuns. Erro padrão clusterizado por
+        AMC. Dos 16 modelos testados, 6 são significativos. Os dois mais robustos:
+      </p>
+
+      <div class="dado-choque-grid">
+        <div class="dado-choque">
+          <div class="dado-choque-valor">β = −0,004</div>
+          <div class="dado-choque-label">Δ Agricultura × Δ VA agropec. · p &lt; 0,001</div>
+          <div class="dado-choque-glosa">
+            Significativo em <strong>duas janelas independentes</strong> (2013–2021 e 2002–2023). O crescimento do valor agregado agro veio de produtividade, não de expansão de área — evidência empírica de <em>land sparing</em>.
+          </div>
+        </div>
+        <div class="dado-choque">
+          <div class="dado-choque-valor">β = −0,003</div>
+          <div class="dado-choque-label">Δ Pastagem × Δ SICOR · p &lt; 0,001</div>
+          <div class="dado-choque-glosa">
+            Significativo em <strong>duas janelas</strong>. Aumento no crédito rural por AMC está associado à retração da pastagem — consistente com a transição pastagem → agricultura financiada por crédito.
+          </div>
+        </div>
+      </div>
+
+      <details class="metric-details" style="margin-top: 1rem;">
+        <summary>Tabela completa · 6 modelos significativos do Painel 2FE</summary>
+        <div style="overflow-x: auto; border-top: 1px solid var(--color-rule);">
+          <table class="camadas-tabela" style="margin: 0;">
+            <thead>
+              <tr>
+                <th>Y (Δ LULC)</th>
+                <th>X (Δ socio)</th>
+                <th>Janela</th>
+                <th style="text-align:right;">β</th>
+                <th style="text-align:right;">SE</th>
+                <th style="text-align:right;">p</th>
+                <th style="text-align:right;">N</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Pastagem</td><td>SICOR</td><td>2013–2021</td><td style="text-align:right; font-variant-numeric: tabular-nums;">−0,0034</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,0006</td><td style="text-align:right; font-variant-numeric: tabular-nums;">&lt;0,001</td><td style="text-align:right; font-variant-numeric: tabular-nums;">1.956</td></tr>
+              <tr><td>Pastagem</td><td>SICOR</td><td>2002–2023</td><td style="text-align:right; font-variant-numeric: tabular-nums;">−0,0029</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,0007</td><td style="text-align:right; font-variant-numeric: tabular-nums;">&lt;0,001</td><td style="text-align:right; font-variant-numeric: tabular-nums;">2.444</td></tr>
+              <tr><td>Pastagem</td><td>VA agropec.</td><td>2013–2021</td><td style="text-align:right; font-variant-numeric: tabular-nums;">−0,0015</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,0007</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,033</td><td style="text-align:right; font-variant-numeric: tabular-nums;">2.214</td></tr>
+              <tr><td>Pastagem</td><td>Bovinos</td><td>2002–2023</td><td style="text-align:right; font-variant-numeric: tabular-nums;">≈0</td><td style="text-align:right; font-variant-numeric: tabular-nums;">≈0</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,004</td><td style="text-align:right; font-variant-numeric: tabular-nums;">5.412</td></tr>
+              <tr><td>Agricultura</td><td>VA agropec.</td><td>2013–2021</td><td style="text-align:right; font-variant-numeric: tabular-nums;">−0,0035</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,0007</td><td style="text-align:right; font-variant-numeric: tabular-nums;">&lt;0,001</td><td style="text-align:right; font-variant-numeric: tabular-nums;">2.214</td></tr>
+              <tr><td>Agricultura</td><td>VA agropec.</td><td>2002–2023</td><td style="text-align:right; font-variant-numeric: tabular-nums;">−0,0040</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,0007</td><td style="text-align:right; font-variant-numeric: tabular-nums;">&lt;0,001</td><td style="text-align:right; font-variant-numeric: tabular-nums;">4.674</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size: 0.8rem; color: var(--color-muted); padding: 0.7rem 0.9rem 0.9rem; margin: 0; background: #fcfcfa;">
+          β em Mha de LULC por unidade de Δ X. Erro padrão clusterizado por AMC. Janelas: plena (2013–2021, com SICOR) e estendida (2002–2023, sem SICOR).
+        </p>
+      </details>
+
+      <details class="metric-details" style="margin-top: 0.8rem;">
+        <summary>Painel multivariado · SICOR domina, VA agro perde significância</summary>
+        <div style="padding: 0.9rem 1.1rem; border-top: 1px solid var(--color-rule); background: #fcfcfa;">
+          <p style="margin: 0 0 0.6rem;">
+            Quando Δ SICOR, Δ Bovinos, Δ VA agropecuário e Δ Fogo entram simultaneamente,
+            o <strong>crédito rural é o canal dominante</strong> da retração de pastagem:
+          </p>
+          <ul style="margin: 0 0 0.6rem; padding-left: 1.2rem; font-size: 0.88rem; line-height: 1.6;">
+            <li><strong>Δ Pastagem ~ Δ SICOR + Δ Bovinos + Δ VA agro + Δ Fogo:</strong> β<sub>SICOR</sub> = −0,003 (p &lt; 0,001); β<sub>VA agro</sub> = −0,001 (p = 0,15, <em>perde significância</em>).</li>
+            <li><strong>Δ Agricultura ~ Δ SICOR + Δ Bovinos + Δ VA agro + Δ Fogo:</strong> β<sub>VA agro</sub> = −0,004 (p &lt; 0,001) — a intensificação permanece robusta.</li>
+            <li>R²<sub>within</sub> sobe de 0,047 para 0,122 em agricultura; de 0,030 para 0,072 em pastagem.</li>
+            <li>VIFs ≤ 1,55 — sem multicolinearidade relevante.</li>
+          </ul>
+          <p style="margin: 0; font-size: 0.85rem;">
+            Interpretação: quando o crédito rural está no modelo, o valor agregado agropecuário deixa de ser significativo
+            para pastagem — o crédito captura o canal que o VA agro representava no modelo univariado.
+            A intensificação agrícola (Δ Agricultura × Δ VA agro) é o achado mais robusto, sobrevivendo a todos os controles.
+          </p>
+        </div>
+      </details>
+
+      <h4>3.3 · DiD piecewise — camada causal (avaliação de marcos)</h4>
+      <p>
+        Compara Goiás (tratado) com Tocantins e Mato Grosso (controles do bioma
+        Cerrado) ao redor de quatro marcos: Plano Real (1995), boom de commodities
+        (2003), Código Florestal (2012) e Cerrado Manifesto + reorganização frigorífica (2018).
+        A especificação
+        <code>Δlulc<sub>st</sub> = α<sub>s</sub> + γ<sub>t</sub> + β·(treated<sub>s</sub> × post<sub>t</sub>) + ε<sub>st</sub></code>
+        captura, no β do termo de interação, a diferença na variação de uso da
+        terra em GO <em>menos</em> a diferença nos controles depois do marco. Janela
+        ±5 anos. <strong>TO é o controle mais comparável (~92% Cerrado); MT mistura Amazônia, Cerrado e Pantanal e deve ser lido como sensibilidade.</strong>
+        Dos 36 modelos (3 classes × 4 marcos × 3 controles), 9 são significativos —
+        mas a maioria <em>não se replica</em> quando o controle muda de MT para TO.
+        Testes de placebos e event-study foram rodados (ver acordeão abaixo).
+        O único achado robusto cross-especificação:
+      </p>
+
+      <div class="dado-choque-grid">
+        <div class="dado-choque">
+          <div class="dado-choque-valor">+0,08 Mha/ano</div>
+          <div class="dado-choque-label">Veg. natural em GO vs TO · pós-Plano Real 1995 · p = 0,005</div>
+          <div class="dado-choque-glosa">
+            Após a estabilização monetária, a vegetação natural em Goiás perdeu área 0,08 Mha/ano <em>mais devagar</em> do que em Tocantins. É o efeito que sobrevive à troca de controle, à mudança de janela e à especificação combinada — leitura honesta: estabilização macro reduziu pressão sobre veg. natural em GO mais do que em outros estados do Cerrado.
+          </div>
+        </div>
+        <div class="dado-choque">
+          <div class="dado-choque-valor">sensível ao controle</div>
+          <div class="dado-choque-label">Pastagem em 2012 e 2018 · efeitos só vs MT</div>
+          <div class="dado-choque-glosa">
+            Os efeitos pós-Código Florestal (+0,30 Mha/ano) e pós-Cerrado Manifesto (−0,44 Mha/ano) reportados vs MT <strong>não se replicam vs TO</strong> (β=+0,01, p=0,82 e β=−0,07, p=0,21). O β contra MT provavelmente capta também a dinâmica própria de MT (Moratória da Soja Amazônia 2006), não apenas GO divergindo do Cerrado.
+          </div>
+        </div>
+      </div>
+
+      <figure class="grafico-card" style="max-width: 760px; margin: 1.2rem 0;">
+        <img src="img/correlacoes/did_pastagem_2018.png"
+             alt="Diferença-em-diferenças: pastagem em Goiás vs Mato Grosso e Tocantins, marco Cerrado Manifesto 2018" loading="lazy">
+        <figcaption>DiD pastagem · marco 2018 (Cerrado Manifesto + consolidação frigorífica). Linhas mostram a evolução em GO (tratado) vs MT e TO (controles). A separação visível entre GO e MT após 2018 não se reproduz entre GO e TO — o β contra MT é dirigido pela dinâmica própria de MT.</figcaption>
+      </figure>
+
+      <details class="metric-details" style="margin-top: 1rem;">
+        <summary>Tabela completa · 9 modelos DiD significativos</summary>
+        <div style="overflow-x: auto; border-top: 1px solid var(--color-rule);">
+          <table class="camadas-tabela" style="margin: 0;">
+            <thead>
+              <tr>
+                <th>Classe</th>
+                <th>Marco</th>
+                <th>Controle</th>
+                <th style="text-align:right;">β-DiD</th>
+                <th style="text-align:right;">SE</th>
+                <th style="text-align:right;">p</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Veg. natural</td><td>1995 · Real</td><td>Tocantins</td><td style="text-align:right; font-variant-numeric: tabular-nums;">+0,083</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,030</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,005</td></tr>
+              <tr><td>Pastagem</td><td>1995 · Real</td><td>Mato Grosso</td><td style="text-align:right; font-variant-numeric: tabular-nums;">−0,229</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,100</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,022</td></tr>
+              <tr><td>Pastagem</td><td>2012 · Cód. Florestal</td><td>combined</td><td style="text-align:right; font-variant-numeric: tabular-nums;">+0,158</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,061</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,010</td></tr>
+              <tr><td>Pastagem</td><td>2012 · Cód. Florestal</td><td>Mato Grosso</td><td style="text-align:right; font-variant-numeric: tabular-nums;">+0,305</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,063</td><td style="text-align:right; font-variant-numeric: tabular-nums;">&lt;0,001</td></tr>
+              <tr><td>Pastagem</td><td>2018 · Cerrado Manifesto</td><td>combined</td><td style="text-align:right; font-variant-numeric: tabular-nums;">−0,258</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,074</td><td style="text-align:right; font-variant-numeric: tabular-nums;">&lt;0,001</td></tr>
+              <tr><td>Pastagem</td><td>2018 · Cerrado Manifesto</td><td>Mato Grosso</td><td style="text-align:right; font-variant-numeric: tabular-nums;">−0,443</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,078</td><td style="text-align:right; font-variant-numeric: tabular-nums;">&lt;0,001</td></tr>
+              <tr><td>Agricultura</td><td>1995 · Real</td><td>Tocantins</td><td style="text-align:right; font-variant-numeric: tabular-nums;">−0,074</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,037</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,046</td></tr>
+              <tr><td>Agricultura</td><td>2012 · Cód. Florestal</td><td>Mato Grosso</td><td style="text-align:right; font-variant-numeric: tabular-nums;">−0,191</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,068</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,005</td></tr>
+              <tr><td>Agricultura</td><td>2018 · Cerrado Manifesto</td><td>Mato Grosso</td><td style="text-align:right; font-variant-numeric: tabular-nums;">+0,167</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,066</td><td style="text-align:right; font-variant-numeric: tabular-nums;">0,011</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size: 0.8rem; color: var(--color-muted); padding: 0.7rem 0.9rem 0.9rem; margin: 0; background: #fcfcfa;">
+          β em Mha/ano. Janela ±5 anos ao redor do marco. "combined" = MT+TO juntos como grupo de controle.
+        </p>
+      </details>
+
+      <details class="metric-details" style="margin-top: 0.8rem;">
+        <summary>Event-study e placebos · robustez do DiD</summary>
+        <div style="padding: 0.9rem 1.1rem; border-top: 1px solid var(--color-rule); background: #fcfcfa;">
+          <p style="margin: 0 0 0.6rem;">
+            <strong>Event-study:</strong> 11 de 12 combinações (classe × marco) com controle
+            combined passam no teste de tendências paralelas (lags pré-marco não significativos).
+            Os 3 lags pré-marco significativos estão todos em agricultura × 1995 — consistente
+            com a aceleração agrícola já em curso antes do marco.
+          </p>
+          <p style="margin: 0 0 0.6rem;">
+            <strong>Placebos:</strong> 9 de 36 modelos placebo são significativos — principalmente
+            em marcos 2012 e 2018 vs MT/combined. Isso indica que os efeitos pós-Código Florestal
+            e pós-Cerrado Manifesto capturam, em parte, dinâmica pré-existente, não apenas
+            o efeito do marco institucional. A única combinação robusta cross-test é
+            <strong>veg. natural × 1995 vs TO</strong>.
+          </p>
+          <p style="margin: 0; font-size: 0.85rem;">
+            Leitura honesta: o DiD é mais informativo como diagnóstico descritivo (quais marcos
+            têm efeito diferencial em GO?) do que como prova causal estrita. O achado de que
+            2012 (Código Florestal) <em>não gera quebra estrutural detectável</em> é, ele próprio,
+            um resultado — a ausência de efeito é informativa.
+          </p>
+        </div>
+      </details>
+    </div>
+
+    <!-- M4 — Vitrine do painel (inventário de dados) -->
+    <div class="como-bloco" id="painel-vitrine">
+      <h3>4 · O painel: o que medimos</h3>
+      <p>
+        Toda a análise se apoia num painel de <strong>166 Áreas Mínimas Comparáveis
+        (AMCs) × 40 anos × ~70 variáveis</strong>, que reúne MapBiomas, IBGE/SIDRA-PAM/PPM,
+        IPEA, BACEN e outras fontes numa única tabela alinhada por AMC e ano. Os agregados
+        municipais foram confrontados com os totais estaduais do IBGE/SIDRA e com checagens
+        internas entre fontes, sem anomalias graves — cada série pode ser rastreada até a
+        fonte original. <strong>Esta seção é o inventário</strong>: mostra quais dados
+        existem no painel, de onde vêm e que período cobrem. O que eles <em>revelam</em>
+        está na aba <a href="#narrativa/depois-dos-mapas">Narrativa</a>.
+      </p>
+      <div id="inventario-grid" class="inventario-grid" aria-live="polite">
+        <p class="resumo-loading">Carregando vitrine do painel…</p>
+      </div>
+      <p class="inventario-rodape">
+        Todas as séries são para o estado de Goiás (agregação UF). O painel
+        AMC completo (166 AMCs × ~70 vars) está documentado nos pipelines
+        #1–#26 da dissertação.
+      </p>
+    </div>
+
+    <!-- M5 — Decisões metodológicas D1-D26 -->
+    <div class="como-bloco" id="metodo-decisoes">
+      <h3>5 · As decisões metodológicas</h3>
+      <p>
+        Toda escolha numa cadeia analítica é uma decisão documentada — e cada uma tem
+        um <em>porquê</em>. Vinte e seis decisões (D1–D26) estruturam o trabalho e garantem
+        que peças escritas em meses diferentes usem a mesma régua. Agrupadas por tema
+        (as numerações são cronológicas). No fim vêm as mais recentes — <strong>D25 e
+        D26</strong>, de julho de 2026 —, que a auditoria da mudança de rótulo do MapBiomas
+        obrigou a escrever e que reorganizaram várias leituras desta página:
+      </p>
+
+      <h4 class="decisao-tema">Classes e medição</h4>
+      <div class="decisao-grid">
+        <div class="decisao-card">
+          <span class="decisao-badge">D1</span>
+          <div class="decisao-titulo">6 classes nos estoques, 7 nos fluxos — Mosaico com identidade própria</div>
+          <div class="decisao-por-que">Reduz ruído de subclasses; mapeamento idêntico em mapas, transições e taxas. <strong>Revisada duas vezes em jul/2026</strong>: o Mosaico saiu de "Outros" e ganhou faixa própria na barra — é ele que absorve a conversão no fim da série (D25) —, e em 27/jul virou <strong>grupo próprio na matriz de transição</strong>, que antes o descartava e por isso mostrava a conversão parando. A regra agora é <em>fluxo pinta, estoque não</em>: ele aparece nas transições e no Sankey; os 40 mapas anuais de cobertura seguem sem pintá-lo.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D2</span>
+          <div class="decisao-titulo">Taxas vêm do MapBiomas direto</div>
+          <div class="decisao-por-que">Fonte = <code>mapbiomas_munis_goias.csv</code>, não o painel derivado.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D10</span>
+          <div class="decisao-titulo">Idade da pastagem calculada localmente em Python</div>
+          <div class="decisao-por-que">Das 40 bandas anuais, para não estourar o limite do GEE (35+ operações encadeadas).</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D13</span>
+          <div class="decisao-titulo">"Terra convertível" = proxy MapBiomas com teto</div>
+          <div class="decisao-por-que">Em três definições, para medir a oferta de Cerrado convertível (Narrativa § 11).</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D17</span>
+          <div class="decisao-titulo">Proteção legal entra como malha vetorial, não como classe</div>
+          <div class="decisao-por-que">Unidades de Conservação e Terras Indígenas vêm do CNUC e são cruzadas por sobreposição com as AMCs — no espírito da D13, um proxy-teto. Foi assim que se mediu que 97% do Cerrado convertível que resta está desprotegido: o teto de oferta é físico, não institucional.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D18</span>
+          <div class="decisao-titulo">Carbono em três cenários de densidade, nunca em um número</div>
+          <div class="decisao-por-que">A conversão de área em CO₂e usa densidades de biomassa do Cerrado (acima + abaixo do solo, IPCC Tier 1), que variam muito na literatura. Reportar faixa (751–1208 Mt) em vez de ponto é o que a incerteza da fonte permite.</div>
+        </div>
+      </div>
+
+      <h4 class="decisao-tema">Tempo: taxas e janelas</h4>
+      <div class="decisao-grid">
+        <div class="decisao-card">
+          <span class="decisao-badge">D3</span>
+          <div class="decisao-titulo">Slope em janela móvel de 5 anos</div>
+          <div class="decisao-por-que">Em duas versões: <em>trailing</em> (inferência) e centrada (só visualização).</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D4</span>
+          <div class="decisao-titulo">Erro-padrão HAC Newey-West (maxlags=2)</div>
+          <div class="decisao-por-que">Corrige autocorrelação de resíduos em janelas sobrepostas.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D5</span>
+          <div class="decisao-titulo">Aceleração = slope[t] − slope[t−1]</div>
+          <div class="decisao-por-que">A métrica mais frágil; só pontos &gt;2σ entram nos gráficos.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D12</span>
+          <div class="decisao-titulo">Janelas temporais explícitas</div>
+          <div class="decisao-por-que">Face de fronteira (#35) + face de resolução (#36): robustez multi-régua, não acidente.</div>
+        </div>
+      </div>
+
+      <h4 class="decisao-tema">Espaço: unidades de análise</h4>
+      <div class="decisao-grid">
+        <div class="decisao-card">
+          <span class="decisao-badge">D6</span>
+          <div class="decisao-titulo">5 mesorregiões IBGE 2017</div>
+          <div class="decisao-por-que">Não as Regiões Imediatas (133 unidades); base da leitura Sul→Norte.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D11</span>
+          <div class="decisao-titulo">Áreas Mínimas Comparáveis (Ehrl 2017)</div>
+          <div class="decisao-por-que">Território constante (166 AMCs); 25% dos municípios nasceram após 1985 e gerariam quedas espúrias.</div>
+        </div>
+      </div>
+
+      <h4 class="decisao-tema">Inferência e identificação</h4>
+      <div class="decisao-grid">
+        <div class="decisao-card">
+          <span class="decisao-badge">D7</span>
+          <div class="decisao-titulo">Correlações sempre em primeiras diferenças</div>
+          <div class="decisao-por-que">Evita regressão espúria entre séries com tendência. Nunca níveis.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D8</span>
+          <div class="decisao-titulo">Painel 2-way FE, SE clusterizado</div>
+          <div class="decisao-por-que">Efeitos de AMC + ano absorvem heterogeneidade local e choques nacionais.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D9</span>
+          <div class="decisao-titulo">DiD GO vs MT/TO — lido como sensibilidade, não como causa</div>
+          <div class="decisao-por-que">Estados do Cerrado; Tocantins é o controle mais credível. <strong>Revisado em jul/2026</strong>: os marcos testados (Plano Real, Kandir, Código Florestal, Cerrado Manifesto) são <em>federais</em> — incidem sobre Goiás <em>e</em> sobre os controles, então não existe grupo não-tratado. O resultado mede <strong>exposição diferencial a um choque comum</strong>, não o efeito da lei. Nenhuma conclusão desta página se apoia nele.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D14</span>
+          <div class="decisao-titulo">Em cross-section estadual, reportar a parcial controlando latitude</div>
+          <div class="decisao-por-que">Antes de atribuir efeito próprio. Nasceu de uma autocorreção (#40) — o gradiente Sul→Norte confunde quase tudo.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D15</span>
+          <div class="decisao-titulo">Alinhamento fogo(t) ↔ conversão(origem=t) como contemporâneo</div>
+          <div class="decisao-por-que">Evita atribuir ao fogo uma "liderança" que é, em parte, definicional.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D16</span>
+          <div class="decisao-titulo">Lead-lag de séries AMC integradas exige Toda-Yamamoto + placebos</div>
+          <div class="decisao-por-que">O Granger ingênuo em 1ª diferença fabrica precedência espúria (#42). Ver Narrativa § 9.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D19</span>
+          <div class="decisao-titulo">Todo deslocamento de centroide vem com IC95% por bootstrap</div>
+          <div class="decisao-por-que">Reamostrando as 166 AMCs com reposição (B=2000). Um vão entre duas camadas só é lido como real quando as faixas <em>não se sobrepõem</em> — é o que separa "o crédito fica ao sul do pasto" de "as duas linhas parecem diferentes no gráfico".</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D20</span>
+          <div class="decisao-titulo">Choque nacional único ⇒ o p vem de permutação, não do erro-padrão</div>
+          <div class="decisao-por-que">Quando o "empurrão" testado é um número por ano para o estado inteiro (o câmbio), o erro-padrão agrupado finge ter milhares de observações independentes quando há ~40. Embaralhar o próprio choque entre os anos dá o p honesto — e ele sobe de ~0,03 para 0,07–0,13. Por isso o câmbio é descrito nesta página como <em>corroborante</em>, nunca como significativo.</div>
+        </div>
+      </div>
+
+      <h4 class="decisao-tema">Quando a amostra virou censo (jul/2026)</h4>
+      <p class="decisao-tema-lede">
+        Em julho de 2026 a análise de idade da pastagem deixou de usar uma amostra de
+        pixels e passou a usar todos eles. A troca revelou dois defeitos de código e
+        obrigou a repensar o que "evidência" significa quando não há mais amostragem —
+        quatro decisões saíram desse episódio.
+      </p>
+      <div class="decisao-grid">
+        <div class="decisao-card">
+          <span class="decisao-badge">D21</span>
+          <div class="decisao-titulo">Toda amostra espacial declara quanto caiu fora do recorte</div>
+          <div class="decisao-por-que">A amostra antiga era sorteada sobre o <em>retângulo</em> que envolve Goiás, não sobre Goiás: 43,7% dos pixels estavam fora do estado. O rótulo de cada ponto era corrigido depois, mas a alocação da amostra já tinha acontecido. Antes de usar qualquer amostra espacial, calcule e reporte essa fração.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D22</span>
+          <div class="decisao-titulo">Sentinela de erro nunca compartilha código com categoria real</div>
+          <div class="decisao-por-que">Uma classe ausente da tabela de tradução ("Mosaico de Usos") caía no valor de preenchimento e virava, silenciosamente, um dado válido — inflando a censura de 63,7% para 74,9%. Falha de configuração tem que gritar, não virar número.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D23</span>
+          <div class="decisao-titulo">Com censo, o p-valor deixa de medir evidência</div>
+          <div class="decisao-por-que">Quando <em>n</em> é a população inteira, qualquer desvio ínfimo produz estatística astronômica (aqui um ΔBIC de 844.789) — isso mede o tamanho de <em>n</em>, não a força do achado. A robustez passa a vir de <strong>estabilidade entre recortes</strong>; o ganho real do censo é precisão dos parâmetros. É por isso que a bimodalidade do § 6 se sustenta por concordância amostra↔censo, não por significância.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D24</span>
+          <div class="decisao-titulo">Estatística ponderada é verificada por contrato</div>
+          <div class="decisao-por-que">Ao trocar dados linha-a-linha por células com peso, toda conta ponderada tem de reduzir <em>exatamente</em> ao caso sem peso quando o peso é 1 — e isso é testado, não presumido. Sem esse contrato, não dá para saber se uma diferença veio dos dados ou da troca de implementação. Vale por módulo: quem faz a própria conta com peso precisa da própria suíte.</div>
+        </div>
+      </div>
+
+      <h4 class="decisao-tema">Mudança de rótulo do MapBiomas (jul/2026)</h4>
+      <div class="decisao-grid">
+        <div class="decisao-card">
+          <span class="decisao-badge">D25</span>
+          <div class="decisao-titulo">O objeto medido não é constante ao longo da série</div>
+          <div class="decisao-por-que">No fim da série, a terra que sai da pastagem passa a ser rotulada "Mosaico de Usos" em vez de "agricultura" — a razão entre as duas transições vai de 0,6 (2015) a 32,5 (2024) enquanto o IBGE registra a soja crescendo 38%. Uma transição pode "desaparecer" sem que nada mude no campo.</div>
+        </div>
+        <div class="decisao-card">
+          <span class="decisao-badge">D26</span>
+          <div class="decisao-titulo">Medir em intervalo, com uma âncora de fora</div>
+          <div class="decisao-por-que">Todo número que tenha "agricultura" no destino é reportado entre duas réguas — só <code>agric</code> (piso) e <code>agric ∪ mosaico</code> (teto) — e comparado a uma fonte imune (SIDRA/IBGE). Robusto = sobrevive nas duas pontas. Foi essa régua que derrubou o gradiente de idade do § 6 e o "−88%" do § 8.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- M6 — Fragilidades -->
+    <div class="como-bloco" id="limitacoes">
+      <h3>6 · O que esta análise ainda não responde</h3>
+      <p>
+        Honestidade epistêmica: nenhuma análise é completa. Documentar fragilidades é
+        parte do método, não um defeito a esconder. Os pontos abaixo são limitações
+        conhecidas que orientam o backlog de robustez e devem ser ponderados no
+        julgamento das conclusões.
+      </p>
+
+      <div class="fragilidade-list">
+        <div class="fragilidade-item">
+          <div class="fragilidade-titulo">iLUC intra-estadual: não confirmado, não refutado em absoluto</div>
+          <p class="fragilidade-glosa">
+            O canal testado (precedência temporal + spillover direcional Sul→Norte, <a href="#narrativa/sec-reorganizacao">Narrativa § 9</a>) não se
+            confirma — mas isso não prova que o iLUC <em>não existe</em>. Um canal de longo alcance,
+            ou com defasagem muito longa, não foi testado. A tese afirma o nulo do teste feito, não a
+            inexistência do fenômeno.
+          </p>
+        </div>
+        <div class="fragilidade-item">
+          <div class="fragilidade-titulo">O drive comum está inferido, não provado</div>
+          <p class="fragilidade-glosa">
+            Câmbio e crédito <em>antecedem</em> as inflexões (<a href="#narrativa/sec-drive-comum">Narrativa § 10</a>), mas precedência preditiva
+            (Granger) não é causalidade dura. N ≈ 38 na série UF; o gradiente câmbio × aptidão no
+            painel AMC não sobrevive ao FDR. É evidência consistente, não fechada.
+          </p>
+        </div>
+        <div class="fragilidade-item">
+          <div class="fragilidade-titulo">A desaceleração do Ato III tem só 4–5 anos</div>
+          <p class="fragilidade-glosa">
+            A freada da agricultura no Sul (Narrativa § 7–§ 8) e o "fechamento" da fronteira sulista (§ 11) são
+            recentes. "Desaceleração recente" é o termo honesto — não há série suficiente para chamar
+            de reversão estrutural.
+          </p>
+        </div>
+        <div class="fragilidade-item">
+          <div class="fragilidade-titulo">O recorte mesorregional (5 unidades) é grosso</div>
+          <p class="fragilidade-glosa">
+            O mecanismo Sul→Norte (<a href="#narrativa/sec-dois-goiases">Narrativa § 8</a>) é lido em 5 mesorregiões — há heterogeneidade interna. Onde foi
+            possível descer à malha AMC (158 unidades), a conclusão se manteve (a bimodalidade do #28C);
+            o mecanismo de transições do #33, esse, segue em resolução mesorregional.
+          </p>
+        </div>
+        <div class="fragilidade-item">
+          <div class="fragilidade-titulo">DiD: efeitos de 2012 e 2018 sensíveis ao controle</div>
+          <p class="fragilidade-glosa">
+            Event-study e placebos foram rodados. 11 de 12 combinações passam tendências paralelas
+            com controle combined; 9 de 36 placebos são significativos (principalmente 2012/2018
+            vs MT/combined). Os efeitos pós-Código Florestal e pós-Cerrado Manifesto capturam
+            dinâmica pré-existente, não apenas o efeito do marco. Único par robusto cross-test:
+            veg. natural × 1995 vs TO.
+          </p>
+        </div>
+        <div class="fragilidade-item">
+          <div class="fragilidade-titulo">Mato Grosso é controle imperfeito</div>
+          <p class="fragilidade-glosa">
+            MT é majoritariamente Amazônia, monocultura de soja em larga escala —
+            composição distinta de GO. Reportar TO-isolado como especificação
+            principal mitiga, mas reduz poder (apenas 2 UFs no controle).
+          </p>
+        </div>
+        <div class="fragilidade-item">
+          <div class="fragilidade-titulo">R² <em>within</em> modesto no painel</div>
+          <p class="fragilidade-glosa">
+            No multivariado, R²<sub>within</sub> chega a 0,122 em agricultura (0,047 no univariado)
+            e 0,072 em pastagem. β preciso e significativo, mas grande parte da mudança
+            vem de fatores não modelados. Extensão: painel espacial dinâmico.
+          </p>
+        </div>
+        <div class="fragilidade-item">
+          <div class="fragilidade-titulo">Autocorrelação espacial não modelada</div>
+          <p class="fragilidade-glosa">
+            115 de 140 modelos (classe × ano × W) têm Moran's I global significativo —
+            pico em 2018 (I = +0,53 para pastagem). SEM (Spatial Error) vence OLS por margem
+            pequena (AIC −2.924 vs −2.924 em agric). Limitação reconhecida: análise é
+            cross-section em 1 ano; painel espacial dinâmico fica para extensão.
+          </p>
+        </div>
+        <div class="fragilidade-item">
+          <div class="fragilidade-titulo">Aceleração é autocorrelacionada por construção</div>
+          <p class="fragilidade-glosa">
+            <code>slope<sub>t</sub></code> e <code>slope<sub>t−1</sub></code> compartilham 4 anos da janela. A diferença entre eles
+            (aceleração) herda essa estrutura. Filtro 2σ atenua, mas a métrica é
+            descritiva, não inferencial.
+          </p>
+        </div>
+        <div class="fragilidade-item">
+          <div class="fragilidade-titulo">N pequeno nas correlações UF com SICOR</div>
+          <p class="fragilidade-glosa">
+            SICOR só está disponível sistematicamente a partir de 2013 — N = 11
+            observações UF nessa janela. Pouco poder estatístico; correlações UF com
+            SICOR servem para narrativa, não para inferência.
+          </p>
+        </div>
+        <div class="fragilidade-item">
+          <div class="fragilidade-titulo">Censura à esquerda na idade da pastagem (64%)</div>
+          <p class="fragilidade-glosa">
+            28,6 de 44,6 milhões de pixels já eram pastagem em 1985 — a idade real desses
+            pixels é desconhecida (podem ter décadas a mais). Análises de idade restringem-se
+            aos 16,0 milhões não-censurados, que representam conversões mais recentes.
+            A distribuição global é enviesada para idades menores. Passar de amostra para
+            censo <em>não</em> resolve isso: a censura é limite da série do MapBiomas, que
+            começa em 1985, não do tamanho da amostra.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- M7 — Glossário -->
+    <div class="como-bloco" id="glossario">
+      <h3>7 · Glossário rápido</h3>
+      <dl class="glossario-dl" style="padding: 1rem 1.2rem; border: 1px solid var(--color-rule); background: #fcfcfa;">
+        <dt>β</dt>
+        <dd>Coeficiente da regressão. Diz quanto Y muda por unidade de X. Sinal negativo = relação inversa.</dd>
+
+        <dt>SE</dt>
+        <dd>Erro padrão de β. Quanto menor, mais preciso é o coeficiente estimado.</dd>
+
+        <dt>p</dt>
+        <dd>Probabilidade de ver um β tão extremo quanto o observado se na verdade não houvesse efeito. Usual: p &lt; 0,05 = "estatisticamente significativo".</dd>
+
+        <dt>R² <em>within</em></dt>
+        <dd>Fração da variância <em>dentro</em> de cada AMC (depois de remover efeitos fixos) que o modelo explica.</dd>
+
+        <dt>Slope</dt>
+        <dd>Coeficiente angular da reta ajustada em 5 anos consecutivos. Velocidade média (Mha/ano).</dd>
+
+        <dt>Aceleração</dt>
+        <dd>Variação do slope entre anos consecutivos. Segunda derivada discreta da área.</dd>
+
+        <dt>HAC</dt>
+        <dd><em>Heteroscedasticity and Autocorrelation Consistent</em>. Correção do erro padrão para resíduos autocorrelacionados (Newey-West é a forma mais comum).</dd>
+
+        <dt>FE</dt>
+        <dd><em>Fixed Effects</em>, efeitos fixos. α<sub>i</sub> absorve o que é constante na AMC; γ<sub>t</sub> absorve choques nacionais.</dd>
+
+        <dt>DiD</dt>
+        <dd><em>Difference-in-Differences</em>. Compara a mudança em um grupo tratado com a mudança em um grupo controle ao redor de um marco. β-DiD = "diferença das diferenças".</dd>
+
+        <dt>Δ x<sub>t</sub></dt>
+        <dd>Primeira diferença: x<sub>t</sub> − x<sub>t−1</sub>. Remove tendência e evita regressão espúria.</dd>
+
+        <dt>Mha</dt>
+        <dd>Milhões de hectares. 1 Mha = 10.000 km².</dd>
+      </dl>
+    </div>
+
+    <a class="metodos-volta" href="#narrativa">&larr; Voltar à Narrativa</a>
+  </section>
+  <!-- ===================== / oficina ===================== -->
+
+  </section>
+  <!-- ===================== / MODO MÉTODOS ===================== -->
+
+
+
+
+
+
+</main>
+
+
+
+<script src="assets/js/vendor/scrollama.min.js?v=3"></script>
+
+<script src="assets/js/utils.js?v=3"></script>
+
+<script src="assets/js/timeline.js?v=4"></script>
+
+<script src="assets/js/router.js?v=4"></script>
+
+<script src="assets/js/secoes.js?v=1"></script>
+
+<script src="assets/js/marcha.js?v=1"></script>
+
+<script src="assets/js/marcha-mapa.js?v=1"></script>
+
+<script src="assets/js/sankey.js?v=4"></script>
+
+<script src="assets/js/mini-sankey.js?v=1"></script>
+
+<script src="assets/js/matriz.js?v=2"></script>
+
+<script src="assets/js/inventario.js?v=1"></script>
+
+<script src="assets/js/pastagem-reserva.js?v=1"></script>
+
+<script src="assets/js/zoom.js?v=1"></script>
+
+</body>
+
+</html>
+

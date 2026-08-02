@@ -15,7 +15,7 @@ from playwright.sync_api import sync_playwright
 # em UnicodeEncodeError e esconde justamente o erro que deveria reportar.
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-URL = "http://127.0.0.1:8765/reforma.html"
+URL = "http://127.0.0.1:8765/index.html"
 # Frases que ja estiveram na peca e cairam (BLUEPRINT_PARTE2.md, "Numeros
 # banidos"). Precisam ser especificas: "78 mil" sozinho casa com "378 milhoes".
 BANIDOS = ["78 mil pontos", "78.000", "-88%", "−88%", "desloca o peso",

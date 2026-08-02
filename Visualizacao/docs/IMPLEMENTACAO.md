@@ -1,5 +1,10 @@
 # Implementacao: estado atual e plano restante
 
+> **Documento histórico (ago/2026).** Descreve o site tab-based original
+> ("3 atos + 8 marcos"), aposentado quando a reforma (`reforma.html`) tornou-se
+> o `index.html` publicado. A versão clássica ficou arquivada como
+> `index-original.html`. Para o site atual, ver `PLANO_DE_CONSTRUCAO.md`.
+
 > Documento de execucao. Para a ideia conceitual, ver `IDEIA.md`.
 
 ## 1. Estado atual (2026-05-08)
