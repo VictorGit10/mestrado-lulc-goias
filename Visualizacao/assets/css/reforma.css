@@ -134,7 +134,7 @@ body.reforma .timeline-rail.is-recolhida {
   font-weight: 600;
 }
 
-/* --- botao compacto: so' aparece abaixo de 1180px --- */
+/* --- botao compacto: so' aparece abaixo de 1366px --- */
 .rail-lateral-toggle {
   display: none;
   align-items: center;
@@ -167,7 +167,7 @@ body.reforma .timeline-rail.is-recolhida {
    deslocado para a direita com um vazio inexplicavel a esquerda. Como o rail
    entra exatamente quando o hero sai de cena, o deslocamento nunca e' visto
    como um salto. A regua dos 40 anos acompanha, para seguir alinhada ao mapa. */
-@media (min-width: 1181px) {
+@media (min-width: 1367px) {
   /* Alinhamento perfeito da coluna centralizada (760px) com o Hero. */
   body.reforma .parte,
   body.reforma .page-footer {
@@ -178,7 +178,7 @@ body.reforma .timeline-rail.is-recolhida {
   }
 }
 
-@media (max-width: 1180px) {
+@media (max-width: 1366px) {
   .rail-lateral {
     top: auto;
     bottom: 1rem;

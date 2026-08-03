@@ -312,6 +312,24 @@ def main():
         if mob.get("stickyMapa") != "sticky" or mob.get("stickyRegua") != "sticky":
             erros.append(f"o overflow-x: clip quebrou o sticky: {mob}")
 
+        # --- 9b. laptop (1280x800 e 1366x768) ---
+        for width in [1280, 1366]:
+            pg.set_viewport_size({"width": width, "height": 768})
+            pg.evaluate("window.scrollTo(0, 3000)")
+            pg.wait_for_timeout(400)
+            laptop = pg.evaluate("""() => {
+                const btn = document.getElementById('rail-lateral-toggle');
+                return {
+                    btnVisivel: btn ? getComputedStyle(btn).display !== 'none' : null,
+                    overflowX: document.documentElement.scrollWidth > window.innerWidth + 1
+                };
+            }""")
+            print(f"laptop ({width}px): {laptop}")
+            if not laptop.get("btnVisivel"):
+                erros.append(f"botao do sumario nao aparece no laptop ({width}px)")
+            if laptop.get("overflowX"):
+                erros.append(f"a pagina rola horizontalmente no laptop ({width}px)")
+
         nav.close()
 
     print("\n" + "=" * 60)
