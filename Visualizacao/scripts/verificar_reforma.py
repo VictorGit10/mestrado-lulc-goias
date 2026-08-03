@@ -330,6 +330,23 @@ def main():
             if laptop.get("overflowX"):
                 erros.append(f"a pagina rola horizontalmente no laptop ({width}px)")
 
+        # --- 9c. desktop sem colisao de fade (1440px) ---
+        pg.set_viewport_size({"width": 1440, "height": 900})
+        pg.evaluate("window.scrollTo(0, 1500)")
+        pg.wait_for_timeout(400)
+        desk = pg.evaluate("""() => {
+            const rail = document.getElementById('rail-lateral').getBoundingClientRect();
+            const mapa = document.querySelector('.story-figure').getBoundingClientRect();
+            return {
+                railRight: rail.right,
+                mapaLeft: mapa.left,
+                overlap: mapa.left < rail.right
+            };
+        }""")
+        print(f"desktop (1440px): {desk}")
+        if desk.get("overlap"):
+            erros.append(f"o sumario sobrepoe o mapa em 1440px: {desk}")
+
         nav.close()
 
     print("\n" + "=" * 60)

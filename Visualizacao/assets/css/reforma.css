@@ -168,13 +168,13 @@ body.reforma .timeline-rail.is-recolhida {
    entra exatamente quando o hero sai de cena, o deslocamento nunca e' visto
    como um salto. A regua dos 40 anos acompanha, para seguir alinhada ao mapa. */
 @media (min-width: 1367px) {
-  /* Alinhamento perfeito da coluna centralizada (760px) com o Hero. */
+  /* Reserva de espaço lateral para o sumário fixo, garantindo que o mapa e o texto fiquem livres do fade */
   body.reforma .parte,
   body.reforma .page-footer {
-    padding-left: 0;
+    padding-left: var(--rail-lateral-w);
   }
-  body.reforma .timeline-rail .rail-inner {
-    padding-left: 2rem;
+  body.reforma .timeline-rail {
+    padding-left: var(--rail-lateral-w);
   }
 }
 
