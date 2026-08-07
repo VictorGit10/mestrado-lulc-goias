@@ -11,6 +11,20 @@
 
   let currentMode = root.GO40 && root.GO40.sankeyMode ? root.GO40.sankeyMode : "faded";
 
+  // Os rotulos dos JSONs de ato vem sem acento (gerados por script Python com
+  // saida ASCII). Reacentuar na exibicao mantem os ids do dado estaveis.
+  const ACENTOS = {
+    "Vegetacao Natural": "Vegetação Natural",
+    "Area Urbana": "Área Urbana",
+    "Agua": "Água"
+  };
+  function acentuar(texto) {
+    if (!texto) return texto;
+    const m = /^(.*?)(\s\(\d{4}\))?$/.exec(texto);
+    const classe = m[1];
+    return (ACENTOS[classe] || classe) + (m[2] || "");
+  }
+
   function loadScript(src) {
     return new Promise((resolve, reject) => {
       const s = document.createElement("script");
@@ -164,7 +178,7 @@
       .text(d => {
         const src = graph.nodes[d.source.index];
         const tgt = graph.nodes[d.target.index];
-        return `${src.label || src.id} -> ${tgt.label || tgt.id}: ${d.value.toFixed(3)} Mha`;
+        return `${acentuar(src.label || src.id)} → ${acentuar(tgt.label || tgt.id)}: ${d.value.toFixed(3)} Mha`;
       });
 
     // Nodes
@@ -199,7 +213,8 @@
         const map = {
           "Vegetacao Natural": "Veg.",
           "Area Urbana": "Urb.",
-          "Mosaico de Usos": "Mosaico"
+          "Mosaico de Usos": "Mosaico",
+          "Agua": "Água"
         };
         return map[label] || label;
       });

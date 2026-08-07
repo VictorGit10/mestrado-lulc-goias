@@ -102,14 +102,14 @@
       if (isPct) {
         caption.textContent =
           "Cada linha soma 100%. A diagonal mostra a porcentagem que permaneceu na mesma classe; " +
-          "off-diagonal mostra para onde a área foi convertida. O Mosaico de Usos (lavoura ou " +
-          "pasto, que o classificador não separa) entra como classe própria. " +
+          "as células fora da diagonal mostram para onde a área foi convertida. O Mosaico de Usos " +
+          "(lavoura ou pasto, que o classificador não separa) entra como classe própria. " +
           "Fonte: MapBiomas Coleção 10.1 (Pipeline #12B).";
       } else {
         caption.textContent =
-          "Valores em milhões de hectares (Mha). Diagonal: pixels que permaneceram na mesma classe. " +
-          "Off-diagonal: transições. O Mosaico de Usos (lavoura ou pasto, que o classificador não " +
-          "separa) entra como classe própria. " +
+          "Valores em milhões de hectares (Mha). Na diagonal, os pixels que permaneceram na mesma " +
+          "classe; fora dela, as transições. O Mosaico de Usos (lavoura ou pasto, que o classificador " +
+          "não separa) entra como classe própria. " +
           "Fonte: MapBiomas Coleção 10.1 (Pipeline #12B).";
       }
     }

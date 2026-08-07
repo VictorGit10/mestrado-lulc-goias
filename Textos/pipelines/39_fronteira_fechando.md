@@ -26,6 +26,15 @@ reportado em 3 definições lado a lado:
 | **refinada** (primária) | **formação savânica + campo nativo** | convertível de fato (exclui floresta) |
 | **refinada_rl** | refinada − 20% da área de estabelecimentos (Censo 2017) | sensibilidade Reserva Legal |
 
+> **Premissa da `refinada_rl`, declarada em ago/2026.** O piso de 20% é aplicado uniformemente a
+> Goiás. Não é bem o que a lei diz: o Código Florestal (art. 3º, I) inclui na Amazônia Legal as
+> regiões **ao norte do paralelo 13º S de Tocantins e Goiás**, onde o cerrado responde por **35%**
+> (art. 12, I, b) — regra repetida pela Lei estadual 18.104/2013, art. 25. Medida na malha, essa
+> faixa é de **0,27 Mha (0,8% do estado)**, em cinco municípios do extremo norte. Usar 35% ali em
+> vez de 20% mudaria o estoque convertível em ~0,04 Mha, contra ~6,6 Mha remanescentes — cerca de
+> 0,6%, dentro do ruído, e numa definição que já é de sensibilidade e não a primária. A premissa
+> fica registrada, não corrigida.
+
 **Justificativa empírica da refinada** (rodada dentro do pipeline, depleção 1985→2024 por classe):
 
 | Classe | 1985 → 2024 (Mha) | % perdido |

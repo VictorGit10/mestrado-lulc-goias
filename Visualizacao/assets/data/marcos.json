@@ -1,37 +1,39 @@
 {
-  "_nota": "Referências institucionais que contextualizam as transições LULC nos 3 atos data-driven. Atualizado para periodização data-driven (3 períodos). A redação final dos cards e a bibliografia devem ser validadas com o orientador antes da publicação.",
+  "_nota": "Referências institucionais que contextualizam as transições LULC nos 3 atos data-driven. Revisado em 07/ago/2026 (Textos/metodologia/revisao_parte1_40anos.md): todos os valores recalculados contra painel_goias.json pós-censo de pixels; a atribuição causal do card de 1996 foi alinhada à decisão de que os marcos testados são federais e medem exposição diferencial, não efeito de lei; o card de 2012 foi reescrito em torno do corte de 22/07/2008 e do CAR.",
   "marcos": [
     {
       "ano": 1985,
       "titulo": "Início da série / Redemocratização",
       "subtitulo": "Limite da análise",
-      "descricao": "Fim do regime militar e marco inicial dos dados MapBiomas. Goiás herda a infraestrutura dos programas POLOCENTRO (1975) e PRODECER (anos 1970-80), mas a economia ainda opera sob hiperinflação e baixa estabilidade macroeconômica. Pecuária extensiva domina; soja embrionária.",
+      "descricao": "Primeiro ano da série MapBiomas e primeiro ano após o fim do regime militar. O mapa de 1985 já registra uma paisagem bastante alterada: quase um terço de Goiás é pastagem, resultado de uma década de ocupação dirigida do Cerrado que a série não alcança (o POLOCENTRO começa em 1975). A soja ainda é pontual, no sudoeste. A inflação alta desestimula investimento agrícola de prazo longo.",
       "evidencia": "C",
       "escopo_empirico": "nao_aplicavel",
       "categoria": "contexto",
       "referencias": [
-        "MapBiomas Brasil. Coleção 9 / 10.1 da série anual de cobertura e uso da terra (1985-2024)."
+        "MapBiomas Brasil. Coleção 10.1 da série anual de cobertura e uso da terra (1985-2024).",
+        "BRASIL. Decreto n. 75.320, de 29 de janeiro de 1975 (cria o POLOCENTRO)."
       ]
     },
     {
       "ano": 1994,
       "titulo": "Plano Real",
       "subtitulo": "Estabilização monetária",
-      "descricao": "Introdução da nova moeda em julho de 1994 reduz drasticamente a inflação e reabilita o cálculo econômico de longo prazo. A perda de vegetação natural em GO desacelera de 0,88 pp/a (1990-93) para 0,63 pp/a (1995-98) — mas a inflexão mais nítida vem em 1998, alinhada à Lei Kandir.",
+      "descricao": "A nova moeda, em julho de 1994, derruba a inflação e torna possível planejar investimento agrícola em prazo longo. A perda de vegetação natural em Goiás desacelera de 0,86 pp/a (1991-93) para 0,62 pp/a (1996-98). A inflexão mais nítida, porém, só aparece em 1998, mais perto da Lei Kandir do que do Real.",
       "evidencia": "B",
       "escopo_empirico": "cerrado_amplo",
       "categoria": "macroeconomia",
       "referencias": [
-        "BACHA, E. L. O Plano Real: uma avaliação. In: MERCADANTE, A. (org.). O Brasil pós-Real. Campinas: UNICAMP, 1997."
+        "BACHA, E. L. O Plano Real: uma avaliação. In: MERCADANTE, A. (org.). O Brasil pós-Real: a política econômica em debate. Campinas: UNICAMP/IE, 1997, p. 11-70.",
+        "BRASIL. Medida Provisória n. 542, de 30 de junho de 1994 (institui o REAL a partir de 1º/07/1994)."
       ]
     },
     {
       "ano": 1996,
       "titulo": "Lei Kandir",
       "subtitulo": "Isenção de ICMS sobre exportação",
-      "descricao": "Lei Complementar 87/1996 desonera ICMS de produtos primários destinados à exportação. É o único evento institucional com efeito diferenciado em GO: a perda de vegetação natural desacelera de 0,54 pp/a para 0,41 pp/a após 1998, enquanto a agricultura se expande no sudoeste (Rio Verde, Jataí, Mineiros). O teste de diferença-em-diferenças confirma que GO diverge dos estados-controle após 1996.",
-      "evidencia": "A",
-      "escopo_empirico": "go_especifico",
+      "descricao": "A Lei Complementar 87, de 13 de setembro de 1996, desonera o ICMS de produtos primários e semielaborados destinados à exportação. Entre 1994-98 e 1999-2003, a perda de vegetação natural em Goiás cai de 0,66 para 0,44 pp/a, enquanto a agricultura avança no sudoeste (Rio Verde, Jataí, Mineiros). Goiás diverge dos estados de controle a partir de 1996, mas a Kandir é federal e incide sobre eles também: o teste mede exposição diferencial a um choque comum, não o efeito isolado da lei.",
+      "evidencia": "B",
+      "escopo_empirico": "cerrado_amplo",
       "categoria": "tributação",
       "referencias": [
         "BRASIL. Lei Complementar n. 87, de 13 de setembro de 1996.",
@@ -42,7 +44,7 @@
       "ano": 2002,
       "titulo": "Crédito e demanda chinesa",
       "subtitulo": "Confluência crédito + exportações",
-      "descricao": "O Plano Safra sistematiza o crédito rural federal a partir de 2002/03, enquanto a China entra na OMC (dez/2001) e puxa a demanda por commodities. A agricultura goiana salta de 9,3% para 10,8% do território em três anos (2001-04), e a pastagem começa a ceder lugar — em 2004, a soja-milho avança 0,94 pp em um único ano.",
+      "descricao": "O Plano Agrícola e Pecuário passa a anunciar todo ano o volume e as condições do crédito rural federal, a partir da safra 2002/03, enquanto a China entra na OMC (dez/2001) e puxa a demanda por commodities. A agricultura goiana salta de 9,3% para 10,8% do território em três anos (2001-04), e a pastagem começa a ceder lugar. Só em 2004, a soja-milho avança 0,94 pp.",
       "evidencia": "B",
       "escopo_empirico": "cerrado_amplo",
       "categoria": "credito_publico",
@@ -55,7 +57,7 @@
       "ano": 2003,
       "titulo": "Boom de commodities",
       "subtitulo": "Início do super-ciclo de preços agrícolas",
-      "descricao": "A aceleração da industrialização chinesa deflagra um super-ciclo de preços para soja, carne e milho. Com câmbio favorável e crédito sistematizado, a perda de vegetação natural atinge 0,49 pp/a em 2003 — a maior desde 1993. A expansão agrícola se consolida no sudoeste goiano via substituição de pastagem degradada por soja-milho.",
+      "descricao": "A aceleração da industrialização chinesa deflagra um super-ciclo de preços para soja, carne e milho, e o câmbio acompanha. Em 2003 a perda de vegetação natural atinge 0,49 pp, a maior desde 1998, e a expansão agrícola se consolida no sudoeste goiano por substituição de pastagem degradada por soja-milho.",
       "evidencia": "B",
       "escopo_empirico": "cerrado_amplo",
       "categoria": "macroeconomia",
@@ -67,13 +69,14 @@
     {
       "ano": 2012,
       "titulo": "Código Florestal",
-      "subtitulo": "Reset regulatório",
-      "descricao": "Lei 12.651/2012 substitui o código de 1965, redefinindo APPs e Reserva Legal e instituindo o CAR. No Cerrado, a RL permanece em 20%. Após o código, a perda de vegetação natural acelera de 0,11 pp/a (2008-11) para 0,21 pp/a (2012-15), e a agricultura expande 2,3× mais rápido (0,20 → 0,45 pp/a). A ausência de desaceleração é o achado — a regulação não reverteu a tendência.",
+      "subtitulo": "O que a lei consolidou",
+      "descricao": "A Lei 12.651/2012 substitui o código de 1965 e institui o CAR. Um dispositivo central é uma data: o art. 3º define como \"área rural consolidada\" a ocupação anterior a 22 de julho de 2008, e os arts. 67 e 68 dispensam de recomposição quem desmatou até ali respeitando a lei vigente à época. O CAR é o registro que dá acesso a essa regularização. Sobre o passivo anterior a 2008, portanto, a lei consolidou mais do que restringiu. Nenhuma das seis séries testadas quebra em 2012, e a perda de vegetação natural até acelera, de 0,10 pp/a (2008-11) para 0,21 pp/a (2012-15), com a agricultura expandindo 2,8 vezes mais rápido (0,19 para 0,55 pp/a). Ligar uma coisa à outra é leitura plausível, não resultado testado: o CAR só entra em operação em 2014, com prazos de adesão prorrogados por anos, o que produziria o mesmo nulo por outro caminho. Sobre os percentuais de Reserva Legal: 20% na maior parte de Goiás, mas 35% na faixa ao norte do paralelo 13º S, que integra a Amazônia Legal (Lei estadual 18.104/2013, art. 25). São 0,8% do território, em cinco municípios do extremo norte.",
       "evidencia": "B",
       "escopo_empirico": "sem_quebra",
       "categoria": "regulacao_ambiental",
       "referencias": [
-        "BRASIL. Lei n. 12.651, de 25 de maio de 2012.",
+        "BRASIL. Lei n. 12.651, de 25 de maio de 2012, arts. 3º, IV; 12; 29; 59; 67; 68.",
+        "BRASIL. Lei Complementar n. 124, de 3 de janeiro de 2007 (define a Amazônia Legal).",
         "SOARES-FILHO, B. et al. Cracking Brazil's Forest Code. Science, v. 344, n. 6182, p. 363-364, 2014."
       ]
     },
@@ -81,7 +84,7 @@
       "ano": 2018,
       "titulo": "Reorganização de mercado",
       "subtitulo": "Pressão de cadeia produtiva e ciclo macro",
-      "descricao": "Recuperação macroeconômica pós-2016, ciclo de preços de commodities e compromissos de cadeia produtiva (Cerrado Manifesto 2017, adesões de traders e financiadores). A perda de vegetação natural estabiliza em torno de 0,10 pp/a, enquanto a pastagem cede espaço consistentemente (-0,33 a -0,61 pp/a em 2018-21) — a agricultura para de crescer e a vegetação se recupera lentamente.",
+      "descricao": "Recuperação macroeconômica pós-2016 e novo ciclo de preços de commodities. Em setembro de 2017, cerca de 60 organizações da sociedade civil lançam o Manifesto do Cerrado, e mais de 60 empresas aderem nos meses seguintes — mas são varejistas e indústrias de alimentos (Walmart, Unilever, Nestlé, Carrefour). As tradings que compram direto do produtor não assinaram. A pastagem passa a ceder área de forma consistente, entre 0,33 e 0,61 pp por ano em 2018-21. A classe \"agricultura\" do satélite parece estacionar a partir de 2021, depois de crescer 0,17 a 0,20 pp/a em 2018-20; o Ato III mostra que essa estabilidade é mudança de rótulo, não de ritmo. E a perda de vegetação natural, que havia caído a 0,02 pp em 2018, volta a acelerar até 0,30 pp em 2024.",
       "evidencia": "B",
       "escopo_empirico": "cerrado_amplo",
       "categoria": "mercado",
@@ -95,7 +98,7 @@
       "ano": 2024,
       "titulo": "Estado atual",
       "subtitulo": "Síntese da série",
-      "descricao": "Último ano da série MapBiomas Coleção 10.1. Goiás consolidou matriz soja-milho via safrinha, pastagem ainda dominante em área absoluta mas com produtividade ascendente, e vegetação natural próxima ao limite legal de 20% em diversas regiões. Encerra-se aqui o quadro analisado pela dissertação.",
+      "descricao": "Último ano da série MapBiomas Coleção 10.1. Goiás consolidou a matriz soja-milho via safrinha e a pastagem segue dominante em área absoluta, com lotação crescente. A vegetação natural chega a 34,9% do território, contra 51,9% em 1985. Encerra-se aqui o quadro analisado pela dissertação.",
       "evidencia": "C",
       "escopo_empirico": "nao_aplicavel",
       "categoria": "contexto",

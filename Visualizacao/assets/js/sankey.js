@@ -13,6 +13,21 @@
   // Modos do Mosaico: 'full' (exibir normal), 'faded' (esmaecer marcha), 'hidden' (ocultar/filtrar)
   let currentMode = root.GO40 && root.GO40.sankeyMode ? root.GO40.sankeyMode : "faded";
 
+  // Os rotulos de sankey_data.json vem sem acento (gerados por script Python
+  // com saida ASCII). Reacentuar aqui, e nao no dado, mantem os ids estaveis.
+  const ACENTOS = {
+    "Vegetacao Natural": "Vegetação Natural",
+    "Area Urbana": "Área Urbana",
+    "Agua": "Água"
+  };
+  function acentuar(texto) {
+    if (!texto) return texto;
+    // Separa "Classe (ano)" para reacentuar so a classe.
+    const m = /^(.*?)(\s\(\d{4}\))?$/.exec(texto);
+    const classe = m[1];
+    return (ACENTOS[classe] || classe) + (m[2] || "");
+  }
+
   // -------------------- carregar vendors --------------------
   function loadScript(src) {
     return new Promise((resolve, reject) => {
@@ -134,7 +149,7 @@
       .attr("viewBox", `0 0 ${width} ${height}`)
       .attr("preserveAspectRatio", "xMidYMid meet")
       .attr("role", "img")
-      .attr("aria-label", "Diagrama de Sankey: transicoes de uso da terra 1985-2024")
+      .attr("aria-label", "Diagrama de Sankey: transições de uso da terra 1985-2024")
       .style("max-width", "100%")
       .style("height", "auto");
 
@@ -158,7 +173,7 @@
       .text(d => {
         const src = graph.nodes[d.source.index];
         const tgt = graph.nodes[d.target.index];
-        return `${src.label || src.id} → ${tgt.label || tgt.id}: ${d.value.toFixed(2)} Mha`;
+        return `${acentuar(src.label || src.id)} → ${acentuar(tgt.label || tgt.id)}: ${d.value.toFixed(2)} Mha`;
       });
 
     // Nodes
@@ -189,15 +204,11 @@
       .attr("font-size", "11px")
       .attr("font-family", "var(--font-sans)")
       .text(d => {
-        const nome = (d.label || d.id)
+        return (d.label || d.id)
           .replace("Vegetacao Natural", "Veg. natural")
-          .replace("Agricultura", "Agricultura")
-          .replace("Pastagem", "Pastagem")
           .replace("Area Urbana", "Urbano")
-          .replace("Outros", "Outros")
           .replace("Mosaico de Usos", "Mosaico")
-          .replace("Agua", "Agua");
-        return nome;
+          .replace("Agua", "Água");
       });
 
     loaded = true;

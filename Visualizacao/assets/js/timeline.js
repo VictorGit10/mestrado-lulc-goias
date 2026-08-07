@@ -187,6 +187,17 @@
   }
 
   // -------------------- hidratacao dos steps --------------------
+  // As chaves de categoria sao slugs ASCII no JSON; trocar "_" por espaco
+  // deixava "regulacao ambiental" e "credito publico" na tela.
+  const ROTULO_CATEGORIA = {
+    contexto: "contexto",
+    macroeconomia: "macroeconomia",
+    "tributação": "tributação",
+    credito_publico: "crédito público",
+    regulacao_ambiental: "regulação ambiental",
+    mercado: "mercado"
+  };
+
   function hidratarSteps(painel, marcos) {
     const marcosPorAnoLocal = Object.fromEntries(marcos.marcos.map(m => [m.ano, m]));
 
@@ -240,7 +251,7 @@
     function acordeaoPecuaria(dado) {
       const linhas = [
         linhaTabela('Rebanho bovino', valorOuTraco(dado.pec_bovinos_cab, v => fmtNum(v / 1e6, 2) + ' M cab')),
-        linhaTabela('Lotação',        valorOuTraco(dado.lotacao_bov_ha, v => fmtNum(v, 2) + ' cab/ha')),
+        linhaTabela('Lotação',        valorOuTraco(dado.lotacao_bov_ha_pasto, v => fmtNum(v, 2) + ' cab/ha')),
         linhaTabela('Leite',          valorOuTraco(dado.agri_leite_mil_litros, v => fmtNum(v / 1e3, 1) + ' Mi L')),
       ].join('');
       return acordeao('pecuaria', 'Pecuária', linhas);
@@ -267,16 +278,27 @@
       let html = "";
       if (marco) {
         step.classList.add("step--marco");
-        html += '<span class="marco-tag">' + ano + ' · ' + marco.categoria.replace(/_/g, " ") + '</span>';
+        const rotuloCat = ROTULO_CATEGORIA[marco.categoria] || marco.categoria.replace(/_/g, " ");
+        html += '<span class="marco-tag">' + ano + ' · ' + rotuloCat + '</span>';
         html += '<h3 class="marco-titulo">' + marco.titulo + '</h3>';
         if (marco.subtitulo) html += '<p class="marco-subtitulo">' + marco.subtitulo + '</p>';
         html += '<p class="marco-descricao">' + marco.descricao + '</p>';
+        // Selo curto e sempre igual: o card justapoe marco e serie, mas nao
+        // testa um contra o outro. Identico em todos, vira rotulo e nao prosa.
+        // Fica de fora dos marcos de "contexto" (1985 e 2024), que sao as
+        // pontas da serie e nao tem nada a testar.
+        if (marco.categoria !== "contexto") {
+          html += '<p class="marco-ressalva">Contexto: os números abaixo acompanham o marco, não o testam.</p>';
+        }
       } else {
         html += '<span class="marco-tag muted-year">' + ano + '</span>';
       }
 
       if (dado) {
         html += '<div class="metric-grid metric-grid--lulc">' + cardsLULC(dado, prev) + '</div>';
+        // A seta em pp e ano-a-ano; o caption do mapa mostra o acumulado desde
+        // 1985. Sem esta linha os dois "pp" da tela ficam sem base declarada.
+        if (prev) html += '<p class="metric-grid-base">▲▼ em pp vs. ' + (ano - 1) + '</p>';
         html += '<div class="metric-acordeoes">'
           + acordeaoAgricultura(dado)
           + acordeaoPecuaria(dado)
@@ -349,9 +371,15 @@
   }
 
   // -------------------- ancora vs. 1985 no caption --------------------
+  // O caption e os cards laterais mostram os dois "pp" da tela e precisam dizer
+  // qual e qual: aqui e o ACUMULADO desde 1985; la e a variacao ano a ano.
   function atualizarAncora(ano) {
     const ancora = document.getElementById("map-anchor");
     if (!ancora) return;
+    if (camadaAtual === "transicoes") {
+      ancora.textContent = "destino dominante no período";
+      return;
+    }
     const cur = porAno[ano];
     const base = porAno[ANO_MIN];
     if (!cur || !base) {
@@ -367,7 +395,7 @@
       const sinal = dpp > 0 ? "+" : "−";
       return sinal + Math.abs(dpp).toFixed(1).replace(".", ",") + " pp";
     };
-    ancora.textContent = `vs. 1985 — veg ${delta("pct_vegetacao_nativa")} · pasto ${delta("pct_pastagem")}`;
+    ancora.textContent = `acumulado desde 1985: veg ${delta("pct_vegetacao_nativa")} · pasto ${delta("pct_pastagem")}`;
   }
 
   // -------------------- mapa cross-fade --------------------
@@ -389,29 +417,42 @@
   }
 
   function urlDoMapa(camada, ano) {
-    switch (camada) {
-      case "cobertura":  return `img/mapas_gee/cobertura_${ano}.webp`;
-      case "delta":      return `img/mapas_delta/delta_${ano}.webp`;
-      case "fogo":       return `img/mapas_fogo/fogo_${ano}.webp`;
-      case "transicoes": {
-        const p = periodoTransicao(ano);
-        return `img/mapas_transicoes/transicao_${p.ini}-${p.fim}.webp`;
-      }
-      default: return `img/mapas_gee/cobertura_${ano}.webp`;
+    if (camada === "transicoes") {
+      const p = periodoTransicao(ano);
+      return `img/mapas_transicoes/transicao_${p.ini}-${p.fim}.webp`;
     }
+    return `img/mapas_gee/cobertura_${ano}.webp`;
   }
 
   function altDoMapa(camada, ano) {
-    switch (camada) {
-      case "cobertura":  return `Cobertura LULC em Goiás em ${ano}`;
-      case "delta":      return `Variação acumulada da cobertura em Goiás (${ano} vs 1985)`;
-      case "fogo":       return `Cicatrizes de fogo em Goiás em ${ano}`;
-      case "transicoes": {
-        const p = periodoTransicao(ano);
-        return `Transição dominante em Goiás entre ${p.ini} e ${p.fim}`;
-      }
-      default: return `Mapa de Goiás em ${ano}`;
+    if (camada === "transicoes") {
+      const p = periodoTransicao(ano);
+      return `Transição dominante por município em Goiás entre ${p.ini} e ${p.fim}`;
     }
+    return `Cobertura e uso da terra em Goiás em ${ano}`;
+  }
+
+  // Cada camada tem unidade espacial e fonte proprias. Antes de ago/2026 a
+  // legenda e o caption ficavam parados em "pixel-a-pixel (30 m)" enquanto a
+  // imagem trocava — inclusive para coropleticos. Agora trocam juntos.
+  const FONTE_CAMADA = {
+    cobertura:
+      'Fonte: MapBiomas Coleção 10.1 &middot; pixel-a-pixel (30&nbsp;m) &middot; ' +
+      'o <em>Mosaico de usos</em> fica transparente no raster: são as falhas brancas, ' +
+      'e a barra acima dá o tamanho delas',
+    transicoes:
+      'Fonte: MapBiomas Coleção 10.1 &middot; agregado <strong>por município</strong>, ' +
+      'não por pixel &middot; a partir de 2015 o destino dominante na maior parte do estado ' +
+      'é o <em>Mosaico de usos</em>, o que é mudança de rótulo tanto quanto de uso ' +
+      '(<a href="dossie-mosaico.html">a investigação</a>)'
+  };
+
+  function rotuloDoAno(camada, ano) {
+    if (camada === "transicoes") {
+      const p = periodoTransicao(ano);
+      return `${p.ini}–${p.fim}`;
+    }
+    return String(ano);
   }
 
   function trocarMapa(ano, forcar) {
@@ -427,7 +468,7 @@
     next.onload = () => {
       img.src = src;
       img.alt = altDoMapa(camadaAtual, ano);
-      yearLabel.textContent = ano;
+      yearLabel.textContent = rotuloDoAno(camadaAtual, ano);
       requestAnimationFrame(() => frame.classList.remove("is-fading"));
     };
     next.onerror = () => frame.classList.remove("is-fading");
@@ -435,6 +476,21 @@
 
     atualizarBarra(ano);
     atualizarAncora(ano);
+  }
+
+  // Legenda, barra de composicao e fonte pertencem a camada, nao ao ano.
+  function aplicarCamada(camada) {
+    const legCob = document.getElementById("map-legend-cobertura");
+    const legTr = document.getElementById("map-legend-transicoes");
+    const barra = document.getElementById("composition-bar");
+    const fonte = document.getElementById("map-source");
+    const ehTransicoes = camada === "transicoes";
+
+    if (legCob) legCob.hidden = ehTransicoes;
+    if (legTr) legTr.hidden = !ehTransicoes;
+    // A barra mede a composicao de UM ano; no mapa de periodo ela nao se aplica.
+    if (barra) barra.hidden = ehTransicoes;
+    if (fonte) fonte.innerHTML = FONTE_CAMADA[camada] || FONTE_CAMADA.cobertura;
   }
 
   // Mapeia data-class da barra empilhada -> CSS suffix do metric-card no step ativo.
@@ -494,6 +550,7 @@
           b.classList.toggle("is-active", ativo);
           b.setAttribute("aria-selected", ativo ? "true" : "false");
         });
+        aplicarCamada(camada);
         if (anoAtual != null) trocarMapa(anoAtual, true);
       });
     });
@@ -622,6 +679,7 @@
       hidratarSteps(dados.painel, dados.marcos);
       atualizarBarra(ANO_MIN);
       atualizarAncora(ANO_MIN);
+      aplicarCamada(camadaAtual);
       configurarToggleCamadas();
       configurarHighlightBarra();
       inicializarScrollama();

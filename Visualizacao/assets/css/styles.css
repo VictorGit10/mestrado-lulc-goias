@@ -434,6 +434,14 @@ p  { margin: 0 0 1em; }
 .composition-bar:hover .bar-tooltip { opacity: 1; }
 
 /* Legenda inline do mapa */
+/* O atributo [hidden] traz display:none da folha do navegador, mas perde para
+   o display:flex declarado aqui. Sem estas duas regras, alternar a camada do
+   mapa deixaria as duas legendas na tela ao mesmo tempo. */
+.map-legend[hidden],
+.composition-bar[hidden] {
+  display: none;
+}
+
 .map-legend {
   display: flex;
   flex-wrap: wrap;
@@ -471,10 +479,24 @@ p  { margin: 0 0 1em; }
 .legend-swatch--agua::before    { background: var(--color-agua); }
 .legend-swatch--urbano::before  { background: var(--color-urbano); }
 .legend-swatch--outros::before  { background: var(--color-outros); }
+/* Legenda da camada "Transicoes": as cores sao as do PNG gerado por
+   visualizar_transicoes.py (COR_CLASSE), nao as do raster de cobertura.
+   Sao paletas diferentes e precisam continuar diferentes. */
+.legend-swatch--tr-veg::before     { background: #1B8A2F; }
+.legend-swatch--tr-pasto::before   { background: #FFD700; }
+.legend-swatch--tr-agric::before   { background: #FF69B4; }
+.legend-swatch--tr-mosaico::before { background: #c98a4b; }
+
 .legend-nota {
   font-style: italic;
   font-size: 0.82em;
   opacity: 0.7;
+}
+/* Nota que ocupa a linha inteira da legenda, sem swatch. */
+.legend-nota--bloco::before { content: none; }
+.legend-nota--bloco {
+  flex-basis: 100%;
+  opacity: 0.8;
 }
 
 /* Steps a direita */
@@ -573,6 +595,18 @@ p  { margin: 0 0 1em; }
   color: var(--color-muted);
   margin-bottom: 0.8rem;
 }
+/* Selo de status epistemico do card de marco. Discreto de proposito: presente
+   para quem le com atencao, invisivel para quem rola. */
+.marco-ressalva {
+  margin-top: 0.55rem;
+  padding-top: 0.4rem;
+  border-top: 1px solid var(--color-rule);
+  max-width: 50ch;
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.02em;
+  color: var(--color-muted);
+}
 .marco-descricao {
   font-size: 1rem;
   color: #2a2a2a;
@@ -613,6 +647,16 @@ p  { margin: 0 0 1em; }
   margin-bottom: 0.6rem;
 }
 
+/* Declara a base da variacao dos cards (ano a ano), para nao confundir com o
+   acumulado desde 1985 que aparece no caption do mapa. */
+.metric-grid-base {
+  margin: -0.35rem 0 0.7rem;
+  font-family: var(--font-sans);
+  font-size: 0.66rem;
+  letter-spacing: 0.03em;
+  color: var(--color-muted);
+}
+
 .metric-card {
   background: #fff;
   border: 1px solid var(--color-rule);
@@ -628,18 +672,16 @@ p  { margin: 0 0 1em; }
 .metric-card--agric { border-left: 3px solid var(--color-agric); }
 
 /* Toggle de camadas no sticky-map */
+/* Faixa PROPRIA acima do mapa, nao sobreposta a ele. Os PNGs trazem titulo
+   centralizado e legenda embutida; flutuando por cima, o toggle cobria ora o
+   comeco do titulo (a esquerda), ora o periodo no fim dele (a direita). */
 .map-layer-toggle {
-  position: absolute;
-  top: 0.6rem;
-  left: 0.6rem;
-  z-index: 10;
   display: flex;
+  justify-content: flex-end;
   gap: 2px;
-  background: rgba(255, 255, 255, 0.92);
-  border: 1px solid var(--color-rule);
-  border-radius: 4px;
-  padding: 2px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  padding: 0.4rem 0.6rem;
+  background: #fcfcfa;
+  border-bottom: 1px solid var(--color-rule);
 }
 .map-layer-btn {
   font-family: var(--font-sans);
