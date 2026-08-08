@@ -573,6 +573,33 @@ Os cards de 1994 e 2002 não precisaram de ajuste: o de 1994 já se autocorrige 
 
 ### Fica em aberto
 
-- **Regerar os PNGs de Cobertura com acentuação e legenda de 7 grupos.** Hoje o PNG diz "Classe (6 grupos)" e o Mosaico aparece como falha branca. A legenda em HTML explica, mas a fonte da verdade continua sendo uma imagem que não menciona a classe.
+- ~~**Regerar os PNGs de Cobertura com legenda de 7 grupos.**~~ **✅ Feito em 07/ago/2026.** Os 40
+  mapas foram regerados do GEE com o Mosaico pintado em ocre (`#c98a4b`, o token do site) e a
+  legenda em "Classe (7 grupos)". As falhas brancas sumiram: eram 10,7% do estado em 1985 e 10,5%
+  em 2024. Junto vieram três correções no gerador (`gerar_mapas_lulc_gee_40anos.py`): `max` do
+  thumbnail virou `len(CLASSES)` em vez de `6` fixo (um erro à espera de acontecer), o título da
+  legenda passou a ser interpolado, e o cache do raster cru virou `_raw_{N}c` — mudar o conjunto de
+  classes agora invalida o cache sozinho, em vez de reaproveitar em silêncio um raster pintado com
+  outra paleta. Docs alinhados: `outputs/mapas_lulc.md`, `outputs/mapas_transicoes.md` (a regra
+  "fluxo pinta, estoque não" foi revogada), `pipelines/10_mapas_gee.md` e `glossario_metricas.md`.
+
+  > **O que a regeneração revelou.** O thumbnail de 2048 px reduz 30 m para ~250 m e a reamostragem
+  > favorece classes contíguas. Medido nos 40 raws: Pastagem 1,06×, Agricultura 1,03×, Vegetação
+  > Natural 0,95× — as três com desvio < 0,02. **O Mosaico sai a 0,70×, variando de 0,64× a 0,83×**,
+  > com correlação de **0,992** entre a razão e o próprio tamanho. Consequência: **o mapa exagera o
+  > crescimento do Mosaico** — 2019→2024 é 1,74× no painel e parece 2,14× no desenho. Como o Ato III
+  > é sobre o Mosaico crescer, a magnitude tem de ser lida na barra, nunca no mapa.
+  >
+  > ⚠️ **Quarto erro meu nesta sessão, e o mesmo padrão.** Eu tinha escrito aqui e em
+  > `outputs/mapas_lulc.md` que o viés era "~0,82× estável ao longo da série", generalizando de
+  > três anos — dois dos quais (1985 e 2024) são justamente as pontas onde o Mosaico é grande. O
+  > verificador dos 40 mapas pegou: no miolo da série a razão cai para 0,64×. Corrigido nos dois
+  > documentos. **Três anos não são uma série**, e a tentação de fechar a afirmação antes de medir
+  > o conjunto inteiro reapareceu pela quarta vez.
+  >
+  > **Efeito colateral que precisou de decisão:** o agrupamento do mapa (7) deixou de coincidir com
+  > o do Pipeline #17 (6, sem Mosaico), que a documentação declarava alinhados. Nenhuma taxa muda —
+  > são contratos diferentes, exibição × medida — mas o descasamento está agora declarado no
+  > glossário e no #10, em vez de ser uma coincidência silenciosa que quebrou.
 - **Fogo como anomalia (Z por ato)**, se um dia voltar à página. A sugestão do revisor está certa; o mapa atual (área absoluta, log, Jenks global) não discrimina. Hoje o fogo vive no atlas e no teste da 5ª camada da Perna 1, que é onde ele responde a alguma pergunta.
 - **`img/mapas_fogo/` e `img/mapas_delta/`** (80 arquivos) seguem no repositório, sem referência no site. Remover é decisão à parte.

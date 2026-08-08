@@ -1,20 +1,27 @@
 """gerar_mapas_lulc_gee_40anos.py — 40 mapas raster MapBiomas Coleção 10.1
 para Goiás (1985–2024) via Google Earth Engine.
 
-6 classes agregadas (baseadas nas classes folha do MapBiomas Coleção 10.1):
+7 classes agregadas (baseadas nas classes folha do MapBiomas Coleção 10.1):
     - Vegetação Natural:  Formação Florestal(3), Savânica(4), Campestre(12)
     - Pastagem:           Pastagem(15)
     - Agricultura:        Silvicultura(9), Lavoura Temporária(19), Cana(20),
                           Dendê(35), Lavoura Perene(36), Soja(39), Arroz(40),
                           Outras Lavouras Temp(41), Café(46), Citros(47),
                           Outras Lavouras Per(48), Algodão(62)
-    - NOTA: ID 21 (Mosaico de Agricultura ou Pastagem) excluído intencionalmente
+    - Mosaico de Usos:    Mosaico de Agricultura ou Pastagem(21)
     - Água:               Aquicultura(31), Rio/Lago/Oceano(33)
     - Área Urbana:        Área Urbanizada(24)
     - Outros:             Manguezal(5), Floresta Inundável(6), Área Úmida(11),
                           Praia/Duna/Areia(23), Outras Áreas Não Veg(25),
                           Não Observado(27), Afloramento Rochoso(29), Mineração(30),
                           Apicum(32), Restingas(49,50), Usina Fotovoltaica(75)
+
+O Mosaico (ID 21) entrou em ago/2026. Até então era excluído do remap e, com o
+selfMask(), saía como falha branca no raster — 10,5% de Goiás em branco em 2024,
+sem legenda que explicasse. A classe é ambígua (lavoura OU pasto, que o
+classificador não separa) e o argumento da dissertação a trata como intervalo,
+não como categoria; mas deixá-la invisível num mapa cuja legenda dizia "6 grupos"
+era pior. Ver Textos/metodologia/revisao_parte1_40anos.md, item F.
 
 Como rodar:
     1. Tenha conta Google registrada em https://earthengine.google.com/signup
@@ -61,19 +68,28 @@ FIGSIZE = (10, 8)
 ANO_MIN, ANO_MAX = 1985, 2024
 THUMB_DIM = 2048  # largura máx em pixels do thumbnail GEE
 
+# A ordem define o indice do remap (1..N) e a ordem da paleta e da legenda.
+# E a mesma da barra de composicao do site, de proposito.
+# O ocre do Mosaico e o token --color-mosaico do styles.css, ja usado na barra,
+# no Sankey e na legenda do mapa de transicoes.
 CLASSES = {
     "Vegetação Natural": {"ids": [3, 4, 12],                                          "cor": "#1B8A2F"},
     "Pastagem":          {"ids": [15],                                                 "cor": "#FFD700"},
     "Agricultura":       {"ids": [9, 19, 20, 35, 36, 39, 40, 41, 46, 47, 48, 62],      "cor": "#FF69B4"},
+    "Mosaico de Usos":   {"ids": [21],                                                 "cor": "#c98a4b"},
     "Água":              {"ids": [31, 33],                                              "cor": "#4169E1"},
     "Área Urbana":       {"ids": [24],                                                  "cor": "#A0A0A0"},
     "Outros":            {"ids": [5, 6, 11, 23, 25, 27, 29, 30, 32, 49, 50, 75],       "cor": "#D2B48C"},
 }
 ORDEM_LEGENDA = list(CLASSES.keys())
+N_CLASSES = len(CLASSES)
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT_DIR = ROOT / "outputs" / "mapas_gee"
-RAW_DIR = OUT_DIR / "_raw"
+# O cache do raster cru e versionado pelo numero de classes: mudar o conjunto de
+# CLASSES invalida o cache sozinho, em vez de reaproveitar silenciosamente um
+# raster pintado com outra paleta.
+RAW_DIR = OUT_DIR / f"_raw_{N_CLASSES}c"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 RAW_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -145,7 +161,7 @@ def compor_mapa(raw_bytes: bytes, ano: int, gdf_go, out_path: Path) -> None:
     handles = [Patch(facecolor=info["cor"], edgecolor="black", label=nome)
                for nome, info in CLASSES.items()]
     ax.legend(handles=handles, loc="lower right", frameon=True, fontsize=8,
-              title="Classe (6 grupos)", title_fontsize=9,
+              title=f"Classe ({N_CLASSES} grupos)", title_fontsize=9,
               borderaxespad=-1.2)
 
     # Barra de escala: pixels do thumbnail mapeiam para extent real de GO em metros
@@ -208,7 +224,7 @@ def main() -> None:
                 "dimensions": THUMB_DIM,
                 "format": "png",
                 "min": 1,
-                "max": 6,
+                "max": N_CLASSES,
                 "palette": palette,
             }
             raw = baixar_thumbnail(img, params)

@@ -438,8 +438,8 @@
   const FONTE_CAMADA = {
     cobertura:
       'Fonte: MapBiomas Coleção 10.1 &middot; pixel-a-pixel (30&nbsp;m) &middot; ' +
-      'o <em>Mosaico de usos</em> fica transparente no raster: são as falhas brancas, ' +
-      'e a barra acima dá o tamanho delas',
+      'o mapa é reduzido para caber na tela, então classes fragmentadas encolhem ' +
+      'no desenho: a medida está na barra acima',
     transicoes:
       'Fonte: MapBiomas Coleção 10.1 &middot; agregado <strong>por município</strong>, ' +
       'não por pixel &middot; a partir de 2015 o destino dominante na maior parte do estado ' +
