@@ -125,10 +125,20 @@ intensificação da pecuária no Brasil pode poupar terra e reduzir emissões; *
 (2014) [conferir]** quantificam o potencial de poupança de terra pela intensificação de pastagens.
 
 ### C.2 O mecanismo de substituição pasto→lavoura
-**Cohn et al. (2014)** dão o mecanismo que a tese mede diretamente: perto de sistemas de cultivo
-intensivo, o **custo de oportunidade** da pecuária sobe, e pecuaristas **vendem/arrendam a lavoura
-em vez de intensificar** — o pasto vira soja *ali mesmo*. É exatamente a **substituição local forte**
-que o painel da tese estima (β=−0,52, #34; e a intensificação Δagricultura×ΔVA agro robusta, #22).
+> ⚠️ **Corrigido em 13/ago/2026, conferido contra o PDF.** A versão anterior atribuía a Cohn et al.
+> (2014) um mecanismo microeconômico de fazenda — *"perto de cultivo intensivo o custo de
+> oportunidade da pecuária sobe e o pecuarista vende/arrenda à lavoura em vez de intensificar"*.
+> **Isso não está no artigo.** Cohn et al. é um exercício de cenário no GLOBIOM (taxa sobre pasto
+> convencional × subsídio ao semi-intensivo, 2010–2030); busca no texto completo por
+> *opportunity cost*, *sell land* e *renting land* dá **zero ocorrências**. Não citar assim.
+
+O que **Cohn et al. (2014)** de fato dão, e que serve melhor à tese, são dois resultados:
+(i) a terra poupada fica **bem aquém do proporcional** ao ganho de produtividade — a poupança é
+parcial; e (ii) um achado **locacional**: sob as políticas simuladas, a pastagem intensiva tem
+**cerca do dobro** da chance da convencional de se instalar nas terras de melhor aptidão e logística
+para soja, e por isso tende a **competir com a lavoura pela mesma terra**. A tese observa essa
+disputa **resolvida** no dado municipal — no Sul goiano, a favor da lavoura: é a **substituição
+local forte** que o painel estima (β=−0,52, #34; e a intensificação Δagricultura×ΔVA agro robusta, #22).
 A leitura "intensifica no Sul, abre fronteira no Norte" é o **debate intensificação×extensificação
 projetado no espaço**: o Sul é o caso Boserup/land-sparing; o Norte é a extensificação (custo de
 conversão pago sobre o Cerrado).
@@ -139,11 +149,19 @@ conversão pago sobre o Cerrado).
 ## Eixo D — Drivers macro: o câmbio (o positivo da Perna 3)
 
 ### D.1 Câmbio → oferta de soja → desmatamento
+> ⚠️ **Corrigido em 13/ago/2026, conferido contra o PDF.** A versão anterior dizia que o artigo
+> registra **"+20% de área plantada na safra 2000/01"**. **Não registra.** O texto completo não
+> contém "20 percent", "20%", "2000/01" nem "2000-01"; os únicos percentuais são 3, 17, 17,8, 18,
+> 25, 29, 31, 38, 43, 49, 52, 60, 79 e 95. O artigo trabalha com **área colhida** anual da FAO
+> (1990–2008), não com safra, e reporta km² acumulados, não salto de uma safra. Não citar o +20%.
+
 **Richards, Myers, Swinton & Walker (2012)** é **a** referência do driver cambial: a desvalorização
-do real no fim dos anos 1990 elevou o retorno esperado da soja e gerou **+20% de área plantada** na
-safra 2000/01; ~**80.000 km²** da soja de Brasil/Bolívia/Paraguai surgiram como resposta de oferta
-às desvalorizações do período. Estudos da **USDA-ERS** documentam o mesmo para a depreciação de
-2015–16 (recordes de exportação; mais terra em produção; mais safrinha).
+das moedas locais no fim dos anos 1990 elevou o retorno esperado da soja e disparou resposta de
+oferta em área. Números do artigo: ~**80.000 km²**, ou **31%** da extensão então cultivada em
+Brasil/Bolívia/Paraguai, surgiram como resposta às desvalorizações; só no **Brasil, 63.000 km²**
+(29% da área nacional de 2009), dos quais **28.000 km² na Amazônia Legal** (43% da soja da região).
+Estudos da **USDA-ERS [sem citação vinculada — identificar o estudo]** documentam o mesmo para a
+depreciação de 2015–16 (recordes de exportação; mais terra em produção; mais safrinha).
 
 ### D.2 O que a tese acrescenta — e por que a literatura "carrega o nível"
 O painel da tese, por desenho (efeito fixo de ano), estima o **gradiente** ("o câmbio bate mais forte
@@ -169,9 +187,16 @@ migrando ao norte/nordeste (MATOPIBA — Maranhão, Tocantins, Piauí, Bahia).
 
 ### E.2 O achado-espelho: pasto no sul, vegetação nativa no norte
 O ponto empírico mais forte para o posicionamento: no Cerrado como um todo, **mais da metade** da
-expansão agrícola se deu **sobre pastagem** — **exceto no MATOPIBA**, onde se deu majoritariamente
-**sobre vegetação nativa** (por falta de área já aberta) — Noojipady et al. / Spera et al. / Rausch
-et al. **[conferir autoria exata]**. Isso é **o "dois Goiáses" em escala de bioma**: o Sul de Goiás
+expansão da soja se deu **sobre pastagem já aberta** (2001–2014) — **Rausch et al. (2019)**,
+*Conservation Letters* 12(6):e12671, **autoria conferida em 13/ago/2026** (Noojipady é coautor).
+Número complementar: ~**30%** da expansão de 2000–2014 se deu sobre vegetação natural, segundo a
+contabilidade reunida por Soterroni et al. (2019) — que a credita a Carneiro-Filho & Costa (2016),
+**não** é achado próprio deles. **Pendência:** a inversão da proporção **no MATOPIBA** (expansão
+majoritariamente sobre vegetação natural) ainda **não tem fonte vinculada** — Soterroni sustenta a
+versão *prospectiva* (é lá que se concentra a conversão futura, 86% da expansão projetada até 2050
+e >80% da conversão de vegetação natural), não a retrospectiva; Rausch dá o número do bioma inteiro,
+não o do recorte. Candidata a conferir: **Spera et al. (2016)**, *Global Change Biology* 22.
+Isso é **o "dois Goiáses" em escala de bioma**: o Sul de Goiás
 comporta-se como o Cerrado "maduro" (expansão sobre pasto = intensificação); o Norte/Noroeste
 comporta-se como o MATOPIBA (expansão sobre vegetação = fronteira). Goiás é, assim, uma **zona de
 transição / microcosmo** onde as duas lógicas coexistem *dentro do mesmo estado*.
@@ -247,8 +272,12 @@ coordenada por um drive macro comum sobre um gradiente de aptidão, contra um te
   land teleconnections). **[conferir]**
 - **Strassburg, B.B.N. et al.** (2014). *When enough should be enough: Improving the use of current
   agricultural lands could meet production demands...* Global Environmental Change. **[conferir]**
-- **Noojipady, P.; Spera, S.; Rausch, L. et al.** — expansão do Cerrado sobre pasto vs. vegetação
-  nativa; o contraste MATOPIBA (Cerrado como fronteira). **[conferir autoria de cada achado]**
+- **Rausch, L.L.; Gibbs, H.K.; Schelly, I. et al.** (2019). *Soy expansion in Brazil's Cerrado.*
+  Conservation Letters, 12(6), e12671. DOI 10.1111/conl.12671. **[conferido 13/ago/2026 — é a fonte
+  do "mais da metade sobre pastagem"; Noojipady é coautor]**
+- **Spera, S.A. et al.** (2016). *Land-use change affects water recycling in Brazil's last
+  agricultural frontier.* Global Change Biology, 22. **[conferir — candidata para o recorte
+  MATOPIBA sobre vegetação natural]**
 - **Literatura de centróide/centro de gravidade em LULC** (produção de grãos, China; *Land* / *Sci.
   Reports*, 2024–2025). **[conferir para a defesa do #32]**
 - **Ateliê Geográfico (UFG)** — expansão da fronteira agrícola e mudança de uso da terra em Goiás.

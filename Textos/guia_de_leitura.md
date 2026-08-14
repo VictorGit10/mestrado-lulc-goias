@@ -90,10 +90,10 @@ Três hábitos da escada valem mais que qualquer resultado isolado, porque são 
 
 1. **Os nulos contam como resultado.** Quando um teste dá "nada aqui", isso não é escondido —
    vira achado. O caso-modelo é a Fase 6, onde a hipótese-mãe (uma região empurra a outra) foi
-   *refutada*, e essa refutação é o coração da tese.
+   testada e **o canal não apresentou a assinatura que exigia** — e esse nulo é o coração da tese.
 2. **A investigação se autocorrige.** Mais de uma vez, uma primeira leitura empolgada foi
    derrubada pela verificação do próprio autor no mesmo dia (o caso do "plantio direto", #40; o
-   "fogo lidera", #41). Isso gerou regras (as "Decisões" D1–D20) para não repetir o erro.
+   "fogo lidera", #41). Isso gerou regras (as "Decisões" D1–D27) para não repetir o erro.
 3. **Tudo é validado contra uma verdade independente.** Cada coletor tem um script que confere
    o total contra a fonte oficial. A soma dos municípios tem que bater com o estado. Se a lógica
    estivesse errada, os testes quebrariam alto.
@@ -1027,8 +1027,10 @@ Ela se apoia em quatro pernas:
   acompanha" vale comparando um município **com os seus pares regionais no mesmo ano**, não só no
   agregado (#22B). O que **não** se pode dizer é que isso seja ganho de **produtividade medido**:
   o desenho mostra de onde vem o sinal, não sua origem econômica.
-- Que a hipótese de **deslocamento causal (iLUC intra-estadual) foi testada e refutada** (Perna
-  3, o negativo) — e que isso é força, não fraqueza.
+- Que a hipótese de **deslocamento causal intra-estadual foi testada e o canal não apresentou a
+  assinatura que exigia**, em 36 recortes (Perna 3, o negativo) — e que isso é força, não fraqueza.
+  ⚠️ Nunca dizer "o iLUC foi refutado": o nulo vale para o canal testado (local, contemporâneo,
+  entre vizinhos, com precedência de 1–2 anos), não para o fenômeno.
 - Que o **câmbio** é o driver macro com estrutura mais consistente (Perna 3, o positivo),
   materializado no **rebanho de fronteira** — como **indício corroborante, não estabelecido** (p de
   permutação ≈0,07–0,13; o que o sustenta é a especificidade, não a significância).
@@ -1038,7 +1040,9 @@ Ela se apoia em quatro pernas:
 
 **O que você NÃO pode afirmar** (e deve dizer que não afirma):
 
-- Que "a lavoura do Sul empurrou o pasto para o Norte" (deslocamento causal). Refutado.
+- Que "a lavoura do Sul empurrou o pasto para o Norte" (deslocamento causal): o canal testado não
+  mostra a assinatura em nenhum dos 36 recortes. E, pelo mesmo motivo, também **não** se pode
+  afirmar o contrário — que o iLUC não existe: o nulo é do canal, não do fenômeno.
 - Que o câmbio **causa** o gradiente, nem que ele é **estatisticamente significante** — sob a
   inferência correta (permutação do shifter, #54) o p é ≈0,07–0,13, não significante a 5%; é
   corroborante, não provado.
