@@ -1,0 +1,29 @@
+# Artefatos de compilação LaTeX
+*.aux
+*.bbl
+*.blg
+*.log
+*.lof
+*.lot
+*.loq
+*.toc
+*.out
+*.idx
+*.ilg
+*.ind
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+main.pdf
+# PDFs de marco: copiar deliberadamente para entregas/ (não ignorado)
+!entregas/*.pdf
+
+# Figuras vetoriais do documento: são fonte, não artefato. Precisam da exceção
+# porque o *.pdf do .gitignore da raiz as engoliria e o documento não
+# compilaria a partir de um clone (6 das 7 figuras são PDF).
+!fig/*.pdf
+
+# PDFs das referências: uso pessoal de leitura/conferência. O repositório é
+# público e parte deles é de editora (Cohn/PNAS, Rudel/Elsevier, Mather/Wiley)
+# --- não redistribuir. Procedência e links em ref/pdf/LEIAME.md, que é versionado.
+ref/pdf/*.pdf

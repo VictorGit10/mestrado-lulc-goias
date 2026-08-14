@@ -1,0 +1,919 @@
+\chapter{Resultados preliminares}
+\label{cap:resultados}
+
+\notaguia{Primeira redação, a partir das Partes 1--3 da visualização (cujos
+números foram auditados um a um contra os arquivos de saída) e da Parte~4 do
+\texttt{guia\_de\_leitura.md}. As figuras deste capítulo são geradas por
+\texttt{qualificacao/fig/gerar\_figuras.py}, que as redesenha na largura da
+mancha a partir dos mesmos arquivos de dados que os pipelines gravaram ---
+nunca a partir dos PNG de tela de \texttt{outputs/}.}
+
+Este capítulo apresenta os resultados obtidos até a qualificação, em duas
+camadas. A primeira descreve o fenômeno bruto: quarenta anos de uso da terra
+em Goiás, organizados pelos três atos que a periodização estabeleceu, e o
+balanço agregado de para onde os hectares foram. A segunda percorre as quatro
+frentes de investigação, na ordem em que uma puxou a seguinte: o padrão
+existe? qual é o mecanismo? uma região empurra a outra? e por que a conversão
+desacelerou onde desacelerou?
+
+Duas convenções de leitura valem para todo o capítulo. Onde a medida depende
+da classe ``Agricultura'' em janela que alcance 2020--2024, o número é
+reportado como intervalo entre as duas réguas da decisão D26, e conferido
+contra uma fonte que não passa pelo classificador. E onde um deslocamento
+tem intervalo de confiança que inclui zero, ele não é reportado em
+quilômetros (decisão D19).
+
+\section{Quarenta anos em três atos}
+\label{sec:res-atos}
+
+A régua temporal da Seção~\ref{sec:met-periodizacao} devolveu duas fronteiras,
+e a Tabela~\ref{tab:quebras} mostra a convergência dos métodos que as
+sustentam. A de 2001 é apontada pelo método primário com folga e corroborada
+pelos dois métodos de sensibilidade. A de 2020, pelo primário e,
+decisivamente, por uma fonte que não passa por classificador algum: a área de
+soja plantada que o IBGE recolhe em campo quebra em 2020 sozinha.
+
+\begin{table}[htb]
+\centering
+\caption[Convergência dos métodos de periodização]{Convergência dos métodos de periodização sobre as duas fronteiras.}
+\label{tab:quebras}
+\small
+\begin{tabular}{lll}
+\toprule
+\textbf{Método} & \textbf{$\sim$2001} & \textbf{$\sim$2020} \\
+\midrule
+sup-F multivariado (primário) & $F = 62{,}2$ & $F = 21{,}5$ \\
+Rodionov/STARS (sensibilidade) & 2004--2006 & --- \\
+Divergência entre matrizes de transição & pico em 2003 & pico em 2019--2022 \\
+Soja plantada, IBGE (âncora independente) & --- & quebra em 2020 \\
+\bottomrule
+\end{tabular}
+\fontefig{elaboração própria a partir do MapBiomas Coleção 10.1 (Pipeline~\#29).}
+\end{table}
+
+A caracterização global dos atos vem de uma análise de intensidade, com
+teste de Kruskal-Wallis: os três atos diferem em taxa de mudança
+($H = 20{,}3$; $p < 0{,}001$), num teste único que compara os três períodos
+simultaneamente, e não em detecções separadas por fronteira. Esse número
+\emph{descreve} o contraste; ele não o valida. As fronteiras foram estimadas
+dos mesmos dados, maximizando precisamente a diferença que o teste depois
+mede, e o teste supõe independência entre observações que são taxas anuais
+autocorrelacionadas. A validação que vale é externa, e vem adiante: a série
+de soja da PAM quebra em 2020 por conta própria, sem nada saber desta
+partição.
+
+Uma candidata a quarto período, em torno de 2005--2006, foi examinada e não
+adotada. Aqui também convém expor a instabilidade em vez de escondê-la: a
+significância da quebra depende do ano de corte testado --- $p = 0{,}10$ em
+2004, $p = 0{,}046$ em 2005, $p = 0{,}12$ em 2006 ---, e é justamente por a
+fronteira não se firmar em nenhum ano específico que ela não foi adotada, e
+não porque um único teste tenha dado $p = 0{,}060$.
+
+Uma ressalva acompanha a fronteira de 2020. Recontada a matriz de transições
+com o ``Mosaico de Usos'' como grupo próprio --- consequência da decisão
+descrita na Seção~\ref{sec:met-decisoes} ---, o pico do indicador de
+divergência migrou de 2020 para 2022, e os quatro métodos não apontam mais
+exatamente o mesmo ano. A fronteira se sustenta porque a âncora que a define
+é a série de campo, imune ao classificador.
+
+\subsection{Ato I: a pastagem como herança (1985--2000)}
+
+O primeiro mapa da série já mostra uma fronteira em movimento, e não um
+ponto de partida natural. Em 1985, quase um terço de Goiás já é pastagem ---
+legado da ocupação dirigida do Cerrado que começa na década anterior e que a
+série não alcança. A instabilidade macroeconômica do período desestimula o
+investimento agrícola de prazo longo, e a lavoura permanece onde já estava:
+manchas pontuais no sudoeste. O que domina o centro-sul é pasto; o que
+resiste no norte e no nordeste, sobretudo no Vão do Paranã, é Cerrado.
+
+\subsection{Ato II: expansão e intensificação (2001--2019)}
+
+O ato começa com a moeda estabilizada e a exportação de grãos já
+desonerada. O que é novo vem de fora: a entrada da China na Organização
+Mundial do Comércio no fim de 2001, a sistematização do crédito rural a
+partir de 2002--2003 e o super-ciclo de preços de commodities. A agricultura
+goiana passa de 9,3\% para 16,0\% do território ao longo do período. No
+mapa, o sudoeste --- Rio Verde, Jataí, Mineiros --- se converte à lavoura
+sobre o pasto. A pastagem atinge seu pico por volta de 2003, perto de
+14,8~Mha, e passa a ceder área. A pecuária segue dominante em extensão, mas
+a dinâmica econômica passa à soja.
+
+\subsection{Ato III: conversão acelerada sob rótulo ambíguo (2020--2024)}
+
+Este é o ato em que a medida engana. Lida apenas pela classe ``Agricultura''
+do satélite, a conversão parece ter parado: no Sul goiano, a taxa anual do
+fluxo de pastagem para lavoura cai 88\% em relação ao Ato~II. A área de soja
+plantada que o IBGE recolhe em campo cresce 38\% no estado na mesma janela.
+Recontada pela régua que soma as duas classes --- a pergunta mais grossa,
+robusta à reetiquetagem por construção ---, essa mesma taxa no Sul não cai:
+acelera 51\%. O que mudou foi o rótulo, não o território.
+
+O que o pasto perde, a lavoura ganha: o recuo da pastagem quase quadruplica
+de velocidade, de 0,07 para 0,27~Mha por ano. A vegetação natural, por sua vez,
+não muda de ritmo --- perde, em saldo líquido, cerca de 0,06~Mha por ano
+tanto no Ato~II quanto no Ato~III ---, mas passa a ceder ao norte, onde ainda
+há Cerrado em pé.
+Goiás chega a 2024 com 34,9\% do território em vegetação natural, sem que a
+série dê sinal de estabilização até aqui. O que mudou não foi a velocidade
+da perda, e sim o seu endereço. A Figura~\ref{fig:cobertura} mostra esse
+rearranjo no mapa, nos cinco cortes temporais.
+
+\begin{figure}[htb]
+\centering
+\caption[Cobertura e uso da terra em cinco cortes, 1985--2024]{Cobertura e uso da terra em Goiás nos cortes de 1985, 1995, 2005,
+2015 e 2024, em sete classes.}
+\label{fig:cobertura}
+\includegraphics[width=\textwidth]{cap4_painel_cobertura.png}
+\fontefig{elaboração própria a partir do MapBiomas Coleção 10.1
+(Pipeline~\#10). Os cinco recortes compartilham legenda, projeção, escala e
+orientação; por isso a régua e a rosa-dos-ventos aparecem uma única vez, e
+valem para todos. Cada pixel mede 387~m. O vazio a leste do centro é o
+Distrito Federal, que não integra Goiás e por isso não é classificado.}
+\end{figure}
+
+\subsection{O balanço de quarenta anos}
+
+A Tabela~\ref{tab:balanco} resume a transformação agregada, e o saldo líquido
+é exatamente o que esconde o caminho dos hectares: duas classes --- pastagem
+e Mosaico --- parecem estáveis no saldo e sobem e descem no percurso.
+
+\begin{table}[htb]
+\centering
+\caption[Balanço agregado de uso e cobertura, 1985--2024]{Balanço agregado de uso e cobertura da terra em Goiás, 1985--2024.}
+\label{tab:balanco}
+\small
+\begin{tabular}{p{3.4cm}p{3.0cm}p{7.2cm}}
+\toprule
+\textbf{Classe} & \textbf{1985 $\to$ 2024} & \textbf{Leitura} \\
+\midrule
+Vegetação natural\footnotemark[1] & 17,65 $\to$ 11,88 Mha ($-5{,}8$) &
+De 51,9\% a 34,9\% do território \\
+\addlinespace
+Agricultura & 1,17 $\to$ 5,58 Mha ($\times 4{,}8$) &
+A soja cresce $\times 12$ em área (0,37 $\to$ 4,50 Mha) e $\times 13$ em
+produção (1,3 $\to$ 17,0 Mt) \\
+\addlinespace
+Pastagem & 10,98 $\to$ 11,99 Mha ($+1{,}0$) &
+Saldo enganoso: a trajetória é em U invertido, com pico próximo de 14,8 Mha
+em 2003 \\
+\addlinespace
+Lotação bovina & 1,45 $\to$ 1,94 cab/ha &
+O rebanho cresce 46\% (15,9 $\to$ 23,2 milhões de cabeças) e a área de pasto
+apenas 9\%: a pecuária se intensifica \\
+\addlinespace
+Mosaico de Usos & 3,63 $\to$ 3,59 Mha ($\approx 0$) &
+O saldo é nulo, o caminho não: cai de 10,7\% do estado a 6,1\% em 2019 e
+volta a 10,5\% em 2024 \\
+\bottomrule
+\end{tabular}
+\fontefig{elaboração própria a partir do painel municipal (Pipeline~\#25),
+MapBiomas Coleção 10.1.\\
+\textsuperscript{1}~Vegetação natural, nesta tabela, soma formação florestal,
+formação savânica, campo nativo \textbf{e campo alagado}. A
+Figura~\ref{fig:sankey} adota o agrupamento em sete classes do censo de
+pixels, que classifica o campo alagado em ``Outros''; daí a vegetação
+natural aparecer lá como 16,96~Mha em 1985, e não 17,65~Mha --- a diferença
+é o campo alagado, 0,70~Mha (a subtração dos valores já arredondados dá
+0,69). As duas contas são a mesma medida sob duas convenções de classe, e
+não uma divergência de dado.}
+\end{table}
+
+O cruzamento pixel a pixel entre 1985 e 2024 mostra de onde veio a terra que
+cada classe ganhou. Três fluxos desenham a marcha: a conversão de vegetação
+natural em pastagem, com 4,10~Mha, é o maior da série --- desmatamento
+histórico para pecuária extensiva, concentrado sobretudo nos anos 1980 e
+1990; a conversão de pastagem em agricultura, com 2,72~Mha, é a maior
+transição entre classes já manejadas, e é ela que permite a expansão da
+lavoura sem desmatamento direto; e a conversão direta de vegetação natural
+em agricultura, com 1,29~Mha, menor que a rota via pasto, mas existente e
+com peso crescente no nordeste após 2010. A pastagem é, portanto, o elo
+intermediário da maior parte da entrada em agricultura --- 2,72 dos
+4,01~Mha, ou 68\%.
+
+Um quarto fluxo --- 1,00~Mha de vegetação natural para Mosaico de Usos ---
+foi deliberadamente mantido fora da conta de conversão antrópica, e a razão
+é externa ao próprio dado: incluí-lo faria a razão entre a medida deste
+trabalho e a do PRODES/INPE saltar de 1,00 para 1,35, isto é, um terço a
+mais de desmatamento do que o sistema oficial registra. Como a classe tem
+transição de ida e de volta, tratá-la como perda definitiva superestima.
+
+\begin{figure}[htb]
+\centering
+\caption[Cruzamento pixel a pixel do uso da terra, 1985--2024]{Cruzamento pixel a pixel do uso da terra entre 1985 e 2024, em sete
+classes, com larguras proporcionais à área.}
+\label{fig:sankey}
+\includegraphics[width=\textwidth]{cap4_sankey.pdf}
+\fontefig{elaboração própria a partir da recontagem sobre o cubo do censo de
+pixels (Pipeline~\#12B), MapBiomas Coleção 10.1. Fitas inferiores a
+0,05~Mha foram omitidas para leitura; os quatro fluxos discutidos no texto
+estão rotulados. O agrupamento em sete classes classifica o campo alagado em
+``Outros'', e é só por isso que a vegetação natural aparece aqui com
+16,96~Mha em 1985 contra os 17,65~Mha da Tabela~\ref{tab:balanco}, que o
+conta como natural --- ver a nota daquela tabela.}
+\end{figure}
+
+\section{O padrão: a marcha ao norte}
+\label{sec:res-perna1}
+
+A primeira frente responde à pergunta mais básica: a fronteira agropecuária
+de Goiás se moveu, e para onde? A medida é o centro de massa de cada uso da
+terra --- o ponto de equilíbrio geográfico ponderado pela quantidade da
+variável ---, acompanhado ano a ano sobre as 166 AMCs. O resultado é
+uniforme: tudo marchou ao norte (Tabela~\ref{tab:centros}).
+
+\begin{table}[htb]
+\centering
+\caption[Deslocamento do centro de massa ao norte, 1985--2024]{Deslocamento do centro de massa ao norte, 1985--2024, com
+intervalo de confiança de 95\% por \emph{bootstrap} das AMCs
+($B = 2000$).}
+\label{tab:centros}
+\small
+\begin{tabular}{lrll}
+\toprule
+\textbf{Variável} & \textbf{$\Delta$ Norte} & \textbf{IC 95\%} & \textbf{Veredito} \\
+\midrule
+Pastagem          & $+77{,}6$ km & $[+54{,}7;\ +98{,}2]$ & robusto \\
+Rebanho bovino    & $+66{,}9$ km & $[+47{,}2;\ +84{,}5]$ & robusto \\
+Agricultura       & $+65{,}2$ km & $[+43{,}5;\ +94{,}6]$ & robusto \\
+Vegetação natural & $+7{,}6$ km  & $[-0{,}5;\ +15{,}6]$  & \textbf{ancorada} \\
+\bottomrule
+\end{tabular}
+\fontefig{elaboração própria (Pipeline~\#32) sobre as 166 AMCs; intervalos de confiança de 95\% por \emph{bootstrap} das AMCs ($B = 2000$).}
+\end{table}
+
+Três leituras decorrem da tabela. O deslocamento da pastagem, do rebanho e
+da agricultura é grande e está longe de zero. A vegetação natural não
+acompanhou: seu intervalo inclui zero, e por isso ela é descrita como
+ancorada, e não como tendo andado oito quilômetros --- o que seria ler ruído
+como sinal. E existe um gradiente latitudinal persistente: em todos os
+quarenta anos, a lavoura permanece cerca de 120 a 130~km ao sul do pasto e do
+rebanho --- a expressão métrica dos ``dois Goiáses''.
+
+O tamanho exato desse vão depende da régua: em 2024 ele é de 135~km pela
+classe do satélite, 111~km pela régua da união e 122~km pela soja que o IBGE
+mede em campo, grande e persistente em qualquer uma das três. A
+Figura~\ref{fig:centromassa} traz as trajetórias completas, com a faixa de
+confiança de cada série.
+
+\begin{figure}[htb]
+\centering
+\caption[Centro de massa de quatro camadas]{Centro de massa de quatro camadas: posição em 1985 e 2024 sobre a
+malha das AMCs (a) e latitude ano a ano com a faixa de \emph{bootstrap} (b).}
+\label{fig:centromassa}
+\includegraphics[width=\textwidth]{cap4_centro_massa.pdf}
+\fontefig{elaboração própria (Pipeline~\#32) sobre as 166 AMCs; faixa de
+confiança de 95\% por \emph{bootstrap} das AMCs ($B = 2000$). Mapa em
+projeção Policônica do Brasil (SIRGAS 2000, EPSG:5880), a mesma em que os
+centroides são calculados. O mapa mostra o
+estado inteiro de propósito: a marcha líquida é de cerca de 80~km num estado
+com cerca de 790~km de extensão norte--sul, e um zoom na nuvem de
+trajetórias faria um sinal
+pequeno, porém robusto, parecer maior do que é. A série da agricultura
+aparece \textbf{pontilhada a partir de 2019} porque, dali em diante, parte da
+lavoura recém-convertida passa a receber o rótulo ``Mosaico de Usos'' e deixa
+de entrar neste centroide (decisões D25 e D26); o achatamento visível no
+Ato~III é, em parte não medida, artefato de rótulo.}
+\end{figure}
+
+\subsection{Sensibilidade da marcha à régua de medida}
+
+O centroide da agricultura pesa cada região pela área que o satélite rotula
+como agricultura --- e, a partir de 2021, parte da conversão recente passa a
+receber o rótulo de Mosaico: exatamente a lavoura nova, a da fronteira, deixa
+de entrar na conta. A linha achata depois de 2019, e a leitura tentadora
+seria que a agricultura parou de subir.
+
+O teste é possível porque nem toda medida do painel passa pelo
+classificador. Entre 2019 e 2024, quatro medidas indicam deslocamento ao
+norte --- três delas entre 10 e 13~km, a quarta 4,4~km --- e a quinta indica
+que nada se moveu. A quinta é precisamente a única cujo rótulo mudou no
+período. O rebanho e a soja plantada, medidos em campo, marcham.
+
+Uma segunda evidência fecha o argumento: localizada no mapa, a área que mudou
+de rótulo não está espalhada --- o centro dessa massa fica 46~km ao norte
+do centro da agricultura visível, e seu crescimento por região acompanha o
+da soja do IBGE quase ponto a ponto (correlação de 0,84; 1,52 contra
+1,53~milhão de hectares). A conversão que o satélite deixou de nomear está
+acontecendo na fronteira. O erro de medida, portanto, aponta contra a tese e
+não a favor dela: a régua crua faz a marcha parecer mais fraca do que foi.
+
+Cabe uma distinção que a Seção~\ref{sec:res-perna3} tornará central: dizer
+que a lavoura nova está ao norte não é dizer que a lavoura do Sul empurrou
+alguém para o norte. A lavoura está subindo junto, não empurrando de trás. O
+deslocamento da fronteira agrícola é medido aqui; o de uma região pela outra
+foi testado, e não foi encontrado.
+
+A régua da união, porém, não vale para a série longa. Aplicada aos quarenta
+anos, ela devolve $-60$~km, isto é, a agricultura andando para o sul --- e o
+número não significa o que parece. Em 1985 a classe Mosaico já existia e era
+extensa --- 3,63~Mha, 10,7\% do estado ---, situada bem ao norte, e não era
+lavoura sob outro nome: era terra de uso misto indiferenciado. Ao longo da
+série ela encolhe enquanto a lavoura cresce ao sul, de modo que somar as duas
+classes nas duas pontas é comparar objetos diferentes: mede-se sobretudo o
+Mosaico antigo se dissolvendo.
+
+A confirmação é espacial: o Mosaico ocupa praticamente a mesma área nas duas
+pontas da série, mas as manchas quase não se sobrepõem --- a correlação
+espacial entre as células é de apenas 0,15. A de 1985 se dissolveu; a de 2024
+surgiu em outro lugar. Por isso a régua da união entra como teto de uma
+janela curta, 2019--2024, onde a migração de rótulo de fato ocorre, e nunca
+como régua de série longa.
+
+\subsection{Controles de escala e a camada do fogo}
+
+A marcha sobrevive a quatro verificações independentes. Não é artefato de
+recorte: refeito pixel a pixel, sem malha administrativa alguma, o
+deslocamento reaparece a um ou dois quilômetros do valor original (pastagem
+$+79{,}2$ contra $+77{,}6$~km; agricultura $+66{,}9$ contra $+65{,}2$~km).
+Não é artefato de agregação de classes: aberta em formações, a vegetação
+mostra que a resistência ao norte é da floresta ($+8{,}7$~km, IC
+$[+2{,}5; +15{,}1]$), ao passo que o limite do campo nativo se deslocou para
+o norte --- direção robusta, magnitude imprecisa, com intervalo largo --- e a
+formação savânica tem intervalo que inclui zero. Foi uma autocorreção: o
+número médio do agregado escondia comportamentos distintos por dentro. Toda a
+marcha vem com barra de erro, pela decisão D19.
+
+E não é deslocamento genérico, o que dois controles estabelecem. A área
+urbana não acompanha: ela anda 8~km para o sul (IC $[-19; -1{,}5]$), no
+sentido oposto ao da fronteira. E o leite --- pecuária da bacia consolidada
+do Sul --- sobe menos da metade do que sobe o rebanho total ($+30$ contra
+$+67$~km), de modo que o vão entre os dois centros mais que dobra, de 30~km
+em 1985 para 68~km em 2024. Quem marcha é a pecuária de corte na fronteira,
+e não o mapa inteiro subindo.
+
+Há ainda uma quinta camada, e ela vai à frente das demais: o centro de massa
+do fogo em vegetação natural fica ao norte do centro da conversão em todos
+os 39 anos em que as duas séries coexistem --- a de fogo começa um ano
+depois da de cobertura ---, com dianteira média de 73~km, sem nunca trocar
+de lado. É uma
+vanguarda geográfica, e apenas isso: a leitura de que o fogo abriria caminho
+foi testada e não se sustenta no tempo --- a liderança temporal desaparece
+sob transformação logarítmica, inverte quando se removem os anos de seca de
+1985 e 2010, e o teste de precedência agregado é nulo. O fogo marca onde a
+fronteira está, não quando ela vai andar.
+
+\section{O mecanismo: duas lógicas simultâneas}
+\label{sec:res-perna2}
+
+Se a fronteira inteira marchou, que conversão a moveu, e em que parte do
+estado? A marcha é o saldo de duas conversões distintas, e elas não estão no
+mesmo lugar. No Sul, a transição dominante é de pastagem para lavoura:
+intensificação, terra que troca de função. No Norte, é de vegetação natural
+para pastagem: fronteira, terra nova sendo aberta.
+
+A medida que sustenta essa divisão é justamente a que não depende da classe
+ambígua, porque nem sua origem nem seu destino passam por ela: a conversão
+de vegetação natural em pastagem cai 49\% no Sul Goiano entre os Atos~II e
+III e apenas 13\% no Norte, na malha das cinco mesorregiões.
+
+\subsection{A idade da pastagem como medida de intenção}
+
+Saber que o Sul converte pasto em lavoura não diz se aquele pasto era etapa
+planejada de um sistema agrícola ou terra parada há duas décadas que enfim se
+tornou lucrativa --- duas economias diferentes com o mesmo nome no mapa. A
+idade da pastagem no instante da conversão é a aproximação mais próxima da
+intenção do produtor que a série permite observar.
+
+O censo de pixels descrito na Seção~\ref{sec:met-decisoes} contabiliza
+44,6~milhões de conversões de pastagem para lavoura em Goiás --- 3,8~Mha,
+11,2\% do estado. Destas, 16,0~milhões têm idade conhecida; as demais já
+eram pastagem em 1985 e têm idade truncada pelo início da série.
+
+A distribuição não é composta por um único tipo de pastagem. O ajuste de
+mistura sobre o censo completo separa duas populações: uma jovem e
+concentrada ($\mu \approx 4$ anos, $\sigma \approx 1{,}6$ ano, 33\% da
+massa) e outra velha e larga ($\mu \approx 16$ anos,
+$\sigma \approx 7{,}5$ anos, 67\% da massa), com cauda que alcança os
+quarenta anos da série. A forma não tem dois picos visíveis: tem um pico
+jovem e um ombro longo --- sendo cerca de cinco vezes mais dispersa que a
+primeira, a segunda população produz platô, e não segunda espiga. O que a
+estabelece não é a inspeção visual, e sim o fato de uma população única não
+dar conta da forma: ajustada sozinha, ela devolve $\mu \approx 12$ anos e
+erra as duas pontas, subestimando o pico jovem e a cauda velha.
+
+A leitura de cada grupo apoia-se no que havia no pixel antes de ele virar
+pastagem --- e essa leitura não depende de ajuste algum. Separados apenas
+pela origem, os eventos se ordenam sozinhos: o pasto que veio de lavoura
+volta a ser lavoura com mediana de cinco anos, e o que veio de vegetação
+natural dura o dobro, mediana de treze anos. Nas conversões de pasto com até
+três anos, 45\% já tinham sido lavoura antes --- lavoura, pasto, lavoura: é
+rotação. Nas de pasto com trinta anos ou mais, a lavoura anterior
+praticamente desaparece, com 1\%: esse pasto veio de vegetação natural ou de
+Mosaico de Usos, em proporções semelhantes --- Cerrado, pasto, lavoura: é
+reserva ativada.
+
+Cabe aqui uma ressalva, porque o Mosaico é justamente a classe em que o
+classificador não separou usos: metade da origem do pasto velho fica, por
+construção, indeterminada entre vegetação natural e uso misto anterior. O
+que o dado estabelece com firmeza é o \emph{contraste} entre as duas pontas
+--- 45\% contra 1\% de lavoura anterior ---, e não a atribuição de cada
+pixel. Na mesma linha, a primeira população é compatível com sistemas de
+integração lavoura-pecuária, mas não os comprova: o satélite vê o capim, não
+vê se havia gado nele. A Figura~\ref{fig:idade} traz a distribuição de
+idades e a decomposição por origem anterior.
+
+\begin{figure}[htb]
+\centering
+\caption[Idade da pastagem no momento da conversão para lavoura]{Idade da pastagem no momento da conversão para lavoura: a forma da
+distribuição contra os ajustes de uma e de duas componentes (a) e a
+composição da origem anterior do pixel por idade (b).}
+\label{fig:idade}
+\includegraphics[width=\textwidth]{cap4_idade_pastagem.pdf}
+\fontefig{elaboração própria a partir do censo de pixels (Pipeline~\#28C),
+MapBiomas Coleção 10.1. Entram apenas os 16,0~milhões de eventos cuja idade é
+conhecida; os demais já eram pastagem em 1985 e têm idade truncada pelo
+início da série. O painel~(a) mostra por que a segunda população não se lê
+por inspeção visual: sendo cerca de cinco vezes mais larga que a primeira,
+ela produz um ombro, e não um segundo pico. O painel~(b) recupera a mesma
+divisão sem ajustar modelo algum.}
+\end{figure}
+
+\subsection{Decomposição regional da idade}
+
+A curva soma quarenta anos de conversões em todo o estado: talvez não haja
+duas populações convivendo em lugar algum, e sim regiões ou épocas diferentes
+somadas. As duas objeções foram testadas isolando cada recorte.
+
+\textbf{Não são regiões somadas.} Percorridas as cinco mesorregiões, o
+desenho é praticamente o mesmo. As cinco são bimodais, e também o são todas
+as 166 AMCs na régua imune à mudança de rótulo (na régua estrita, 162 de
+164, e as duas exceções falham pelo mesmo lado: peso do grupo jovem baixo
+demais para o teste, não ausência de dois grupos). A mesorregião explica
+0,5\% da variação da idade.
+
+\textbf{Não são épocas somadas.} Isoladas por período, as duas populações
+permanecem: no Ato~II sozinho --- 32,5~milhões de conversões pela régua da
+união, o maior bloco da série --- e no Ato~III sozinho, nas cinco
+mesorregiões de cada um, em 10 de 10 células de período por região (9 de 10
+pela régua estrita). Convém não somar esses 32,5 milhões aos 16,0 milhões
+citados acima: aqueles são eventos com idade conhecida na régua estrita,
+estes são eventos na régua da união, e as duas contagens medem populações
+diferentes. O Ato~I fica fora do teste, e a
+razão é instrutiva: ele é unimodal em toda parte e não poderia ser outra
+coisa. Uma conversão em 1995 ocorre sobre um pasto que tem, no máximo, dez
+anos, porque a série começa em 1985; para observar a conversão de um pasto
+de dezesseis anos --- o modo da população velha --- é preciso chegar a 2001.
+No primeiro período, a população velha é invisível, não ausente.
+
+Aquele 0,5\% é o que restou da autocorreção mais extensa do trabalho,
+apresentada aqui como resultado superado --- a leitura que seria publicada se
+um teste específico não tivesse sido feito. A afirmação superada era que o
+Sul converteria pasto jovem (mediana de nove anos) e o Norte, pasto velho
+(dezesseis anos). O defeito não estava na conta, e sim no que entra nela: a
+idade só é medida quando o destino do pixel recebe o rótulo de agricultura e,
+no fim da série, parte da conversão passa a ser rotulada como Mosaico. Esses
+eventos saem da amostra sem aviso, e não saem por igual no território: saem
+mais ao norte. O gradiente era, em boa parte, essa seleção.
+
+Refeita a análise com a pergunta grossa --- imune à reetiquetagem por
+construção ---, a amplitude Sul--Norte cai de sete anos para dois, a ordem
+das regiões se embaralha e a parcela de variação atribuível à mesorregião
+despenca de 3,7\% para 0,5\%. O mesmo ocorre com a forma da distribuição:
+na régua estrita, Norte e Noroeste exibem um vale nítido que Sul, Centro e
+Leste não têm --- o vale do Noroeste tem profundidade de 42\% ---, e as
+cinco regiões se separam em dois blocos. Fechado o viés, a distância entre a
+forma do Sul e a do Norte cai de 0,22 para 0,02, e o vale do Noroeste, de
+42\% para 6\%.
+
+O que não mudou sob a régua nova foi a coexistência das duas populações. O
+achado que sobrevive é, portanto, mais forte do que o que caiu: quanto menos
+a região explica, mais universal se mostra a convivência dos dois
+mecanismos.
+
+\subsection{Sistema produtivo e crédito como candidatos a explicação}
+
+Descartados os dois eixos óbvios, restavam duas famílias de explicação, cada
+uma com uma previsão verificável. A primeira é estrutural: a idade seria
+decidida pelo sistema produtivo instalado. O Censo Agropecuário não tem
+variável de integração lavoura-pecuária, e o indicador mais próximo
+disponível é o plantio direto --- que é prática de conservação de solo, não
+de integração com pecuária, ainda que ambas costumem andar juntas na
+lavoura tecnificada do Cerrado. A segunda é de fluxo: a idade seria decidida
+pelo choque do momento, com o crédito ativando reserva antiga.
+
+Nenhuma das duas explica a idade da pastagem. Para o plantio direto, a
+correlação simples confirma a previsão, mas o indicador também se concentra
+no Sul; segurando o gradiente espacial (decisão D14), a associação encolhe
+cerca de um terço, fica na fronteira da significância sem cruzá-la e não
+sobrevive à correção para testes múltiplos. O veredito é
+\emph{não estabelecido}, e a distinção importa: um nulo limpo encerraria a
+pergunta, um indeterminado não encerra.
+
+Para o crédito rural, a associação é a única que resiste ao controle
+espacial, à correção para testes múltiplos e à troca de régua --- na régua
+imune ela se fortalece, de $+0{,}22$ para $+0{,}30$. Mas aponta na direção
+contrária à esperada: onde o crédito cresceu mais, o pasto convertido é mais
+velho, o que é compatível com reserva sendo ativada por dinheiro novo e não
+com crédito financiando rotação. Duas ressalvas grandes acompanham o
+resultado: ele só existe quando os anos recentes entram --- no recorte até
+2019 é praticamente nulo --- e o mecanismo não foi investigado.
+
+A escolha entre girar o capim em três anos ou deixá-lo trinta acontece,
+portanto, abaixo da escala que estes dados alcançam: ela não se lê na região,
+não se lê no sistema produtivo do município e mal se lê no crédito que chegou
+até ele.
+
+\section{O teste do deslocamento e o \emph{drive} comum}
+\label{sec:res-perna3}
+
+As duas frentes anteriores entregam dois fatos que, postos lado a lado,
+quase escrevem sozinhos uma conclusão: a fronteira inteira subiu ao norte, e
+subiu fazendo coisas opostas em cada metade do estado. Somados, sugerem que
+o pasto expulso do Sul foi reaparecer no Norte, sobre o Cerrado --- um
+deslocamento indireto intra-estadual, com a soja do Sudoeste na origem e a
+vegetação do Norte na conta. É a hipótese que mais favorecia a tese inicial
+deste trabalho.
+
+Ela tem um problema de lógica antes de ter um problema de dados. Uma
+coincidência no espaço não é um mecanismo: dois processos independentes
+movidos pela mesma força externa desenham exatamente o mesmo mapa que um
+empurrão desenharia. Separar as duas leituras exige procurar uma assinatura
+que só o empurrão produz.
+
+\subsection{Efeito de vizinhança e efeito local}
+
+São duas as assinaturas, e ambas são específicas o bastante para poder
+falhar --- o que as torna teste, e não ilustração. No tempo, se a lavoura do
+Sul empurra, ela precisa mover-se primeiro: a expansão no Sul deve anteceder
+o avanço do pasto no Norte, e não apenas acompanhá-lo. No espaço, um empurrão
+tem direção: se a lavoura dos vizinhos ao sul cresce e isso expulsa pasto
+para cima, o pasto local deve crescer --- um coeficiente $\theta$ que a
+hipótese exige seja positivo, com os vizinhos ao norte entrando como placebo.
+
+O teste espacial foi executado em três réguas de medida, cruzadas com duas
+janelas e dois desfechos --- doze especificações. \textbf{As doze estimativas
+são negativas.} Nenhuma cai na região que a hipótese exige; todas vão na
+direção oposta. Quando a lavoura dos vizinhos ao sul cresce, o pasto local
+diminui, em vez de aumentar. Não se trata de um p-valor rejeitando uma tese:
+trata-se da ausência de um sinal que a hipótese exigia, procurado em doze
+recortes e não encontrado em nenhum.
+
+O teste temporal foi executado em vinte e quatro combinações de régua,
+janela, desfecho e defasagem. O menor p-valor é 0,078; nenhuma combinação é
+significativa. Este nulo tem limites que devem ser declarados: com 38
+diferenças anuais, o teste descarta um empurrão forte (poder aproximado de
+93\%), mas não um moderado (poder aproximado de 48\%). Sozinho, não
+fecharia a questão; somado às doze especificações espaciais, completa o
+quadro.
+
+Rodado no sentido inverso, esse mesmo teste temporal produzia um resultado
+forte: o Norte anteciparia o Sul, com $p = 0{,}0007$. Se real, ele não
+salvaria a hipótese do empurrão --- inverteria a tese inteira. Investigado,
+era regressão espúria, e o diagnóstico veio em três passos, nenhum deles ``a
+amostra é pequena''. Primeiro, a régua estava errada para o material: o teste
+comparava uma série já estabilizada com outra que permanece instável mesmo
+depois de convertida em variações anuais --- a montagem clássica que fabrica
+precedência. Segundo, o método adequado a séries integradas apaga o resultado
+nas duas direções: $p = 0{,}45$ no sentido Norte--Sul e $p = 0{,}25$ no
+sentido Sul--Norte. Dizer os dois importa, porque isso também retira qualquer
+autorização para afirmar que o Sul lidera: o veredito é \emph{sem líder}, não
+``o outro lado venceu''. Terceiro, e mais limpo, os placebos acendem onde não
+há mecanismo: o pasto do Norte ``antecede'' o pasto do próprio Sul com
+exatamente o mesmo p-valor do resultado original, o que nenhuma economia
+explicaria. Uma precedência que aparece em qualquer par de séries suaves não
+é mecanismo, é defeito de instrumento.
+
+Deste episódio saiu a regra D16, aplicada retroativamente aos demais
+pipelines: nenhum resultado de precedência em série agregada é lido como
+causal antes de passar por diagnóstico de estacionariedade, método robusto à
+integração e bateria de placebos. A Figura~\ref{fig:espacial} reúne as doze
+estimativas do termo de vizinhança.
+
+\begin{figure}[htb]
+\centering
+\caption[As doze especificações do teste espacial]{As doze especificações do teste espacial do empurrão, com o
+intervalo de confiança de cada uma e a zona que a hipótese exigiria.}
+\label{fig:espacial}
+\includegraphics[width=\textwidth]{cap4_teste_espacial.pdf}
+\fontefig{elaboração própria (Pipeline~\#49). $\theta$ é o coeficiente do
+termo de vizinhança ao sul; as especificações de placebo (vizinhos ao norte)
+não estão representadas --- e sobre elas cabe um registro, porque não são
+uniformemente nulas: numa das seis células (régua da soja do IBGE, janela
+plena) o termo de vizinhança ao norte é significativo a 5\%
+($\beta = -0{,}054$; $p = 0{,}032$), justamente onde o termo ao sul
+correspondente é nulo. Como o argumento da frente é que um empurrão teria
+direção, esse acendimento do placebo direcional enfraquece a premissa e é
+mais um motivo para não ler as doze estimativas como um achado.
+A faixa sombreada é desenhada porque o resultado é
+a \emph{ausência de um sinal que a hipótese exigia} --- e não um p-valor
+rejeitando uma tese: as doze estimativas caem do lado oposto ao exigido.}
+\end{figure}
+
+O mesmo desenho revela o que ocupa o lugar do empurrão, e o termo precisa ser
+preciso: o coeficiente $\theta$ mede o efeito dos vizinhos --- se a lavoura
+cresce ao sul, o pasto daqui cresce? --- ao passo que o efeito local mede o
+que ocorre dentro do próprio município --- se a lavoura cresce aqui, o pasto
+daqui diminui? É a diferença entre empurrão, à distância, e substituição, no
+mesmo lugar.
+
+A substituição local é o maior efeito de toda a frente: nas quatro células
+medidas em área de satélite o coeficiente vai de $-0{,}52$ a $-1{,}14$, e
+$p < 0{,}001$ em cinco das seis células da grade (a exceção é a régua da
+soja do IBGE na janela curta, com poucos anos). As duas células restantes,
+que regridem sobre a área de soja declarada ao IBGE, ficam em torno de
+$-0{,}03$ a $-0{,}07$ --- números que \emph{não} são comparáveis em
+magnitude aos primeiros, porque o regressor é outro: um hectare de soja é
+subconjunto de um hectare de agricultura. O que se compara entre réguas é o
+sinal e a significância, não o tamanho.
+
+O coeficiente dobra quando se amplia a medida --- de $-0{,}52$ na régua
+estrita a $-1{,}14$ na que soma agricultura e uso misto. Convém ler esse
+salto com cuidado, e não como correção: a régua da união é o teto do
+intervalo previsto na decisão D26, não a medida certa. E um coeficiente de
+$-1{,}14$ não descreve substituição mais completa --- descreve mais de um
+hectare de pasto perdido por hectare de lavoura ganho, o que por definição
+excede a substituição e inclui algum fluxo adicional não identificado neste
+desenho.
+
+\subsection{O \emph{drive} comum incide sobre um gradiente de aptidão}
+
+Se os dois mecanismos não se comandam, por que marcham juntos? Porque ambos
+respondem ao mesmo estímulo externo, e o candidato mais forte é o câmbio
+real. O mecanismo é direto: Goiás produz soja e carne para exportação, ambas
+cotadas em dólar; quando o real se desvaloriza, a mesma tonelada exportada
+rende mais reais ao produtor sem que o preço internacional mude; a
+rentabilidade de plantar e de criar sobe, e a procura por terra cresce. O
+câmbio não cria fazenda --- ele torna compensador avançar.
+
+Esse impulso, porém, não incide sobre terreno uniforme. O gradiente de
+aptidão foi medido por um dado físico que nada sabe sobre quem planta o quê:
+o mapa de aptidão agrícola da Embrapa, na escala 1:500.000, com 8.284
+polígonos recortados em Goiás. Na escala ordinal da fonte, o gradiente
+aparece sozinho --- Sul 4,69, Centro 4,47, Norte 4,17 ---, com correlação de
+$-0{,}44$ com a latitude ($-0{,}40$ por Spearman; as três regiões diferem
+com $p = 0{,}0002$). Medir o gradiente por um dado físico, e não pelo uso da
+terra que se quer explicar, é o que evita a circularidade.
+
+O modelo testa a interação entre os dois, e o desfecho da especificação
+confirmatória precisa ser dito com todas as letras: é a \textbf{variação
+anual do rebanho bovino}, medida em milhões de cabeças, e não uma medida de
+área. A previsão é a de um gradiente invertido em relação ao que o senso
+comum sugeriria: sob depreciação cambial o rebanho cresce \emph{mais onde a
+aptidão edafoclimática é baixa} --- a fronteira do Norte --- e menos no
+núcleo apto do Sul, onde a mesma terra tem uso alternativo mais rentável em
+lavoura. O coeficiente esperado da interação é, portanto, negativo.
+
+E aqui entra a ressalva que determina o peso do resultado: sob a inferência
+apropriada ao desenho --- permutação do \emph{shifter}, conforme a
+Seção~\ref{sec:met-instrumental} ---, o achado é \textbf{corroborante, não
+estabelecido}. O coeficiente tem a direção prevista ($\beta = -0{,}033$, com
+$R^2$ \emph{within} de 0,001), mas o p-valor honesto fica entre 0,07 e 0,13,
+sem cruzar o corte de 5\%. O que sustenta a leitura é a especificidade: cada
+teste que deveria sair vazio sai vazio. Os placebos de desfecho são nulos
+(área urbana, $p = 0{,}34$; água, $p = 0{,}33$); os placebos no tempo também
+($p = 0{,}105$ para a liderança de um ano, $p = 0{,}77$ para a de dois); e o
+sinal é estável no \emph{jackknife}, em 38 dos 38 anos.
+
+Três qualificações completam o quadro, e todas as três puxam para baixo o
+peso do achado. A primeira é que os desfechos de \emph{área} da mesma grade
+são nulos: a interação entre câmbio e aptidão não move a variação de área de
+pastagem ($p = 0{,}92$ sem defasagem e $0{,}83$ com um ano), e a interação
+entre preço da soja e aptidão não move a variação de área de agricultura
+($p = 0{,}77$ e $0{,}60$). Como a narrativa desta seção é sobre procura por
+terra, é preciso registrar que o único gradiente com sinal aparece numa
+contagem de cabeças, e não na terra. A segunda é de multiplicidade: essa
+célula vem de uma grade de 192 testes (quatro exposições, quatro
+\emph{drivers}, quatro desfechos, três defasagens), e o próprio exame de
+sensibilidade mostrou que ela sobrevive ao controle de falsas descobertas
+numa família de 96 testes e não sobrevive numa de 144 --- é, portanto,
+sensível ao recorte da família, além de assentar sobre um p agrupado que já
+se sabe otimista. A terceira é que o desenho, com efeito fixo de ano, não
+poderia mesmo estimar o nível do efeito cambial: ele estima só o gradiente,
+e é sobre o gradiente --- não sobre o câmbio como causa --- que a evidência
+aqui é corroborante.
+
+Uma precisão sobre esses p-valores, sob pena de se comparar réguas
+diferentes: o p do achado é o de permutação, o conservador; os dos placebos
+são os agrupados, que a auditoria mostrou serem otimistas. Isso corta a
+favor da leitura --- sob a régua conservadora, os placebos ficariam ainda
+mais nulos ---, mas não autoriza comparar 0,105 com 0,07--0,13 como se
+fossem a mesma medida.
+
+\subsection{Precedência de infraestrutura e crédito}
+
+Uma verificação independente examina se infraestrutura ou crédito puxam a
+fronteira. O raciocínio é de simetria: quem puxa costuma estar à frente. Se
+silos, bancos ou lavouras puxassem a marcha, seus centros de gravidade
+estariam ao norte do pasto e do rebanho; se apenas consolidassem o que já
+foi aberto, estariam ao sul.
+
+Nenhuma camada aparece à frente. O centroide do crédito rural fica cerca de
+70~km ao sul da pastagem, e esse vão não se fecha --- era 77~km em 2013 e
+segue em 69~km em 2024. O da capacidade de armazenagem está ainda mais ao
+sul, a cerca de 150~km do pasto, praticamente sobre o núcleo de lavoura do
+Sudoeste, a 16~km dele. A cadeia exportadora, medida à parte, co-move sem
+liderar. Silo, banco e porto consolidam onde a produção já se instalou. O
+resultado é descritivo: diz onde cada camada está, não que ela seja incapaz
+de puxar.
+
+\section{A desaceleração e o teto de oferta}
+\label{sec:res-perna4}
+
+No Ato~III, o Sul quase deixa de abrir terra nova. A explicação intuitiva
+seria o esfriamento do mercado. Ela está errada, e é isso que torna a última
+frente interessante: no Ato~III a demanda estava no pico.
+
+Duas precisões mudam a pergunta. A primeira: não foi a lavoura que freou.
+Essa leitura seria o artefato de rótulo já desarmado. O que freou é a
+abertura de vegetação natural, medida pela conversão de vegetação em
+pastagem --- transição cuja origem e cujo destino ficam fora da classe
+ambígua. Ela cai 49\% no Sul Goiano e apenas 13\% no Norte, medida na malha
+das cinco mesorregiões.
+
+A segunda: não foi o estado que desacelerou, foi o Sul. No agregado de
+Goiás, o fluxo \emph{bruto} de conversão de vegetação natural --- a abertura,
+antes de descontar o fluxo reverso --- passou de 0,071~Mha por ano no Ato~II
+para 0,072 no Ato~III, praticamente o mesmo número. O que mudou foi o
+endereço: o fluxo bruto caiu 37\% na região Sul e subiu no Centro e no Norte
+--- este na malha de três regiões, e por isso não comparável termo a termo
+com os 49\% do parágrafo anterior, que são de outra medida e de outra malha. A marcha não perdeu
+velocidade; mudou de lugar. A pergunta desta frente não é, portanto, por que
+a fronteira parou --- ela não parou ---, e sim o que a expulsou do Sul.
+
+\subsection{Demanda e oferta na desaceleração do Sul}
+
+Os três sinais de demanda acompanhados desde a frente anterior sobem todos
+no Ato~III, e não pouco: o câmbio real vai de 134,5 a 169,0, o preço
+recebido pela soja de 104,4 a 186,4 e o crédito rural de Goiás de 14,3 para
+24,1 bilhões de reais (série da fonte em reais de 2010, e não na base de
+dezembro de 2024 usada no restante do trabalho). A soja efetivamente plantada cresce 38\% na mesma
+janela.
+
+O teste que fecha a questão, porém, não é o do estado: é o do próprio Sul,
+onde a freada ocorreu. Se o Sul tivesse perdido apetite por terra, teria
+parado de converter qualquer terra. Não foi o que houve: no Sul do Ato~III, a
+taxa anual de conversão de pastagem em lavoura ou uso misto sobe 51\% em
+relação ao Ato~II, e o ritmo de expansão da soja plantada --- os hectares que
+o IBGE registra como acréscimo a cada ano --- sobe 244\%, ao mesmo tempo em
+que a abertura de Cerrado novo cai pela metade. As duas comparações do
+parágrafo anterior e desta, convém frisar, não são a mesma medida: 38\% é o
+crescimento do estoque plantado no estado entre as pontas da janela, e 244\%
+é a aceleração do acréscimo anual no Sul entre um ato e outro. O Sul não
+parou de querer terra. Parou de tirá-la do Cerrado e passou a tirá-la de
+pasto já aberto.
+
+A mudança do fluxo entre dois atos separa-se aritmeticamente em duas
+parcelas: quanto vem de haver menos Cerrado a converter e quanto vem de
+converter a uma taxa diferente o Cerrado que ainda há. A decomposição mostra
+que a parcela de estoque é negativa nas três regiões --- em toda parte há
+menos Cerrado do que havia, inclusive onde a conversão acelerou --- e que o
+que separa as regiões é a parcela residual, que desaba no Sul e sobe no
+Centro e no Norte.
+
+O limite dessa figura precisa ser explícito, porque a leitura descuidada dela
+diz o contrário do que a evidência sustenta. Apenas 17\% da freada do Sul é,
+mecanicamente, ter menos Cerrado; os outros 83\% estão na parcela residual.
+E essa parcela \emph{não é demanda}: ela reúne tudo o que não é o tamanho do
+estoque --- propensão a converter, atrito de acesso, proteção e a troca de
+fonte de terra descrita acima. Se o argumento de oferta dependesse do tamanho
+da parcela de estoque, ele seria fraco.
+
+Ele não depende. O argumento se monta por eliminação e por regularidade:
+a taxa do Sul caiu enquanto a demanda estava no pico, de modo que o que a
+derrubou não é falta de comprador; não é a lei, pelo que se mostra adiante;
+a demanda de terra do Sul continuou existindo e foi atendida por pasto já
+aberto; e, entre as 164 unidades com dado suficiente para o teste, a taxa de
+conversão não cai
+sistematicamente com a depleção do estoque ($p = 0{,}48$), nem há saturação
+(termo quadrático nulo, $p = 0{,}92$). Quando a taxa é aproximadamente
+constante, o fluxo passa a ser ditado pelo tamanho do estoque --- e é esse
+resultado, e não a decomposição, que põe a fronteira onde ainda há Cerrado.
+A Figura~\ref{fig:fronteira} decompõe a queda entre estoque e taxa.
+
+\begin{figure}[htb]
+\centering
+\caption[Decomposição da mudança do fluxo entre os Atos II e III]{Decomposição da mudança do fluxo de conversão entre os Atos~II e
+III, por região (a), e o estoque convertível remanescente de cada região como
+percentual do seu próprio estoque de 1985 (b).}
+\label{fig:fronteira}
+\includegraphics[width=\textwidth]{cap4_fronteira_oferta.pdf}
+\fontefig{elaboração própria (Pipeline~\#39). A parcela residual reúne tudo
+o que não é o tamanho do estoque --- propensão a converter, atrito de acesso,
+proteção e a troca de fonte de terra ---, e \textbf{não é uma medida de
+demanda}: lê-la como tal inverteria o sentido do argumento, que se monta por
+eliminação e por regularidade, e não pelo tamanho da parcela de estoque.}
+\end{figure}
+
+\subsection{O estoque ainda exposto à conversão}
+
+Comparados em hectares, os estoques escondem o que interessa, porque o Sul
+sempre foi a menor das três regiões. Postos na mesma régua --- cada região
+como percentual do que tinha em 1985 --- as trajetórias se separam. O Sul
+desce mais rápido e mais cedo, é o único que cruza os 60\%, e estabiliza a
+partir de 2019: perde dois pontos em cinco anos, contra 3,5 do Centro e 3,4
+do Norte, que seguem descendo juntos. Não é que o Sul tenha passado a
+preservar: é que restou pouco Cerrado em pé a ser suprimido.
+
+Em hectares, restam 6,56~Mha de vegetação natural ainda exposta à conversão
+em Goiás, cerca de 60\% do que havia em 1985, e o Norte concentra 44\%
+deles. O termo ``convertível'' mede exposição, e não disponibilidade: é o
+Cerrado que ainda pode ser perdido, não uma reserva de terra que este
+trabalho trate como aproveitável.
+
+A definição adotada --- formação savânica e campo nativo --- não é
+arbitrária, e decorre do que a própria depleção mostra: entre 1985 e 2024, a
+formação savânica perdeu 38,2\% de sua área e o campo nativo 42,5\%,
+enquanto a floresta perdeu 22,8\%. Savana e campo são as classes que a
+fronteira de fato consome. O limite da medida é declarado: sem cadastro
+ambiental integrado pixel a pixel, o estoque inclui Reserva Legal e Área de
+Preservação Permanente (APP) que
+na prática não podem ser convertidas, de modo que ele é um \emph{teto} --- a
+terra realmente exposta é menor que 6,56~Mha, nunca maior. Um cenário de
+sensibilidade descontando 20\% de Reserva Legal foi executado e não altera o
+ordenamento entre regiões.
+
+Esse limite merece ser levado às últimas consequências, porque nele mora a
+alternativa mais séria à leitura de teto de oferta. O que este trabalho
+elimina com dado é a \emph{proteção integral}: unidades de conservação de
+uso restrito cobrem parcela pequena do estado, estavam congeladas desde
+antes da freada e não explicam o momento em que o Sul desacelerou. Reserva
+Legal e APP são outra coisa. Elas incidem dentro de cada propriedade,
+ganharam fiscalização efetiva com o Cadastro Ambiental Rural a partir de
+2012 --- justamente na janela de interesse --- e tendem a morder mais forte
+onde o remanescente já é escasso, porque ali o que sobrou de vegetação
+tende a ser precisamente o passivo legal. No Sul depletado, portanto,
+``acabou a terra convertível'' e ``o que restou é legalmente inconversível''
+produzem a mesma série observada. O cenário de $-20\%$ testado acima
+compara regiões entre si e não separa essas duas leituras dentro do Sul;
+separá-las exigiria o cadastro ambiental integrado pixel a pixel, que este
+trabalho não teve. Fica registrado como limite, e não como questão vencida.
+
+Uma fronteira pode parar por duas razões muito diferentes --- porque a terra
+acabou ou porque a lei a barrou --- e as duas produzem o mesmo gráfico
+enquanto pedem políticas opostas. Em Goiás, a proteção não estava no caminho
+da fronteira. Se o teto fosse institucional, a proteção teria vindo antes da
+freada e estaria onde a fronteira vai; não veio, e não está. Dos 6,56~Mha
+ainda expostos, 6,35 estão fora de Unidade de Conservação de Proteção
+Integral: 97\% pela malha de unidades de conservação e 94,3\% quando a mesma
+conta é refeita pixel a pixel, que é a régua mais exigente. A Proteção
+Integral cobre menos de 3\% em qualquer região, e congelou: 76\% da que Goiás
+tem hoje já existia em 1985 e 89\% já existia em 2000 --- em quarenta anos
+ela cresceu 0,12~Mha, contra 4,11~Mha suprimidos do mesmo estoque convertível
+(os 10,67~Mha de savana e campo de 1985 reduzidos aos 6,56~Mha de hoje). O
+que cresceu nos anos 2000 foi o Uso Sustentável, que admite uso rural e não
+veda conversão.
+
+O sentido de ``desprotegido'' aqui é estreito e precisa ser dito: fora da
+única categoria que veda a conversão. Não significa livre para desmatar ---
+Reserva Legal e APP seguem valendo dentro de cada propriedade e protegem
+parte desse mesmo estoque, e é por isso que os 6,56~Mha são um teto. A conta
+mede outra coisa: se o instrumento de política que poderia deter a fronteira
+de propósito está no caminho dela. Não está --- e o Norte, que guarda 44\%
+do que resta, não tem pela frente área protegida que barre a conversão.
+
+\subsection{Custo de carbono e desenvolvimento municipal}
+
+Duas contas fecham a frente, e nenhuma é econômica no sentido usual.
+
+A primeira é de carbono. A conta segue a lógica de diferença de estoque do
+IPCC em seu nível mais simples (\emph{Tier}~1): a cada hectare convertido
+atribui-se a densidade de carbono da formação que havia ali, e a emissão é a
+diferença entre o estoque antes e depois. Duas declarações de escopo são
+devidas. A primeira é que a conta cobre apenas a \textbf{biomassa} --- acima
+e abaixo do solo ---, e \emph{não} o carbono do solo, que no Cerrado é
+parcela grande do estoque total; o número abaixo é, portanto, um piso do
+passivo, não o passivo. A segunda é que a faixa reportada não é intervalo de
+confiança estatístico: ela vem de rodar a mesma conta sob três conjuntos de
+densidades por formação --- baixo, central e alto (decisão D18) ---,
+colhidos da literatura de estoques do Cerrado
+\cite{Bustamante2012, Grace2006}, das diretrizes do \citeonline{IPCC2006} e,
+para a delimitação das fitofisionomias a que cada densidade se aplica, de
+\citeonline{RibeiroWalter2008}. Vale registrar que o Cerrado tem razão raiz:parte
+aérea alta, de modo que savana e campo estão longe de ser desprezíveis na
+conta. Assim precificada, a conversão comprometeu da ordem de
+973 milhões de toneladas (Mt) de dióxido de carbono equivalente
+(CO\textsubscript{2}e), em faixa de 751 a 1.208 conforme o cenário de
+densidade. Duas coisas surpreendem. A primeira é
+quem paga: a floresta perde 2,6 vezes menos área que a formação savânica e
+ainda assim emite mais (499 contra 458~Mt), porque é cerca de três vezes
+mais densa --- o custo de carbono não é proporcional à área. A segunda é
+quando se pagou: 80\% do total, 774~Mt, saiu no Ato~I, a 51,6~Mt por ano,
+com o Sul como maior emissor do período --- 307~Mt, ou 40\% do ato, a
+20,5~Mt por ano. Depois de 2001 o ritmo cai cerca de seis vezes (8,2~Mt por
+ano no Ato~II) e a geografia se inverte --- no Ato~III o Sul é o menor
+emissor (1,4~Mt/ano) e o Centro o maior (4,6). O centroide da emissão marcha
+98~km ao norte, atrás da fronteira. No acumulado dos quarenta anos, note-se,
+as três regiões emitem parcelas próximas (Sul 36\%, Norte 32\%, Centro
+32\%): o que distingue o Sul não é o total, é o fato de ele ter emitido cedo.
+
+A segunda conta é humana, e exige cuidado para não dizer mais do que mede.
+Entre 2013 e 2021, a fronteira norte quase dobrou a área cultivada
+($+93\%$, contra $+14\%$ no Sul). O desenvolvimento municipal, medido pelo
+Índice FIRJAN de Desenvolvimento Municipal (IFDM) --- indicador composto de
+emprego e renda, educação e saúde, publicado pela Federação das Indústrias do
+Estado do Rio de Janeiro ---, subiu em toda parte no período --- em Goiás, de
+0,49 a 0,63 --- mas
+subiu no Norte na mesma medida que no Sul, e o Norte terminou onde começou
+em relação a ele: o vão permanece intacto ($-0{,}083$ em 2023, IC 95\%
+$[-0{,}108; -0{,}058]$, contra $-0{,}092$ em 2013). Quase dobrar a área não
+comprou desenvolvimento adicional nem aproximou a fronteira do núcleo. Num
+painel de efeitos fixos dentro do município, dobrar a área vale 0,008 ponto
+de IFDM, contra os cerca de 0,15 que o índice subiu na década. A leitura é
+associativa, com o gradiente espacial controlado, e não causal.
+
+Vários dos resultados centrais deste capítulo são nulos, e um nulo mal
+enunciado converte-se numa afirmação maior do que a evidência sustenta; o
+alcance e os limites de cada um estão consolidados na
+Seção~\ref{sec:disc-limites}. Os resultados que teriam sido publicados se um
+teste específico não tivesse sido feito, e a distância entre cada versão
+superada e a que ficou no lugar, estão no Apêndice~\ref{ap:superados}.

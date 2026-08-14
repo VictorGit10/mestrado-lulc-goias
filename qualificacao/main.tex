@@ -1,0 +1,158 @@
+% =====================================================================
+% Texto de qualificação — Mestrado Profissional em Ciências Ambientais
+% PPGCIAMB / UFG — "A marcha ao norte" (LULC em Goiás, 1985–2024)
+%
+% Classe: abnTeX2 (ABNT NBR 14724) + abntex2cite alfabético (NBR 6023/10520)
+% Compilação: .\compilar.ps1  (pdflatex -> bibtex -> pdflatex x2)
+% =====================================================================
+\documentclass[
+  12pt,
+  oneside,          % frente única (mudar p/ twoside na versão de depósito)
+  a4paper,
+  chapter=TITLE,
+  section=TITLE,
+  english,          % p/ o abstract
+  brazil            % idioma principal (último = ativo)
+]{abntex2}
+
+% ---------------------------------------------------------------------
+% Pacotes
+% ---------------------------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{newtxtext,newtxmath}  % Times (padrão visual acadêmico BR)
+\renewcommand*\ttdefault{lmtt}    % typewriter da Latin Modern: tem itálico
+                                  % real (a txtt inclinada vira bitmap e falha)
+\usepackage{microtype}
+\usepackage{indentfirst}   % recua também o 1o parágrafo após título. O default
+                           % do LaTeX/memoir é não recuar (\noindentafterchapter);
+                           % a prática brasileira recua todos, sem exceção.
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage[alf]{abntex2cite}   % citações ABNT autor-data
+
+\graphicspath{{fig/}}
+
+% Títulos em fonte 12 (padrão das normas universitárias BR: tamanho único,
+% hierarquia por negrito/caixa alta; o default \Large do abnTeX2 destoa)
+\renewcommand{\ABNTEXchapterfontsize}{\normalsize}
+\renewcommand{\ABNTEXsectionfontsize}{\normalsize}
+\renewcommand{\ABNTEXsubsectionfontsize}{\normalsize}
+\renewcommand{\ABNTEXsubsubsectionfontsize}{\normalsize}
+\renewcommand{\ABNTEXsubsubsubsectionfontsize}{\normalsize}
+
+% Nota de trabalho: orientação visível no PDF sobre o que cada trecho
+% ainda vai receber. Some quando o texto definitivo entrar no lugar.
+% (nome \notaguia porque \nota já pertence ao abntex2cite)
+\definecolor{notacinza}{gray}{0.40}
+\newcommand{\notaguia}[1]{%
+  \begin{quotation}\sloppy\small\itshape\color{notacinza}#1\end{quotation}}
+
+% Linha de fonte sob a figura (ABNT NBR 14724: título acima, fonte abaixo,
+% ambos em corpo menor). O minipage restaura o alinhamento à esquerda, que o
+% \centering do ambiente figure desfaria.
+\newcommand{\fontefig}[1]{%
+  \par\vspace{-0.4\baselineskip}%
+  \begin{minipage}{\textwidth}%
+    \footnotesize\SingleSpacing\raggedright Fonte: #1%
+  \end{minipage}}
+
+% ---------------------------------------------------------------------
+% Quadro como flutuante próprio. Convenção ABNT/IBGE adotada aqui: TABELA
+% traz dado numérico tratado; QUADRO traz informação textual ou esquemática.
+% A distinção é aplicada na designação, na numeração e na lista própria; a
+% moldura fechada que a norma tabular do IBGE prevê para quadros NÃO foi
+% adotada, para manter o mesmo traçado booktabs em todo o documento.
+% O memoir fornece \newfloat e \newlistof; a extensão .loq guarda a lista.
+% ---------------------------------------------------------------------
+\newfloat[chapter]{quadro}{loq}{Quadro}
+\newlistof{listofquadros}{loq}{Lista de Quadros}
+\newlistentry[chapter]{quadro}{loq}{0}
+\renewcommand{\cftquadroname}{Quadro\space}
+\renewcommand*{\cftquadroaftersnum}{\hfill\textendash\hfill}  % igual ao abntex2
+\counterwithout{quadro}{chapter}   % numeração corrida, como tabelas e figuras
+
+% ---------------------------------------------------------------------
+% Dados do trabalho
+% ---------------------------------------------------------------------
+\titulo{A marcha ao norte: dinâmica de uso e cobertura da terra em Goiás (1985--2024) e seus fatores socioeconômicos}
+\autor{Victor Alves Rodrigues Amaral}
+\local{Goiânia}
+\data{2026}
+\orientador{Prof. Dr. Laerte Guimarães Ferreira Júnior}
+\instituicao{%
+  Universidade Federal de Goiás\par
+  Programa de Pós-Graduação em Ciências Ambientais --- PPGCIAMB}
+\tipotrabalho{Texto de qualificação (Mestrado Profissional)}
+\preambulo{Texto de qualificação apresentado ao Programa de Pós-Graduação em
+Ciências Ambientais da Universidade Federal de Goiás, como requisito parcial
+para a obtenção do título de Mestre em Ciências Ambientais.}
+
+% Metadados do PDF
+\makeatletter
+\hypersetup{
+  pdftitle={\@title},
+  pdfauthor={\@author},
+  pdfsubject={Uso e cobertura da terra em Goiás, 1985-2024},
+  pdfkeywords={LULC, Cerrado, fronteira agrícola, Goiás, MapBiomas},
+  colorlinks=true,
+  linkcolor=blue!50!black,
+  citecolor=blue!50!black,
+  urlcolor=blue!50!black
+}
+\makeatother
+
+% Espaçamento 1,5 no texto (padrão ABNT)
+\OnehalfSpacing
+
+% Recuo de parágrafo de 1,25 cm (convenção dos manuais universitários BR; o
+% default herdado da memoir é ~0,62 cm, metade disso)
+\setlength{\parindent}{1.25cm}
+
+\begin{document}
+
+\frenchspacing
+
+% =====================================================================
+% PRÉ-TEXTUAIS
+% =====================================================================
+\imprimircapa
+\imprimirfolhaderosto
+
+\input{pre/resumo}
+\input{pre/abstract}
+
+\pdfbookmark[0]{\listfigurename}{lof}\listoffigures*\cleardoublepage
+\pdfbookmark[0]{\listtablename}{lot}\listoftables*\cleardoublepage
+\pdfbookmark[0]{Lista de Quadros}{loq}\listofquadros*\cleardoublepage
+
+\input{pre/siglas}
+
+\pdfbookmark[0]{\contentsname}{toc}
+\tableofcontents*
+\cleardoublepage
+
+% =====================================================================
+% TEXTUAIS
+% =====================================================================
+\textual
+
+\include{cap/00_apresentacao}   % Memorial (não numerado)
+\include{cap/01_introducao}
+\include{cap/02_referencial}
+\include{cap/03_metodologia}
+\include{cap/04_resultados}
+\include{cap/05_discussao}
+\include{cap/06_cronograma}
+
+% =====================================================================
+% PÓS-TEXTUAIS
+% =====================================================================
+\postextual
+
+\bibliography{ref/referencias}
+
+\include{pos/apendices}
+
+\end{document}
