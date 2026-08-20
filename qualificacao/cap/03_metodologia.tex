@@ -835,17 +835,25 @@ estoque inicial era próximo de zero e cujo estoque \emph{cresceu} ao longo da
 série por oscilação de classificador. Padronizada, a variável passou a ser
 dominada por esses poucos valores, e o coeficiente foi achatado contra zero.
 
-A decisão D29 fixa duas regras que valem para além deste caso. A primeira é que
+A decisão D29 fixa três regras que valem para além deste caso. A primeira é que
 \textbf{toda variável com domínio declarado é verificada contra ele antes de
 entrar padronizada} --- um z-score não é robusto a nada, e um único valor
 oitenta vezes fora de escala redefine a unidade de medida de toda a coluna. A
-segunda é que, onde há tratamento possível para um valor extremo, o resultado
-reportado é o que \emph{concorda entre os tratamentos}, e não o de um deles: a
-correção foi aceita porque cinco réguas independentes (piso no limite inferior,
-restrição ao domínio, ponderação pelo tamanho do denominador, e duas
-combinações delas) devolvem o mesmo sinal e a mesma ordem de grandeza, e não
-porque a régua nova fosse mais conveniente que a antiga. O desfecho está na
-Seção~\ref{sec:res-perna4}.
+segunda é que, onde há tratamento possível para um valor fora do domínio, o
+resultado reportado é o que \emph{concorda entre os tratamentos}, e não o de um
+deles: a correção foi aceita porque uma grade de dezesseis combinações --- quatro
+tratamentos da variável, com e sem ponderação pelo tamanho do denominador, em
+duas amostras --- devolve o mesmo sinal nas dezesseis, e não porque a régua nova
+fosse mais conveniente que a antiga. Comparar tratamentos, porém, exige
+convertê-los à mesma unidade: o desvio-padrão da variável tratada varia
+dezessete vezes de um tratamento a outro, de modo que os coeficientes
+padronizados \emph{não} são comparáveis entre si, e é o coeficiente em unidade
+natural que autoriza dizer que concordam. A terceira regra é que \textbf{a
+verificação de um resultado herda a régua de inferência do teste verificado}
+--- aqui, o agrupamento duplo por unidade e por ano que o teste de origem adota
+sempre que há efeito fixo de ano. Trocá-la por uma régua mais frouxa no meio da
+conferência produziria uma robustez que é da régua, e não do dado. O desfecho
+está na Seção~\ref{sec:res-perna4}.
 
 \subsection{Lotação em cabeças por hectare}
 
