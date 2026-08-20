@@ -215,7 +215,7 @@ já arredondados dá 0,69). Segundo, agricultura: aqui ela é a classe de
 lavoura \textbf{sem} a silvicultura, ao passo que o agrupamento em sete
 classes a inclui --- em 2024, 5,58~Mha nesta tabela contra 5,73~Mha lá, e a
 diferença é a silvicultura, 0,16~Mha. É por isso que os fluxos de entrada em
-agricultura discutidos adiante (4,01~Mha, do censo) não fecham por subtração
+agricultura discutidos adiante (4,65~Mha, do censo) não fecham por subtração
 com o acréscimo desta tabela (4,41~Mha): eles são medidos em réguas de classe
 distintas, e uma terceira razão se soma, a de que o cruzamento entre as duas
 pontas conta o estado inicial e o final do pixel, e não cada passagem
@@ -231,8 +231,11 @@ transição entre classes já manejadas, e é ela que permite a expansão da
 lavoura sem desmatamento direto; e a conversão direta de vegetação natural
 em agricultura, com 1,29~Mha, menor que a rota via pasto, mas existente e
 com peso crescente no nordeste após 2010. A pastagem é, portanto, o elo
-intermediário da maior parte da entrada em agricultura: 2,72 dos
-4,01~Mha, ou 68\%.
+intermediário da maior parte da entrada em agricultura: 2,72 dos 4,65~Mha
+que entram na classe, ou 58\%. Entre as duas rotas que vêm de fora do sistema
+já manejado --- pasto e vegetação natural ---, a proporção sobe a 68\%; o
+restante da entrada vem sobretudo do próprio Mosaico de Usos (0,56~Mha), que
+por isso não pode ficar fora do denominador.
 
 Um quarto fluxo, de 1,00~Mha de vegetação natural para Mosaico de Usos,
 foi mantido fora da conta de conversão antrópica: incluí-lo faria a medida
@@ -409,7 +412,7 @@ de uma classe parada com duas que andaram. Trata-se de uma autocorreção: o
 número médio do agregado escondia comportamentos distintos por dentro. Toda a
 marcha vem com barra de erro, pela decisão D19.
 
-A quinta verificação é sobre a própria barra de erro. O \emph{bootstrap} da
+A quarta verificação é sobre a própria barra de erro. O \emph{bootstrap} da
 decisão D19 sorteia AMCs uma a uma, e o diagnóstico espacial do
 Capítulo~\ref{cap:metodologia} mostra que elas não são independentes: onde há
 dependência entre vizinhas, o intervalo assim obtido é estreito demais.
@@ -422,7 +425,7 @@ tabela, portanto, não depende de tratar as unidades como independentes. O
 único ponto em que a régua importa é a componente leste da agricultura, que
 passa a incluir zero quando os blocos chegam a oito AMCs.
 
-E não é deslocamento genérico, o que dois controles estabelecem. A área urbana
+E a quinta mostra que não é deslocamento genérico, por dois controles. A área urbana
 não acompanha e anda 8~km para o sul (IC $[-19; -1{,}5]$), no sentido oposto
 ao da fronteira. E o leite, pecuária da bacia consolidada do Sul, sobe menos
 da metade do que sobe o rebanho total ($+30$ contra $+67$~km), e o vão entre
@@ -431,8 +434,9 @@ marcha é a pecuária de corte na fronteira, e não o mapa inteiro subindo.
 
 Há ainda uma camada a mais, e ela vai à frente das demais: o centro de massa
 do fogo em vegetação natural fica ao norte do centro da conversão em todos os
-39 anos em que as duas séries coexistem (a de fogo começa um ano depois da de
-cobertura), com dianteira média de 73~km, sem nunca trocar de lado. É uma
+39 anos em que as duas séries coexistem, de 1985 a 2023 --- a de conversão
+termina um ano antes, porque cada transição é rotulada pelo ano de origem do
+par ---, com dianteira média de 73~km, sem nunca trocar de lado. É uma
 vanguarda geográfica, e apenas isso. A leitura de que o fogo abriria caminho
 foi testada e não se sustenta no tempo: a liderança temporal desaparece sob
 transformação logarítmica, inverte quando se removem os anos de seca de 1985 e
@@ -523,8 +527,9 @@ somadas. As duas objeções foram testadas isolando cada recorte.
 
 \textbf{Não são regiões somadas.} Percorridas as cinco mesorregiões, o
 desenho é praticamente o mesmo. As cinco são bimodais, e também o são todas
-as 166 AMCs na régua imune à mudança de rótulo (na régua estrita, 162 de
-164, e as duas exceções falham pelo mesmo lado, com peso do grupo jovem baixo
+as 166 AMCs na régua imune à mudança de rótulo (na régua estrita, 162 das
+164 que registram conversão suficiente para o ajuste, e as duas exceções
+falham pelo mesmo lado, com peso do grupo jovem baixo
 demais para o teste, não ausência de dois grupos). A mesorregião explica
 0,5\% da variação da idade.
 
@@ -633,7 +638,10 @@ estimativas são negativas.} Nenhuma cai na região que a hipótese exige; todas
 vão na direção oposta. Quando a lavoura dos vizinhos ao sul cresce, o pasto
 local diminui, em vez de aumentar. Não se trata de um p-valor rejeitando uma
 tese, e sim da ausência de um sinal que a hipótese exigia, procurado em doze
-recortes e não encontrado em nenhum.
+recortes e não encontrado em nenhum. Cabe declarar o que essa contagem não é:
+as doze células não trazem cálculo de poder próprio, de modo que o que elas
+estabelecem é o \emph{sinal} do coeficiente, e não a exclusão de um empurrão
+pequeno. O poder declarado adiante é o do teste temporal.
 
 Onze das doze estimativas não são significativas. A décima segunda tem $p =
 0{,}02$, e o lugar em que ela aparece decide o peso que pode ter: é a régua da
@@ -794,7 +802,15 @@ $0{,}30$, isto é, deixa de ser significativa mesmo sob a inferência otimista.
 Enquanto isso a latitude quase não se move
 ($+0{,}051$ para $+0{,}046$; $p$ de permutação $= 0{,}053$). Com as três exposições no modelo,
 a aptidão fica em $-0{,}026$ ($p = 0{,}13$) e a latitude em $+0{,}081$
-($p = 0{,}079$). A Figura~\ref{fig:horserace} põe as seis especificações lado a
+($p = 0{,}079$). Esta última especificação é a que menos favorece a leitura
+adotada, e por isso convém dizer o que ela faz e o que não faz: com as três
+exposições disputando o mesmo choque, a aptidão recupera parte da magnitude e
+a latitude deixa de cruzar os 5\%. Ela não desfaz a decisão D28, porque a
+decisão se apoia em a aptidão \emph{perder} significância diante do confundidor
+puro, e não em a latitude \emph{ganhá-la}. O que a especificação com as três
+mostra é a mesma coisa por outro lado: três gradientes correlacionados e cerca
+de 38 realizações do choque não se separam entre si --- que é o veredito
+reportado. A Figura~\ref{fig:horserace} põe as seis especificações lado a
 lado. Os dois sinais dizem a mesma coisa em vocabulários diferentes,
 porque ao norte a aptidão é baixa; o que a corrida decide é qual rótulo o dado
 sustenta, e ele sustenta o do eixo, não o do solo.
@@ -1174,6 +1190,10 @@ Ato~I, a 51,6~Mt por ano, com o Sul como maior emissor do período
 (307~Mt, ou 40\% do ato, a 20,5~Mt por ano). Depois de 2001 o ritmo cai quase
 sete vezes, para 7,6~Mt por ano no Ato~II, e a geografia se inverte: no
 Ato~III o Sul é o menor emissor (1,4~Mt/ano) e o Centro o maior (4,6). O
+ritmo não segue caindo daí em diante: somadas as três regiões, o Ato~III emite
+cerca de 9~Mt por ano, acima do Ato~II --- comparação que depende da convenção
+de denominador (intervalos ou anos) e por isso não é reportada como
+percentual. O
 centroide da emissão marcha 98~km ao norte, atrás da fronteira. No acumulado
 dos quarenta anos, note-se, as três regiões emitem parcelas próximas (Sul
 36\%, Norte 32\%, Centro 32\%): o que distingue o Sul é ter emitido cedo, e

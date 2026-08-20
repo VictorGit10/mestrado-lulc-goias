@@ -126,11 +126,16 @@ territoriais oficiais --- inclusive a de unidades de conservação, do Cadastro
 Nacional de Unidades de Conservação --- obtidas pelo pacote \emph{geobr}
 \cite{Pereira2019geobr}.
 
-\begin{quadro}[htb]
+% Este quadro é mais alto que a mancha em corpo \small: nessa medida ele
+% estourava a margem inferior e, por ser adiado, empurrava para o fim do
+% capítulo os dois quadros seguintes (floats não se reordenam). Em
+% \footnotesize ele cabe, e o [p] autoriza a página de flutuante que um
+% quadro desta altura pede.
+\begin{quadro}[p]
 \centering
 \caption[Fontes de dados: cobertura e papel na análise]{Fontes de dados: cobertura temporal e papel na análise.}
 \label{quadro:fontes}
-\small
+\footnotesize
 \begin{tabular}{p{3.6cm}p{2.4cm}p{7.6cm}}
 \toprule
 \textbf{Fonte} & \textbf{Cobertura} & \textbf{Papel na análise} \\
@@ -581,7 +586,8 @@ esperado da interação é, portanto, negativo. Essa divisão de trabalho com a
 literatura é explícita (Seção~\ref{sec:ref-cambio}).
 
 A inferência exigiu tratamento próprio. Para desenhos \emph{shift-share} com um único \emph{shifter}, o
-erro-padrão agrupado é otimista \cite{Adao2019, Borusyak2022}. Ele foi substituído por inferência por
+erro-padrão agrupado é otimista \cite{Adao2019, Borusyak2022}. A decisão D20
+fixa a consequência: ele foi substituído por inferência por
 permutação do \emph{shifter}. A série anual do câmbio é reembaralhada entre os anos,
 mantidas fixas as \emph{shares}, a interação e o coeficiente são recomputados a cada
 replicação, e o p-valor é a fração de coeficientes nulos que igualam ou
@@ -906,7 +912,7 @@ visualizações, e auditorias de consistência entre o que os dados dizem e o qu
 os documentos afirmam. A formulação das perguntas de pesquisa, as decisões
 metodológicas e a interpretação dos resultados permanecem do pesquisador. Essa
 distinção não é retórica. As decisões numeradas ao longo deste capítulo, e as
-quatro descritas na Seção~\ref{sec:met-decisoes}, são escolhas de desenho,
+seis descritas na Seção~\ref{sec:met-decisoes}, são escolhas de desenho,
 tomadas diante de alternativas com custos diferentes, e é sobre elas que recai
 a responsabilidade autoral.
 
@@ -988,7 +994,7 @@ afirmação depende exclusivamente desse período, a fragilidade é declarada.
 
 \textbf{Restrições de cobertura das fontes.} O crédito rural só existe em
 série municipal a partir de 2013: os resultados que o envolvem descrevem uma
-janela de cerca de oito anos, e não as quatro décadas. O IDH-M não é publicado
+janela de pouco mais de uma década, e não as quatro. O IDH-M não é publicado
 após 2010. O Censo Agropecuário fornece variáveis de manejo apenas para 2017,
 em corte transversal. O painel com efeitos fixos controla o que é fixo no
 lugar e o que é comum ao ano, mas não um determinante que varie dentro do

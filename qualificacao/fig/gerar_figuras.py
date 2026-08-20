@@ -21,6 +21,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
+from matplotlib.ticker import FuncFormatter
+
 from estilo import (
     CORES,
     CORES_CLASSES,
@@ -32,7 +34,29 @@ from estilo import (
     norte,
     pronta_para_cartografia,
     salvar,
+    virgula,
 )
+
+
+def eixo_virgula(ax, eixo: str = "x", casas: int | None = None) -> None:
+    """Vírgula decimal nos rótulos de eixo, como no corpo do texto.
+
+    O corpo escreve $-0{,}52$ e as figuras vinham com -0.52. O formatador
+    existia em ``estilo.virgula`` desde o começo e nunca fora aplicado.
+
+    ``casas`` fixa o número de decimais. Serve para os eixos cujos ticks
+    foram escolhidos a dedo: sem isso o %g de ``virgula`` come o zero final
+    e a régua -0,15 / -0,10 / -0,05 sai desalinhada.
+    """
+    if casas is None:
+        fmt = FuncFormatter(virgula)
+    else:
+        fmt = FuncFormatter(
+            lambda x, _p: f"{x:.{casas}f}".replace(".", ",").replace("-", "−")
+        )
+    for e in eixo:
+        alvo = ax.xaxis if e == "x" else ax.yaxis
+        alvo.set_major_formatter(fmt)
 
 
 # ==========================================================================
@@ -240,6 +264,7 @@ def fig_teste_espacial() -> None:
         ax.set_yticklabels(s.rotulo, fontsize=7)
         ax.set_xlim(-0.36, 0.36)
         ax.set_xticks([-0.3, -0.15, 0, 0.15, 0.3])
+        eixo_virgula(ax, "x")
         ax.set_title(titulo, fontsize=8, pad=4)
         ax.grid(axis="y", visible=False)
 
@@ -301,7 +326,7 @@ def fig_horse_race() -> None:
             ax.hlines(y, r.beta - 1.96 * r.se, r.beta + 1.96 * r.se, color=c, lw=1.1)
             ax.plot(r.beta, y, "o", color=c, markersize=3.4)
             # p de permutação ao lado do ponto: é a régua defensável
-            ax.annotate(f"{curto[r.exposicao]}  p={r.p_circular:.2f}",
+            ax.annotate(f"{curto[r.exposicao]}  p={r.p_circular:.3f}".replace(".", ","),
                         xy=(r.beta + 1.96 * r.se, y), xytext=(3, 0),
                         textcoords="offset points", fontsize=6, color=c,
                         va="center")
@@ -319,6 +344,7 @@ def fig_horse_race() -> None:
     ax.set_ylim(y + 0.5, 1.9)
     ax.set_xlim(-0.16, 0.27)
     ax.set_xticks([-0.15, -0.10, -0.05, 0, 0.05, 0.10, 0.15])
+    eixo_virgula(ax, "x", casas=2)
     ax.set_xlabel("β da interação câmbio(t−1) × exposição  →  Δ rebanho bovino",
                   fontsize=9)
     ax.grid(axis="y", visible=False)
@@ -439,6 +465,7 @@ def fig_centro_massa() -> None:
     )
 
     ax2.set_xlim(1985, 2024)
+    eixo_virgula(ax2, "y", casas=1)
     ax2.set_xlabel("ano")
     ax2.set_ylabel("latitude do centro de massa (°)\nmais alto = mais ao norte")
     ax2.set_title("(b) faixa = IC 95% por bootstrap das AMCs", loc="left", fontsize=8)
@@ -536,6 +563,7 @@ def fig_idade_pastagem() -> None:
 
     ax1.set_xlim(0, 40)
     ax1.set_ylim(0, 0.099)
+    eixo_virgula(ax1, "y", casas=2)
     ax1.set_xlabel("idade da pastagem na conversão (anos)")
     ax1.set_ylabel("densidade dos eventos")
     ax1.legend(loc="upper right", handlelength=1.4, borderpad=0.2,
