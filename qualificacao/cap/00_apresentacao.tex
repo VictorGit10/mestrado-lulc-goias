@@ -4,13 +4,30 @@
 % sem isto as páginas seguintes herdam o "SUMÁRIO" da seção anterior.
 \markboth{Apresentação --- memorial}{Apresentação --- memorial}
 
+\destaque{%
+\textbf{A visualização interativa}\par\medskip
+Este trabalho tem um produto que a página impressa não comporta. Os quarenta
+anos de mapas, as quatro frentes de evidência, o registro das vinte e nove
+decisões metodológicas e o glossário das métricas foram organizados numa
+visualização interativa, construída com apoio de inteligência artificial ---
+o mesmo instrumento que me deu autonomia para programar a análise, e cujo uso
+está declarado na Seção~\ref{sec:met-ia}. Nela os mapas são percorridos ano a
+ano, cada número remete ao dado que o gerou, e as figuras deste texto aparecem
+no contexto do argumento que sustentam.\par\medskip
+A leitura deste documento é autossuficiente. Ainda assim, recomenda-se o
+acesso à visualização, de preferência antes dos capítulos de resultados e
+discussão:\par\medskip
+\begin{center}\normalsize\url{\urlviz}\end{center}}
+
+\bigskip
+
 \section*{Trajetória e formação}
 
 Sou graduado em Ciências Econômicas pela Universidade Federal de Goiás
 (UFG, 2024). Ainda durante a graduação, em 2023, ingressei no Laboratório de
 Sensoriamento Remoto e Geoprocessamento (LAPIG/UFG) como bolsista, para atuar
-no apoio à gestão de projetos. Aos poucos, além das atividades de gestão,
-passei a integrar também atividades de pesquisa, fazendo parte da equipe do
+no apoio à gestão de projetos. Aos poucos, além da gestão,
+passei a integrar atividades de pesquisa, fazendo parte da equipe do
 projeto Pasto Legal (\textit{pasto.legal}) e realizando trabalhos de
 desenvolvimento de automações, sites e ferramentas para o laboratório.
 
@@ -27,49 +44,47 @@ para outros a prática que eu vinha construindo.
 \section*{O percurso do mestrado}
 
 Cheguei ao Programa de Pós-Graduação em Ciências Ambientais (PPGCIAMB) pela
-relação estreita entre o LAPIG e o programa. O tema --- a dinâmica das
-pastagens em Goiás e seus fatores socioeconômicos --- está no encontro
-natural entre a minha formação de economista e a tradição do laboratório no
+relação estreita entre o LAPIG e o programa. O tema, a dinâmica das
+pastagens em Goiás e seus fatores socioeconômicos, está no encontro natural
+entre a minha formação de economista e a tradição do laboratório no
 monitoramento do uso da terra, especialmente no mapeamento de pastagens.
 
 A pesquisa começou com uma hipótese clássica: a pastagem como estágio
 intermediário da ocupação (vegetação $\to$ pasto $\to$ lavoura). O que ela
-se tornou foi decidido pelos dados. O percurso está documentado em 54
+se tornou foi decidido pelos dados. O percurso está documentado em 58
 pipelines de análise, com índice lógico, narrativa de construção e um
-registro de decisões metodológicas numeradas --- e foi esse percurso
-exploratório, com suas confirmações e refutações, que fez emergir a tese da
-``marcha ao norte'' apresentada neste texto. Esta dissertação nasce, assim,
-da vontade de contar as histórias que a série riquíssima de quatro décadas do
-MapBiomas guarda. Nesse caminho, os dados do Instituto Brasileiro de
-Geografia e Estatística (IBGE) também foram fundamentais, tanto para
-construir a narrativa central quanto para revelar faces que os mapas sozinhos
-não mostram.
+registro de decisões metodológicas numeradas. Foi esse percurso exploratório
+que fez emergir a tese da ``marcha ao norte'' apresentada neste texto. A
+dissertação nasce da vontade de contar as histórias que quatro décadas de
+mapas anuais guardam, uma profundidade temporal rara em dados de uso da
+terra. Nesse caminho, os dados do Instituto Brasileiro de Geografia e
+Estatística (IBGE) foram igualmente fundamentais, trazendo a dimensão
+socioeconômica (produção, rebanho, crédito) que os mapas sozinhos não
+carregam.
 
 \section*{O método de trabalho e o uso de inteligência artificial}
 
 Devo registrar com franqueza o meu ponto de partida: cheguei ao mestrado sem
-experiência prática de programação --- apenas noções básicas de lógica, R e
-Python --- e sem bagagem em geotecnologias. A ponte foi construída pela
+experiência prática de programação (apenas noções básicas de lógica, R e
+Python) e sem bagagem em geotecnologias. A ponte foi construída pela
 inteligência artificial. A partir de 2026, com o apoio e o incentivo do
 LAPIG, em especial do professor Laerte, comecei a integrar ferramentas de IA
 aos fluxos da gestão financeira dos projetos do laboratório; à medida que
 ganhei fluência, levei essa prática para o centro da pesquisa.
 
-O fluxo de trabalho que desenvolvi pode ser descrito assim: a curiosidade
-vem primeiro; dela nasce uma pergunta formulada com precisão; a IA me ajuda
-a materializar os scripts necessários para buscar a resposta nos dados; e,
-encontrado um achado, a IA me ajuda a materializar visualizações ---
-inclusive interativas --- que o tornem legível e verificável. As perguntas,
-as decisões metodológicas e a interpretação dos resultados permanecem
-minhas; o que a IA me fornece é autonomia para programar no ritmo da
-curiosidade.
+O fluxo de trabalho que desenvolvi parte da curiosidade, dela nasce uma
+pergunta formulada com precisão, e a IA me ajuda a traduzi-la em código
+capaz de buscar a resposta nos dados. Encontrado um achado, ela me ajuda a
+construir visualizações, inclusive interativas, que o tornem legível e
+verificável --- a que abre este texto é o produto dessa prática. As perguntas,
+as decisões metodológicas e a interpretação dos resultados permanecem minhas; o que a IA me fornece é autonomia para
+programar no ritmo da curiosidade.
 
 Essa autonomia cobra uma contrapartida de rigor, e a pesquisa a paga de
-forma auditável: um diário de 27 decisões metodológicas numeradas
-(Apêndice~\ref{ap:decisoes}), auditorias sistemáticas que rastreiam cada
+forma auditável: um diário de 29 decisões metodológicas numeradas
+(Seção~\ref{sec:met-decisoes}), auditorias sistemáticas que rastreiam cada
 número exibido até o arquivo de dados que o gerou, e autocorreções
-documentadas --- resultados que seriam publicados e foram superados por um
-teste a mais. A transparência operacional desse arranjo está declarada na
-metodologia (seção~\ref{sec:met-ia}); o que pertence a este memorial é o seu
-sentido formativo: foi por esse caminho que a curiosidade de um economista
-ganhou os instrumentos para interrogar quarenta anos de mapas.
+documentadas, isto é, resultados que seriam publicados e foram superados por
+um teste a mais. A transparência operacional desse arranjo está declarada na
+metodologia (seção~\ref{sec:met-ia}), e é a partir desse caminho que a curiosidade de um economista
+ganha os instrumentos necessários para interrogar quarenta anos de mapas.

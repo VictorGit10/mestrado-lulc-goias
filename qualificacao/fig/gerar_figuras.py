@@ -262,6 +262,78 @@ def fig_teste_espacial() -> None:
     salvar(fig, "cap4_teste_espacial")
 
 
+def fig_horse_race() -> None:
+    """A corrida entre exposições no desenho shift-share (#56, decisão D28).
+
+    Fonte: ``drive_horse_race_latitude.csv`` (#56).
+
+    A leitura da figura é o CONTRASTE entre as duas colunas de pontos: sozinha,
+    a aptidão fica claramente à esquerda do zero; acompanhada da latitude, ela
+    cruza o zero enquanto a latitude não cruza. Por isso as especificações
+    aparecem empilhadas na mesma escala, e não em painéis separados.
+
+    O intervalo desenhado é o do SE agrupado — que a auditoria do #54 mostrou
+    ser otimista neste desenho. Ele entra porque é o que se pode desenhar; o
+    p defensável (permutação circular) vai em anotação, e a diferença entre as
+    duas réguas está declarada na legenda.
+    """
+    d = pd.read_csv(DIR_PROC / "drive_horse_race_latitude.csv")
+
+    cores = {
+        "exp_apt_edafo": CORES["soja_sidra"],
+        "exp_latitude": CORES["agricultura"],
+        "exp_acesso": CORES["pastagem"],
+    }
+    curto = {
+        "exp_apt_edafo": "aptidão",
+        "exp_latitude": "latitude",
+        "exp_acesso": "acesso",
+    }
+    especs = ["S1", "S2", "S3", "S4", "S5", "S6"]
+
+    fig, ax = plt.subplots(figsize=(LARGURA_TEXTO, 3.1))
+
+    y, ticks, rotulos = 0.0, [], []
+    for cod in especs:
+        s = d[d.spec == cod]
+        for _, r in s.iterrows():
+            c = cores[r.exposicao]
+            ax.hlines(y, r.beta - 1.96 * r.se, r.beta + 1.96 * r.se, color=c, lw=1.1)
+            ax.plot(r.beta, y, "o", color=c, markersize=3.4)
+            # p de permutação ao lado do ponto: é a régua defensável
+            ax.annotate(f"{curto[r.exposicao]}  p={r.p_circular:.2f}",
+                        xy=(r.beta + 1.96 * r.se, y), xytext=(3, 0),
+                        textcoords="offset points", fontsize=6, color=c,
+                        va="center")
+            y -= 1
+        ticks.append(y + (len(s) + 1) / 2)
+        rotulos.append(cod)
+        y -= 0.7
+
+    ax.axvline(0, color="black", lw=0.7)
+    ax.set_yticks(ticks)
+    ax.set_yticklabels(rotulos, fontsize=8)
+    # limites com folga para a barra mais larga (S6) e para o rótulo que a
+    # segue: sem isso o IC do acesso sai pela esquerda e o da latitude, junto
+    # do seu p, pela direita
+    ax.set_ylim(y + 0.5, 1.9)
+    ax.set_xlim(-0.16, 0.27)
+    ax.set_xticks([-0.15, -0.10, -0.05, 0, 0.05, 0.10, 0.15])
+    ax.set_xlabel("β da interação câmbio(t−1) × exposição  →  Δ rebanho bovino",
+                  fontsize=9)
+    ax.grid(axis="y", visible=False)
+
+    ax.annotate("aptidão sozinha:\nlonge do zero", xy=(-0.033, 0),
+                xytext=(-0.155, 1.25), fontsize=6.5, style="italic",
+                color=cores["exp_apt_edafo"], va="center")
+    ax.annotate("com a latitude no modelo,\na aptidão cruza o zero",
+                xy=(-0.012, -4), xytext=(-0.155, -4.6), fontsize=6.5,
+                style="italic", color=CORES["neutro"], va="center")
+
+    fig.tight_layout()
+    salvar(fig, "cap4_horse_race")
+
+
 # ==========================================================================
 # Cap. 4 — Perna 1: a marcha ao norte
 # ==========================================================================
@@ -859,6 +931,7 @@ FIGURAS = {
     "cobertura": fig_painel_cobertura,
     "localizacao": fig_localizacao,
     "espacial": fig_teste_espacial,
+    "horserace": fig_horse_race,
     "fronteira": fig_fronteira_oferta,
     "idade": fig_idade_pastagem,
     "sankey": fig_sankey,

@@ -1,10 +1,51 @@
 % =====================================================================
 % Referências da qualificação — semeadas de Textos/referencia/referencial_marcha.md
 %
+% REGRA DE TRABALHO (não é mais enunciada no cap. 2 — em 19/ago/2026 o
+%   capítulo foi reestruturado e deixou de descrever as próprias decisões;
+%   a regra continua valendo, e vive aqui):
+%   só entra no corpo do texto a obra cujo TEXTO INTEGRAL foi obtido e
+%   conferido. Obra apontada pelo levantamento e ainda não lida NÃO é
+%   referência: vive na lista de leitura (§2.10) e não sustenta afirmação.
+%   Ao acrescentar entrada aqui, confira antes se ela passa nessa regra.
+%
+% ESCOPO da regra: ela governa a LITERATURA, isto é, a obra com que o texto
+%   dialoga. FONTE DE DADO é categoria distinta e não se submete a ela — as
+%   entradas do tipo misc que descrevem bases (MapBiomas, SIDRA, SICOR,
+%   Embrapa_Aptidao etc.) são insumo da análise e estão descritas no cap. 3;
+%   não sustentam argumento bibliográfico. (NÃO escrever arroba+tipo aqui:
+%   quebra o BibTeX mesmo dentro de comentário.)
+%
+% NÃO HÁ MAIS EXCEÇÕES, e é assim que deve ficar (autor, 19/ago/2026). As duas
+% que existiam viviam em nota de rodapé, e o autor rejeitou a nota: "as coisas
+% que não sabemos ainda e não temos certeza, podemos só não colocar no texto".
+% Resolvidas na raiz, não na justificativa:
+%   - Richards2012: passou a citar a versão que foi de fato LIDA (o Plan B
+%     Paper do MSU), em vez da publicada, que é paga e não foi lida.
+%   - Lefever1926 e Yuill1971: REMOVIDAS. Só se tinham metadados. A elipse de
+%     desvio-padrão segue descrita nos caps. 2 e 3, sem atribuição de origem.
+%   - Weiszfeld1937 não era exceção: o texto integral foi obtido (fac-símile do
+%     J-STAGE, ver ref/pdf/).
+%
 % Bloco 1: VERIFICADAS em 13/ago/2026 contra o PDF do artigo ou contra o
 %          Crossref. Metadados (autoria, ano, veículo, vol./nº/páginas, DOI)
 %          conferidos um a um. PDFs em ref/pdf/ (ver ref/pdf/LEIAME.md).
 % Bloco 2 (comentado): A CONFIRMAR antes de citar.
+%
+% SAÍDA em 15/ago/2026: Mather1992 foi REMOVIDA das referências (estava
+% citada no cap. 2 sem que o texto integral tivesse sido obtido — o LEIAME
+% já registrava "metadados conferidos por citações de terceiros, não pelo
+% original"). A transição florestal passou a ser sustentada por Rudel2005
+% (definição, p. 23) e Angelsen2007 (os quatro estágios, p. 3), ambas lidas.
+% Mather está na lista de leitura do §2.5. Dados para recriar a entrada quando
+% o texto integral for obtido pela CAPES. ATENÇÃO: escritos SEM o caractere
+% arroba de propósito. O BibTeX reconhece um tipo de entrada mesmo dentro de
+% linha comentada, e basta o arroba seguido do tipo para quebrar a compilação
+% — inclusive quando aparece entre aspas numa frase explicativa como esta.
+%   article / Mather1992
+%   author  = Mather, Alexander S.
+%   title   = The forest transition
+%   journal = Area / volume = 24 / number = 4 / pages = 367--379 / year = 1992
 % =====================================================================
 
 @techreport{Angelsen2007,
@@ -37,6 +78,10 @@
 % parser de nomes do BibTeX o trata como espaço e reintroduz o erro. Efeito
 % colateral aceito: as chaves também bloqueiam o caixa-alta do estilo ABNT, e
 % o sobrenome sai "Carneiro Filho" em vez de "CARNEIRO FILHO" na lista.
+% RETESTADO em 16/ago/2026 tirando as chaves: fica PIOR — o BibTeX passa a ler
+% "Filho" como sobrenome e perde o "Carneiro" ("FILHO, A. C." na lista e
+% "Filho e Costa (2016)" no texto). Manter as chaves. Das 5 ocorrências no PDF,
+% 3 (as \citeonline) saem certas e 2 perdem a caixa alta. É o melhor disponível.
 @techreport{CarneiroFilho2016,
   author      = {{Carneiro Filho}, Arnaldo and Costa, Karine},
   title       = {A expans{\~a}o da soja no {C}errado: caminhos para a ocupa{\c{c}}{\~a}o territorial, uso do solo e produ{\c{c}}{\~a}o sustent{\'a}vel},
@@ -95,16 +140,6 @@
   url     = {https://doi.org/10.1590/ts.v8i1.86141}
 }
 
-@article{Mather1992,
-  author  = {Mather, Alexander S.},
-  title   = {The forest transition},
-  journal = {Area},
-  volume  = {24},
-  number  = {4},
-  pages   = {367--379},
-  year    = {1992}
-}
-
 @article{Rausch2019,
   author  = {Rausch, Lisa L. and Gibbs, Holly K. and Schelly, Ian and Brand{\~a}o, Amintas and Morton, Douglas C. and {Carneiro Filho}, Arnaldo and Strassburg, Bernardo and Walker, Nathalie and Noojipady, Praveen and Barreto, Paulo and Meyer, Daniel},
   title   = {Soy expansion in {B}razil's {C}errado},
@@ -117,16 +152,22 @@
   url     = {https://doi.org/10.1111/conl.12671}
 }
 
-@article{Richards2012,
-  author  = {Richards, Peter D. and Myers, Robert J. and Swinton, Scott M. and Walker, Robert T.},
-  title   = {Exchange rates, soybean supply response, and deforestation in {S}outh {A}merica},
-  journal = {Global Environmental Change},
-  volume  = {22},
-  number  = {2},
-  pages   = {454--462},
-  year    = {2012},
-  doi     = {10.1016/j.gloenvcha.2012.01.004},
-  url     = {https://doi.org/10.1016/j.gloenvcha.2012.01.004}
+% Citada a versão LIDA: o Plan B Research Paper do MSU (Richards sozinho,
+% out/2012), de onde vêm os números do §2.5. Metadados conferidos na capa do
+% próprio PDF (ref/pdf/Richards2012_workingpaper_MSU.pdf). A versão de
+% periódico (Global Environmental Change 22(2):454-462, 4 autores, doi
+% 10.1016/j.gloenvcha.2012.01.004) é paga e NÃO foi lida — se o texto integral
+% for obtido pela CAPES, trocar por ela, que é a mais citável.
+@techreport{Richards2012,
+  author      = {Richards, Peter D.},
+  title       = {Exchange rates, soybean supply response, and deforestation in {S}outh {A}merica},
+  institution = {Michigan State University},
+  type        = {Plan B Research Paper},
+  address     = {East Lansing},
+  year        = {2012},
+  note        = {Plan B Research Paper, Department of Agricultural, Food, and
+                 Resource Economics, Michigan State University},
+  url         = {https://ageconsearch.umn.edu/record/138606/files/RichardsPlanB.pdf}
 }
 
 @article{Rudel2005,
@@ -255,29 +296,26 @@
   url     = {https://doi.org/10.1111/j.2517-6161.1995.tb02031.x}
 }
 
-@article{Lefever1926,
-  author  = {Lefever, D. Welty},
-  title   = {Measuring geographic concentration by means of the standard deviational ellipse},
-  journal = {American Journal of Sociology},
-  volume  = {32},
-  number  = {1},
-  pages   = {88--94},
-  year    = {1926},
-  doi     = {10.1086/214027},
-  url     = {https://doi.org/10.1086/214027}
-}
-
-@article{Yuill1971,
-  author  = {Yuill, Robert S.},
-  title   = {The standard deviational ellipse: an updated tool for spatial description},
-  journal = {Geografiska Annaler: Series B, Human Geography},
-  volume  = {53},
-  number  = {1},
-  pages   = {28--39},
-  year    = {1971},
-  doi     = {10.1080/04353684.1971.11879353},
-  url     = {https://doi.org/10.1080/04353684.1971.11879353}
-}
+% SAIDA em 19/ago/2026: Lefever (1926) e Yuill (1971), a origem da elipse de
+% desvio-padrao, foram REMOVIDAS. Delas so se tinham metadados (Crossref), nao
+% o texto integral -- e obra nao lida nao entra. A elipse e instrumento
+% auxiliar e continua descrita nos caps. 2 e 3, sem atribuicao de origem.
+% Dados para recriar as entradas quando os textos integrais forem obtidos
+% (escritos SEM o caractere arroba de proposito -- ele quebra o BibTeX mesmo
+% dentro de comentario):
+%   article / Lefever1926
+%   author  = Lefever, D. Welty
+%   title   = Measuring geographic concentration by means of the standard
+%             deviational ellipse
+%   journal = American Journal of Sociology / volume = 32 / number = 1
+%   pages   = 88--94 / year = 1926 / doi = 10.1086/214027
+%   article / Yuill1971
+%   author  = Yuill, Robert S.
+%   title   = The standard deviational ellipse: an updated tool for spatial
+%             description
+%   journal = Geografiska Annaler: Series B, Human Geography
+%   volume  = 53 / number = 1 / pages = 28--39 / year = 1971
+%   doi     = 10.1080/04353684.1971.11879353
 
 @article{Adao2019,
   author  = {Ad{\~a}o, Rodrigo and Koles{\'a}r, Michal and Morales, Eduardo},
@@ -375,6 +413,36 @@
   year         = {2025},
   note         = {Dispon{\'i}vel em: https://brasil.mapbiomas.org. Acesso em: 13 ago. 2026},
   url          = {https://brasil.mapbiomas.org}
+}
+
+% Fogo é COLEÇÃO E PRODUTO DISTINTOS da série de cobertura (Coleção 4 de área
+% queimada, não a 10.1 de uso da terra). Entrada própria para que a distinção
+% apareça na referência, e não só no texto.
+@misc{MapBiomas2025fogo,
+  author       = {{Projeto MapBiomas}},
+  title        = {Cole{\c{c}}{\~a}o 4 do Mapeamento Anual de {\'A}rea Queimada
+                  no {B}rasil ({MapBiomas} Fogo)},
+  howpublished = {Plataforma MapBiomas},
+  year         = {2025},
+  note         = {Dispon{\'i}vel em: https://brasil.mapbiomas.org/monitor-do-fogo.
+                  Acesso em: 13 ago. 2026},
+  url          = {https://brasil.mapbiomas.org/monitor-do-fogo}
+}
+
+% O SHIFTER do desenho de interação (Seção 3.6.5) mora aqui. A série é a GAC12
+% (câmbio efetivo real, deflator INPC, ponderação de exportações); os preços
+% recebidos vêm das séries de preços do produtor. Sem esta entrada o insumo
+% central da Perna 3 ficava sem procedência declarada.
+@misc{IPEA_Ipeadata,
+  author       = {{Instituto de Pesquisa Econ{\^o}mica Aplicada}},
+  title        = {Ipeadata: base de dados macroecon{\^o}micos, regionais e sociais},
+  howpublished = {Banco de dados},
+  year         = {2026},
+  note         = {Taxa de c{\^a}mbio efetiva real (s{\'e}rie GAC12, deflator {INPC},
+                  pondera{\c{c}}{\~a}o de exporta{\c{c}}{\~o}es) e pre{\c{c}}os
+                  recebidos pelo produtor. Dispon{\'i}vel em:
+                  http://www.ipeadata.gov.br. Acesso em: 13 ago. 2026},
+  url          = {http://www.ipeadata.gov.br}
 }
 
 @misc{IBGE_SIDRA,
@@ -487,13 +555,31 @@
 }
 
 % =====================================================================
-% A CONFIRMAR (verificar autoria/ano/veículo antes de citar; descomentar
-% quando conferido):
+% LISTA DE LEITURA (= §2.5 do cap. 2). NÃO são referências: nenhuma foi lida
+% integralmente e nenhuma sustenta afirmação do texto. Só viram entrada ativa
+% depois de obtido e conferido o texto integral. Manter esta lista em sincronia
+% com o §2.5 — o capítulo declara que ela é o resultado do levantamento.
 %
 % Boserup, E. (1965). The Conditions of Agricultural Growth. Allen & Unwin.
 % von Thünen, J.H. (1826). Der isolierte Staat.
-% Martins, J. de S. (1971). Frente pioneira: contribuição para uma
-%   caracterização sociológica. (SBPC, 23ª Reunião) [conferir veículo]
+% Ricardo, D. (1817). On the Principles of Political Economy and Taxation.
+%   [entrou no §2.5 em 15/ago/2026: a ordenação por QUALIDADE da terra é
+%   ricardiana, não thüneniana — Angelsen 2007 p. 5 assume, "como von Thünen",
+%   a planície homogênea, e p. 6 situa a renda "no mundo ricardiano". O cap. 2
+%   deixou de derivar o gradiente de aptidão de von Thünen.]
+% Mather, A.S. (1992). The forest transition. Area 24(4):367-379.
+%   [ver bloco do topo: removida das referências em 15/ago/2026]
+% Ramalho Filho, A.; Beek, K.J. (1995). Sistema de avaliação da aptidão
+%   agrícola das terras. 3. ed. rev. Rio de Janeiro: EMBRAPA-CNPS.
+%   [define o campo `simb_apt` da camada Embrapa usada como gradiente exógeno
+%   (scripts/aptidao_edafo_exposicao.py, l. 27); o argumento anticircularidade
+%   do §2.3.1 depende do que esse sistema classifica. Conferir os níveis de
+%   manejo A/B/C antes de chamar a camada de "atributo físico".]
+%
+% RESOLVIDO em 15/ago/2026: "Martins (1971)" saiu da lista de leitura. A obra
+% conferida e com PDF é Martins1996 (Tempo Social), que o cap. 5 já citava —
+% o cap. 2 a listava como pendente enquanto o cap. 5 a usava. Agora está no
+% corpo do cap. 2 (§2.3.7). Becker segue na lista.
 % Meyfroidt, P.; Lambin, E.F. (2011). Global forest transition... Annu. Rev.
 %   Environ. Resour., 36.
 % Seto, K.C. et al. (2012). Urban land teleconnections and sustainability.
@@ -507,16 +593,49 @@
 % Spera, S.A. et al. (2016). Land-use change affects water recycling in
 %   Brazil's last agricultural frontier. Global Change Biology, 22.
 %   [fonte candidata para a composição da expansão no MATOPIBA — conferir]
-% Lefever, D.W. (1926). Measuring geographic concentration by means of the
-%   standard deviational ellipse. AJS. [defesa do centróide, #32]
+% Noojipady, P. et al. (2017). Forest carbon emissions from cropland expansion
+%   in the Brazilian Cerrado biome. Environ. Res. Lett. 12(2):025004,
+%   doi 10.1088/1748-9326/aa5986. [par de verificação externa de Spera para a
+%   composição da expansão; acrescentado aqui em 17/ago/2026 — estava no §2.5
+%   e faltava nesta lista. TÍTULO CORRIGIDO em 19/ago/2026: o registro anterior
+%   ("Reduced deforestation and forest degradation emissions from the Brazilian
+%   Cerrado") não corresponde a nenhuma obra de Noojipady — a varredura do
+%   Crossref por autor em 2016-2018 devolve só a de ERL como sendo do Cerrado.
+%   Metadados conferidos no Crossref; o ARTIGO SEGUE NÃO LIDO.]
 %
-% USDA-ERS sobre a depreciação de 2015--2016 (citado em prosa no cap. 2,
-% seção do câmbio, ainda SEM referência): identificar o estudo específico.
+% Souza Jr., C.M. et al. (2020). Reconstructing three decades of land use and
+%   land cover changes in Brazilian biomes with Landsat archive and Earth
+%   Engine. Remote Sensing 12(17):2735.
+%   [entrou em 19/ago/2026. É o artigo da COLEÇÃO que o trabalho inteiro usa:
+%   método de classificação e acurácia por classe/bioma. Hoje a limitação
+%   central declarada (comportamento do classificador em 2020-24, D25/D26) se
+%   apoia só em medição própria — não há uma linha de literatura sobre a
+%   acurácia do instrumento. NÃO citar como fonte de dado: a base já é o
+%   MapBiomas2025 (misc); esta é literatura sobre o instrumento, e entra no
+%   corpo só depois de lida.]
+% Parente, L.; Ferreira, L. (2018). Assessing the spatial and occupation
+%   dynamics of the Brazilian pasturelands based on the automated
+%   classification of MODIS images from 2000 to 2016. Remote Sensing 10(4):606.
+%   [entrou em 19/ago/2026. Mapeamento e qualificação de pastagem — o objeto de
+%   partida da pesquisa e a linha do laboratório de origem. Buscar sobretudo se
+%   há série de QUALIDADE/degradação de pastagem em resolução compatível: é o
+%   dado que poderia responder a pergunta com que a Perna 2 termina (por que um
+%   pasto gira em 3 anos e outro fica 30) e que dado agregado municipal não
+%   alcança. ATENÇÃO ao conflito de interesse aparente: o orientador é coautor;
+%   isso não impede a citação, mas reforça que ela só entra depois de lida.]
+%
+% SOBRE Lefever/Yuill: saíram de vez em 19/ago/2026 (ver bloco de métodos,
+% acima). NÃO entram nesta lista de leitura: a elipse é instrumento auxiliar e
+% o texto deixou de atribuir-lhe origem. Se algum dia a atribuição voltar a
+% interessar, é obter o texto integral e recriar a entrada, não listar aqui.
+%
+% USDA-ERS sobre a depreciação de 2015--2016 (nomeado no §2.5, sem referência
+% por não ter sido lido): identificar o estudo específico.
 %
 % Métodos citados por epônimo no cap. 3 (conferir e incluir antes da versão
 % final): Newey & West (HAC); Quandt-Andrews (sup-F); Rodionov (STARS);
 % Toda & Yamamoto (VAR aumentado); Benjamini & Hochberg (FDR);
-% Weiszfeld (centro mediano); Yuill (elipse de desvio-padrão);
+% Weiszfeld (centro mediano);
 % Adão, Kolesár & Morales e Borusyak, Hull & Jaravel (inferência
 % shift-share); MapBiomas Coleção 10.1 (citação formal da base).
 % =====================================================================

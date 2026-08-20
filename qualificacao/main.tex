@@ -42,6 +42,15 @@
 \renewcommand{\ABNTEXsubsubsectionfontsize}{\normalsize}
 \renewcommand{\ABNTEXsubsubsubsectionfontsize}{\normalsize}
 
+% Títulos em Times negrito, não em sans-serif. O abnTeX2 define
+% \ABNTEXchapterfont = \sffamily; como newtxtext só troca a romana (corpo +
+% math) e não a sans, os títulos vinham em Latin Modern Sans (Computer Modern)
+% enquanto o corpo ficava em Times --- duas famílias visíveis. ABNT não exige
+% sans nos títulos; negrito Times dá fonte única e é o padrão visual acadêmico.
+% Seção/subseção/... herdam deste comando, assim como a capa, a folha de rosto
+% e o título "Sumário".
+\renewcommand{\ABNTEXchapterfont}{\normalfont\bfseries}
+
 % Nota de trabalho: orientação visível no PDF sobre o que cada trecho
 % ainda vai receber. Some quando o texto definitivo entrar no lugar.
 % (nome \notaguia porque \nota já pertence ao abntex2cite)
@@ -57,6 +66,40 @@
   \begin{minipage}{\textwidth}%
     \footnotesize\SingleSpacing\raggedright Fonte: #1%
   \end{minipage}}
+
+% Nota da ilustração. A norma separa os dois campos: FONTE diz a procedência do
+% dado; NOTA esclarece como ler a figura (convenção de classe, recorte, escala,
+% o que uma linha pontilhada significa). Estavam os dois dentro de \fontefig, o
+% que fazia a "fonte" ocupar meia dúzia de linhas de explicação metodológica.
+\newcommand{\notafig}[1]{%
+  \par\vspace{-0.2\baselineskip}%
+  \begin{minipage}{\textwidth}%
+    \footnotesize\SingleSpacing\raggedright Nota: #1%
+  \end{minipage}}
+
+% Caixa de destaque. Usada uma única vez, na abertura, para o endereço da
+% visualização interativa. fbox+minipage em vez de um pacote de molduras:
+% mantém a lista de pacotes enxuta e o traçado igual ao do resto do texto.
+\newcommand{\destaque}[1]{%
+  \begin{center}%
+  \setlength{\fboxsep}{12pt}%
+  \fbox{\begin{minipage}{0.90\textwidth}%
+    \SingleSpacing\setlength{\parindent}{0pt}\small #1%
+  \end{minipage}}%
+  \end{center}}
+
+% Ficha do levantamento (§2.10): obra localizada e ainda não lida. Traz forma
+% bibliográfica completa para poder ser encontrada, e fica deliberadamente
+% fora das referências --- nenhuma delas foi lida nem sustenta afirmação do
+% texto. O verificar.py lê estas fichas para manter o §2.10 em sincronia com o
+% bloco de lista de leitura do .bib; por isso uma ficha por comando.
+\newcommand{\ficha}[1]{%
+  \par\begingroup\small\SingleSpacing
+  \hangindent=1.2em\hangafter=1\noindent #1\par\endgroup
+  \vspace{2pt}}
+
+% Endereço da visualização interativa, definido num só lugar.
+\newcommand{\urlviz}{https://victorgit10.github.io/mestrado-lulc-goias/Visualizacao/}
 
 % ---------------------------------------------------------------------
 % Quadro como flutuante próprio. Convenção ABNT/IBGE adotada aqui: TABELA
@@ -152,7 +195,5 @@ para a obtenção do título de Mestre em Ciências Ambientais.}
 \postextual
 
 \bibliography{ref/referencias}
-
-\include{pos/apendices}
 
 \end{document}
