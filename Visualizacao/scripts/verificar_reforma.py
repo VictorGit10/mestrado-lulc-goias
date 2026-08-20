@@ -234,10 +234,14 @@ def main():
         # lado do metodo que as pegou, na Perna ou na Oficina — nao aqui.
         if fecho.get("autocorrecoes") != 4:
             erros.append(f"painel de autocorrecoes com {fecho.get('autocorrecoes')} itens (esperava 4)")
-        if fecho.get("decisoes") != 27:
-            erros.append(f"{fecho.get('decisoes')} cards de decisao (esperava 27 = D1-D27)")
+        # O numero cresce quando uma decisao nova e tomada (D28 e D29 em 19/ago/2026:
+        # a exposicao do drive comum e regua, nao canal). Subir este valor faz
+        # parte de escrever a decisao — e o teste existe para que subir seja
+        # deliberado, nunca silencioso.
+        if fecho.get("decisoes") != 29:
+            erros.append(f"{fecho.get('decisoes')} cards de decisao (esperava 29 = D1-D29)")
         if not fecho.get("decisoesColapsadas"):
-            erros.append("as 27 decisoes deveriam comecar colapsadas (sao referencia)")
+            erros.append("as 29 decisoes deveriam comecar colapsadas (sao referencia)")
         if not fecho.get("inventarioCarregou"):
             erros.append("a vitrine do painel nao carregou")
 
