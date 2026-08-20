@@ -50,6 +50,17 @@ isso que (B) entra: a composição por fitofisionomia é medida no pixel e não 
 malha. Nenhuma das duas separa "difícil" de "proibido" -- para isso seria preciso o
 cadastro ambiental integrado pixel a pixel, que o trabalho não tem.
 
+A medida (B) tem um limite próprio, e ele restringe o que dela se pode afirmar. A
+fração florestal do remanescente sobe no ESTADO INTEIRO (37,0% -> 42,5%), e o excesso
+do Sul (+7,7 pontos) sobre a média estadual (+5,5) é de pouco mais de dois pontos. Uma
+subida comum a todas as regiões é o que se esperaria tanto de seleção quanto de DERIVA
+DE CLASSIFICADOR na borda savana <-> formação florestal -- resíduo que o projeto
+documenta como não medido (a oscilação medida é a de pasto <-> savana). A TENDÊNCIA,
+portanto, não separa as duas leituras. O que se afirma com segurança é o NÍVEL: em 2024
+três quintos do remanescente do Sul são formação florestal, contra um terço no Norte --
+e o Sul já entra na série em 52,2%, de modo que a diferença entre regiões é de
+fisiografia antes de ser de história, e não depende da tendência para valer.
+
 ENTRADAS
     data/processed/fronteira_estoque_convertivel.csv  (#39: estoque e hazard por AMC-ano)
     data/processed/aptidao_edafo_amc.csv              (#52: aptidão por AMC)
