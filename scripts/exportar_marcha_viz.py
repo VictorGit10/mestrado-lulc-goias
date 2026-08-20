@@ -136,7 +136,7 @@ def main() -> None:
     payload = {
         "meta": {
             "fonte": "Pipeline #32 (centro_massa.py) — painel AMC Goiás",
-            "crs": "lon/lat EPSG:4674 (reprojetado de EPSG:5880 equal-area)",
+            "crs": "lon/lat EPSG:4674 (reprojetado de EPSG:5880, Policônica do Brasil)",
             "nota": "ponto = centro médio ponderado; *M = centro mediano (Weiszfeld, robusto)",
         },
         "anos": anos,

@@ -35,7 +35,8 @@ MÉTODO
 ------
 1. WFS GetFeature paginado, recortado no bbox de GO -> cache GeoJSON.
 2. `simb_apt` -> grupo (1..6) -> score (7−grupo).
-3. Overlay com as 166 AMCs em EPSG:5880 (equal-area, reusa a máquina do #46);
+3. Overlay com as 166 AMCs em ESRI:102033 (South America Albers Equal Area
+   Conic — equal-area verdadeiro; reusa a máquina do #46);
    aptidão da AMC = média do score PONDERADA POR ÁREA dos polígonos que a cobrem.
    Variante de robustez: pct_apt_lavoura = % da AMC com grupo ≤ 3 (apta p/ lavoura).
 4. z-score sobre as 166 AMCs -> exp_apt_edafo (pronta p/ o #38).
@@ -81,7 +82,7 @@ DIR_OUT  = ROOT / "outputs" / "aptidao_edafo"
 DIR_RAW.mkdir(parents=True, exist_ok=True)
 DIR_OUT.mkdir(parents=True, exist_ok=True)
 
-CRS_AREA = 5880   # SIRGAS 2000 / Brazil Albers (equal-area)
+CRS_AREA = "ESRI:102033"   # South America Albers Equal Area Conic (equal-area verdadeiro, métrico)
 WFS_BASE = "https://geoinfo.dados.embrapa.br/geoserver/ows"
 WFS_LAYER = "geonode:aptidao_agr_bra"
 BBOX_GO  = (-19.6, -53.3, -12.3, -45.9)   # (minlat, minlon, maxlat, maxlon) p/ EPSG::4326
@@ -269,7 +270,7 @@ def main(sem_figuras: bool = False, force: bool = False) -> None:
                4: "pastagem plantada", 5: "silvic./past. natural", 6: "preservação"}.get(g, "s/ grupo")
         print(f"    grupo {g if pd.notna(g) else 'NaN'}: {n:>5} ({rot})")
 
-    print("\n[3] Zonal por AMC (área-ponderada, EPSG:5880):")
+    print("\n[3] Zonal por AMC (área-ponderada, ESRI:102033 Albers equal-area):")
     amc_apt = agregar_por_amc(apt)
     print(f"  {len(amc_apt)} AMCs com aptidão | score médio {amc_apt.apt_score_mean.mean():.2f} "
           f"(min {amc_apt.apt_score_mean.min():.2f}, max {amc_apt.apt_score_mean.max():.2f})")

@@ -79,7 +79,7 @@ def carregar_malha() -> gpd.GeoDataFrame:
     print("[...] Baixando/carregando malha municipal de Goiás (geobr)...")
     gdf = geobr.read_municipality(code_muni="GO", year=2020)
     gdf["code_muni"] = gdf["code_muni"].astype("int64")
-    # Reprojetar para EPSG:5880 (Albers Brasil, métrico) para corrigir o achatamento geográfico
+    # Reprojetar para EPSG:5880 (Policônica do Brasil, métrico) para corrigir o achatamento geográfico
     gdf = gdf.to_crs(5880)
     return gdf
 

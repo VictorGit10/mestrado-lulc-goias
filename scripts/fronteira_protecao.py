@@ -19,8 +19,10 @@ Unidades de Conservação, a proteção formal é um freio (ou uma pressão de c
 ABORDAGEM (overlay vetorial, sobre o painel AMC #25 e o estoque do #39)
 -----------------------------------------------------------------------
 Bloco A — COBERTURA DE PROTEÇÃO por AMC / região / latitude:
-    UCs (geobr/CNUC) recortadas em GO, intersectadas com as 166 AMCs em EPSG:5880
-    (equal-area). Distingue PROTEÇÃO INTEGRAL (PI) de USO SUSTENTÁVEL (US) — só a PI
+    UCs (geobr/CNUC) recortadas em GO, intersectadas com as 166 AMCs em ESRI:102033
+    (South America Albers Equal Area Conic — equal-area verdadeiro; o percentual de
+    proteção tem cross-check pixel a pixel independente — 94,3%). Distingue
+    PROTEÇÃO INTEGRAL (PI) de USO SUSTENTÁVEL (US) — só a PI
     veda a conversão; a US (ex.: APA) admite uso rural. Terras Indígenas (geobr)
     entram como camada complementar (mas em GO somam ~38 mil ha — negligível).
 
@@ -90,7 +92,7 @@ DIR_PROC = ROOT / "data" / "processed"
 DIR_OUT  = ROOT / "outputs" / "fronteira_protecao"
 DIR_OUT.mkdir(parents=True, exist_ok=True)
 
-CRS_AREA = 5880   # SIRGAS 2000 / Brazil Albers (equal-area)
+CRS_AREA = "ESRI:102033"   # South America Albers Equal Area Conic (equal-area verdadeiro, métrico)
 
 
 # ---------------------------------------------------------------------------

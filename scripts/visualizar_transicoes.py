@@ -69,7 +69,7 @@ def carregar_malha() -> "gpd.GeoDataFrame":
     gdf = geobr.read_municipality(code_muni="GO", year=2020)
     gdf["cd_mun"] = gdf["code_muni"].astype("int64")
     gdf = gdf.rename(columns={"name_muni": "nm_mun"})
-    # Reprojetar para EPSG:5880 (Albers Brasil, métrico) para corrigir o formato de Goiás
+    # Reprojetar para EPSG:5880 (Policônica do Brasil, métrico) para corrigir o formato de Goiás
     gdf = gdf.to_crs(5880)
     return gdf
 

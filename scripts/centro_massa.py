@@ -29,11 +29,12 @@ territorialmente constante 1985–2024, então o centro de massa não sofre o
 artefato de emancipação (um filho que se desmembra não cria salto espúrio no
 centroide do rebanho — Decisão D11).
 
-CRS: centroides e distâncias em EPSG:5880 (SIRGAS 2000 / Brasil Albers,
-EQUAL-AREA). Limitação honesta: Albers preserva área, não distância; para o
-deslocamento N–S de algumas dezenas a centenas de km dentro de GO o erro de
-escala é pequeno e aceitável para uma leitura descritiva. Latitudes para rótulo
-vêm de reprojetar o ponto-centro de volta para EPSG:4674.
+CRS: centroides e distâncias em EPSG:5880 (SIRGAS 2000 / Policônica do Brasil,
+projeção de compromisso — NÃO é equal-area). Limitação honesta: a policônica
+não preserva área nem distância exatamente, mas para o deslocamento N–S de
+algumas dezenas a centenas de km dentro de GO o erro de escala é pequeno e
+aceitável para uma leitura descritiva (o recálculo pixel a pixel bate em 1–2 km).
+Latitudes para rótulo vêm de reprojetar o ponto-centro de volta para EPSG:4674.
 
 LIMITAÇÃO: análise DESCRITIVA. O centroide é sensível ao peso do aglomerado
 agrícola do Sudoeste (mas esse é justamente o ponto da narrativa). O mecanismo
@@ -102,7 +103,7 @@ ARQ_ROB_DERIVA_DESLOC = DIR_PROCESSED / "centro_massa_robustez_deriva_desloc.csv
 BOOT_B    = 2000   # nº de reamostras do bootstrap (IC do deslocamento/latitude)
 BOOT_SEED = 42     # semente p/ reprodutibilidade do bootstrap
 
-CRS_METRICO = 5880   # SIRGAS 2000 / Brasil Polyconic Albers (equal-area, metros)
+CRS_METRICO = 5880   # SIRGAS 2000 / Policônica do Brasil (compromisso, métrico — NÃO equal-area)
 CRS_GEO     = 4674   # SIRGAS 2000 geográfico (para rótulos de lon/lat)
 
 # Componentes da vegetação natural (consistente com pct_natural_lulc no #25/#16).
