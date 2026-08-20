@@ -1087,11 +1087,16 @@ chute** (`log1p(deplecao_refinada)`) e obtive sinal TROCADO; a spec real é
 `deplecao_prev` é documentada como fração 0..1 e vai a **−84,9** em **14%** do
 painel (920 de 6.379), de 46 AMCs com estoque de 1985 minúsculo (mediana 544 ha ×
 24.031 ha) cujo estoque *cresceu* — oscilação pasto↔savana pelo lado do estoque.
-Tratado por qualquer via, **inclusive a que não descarta linha alguma**, β<0 e
-significante (−0,07 a −0,31; 5 de 6 réguas). **A taxa CAI com a depleção** = atrito
-de oferta, que é a hipótese pré-declarada pelo próprio #39 para β<0. B1 segue
-identidade, quadrático segue nulo, e o **B2a já era −0,32 (p=0,002) na versão
-publicada** — já contrariava hazard constante.
+Tratado por qualquer via, **inclusive a que não descarta linha alguma**, β<0.
+**A taxa CAI com a depleção** = atrito de oferta, que é a hipótese pré-declarada
+pelo próprio #39 para β<0. B1 segue identidade e o quadrático segue nulo.
+
+> ⚠️ **Corrigido em 20/ago** (ver a seção seguinte): a faixa "−0,07 a −0,31 em 5 de 6
+> réguas, todas significantes" que este parágrafo trazia estava inflada por uma troca
+> de régua de erro-padrão, e comparava β em z de tratamentos com desvios-padrão
+> diferentes. E o **B2a não era −0,32 com p=0,002 na versão publicada**: o #39 publica
+> **p=0,0917**, que não cruza 5%. O p=0,002 era o da régua frouxa, atribuído por engano
+> ao pipeline de origem.
 
 **Isso conserta um problema que eu mesmo criara.** Minha reescrita anterior punha a
 Perna 4 num nulo fraco, depois de eu criticar o pipeline por pô-la numa identidade.
@@ -1152,6 +1157,80 @@ convenção de denominador (intervalos: 7,6→9,1; anos: 7,2→7,3). Reescrito p
 o enunciado que sobrevive às duas convenções: a emissão anual **não volta a
 cair**. E a perda de vegetação do Ato I é 0,27 Mha/ano (4× os atos seguintes),
 não 0,29 (5×), que eu havia obtido por subtração em vez de ler a série.
+
+### A régua trocada dentro do #39B (20/ago/2026)
+
+O autor pediu para checar se os pipelines da véspera valiam o esforço. Os quatro
+valem — o #56 custa uma afirmação ao trabalho, o #39B troca um nulo mal-lido por um
+mecanismo com sinal medido, o #57 fecha uma alternativa e o #55 responde a uma
+pergunta previsível de banca. Mas a conferência achou, **no #39B**, o defeito que a
+própria série de pipelines existe para caçar.
+
+**O que estava errado.** O #39 usa cluster duplo `entidade+ano` sempre que há efeito
+fixo de ano. O #39B rodou com cluster de **entidade apenas**, que é mais frouxo, sem
+declarar a troca. Sob a régua do pipeline-pai, duas das cinco réguas "todas
+significantes" não cruzam 5% — e uma delas é a retoricamente carregada, a de piso em
+zero, que não descarta nenhuma linha (p=0,053). Segundo defeito, do mesmo tipo: os β
+**em z não são comparáveis entre tratamentos**, porque o desvio-padrão do regressor
+tratado varia de 0,21 (domínio) a 3,54 (sem tratamento) — dezessete vezes. A faixa
+"−0,07 a −0,31" comparava réguas de tamanhos diferentes. Terceiro: o **B2a** foi
+citado como "já era −0,32 com p=0,002 na versão publicada"; o #39 publica **p=0,0917**.
+
+**O que o reparo fez.** O #39B passou a rodar uma **grade fatorial de 16 células** —
+4 tratamentos do regressor × com/sem ponderação pelo estoque × 2 amostras (todas as
+AMC-ano e o corte de 1.000 ha que o #57 já adotava para o hazard) —, com as **duas
+réguas de erro-padrão em colunas separadas** e o coeficiente também em **unidade
+natural**, que é a única em que dois tratamentos podem ser ditos concordantes. A
+conversão de unidade é conferida no próprio código contra a regressão em unidade
+bruta. O número publicado do B2a passa a ser **lido do CSV do #39**, não reestimado,
+para que a afirmação sobre "o que o #39 já dizia" não possa divergir do que ele diz.
+
+**O que sobrou de pé — mais firme do que antes.** β<0 nas **16 células**; cruza 5% em
+**11** sob a régua do #39. A única célula que não cruza em nenhuma das duas amostras é
+a **publicada**, que não corrige nem o regressor (domínio) nem o desfecho (razão sobre
+denominador minúsculo). Corrigido um dos dois, o sinal aparece; corrigidos os dois, ele
+é forte. Onde o regressor entra no seu domínio, os tratamentos convergem: ≈ entre **0,5 e 0,8 ponto
+percentual de taxa anual a menos a cada 0,1 de depleção**, com R² *within* subindo de
+~0 para 0,05–0,20. O `winsor` sem peso é o contra-exemplo pedagógico: winsorizar no p1
+é o remédio-padrão de cauda e **não** resolve, porque o defeito não é de cauda, é de
+domínio.
+
+**O que o reparo custou.** O **B2a some** sob o corte de 1.000 ha (β=−0,057; p=0,74):
+ele era carregado pelas AMCs de estoque minúsculo, as mesmas que produzem o defeito do
+B2b pelo outro lado. O bloco de oferta tem **um** resultado contra a premissa de hazard
+constante, não dois — e contá-lo como dois seria contar a mesma AMC duas vezes.
+
+**Aplicado a:** `scripts/fronteira_fechando_39b.py` (reescrito), §4.4.1 do cap. 4, §3.7
+do cap. 3 (a D29 passa a ter **três** regras — a terceira é que *a conferência herda a
+régua de inferência do teste conferido*), `Textos/indice_logico_pipelines.md` e **quatro**
+trechos da viz publicada, incluindo o card da D29. De quebra, a viz dizia "166 unidades"
+onde o teste roda com **164**, e chamava de "independentes" três testes que dividem o
+mesmo painel.
+
+**As duas ressalvas do mesmo passe.** Não eram da classe "régua trocada", mas ficavam de
+pé sem estar declaradas, e uma banca as encontra:
+
+- **#57 — o que a composição do remanescente autoriza dizer.** A fração florestal sobe no
+  **estado inteiro** (37,0% → 42,5%), e o excesso do Sul (+7,7) sobre a média estadual
+  (+5,5) é de pouco mais de dois pontos. Uma subida comum a todas as regiões é o que se
+  esperaria tanto de seleção quanto de **deriva de classificador na borda savana↔floresta**
+  — resíduo que o projeto documenta como **não medido** (a oscilação medida é pasto↔savana).
+  A **tendência**, portanto, não separa as duas leituras. O que se afirma é o **nível**:
+  três quintos hoje no Sul contra um terço no Norte, com o Sul já entrando na série em
+  52,2%. Fisiografia antes de história — e é o nível que a Perna 4 precisa, porque o que
+  importa é que o que resta seja difícil de converter, não como ficou assim. §4.4.2 passou
+  a dizer "dentro da unidade, o quadro é outro" no lugar de "dentro da unidade, foi", e o
+  veredito misto ganhou "viva como **estado**, não necessariamente como processo". No cap. 5
+  saiu o "+7,7 pontos", que era decorativo e agora carregava ressalva.
+- **#56 — a resolução do teste de permutação.** O p=0,026 da latitude é o **piso**: com as
+  38 realizações que a série do choque admite, 1/38 é o menor valor que a permutação
+  circular pode devolver. Significa "nenhuma rotação superou o observado" — o melhor
+  desfecho possível —, e não margem folgada; o 0,053 da especificação seguinte é decidido
+  por *uma* rotação. Declarado em §4.3.2 e no card da D28. **A D28 não depende disso**: ela
+  se apoia na aptidão *perder* significância, não na latitude ganhá-la.
+
+**Estado ao fim**: `verificar.py` 0 erros / 0 avisos; `compilar.ps1` sem Overfull e sem
+referência indefinida; **83 páginas**, 8 figuras; `verificar_reforma.py` todas passaram.
 
 ### `verificar.py` — invariantes (17/ago/2026)
 
