@@ -70,7 +70,7 @@ ferramental que permitiu afirmá-la com honestidade.
 
 ## Parte 2 — A arquitetura: por que cada passo puxou o seguinte
 
-O trabalho tem **54 pipelines** (scripts de análise). Parece muito, mas eles não são avulsos:
+O trabalho tem **58 pipelines** (scripts de análise). Parece muito, mas eles não são avulsos:
 formam uma **escada**, do agregado ao detalhe e do descritivo ao causal. Entender a escada é
 entender por que cada peça existe. São sete degraus (a narrativa completa está em
 [`narrativa_pipelines.md`](narrativa_pipelines.md); aqui está o esqueleto).

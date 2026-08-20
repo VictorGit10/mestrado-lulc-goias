@@ -80,9 +80,14 @@ de estresse?*
 **A afirmação central:**
 
 > Goiás viveu uma **reorganização espacial da produção agropecuária** (1985–2024) —
-> intensificação no Sul, fronteira no Norte — coordenada por **forças de mercado comuns** sobre
-> um **gradiente de aptidão**, e limitada por um **teto de oferta** de terra convertível — e
+> intensificação no Sul, fronteira no Norte — coordenada por **forças de mercado comuns** ao
+> longo do **gradiente Sul→Norte**, e limitada por um **teto de oferta** de terra convertível — e
 > **não** um deslocamento causal de uma região sobre a outra.
+>
+> ⚠️ **"gradiente Sul→Norte", não "gradiente de aptidão"** — o #56 (19/ago/2026, **D28**) mostrou
+> que a aptidão não sobrevive à latitude na mesma regressão. A aptidão é a **régua** com que o
+> eixo foi medido (e é boa nesse papel, por ser exógena ao uso da terra); ela **não** é o canal
+> identificado. Ver a régua "Confundimento" adiante.
 
 Cada perna abaixo segue a mesma forma: a afirmação, a força, a **manchete** que a faz, a
 **robustez** que a defende, a **autocorreção** que a afiou, e o que ela **não** permite dizer.
@@ -92,7 +97,10 @@ Cada perna abaixo segue a mesma forma: a afirmação, a força, a **manchete** q
 ## Perna 1 — O padrão existe
 
 > **Afirma:** toda a fronteira agropecuária marchou ao norte entre 1985 e 2024. A lavoura fica
-> ~120–130 km ao sul do pasto/rebanho em *todos* os anos. A vegetação natural ficou ancorada.
+> **123–135 km** ao sul do pasto/rebanho em *todos* os anos. A vegetação natural ficou ancorada.
+>
+> ⚠️ **A faixa era escrita "~120–130 km" e a série dá 122,6–135,0** (10 dos 40 anos caíam fora,
+> inclusive 2024, cujo valor 135 km o próprio texto citava adiante). Corrigido em 19/ago/2026.
 
 **Força: forte.** É a perna mais bem defendida do trabalho — sobreviveu a teste de malha, de
 desagregação e de quantificação de incerteza.
@@ -373,9 +381,9 @@ não.
 | #24 | `analise_espacial.py` | Diagnóstico | **115 de 140 resíduos** têm Moran's I significativo → o espaço é estrutural |
 | #26 | `deteccao_quebras.py` | Manchete | Quebras data-driven: **2001 (F=62,2)** e **2020 (F=21,5)**. O Código Florestal **não produz quebra** |
 
-### Robustez transversal — as quatro réguas
+### Robustez transversal — as réguas
 
-O trabalho testa cada manchete em quatro eixos independentes. Vale saber nomeá-los:
+O trabalho testa cada manchete em eixos independentes. Vale saber nomeá-los:
 
 | Régua | Pergunta | Pipelines | Decisão |
 |---|---|---|---|
@@ -384,6 +392,22 @@ O trabalho testa cada manchete em quatro eixos independentes. Vale saber nomeá-
 | **Integração** | O Granger é espúrio? | #42 | D16 |
 | **Espaço** | Sobrevive à autocorrelação? | #49, #43 (MAUP) | — |
 | **Incerteza** | Qual o IC? | D19 (#32/#44/#50) | D19 |
+| **Incerteza sob vizinhança** | O IC i.i.d. é estreito demais? | **#55** | D19 |
+| **Confundimento** | O gradiente é da variável ou do eixo? | **#56** | **D28** |
+| **Domínio** | A variável respeita o intervalo que a define? | **#39B** | **D29** |
+
+#### As três réguas acrescentadas em 19/ago/2026
+
+Nasceram da leitura crítica do texto de qualificação, e as três atacam o mesmo
+tipo de defeito: uma régua que o trabalho aplicava a um resultado e não aplicava
+a outro.
+
+| Onde | Script | O que achou |
+|---|---|---|
+| **#55** | `robustez_bootstrap_bloco.py` | O IC da D19 reamostra as 166 AMCs **uma a uma**, enquanto o #41 documenta I de Moran significativo em 125/140 testes e ρ/λ de 0,35–0,56: o bootstrap i.i.d. é **incoerente com o diagnóstico do próprio trabalho**. Refeito com **blocos espaciais** (k-means, grade de 166 a 12 blocos), o IC alarga como esperado (pastagem: 45 → 80 km de largura) e **o veredito não muda em nenhum tamanho de bloco** — 3 robustos + vegetação ancorada, 6/6. **A Perna 1 fica mais forte, não mais fraca.** Achado lateral: a **componente leste**, que o texto nunca reportava, é robusta sob i.i.d. (agricultura +49,5 km, azimute 37°) e é a **primeira a cair** sob blocos ≥8 AMCs |
+| **#56** | `drive_horse_race_latitude.py` | **O achado que dói.** Os placebos do #54 são todos de *desfecho* — nenhum pergunta se a *share* é a certa. Posta a **latitude** na mesma regressão (r=−0,44 com a aptidão: moderada, não colinear), a aptidão **perde 62% da magnitude** (β −0,033→−0,012) e a significância nas **duas** réguas (p_agrup 0,026→0,30; p_circ 0,13→0,47) enquanto a latitude quase não se move (β +0,051→+0,046; p_circ 0,053). Sozinha, a latitude é **a única exposição que cruza 5% sob permutação circular** (p=0,026). ⇒ **D28**: o gradiente medido é o do **eixo Sul→Norte**, e a aptidão é a régua, não o canal. O argumento da Perna 3 (reorganização coordenada, não empurrão) **sobrevive intacto**; o que cai é a atribuição a solo/clima |
+| **#39B** | `fronteira_fechando_39b.py` | **Achado ao auditar a própria auditoria.** O B2b do #39 (`hazard ~ depleção`) publicava **nulo** (β=−0,015; p=0,48), e a redação o usava como a peça empírica da Perna 4. O nulo é artefato: `deplecao_prev` é documentada como fração **0..1** e no arquivo vai a **−84,9**, em **920 dos 6.379 pares (14%)**, de 46 AMCs com estoque de 1985 minúsculo (mediana 544 ha × 24.031 ha) cujo estoque de savana/campo *cresceu* — a oscilação pasto↔savana vista pelo estoque. Z-scorada, a coluna passa a ser definida por esses valores. **Tratado, o sinal inverte e é robusto**: β=−0,20 (piso em 0, sem descartar linha), −0,31 (domínio [0,1]), −0,20 (ponderado pelo estoque), −0,07 (winsor p1) — 5 de 6 réguas negativas e significantes. ⇒ **D29**. **A Perna 4 sai FORTALECIDA**: sai de uma premissa apoiada em nulo fraco para mecanismo medido (na depleção caem *as duas coisas*, estoque e taxa). Casa com o #57 e resolve a tensão do "residual não é demanda" — parte do residual agora tem nome. Não muda: B1 segue identidade, quadrático segue nulo (0,93→0,82), e o B2a já era −0,32 (p=0,002), o que **já contrariava** hazard constante |
+| **#57** | `remanescente_qualidade.py` | Fecha a alternativa "o Sul tem terra **pior**, não só **menos**" que a decomposição do #39 não cobria. **Entre AMCs**: eliminada — a aptidão ponderada do estoque do Sul é a mesma em 1985 e 2024 (4,60→4,61); quem degrada é o **Norte** (−0,12), comportamento de fronteira ativa descendo o gradiente. **Dentro da AMC**: viva — a fração florestal do remanescente do Sul sobe de **52,2% para 59,9%** (galeria/cerradão = relevo quebrado + APP), contra 29,6→34,3% no Norte. O mecanismo de seleção existe (hazard×aptidão β>0, p<0,001 nas 3 regiões). ⇒ veredito **misto**, e é por isso que "estoque convertível" exclui floresta |
 
 ### Cartografia e legado
 
