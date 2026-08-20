@@ -96,16 +96,18 @@ cache local dos arquivos brutos: qualquer número do trabalho pode ser
 reconstruído a partir do dado original. O Quadro~\ref{quadro:fontes} resume
 fonte, cobertura e papel na análise.
 
-A espinha dorsal é a série anual de uso e cobertura da terra do
-\citeonline{MapBiomas2025}, em sua Coleção 10.1, à qual se soma a série de área
-queimada da Coleção 4 do \citeonline{MapBiomas2025fogo}. Vêm depois as pesquisas e
+A espinha dorsal é a série anual de uso e cobertura da terra do Projeto
+MapBiomas, em sua Coleção 10.1 (\citeyear{MapBiomas2025}), à qual se soma a
+série de área queimada da Coleção 4 do mesmo projeto
+(\citeyear{MapBiomas2025fogo}). Vêm depois as pesquisas e
 os registros administrativos reunidos no Sistema IBGE de Recuperação
 Automática (SIDRA) \cite{IBGE_SIDRA}, de onde saem a Produção Agrícola
 Municipal (PAM), a Pesquisa da Pecuária Municipal (PPM), as Contas Regionais
 --- com o produto interno bruto (PIB) e o valor adicionado por setor --- e o
 Índice Nacional de Preços ao Consumidor Amplo (IPCA), usado como deflator.
 
-O painel macroeconômico vem do \citeonline{IPEA_Ipeadata}: a taxa de câmbio
+O painel macroeconômico vem do Ipeadata, base de séries do Instituto de
+Pesquisa Econômica Aplicada (IPEA, \citeyear{IPEA_Ipeadata}): a taxa de câmbio
 real efetiva e os preços recebidos pelo produtor de soja e de boi. Convém
 nomear a série cambial com precisão, porque é ela que faz o papel de choque
 comum em toda a Seção~\ref{sec:res-perna3}: trata-se do índice de taxa de
@@ -114,14 +116,14 @@ e ponderado pela pauta de exportações, em que a \emph{alta} do índice signifi
 moeda \emph{depreciada}.
 
 Somam-se ainda o crédito rural do Sistema de Operações do Crédito Rural e do
-Proagro (SICOR) \cite{BACEN_SICOR}, o índice de desenvolvimento municipal da
-\citeonline{FIRJAN_IFDM}, o mapa de aptidão agrícola da Empresa Brasileira de
-Pesquisa Agropecuária (Embrapa) \cite{Embrapa_Aptidao}, o cadastro de unidades
-armazenadoras da \citeonline{CONAB_Armazenagem}, o sistema de monitoramento do
+Proagro (SICOR) \cite{BACEN_SICOR}, o índice de desenvolvimento municipal
+\cite{FIRJAN_IFDM}, o mapa de aptidão agrícola das terras do Brasil
+\cite{Embrapa_Aptidao}, cuja construção como exposição está na
+Seção~\ref{sec:met-aptidao}, o cadastro nacional de unidades armazenadoras
+\cite{CONAB_Armazenagem}, o sistema de monitoramento do
 desmatamento por satélite (PRODES) do Instituto Nacional de Pesquisas
-Espaciais (INPE) \cite{INPE_PRODES}, usado como aferição externa e não como
-insumo, o Atlas do Desenvolvimento Humano no Brasil, do Instituto de Pesquisa
-Econômica Aplicada (IPEA) e parceiros \cite{IPEA_IDHM}, e as malhas
+Espaciais (INPE, \citeyear{INPE_PRODES}), usado como aferição externa e não como
+insumo, o Atlas do Desenvolvimento Humano no Brasil \cite{IPEA_IDHM}, e as malhas
 territoriais oficiais --- inclusive a de unidades de conservação, do Cadastro
 Nacional de Unidades de Conservação --- obtidas pelo pacote \emph{geobr}
 \cite{Pereira2019geobr}.
@@ -585,6 +587,43 @@ onde a mesma terra tem uso alternativo mais rentável em lavoura; o coeficiente
 esperado da interação é, portanto, negativo. Essa divisão de trabalho com a
 literatura é explícita (Seção~\ref{sec:ref-cambio}).
 
+\subsubsection*{A camada de aptidão como exposição}
+\label{sec:met-aptidao}
+
+A \emph{share} merece descrição própria, porque é dela que depende o argumento
+anticircularidade da Seção~\ref{sec:ref-renda}. A camada é o mapa de aptidão
+agrícola das terras do Brasil, da Embrapa, obtido da infraestrutura de dados
+espaciais do órgão por serviço de feições \cite{Embrapa_Aptidao}. É cartografia
+vetorial na escala 1:500.000, e cada polígono traz o símbolo do sistema de
+avaliação da aptidão agrícola das terras, cujo dígito líder é o grupo de
+aptidão, de 1, a melhor para lavouras, a 6, indicada para preservação. O grupo
+é convertido em escore por $7 - \text{grupo}$, de modo que o valor cresce com a
+aptidão. A camada é recortada em Goiás, sobreposta às 166 AMCs em projeção
+equivalente --- Albers de áreas iguais para a América do Sul, a mesma dos
+demais cálculos de área ---, e a aptidão da unidade é a média do escore
+ponderada pela área dos polígonos que a cobrem. A cobertura efetiva é de
+33,0 milhões de hectares, ou 97\% do estado. A exposição que entra na
+interação é essa média
+padronizada em escore~$z$ sobre as 166 unidades.
+
+Três propriedades da camada governam o que ela pode e o que não pode sustentar.
+A primeira é o que a torna útil: ela é construída de solo, clima e relevo, e
+não do uso observado, de sorte que não incorpora a variável a explicar. A
+segunda é que ela é \textbf{estática}, um valor por unidade sem variação no
+tempo; toda a identificação vem, portanto, da interação com o choque, e não de
+mudança na exposição. A terceira é uma suposição de medida que convém declarar:
+o escore $7 - \text{grupo}$ trata como \emph{cardinal}, com espaçamento igual
+entre grupos, o que na origem é uma classificação \emph{ordinal}. Uma
+construção alternativa que não faz essa suposição --- a fração da unidade em
+grupos aptos à lavoura --- é calculada da mesma camada e acompanha a média do
+escore na medida de qualidade do remanescente
+(Seção~\ref{sec:met-teto}). Some-se que
+1:500.000 é escala grosseira diante dos 30~m da série de cobertura: a camada
+resolve gradiente regional, não contraste local. A definição exata dos grupos
+está no manual do sistema de avaliação, que consta da lista de leitura
+(Seção~\ref{sec:ref-agenda}) e cuja leitura é o que fixará o alcance preciso do
+argumento anticircularidade.
+
 A inferência exigiu tratamento próprio. Para desenhos \emph{shift-share} com um único \emph{shifter}, o
 erro-padrão agrupado é otimista \cite{Adao2019, Borusyak2022}. A decisão D20
 fixa a consequência: ele foi substituído por inferência por
@@ -628,6 +667,7 @@ adicional de AMCs resolve isso; a consequência para a leitura dos resultados
 está na Seção~\ref{sec:met-limites}.
 
 \subsection{Teto de oferta e formas de distribuição}
+\label{sec:met-teto}
 
 A quarta frente examina a hipótese de esgotamento da terra convertível por
 decomposição entre componentes de oferta e de demanda e pelo exame da
@@ -750,7 +790,7 @@ Esta seção registra seis decisões que alteraram resultados já obtidos. Elas
 constam aqui, e não em nota de rodapé: respondem à pergunta legítima ``por que
 seus números mudaram?'' e impedem que a escolha mais simples seja
 restabelecida por conveniência, inclusive pelo próprio autor, no futuro. O
-registro das vinte e nove está na visualização interativa indicada na
+registro das trinta está na visualização interativa indicada na
 abertura deste texto.
 
 \subsection{Censo de pixels em lugar de amostra (D21--D24)}
@@ -861,6 +901,44 @@ sempre que há efeito fixo de ano. Trocá-la por uma régua mais frouxa no meio 
 conferência produziria uma robustez que é da régua, e não do dado. O desfecho
 está na Seção~\ref{sec:res-perna4}.
 
+\subsection{Parâmetro de inventário vem de inventário (D30)}
+\label{sec:met-d30}
+
+A conta de carbono da Seção~\ref{sec:res-carbono} é área medida multiplicada
+por densidade de tabela, e a densidade era o único insumo do trabalho sem
+localizador de página. Ela vinha, pela decisão D18 que esta substitui, de uma
+faixa compilada de quatro fontes, das quais duas nunca haviam sido lidas por
+serem pagas. Seis números sem
+procedência conferível sustentavam a ordem de um bilhão de toneladas.
+
+A decisão D30 é que, \textbf{havendo inventário oficial para o parâmetro, é
+dele que o parâmetro vem}. Os estoques passaram a ser os do Quarto Inventário
+Nacional \cite{MCTI2020}, que os publica por fitofisionomia, os diferencia por
+estado no Cerrado e já os traz agregados nas classes de cobertura empregadas
+aqui \cite{SEEG2025}. A troca resolve a procedência na raiz, e não por
+ressalva.
+
+Duas consequências merecem registro, porque foi a troca que as tornou visíveis.
+A primeira é que o \textbf{total praticamente não se move} --- 973 milhões de toneladas sob as
+duas réguas ---, o que é corroboração externa da magnitude por uma fonte
+independente. A segunda é que a \emph{composição} se inverte, e o motivo
+interessa mais que o resultado: a afirmação de que a formação florestal emitia
+mais que a savânica, apesar de perder menos área, não depende das seis
+densidades, e sim de \emph{uma razão} entre duas delas, que precisava superar
+2,64 --- a razão entre as áreas perdidas. A régua antiga entregava 2,88, com
+nove por cento de folga, e seus três cenários de sensibilidade moviam as duas
+densidades juntas, mantendo a razão entre 2,88 e 3,00. Eles testavam o nível e
+eram, por construção, incapazes de testar a composição. Sob a régua oficial a
+razão é 1,57, e a afirmação cai. Fica no lugar dela a que a comparação por
+hectare sustenta, e que continua valendo: hectares convertidos não são
+intercambiáveis em carbono.
+
+Daí a regra geral: \textbf{quando uma conclusão depende de uma razão entre
+parâmetros, é a razão que precisa entrar na análise de sensibilidade}, e não
+cada parâmetro isoladamente. Uma sensibilidade que move os parâmetros na mesma
+direção não é sensibilidade nenhuma para a afirmação que depende do contraste
+entre eles.
+
 \subsection{Lotação em cabeças por hectare}
 
 A medida de intensidade da pecuária deixou de ser expressa em Unidade Animal e
@@ -896,7 +974,7 @@ Dessa arquitetura derivam os produtos de uso direto do trabalho, a saber, o
 repositório de rotinas reprodutíveis sobre dados públicos e a visualização
 interativa que torna os achados navegáveis.\footnote{Disponível em
 \url{\urlviz}. Além das quatro frentes de evidência, a visualização reúne o
-registro das vinte e nove decisões metodológicas, a descrição dos métodos
+registro das trinta decisões metodológicas, a descrição dos métodos
 frente a frente e o glossário das métricas.}
 
 \section{O uso de inteligência artificial como instrumento}
@@ -912,7 +990,7 @@ visualizações, e auditorias de consistência entre o que os dados dizem e o qu
 os documentos afirmam. A formulação das perguntas de pesquisa, as decisões
 metodológicas e a interpretação dos resultados permanecem do pesquisador. Essa
 distinção não é retórica. As decisões numeradas ao longo deste capítulo, e as
-seis descritas na Seção~\ref{sec:met-decisoes}, são escolhas de desenho,
+sete descritas na Seção~\ref{sec:met-decisoes}, são escolhas de desenho,
 tomadas diante de alternativas com custos diferentes, e é sobre elas que recai
 a responsabilidade autoral.
 

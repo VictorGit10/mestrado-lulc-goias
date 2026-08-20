@@ -1408,6 +1408,7 @@ body.reforma .parte-titulo.is-revealed {
 .p4-ret--flor  { fill: #2d5a3d; }
 .p4-ret--sav   { fill: #6f9a72; }
 .p4-ret--campo { fill: #b9cdae; }
+.p4-ret--alag  { fill: #7fb3bf; }   /* campo alagado: entrou com a D30 */
 .p4-whisk { stroke: var(--color-fg); stroke-width: 1.2; opacity: 0.45; }
 .p4-guia  { stroke: var(--color-rule); stroke-width: 1; }
 .p4-ret-nome {
@@ -1668,3 +1669,8 @@ body.reforma .pl-src code { background: none; color: inherit; }
   body.reforma .pl-modal__panel { width: calc(100vw - 16px); max-height: 92vh; }
   body.reforma .pl-modal__corpo { padding: 1rem 1rem 1.5rem; font-size: 0.95rem; }
 }
+
+/* Decisão superada: fica no registro, com peso visual menor (a autocorreção
+   datada é parte da evidência — ver "Resultados superados"). */
+.decisao-card--superada { opacity: .62; }
+.decisao-card--superada .decisao-badge { filter: grayscale(1); }

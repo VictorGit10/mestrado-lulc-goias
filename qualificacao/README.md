@@ -1232,6 +1232,80 @@ pé sem estar declaradas, e uma banca as encontra:
 **Estado ao fim**: `verificar.py` 0 erros / 0 avisos; `compilar.ps1` sem Overfull e sem
 referência indefinida; **83 páginas**, 8 figuras; `verificar_reforma.py` todas passaram.
 
+### A régua de carbono trocada — D30 (20/ago/2026)
+
+O autor perguntou se dava para fechar a conta de carbono sem os dois artigos pagos.
+Dava, e a resposta abriu um defeito maior que a pendência de procedência.
+
+**O problema de partida.** A conta inteira é área medida × densidade de tabela, e a
+densidade era o único insumo do trabalho **sem localizador de página**. Das quatro
+fontes da D18, duas nunca haviam sido lidas — Bustamante (2012) e Grace (2006), pagas,
+com só metadados do Crossref no `LEIAME`. Seis números sem procedência conferível
+sustentavam a ordem de um bilhão de toneladas.
+
+**A fonte que resolve.** 4º Inventário Nacional (MCTI, 2020), Relatório de Referência
+do setor LULUCF — **Tabela 24, p. 121–127** para as fitofisionomias do Cerrado, com os
+quatro compartimentos abertos e **diferenciação por estado**, e Goiás nomeado em Savana
+Parque (GO/DF/MG), Savana Gramíneo-lenhosa (GO/DF) e Savana Florestada (BA/DF/GO/MG).
+As notas metodológicas do SEEG fazem a ponte: agregam as fitofisionomias do IBGE nas
+**classes do MapBiomas** e publicam o estoque de Floresta do Cerrado por estado
+(GO = 64,72 tC/ha), idêntico no SEEG 11 e no SEEG 12. Tudo gratuito. PDFs em `ref/pdf/`.
+
+⚠️ **O gov.br recusa download automatizado** (connection reset no `curl`, CAPTCHA no
+fetch). Baixado pelo navegador, com autorização do autor.
+
+| classe MapBiomas | D18 (central) | 4º Inventário |
+|---|---|---|
+| 3 — Formação Florestal | 95,00 | **64,72** (valor de **GO**) |
+| 4 — Formação Savânica | 33,00 | **41,32** |
+| 12 — Formação Campestre | 13,00 | **24,94** |
+| 11 — Campo Alagado | *(fora da conta)* | **36,21** |
+
+**O que a troca revelou, e é o ponto.** O total quase não se move — 973,1 contra
+973,3 Mt —, o que é corroboração externa da magnitude. Mas a **composição inverte**:
+savânica 573 Mt contra 340 da florestal. E o motivo é estrutural: a afirmação de que a
+floresta emitia mais **não dependia de seis densidades, e sim de uma razão** entre duas
+delas, que precisava superar **2,64** (a razão entre as áreas perdidas). A D18 entregava
+2,88 — nove por cento de folga — e seus três cenários moviam as duas densidades juntas,
+prendendo a razão entre 2,88 e 3,00. **A sensibilidade publicada testava o nível e era,
+por construção, incapaz de testar a composição.** Mesma família da "régua trocada" do
+#39B, uma camada acima: aqui não era a régua de inferência, era a de sensibilidade.
+
+**Três testes antes de trocar.** (1) *Escopo*: o MCTI soma quatro compartimentos e a
+D18 dois; lidos compartimento a compartimento, aéreo+subterrâneo é 82–92% do total, e a
+razão escopo-casada é **1,50** — mais longe de 2,64, não mais perto. O diagnóstico
+mudou de "duas densidades erradas" para **uma**: a savânica da D18 estava a 10% do
+oficial; a floresta, 73% alta. (2) *Limiar*: para a floresta dominar, ela precisaria de
+**109,1 tC/ha** — acima de **todos** os estados do Cerrado, inclusive MS (99,2) e MT
+(97,5). A conclusão não depende de o 64,72 estar certo. (3) *Churn savana↔floresta*,
+resíduo declarado em `oscilacao_pasto_savana.md` §7-B e nunca medido: os dados já
+estavam no CSV de classe bruta, só não haviam sido lidos. Líquido **+69,8 kha** em 40
+anos, assimétrico e crescente (razão 0,64 → 1,41 → 2,71 → 2,99 por década). Move a razão
+de área de 2,64 para 2,47 (líquido) ou 2,07 (pior caso). **Para virar a conclusão o
+artefato teria de ser 2,3× todo o fluxo bruto medido.** Resíduo fechado.
+
+**Não verificado, e declarado**: o 64,72 é média ponderada estado-específica de ~20
+fisionomias florestais, calculada pelo SEEG. Conferi os valores por fisionomia no
+primário e reproduzi aritmeticamente as agregações das classes 4, 11 e 12; **não** refiz
+a da classe 3. Pelo teste (2), não é bloqueante.
+
+**O que se perde.** A faixa 751–1.208 morre: o Inventário publica valor pontual para o
+Cerrado e trata a incerteza qualitativamente (Tabela 85, p. 269). No lugar entrou
+**849–973 Mt**, que é faixa de **escopo** (só biomassa × quatro compartimentos), e está
+rotulada como tal — reportá-la como incerteza repetiria o defeito que o texto já evitava.
+
+**Aplicado a:** `custo_carbono_marcha.py` (duas réguas via `--regua`, a publicada
+preservada nos CSVs sem sufixo, razão crítica impressa em toda execução, campo alagado
+como linha explícita), §3.8 (a **D30** nasce), §4.5.3 e o Quadro de densidades, o Quadro
+de "Resultados superados" (sétima linha), §5.5, o cap. 6 (a tarefa das densidades some),
+o `.bib` (Bustamante e Grace saem; MCTI e SEEG entram), a Perna 4 da viz (prosa, os dois
+SVGs regerados, o card de decisão, o item de fragilidade) e os quatro docs vivos do
+`Textos/`. A D18 **fica no registro como superada**, na viz e no quadro, pela regra da
+autocorreção datada — e as contagens passaram a trinta decisões (D1–D30).
+
+**Estado ao fim**: `verificar.py` 0 erros / 0 avisos; `compilar.ps1` sem Overfull e sem
+referência indefinida; **85 páginas**, 8 figuras; `verificar_reforma.py` todas passaram.
+
 ### `verificar.py` — invariantes (17/ago/2026)
 
 Teste de regressão, **não** auditoria: roda sempre as mesmas cinco checagens e

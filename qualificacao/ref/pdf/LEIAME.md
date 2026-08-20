@@ -42,6 +42,34 @@ ressalva de que o ano não fora conferido no original, e o `\notaguia` do cap. 3
 o algoritmo aparecia "sem ano". O fac-símile do J-STAGE confirma: *Tohoku Mathematical
 Journal, First Series*, v. 43, p. 355–386, 1937. Entrada criada e citada em 3.5.1.
 
+### Acrescentados em 20/ago/2026 (a fonte oficial dos estoques de carbono)
+
+| Arquivo | Fonte | Licença/acesso |
+|---|---|---|
+| `MCTI2020_RR_4CN_LULUCF.pdf` | [MCTI/SIRENE, Relatórios de Referência Setorial](https://www.gov.br/mcti/pt-br/acompanhe-o-mcti/sirene/publicacoes/relatorios-de-referencia-setorial) — arquivo `invetario4/lulucf-jan21.zip` | livre (governo federal) |
+| `SEEG2025_NM_MUT.pdf` | [SEEG 12, Nota Metodológica do setor MUT](https://seeg.eco.br/wp-content/uploads/2025/04/SEEG12-NM-MUT-BR.pdf) | livre (Observatório do Clima) |
+| `SEEG2024_NM_MUT.pdf` | [SEEG 11, Nota Metodológica do setor MUT](https://seeg.eco.br/wp-content/uploads/2024/04/SEEG-NM-MUT.pdf) | livre (Observatório do Clima) |
+
+⚠️ **O gov.br recusa download automatizado.** O `curl` leva *connection reset* e o
+`WebFetch` recebe CAPTCHA, mesmo com *user-agent* de navegador e *referer* correto. O
+arquivo foi baixado pelo navegador; quem for refazer, abra a página dos Relatórios de
+Referência Setorial e clique em "IV Inventário — LULUCF". O `.zip` traz dois PDFs; o que
+interessa é o `RR_4CN_LU_4_LULUCF_2021-01-27.pdf` (314 págs.), renomeado aqui.
+
+**O que estas três fontes resolvem.** Os estoques de carbono por fitofisionomia do
+Cerrado estão na **Tabela 24, p. 121–127** do relatório do MCTI, com os quatro
+compartimentos separados (aéreo, subterrâneo, madeira morta, serapilheira) e **com
+diferenciação por estado, na qual Goiás é nomeado**: Savana Parque (GO/DF/MG),
+Savana Gramíneo-lenhosa (GO/DF), Savana Florestada (BA/DF/GO/MG), além das fisionomias
+florestais da Tabela 76, p. 246. As notas do SEEG fazem a ponte que falta: agregam as
+fitofisionomias do IBGE nas **classes do MapBiomas** por média ponderada de área
+(Tabela 2, p. 20–32) e publicam o estoque de Floresta do Cerrado **por estado**
+(Tabela 3, p. 33), onde **GO = 64,72 tC/ha**. Valores idênticos no SEEG 11 e no SEEG 12.
+
+Conferidos no primário contra o SEEG: Savana Arborizada 12,03 + 24,54 + 1,68 + 3,06 =
+**41,31**; Savana 51,63; Savana Parque (GO/DF/MG) 26,79; Savana Gramíneo-lenhosa (GO/DF)
+18,49. Escopo: aéreo + subterrâneo + madeira morta + serapilheira, **sem solo**.
+
 ## Faltam quatro
 
 Nenhum tem versão aberta legítima. A via correta para os quatro é o **Portal de
@@ -60,10 +88,14 @@ licença incerta, e o projeto registra procedência.
   pesquisa de Edimburgo, onde estão Grace e Meir, recusou acesso automatizado (HTTP 403).
   **Metadados conferidos no Crossref em 14/ago/2026** — os 5 autores batem.
 
-> Para Bustamante e Grace, o estatuto da citação limita o risco: elas entram como fonte
-> dos **parâmetros** de densidade de carbono (decisão D18, inventário Tier 1), não como
-> interlocução teórica. Ainda assim, convém baixar os dois pela CAPES e conferir se os
-> valores de densidade efetivamente usados no Pipeline #47 estão nas páginas citadas.
+> **Deixaram de ser pendência em 20/ago/2026, por substituição da fonte.** Bustamante e
+> Grace sustentavam os **parâmetros** de densidade da decisão D18, e eram as únicas
+> afirmações numéricas do trabalho apoiadas em obra não lida. O 4º Inventário Nacional
+> (acima) dá os mesmos parâmetros com localizador de tabela e de página, resolvidos por
+> fitofisionomia, **específicos para Goiás** e já agregados nas classes do MapBiomas que o
+> painel usa — ou seja, resolve na raiz, sem ressalva. Se um dia forem lidas, voltam como
+> interlocução; como parâmetro, saíram. A régua nova está no Pipeline #47 ao lado da D18,
+> e o que ela muda está registrado em `Textos/pipelines/47_custo_carbono_marcha.md`.
 - **`Richards2012` na versão publicada** — a *Global Environmental Change* 22(2) é paga.
   O que está aqui é o Plan B Paper do MSU (Richards sozinho, out/2012), cuja nota de
   rodapé declara: *"A previous version of this paper was published in Global

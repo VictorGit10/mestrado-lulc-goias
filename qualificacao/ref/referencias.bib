@@ -344,47 +344,51 @@
 }
 
 % =====================================================================
-% DENSIDADES DE CARBONO (decisão D18 — biomassa aérea + radicular)
+% DENSIDADES DE CARBONO (decisão D30 — parâmetro de inventário vem de inventário)
 %
-% METADADOS CONFERIDOS no Crossref em 14/ago/2026 (título, veículo, vol./nº,
-% páginas, ano e lista completa de autores) — batem também com o registro do
-% Pipeline #47 (Bustamante 115:559; Grace 33:387).
+% ESTATUTO DESTAS ENTRADAS: são fonte dos PARÂMETROS da conta de carbono do
+% Pipeline #47, não interlocução teórica. O trabalho usa os valores publicados,
+% à maneira de um inventário Tier 1. Manter esse enquadramento no texto.
 %
-% ESTATUTO DESTAS CITAÇÕES: são fonte dos PARÂMETROS de densidade de carbono
-% (decisão D18), não interlocução teórica. O trabalho usa os valores
-% publicados, à maneira de um inventário Tier 1; não discute os artigos nem
-% alega tê-los examinado em profundidade. Manter esse enquadramento no texto.
-%
-% ⚠ PDFs ainda não estão em ref/pdf/. Ribeiro & Walter (2008, fisionomias do
-% Cerrado) também alimenta a D18 e segue sem entrada.
+% CONFERIDAS em 20/ago/2026 no texto integral, que está em ref/pdf/:
+%   MCTI2020  — Tabela 24, p. 121-127 (fitofisionomias do Cerrado, com os quatro
+%               compartimentos abertos e diferenciação por estado; Goiás nomeado
+%               em Savana Parque, Savana Gramineo-lenhosa e Savana Florestada) e
+%               Tabela 76, p. 246 (fisionomias florestais).
+%   SEEG2025  — Tabelas 2 e 3, p. 20-33: agregação das fitofisionomias do IBGE
+%               nas classes do MapBiomas e estoque de Floresta do Cerrado por
+%               estado (GO = 64,72 tC/ha). Valores idênticos no SEEG 11 (2024).
+%   RibeiroWalter2008 — definição das fitofisionomias.
 % =====================================================================
 
-@article{Bustamante2012,
-  author  = {Bustamante, Mercedes M. C. and Nobre, Carlos A. and Smeraldi, Roberto
-             and Aguiar, Ana P. D. and Barioni, Luis G. and Ferreira, Laerte G.
-             and Longo, Karla and May, Peter and Pinto, Alexandre S. and Ometto, Jean P. H. B.},
-  title   = {Estimating greenhouse gas emissions from cattle raising in {B}razil},
-  journal = {Climatic Change},
-  volume  = {115},
-  number  = {3-4},
-  pages   = {559--577},
-  year    = {2012},
-  doi     = {10.1007/s10584-012-0443-3},
-  url     = {https://doi.org/10.1007/s10584-012-0443-3}
+% SAÍDA em 20/ago/2026: Bustamante2012 e Grace2006 foram REMOVIDAS. Elas
+% sustentavam os parâmetros de densidade de carbono da antiga D18, e eram as
+% únicas afirmações numéricas do texto apoiadas em obra não lida (Springer e
+% Wiley pagas; só metadados do Crossref). A D30 as substitui pelos estoques do
+% Quarto Inventário Nacional, que são oficiais, gratuitos, resolvidos por
+% fitofisionomia, específicos para Goiás e já agregados nas classes de cobertura
+% que o painel usa. Resolvido na raiz, sem ressalva. Se um dia forem lidas,
+% voltam como interlocução; como parâmetro, saíram.
+
+@techreport{MCTI2020,
+  author      = {{MINIST\'ERIO DA CI\^ENCIA, TECNOLOGIA E INOVA\c{C}\~OES}},
+  title       = {Relat\'orio de refer\^encia: setor uso da terra, mudan\c{c}a do uso da terra e florestas},
+  institution = {MCTI},
+  address     = {Bras\'ilia},
+  year        = {2020},
+  note        = {Quarto Invent\'ario Nacional de Emiss\~oes e Remo\c{c}\~oes Antr\'opicas de Gases de Efeito Estufa. Bras\'ilia: Minist\'erio da Ci\^encia, Tecnologia e Inova\c{c}\~oes, 2020. Estoques de carbono das fitofisionomias do Cerrado na Tabela 24, p. 121-127. Acesso em: 20 ago. 2026},
+  url         = {https://www.gov.br/mcti/pt-br/acompanhe-o-mcti/sirene/publicacoes/relatorios-de-referencia-setorial}
 }
 
-@article{Grace2006,
-  author  = {Grace, John and San Jos{\'e}, Jos{\'e} and Meir, Patrick
-             and Miranda, Heloisa S. and Montes, Ruben A.},
-  title   = {Productivity and carbon fluxes of tropical savannas},
-  journal = {Journal of Biogeography},
-  volume  = {33},
-  number  = {3},
-  pages   = {387--400},
-  year    = {2006},
-  doi     = {10.1111/j.1365-2699.2005.01448.x},
-  url     = {https://doi.org/10.1111/j.1365-2699.2005.01448.x}
+@techreport{SEEG2025,
+  author      = {{OBSERVAT\'ORIO DO CLIMA}},
+  title       = {Nota metodol\'ogica do setor mudan\c{c}a de uso da terra e florestas},
+  institution = {Observat\'orio do Clima},
+  year        = {2025},
+  note        = {Sistema de Estimativas de Emiss\~oes e Remo\c{c}\~oes de Gases de Efeito Estufa (SEEG), 12. ed. Correspond\^encia entre as fitofisionomias do IBGE e as classes do MapBiomas e estoques finais por classe nas Tabelas 2 e 3, p. 20-33. Acesso em: 20 ago. 2026},
+  url         = {https://seeg.eco.br/documentos-analiticos}
 }
+
 
 @book{IPCC2006,
   author    = {{IPCC}},
@@ -535,7 +539,7 @@
 }
 
 % CONFERIDO no PDF do repositório Alice da Embrapa em 14/ago/2026. Capítulo 6
-% do volume 1 de "Cerrado: ecologia e flora"; alimenta as densidades da D18
+% do volume 1 de "Cerrado: ecologia e flora"; alimenta as densidades da D30
 % pela definição das fitofisionomias.
 @incollection{RibeiroWalter2008,
   author    = {Ribeiro, Jos{\'e} Felipe and Walter, Bruno Machado Teles},

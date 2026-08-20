@@ -97,3 +97,91 @@ O eixo ambiental ganha sua **métrica-manchete**: a marcha ao norte comprometeu 
 - **Centróide é média** (D do #32) → reporto o mediano robusto ao lado, e só sobre AMCs que **perderam** formação.
 - **Solo fora da manchete** (D18) — mudança de SOC na conversão é contestada; disponível em `--com-solo` para quem quiser a cota com solo.
 - **Validações pendentes** (para a Sprint 2, junto com as do #46): fatores de emissão específicos do Cerrado goiano (se houver inventário estadual); recorte pixel via GEE para checar a atribuição de formação na borda; comparação com o SEEG/MCTI (inventário nacional) para a ordem de grandeza estadual.
+
+---
+
+## Régua nova: os estoques do 4º Inventário Nacional (20/ago/2026)
+
+Fecha a validação que este próprio documento listava como pendente ("comparação com o
+SEEG/MCTI para a ordem de grandeza estadual") e resolve, de quebra, a única afirmação
+numérica do trabalho sem localizador de página.
+
+**O problema.** A conta inteira é área medida × densidade de literatura. Das quatro
+fontes da D18, **duas nunca foram lidas** — Bustamante (2012) e Grace (2006) são pagas,
+e o `LEIAME` registrava só metadados do Crossref. Seis números sem localizador
+sustentavam 973 Mt.
+
+**A fonte.** 4º Inventário Nacional (MCTI, 2020), Relatório de Referência do setor
+LULUCF: estoques por fitofisionomia do mapa do IBGE, **Tabela 24, p. 121–127** (Cerrado)
+e **Tabela 76, p. 246** (fisionomias florestais). A Nota Metodológica do SEEG agrega
+essas fitofisionomias nas **classes do MapBiomas** por média ponderada de área
+(Tabela 2, p. 20–32) e publica o estoque de Floresta do Cerrado **por estado**
+(Tabela 3, p. 33). Tudo gratuito. PDFs em `qualificacao/ref/pdf/`.
+
+| classe MapBiomas | coluna do painel | D18 (central) | 4º Inventário |
+|---|---|---|---|
+| 3 — Formação Florestal | `lulc_floresta_nativa_ha` | 95,00 | **64,72** (valor de **GO**) |
+| 4 — Formação Savânica | `lulc_formacao_savanica_ha` | 33,00 | **41,32** |
+| 12 — Formação Campestre | `lulc_campo_nativo_ha` | 13,00 | **24,94** |
+| 11 — Campo Alagado | `lulc_campo_alagado_ha` | *(fora da conta)* | **36,21** |
+
+Escopo do Inventário: aéreo + subterrâneo + madeira morta + serapilheira, sem solo —
+dois compartimentos a mais que a D18. Sem cenário baixa/alta: o Inventário publica valor
+pontual para o Cerrado e trata a incerteza qualitativamente (Tabela 85, p. 269); não se
+fabrica faixa aqui.
+
+**Não há passo de tradução.** Os valores saem publicados nas mesmas classes que
+`construir_painel_unificado.py:165-169` usa. O caminho alternativo — derivar tudo dos
+defaults do IPCC — exigiria decidir se Goiás é *tropical dry* ou *moist deciduous forest*
+e se Cerrado *sensu stricto* é *tropical shrubland* (a zona **semiárida**), duas
+correspondências contestáveis que virariam o alvo no lugar da densidade.
+
+### O que muda, e o que não muda
+
+| afirmação | D18 | 4º Inventário | |
+|---|---|---|---|
+| Total comprometido | 973,1 Mt | **973,3 Mt** | ✅ intacto |
+| Ato I concentra a emissão | 774 Mt (80%) | 722 Mt (76%) | ✅ |
+| Ritmo despenca depois de 2001 | 51,6 → 7,6 Mt/ano | 48,1 → 9,7 | ✅ (cinco vezes, não sete) |
+| Fronteira troca a formação densa pela extensa | 62,1% → 2,4% florestal | 45,4% → 1,3% | ✅ mais limpo |
+| Centróide do custo marcha ao norte | +98 km | **+91 km** | ✅ |
+| **Floresta domina a emissão** | 499 × 458 | 340 × **573** | ❌ **inverte** |
+
+O total bater a uma casa decimal é coincidência de erros que se cancelam — a floresta
+estava alta e a savânica baixa —, mas é **corroboração externa da magnitude** por uma
+fonte oficial independente.
+
+### A razão crítica — e por que a sensibilidade publicada não a testava
+
+"A floresta perde 2,6× menos área e ainda assim emite mais" **não é uma afirmação sobre
+seis densidades; é sobre uma razão**. Ela vale se, e só se,
+
+    dens(floresta) / dens(savânica)  >  área_savânica / área_floresta = 2,64
+
+A D18 dá 2,88 — **9% de folga**. Bastaria a savânica valer 36,0 em vez de 33 para empatar.
+E os **três cenários da D18 mantêm a razão entre 2,88 e 3,00**, porque movem as duas
+densidades juntas: a faixa de 751 a 1.208 Mt testa o **nível** e é estruturalmente
+incapaz de testar a **composição**. O `--regua` agora imprime a razão crítica em toda
+execução, justamente para que essa dependência não volte a ficar implícita.
+
+Sob a régua oficial a razão é 1,57 e a manchete cai. Isso corrige a frase da seção
+"Honestidade metodológica" acima, que dizia que o ordenamento "não muda de cenário": não
+mudava porque o cenário não podia mudá-lo.
+
+### Como rodar
+
+```powershell
+py -3.14 scripts/custo_carbono_marcha.py                # d18 (publicada)
+py -3.14 scripts/custo_carbono_marcha.py --regua mcti   # 4o Inventario, CSVs com sufixo _mcti
+```
+
+A régua publicada **não é sobrescrita**: o texto da qualificação cita os CSVs sem sufixo,
+e trocar a régua do texto é decisão editorial, não efeito colateral de rodar o pipeline.
+
+### Aresta que a fonte nova abre
+
+O Inventário publica também o estoque do uso que **entra** (Cerrado: pastagem 7,57 e
+agricultura anual 5,00 tC/ha, Tabela 5 do SEEG, p. 36). A conta atual assume estoque zero
+depois da conversão, e portanto **superestima em 11–16%** (813–868 Mt em vez de 973).
+Passar a descontar o destino é mudança de **método**, não de parâmetro, e por isso ficou
+fora deste passe — registrada em `ESTOQUE_DESTINO_CERRADO` no script.

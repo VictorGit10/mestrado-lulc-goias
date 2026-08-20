@@ -1127,85 +1127,109 @@ propósito está no caminho dela. Não está, e o Norte, que guarda 44\% do que
 resta, não tem pela frente área protegida que barre a conversão.
 
 \subsection{Custo de carbono e desenvolvimento municipal}
+\label{sec:res-carbono}
 
 As contas que fecham a frente não são econômicas no sentido usual.
 
 A primeira é de carbono. A conta segue a lógica de diferença de estoque do
-IPCC em seu nível mais simples (\emph{Tier}~1): a cada hectare convertido
-atribui-se a densidade de carbono da formação que havia ali, e a emissão é a
-diferença entre o estoque antes e depois. O escopo é estreito. A conta cobre
-apenas a \textbf{biomassa} (acima e abaixo do solo), e \emph{não} o carbono do
-solo, que no Cerrado é parcela grande do estoque total; o número abaixo é,
-portanto, um piso do passivo, não o passivo. E a faixa reportada não é
-intervalo de confiança estatístico, e sim o resultado de rodar a mesma conta
-sob três conjuntos de densidades por formação (baixo, central e alto, decisão
-D18), colhidos da literatura de estoques do Cerrado
-\cite{Bustamante2012, Grace2006}, das diretrizes do \citeonline{IPCC2006} e,
-para a delimitação das fitofisionomias a que cada densidade se aplica, de
-\citeonline{RibeiroWalter2008}. O Cerrado tem razão raiz/parte aérea alta, e
-savana e campo não são desprezíveis na conta.
+IPCC em seu nível mais simples (\emph{Tier}~1) \cite{IPCC2006}: a cada hectare
+convertido atribui-se a densidade de carbono da formação que havia ali, e a
+emissão é a diferença entre o estoque antes e depois.
+
+Toda a conta é, portanto, área medida multiplicada por densidade de tabela, e a
+densidade é o único insumo que não vem do dado deste trabalho. Ela vem do
+\textbf{Quarto Inventário Nacional} de emissões e remoções de gases de efeito
+estufa \cite{MCTI2020}, que é a régua com que o país reporta à Convenção do
+Clima. Três propriedades justificam a escolha. A primeira é que os estoques são
+publicados por \emph{fitofisionomia} da carta de vegetação, e não por categoria
+genérica de floresta e savana. A segunda é que, no Cerrado, eles são
+\textbf{diferenciados por estado}, e Goiás está entre os que têm valor próprio.
+A terceira é que a agregação dessas fitofisionomias nas classes de cobertura
+usadas aqui já está feita e publicada \cite{SEEG2025}, de modo que nenhuma
+correspondência precisou ser arbitrada neste trabalho: a classe de formação
+florestal do satélite recebe o estoque que o Inventário atribui ao conjunto das
+fisionomias florestais goianas, e assim por diante. A delimitação das
+fisionomias segue \citeonline{RibeiroWalter2008}.
+
+O escopo tem dois limites, e eles vão em direções opostas. O Inventário soma
+quatro compartimentos --- biomassa acima do solo, biomassa subterrânea, madeira
+morta e serrapilheira ---, o que é mais completo que a biomassa isolada: no
+Cerrado a razão raiz/parte aérea é alta, e a fração subterrânea responde por
+quase três quintos do estoque da savana. Mas o \textbf{carbono do solo continua
+de fora}, e no Cerrado ele é parcela grande do total; o número abaixo é um piso
+do passivo, não o passivo. Por isso a conta é reportada como faixa: 849~Mt
+contando só a biomassa e 973~Mt com os quatro compartimentos. Essa faixa é de
+\emph{escopo}, não de incerteza --- ela diz o que foi contado, e não com que
+precisão. O Inventário publica valor pontual para o Cerrado e trata a incerteza
+de forma qualitativa, de modo que não há intervalo numérico a reportar.
 
 Como o resultado inteiro desta subseção é o produto entre área convertida e
 densidade, os valores adotados vão no Quadro~\ref{quadro:densidades}, e não
-apenas na rotina que os aplica: sem eles a conta não é conferível, e trocar a
-coluna central pela baixa ou pela alta é o que produz a faixa reportada
-adiante. O carbono do solo (cerca de 40~Mg~C/ha nas três formações, nos
-primeiros 30~cm) foi mantido fora, porque a fração dele que se libera na
-conversão para pasto ou lavoura é pequena e contestada; é essa exclusão que
-torna o número um piso.
+apenas na rotina que os aplica: sem eles a conta não é conferível.
 
 \begin{quadro}[htb]
 \centering
-\caption[Densidades de carbono adotadas por formação]{Densidades de carbono adotadas por formação e cenário (decisão D18).}
+\caption[Densidades de carbono adotadas por formação]{Densidades de carbono adotadas por formação (decisão D30).}
 \label{quadro:densidades}
 \small
-\begin{tabular}{lrrr}
+\begin{tabular}{lrr}
 \toprule
-\textbf{Formação} & \textbf{Baixa} & \textbf{Central} & \textbf{Alta} \\
+\textbf{Formação (classe de cobertura)} & \textbf{tC/ha} & \textbf{Área perdida (Mha)} \\
 \midrule
-Formação florestal (galeria e cerradão) & 75 & 95 & 120 \\
-Formação savânica (Cerrado \emph{sensu stricto}) & 25 & 33 & 40 \\
-Campo nativo & 8 & 13 & 18 \\
+Formação florestal (galeria e cerradão) & 64,72 & 1,43 \\
+Formação savânica (Cerrado \emph{sensu stricto}) & 41,32 & 3,79 \\
+Formação campestre & 24,94 & 0,33 \\
+Campo alagado e área pantanosa & 36,21 & 0,22 \\
 \bottomrule
 \end{tabular}
-\fontefig{faixas da literatura de estoques do Cerrado
-(\citeonline{Bustamante2012}; \citeonline{Grace2006}), das diretrizes do
-\citeonline{IPCC2006} e, para a correspondência entre densidade e
-fitofisionomia, de \citeonline{RibeiroWalter2008}.}
-\notafig{valores em Mg~C/ha, biomassa aérea e radicular somadas, sem o carbono
-do solo. A coluna central é a usada na manchete; as outras duas produzem a
-faixa de 751 a 1.208~Mt. A conversão para CO\textsubscript{2} equivalente usa o
-fator estequiométrico 44/12.}
+\fontefig{estoques do Quarto Inventário Nacional \cite{MCTI2020}, agregados nas
+classes de cobertura conforme a nota metodológica do SEEG \cite{SEEG2025}; delimitação das
+fisionomias em \citeonline{RibeiroWalter2008}.}
+\notafig{valores em toneladas de carbono por hectare, somando biomassa acima do
+solo, biomassa subterrânea, madeira morta e serrapilheira; \textbf{sem} o
+carbono do solo. O valor da formação florestal é o \textbf{de Goiás}: no
+Cerrado o Inventário diferencia esse estoque por estado, e os demais estados do
+núcleo do bioma ficam entre 62,5 e 71,4. A conversão para
+CO\textsubscript{2} equivalente usa o fator estequiométrico 44/12.}
 \end{quadro}
 
 Assim precificada, a conversão comprometeu da ordem de 973 milhões de
-toneladas (Mt) de dióxido de carbono equivalente (CO\textsubscript{2}e), em
-faixa de 751 a 1.208 conforme o cenário de densidade. O que chama a atenção,
-primeiro, é quem paga. A floresta perde 2,6 vezes menos área que a formação
-savânica e ainda assim emite mais (499 contra 458~Mt): é cerca de três vezes
-mais densa, e o custo de carbono não é proporcional à área.
+toneladas (Mt) de dióxido de carbono equivalente (CO\textsubscript{2}e), ou
+849~Mt contando apenas a biomassa. O que chama a atenção, primeiro, é quem
+paga: a formação savânica, que responde por 573~Mt contra 340~Mt da florestal.
+Não é um resultado sobre densidade, e sim sobre área --- a savânica perdeu 2,6
+vezes mais superfície, e isso mais que compensa o fato de valer menos por
+hectare.
 
-Chama a atenção, depois, quando se pagou. Do total, 80\% (774~Mt) saiu no
-Ato~I, a 51,6~Mt por ano, com o Sul como maior emissor do período
-(307~Mt, ou 40\% do ato, a 20,5~Mt por ano). Depois de 2001 o ritmo cai quase
-sete vezes, para 7,6~Mt por ano no Ato~II, e a geografia se inverte: no
-Ato~III o Sul é o menor emissor (1,4~Mt/ano) e o Centro o maior (4,6). O
-ritmo não segue caindo daí em diante: somadas as três regiões, o Ato~III emite
-cerca de 9~Mt por ano, acima do Ato~II --- comparação que depende da convenção
-de denominador (intervalos ou anos) e por isso não é reportada como
-percentual. O
-centroide da emissão marcha 98~km ao norte, atrás da fronteira. No acumulado
-dos quarenta anos, note-se, as três regiões emitem parcelas próximas (Sul
-36\%, Norte 32\%, Centro 32\%): o que distingue o Sul é ter emitido cedo, e
-não o total acumulado.
+Ainda assim, o custo \emph{não} é proporcional à área, e a comparação por
+hectare é que mostra em quê. A formação florestal responde por um quarto da
+área perdida e por mais de um terço da emissão; um hectare dela vale 1,6
+hectare de savânica e 2,6 hectares de formação campestre. Hectares convertidos
+não são intercambiáveis, e nenhuma métrica formulada só em área captura isso.
 
-Um ponto de composição fecha a conta, e vai na direção oposta à que a intuição
-sugere. A emissão do Ato~I era sobretudo florestal: 62\% dela veio de mata de
-galeria e cerradão. No Ato~III, 96\% vem de formação savânica e apenas 2\% de
-floresta. A fronteira deixou de consumir a formação mais densa em carbono e
-passou a consumir a mais extensa --- o que baixa o custo climático de cada
-hectare convertido ao mesmo tempo que o desloca para a classe de que o Cerrado
-remanescente é feito (Seção~\ref{sec:res-perna4}).
+Chama a atenção, depois, quando se pagou. Do total, três quartos (722~Mt) saiu
+no Ato~I, a 48,1~Mt por ano, com o Sul como maior emissor do período (275~Mt,
+ou 38\% do ato, a 18,3~Mt por ano). Depois de 2001 o ritmo cai cerca de cinco
+vezes, para 9,7~Mt por ano no Ato~II, e a geografia se inverte: no Ato~III o
+Sul é o menor emissor (1,9~Mt/ano) e o Centro o maior (5,3). O ritmo não segue
+caindo daí em diante: somadas as três regiões, o Ato~III emite 11,8~Mt por ano,
+acima do Ato~II --- comparação que depende da convenção de denominador
+(intervalos ou anos) e por isso não é reportada como percentual. Os três atos
+somam 944~Mt e não os 973 do período inteiro, porque cada ato é medido entre o
+seu primeiro e o seu último ano e as duas viradas de período, 2000--2001 e
+2019--2020, não pertencem a nenhum deles; a diferença é de 3\%. O centroide da
+emissão marcha 91~km ao norte, atrás da fronteira. No acumulado dos quarenta
+anos, note-se, as três regiões emitem parcelas próximas (Sul 34\%, Norte 34\%,
+Centro 32\%): o que distingue o Sul é ter emitido cedo, e não o total
+acumulado.
+
+Um ponto de composição fecha a conta. No Ato~I a emissão se dividia quase
+meio a meio entre as duas formações lenhosas: 45\% dela veio de mata de galeria
+e cerradão, contra 49\% de formação savânica. No Ato~III, 93\% vem da savânica
+e apenas 1\% de floresta. A fronteira deixou de consumir a formação mais densa
+em carbono e passou a consumir quase só a mais extensa --- o que baixa o custo
+climático de cada hectare convertido ao mesmo tempo que o desloca para a classe
+de que o Cerrado remanescente é feito (Seção~\ref{sec:res-perna4}).
 
 A segunda conta é humana, e exige cuidado para não dizer mais do que mede.
 Entre 2013 e 2021, a fronteira norte quase dobrou a área cultivada
@@ -1230,10 +1254,10 @@ Seção~\ref{sec:disc-limites}.
 \section{Resultados superados}
 \label{sec:superados}
 
-Cabe registrar, por fim, seis resultados que teriam sido publicados se um
+Cabe registrar, por fim, sete resultados que teriam sido publicados se um
 teste específico não tivesse sido feito. Nenhum deles era ingênuo: em cada
 caso, a versão superada era a leitura mais plausível com o que havia até ali.
-Em três casos ela afirmava mais do que a versão que ficou no lugar, em dois
+Em quatro casos ela afirmava mais do que a versão que ficou no lugar, em dois
 contrariava a tese, e no último a versão corrigida sustenta mais do que a
 superada. Os resultados corrigidos são os apresentados nas seções anteriores;
 o que o Quadro~\ref{quadro:superados} registra é a distância entre as duas
@@ -1275,6 +1299,12 @@ A taxa de conversão não cai com a depleção do estoque &
 O nulo vinha de 14\% do painel com depleção fora do domínio (até $-85$ numa
 fração 0--1); tratado o defeito, a taxa \emph{cai}, e isso é atrito de oferta &
 D29 \\
+\addlinespace
+A formação florestal emite mais que a savânica, apesar de perder menos área &
+A afirmação dependia de uma razão entre duas densidades superar 2,64, e os três
+cenários de sensibilidade moviam as duas juntas; com os estoques do inventário
+oficial a razão é 1,57, e a savânica emite 573~Mt contra 340 &
+D30 \\
 \bottomrule
 \end{tabular}
 \fontefig{elaboração própria.}

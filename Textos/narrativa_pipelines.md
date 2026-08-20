@@ -81,7 +81,7 @@ faz peças escritas em momentos diferentes conversarem entre si.
   | D15 | Alinhamento `fogo(t) ↔ conv(origem=t)` como contemporâneo | #41 |
   | D16 | Lead-lag de séries AMC integradas exige Toda-Yamamoto + placebos (Granger ingênuo fabrica precedência espúria) | #42 |
   | D17 | "Proteção" = malha vetorial de UCs (Proteção Integral × Uso Sustentável), proxy-teto no espírito da D13; PRODES validada (#48) e refino pixel fechados, MMA dispensada | #46 |
-  | D18 | Custo de carbono por diferença de estoque (IPCC Tier 1) × densidades de C do Cerrado por formação (biomassa AGB+BGB, 3 cenários); solo (SOC) fora da manchete | #47 |
+  | ~~D18~~ → **D30** | Custo de carbono por diferença de estoque (IPCC Tier 1). A D18 usava densidades compiladas da literatura em 3 cenários; **superada em 20/ago/2026** pela D30, que as toma do 4º Inventário Nacional (por fitofisionomia, valor próprio de Goiás, 4 compartimentos). Solo (SOC) fora da manchete nas duas | #47 |
   | D19 | Todo ΔNorte de centroide vem com **IC95% por bootstrap de AMCs** (B=2000); um IC que inclui zero **nunca** é reportado como km (diga "ancorada") | #32, #44, #50 |
   | D20 | Para um desenho **shift-share** (choque nacional × exposição local) com **um único shifter**, o SE clusterizado é **otimista** (AKM 2019); a inferência correta é **permutação do shifter** (naive + circular), reportada junto com a bateria de placebos/lead/jackknife | #54 |
   | D21 | Toda **amostragem espacial** declara a fração que caiu fora do recorte pretendido; `region` derivada de `.envelope`/`.bounds` é armadilha silenciosa (o overlay posterior conserta o rótulo, não a alocação) | #28 |
@@ -799,8 +799,8 @@ exportadora **não lidera nem co-move materialmente** — o único co-movimento 
 **proteção**: a marcha ao norte se dirige a Cerrado convertível que está **97% desprotegido** (a Proteção
 Integral cobre <3% e congelou após 2000), de modo que o teto de oferta do #39 é **físico, não
 institucional** (**D17**). O **#47** precifica o **custo de carbono da marcha** por diferença de estoque
-(IPCC Tier 1, **D18**): ~**973 Mt CO₂e** comprometidos (faixa dos cenários de densidade: 751–1208), com a **floresta dominando a emissão** apesar de
-perder menos área que o savânico, e o centróide da perda marchando +98 km ao norte (amarra com o #39: o Sul
+(IPCC Tier 1, **D30**): ~**973 Mt CO₂e** comprometidos (849 só com biomassa — faixa de **escopo**, não de incerteza), com a **savânica dominando a emissão** (573 × 340 Mt: ela
+perdeu 2,6× mais área, e isso mais que compensa valer menos por hectare), e o centróide da perda marchando +91 km ao norte (amarra com o #39: o Sul
 fechou a fronteira). O **#48** **valida** a base de perda de vegetação contra o **PRODES/INPE** — no regime
 anual 2013–24 as duas fontes concordam (r=0,91) —, fechando a pendência PRODES da D17 (o refino pixel via GEE
 também foi concluído; as Áreas Prioritárias MMA foram dispensadas).
