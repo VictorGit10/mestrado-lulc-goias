@@ -171,6 +171,23 @@ para a obtenção do título de Mestre em Ciências Ambientais.}
 % default herdado da memoir é ~0,62 cm, metade disso)
 \setlength{\parindent}{1.25cm}
 
+% ---------------------------------------------------------------------
+% Compilação parcial durante a edição (descomentar e listar o capítulo)
+%
+% Com \include (e não \input), o LaTeX guarda um .aux por capítulo. O
+% \includeonly manda tipografar só os listados, mas continua lendo o .aux
+% dos demais -- então a NUMERAÇÃO DE PÁGINA, as referências cruzadas e as
+% citações do capítulo em que se está trabalhando saem corretas.
+%
+% O ganho é modesto: medido aquecido, 5,4 s a passada completa contra
+% 3,8 s só o Capítulo 4. Serve para sessão longa dentro de um capítulo
+% só; não vale o risco de ficar ligado por engano numa edição rápida.
+%
+% Comentar de volta antes de gerar a versão de entrega.
+%
+% \includeonly{cap/04_resultados}
+% ---------------------------------------------------------------------
+
 \begin{document}
 
 \frenchspacing

@@ -1,4 +1,4 @@
-
+% !TEX root = ../main.tex
 \chapter{Especificações completas dos modelos}
 \label{ap:especificacoes}
 
@@ -93,21 +93,26 @@ precedência inexistente --- foi o que a decisão D16 registrou. O diagnóstico
 que sustenta essa decisão vem em dois passos, e as duas tabelas seguintes os
 separam porque \textbf{não são o mesmo teste}.
 
-O primeiro passo é a classificação das ordens de integração, por triangulação
+O primeiro passo é a classificação das ordens de integração, por confronto
 entre os testes de Dickey-Fuller aumentado (ADF) e de
-Kwiatkowski-Phillips-Schmidt-Shin (KPSS), cujas hipóteses nulas são opostas.
-A Tabela~\ref{tab:integracao} traz as quatro séries. É ela que mostra o
-descasamento: a agricultura do Sul é estacionária já em nível pelo ADF,
-enquanto a pastagem do Norte não o é nem depois de convertida em variações
-anuais --- a montagem clássica que fabrica precedência.
+Kwiatkowski-Phillips-Schmidt-Shin (KPSS), cujas hipóteses nulas são opostas. O
+veredito registrado é o do ADF, e a nota da tabela diz onde o KPSS o acompanha
+e onde não. A Tabela~\ref{tab:integracao} traz as duas séries em nível, em
+primeira e em segunda diferença. É ela que mostra o descasamento: a agricultura
+do Sul é estacionária já em nível pelo ADF, enquanto a pastagem do Norte não o
+é nem depois de convertida em variações anuais --- a montagem clássica que
+fabrica precedência. A pastagem só perde a raiz unitária na \emph{segunda}
+diferença, e é essa linha, e não uma suposição, que fixa \(d_{\max} = 2\) no
+teste do passo seguinte.
 
 O segundo passo é a inferência válida sob integração. A
 Tabela~\ref{tab:precedencia} reporta três colunas de \(p\), e a distinção entre
 elas é a correção que esta versão do apêndice faz. O \(p\) de Granger é o
 teste-F clássico. O \(p\) de Wald HAC é o mesmo teste em primeira diferença,
-com covariância robusta a heterocedasticidade e autocorrelação: ele corrige o
-\emph{erro-padrão}, e não a integração, de modo que \textbf{não} resolve o
-problema diagnosticado acima. Quem o resolve é a terceira coluna, o \(p\) de
+com covariância robusta a heterocedasticidade e autocorrelação (Newey-West com
+duas defasagens, o mesmo número que aumenta o modelo de Toda-Yamamoto): ele
+corrige o \emph{erro-padrão}, e não a integração, de modo que \textbf{não}
+resolve o problema diagnosticado acima. Quem o resolve é a terceira coluna, o \(p\) de
 Toda-Yamamoto \cite{TodaYamamoto1995}, que ajusta o modelo vetorial
 autorregressivo em \emph{níveis} com \(p + d_{\max}\) defasagens e aplica o
 teste de Wald apenas às \(p\) primeiras. É esse o número que o
@@ -125,7 +130,7 @@ integração o dissolve.
 
 \begin{table}[!ht]
 \centering
-\caption[Ordens de integração das séries regionais]{Testes de raiz unitária nas séries regionais, em nível e em primeira diferença.}
+\caption[Ordens de integração das séries regionais]{Testes de raiz unitária nas séries regionais, em nível, em primeira e em segunda diferença.}
 \label{tab:integracao}
 \footnotesize
 \begin{tabular}{lrccl}
@@ -136,10 +141,12 @@ Agricultura do Sul, em nível & 40 & $0{,}011$ & $0{,}010$ & estacionária \\
 Pastagem do Norte, em nível & 40 & $0{,}960$ & $0{,}010$ & não estacionária \\
 Agricultura do Sul, em 1\textsuperscript{a} diferença & 39 & $0{,}001$ & $0{,}050$ & estacionária \\
 Pastagem do Norte, em 1\textsuperscript{a} diferença & 39 & $0{,}922$ & $0{,}010$ & não estacionária \\
+Agricultura do Sul, em 2\textsuperscript{a} diferença & 38 & $<0{,}001$ & $0{,}100$ & estacionária \\
+Pastagem do Norte, em 2\textsuperscript{a} diferença & 38 & $0{,}001$ & $0{,}100$ & estacionária \\
 \bottomrule
 \end{tabular}
 \fontefig{elaboração própria.}
-\notafig{as hipóteses nulas dos dois testes são \textbf{opostas}: o ADF tem por nula a presença de raiz unitária, de modo que $p$ baixo indica série estacionária; o KPSS tem por nula a estacionariedade, de modo que $p$ baixo indica o contrário. O veredito da última coluna é o do ADF. O KPSS rejeita em todas, inclusive onde o ADF não rejeita, e essa discordância é a razão de a classificação ser \emph{a resposta do teste} nesta amostra, e não propriedade estabelecida do processo: com 39 observações e duas quebras estimadas nessas mesmas séries, nenhum dos dois é decisivo sozinho. O que a tabela estabelece com segurança é o \emph{descasamento} entre as duas séries, que é o que invalida o teste clássico.}
+\notafig{as hipóteses nulas dos dois testes são \textbf{opostas}: o ADF tem por nula a presença de raiz unitária, de modo que $p$ baixo indica série estacionária; o KPSS tem por nula a estacionariedade, de modo que $p$ baixo indica o contrário. A última coluna traz o veredito do ADF, que é a régua com que $d_{\max}$ foi fixado. Os dois testes \textbf{concordam} nas duas linhas da pastagem do Norte --- ambos a dão não estacionária em nível e em primeira diferença ---, e é dela que vem o diagnóstico; \textbf{divergem} nas duas linhas da agricultura do Sul, que o ADF dá estacionária e o KPSS não; e \textbf{voltam a concordar} nas duas segundas diferenças, estacionárias pelas duas réguas. São estas as linhas que sustentam $d_{\max} = 2$: sem elas a ordem de integração da pastagem ficaria afirmada e não mostrada. O $p$ do KPSS é truncado na tabela de valores críticos da rotina, de modo que $0{,}010$ e $0{,}100$ são limites e se leem como ``$\leq$'' e ``$\geq$''. Com 40 observações e duas quebras estimadas nessas mesmas séries, nenhum dos dois testes é decisivo sozinho, e a classificação vale como \emph{a resposta do teste} nesta amostra, e não como propriedade estabelecida do processo. O que a tabela estabelece com segurança é o \emph{descasamento} entre as duas séries em nível e em primeira diferença, que é o que invalida o teste clássico.}
 \end{table}
 
 \begin{table}[!ht]
@@ -152,25 +159,25 @@ Pastagem do Norte, em 1\textsuperscript{a} diferença & 39 & $0{,}922$ & $0{,}01
 & \textbf{Def.} & \textbf{$p$ Granger} & \textbf{$p$ Wald HAC} & \textbf{$p$ T-Y} & \textbf{$\hat{\beta}_1$} & \textbf{$p(\hat{\beta}_1)$} & \textbf{$n$} \\
 \midrule
 \multicolumn{8}{l}{\textit{Sul$\rightarrow$Norte: $\Delta$Agric\_Sul $\rightarrow$ $\Delta$Pasto\_Norte}} \\
- & 1 & $0{,}971$ & $0{,}959$ & $0{,}252$ & $+0{,}0022$ & $0{,}959$ & 38 \\
- & 2 & $0{,}760$ & $0{,}703$ & $0{,}246$ & $-0{,}0257$ & $0{,}669$ & 37 \\
- & 3 & $0{,}822$ & $0{,}518$ & --- & $-0{,}0202$ & $0{,}744$ & 36 \\
+ & 1 & $0{,}971$ & $0{,}958$ & $0{,}252$ & $+0{,}0022$ & $0{,}958$ & 38 \\
+ & 2 & $0{,}760$ & $0{,}713$ & $0{,}246$ & $-0{,}0257$ & $0{,}636$ & 37 \\
+ & 3 & $0{,}822$ & $0{,}460$ & --- & $-0{,}0202$ & $0{,}727$ & 36 \\
 \multicolumn{8}{l}{\textit{REVERSO:   $\Delta$Pasto\_Norte $\rightarrow$ $\Delta$Agric\_Sul}} \\
  & 1 & $<0{,}001$ & $<0{,}001$ & $0{,}455$ & $+0{,}4394$ & $<0{,}001$ & 38 \\
- & 2 & $0{,}075$ & $0{,}005$ & $0{,}748$ & $+0{,}3494$ & $0{,}339$ & 37 \\
- & 3 & $0{,}179$ & $0{,}006$ & --- & $+0{,}2306$ & $0{,}554$ & 36 \\
+ & 2 & $0{,}075$ & $0{,}006$ & $0{,}748$ & $+0{,}3494$ & $0{,}343$ & 37 \\
+ & 3 & $0{,}179$ & $0{,}007$ & --- & $+0{,}2306$ & $0{,}561$ & 36 \\
 \multicolumn{8}{l}{\textit{REVERSO bov: $\Delta$Bovinos\_Norte $\rightarrow$ $\Delta$Agric\_Sul}} \\
- & 1 & $0{,}723$ & $0{,}650$ & --- & $-0{,}0151$ & $0{,}647$ & 38 \\
- & 2 & $0{,}192$ & $0{,}407$ & --- & $-0{,}0323$ & $0{,}392$ & 37 \\
- & 3 & $0{,}299$ & $0{,}346$ & --- & $-0{,}0425$ & $0{,}308$ & 36 \\
+ & 1 & $0{,}723$ & $0{,}645$ & --- & $-0{,}0151$ & $0{,}642$ & 38 \\
+ & 2 & $0{,}192$ & $0{,}409$ & --- & $-0{,}0323$ & $0{,}399$ & 37 \\
+ & 3 & $0{,}299$ & $0{,}358$ & --- & $-0{,}0425$ & $0{,}316$ & 36 \\
 \multicolumn{8}{l}{\textit{Sul$\rightarrow$Norte bov: $\Delta$Agric\_Sul $\rightarrow$ $\Delta$Bovinos\_Norte}} \\
- & 1 & $0{,}325$ & $0{,}180$ & --- & $+0{,}6209$ & $0{,}171$ & 38 \\
- & 2 & $0{,}593$ & $0{,}242$ & --- & $+0{,}6756$ & $0{,}095$ & 37 \\
- & 3 & $0{,}723$ & $0{,}332$ & --- & $+0{,}9161$ & $0{,}095$ & 36 \\
+ & 1 & $0{,}325$ & $0{,}185$ & --- & $+0{,}6209$ & $0{,}176$ & 38 \\
+ & 2 & $0{,}593$ & $0{,}230$ & --- & $+0{,}6756$ & $0{,}096$ & 37 \\
+ & 3 & $0{,}723$ & $0{,}311$ & --- & $+0{,}9161$ & $0{,}088$ & 36 \\
 \bottomrule
 \end{tabular}
 \fontefig{elaboração própria.}
-\notafig{séries anuais agregadas por região; ``Def.'' é o número de defasagens do modelo. As três colunas de $p$ \textbf{não são a mesma régua}. $p$ Granger é o teste-F clássico em primeira diferença. $p$ Wald HAC é o mesmo teste com covariância robusta a heterocedasticidade e autocorrelação (Newey-West): corrige o erro-padrão, não a integração. $p$ T-Y é o de Toda-Yamamoto, ajustado em \emph{níveis} com $p + d_{\max}$ defasagens ($d_{\max} = 2$) e com o teste de Wald restrito às $p$ primeiras --- é a única das três válida sob integração, e é a reportada no Capítulo~\ref{cap:resultados}. Ela consta apenas do par agricultura--pastagem, que é onde o resultado espúrio apareceu e onde o diagnóstico foi conduzido; nos dois blocos \textsc{bov} não foi computada, e as linhas trazem ``---'' em vez de repetir a coluna vizinha. $\hat{\beta}_1$ é o coeficiente da primeira defasagem da série candidata a precedente, na equação em diferenças. O bloco \textsc{reverso} é reportado porque foi ele que originou a decisão D16, e não porque sustente afirmação.}
+\notafig{séries anuais agregadas por região; ``Def.'' é o número de defasagens do modelo. As três colunas de $p$ \textbf{não são a mesma régua}. $p$ Granger é o teste-F clássico em primeira diferença. $p$ Wald HAC é o mesmo teste com covariância robusta a heterocedasticidade e autocorrelação (Newey-West com duas defasagens): corrige o erro-padrão, não a integração. $p$ T-Y é o de Toda-Yamamoto, ajustado em \emph{níveis} com $p + d_{\max}$ defasagens ($d_{\max} = 2$) e com o teste de Wald restrito às $p$ primeiras --- é a única das três válida sob integração, e é a reportada no Capítulo~\ref{cap:resultados}. Ela consta apenas do par agricultura--pastagem, que é onde o resultado espúrio apareceu e onde o diagnóstico foi conduzido; nos dois blocos \textsc{bov} não foi computada, e as linhas trazem ``---'' em vez de repetir a coluna vizinha. $\hat{\beta}_1$ é o coeficiente da primeira defasagem da série candidata a precedente, na equação em diferenças. O bloco \textsc{reverso} é reportado porque foi ele que originou a decisão D16, e não porque sustente afirmação.}
 \end{table}
 
 \FloatBarrier
@@ -323,27 +330,30 @@ interesse \(\Delta\)agricultura, sem controles. Mede troca de uso \emph{dentro}
 da unidade --- e não deslocamento, que é objeto da Seção~\ref{ap:slx}.
 \end{description}
 
-O erro-padrão e o \(p\) reportados são os da estimação por mínimos quadrados,
-que é a referência contra a qual as outras duas colunas são lidas.
+O erro-padrão da tabela é o da estimação por mínimos quadrados, que é a
+referência contra a qual as outras duas colunas são lidas; o \(p\) é reportado
+para as três, de modo que a coluna ``Sobrev.'' possa ser conferida na própria
+linha, e não aceita sob palavra.
 
 
 \begin{table}[!ht]
 \centering
+\setlength{\tabcolsep}{3pt}
 \caption[Dependência espacial nos três modelos de painel]{Coeficientes de interesse sob mínimos quadrados, SAR e SEM, nas duas matrizes de peso.}
 \label{tab:sarsem}
 \scriptsize
-\begin{tabular}{lcrcccccccll}
+\begin{tabular}{lcrcccccccccll}
 \toprule
-\textbf{Modelo} & \textbf{$W$} & \textbf{$n$} & \textbf{$\hat{\beta}_{MQ}$} & \textbf{EP} & \textbf{$p$} & \textbf{$\hat{\beta}_{SAR}$} & \textbf{$\hat{\beta}_{SEM}$} & \textbf{$\hat{\rho}$} & \textbf{$\hat{\lambda}$} & \textbf{Forma} & \textbf{Sobrev.} \\
+\textbf{Modelo} & \textbf{$W$} & \textbf{$n$} & \textbf{$\hat{\beta}_{MQ}$} & \textbf{EP} & \textbf{$p$} & \textbf{$\hat{\beta}_{SAR}$} & \textbf{$p$} & \textbf{$\hat{\beta}_{SEM}$} & \textbf{$p$} & \textbf{$\hat{\rho}$} & \textbf{$\hat{\lambda}$} & \textbf{Forma} & \textbf{Sobrev.} \\
 \midrule
-M1 & \emph{queen} & 3.154 & $-0{,}0047$ & $0{,}0005$ & $<0{,}001$ & $-0{,}0043$ & $-0{,}0046$ & $0{,}353$ & $0{,}368$ & SEM & sim \\
-M2 & \emph{queen} & 1.328 & $-0{,}0040$ & $0{,}0008$ & $<0{,}001$ & $-0{,}0035$ & $-0{,}0034$ & $0{,}398$ & $0{,}401$ & SAR & sim \\
-M3 & \emph{queen} & 6.474 & $-0{,}5458$ & $0{,}0774$ & $<0{,}001$ & $-0{,}4774$ & $-0{,}5356$ & $0{,}391$ & $0{,}414$ & SEM & sim \\
-M3 & 8 viz. & 6.474 & $-0{,}5458$ & $0{,}0774$ & $<0{,}001$ & $-0{,}4813$ & $-0{,}5491$ & $0{,}532$ & $0{,}558$ & SEM & sim \\
+M1 & \emph{queen} & 3.154 & $-0{,}0047$ & $0{,}0005$ & $<0{,}001$ & $-0{,}0043$ & $<0{,}001$ & $-0{,}0046$ & $<0{,}001$ & $0{,}353$ & $0{,}368$ & SEM & sim \\
+M2 & \emph{queen} & 1.328 & $-0{,}0040$ & $0{,}0008$ & $<0{,}001$ & $-0{,}0035$ & $<0{,}001$ & $-0{,}0034$ & $<0{,}001$ & $0{,}398$ & $0{,}401$ & SAR & sim \\
+M3 & \emph{queen} & 6.474 & $-0{,}5458$ & $0{,}0774$ & $<0{,}001$ & $-0{,}4774$ & $<0{,}001$ & $-0{,}5356$ & $<0{,}001$ & $0{,}391$ & $0{,}414$ & SEM & sim \\
+M3 & 8 viz. & 6.474 & $-0{,}5458$ & $0{,}0774$ & $<0{,}001$ & $-0{,}4813$ & $<0{,}001$ & $-0{,}5491$ & $<0{,}001$ & $0{,}532$ & $0{,}558$ & SEM & sim \\
 \bottomrule
 \end{tabular}
 \fontefig{elaboração própria.}
-\notafig{todas as especificações correm sobre as 166 unidades, em primeira diferença e com efeitos fixos de unidade e de ano; $n$ é o total de células após exclusão de ausentes, e varia porque as fontes dos regressores cobrem janelas diferentes (o SICOR do M2 começa em 2013). $W$ identifica a matriz de pesos: \emph{queen} é a de contiguidade, ``8 viz.'' a dos oito vizinhos mais próximos --- o M3 é estimado com as duas, para medir quanto a escolha de $W$ move o resultado. O erro-padrão e o $p$ são os da estimação por mínimos quadrados; $\hat{\rho}$ é o parâmetro de defasagem espacial do SAR e $\hat{\lambda}$ o de dependência do erro no SEM. ``Forma'' é a preferida pelos testes do multiplicador de Lagrange em versão robusta, nomeada pela forma que ela indica (SAR para defasagem, SEM para erro). ``Sobrev.'' indica se o sinal e a significância do coeficiente de interesse resistem à modelagem da dependência: nas quatro linhas o coeficiente atenua-se e nenhuma troca de sinal.}
+\notafig{todas as especificações correm sobre as 166 unidades, em primeira diferença e com efeitos fixos de unidade e de ano; $n$ é o total de células após exclusão de ausentes, e varia porque as fontes dos regressores cobrem janelas diferentes (o SICOR do M2 começa em 2013). $W$ identifica a matriz de pesos: \emph{queen} é a de contiguidade, ``8 viz.'' a dos oito vizinhos mais próximos --- o M3 é estimado com as duas, para medir quanto a escolha de $W$ move o resultado. O erro-padrão é o da estimação por mínimos quadrados; cada uma das três estimações traz o seu próprio $p$. $\hat{\rho}$ é o parâmetro de defasagem espacial do SAR e $\hat{\lambda}$ o de dependência do erro no SEM. ``Forma'' é a preferida pelos testes do multiplicador de Lagrange em versão robusta, nomeada pela forma que ela indica (SAR para defasagem, SEM para erro). ``Sobrev.'' indica se o sinal e a significância do coeficiente de interesse resistem à modelagem da dependência. As magnitudes ficam \textbf{estáveis}: sete das oito estimativas espaciais atenuam-se em relação aos mínimos quadrados, no máximo 14{,}6\%; a restante cresce 0{,}6\% em magnitude. Nenhuma troca de sinal, e nenhuma perda de significância: o maior $p$ entre as oito estimativas espaciais é da ordem de $10^{-10}$.}
 \end{table}
 
 \FloatBarrier

@@ -114,6 +114,55 @@ binários em `%LOCALAPPDATA%\Programs\MiKTeX\miktex\bin\x64` — sessões de
 terminal abertas antes da instalação precisam prefixar esse caminho no PATH).
 Pacotes faltantes são baixados automaticamente na primeira compilação.
 
+`compilar.ps1` é o caminho da **entrega**: força as três passadas e o bibtex,
+independentemente do que mudou. É o que gera o PDF que vai para a banca.
+
+Ao fim ele lê o `.log` e, se o LaTeX ainda pedir nova passada, roda uma quarta
+e aborta se nem assim convergir. Referência cruzada desatualizada é a falha que
+sai calada: o PDF fica completo e só o número está velho.
+
+### Loop de edição (21/ago/2026)
+
+Para escrever, o caminho é outro — VS Code com a extensão **LaTeX Workshop**
+(`code --install-extension James-Yu.latex-workshop`), configurada em
+`.vscode/settings.json` na raiz do repositório. Salvar dispara uma passada de
+`pdflatex` (5,4 s aquecida, documento inteiro); o PDF fica numa aba ao lado e
+volta à posição em que se estava. Ctrl+click no PDF pula para a linha do
+`.tex`, e Ctrl+Alt+J faz o inverso — por isso `compilar.ps1` também passou a
+emitir `-synctex=1`, que grava o mapa entre os dois. Uma passada é o que uma
+edição de prosa precisa; ao mexer em citação, `\label` ou ordem de seção,
+rodar a receita completa uma vez para a numeração convergir. O `.vscode/` é
+ignorado pelo git da raiz: a configuração é pessoal e não viaja no clone.
+
+**latexmk foi descartado, por duas razões independentes.** Seria o motor
+natural, já que lê o `.fls`/`.log` e decide sozinho as passadas. Mas o latexmk
+do MiKTeX é um script Perl, e não há Perl no PATH do Windows nesta máquina —
+o VS Code o chama e recebe *“could not find the script engine 'perl'”*. O Git
+Bash traz um `perl` msys embutido, o que faz o mesmo comando funcionar no
+terminal do Bash e falhar no editor: **uma medição feita no Bash não vale para
+o que o VS Code vai executar.** Com o Perl do Git no PATH ele roda, e aí a
+segunda razão aparece — é mais lento: 8,5–8,8 s contra 5,3–5,6 s do pdflatex
+direto, medido com edição real de conteúdo.
+
+Cada `.tex` de `cap/` e `pre/` começa com `% !TEX root = ../main.tex`. É o que
+diz ao editor a que documento o capítulo pertence ao ser aberto sozinho —
+inclusive no apêndice, onde a marca é emitida por `gerar_apendice.py`, já que
+posta só no arquivo ela sumiria na primeira regeneração.
+
+O `\includeonly` comentado no preâmbulo do `main.tex` restringe a compilação
+ao capítulo em edição, e como o `.aux` dos excluídos continua sendo lido, a
+numeração de página e as referências cruzadas saem corretas. O ganho é
+modesto — 3,8 s contra 5,4 s —, então serve para sessão longa dentro de um
+capítulo só, e não como hábito. Comentar de volta antes da entrega.
+
+> **Nota de método sobre os tempos acima.** A primeira medição desta seção
+> dizia 14 s e 4,7 s. Eram execuções a frio, a primeira de cada tipo: o
+> segundo número saiu de um binário já aquecido pelo primeiro, e a comparação
+> mediu o cache, não o `\includeonly`. Os números atuais vêm de duas rodadas
+> por rota, todas aquecidas e cada uma precedida de uma alteração real de
+> conteúdo — carimbo de data não serve, porque o latexmk compara conteúdo e
+> trata `touch` como “nada mudou”.
+
 ## Estado (13/ago/2026)
 
 **Em prosa (redigidos e revisados em conversa com o autor):**
@@ -1379,7 +1428,8 @@ foi só geração. O apêndice passou de 3 para **10 tabelas** e o documento de
 | bloco novo | fonte | conteúdo |
 |---|---|---|
 | A.2 Precedência temporal | `granger_reverso_lags.csv` | 12 linhas: $p$ Granger clássico × $p$ Wald HAC (Toda-Yamamoto), por defasagem, nas duas direções — inclusive a **reversa**, que é o artefato da D16 |
-| A.4 Dependência espacial | `painel_espacial_dinamico.csv` | 4 modelos × MQ/SAR/SEM, com $ho$, $\lambda$, forma preferida pelo LM robusto e se o coeficiente sobrevive |
+| A.4 Dependência espacial | `painel_espacial_dinamico.csv` | 4 modelos × MQ/SAR/SEM, com $
+ho$, $\lambda$, forma preferida pelo LM robusto e se o coeficiente sobrevive |
 | A.6 Placebos | `perna4_placebos.csv` | os 8 placebos de desfecho e de tempo do *shift-share* |
 | A.7 Teto de oferta | `fronteira_teste_supply.csv` + `_39b.csv` | canal de disponibilidade (9 linhas) + **grade completa de tratamentos da depleção** (D29) |
 | A.8 Desenvolvimento | `desenvolvimento_gradiente.csv` | gradiente transversal (4 specs) + painel 2FE dentro do município (4) |
@@ -1539,6 +1589,140 @@ autocorreção datada — e as contagens passaram a trinta decisões (D1–D30).
 
 **Estado ao fim**: `verificar.py` 0 erros / 0 avisos; `compilar.ps1` sem Overfull e sem
 referência indefinida; **85 páginas**, 8 figuras; `verificar_reforma.py` todas passaram.
+
+### Terceira leitura externa — os cinco pontos (21/ago/2026)
+
+Uma leitura externa do estado pós-`5dbf4bc` levantou cinco pontos e classificou
+quatro como necessários antes do envio. Conferidos um a um contra os arquivos,
+os CSVs e os scripts: **quatro procedem**, um erra a contagem, e um deles vinha
+com o diagnóstico invertido. Dois achados não estavam no parecer.
+
+**1. A visualização publicada — procede, por outro motivo.** O parecer dizia que
+o arquivo local "contém parcialmente os números novos". Não era isso: o
+`Visualizacao/index.html` local já estava inteiro na régua nova (340/573 Mt,
+973 Mt). O que estava velho era o **publicado**. `git branch --contains 7c179e6`
+devolvia só `revisao-critica-qualificacao`, e `origin/master` ainda servia
+499/458 e a faixa 751–1.208. Não havia número a reconciliar; havia um merge que
+nunca aconteceu — e a apresentação manda a banca abrir a viz *antes* dos
+resultados. O que de fato sobrava de texto manual desalinhado eram quatro
+formulações da régua anterior: "849 Mt contando só a biomassa" (em três lugares),
+"piso do passivo", "emissão" onde a D31 passou a dizer "estoque removido", e a
+ausência dos 833 Mt. Todas corrigidas.
+
+A faixa 751–1.208 **fica** onde estava: dentro do card da D18, descrita como
+régua superada. Registro de autocorreção não é número obsoleto.
+
+**Achado fora do parecer:** a viz tinha D1–D30 e anunciava "30 decisões"
+enquanto o PDF já ia até D31. A **D31 entrou no registro de decisões da viz**, e
+a contagem foi alinhada nos três lugares da viz, nos dois do PDF
+(`00_apresentacao` e `03_metodologia`) e no `scripts/verificar_reforma.py`, que
+trava esse número em CI — o verificador falhou na primeira rodada por isso, que
+é exatamente o serviço que se espera dele.
+
+**2. Toda-Yamamoto — três subpontos, dois procedem e um estava invertido.**
+
+*A "triangulação".* O corpo do texto dizia que a classificação vinha de
+triangulação entre ADF e KPSS, mas a coluna de veredito é só do ADF. Procede
+como redação, e virou "confronto", com a nota dizendo onde cada teste manda.
+Mas o parecer afirmava que "o KPSS discorda nas quatro linhas", e isso é falso —
+e a nota da tabela errava na direção oposta, chamando de "discordância" o que
+era acordo. Onde o ADF não rejeita a raiz unitária e o KPSS rejeita a
+estacionariedade, **os dois dizem a mesma coisa**. Conferido:
+
+| Série | ADF | KPSS | |
+|---|---|---|---|
+| Agric. Sul, nível | 0,011 estac. | 0,010 não | divergem |
+| Pasto Norte, nível | 0,960 não | 0,010 não | **concordam** |
+| Agric. Sul, 1ª dif. | 0,001 estac. | 0,050 não | divergem |
+| Pasto Norte, 1ª dif. | 0,922 não | 0,010 não | **concordam** |
+
+As duas réguas concordam justamente na série de onde vem o diagnóstico. A nota
+corrigida sustenta o argumento em vez de o enfraquecer.
+
+*A segunda diferença.* Procede: afirmar I(2) sem exibir a diferença em que a
+série para de ter raiz unitária é afirmar e não mostrar. O `integ_order()` do #42
+já calculava — e só imprimia. Passou a gravar, e a tabela ganhou duas linhas:
+
+```
+ΔΔagric_Sul     ADF p<0,001   KPSS p=0,100   (as duas: estacionária)
+ΔΔpasto_Norte   ADF p=0,001   KPSS p=0,100   (as duas: estacionária)
+```
+
+É a linha que fixa `d_max = 2` em vez de o supor — e é o terceiro lugar em que os
+dois testes voltam a concordar.
+
+*O HAC.* Procede: `03_metodologia` prometia Newey-West com duas defasagens e
+`granger_reverso_norte_sul.py:121` usava `maxlags=1`, enquanto o bloco de
+Toda-Yamamoto já usava 2. Alinhado ao número declarado, com o `HAC_LAGS = 2` como
+constante de módulo para que as duas réguas não voltem a divergir em silêncio.
+Recalculadas as doze linhas: **nenhum veredito se move** (o maior deslocamento é
+Sul→Norte lag 3, 0,518 → 0,460; o REVERSO lag 1 vai de 0,0003 a 0,0006 e segue
+`<0,001`). Também caiu "defasagens **ótimas**": a rotina reporta p=1 e p=2 lado a
+lado, sem eleger uma por critério de informação.
+
+**3. SAR/SEM — procede, com o número exato.** A nota dizia "nas quatro linhas o
+coeficiente atenua-se". Conferido em `data/processed/painel_espacial_dinamico.csv`
+(o parecer apontava o CSV errado — `outputs/espacial/modelos_espaciais_amc.csv` é
+outro objeto, transversal, n=166): das **oito** estimativas espaciais, sete
+atenuam (no máximo 14,6%, no SEM do M2) e uma **cresce 0,6%** — o SEM do M3 com
+oito vizinhos, −0,5457650 → −0,5490725. Por isso caiu também o "limite superior"
+da `03_metodologia`: a leitura correta é que as magnitudes ficam **estáveis**,
+entre −14,6% e +0,6%.
+
+A frase da nota **deixou de ser digitada**: passou a ser lida do CSV a cada
+regeneração. Frase de tabela é afirmação, e afirmação digitada envelhece — foi
+esse o padrão-raiz do defeito.
+
+Os `p` do SAR e do SEM existiam no CSV e não apareciam, de modo que a coluna
+"Sobrev." pedia fé. Entraram como colunas próprias. A tabela foi a 14 colunas e
+estourou a mancha em 80,5 pt; a saída foi `\tabcolsep` a 3 pt via novo parâmetro
+`colsep` do helper `tabela()` — dos três ajustes possíveis (fonte, coluna,
+espaço), o espaço é o único que não custa informação.
+
+**4. O estreitamento jurídico — procede, e havia uma contradição interna que o
+parecer não viu.** Na mesma subseção, a quinze linhas de distância:
+
+```
+04_resultados.tex:1144  "...estavam congeladas desde ANTES da freada..."
+04_resultados.tex:1159  "...teria vindo antes da freada...; NÃO VEIO, e não está."
+```
+
+Os dados apoiam a primeira (76% em 1985, 89% em 2000). O reparo não era suavizar:
+**a perna temporal do argumento era a perna errada**. O que derruba a leitura de
+teto institucional é a magnitude (menos de 3%, +0,12 Mha em quarenta anos contra
+4,11 Mha suprimidos) e a localização (ao sul). A forma temporal correta é "não se
+moveu" — uma variável praticamente constante não data uma inflexão —, não "veio
+depois". O parágrafo foi reorganizado em duas pernas explícitas (no tempo / no
+espaço), sem perder nenhum número.
+
+Somaram-se três estreitamentos: `:1158` "a proteção" → "a proteção integral";
+`:1183` "área protegida" → "unidade de conservação de proteção integral", com a
+ressalva de RL/APP na própria frase; e `05_discussao.tex:344` "veio depois da
+conversão" → "não se moveu com a fronteira". Varredura declarada: procurei
+`área protegida | a proteção | desprotegido | sem proteção` nos caps. e no
+pré-textual; o que sobrou (`:1157` "ou a lei a barrou", `:1177` "desprotegido")
+já é enquadramento ou definição estreita explícita.
+
+**5. Bibliografia — são 11, não 12.** Conferido no `.bib` e no PDF compilado
+(`pdftotext`): 11. A substância procede — data de acesso sabidamente fictícia é
+metadado falso. As onze passaram a ser a data do artefato que a própria coleta
+gravou em `data/raw/` (ou `data/cache/`, para o que vem do GEE), que é o registro
+de quando a base foi consultada; a derivação de cada uma está no cabeçalho da
+seção de fontes primárias do `.bib`.
+
+O **Atlas/IDH-M**, única entrada cuja versão nunca fora conferida, foi conferido
+contra `scripts/coleta_idhm.py` e `data/processed/idhm_goias_municipal.csv`: o
+que entrou no trabalho são as séries `ADH_*` pela API do Ipeadata, e só os três
+anos censitários (1991, 2000, 2010) — o arquivo de 2021 baixado à mão tem 462
+bytes e não chegou ao processado. O `year = 2024` não correspondia a nada
+verificável; a entrada passou a ser datada como base consultada, no mesmo
+tratamento das irmãs, com o que foi puxado no `note`. Resolvido na raiz, não com
+ressalva.
+
+**Estado ao fim do passe:** 106 páginas, zero `Overfull`, zero referência
+indefinida, `verificar.py` em 0 erros / 0 avisos, `verificar_reforma.py` com
+todas as verificações passando. Os doze "nan" que um grep cru acha no PDF são
+`financeira`, `dominante`, `determinante` e afins — nenhuma célula vazia.
 
 ### `verificar.py` — invariantes (17/ago/2026)
 

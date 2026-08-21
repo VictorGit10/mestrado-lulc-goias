@@ -238,10 +238,10 @@ def main():
         # a exposicao do drive comum e regua, nao canal). Subir este valor faz
         # parte de escrever a decisao — e o teste existe para que subir seja
         # deliberado, nunca silencioso.
-        if fecho.get("decisoes") != 30:
-            erros.append(f"{fecho.get('decisoes')} cards de decisao (esperava 30 = D1-D30, com a D18 superada)")
+        if fecho.get("decisoes") != 31:
+            erros.append(f"{fecho.get('decisoes')} cards de decisao (esperava 31 = D1-D31, com a D18 superada)")
         if not fecho.get("decisoesColapsadas"):
-            erros.append("as 30 decisoes deveriam comecar colapsadas (sao referencia)")
+            erros.append("as 31 decisoes deveriam comecar colapsadas (sao referencia)")
         if not fecho.get("inventarioCarregou"):
             erros.append("a vitrine do painel nao carregou")
 

@@ -63,6 +63,12 @@ DIR_OUT.mkdir(parents=True, exist_ok=True)
 
 DROUGHT = [1985, 2010]   # anos de seca extrema no Cerrado (mexeram o #41)
 
+# Defasagens do nucleo de Newey-West. Vale para o Wald-HAC do bloco A e para o
+# aumento do Toda-Yamamoto (dmax) do bloco B, que ja rodava com 2: a constante
+# existe para que as duas reguas nao possam divergir de novo em silencio.
+# A Secao 3.x da metodologia declara este numero.
+HAC_LAGS = 2
+
 
 # ---------------------------------------------------------------------------
 # 0. Dados
@@ -81,6 +87,12 @@ def carregar() -> pd.DataFrame:
               "pasto_mha_Sul", "bovinos_mcab_Sul"]:
         if c in df:
             df[f"d_{c}"] = df[c].diff()
+
+    # Segundas diferenças das duas séries-protagonistas. Sem elas o dmax=2 do
+    # Toda-Yamamoto fica AFIRMADO e não mostrado: I(2) só se sustenta exibindo
+    # a diferença em que a série finalmente para de ter raiz unitária.
+    for c in ["agric_mha_Sul", "pasto_mha_Norte"]:
+        df[f"dd_{c}"] = df[f"d_{c}"].diff()
 
     # Drivers em Δlog (crescimento) — torna o nível estritamente positivo ~estacionário.
     for c in ["cambio_real_efetivo", "credito_rural_go_real",
@@ -118,7 +130,7 @@ def granger_hac(xcause: pd.Series, yeffect: pd.Series, lag: int) -> dict:
     df = df.dropna()
     X = sm.add_constant(df[cols])
     ols = sm.OLS(df["y"], X).fit()
-    hac = sm.OLS(df["y"], X).fit(cov_type="HAC", cov_kwds={"maxlags": 1})
+    hac = sm.OLS(df["y"], X).fit(cov_type="HAC", cov_kwds={"maxlags": HAC_LAGS})
     xterms = [f"x_l{i}" for i in range(1, lag + 1)]
     R = np.array([[1.0 if c == t else 0.0 for c in X.columns] for t in xterms])
     wald_cl = ols.f_test(R)
@@ -235,7 +247,9 @@ def bloco_B(df: pd.DataFrame) -> pd.DataFrame:
     for nome, col in [("agric_Sul (nível)", "agric_mha_Sul"),
                       ("pasto_Norte (nível)", "pasto_mha_Norte"),
                       ("Δagric_Sul", "d_agric_mha_Sul"),
-                      ("Δpasto_Norte", "d_pasto_mha_Norte")]:
+                      ("Δpasto_Norte", "d_pasto_mha_Norte"),
+                      ("ΔΔagric_Sul", "dd_agric_mha_Sul"),
+                      ("ΔΔpasto_Norte", "dd_pasto_mha_Norte")]:
         r = adf_kpss(df[col], nome); linhas.append(r)
         print(f"  {nome:24s} ADF p={r['adf_p']:.3f} ({'estac.' if r['estacionaria_adf'] else 'NÃO-estac.'}) | "
               f"KPSS p={r['kpss_p']:.3f} ({'estac.' if r['estacionaria_kpss'] else 'NÃO-estac.'})")

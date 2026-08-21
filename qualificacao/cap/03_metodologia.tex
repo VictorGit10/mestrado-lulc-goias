@@ -1,3 +1,4 @@
+% !TEX root = ../main.tex
 \chapter{Metodologia}
 \label{cap:metodologia}
 
@@ -558,10 +559,12 @@ principais, corrige a correlação \emph{dentro} de cada unidade ao longo do tem
 não a correlação \emph{entre} unidades vizinhas no mesmo ano. O reestimador espacial
 foi rodado para medir o tamanho desse resíduo. Os parâmetros de defasagem e de
 erro espacial situam-se entre $+0{,}35$ e $+0{,}56$, confirmando a
-dependência, e os coeficientes de interesse atenuam-se em no máximo 15\%
-quando ela é modelada. A dependência espacial é, portanto, real e mensurada, e
-não derruba os sinais reportados, mas as magnitudes do painel devem ser lidas
-como limite superior.
+dependência. As magnitudes, porém, quase não se movem quando ela é modelada:
+das oito estimativas espaciais, sete atenuam-se em relação aos mínimos
+quadrados --- no máximo $14{,}6\%$ --- e uma cresce $0{,}6\%$, sem que nenhuma
+troque de sinal ou perca significância. A dependência espacial é, portanto,
+real e mensurada, e o que ela não faz é deslocar o coeficiente: seu efeito
+está na barra de erro, e não no ponto.
 
 Essa mesma dependência tem uma segunda consequência, sobre a barra de erro dos
 centros de massa, e a Seção~\ref{sec:met-robustez} volta a ela: se as unidades
@@ -587,19 +590,21 @@ a prever a outra, e não causalidade.
 
 A decisão D16 vem de um erro próprio. Um teste de Granger aplicado a séries
 integradas fabrica precedência inexistente. O exame formal das ordens de
-integração, por triangulação entre os testes de Dickey-Fuller aumentado (ADF)
+integração, por confronto entre os testes de Dickey-Fuller aumentado (ADF)
 e de Kwiatkowski-Phillips-Schmidt-Shin (KPSS), classificou a série de pastagem
 do Norte como integrada de ordem dois, I(2), o que significa que nem sua primeira
-diferença é estacionária --- classificação que, com 39 observações e duas
-quebras estimadas nessas mesmas séries, é a resposta do teste e não uma
-propriedade estabelecida do processo. Enquanto isso, a série de agricultura do Sul é I(0).
+diferença é estacionária; só na segunda diferença os dois testes voltam a
+concordar que é --- e é essa linha, exibida na Seção~\ref{ap:precedencia}, que
+fixa a ordem em dois em vez de a supor. A classificação, com quarenta
+observações anuais e duas quebras estimadas nessas mesmas séries, é a resposta
+do teste e não uma propriedade estabelecida do processo. Enquanto isso, a série de agricultura do Sul é I(0).
 Séries de ordens diferentes não podem ser cointegradas: não há relação de
 longo prazo entre os níveis para o teste detectar, e qualquer ``precedência''
 encontrada nessa configuração é artefato.
 
 O problema é corrigido por três instrumentos. O procedimento de Toda-Yamamoto
 \cite{TodaYamamoto1995} ajusta um modelo vetorial autorregressivo em níveis
-com $p + d_{\max}$ defasagens ($p$ defasagens ótimas mais $d_{\max}$
+com $p + d_{\max}$ defasagens (as $p$ defasagens reportadas mais $d_{\max}$
 defasagens extras, iguais à ordem máxima de integração) e aplica o teste de
 Wald apenas às $p$ primeiras, tornando a inferência válida sob integração. O
 segundo são os \emph{placebos direcionais}, nos quais o mesmo teste é repetido
@@ -1059,7 +1064,7 @@ Dessa arquitetura derivam os produtos de uso direto do trabalho, a saber, o
 repositório de rotinas reprodutíveis sobre dados públicos e a visualização
 interativa que torna os achados navegáveis.\footnote{Disponível em
 \url{\urlviz}. Além das quatro frentes de evidência, a visualização reúne o
-registro das trinta decisões metodológicas, a descrição dos métodos
+registro das trinta e uma decisões metodológicas, a descrição dos métodos
 frente a frente e o glossário das métricas.}
 
 \section{O uso de inteligência artificial como instrumento}

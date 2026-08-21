@@ -404,11 +404,34 @@
 % =====================================================================
 % FONTES DE DADOS PRIMÁRIAS
 %
-% ⚠ A data de acesso está preenchida como 13 ago. 2026 em todas — ajustar
-% para a data real de coleta de cada base antes do depósito.
+% DATAS DE ACESSO (resolvidas em 21/ago/2026). Até então todas traziam o mesmo
+% 13 ago. 2026, que era marcador e não data — metadado sabidamente falso. Cada
+% uma passou a ser a data do artefato que a própria coleta gravou em data/raw/
+% (ou em data/cache/, para o que vem do GEE): é o registro de quando a base foi
+% de fato consultada.
+%     MapBiomas 10.1  21 jul.   data/raw/cubo_go (censo de pixels via GEE)
+%     MapBiomas Fogo   5 maio   data/cache/fogo
+%     Ipeadata         6 jun.   data/raw/drivers_macro
+%     SIDRA           16 jul.   data/raw/sidra
+%     SICOR           27 abr.   data/raw/sicor
+%     IFDM            18 jul.   data/raw/firjan
+%     PRODES          16 jul.   data/raw/prodes
+%     Aptidão Embrapa 18 jul.   data/raw/aptidao
+%     CONAB           18 jul.   data/raw/conab
+%     Atlas/IDH-M      5 maio   data/raw/idhm
+%     geobr           27 abr.   instalação do pacote no ambiente
+%
 % A versão do IFDM foi conferida em 20/ago contra scripts/coleta_firjan_ifdm.py
 % e crescimento_sem_desenvolvimento.py: é a série revista 2013-2023, e o campo
-% `note` agora diz que ela não emenda com a anterior. Falta conferir o Atlas/IDH-M.
+% `note` agora diz que ela não emenda com a anterior.
+%
+% O Atlas/IDH-M foi conferido em 21/ago contra scripts/coleta_idhm.py e
+% data/processed/idhm_goias_municipal.csv: o que entrou no trabalho são as
+% séries ADH_* obtidas pela API do Ipeadata, e só os três anos censitários
+% (1991, 2000, 2010) — o arquivo de 2021 baixado à mão tem 462 bytes e não
+% chegou ao processado. O `year = 2024` que a entrada trazia não correspondia a
+% nada verificável; ela passa a ser datada como base consultada, no mesmo
+% tratamento das irmãs (SIDRA, SICOR, Ipeadata), com o que foi puxado no `note`.
 % =====================================================================
 
 % Fonte de DADO, não literatura: entra pela categoria que o §2.1 distingue da
@@ -430,7 +453,7 @@
                   Cobertura da Terra do {B}rasil},
   howpublished = {Plataforma MapBiomas},
   year         = {2025a},
-  note         = {Acesso em: 13 ago. 2026},
+  note         = {Acesso em: 21 jul. 2026},
   url          = {https://brasil.mapbiomas.org}
 }
 
@@ -443,7 +466,7 @@
                   no {B}rasil ({MapBiomas} Fogo)},
   howpublished = {Plataforma MapBiomas},
   year         = {2025b},
-  note         = {Acesso em: 13 ago. 2026},
+  note         = {Acesso em: 5 maio 2026},
   url          = {https://brasil.mapbiomas.org/monitor-do-fogo}
 }
 
@@ -458,7 +481,7 @@
   year         = {2026},
   note         = {Taxa de c{\^a}mbio efetiva real (s{\'e}rie GAC12, deflator {INPC},
                   pondera{\c{c}}{\~a}o de exporta{\c{c}}{\~o}es) e pre{\c{c}}os
-                  recebidos pelo produtor. Acesso em: 13 ago. 2026},
+                  recebidos pelo produtor. Acesso em: 6 jun. 2026},
   url          = {http://www.ipeadata.gov.br}
 }
 
@@ -469,7 +492,7 @@
   year         = {2026},
   note         = {Produ{\c{c}}{\~a}o Agr{\'i}cola Municipal, Pesquisa Pecu{\'a}ria
                   Municipal, Contas Regionais e Censo Agropecu{\'a}rio 2017.
-                  Acesso em: 13 ago. 2026},
+                  Acesso em: 16 jul. 2026},
   url          = {https://sidra.ibge.gov.br}
 }
 
@@ -479,7 +502,7 @@
                   {P}roagro},
   howpublished = {Base de microdados},
   year         = {2026},
-  note         = {Acesso em: 13 ago. 2026},
+  note         = {Acesso em: 27 abr. 2026},
   url          = {https://www.bcb.gov.br/estabilidadefinanceira/creditorural}
 }
 
@@ -489,7 +512,7 @@
   year         = {2023},
   note         = {S{\'e}rie revista, 2013-2023, n{\~a}o emend{\'a}vel com a s{\'e}rie
                   anterior (2005-2016) por revis{\~a}o metodol{\'o}gica da fonte.
-                  Acesso em: 13 ago. 2026},
+                  Acesso em: 18 jul. 2026},
   url          = {https://www.firjan.com.br/ifdm}
 }
 
@@ -498,7 +521,7 @@
   title        = {{PRODES} {C}errado: monitoramento do desmatamento no bioma {C}errado
                   por sat{\'e}lite},
   year         = {2026},
-  note         = {Acesso em: 13 ago. 2026},
+  note         = {Acesso em: 16 jul. 2026},
   url          = {http://terrabrasilis.dpi.inpe.br}
 }
 
@@ -508,7 +531,7 @@
   howpublished = {GeoInfo --- Infraestrutura de Dados Espaciais da Embrapa},
   year         = {2026},
   note         = {Camada \texttt{geonode:aptidao\_agr\_bra}, acesso via {WFS}.
-                  Acesso em: 13 ago. 2026},
+                  Acesso em: 18 jul. 2026},
   url          = {https://geoinfo.cnpm.embrapa.br}
 }
 
@@ -516,7 +539,7 @@
   author       = {{COMPANHIA NACIONAL DE ABASTECIMENTO}},
   title        = {Cadastro Nacional de Unidades Armazenadoras},
   year         = {2026},
-  note         = {Acesso em: 13 ago. 2026},
+  note         = {Acesso em: 18 jul. 2026},
   url          = {https://www.conab.gov.br}
 }
 
@@ -525,9 +548,12 @@
                   and {INSTITUTO DE PESQUISA ECON{\^O}MICA APLICADA}
                   and {FUNDA{\c{C}}{\~A}O JO{\~A}O PINHEIRO}},
   title        = {Atlas do Desenvolvimento Humano no {B}rasil},
-  year         = {2024},
-  note         = {{\'I}ndice de Desenvolvimento Humano Municipal.
-                  Acesso em: 13 ago. 2026},
+  howpublished = {Banco de dados},
+  year         = {2026},
+  note         = {{\'I}ndice de Desenvolvimento Humano Municipal e sub{\'i}ndices
+                  (s{\'e}ries {ADH{\_}IDHM}, {ADH{\_}IDHM{\_}E}, {ADH{\_}IDHM{\_}L}
+                  e {ADH{\_}IDHM{\_}R}), anos censit{\'a}rios de 1991, 2000 e
+                  2010, obtidos pela {API} do Ipeadata. Acesso em: 5 maio 2026},
   url          = {http://www.atlasbrasil.org.br}
 }
 
@@ -537,7 +563,7 @@
   howpublished = {Pacote de \emph{software}},
   year         = {2019},
   note         = {Instituto de Pesquisa Econ{\^o}mica Aplicada (Ipea).
-                  Acesso em: 13 ago. 2026},
+                  Acesso em: 27 abr. 2026},
   url          = {https://github.com/ipeaGIT/geobr}
 }
 

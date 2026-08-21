@@ -96,11 +96,21 @@ def n_obs(v) -> str:
 
 
 def tabela(linhas, colspec, cab, legenda, rotulo, nota,
-           fonte="elaboração própria.", tam="small"):
+           fonte="elaboração própria.", tam="small", colsep=None):
+    r"""`colsep` aperta o espaco entre colunas (em pt) dentro do ambiente table.
+
+    So a Tabela SAR/SEM precisa: com 14 colunas ela estourava a mancha em
+    80,5pt. Diminuir a fonte tornaria a tabela ilegivel e tirar coluna tiraria
+    informacao; o espaco entre colunas e' o unico dos tres que nao custa nada.
+    O ajuste morre com o \end{table}, e nao vaza para as tabelas seguintes.
+    """
     # `!ht` e nao `htb`: com a barreira de flutuante, `b` fazia a tabela grande descer
     # ao pe de uma pagina nova e deixar uma faixa vazia no topo. O `!` afrouxa os
     # limites de tamanho para que ela suba ao alto da pagina seguinte.
-    out = [BR + "begin{table}[!ht]", BR + "centering",
+    out = [BR + "begin{table}[!ht]", BR + "centering"]
+    if colsep is not None:
+        out.append(BR + "setlength{" + BR + "tabcolsep}{" + str(colsep) + "pt}")
+    out += [
            BR + f"caption[{legenda[0]}]{{{legenda[1]}}}",
            BR + "label{" + rotulo + "}", BR + tam,
            BR + "begin{tabular}{" + colspec + "}", BR + "toprule", cab,
@@ -118,7 +128,10 @@ def tabela(linhas, colspec, cab, legenda, rotulo, nota,
 # A.1 --- Notação comum
 # ---------------------------------------------------------------------------
 
-PREAMBULO = r"""
+# A marca de raiz do editor vai no arquivo GERADO. Posta so no .tex, ela
+# sumiria na primeira regeneracao -- e sem ela o editor abre o apendice
+# sem saber a que documento ele pertence.
+PREAMBULO = r"""% !TEX root = ../main.tex
 \chapter{Especificações completas dos modelos}
 \label{ap:especificacoes}
 
@@ -462,21 +475,26 @@ precedência inexistente --- foi o que a decisão D16 registrou. O diagnóstico
 que sustenta essa decisão vem em dois passos, e as duas tabelas seguintes os
 separam porque \textbf{não são o mesmo teste}.
 
-O primeiro passo é a classificação das ordens de integração, por triangulação
+O primeiro passo é a classificação das ordens de integração, por confronto
 entre os testes de Dickey-Fuller aumentado (ADF) e de
-Kwiatkowski-Phillips-Schmidt-Shin (KPSS), cujas hipóteses nulas são opostas.
-A Tabela~\ref{tab:integracao} traz as quatro séries. É ela que mostra o
-descasamento: a agricultura do Sul é estacionária já em nível pelo ADF,
-enquanto a pastagem do Norte não o é nem depois de convertida em variações
-anuais --- a montagem clássica que fabrica precedência.
+Kwiatkowski-Phillips-Schmidt-Shin (KPSS), cujas hipóteses nulas são opostas. O
+veredito registrado é o do ADF, e a nota da tabela diz onde o KPSS o acompanha
+e onde não. A Tabela~\ref{tab:integracao} traz as duas séries em nível, em
+primeira e em segunda diferença. É ela que mostra o descasamento: a agricultura
+do Sul é estacionária já em nível pelo ADF, enquanto a pastagem do Norte não o
+é nem depois de convertida em variações anuais --- a montagem clássica que
+fabrica precedência. A pastagem só perde a raiz unitária na \emph{segunda}
+diferença, e é essa linha, e não uma suposição, que fixa \(d_{\max} = 2\) no
+teste do passo seguinte.
 
 O segundo passo é a inferência válida sob integração. A
 Tabela~\ref{tab:precedencia} reporta três colunas de \(p\), e a distinção entre
 elas é a correção que esta versão do apêndice faz. O \(p\) de Granger é o
 teste-F clássico. O \(p\) de Wald HAC é o mesmo teste em primeira diferença,
-com covariância robusta a heterocedasticidade e autocorrelação: ele corrige o
-\emph{erro-padrão}, e não a integração, de modo que \textbf{não} resolve o
-problema diagnosticado acima. Quem o resolve é a terceira coluna, o \(p\) de
+com covariância robusta a heterocedasticidade e autocorrelação (Newey-West com
+duas defasagens, o mesmo número que aumenta o modelo de Toda-Yamamoto): ele
+corrige o \emph{erro-padrão}, e não a integração, de modo que \textbf{não}
+resolve o problema diagnosticado acima. Quem o resolve é a terceira coluna, o \(p\) de
 Toda-Yamamoto \cite{TodaYamamoto1995}, que ajusta o modelo vetorial
 autorregressivo em \emph{níveis} com \(p + d_{\max}\) defasagens e aplica o
 teste de Wald apenas às \(p\) primeiras. É esse o número que o
@@ -503,6 +521,8 @@ def secao_precedencia() -> str:
         "pasto_Norte (nível)": "Pastagem do Norte, em nível",
         "Δagric_Sul":          r"Agricultura do Sul, em 1\textsuperscript{a} diferença",
         "Δpasto_Norte":        r"Pastagem do Norte, em 1\textsuperscript{a} diferença",
+        "ΔΔagric_Sul":         r"Agricultura do Sul, em 2\textsuperscript{a} diferença",
+        "ΔΔpasto_Norte":       r"Pastagem do Norte, em 2\textsuperscript{a} diferença",
     }
     lin_i = []
     for _, r in ordens.iterrows():
@@ -517,17 +537,32 @@ def secao_precedencia() -> str:
         (r"\textbf{Série} & \textbf{$n$} & \textbf{$p$ ADF} & \textbf{$p$ KPSS} & "
          r"\textbf{Veredito (ADF)} \\"),
         ("Ordens de integração das séries regionais",
-         "Testes de raiz unitária nas séries regionais, em nível e em primeira diferença."),
+         "Testes de raiz unitária nas séries regionais, em nível, em primeira e em "
+         "segunda diferença."),
         "tab:integracao",
+        # A versao anterior desta nota chamava de "discordancia" o que era ACORDO: onde o
+        # ADF nao rejeita a raiz unitaria e o KPSS rejeita a estacionariedade, os dois
+        # dizem a MESMA coisa. Corrigida, a nota passa a sustentar o argumento em vez de
+        # o enfraquecer -- as duas reguas concordam justamente na serie de onde vem o
+        # diagnostico, e voltam a concordar na 2a diferenca, que e o que fixa dmax=2.
         (r"as hipóteses nulas dos dois testes são \textbf{opostas}: o ADF tem por nula a "
          r"presença de raiz unitária, de modo que $p$ baixo indica série estacionária; o "
          r"KPSS tem por nula a estacionariedade, de modo que $p$ baixo indica o contrário. "
-         r"O veredito da última coluna é o do ADF. O KPSS rejeita em todas, inclusive onde "
-         r"o ADF não rejeita, e essa discordância é a razão de a classificação ser "
-         r"\emph{a resposta do teste} nesta amostra, e não propriedade estabelecida do "
-         r"processo: com 39 observações e duas quebras estimadas nessas mesmas séries, "
-         r"nenhum dos dois é decisivo sozinho. O que a tabela estabelece com segurança é o "
-         r"\emph{descasamento} entre as duas séries, que é o que invalida o teste clássico."),
+         r"A última coluna traz o veredito do ADF, que é a régua com que $d_{\max}$ foi "
+         r"fixado. Os dois testes \textbf{concordam} nas duas linhas da pastagem do Norte "
+         r"--- ambos a dão não estacionária em nível e em primeira diferença ---, e é dela "
+         r"que vem o diagnóstico; \textbf{divergem} nas duas linhas da agricultura do Sul, "
+         r"que o ADF dá estacionária e o KPSS não; e \textbf{voltam a concordar} nas duas "
+         r"segundas diferenças, estacionárias pelas duas réguas. São estas as linhas que "
+         r"sustentam $d_{\max} = 2$: sem elas a ordem de integração da pastagem ficaria "
+         r"afirmada e não mostrada. O $p$ do KPSS é truncado na tabela de valores críticos "
+         r"da rotina, de modo que $0{,}010$ e $0{,}100$ são limites e se leem como "
+         r"``$\leq$'' e ``$\geq$''. Com 40 observações e duas quebras estimadas nessas "
+         r"mesmas séries, nenhum dos dois testes é decisivo sozinho, e a classificação vale "
+         r"como \emph{a resposta do teste} nesta amostra, e não como propriedade "
+         r"estabelecida do processo. O que a tabela estabelece com segurança é o "
+         r"\emph{descasamento} entre as duas séries em nível e em primeira diferença, que "
+         r"é o que invalida o teste clássico."),
         tam="footnotesize")
 
     # --- passo 2: precedencia, com a coluna de Toda-Yamamoto ---
@@ -556,7 +591,8 @@ def secao_precedencia() -> str:
     nota = (r"séries anuais agregadas por região; ``Def.'' é o número de defasagens do "
             r"modelo. As três colunas de $p$ \textbf{não são a mesma régua}. $p$ Granger é "
             r"o teste-F clássico em primeira diferença. $p$ Wald HAC é o mesmo teste com "
-            r"covariância robusta a heterocedasticidade e autocorrelação (Newey-West): "
+            r"covariância robusta a heterocedasticidade e autocorrelação (Newey-West com "
+            r"duas defasagens): "
             r"corrige o erro-padrão, não a integração. $p$ T-Y é o de Toda-Yamamoto, "
             r"ajustado em \emph{níveis} com $p + d_{\max}$ defasagens ($d_{\max} = 2$) e "
             r"com o teste de Wald restrito às $p$ primeiras --- é a única das três válida "
@@ -649,8 +685,10 @@ interesse \(\Delta\)agricultura, sem controles. Mede troca de uso \emph{dentro}
 da unidade --- e não deslocamento, que é objeto da Seção~\ref{ap:slx}.
 \end{description}
 
-O erro-padrão e o \(p\) reportados são os da estimação por mínimos quadrados,
-que é a referência contra a qual as outras duas colunas são lidas.
+O erro-padrão da tabela é o da estimação por mínimos quadrados, que é a
+referência contra a qual as outras duas colunas são lidas; o \(p\) é reportado
+para as três, de modo que a coluna ``Sobrev.'' possa ser conferida na própria
+linha, e não aceita sob palavra.
 """
 
 
@@ -664,17 +702,59 @@ def secao_sarsem() -> str:
             esc(r["modelo"]),
             rot_w.get(str(r["W"]), esc(r["W"])), n_obs(r["n_obs"]),
             num(r["beta_ols"], 4, mais=True), num(r["se_ols"], 4), p_val(r["p_ols"]),
-            num(r["beta_lag"], 4, mais=True), num(r["beta_err"], 4, mais=True),
+            num(r["beta_lag"], 4, mais=True), p_val(r["p_lag"]),
+            num(r["beta_err"], 4, mais=True), p_val(r["p_err"]),
             num(r["rho"], 3), num(r["lam"], 3),
             rot_forma.get(str(r["forma_preferida"]), esc(r["forma_preferida"])),
             "sim" if bool(r["sobrevive"]) else r"\textbf{não}",
         ]) + r" \\")
     cab = (r"\textbf{Modelo} & \textbf{$W$} & \textbf{$n$} & "
            r"\textbf{$\hat{\beta}_{MQ}$} & \textbf{EP} & \textbf{$p$} & "
-           r"\textbf{$\hat{\beta}_{SAR}$} & \textbf{$\hat{\beta}_{SEM}$} & "
+           r"\textbf{$\hat{\beta}_{SAR}$} & \textbf{$p$} & "
+           r"\textbf{$\hat{\beta}_{SEM}$} & \textbf{$p$} & "
            r"\textbf{$\hat{\rho}$} & \textbf{$\hat{\lambda}$} & \textbf{Forma} & "
            r"\textbf{Sobrev.} \\")
     n = int(d["N"].iloc[0])
+    # A nota NAO pode afirmar "atenua-se" a mao. A versao anterior dizia "nas quatro
+    # linhas o coeficiente atenua-se" e ja era falsa: o SEM do M3 com 8 vizinhos CRESCE
+    # 0,6% em magnitude. Frase de tabela e afirmacao, e afirmacao digitada envelhece --
+    # a faixa passa a ser lida do proprio CSV a cada regeneracao.
+    razoes = [abs(r[c]) / abs(r["beta_ols"]) - 1.0
+              for _, r in d.iterrows() for c in ("beta_lag", "beta_err")]
+    n_atenua = sum(1 for v in razoes if v < 0)
+    n_esp = len(razoes)
+    p_max_esp = max(max(r["p_lag"], r["p_err"]) for _, r in d.iterrows())
+
+    def pct(v):
+        return f"{abs(v) * 100:.1f}".replace(".", "{,}") + BR + "%"
+
+    # O maior p espacial e' da ordem de 1e-10; `p_val` o achataria em "<0,001" e a nota
+    # ficaria dizendo "abaixo de <0,001". Abaixo do piso da tabela, reporta-se a ordem.
+    if p_max_esp < 0.001:
+        exp = f"{p_max_esp:.0e}".split("e")[1]
+        sig_esp = (r"o maior $p$ entre as oito estimativas espaciais é da ordem de "
+                   r"$10^{" + str(int(exp)) + r"}$")
+    else:
+        sig_esp = (r"o maior $p$ entre as oito estimativas espaciais é " +
+                   p_val(p_max_esp))
+
+    # Numeral por extenso: e' prosa de nota de rodape, nao celula de tabela.
+    ext = {1: "uma", 2: "duas", 3: "três", 4: "quatro", 5: "cinco", 6: "seis",
+           7: "sete", 8: "oito", 9: "nove", 10: "dez"}
+    def nome_n(v):
+        return ext.get(v, str(v))
+
+    n_cresce = n_esp - n_atenua
+    if n_cresce == 0:
+        faixa = (r"as " + nome_n(n_esp) + r" estimativas espaciais atenuam-se em relação "
+                 r"aos mínimos quadrados, no máximo " + pct(min(razoes)) + ".")
+    else:
+        faixa = (nome_n(n_atenua) + r" das " + nome_n(n_esp) + r" estimativas espaciais "
+                 r"atenuam-se em relação aos mínimos quadrados, no máximo " +
+                 pct(min(razoes)) + r"; " +
+                 (r"a restante cresce " if n_cresce == 1
+                  else nome_n(n_cresce) + r" crescem em magnitude, no máximo ") +
+                 pct(max(razoes)) + r" em magnitude.")
     nota = (r"todas as especificações correm sobre as " + str(n) + r" unidades, em "
             r"primeira diferença e com efeitos fixos de unidade e de ano; $n$ é o total de "
             r"células após exclusão de ausentes, e varia porque as fontes dos regressores "
@@ -682,18 +762,20 @@ def secao_sarsem() -> str:
             r"matriz de pesos: \emph{queen} é a de "
             r"contiguidade, ``8 viz.'' a dos oito vizinhos mais próximos --- o M3 é "
             r"estimado com as duas, para medir quanto a escolha de $W$ move o resultado. "
-            r"O erro-padrão e o $p$ são os da estimação por mínimos quadrados; $\hat{\rho}$ "
+            r"O erro-padrão é o da estimação por mínimos quadrados; cada uma das três "
+            r"estimações traz o seu próprio $p$. $\hat{\rho}$ "
             r"é o parâmetro de defasagem espacial do SAR e $\hat{\lambda}$ o de dependência "
             r"do erro no SEM. ``Forma'' é a preferida pelos testes do multiplicador de "
             r"Lagrange em versão robusta, nomeada pela forma que ela indica (SAR para "
             r"defasagem, SEM para erro). ``Sobrev.'' indica se o sinal e a significância "
-            r"do coeficiente de interesse resistem à modelagem da dependência: nas quatro "
-            r"linhas o coeficiente atenua-se e nenhuma troca de sinal.")
+            r"do coeficiente de interesse resistem à modelagem da dependência. As "
+            r"magnitudes ficam \textbf{estáveis}: " + faixa + r" Nenhuma troca de sinal, e "
+            r"nenhuma perda de significância: " + sig_esp + r".")
     return SARSEM_TEXTO + chr(10) + chr(10) + tabela(
-        linhas, "lcrcccccccll", cab,
+        linhas, "lcrcccccccccll", cab,
         ("Dependência espacial nos três modelos de painel",
          "Coeficientes de interesse sob mínimos quadrados, SAR e SEM, nas duas matrizes de peso."),
-        "tab:sarsem", nota, tam="scriptsize")
+        "tab:sarsem", nota, tam="scriptsize", colsep=3)
 
 
 # ---------------------------------------------------------------------------
