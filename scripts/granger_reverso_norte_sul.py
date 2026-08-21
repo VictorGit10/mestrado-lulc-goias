@@ -312,7 +312,7 @@ def bloco_C(df: pd.DataFrame) -> pd.DataFrame:
     for nome, cols in modelos:
         sub = d.dropna(subset=["y"] + cols)
         X = sm.add_constant(sub[cols])
-        fit = sm.OLS(sub["y"], X).fit(cov_type="HAC", cov_kwds={"maxlags": 1})
+        fit = sm.OLS(sub["y"], X).fit(cov_type="HAC", cov_kwds={"maxlags": HAC_LAGS})
         b, p = float(fit.params["x_l1"]), float(fit.pvalues["x_l1"])
         linhas.append({"modelo": nome, "n": int(fit.nobs), "n_regress": len(cols),
                        "beta_pastoNorte_l1": round(b, 4), "p_pastoNorte_l1": round(p, 4),
@@ -324,7 +324,7 @@ def bloco_C(df: pd.DataFrame) -> pd.DataFrame:
     print(f"\n  → baseline p={p0} → com drive comum p={p2}: o termo PERSISTE.")
     print("    LEITURA: persistir aqui NÃO confirma Norte→Sul. Controles Δlog (estacionários)")
     print("    não absorvem a tendência espúria de uma série I(2); o veredito vem do Bloco B")
-    print("    (Toda-Yamamoto anula tudo) + Bloco D (placebos acendem todos). ⇒ H_espurio.")
+    print("    (Toda-Yamamoto anula tudo) + Bloco D (3 de 4 placebos acendem). ⇒ H_espurio.")
     return out
 
 
@@ -347,7 +347,7 @@ def bloco_D(df: pd.DataFrame) -> pd.DataFrame:
         if len(t) < 8:
             return {"n": len(t), "beta": np.nan, "p": np.nan}
         X = sm.add_constant(t[["y_l1", "x_l1"]])
-        fit = sm.OLS(t[ycol], X).fit(cov_type="HAC", cov_kwds={"maxlags": 1})
+        fit = sm.OLS(t[ycol], X).fit(cov_type="HAC", cov_kwds={"maxlags": HAC_LAGS})
         return {"n": int(fit.nobs), "beta": round(float(fit.params["x_l1"]), 4),
                 "p": round(float(fit.pvalues["x_l1"]), 4)}
 
@@ -441,7 +441,8 @@ def fig_veredito(A: pd.DataFrame, B: pd.DataFrame, D: pd.DataFrame) -> None:
     """A figura-manchete do veredito: (1) o Granger ingênuo (1ª dif) acende, mas o
     Toda-Yamamoto (correto p/ séries integradas) anula AS DUAS direções; (2) a
     precedência 'reversa' não é específica — placebos que não deveriam acender,
-    acendem todos. Os dois painéis juntos = artefato de co-tendência espúria."""
+    acendem em 3 dos 4 pares sem mecanismo. Os dois painéis juntos = artefato de
+    co-tendência espúria."""
     import matplotlib.pyplot as plt
 
     def nlp(p):  # −log10(p), com piso
@@ -489,7 +490,9 @@ def fig_veredito(A: pd.DataFrame, B: pd.DataFrame, D: pd.DataFrame) -> None:
     ax.axvline(nlp(0.05), color="0.3", lw=1, ls=":"); ax.text(nlp(0.05), len(dd)-0.4, "p=0,05", fontsize=8, color="0.3", ha="center")
     ax.set_yticks(y); ax.set_yticklabels(dd.rot, fontsize=9)
     ax.set_xlabel("−log₁₀(p) do termo defasado")
-    ax.set_title("2. A 'precedência' NÃO é específica\n(placebos acendem igual ao alvo)", fontsize=11, loc="left")
+    # Rotulo de figura e' afirmacao e envelhece (D27): sob HAC(2) o placebo
+    # Pasto_N->Agric_Centro fica em p=0,056 e NAO acende. Sao 3 de 4.
+    ax.set_title("2. A 'precedência' NÃO é específica\n(3 dos 4 placebos acendem)", fontsize=11, loc="left")
 
     fig.suptitle("Veredito do fio 5: o Granger reverso é co-tendência espúria, não inversão Norte→Sul",
                  fontsize=13, y=1.0)

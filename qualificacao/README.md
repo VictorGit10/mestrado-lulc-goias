@@ -1724,6 +1724,79 @@ indefinida, `verificar.py` em 0 erros / 0 avisos, `verificar_reforma.py` com
 todas as verificações passando. Os doze "nan" que um grep cru acha no PDF são
 `financeira`, `dominante`, `determinante` e afins — nenhuma célula vazia.
 
+### O resto da terceira leitura — a convenção do HAC e os resíduos (21/ago/2026, mesmo dia)
+
+Segunda passada da mesma leitura externa, depois de publicado o `099dc43`. Quatro pontos, todos
+procedentes. **Um deles é um defeito meu do passe anterior**, e outro é falso alarme.
+
+**1. O HAC estava alinhado pela metade — e isso apaga um placebo.** Corrigi `granger_hac()`
+(blocos A e B) e não os blocos **C e D**, que seguiam com `maxlags=1`. Consequência real, não
+cosmética: com as duas defasagens declaradas, o placebo `Pasto_Norte → Agric_Centro` passa de
+**p=0,034 a p=0,056** e **deixa de acender**. A frase "os placebos acendem onde não há mecanismo"
+vira "**três dos quatro**".
+
+O argumento não depende da contagem: quem o sustenta é o placebo mais forte, o pasto do Norte
+"antecedendo" o pasto do *próprio Sul* a p=0,0007 — o mesmo p do achado-manchete. Mas a frase
+generalizante era mais forte que a evidência, e três lugares a repetiam. Corrigidos o cap. 4,
+dois trechos da viz, o doc do #42 e a **prosa do próprio script**, incluindo o título da
+Figura 2 do #42 (`veredito.png`), que dizia "placebos acendem igual ao alvo" — rótulo de figura
+é afirmação e envelhece (D27), mesmo quando a figura não entra no PDF.
+
+Todos os `maxlags` do #42 passam a vir de `HAC_LAGS`. Nenhum outro veredito se move: o alvo
+segue p=0,0001, o detrend vai a 0,061 e o bloco C persiste a 0,0006.
+
+⚠️ **Padrão-raiz:** corrigi *a função* e não *a convenção*. Quando o defeito é "o código não faz
+o que o texto declara", a busca é pela **constante**, no arquivo inteiro — não pelo trecho que o
+parecer citou.
+
+**2. "Trinta decisões" sobrevivia em dois lugares.** Minha varredura foi `grep "trinta decisões"`,
+de uma linha só, e as duas ocorrências restantes estavam **quebradas em duas linhas**
+(`00_apresentacao.tex:11`) ou sem a palavra adjacente (`03_metodologia.tex:839`, "o registro das
+trinta está na visualização"). É [[feedback-varredura-classe]] outra vez: a varredura acha a
+forma que procura, e o `.tex` quebra linha no meio da frase. Regra: **num fonte com quebra de
+linha automática, o padrão de busca tem de ser multilinha ou de uma palavra só.**
+
+**3. "Na barra de erro, e não no ponto" era categórico demais** — e a frase era minha, escrita no
+passe anterior. O ponto **se move**, até 14,6%. Reescrita: o ponto se desloca dentro de uma faixa
+que não troca sinal, não retira significância e não muda veredito; o que a modelagem corrige, no
+que interessa à leitura, é a barra de erro.
+
+**4. Os documentos rastreados com a régua antiga.** Dois afirmavam os números da D18 como
+correntes e foram tratados: a linha de índice do #47 em `Textos/pipelines/README.md` (dizia "faixa
+751–1208; floresta domina a emissão") e a seção de achados do próprio `47_custo_carbono_marcha.md`,
+que agora abre com o aviso de superação apontando para a seção da régua nova — a seção fica
+registrada, não corrigida. A entrada do #47 no `backlog.md` ganhou a mesma marca.
+`auditoria_numeros_tela.md` e `BLUEPRINT_PARTE2.md` ficam como estão: são registros datados cujo
+objeto **é** o que estava na tela naquele dia.
+
+**Falso alarme conferido:** `Visualizacao/scratch/*.html` não estão no repositório. `.gitignore:29`
+ignora `Visualizacao/scratch/`, e a URL responde **404**. Eu havia repetido essa preocupação na
+mensagem anterior sem conferir — o parecer e eu líamos a árvore de trabalho, não o que está
+publicado.
+
+**Dois achados desta conferência, fora das duas listas:**
+
+**O gerador de figuras da Perna 4 era uma arma carregada.** `gerar_figuras_perna4.py` está três
+mudanças atrás da página: monta **três** retângulos onde a publicada tem **quatro**; indexa
+`rot_curto`/`classe` pelos nomes de fitofisionomia anteriores à D30 (levanta `KeyError` na
+primeira linha do CSV); aponta `HTML` para `reforma.html`, renomeada em 2/ago; e traz a prosa da
+D18, incluindo "a savânica ... ainda assim emite menos", que a D30 **inverteu**. As figuras no ar
+foram escritas à mão no `7c179e6`.
+
+Consertar só o `KeyError` e o caminho seria **pior que deixar quebrado** — o script passaria a
+rodar e reverteria a publicação em silêncio. `main()` agora **recusa a execução** com a explicação
+do que falta, e o cabeçalho registra as quatro divergências. A trava é `sys.exit`, e não
+comentário: comentário se pula.
+
+**A "Versão clássica" publicada não se identificava como superada.** O `index.html` da raiz linka
+`Visualizacao/index-original.html` (HTTP 200) e o card diz "Versão anterior" — mas quem chega pelo
+link direto não vê o card, e a página inteira está na régua D18 (floresta 499 × savânica 458).
+Ganhou uma tarja no topo, dentro da própria página, dizendo o que foi superado e apontando para a
+atual. Registro de superação mora onde mora o objeto dele.
+
+**Estado:** 106 páginas, zero `Overfull`, zero indefinido, `verificar.py` 0/0,
+`verificar_reforma.py` todas passando.
+
 ### `verificar.py` — invariantes (17/ago/2026)
 
 Teste de regressão, **não** auditoria: roda sempre as mesmas cinco checagens e

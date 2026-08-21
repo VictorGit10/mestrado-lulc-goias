@@ -1,5 +1,35 @@
 """Gera as figuras SVG-inline da Perna 4 da reforma a partir dos CSVs reais.
 
+⚠ TRAVADO EM 21/ago/2026 — NAO RODAR SEM RECONSTRUIR AS FIGURAS 2 E 3.
+
+Este script ficou para tras da pagina publicada, e a divergencia e' de LAYOUT,
+nao so' de palavra:
+
+  * As figuras 2 e 3 que estao no ar foram escritas a mao no commit 7c179e6,
+    quando a D30 trocou as densidades. A figura 2 publicada tem QUATRO
+    retangulos (florestal, savanica, campestre, campo alagado); este gerador
+    monta TRES.
+  * `carbono_por_formacao_mcti.csv` mudou os nomes das fitofisionomias com a
+    D30 ("Floresta nativa" -> "Formacao florestal", "Campo nativo" ->
+    "Formacao campestre", mais "Campo alagado"). Os dicionarios `rot_curto` e
+    `classe` da figura 2 ainda usam os nomes velhos: o script levanta KeyError
+    na primeira linha do CSV.
+  * `HTML` apontava para `Visualizacao/reforma.html`, renomeada para
+    `index.html` em 2/ago/2026 (commit 129425e). O caminho nao existe mais.
+  * A prosa das duas legendas ainda e' a da regua D18 — inclusive a frase "a
+    savanica ... ainda assim emite menos", que a D30 INVERTEU (a savanica paga
+    573 Mt contra 340 da florestal), e o rotulo "emissao", que a D31 separou
+    em estoque removido (973 Mt) x emissao liquida (833 Mt).
+
+Consertar so' o KeyError e o caminho seria pior do que deixar quebrado: o
+script passaria a rodar e reverteria em silencio as figuras publicadas para
+uma versao de tres retangulos com a composicao invertida. Por isso `main()`
+recusa a execucao ate' que as figuras 2 e 3 sejam reconstruidas contra o CSV
+da D30 e o resultado seja conferido contra o que esta no ar.
+
+As figuras 1 e 4 nao tem esse problema, mas saem no mesmo fragmento; separa-las
+faz parte da reconstrucao.
+
 Por que um script e nao SVG escrito a mao: rotulo de figura e' afirmacao e
 envelhece (D27). Aqui cada coordenada sai do CSV, e o `--auditar` reimprime todo
 numero que aparece na tela ao lado da sua fonte — da' para reconferir sem abrir o
@@ -23,7 +53,7 @@ ENTRADAS  (todas em data/processed/)
 
 SAIDA
     Visualizacao/scratch/figuras_perna4.html  (fragmento, para conferir isolado)
-    Visualizacao/reforma.html                 (com --aplicar, entre os marcadores
+    Visualizacao/index.html                   (com --aplicar, entre os marcadores
                                                <!-- fig-perna4:N -->; idempotente)
 
 COMO RODAR
@@ -52,7 +82,8 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[2]
 PROC = ROOT / "data" / "processed"
 SAIDA = ROOT / "Visualizacao" / "scratch" / "figuras_perna4.html"
-HTML = ROOT / "Visualizacao" / "reforma.html"
+# reforma.html virou index.html em 2/ago/2026 (129425e); o caminho antigo nao existe.
+HTML = ROOT / "Visualizacao" / "index.html"
 
 AUDIT: list[tuple[str, str, str]] = []   # (figura, numero na tela, fonte)
 
@@ -567,8 +598,23 @@ def main() -> None:
     ap.add_argument("--auditar", action="store_true",
                     help="lista todo numero que aparece na tela e sua fonte")
     ap.add_argument("--aplicar", action="store_true",
-                    help="escreve as figuras direto no reforma.html")
+                    help="escreve as figuras direto no index.html")
+    ap.add_argument("--destravar", action="store_true",
+                    help="ignora a trava do topo do arquivo (so' para a reconstrucao)")
     args = ap.parse_args()
+
+    # A trava, e nao so' o aviso do cabecalho: um comentario se pula, um
+    # sys.exit nao. Ver o bloco "TRAVADO EM 21/ago/2026" no topo do arquivo.
+    if not args.destravar:
+        sys.exit(
+            "RECUSADO: este gerador esta' atras da pagina publicada.\n"
+            "  As figuras 2 e 3 no ar foram escritas a mao (7c179e6) e tem\n"
+            "  QUATRO retangulos; este script monta TRES, com os nomes de\n"
+            "  fitofisionomia anteriores a D30 e a prosa da regua D18.\n"
+            "  Rodar com --aplicar reverteria a publicacao.\n"
+            "  Reconstrua as figuras 2 e 3 e remova esta trava; --destravar\n"
+            "  existe so' para quem esta' fazendo essa reconstrucao."
+        )
 
     figs = [figura1(), figura2(), figura3(), figura4()]
     # Toda SVG ganha um envelope que rola sozinho: no celular a figura encolheria

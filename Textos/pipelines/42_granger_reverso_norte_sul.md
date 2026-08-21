@@ -38,7 +38,7 @@ Este pipeline cutuca a ponta com o rigor que o #34 não teve tempo de aplicar, d
 ## Achados — o reverso é co-tendência espúria, NÃO uma inversão
 
 ### 1. O reverso reproduz e parece robusto (a armadilha)
-`ΔPasto_Norte → ΔAgric_Sul`: Granger **p=0,0007** (lag 1), e até **fortalece sob HAC** (p=0,0003; β=+0,44). Tomado isolado, parece um achado firme. Mas três coisas já incomodam:
+`ΔPasto_Norte → ΔAgric_Sul`: Granger **p=0,0007** (lag 1), e até **fortalece sob HAC** (p=0,0006; β=+0,44). Tomado isolado, parece um achado firme. Mas três coisas já incomodam:
 - **Só no lag 1**: o coeficiente individual perde significância no lag 2 (HAC p=0,34) e 3.
 - **Só a área de pasto, não o rebanho**: `ΔBovinos_Norte → ΔAgric_Sul` é **nulo** em todos os lags (p=0,72/0,19/0,30). Um mecanismo econômico coerente Norte→Sul deveria aparecer também no rebanho.
 
@@ -51,6 +51,15 @@ ADF/KPSS:
 | pasto_Norte (nível) | p=0,96 (não) | p=0,010 (não) | integrada |
 | Δagric_Sul | p=0,001 (estac.) | p=0,050 | **estacionária** |
 | **Δpasto_Norte** | **p=0,922 (NÃO-estac.)** | p=0,010 (não) | **ainda integrada ⇒ pasto_Norte é I(2)** |
+| ΔΔagric_Sul | p<0,001 (estac.) | p=0,100 (estac.) | as duas réguas concordam |
+| **ΔΔpasto_Norte** | **p=0,001 (estac.)** | **p=0,100 (estac.)** | **as duas concordam ⇒ é aqui que I(2) se fecha** |
+
+As duas últimas linhas entraram em 21/ago/2026. Sem elas o `dmax=2` ficava **afirmado e não
+mostrado**: I(2) só se sustenta exibindo a diferença em que a série finalmente perde a raiz
+unitária. Vale notar onde os testes concordam e onde não — eles **concordam** nas duas linhas
+da pastagem do Norte, que é a série de onde vem o diagnóstico, e **voltam a concordar** nas
+segundas diferenças; divergem só nas da agricultura do Sul. O `p` do KPSS é truncado na tabela
+de valores críticos da rotina: 0,010 e 0,100 são limites, e se leem como "≤" e "≥".
 
 O ponto-âncora: **a 1ª diferença de pasto_Norte continua não-estacionária**. O #34 rodou o Granger sobre 1as diferenças — ou seja, regrediu uma série **estacionária** (Δagric_Sul) sobre uma **não-estacionária** (Δpasto_Norte). É uma **regressão desbalanceada**, a montagem clássica de **precedência espúria**. E como `agric_Sul ~ I(0)` e `pasto_Norte ~ I(2)` têm **ordens de integração diferentes**, não podem nem ser cointegradas — não há relação de longo prazo estável entre os níveis para detectar.
 
@@ -65,20 +74,27 @@ Com `dmax=2` (a ordem de integração do pasto_Norte), o Toda-Yamamoto é robust
 **Nenhuma direção** mostra precedência. O sinal de lead-lag **evapora** sob o teste correto — incluindo o forward (logo, isto **não** autoriza reivindicar Sul→Norte; o correto é **co-movimento sem liderança temporal em nenhuma direção**, exatamente o que o #34 já dizia).
 
 ### 4. Os placebos provam a não-especificidade (a evidência mais limpa)
-Se houvesse um canal **Norte→Sul agrícola** real, ele não deveria acender onde não há mecanismo. Mas acende em tudo (HAC OLS lag 1):
+Se houvesse um canal **Norte→Sul agrícola** real, ele não deveria acender onde não há mecanismo. Mas acende em quase tudo — **três dos quatro** placebos direcionais (OLS lag 1, HAC Newey-West com **2 defasagens**, a convenção declarada na metodologia):
 
 | Relação | β | p | deveria? |
 |---|---|---|---|
-| **ALVO** Pasto_N → Agric_S | +0,44 | ~0,000 | — |
+| **ALVO** Pasto_N → Agric_S | +0,44 | 0,0001 | — |
 | placebo Pasto_**Centro** → Agric_S | +0,53 | ~0,000 | não |
-| placebo Pasto_N → Agric_**Centro** | +0,05 | 0,034 | não |
+| placebo Pasto_N → Agric_**Centro** | +0,05 | 0,056 | não — **e este não acende** |
 | placebo Pasto_N → **Pasto_S** | +0,46 | **0,0007** | **não** (mesma magnitude do alvo!) |
-| placebo Agric_N → Agric_S | −1,14 | 0,033 | não (sinal trocado) |
+| placebo Agric_N → Agric_S | −1,14 | 0,027 | não (sinal trocado) |
 
-Qualquer série de área **nortenha/central** suave "Granger-lidera" qualquer série **sulista** suave no lag 1 — inclusive o pasto do Norte "prevendo" o **pasto do Sul** com o mesmo p do achado-manchete. Isso é assinatura de **co-tendência espúria**, não de um mecanismo causal direcionado.
+⚠ **Régua trocada em 21/ago/2026.** Até então esta tabela rodava com `maxlags=1` enquanto a
+metodologia declarava duas defasagens — os blocos A e B já haviam sido alinhados, C e D não.
+Com a convenção declarada, o placebo `Pasto_N → Agric_Centro` passa de **p=0,034 a p=0,056** e
+deixa de acender. A afirmação "acendem em tudo" virou "**três dos quatro**"; nenhum outro
+veredito se move. O que sustenta o argumento continua sendo o placebo mais forte, e não a
+contagem: o pasto do Norte "prevendo" o **pasto do Sul** com o mesmo p do achado-manchete.
+
+Qualquer série de área **nortenha/central** suave "Granger-lidera" quase qualquer série **sulista** suave no lag 1. Isso é assinatura de **co-tendência espúria**, não de um mecanismo causal direcionado.
 
 ### 5. Por que o Bloco C (drive comum) NÃO salva o H_inverte
-O termo `ΔPasto_Norte.L1` **persiste** controlando os drivers (p=0,0002). Isoladamente pareceria robustez — é a **armadilha**. Mas os controles são Δlog **estacionários**; eles não conseguem absorver a **tendência espúria** de uma série I(2). Persistir aqui é o esperado para um artefato de tendência, não evidência de causa. Some-se: **detrend linear** derruba o alvo para o limite (p=0,050). O Bloco C só mostra que o artefato **não** é um confundidor de timing de baixa ordem — é um problema de **integração**, que só o Bloco B (TY) e o Bloco D (placebos) expõem.
+O termo `ΔPasto_Norte.L1` **persiste** controlando os drivers (p=0,0006 na especificação mais saturada). Isoladamente pareceria robustez — é a **armadilha**. Mas os controles são Δlog **estacionários**; eles não conseguem absorver a **tendência espúria** de uma série I(2). Persistir aqui é o esperado para um artefato de tendência, não evidência de causa. Some-se: **detrend linear** derruba o alvo para fora dos 5% (p=0,061). O Bloco C só mostra que o artefato **não** é um confundidor de timing de baixa ordem — é um problema de **integração**, que só o Bloco B (TY) e o Bloco D (placebos) expõem.
 
 ### 6. Veredito
 > O Granger reverso `ΔPasto_Norte → ΔAgric_Sul` (p=0,0007) é um **artefato de regressão espúria** entre séries integradas de tendência suave — **não** uma inversão causal Norte→Sul. Ele **não derruba** o #34; ao contrário, **reforça** a leitura de **co-evolução sob drive comum sem precedência temporal em nenhuma direção**. A única ponta que poderia inverter a narrativa Sul→Norte está agora explicada e descartada em **base metodológica sólida** — não mais com o aceno de "N pequeno".

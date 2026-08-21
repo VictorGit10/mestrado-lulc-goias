@@ -45,7 +45,16 @@ Solo (SOC 0–30 cm ≈ 40 Mg C/ha, fração liberada ~0,25) entra como **camada
 
 ## Achados — o carbono não é proporcional à área, e o custo marcha ao norte
 
-### 1. A floresta domina o carbono mesmo perdendo menos da metade da área da savânica
+> ⚠ **ESTA SEÇÃO ESTÁ NA RÉGUA D18, SUPERADA.** Os números de composição abaixo (floresta 499
+> × savânica 458) foram **invertidos** pela D30, que trocou as densidades compiladas da
+> literatura pelas do 4º Inventário Nacional: a savânica passa a ser quem paga (573 × 340). O
+> total quase não se move (973 Mt nas duas réguas). A D31 acrescentou a distinção entre
+> **estoque removido** (973 Mt) e **emissão líquida** (833 Mt), que esta seção não faz.
+> A régua vigente está em [§ Régua nova](#régua-nova-os-estoques-do-4º-inventário-nacional-20ago2026).
+> A seção fica registrada, e não corrigida: é o que se publicaria antes da conferência de
+> procedência que a substituiu.
+
+### 1. A floresta domina o carbono mesmo perdendo menos da metade da área da savânica *(superado — ver aviso acima)*
 Perda líquida de vegetação nativa 1985→2024 = **5,55 Mha**. Balanço por formação (cenário central):
 
 | formação | área perdida (Mha) | emissão (Mt CO₂e) | faixa (baixa–alta) |
