@@ -210,7 +210,10 @@ vizinhos mais próximos de cada unidade por distância euclidiana entre
 centroides em EPSG:5880, e \textbf{padronizada por linha}. A direção é imposta
 por filtro: em \(W_{\mathrm{sul}}\) só permanecem, entre os oito, os vizinhos de
 centroide mais ao sul; em \(W_{\mathrm{norte}}\), os mais ao norte. A diagonal é
-nula. \(W_{\mathrm{norte}}\) é \emph{placebo}: se o mecanismo for o empurrão da
+nula. O filtro deixa sem vizinho um punhado de unidades nas bordas --- três
+linhas inteiramente nulas em \(W_{\mathrm{sul}}\) e duas em
+\(W_{\mathrm{norte}}\), de 166 ---, que entram na estimação com termo de
+vizinhança igual a zero. \(W_{\mathrm{norte}}\) é \emph{placebo}: se o mecanismo for o empurrão da
 lavoura do sul, o termo de vizinhança deve aparecer com \(W_{\mathrm{sul}}\) e
 não com \(W_{\mathrm{norte}}\).
 
@@ -393,10 +396,13 @@ aumenta. É essa a razão de o \(p\) agrupado e o \(p\) de permutação divergir
 
 A permutação circular reembaralha o \emph{shifter} ao longo dos anos,
 preservando a sua autocorrelação, e recalcula \(\hat{\gamma}\) em cada
-reembaralhamento sobre o desfecho duplamente centrado. O \(p\) reportado é a
-proporção de reembaralhamentos que produzem estatística ao menos tão extrema
-quanto a observada. Com 38 anos, o menor \(p\) atingível é da ordem de
-\(1/38 \approx 0{,}026\), o que impõe um piso à resolução da régua.
+reembaralhamento sobre o desfecho duplamente centrado. São usadas todas as
+\(T-1\) rotações possíveis da série, e não uma amostra delas. O \(p\) reportado
+\textbf{inclui a estatística observada entre as realizações}: é o número de
+rotações que produzem estatística ao menos tão extrema quanto a observada, mais
+um, dividido por \(T\). É essa convenção --- e não a proporção simples, que
+teria piso zero --- que faz o menor \(p\) atingível ser \(1/38 \approx
+0{,}026\) com 38 anos, impondo um piso à resolução da régua.
 
 \subsection{A corrida entre exposições}
 
@@ -496,28 +502,28 @@ consta aqui com o mesmo destaque dos demais.
 \caption[Grade confirmatória do \emph{drive} comum]{Grade confirmatória completa do desenho \emph{shift-share}.}
 \label{tab:confirmatorio}
 \small
-\begin{tabular}{p{3.2cm}p{1.9cm}cccccc}
+\begin{tabular}{p{3.0cm}p{1.8cm}ccccccr}
 \toprule
-\textbf{Exposição} & \textbf{Desfecho} & \textbf{Def.} & \textbf{Sinal} & \textbf{$\hat{\gamma}$} & \textbf{EP} & \textbf{$p$} & \textbf{$R^2_w$} \\
+\textbf{Exposição} & \textbf{Desfecho} & \textbf{Def.} & \textbf{Sinal} & \textbf{$\hat{\gamma}$} & \textbf{EP} & \textbf{$p$} & \textbf{$R^2_w$} & \textbf{$n$} \\
 \midrule
-Fronteira (veg. convertível, Norte) & $\Delta$ Rebanho & 0 & + & $+0{,}0147$ & $0{,}0138$ & $0{,}288$ & $0{,}00023$ \\
-Fronteira (veg. convertível, Norte) & $\Delta$ Rebanho & 1 & + & $+0{,}0285$ & $0{,}0132$ & $0{,}031$ & $0{,}00089$ \\
-Fronteira (veg. convertível, Norte) & $\Delta$ Pastagem & 0 & + & $-0{,}0111$ & $0{,}0355$ & $0{,}755$ & $0{,}00017$ \\
-Fronteira (veg. convertível, Norte) & $\Delta$ Pastagem & 1 & + & $+0{,}0067$ & $0{,}0328$ & $0{,}838$ & $0{,}00007$ \\
-Aptidão agrícola (Sul) & $\Delta$ Agricultura & 0 & + & $-0{,}0319$ & $0{,}0471$ & $0{,}498$ & $0{,}00175$ \\
-Aptidão agrícola (Sul) & $\Delta$ Agricultura & 1 & + & $-0{,}0305$ & $0{,}0486$ & $0{,}530$ & $0{,}00149$ \\
-Especialização em pasto & $\Delta$ Pastagem & 0 & - & $-0{,}0036$ & $0{,}0302$ & $0{,}906$ & $0{,}00002$ \\
-Especialização em pasto & $\Delta$ Pastagem & 1 & - & $+0{,}0059$ & $0{,}0284$ & $0{,}835$ & $0{,}00005$ \\
-Aptidão edafoclim. (exógena) & $\Delta$ Rebanho & 0 & - & $-0{,}0016$ & $0{,}0118$ & $0{,}890$ & $0{,}00000$ \\
-Aptidão edafoclim. (exógena) & $\Delta$ Rebanho & 1 & - & $-0{,}0325$ & $0{,}0146$ & $0{,}026$ & $0{,}00116$ \\
-Aptidão edafoclim. (exógena) & $\Delta$ Agricultura & 0 & + & $-0{,}0062$ & $0{,}0210$ & $0{,}770$ & $0{,}00006$ \\
-Aptidão edafoclim. (exógena) & $\Delta$ Agricultura & 1 & + & $-0{,}0111$ & $0{,}0213$ & $0{,}603$ & $0{,}00020$ \\
-Aptidão edafoclim. (exógena) & $\Delta$ Pastagem & 0 & - & $+0{,}0018$ & $0{,}0175$ & $0{,}920$ & $0{,}00000$ \\
-Aptidão edafoclim. (exógena) & $\Delta$ Pastagem & 1 & - & $-0{,}0026$ & $0{,}0123$ & $0{,}832$ & $0{,}00001$ \\
+Fronteira (veg. convertível, Norte) & $\Delta$ Rebanho & 0 & + & $+0{,}0147$ & $0{,}0138$ & $0{,}288$ & $0{,}00023$ & 6.474 \\
+Fronteira (veg. convertível, Norte) & $\Delta$ Rebanho & 1 & + & $+0{,}0285$ & $0{,}0132$ & $0{,}031$ & $0{,}00089$ & 6.308 \\
+Fronteira (veg. convertível, Norte) & $\Delta$ Pastagem & 0 & + & $-0{,}0111$ & $0{,}0355$ & $0{,}755$ & $0{,}00017$ & 6.474 \\
+Fronteira (veg. convertível, Norte) & $\Delta$ Pastagem & 1 & + & $+0{,}0067$ & $0{,}0328$ & $0{,}838$ & $0{,}00007$ & 6.308 \\
+Aptidão agrícola (Sul) & $\Delta$ Agricultura & 0 & + & $-0{,}0319$ & $0{,}0471$ & $0{,}498$ & $0{,}00175$ & 6.474 \\
+Aptidão agrícola (Sul) & $\Delta$ Agricultura & 1 & + & $-0{,}0305$ & $0{,}0486$ & $0{,}530$ & $0{,}00149$ & 6.308 \\
+Especialização em pasto & $\Delta$ Pastagem & 0 & - & $-0{,}0036$ & $0{,}0302$ & $0{,}906$ & $0{,}00002$ & 6.474 \\
+Especialização em pasto & $\Delta$ Pastagem & 1 & - & $+0{,}0059$ & $0{,}0284$ & $0{,}835$ & $0{,}00005$ & 6.308 \\
+Aptidão edafoclim. (exógena) & $\Delta$ Rebanho & 0 & - & $-0{,}0016$ & $0{,}0118$ & $0{,}890$ & $0{,}00000$ & 6.474 \\
+Aptidão edafoclim. (exógena) & $\Delta$ Rebanho & 1 & - & $-0{,}0325$ & $0{,}0146$ & $0{,}026$ & $0{,}00116$ & 6.308 \\
+Aptidão edafoclim. (exógena) & $\Delta$ Agricultura & 0 & + & $-0{,}0062$ & $0{,}0210$ & $0{,}770$ & $0{,}00006$ & 6.474 \\
+Aptidão edafoclim. (exógena) & $\Delta$ Agricultura & 1 & + & $-0{,}0111$ & $0{,}0213$ & $0{,}603$ & $0{,}00020$ & 6.308 \\
+Aptidão edafoclim. (exógena) & $\Delta$ Pastagem & 0 & - & $+0{,}0018$ & $0{,}0175$ & $0{,}920$ & $0{,}00000$ & 6.474 \\
+Aptidão edafoclim. (exógena) & $\Delta$ Pastagem & 1 & - & $-0{,}0026$ & $0{,}0123$ & $0{,}832$ & $0{,}00001$ & 6.308 \\
 \bottomrule
 \end{tabular}
 \fontefig{elaboração própria.}
-\notafig{\emph{shifter}: variação padronizada do índice de taxa de câmbio efetiva real. ``Def.'' é a defasagem em anos do \emph{shifter}; ``Sinal'' é a direção prevista antes da estimação. Efeitos fixos de unidade e de ano; erros-padrão agrupados nas duas dimensões; 166 unidades. O $p$ desta tabela é o do erro-padrão agrupado, que a Seção~\ref{sec:met-instrumental} mostra ser otimista neste desenho, porque trata cada ano como realização independente do choque quando as realizações efetivas são cerca de 38. A régua de permutação não foi computada para estas linhas: ela existe para a especificação confirmatória do rebanho, na Tabela~\ref{tab:horserace}, cujas regressões são outras. Nas dez linhas em que as duas foram computadas lado a lado, o $p$ agrupado saiu \emph{menor} que o de permutação em oito --- e em duas, maior. É regularidade observada, e não garantia matemática de que o agrupado limite o outro por baixo; chamá-lo de ``piso da incerteza'' seria dizer mais do que se mediu, e o $p$-valor não é, de todo modo, uma medida de incerteza. Nenhum $p$ desta tabela é lido como significância no corpo do texto.}
+\notafig{\emph{shifter}: variação padronizada do índice de taxa de câmbio efetiva real. ``Def.'' é a defasagem em anos do \emph{shifter}; ``Sinal'' é a direção prevista antes da estimação. Efeitos fixos de unidade e de ano; erros-padrão agrupados nas duas dimensões em todas as linhas; 166 unidades. O $n$ \textbf{não é o mesmo em toda a grade} --- ele varia com a cobertura da exposição de cada linha, e por isso é reportado linha a linha. O $p$ desta tabela é o do erro-padrão agrupado, que a Seção~\ref{sec:met-instrumental} mostra ser otimista neste desenho, porque trata cada ano como realização independente do choque quando as realizações efetivas são cerca de 38. A régua de permutação não foi computada para estas linhas: ela existe para a especificação confirmatória do rebanho, na Tabela~\ref{tab:horserace}, cujas regressões são outras. Nas dez linhas em que as duas foram computadas lado a lado, o $p$ agrupado saiu \emph{menor} que o de permutação em oito --- e em duas, maior. É regularidade observada, e não garantia matemática de que o agrupado limite o outro por baixo; chamá-lo de ``piso da incerteza'' seria dizer mais do que se mediu, e o $p$-valor não é, de todo modo, uma medida de incerteza. Nenhum $p$ desta tabela é lido como significância no corpo do texto.}
 \end{table}
 
 \FloatBarrier
@@ -601,23 +607,23 @@ independentes.
 \caption[Canal de disponibilidade]{O canal de disponibilidade: fluxo de conversão contra estoque.}
 \label{tab:disponibilidade}
 \footnotesize
-\begin{tabular}{p{4.0cm}p{2.6cm}ccccr}
+\begin{tabular}{p{3.7cm}p{2.4cm}cccccr}
 \toprule
-\textbf{Especificação} & \textbf{Regressor} & \textbf{$\hat{\beta}$} & \textbf{EP} & \textbf{$p$} & \textbf{$R^2_w$} & \textbf{$n$} \\
+\textbf{Especificação} & \textbf{Regressor} & \textbf{$\hat{\beta}$} & \textbf{EP} & \textbf{$p$} & \textbf{Agrup.} & \textbf{$R^2_w$} & \textbf{$n$} \\
 \midrule
-B1  fluxo $\sim$ estoque\_def (disponibilidade) & estoque defasado (z) & $+2{,}756$ & $0{,}472$ & $<0{,}001$ & $0{,}434$ & 6.396 \\
-B1q fluxo $\sim$ estoque + estoque$^2$ (não-linear) & estoque defasado (z) & $+2{,}686$ & $0{,}476$ & $<0{,}001$ & $0{,}434$ & 6.396 \\
-B1q fluxo $\sim$ estoque + estoque$^2$ (não-linear) & estoque defasado$^2$ (z) & $+0{,}045$ & $0{,}451$ & $0{,}920$ & $0{,}434$ & 6.396 \\
-B2a hazard $\sim$ estoque\_def & estoque defasado (z) & $-0{,}319$ & $0{,}189$ & $0{,}092$ & $-0{,}009$ & 6.379 \\
-B2b hazard $\sim$ depleção\_def & depleção defasada (z) & $-0{,}015$ & $0{,}022$ & $0{,}481$ & $-0{,}000$ & 6.379 \\
-B3  fluxo $\sim$ estoque + demanda (sem ano FE) & estoque defasado (z) & $+2{,}763$ & $0{,}391$ & $<0{,}001$ & $0{,}436$ & 6.396 \\
-B3  fluxo $\sim$ estoque + demanda (sem ano FE) & $\Delta$ câmbio real (z) & $+0{,}022$ & $0{,}007$ & $0{,}003$ & $0{,}436$ & 6.396 \\
-B3  fluxo $\sim$ estoque + demanda (sem ano FE) & $\Delta$ preço da soja (z) & $-0{,}030$ & $0{,}006$ & $<0{,}001$ & $0{,}436$ & 6.396 \\
-B3  fluxo $\sim$ estoque + demanda (sem ano FE) & $\Delta$ crédito rural (z) & $+0{,}001$ & $0{,}005$ & $0{,}828$ & $0{,}436$ & 6.396 \\
+B1  fluxo $\sim$ estoque\_def (disponibilidade) & estoque defasado (z) & $+2{,}756$ & $0{,}472$ & $<0{,}001$ & un.+ano & $0{,}434$ & 6.396 \\
+B1q fluxo $\sim$ estoque + estoque$^2$ (não-linear) & estoque defasado (z) & $+2{,}686$ & $0{,}476$ & $<0{,}001$ & un.+ano & $0{,}434$ & 6.396 \\
+B1q fluxo $\sim$ estoque + estoque$^2$ (não-linear) & estoque defasado$^2$ (z) & $+0{,}045$ & $0{,}451$ & $0{,}920$ & un.+ano & $0{,}434$ & 6.396 \\
+B2a hazard $\sim$ estoque\_def & estoque defasado (z) & $-0{,}319$ & $0{,}189$ & $0{,}092$ & un.+ano & $-0{,}009$ & 6.379 \\
+B2b hazard $\sim$ depleção\_def & depleção defasada (z) & $-0{,}015$ & $0{,}022$ & $0{,}481$ & un.+ano & $-0{,}000$ & 6.379 \\
+B3  fluxo $\sim$ estoque + demanda (sem ano FE) & estoque defasado (z) & $+2{,}763$ & $0{,}391$ & $<0{,}001$ & unidade & $0{,}436$ & 6.396 \\
+B3  fluxo $\sim$ estoque + demanda (sem ano FE) & $\Delta$ câmbio real (z) & $+0{,}022$ & $0{,}007$ & $0{,}003$ & unidade & $0{,}436$ & 6.396 \\
+B3  fluxo $\sim$ estoque + demanda (sem ano FE) & $\Delta$ preço da soja (z) & $-0{,}030$ & $0{,}006$ & $<0{,}001$ & unidade & $0{,}436$ & 6.396 \\
+B3  fluxo $\sim$ estoque + demanda (sem ano FE) & $\Delta$ crédito rural (z) & $+0{,}001$ & $0{,}005$ & $0{,}828$ & unidade & $0{,}436$ & 6.396 \\
 \bottomrule
 \end{tabular}
 \fontefig{elaboração própria.}
-\notafig{desfecho: fluxo anual de conversão, exceto nas linhas \texttt{B2a} e \texttt{B2b}, cujo desfecho é a \emph{taxa}. Erros-padrão agrupados nas duas dimensões; regressores em \emph{escore-z}. Efeitos fixos de unidade e de ano em todas as linhas \textbf{menos} as do \texttt{B3}, que dispensa o de ano de propósito: os sinais de demanda que ele testa (câmbio, preço, crédito) são nacionais e um efeito fixo de ano os absorveria por inteiro, deixando o coeficiente sem identificação. Esse é também o motivo de os $p$ do \texttt{B3} não serem lidos como o das demais linhas. A linha \texttt{B2b} é a especificação que a decisão D29 superou; ver a Tabela~\ref{tab:deplecao}.}
+\notafig{desfecho: fluxo anual de conversão, exceto nas linhas \texttt{B2a} e \texttt{B2b}, cujo desfecho é a \emph{taxa}. Regressores em \emph{escore-z}. Efeitos fixos de unidade e de ano em todas as linhas \textbf{menos} as do \texttt{B3}, que dispensa o de ano de propósito: os sinais de demanda que ele testa (câmbio, preço, crédito) são nacionais e um efeito fixo de ano os absorveria por inteiro, deixando o coeficiente sem identificação. Esse é também o motivo de os $p$ do \texttt{B3} não serem lidos como o das demais linhas. ``Agrup.'' é a dimensão do agrupamento do erro-padrão, e \textbf{não é a mesma em todas as linhas}: sem efeito fixo de ano, o \texttt{B3} não admite o agrupamento por ano e recai no de unidade --- é a exceção que a Seção~\ref{ap:convencoes} antecipa, e por isso ela é reportada linha a linha e não afirmada uma vez para a tabela inteira. A linha \texttt{B2b} é a especificação que a decisão D29 superou; ver a Tabela~\ref{tab:deplecao}.}
 \end{table}
 
 \begin{table}[!ht]
@@ -648,7 +654,7 @@ winsor p1 (não põe no domínio) & corte1k & estoque & $-0{,}808$ & $-0{,}473$ 
 \bottomrule
 \end{tabular}
 \fontefig{elaboração própria.}
-\notafig{desfecho: taxa anual de conversão; todas as dezesseis linhas são a especificação \texttt{B2b}, com efeitos fixos de unidade e de ano. $p_{ent}$ agrupa por unidade e $p_{ent+ano}$ nas duas dimensões, que é a régua adotada no teste de origem e a reportada no corpo do texto. ``Peso'' indica ponderação pelo tamanho do estoque. As duas colunas de efeito \textbf{não são a mesma medida}: $\hat{\beta}_z$ está em \emph{escore-z} e \textbf{não é comparável entre tratamentos}, porque o desvio-padrão do regressor vai de $0{,}21$ no domínio a $3{,}54$ sem tratamento --- dezessete vezes; ``p.p./0,1'' é o mesmo efeito em unidade natural, pontos percentuais de taxa anual por décimo de depleção, e é essa a coluna em que os tratamentos podem ser comparados e em que se lê a convergência para $-0{,}5$ a $-0{,}8$. O $n$ varia porque \emph{domínio} descarta as unidades fora de $[0,1]$ e \texttt{corte1k} as de estoque abaixo de mil hectares. A linha ``sem tratamento'' é a especificação publicada antes da D29, e o nulo dela é o artefato que a decisão corrigiu.}
+\notafig{desfecho: taxa anual de conversão; todas as dezesseis linhas são a especificação \texttt{B2b}, com efeitos fixos de unidade e de ano. $p_{ent}$ agrupa por unidade e $p_{ent+ano}$ nas duas dimensões, que é a régua adotada no teste de origem e a reportada no corpo do texto. ``Peso'' indica ponderação pelo tamanho do estoque. As duas colunas de efeito \textbf{não são a mesma medida}: $\hat{\beta}_z$ está em \emph{escore-z} e \textbf{não é comparável entre tratamentos}, porque o desvio-padrão do regressor vai de $0{,}21$ no domínio a $3{,}54$ sem tratamento --- dezessete vezes; ``p.p./0,1'' é o mesmo efeito em unidade natural, pontos percentuais de taxa anual por décimo de depleção, e é essa a coluna em que os tratamentos podem ser comparados e em que se lê a convergência para $-0{,}5$ a $-0{,}8$. O \emph{winsor p1} corta \textbf{só a cauda inferior} no percentil 1 --- o defeito é de valores muito negativos, e não de cauda dupla ---, e é por isso o único tratamento que não devolve a variável ao domínio declarado. O $n$ varia porque \emph{domínio} descarta as unidades fora de $[0,1]$ e \texttt{corte1k} as de estoque abaixo de mil hectares. A linha ``sem tratamento'' é a especificação publicada antes da D29, e o nulo dela é o artefato que a decisão corrigiu.}
 \end{table}
 
 \FloatBarrier

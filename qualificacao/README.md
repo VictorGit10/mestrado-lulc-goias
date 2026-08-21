@@ -1797,6 +1797,82 @@ atual. Registro de superação mora onde mora o objeto dele.
 **Estado:** 106 páginas, zero `Overfull`, zero indefinido, `verificar.py` 0/0,
 `verificar_reforma.py` todas passando.
 
+### Varredura código × texto declarado, em todos os pipelines (21/ago/2026)
+
+O episódio do HAC deixou uma pergunta em aberto: o #42 foi auditado porque um parecer o apontou,
+não porque fosse o único candidato. Esta é a varredura da classe inteira.
+
+**Escopo declarado.** Toda convenção ou parâmetro numérico que o Capítulo~3 ou o Apêndice~A
+**afirmam**, conferido contra o que o script executa. **Não** varri: números do texto contra CSV
+(foi a auditoria de 19/ago), atribuição de citações, nem forma ABNT.
+
+**Conferidos e corretos — doze:**
+
+| Declarado | Onde | Verificação |
+|---|---|---|
+| HAC Newey-West, 2 defasagens | met. §inferência | ✅ `calcular_taxas_lulc`, `correlacoes_uf`, `drive_comum` — todos 2 |
+| Bootstrap $B = 2000$, com reposição | met. | ✅ `centro_massa`, `centro_massa_capacidade`, `crescimento_sem_desenvolvimento`; semente 42 |
+| Blocos espaciais por $k$-médias, grade de tamanhos | met. | ✅ `robustez_bootstrap_bloco`, k-médias sobre centroides em EPSG:5880 |
+| Moran significativa em 115/140 e 125/140 | met. | ✅ recontado nos CSVs: 115 e 125 exatos |
+| $W$ *queen* e 8 vizinhos, padronizadas por linha | ap. A.4 | ✅ `Queen`/`KNN(k=8)`, `w.transform = "r"` |
+| $W$ direcional 166×166, euclidiana em EPSG:5880, diagonal nula | ap. A.3 | ✅ `construir_pesos_direcionais`, filtro por `cy` |
+| Deflação para R$ de dezembro/2024, IPCA de dezembro | met. | ✅ `DATA_BASE_DEFLATOR = (2024, 12)` |
+| *Shifter* = câmbio padronizado, defasado 1 ano | ap. A.5 | ✅ `LAG = 1`, coluna `zd_` |
+| Permutação usa todas as rotações | ap. A.5 | ✅ `np.roll(s, k) for k in range(1, T)` |
+| `corte1k` = estoque abaixo de mil hectares | ap. A.8 | ✅ `CORTE_ESTOQUE = 1000.0` |
+| SLX agrupa só por unidade | ap. A.3 | ✅ `cluster_entity=True` |
+| Confirmatória agrupa nas duas dimensões | ap. A.7 | ✅ `entidade+ano` nas 14 linhas |
+
+**Sete defeitos, um deles material:**
+
+1. **A nota da Tabela de disponibilidade afirmava agrupamento nas duas dimensões — e quatro das
+   nove linhas são agrupadas só por unidade.** As linhas do `B3` dispensam o efeito fixo de ano
+   por desenho (os sinais de demanda são nacionais), e sem ele o agrupamento por ano não se
+   aplica. O próprio Apêndice antecipa a exceção — "o agrupamento efetivamente aplicado é
+   reportado em cada tabela" —, mas esta tabela afirmava um valor único em vez de reportar. Virou
+   **coluna `Agrup.`, lida do CSV**, com o rótulo por linha. É o mais consequente da lista: um
+   leitor tomava quatro $p$ como duplamente agrupados quando não são.
+
+2. **A fórmula do $p$ de permutação declarada não é a implementada.** O texto dizia "a
+   **proporção** de reembaralhamentos ao menos tão extremos" — que teria piso zero. O código
+   calcula $(1 + n_{\text{extremos}})/T$, incluindo a observada entre as realizações. É a segunda
+   fórmula, e não a declarada, que faz $1/38 \approx 0{,}026$ ser o piso que o **próprio
+   parágrafo cita duas linhas adiante**. A frase agora enuncia a convenção aplicada.
+
+3. **A Tabela confirmatória não trazia $n$**, embora ele varie entre **6.308 e 6.474** conforme a
+   cobertura da exposição de cada linha. Mesma classe do defeito que a leitura de 20/ago achou no
+   SAR/SEM (as duas linhas M3 indistinguíveis). Coluna acrescentada.
+
+4. **O sup-F tem três parâmetros de ajuste que a metodologia não declarava** e que determinam
+   quais anos-candidatos o método primário chega a devolver: segmento mínimo de **cinco anos** (o
+   *trimming*), máximo de **três** quebras e limiar de aceitação **$F \geq 4$**. Declarados, com o
+   motivo do limiar mais frouxo (a estatística é conjunta a três séries).
+
+5. **O detector de Rodionov idem:** comprimento mínimo de regime 5, $\alpha = 0{,}05$, peso de
+   Huber 1. Declarados.
+
+6. **"Winsor p1" é unilateral.** O código corta só a cauda inferior (`dep.clip(lower=q01)`),
+   porque o defeito da D29 é de valores muito negativos, não de cauda dupla. Quem reproduzisse
+   "winsor p1" nos dois lados obteria outro número. Qualificado na nota.
+
+7. **O filtro direcional deixa linhas nulas em $W$** — três em $W_{\mathrm{sul}}$ e duas em
+   $W_{\mathrm{norte}}$, nas bordas, que entram com termo de vizinhança zero. 1,8% e 1,2%: não
+   move resultado, mas faltava para reconstruir a matriz. Declarado.
+
+**Uma observação que não virou reparo.** O docstring de `periodizacao_multivariada.py` atribui o
+sup-F multivariado a Bai-Lumsdaine-Stock (1998), que não está no `.bib`; o Capítulo~3 o nomeia
+"sup-F de Quandt-Andrews na versão multivariada". Não é divergência de execução — a família da
+estatística está corretamente nomeada —, e acrescentar BLS violaria a regra da fonte conferida
+sem que a obra tenha sido lida. Fica registrado como o que é.
+
+**O padrão que a varredura confirma:** os doze acertos são todos de **constante** (`B = 2000`,
+`k = 8`, `LAG = 1`, `DATA_BASE_DEFLATOR`) — valores com nome, num lugar só. Os sete defeitos são
+todos de **descrição em prosa** — uma nota de tabela que afirma o que o código faz, em vez de ler
+do dado. Onde a nota passou a ser calculada (a faixa do SAR/SEM em 21/ago, a coluna `Agrup.`
+agora), o defeito não pode voltar.
+
+**Estado:** 106 páginas, zero `Overfull`, zero indefinido, `verificar.py` 0/0.
+
 ### `verificar.py` — invariantes (17/ago/2026)
 
 Teste de regressão, **não** auditoria: roda sempre as mesmas cinco checagens e

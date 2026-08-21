@@ -366,6 +366,18 @@ primário e ao menos um método de sensibilidade convergem; divergência entre o
 três seria documentada como sensibilidade ao método, nunca resolvida por
 escolha.
 
+A segmentação binária tem três parâmetros que precisam ser declarados, porque
+determinam quais anos-candidatos o método primário chega a devolver: o segmento
+mínimo é de \textbf{cinco anos} --- o \emph{trimming} que o sup-F exige, e que
+é também a razão de o detector de Rodionov entrar como sensibilidade, já que
+ele alcança regimes curtos que o \emph{trimming} descarta ---; o número máximo
+de quebras procuradas é \textbf{três}; e uma quebra nova só é aceita com
+\(F \geq 4\), limiar mais frouxo que o usual no caso univariado porque a
+estatística aqui é conjunta a três séries. O detector de Rodionov corre com
+comprimento mínimo de regime também de cinco anos, nível de \(0{,}05\) e peso
+de Huber igual a 1. Todos foram fixados junto com a regra de decisão, antes dos
+testes.
+
 O procedimento devolveu duas fronteiras robustas, \textbf{2001} ($F = 62{,}2$)
 e \textbf{2020} ($F = 21{,}5$), e uma terceira, em 1991, com suporte bem mais
 fraco ($F = 10{,}3$), não adotada. Daí resultam os três atos que organizam a

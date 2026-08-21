@@ -67,6 +67,16 @@ ROTULO_REGRESSOR = {
 }
 
 
+# A dimensao do agrupamento vem do CSV, nunca digitada: em fronteira_teste_supply
+# ela varia dentro da MESMA tabela (o B3, sem efeito fixo de ano, recai no
+# agrupamento por unidade), e a nota anterior afirmava "duas dimensoes" para as nove.
+ROTULO_CLUSTER = {
+    "entidade+ano": "un.+ano",
+    "entidade":     "unidade",
+    "ano":          "ano",
+}
+
+
 def reg(nome):
     """Nome legível do regressor; cai no cru escapado se não houver rótulo."""
     return ROTULO_REGRESSOR.get(str(nome), esc(nome))
@@ -242,7 +252,10 @@ vizinhos mais próximos de cada unidade por distância euclidiana entre
 centroides em EPSG:5880, e \textbf{padronizada por linha}. A direção é imposta
 por filtro: em \(W_{\mathrm{sul}}\) só permanecem, entre os oito, os vizinhos de
 centroide mais ao sul; em \(W_{\mathrm{norte}}\), os mais ao norte. A diagonal é
-nula. \(W_{\mathrm{norte}}\) é \emph{placebo}: se o mecanismo for o empurrão da
+nula. O filtro deixa sem vizinho um punhado de unidades nas bordas --- três
+linhas inteiramente nulas em \(W_{\mathrm{sul}}\) e duas em
+\(W_{\mathrm{norte}}\), de 166 ---, que entram na estimação com termo de
+vizinhança igual a zero. \(W_{\mathrm{norte}}\) é \emph{placebo}: se o mecanismo for o empurrão da
 lavoura do sul, o termo de vizinhança deve aparecer com \(W_{\mathrm{sul}}\) e
 não com \(W_{\mathrm{norte}}\).
 
@@ -339,10 +352,13 @@ aumenta. É essa a razão de o \(p\) agrupado e o \(p\) de permutação divergir
 
 A permutação circular reembaralha o \emph{shifter} ao longo dos anos,
 preservando a sua autocorrelação, e recalcula \(\hat{\gamma}\) em cada
-reembaralhamento sobre o desfecho duplamente centrado. O \(p\) reportado é a
-proporção de reembaralhamentos que produzem estatística ao menos tão extrema
-quanto a observada. Com 38 anos, o menor \(p\) atingível é da ordem de
-\(1/38 \approx 0{,}026\), o que impõe um piso à resolução da régua.
+reembaralhamento sobre o desfecho duplamente centrado. São usadas todas as
+\(T-1\) rotações possíveis da série, e não uma amostra delas. O \(p\) reportado
+\textbf{inclui a estatística observada entre as realizações}: é o número de
+rotações que produzem estatística ao menos tão extrema quanto a observada, mais
+um, dividido por \(T\). É essa convenção --- e não a proporção simples, que
+teria piso zero --- que faz o menor \(p\) atingível ser \(1/38 \approx
+0{,}026\) com 38 anos, impondo um piso à resolução da régua.
 
 \subsection{A corrida entre exposições}
 
@@ -410,16 +426,19 @@ def secao_confirmatorio() -> str:
             esc(r["exposicao_rotulo"]), esc(r["desfecho_rotulo"]).replace("Δ", r"$\Delta$ "),
             str(int(r["lag"])), esc(r["sinal_esperado"]),
             num(r["beta"], 4, mais=True), num(r["se"], 4), p_val(r["p"]),
-            num(r["r2_within"], 5),
+            num(r["r2_within"], 5), n_obs(r["n_obs"]),
         ]) + r" \\")
     cab = (r"\textbf{Exposição} & \textbf{Desfecho} & \textbf{Def.} & \textbf{Sinal} & "
-           r"\textbf{$\hat{\gamma}$} & \textbf{EP} & \textbf{$p$} & \textbf{$R^2_w$} \\")
+           r"\textbf{$\hat{\gamma}$} & \textbf{EP} & \textbf{$p$} & \textbf{$R^2_w$} & "
+           r"\textbf{$n$} \\")
     n_amc = int(d["n_amc"].iloc[0])
     nota = (r"\emph{shifter}: variação padronizada do índice de taxa de câmbio efetiva "
             r"real. ``Def.'' é a defasagem em anos do \emph{shifter}; ``Sinal'' é a "
             r"direção prevista antes da estimação. Efeitos fixos de unidade e de ano; "
-            r"erros-padrão agrupados nas duas dimensões; " + str(n_amc) + r" unidades. "
-            r"O $p$ desta tabela é o do erro-padrão agrupado, que a "
+            r"erros-padrão agrupados nas duas dimensões em todas as linhas; " +
+            str(n_amc) + r" unidades. O $n$ \textbf{não é o mesmo em toda a grade} --- ele "
+            r"varia com a cobertura da exposição de cada linha, e por isso é reportado "
+            r"linha a linha. O $p$ desta tabela é o do erro-padrão agrupado, que a "
             r"Seção~\ref{sec:met-instrumental} mostra ser otimista neste desenho, porque "
             r"trata cada ano como realização independente do choque quando as realizações "
             r"efetivas são cerca de 38. A régua de permutação não foi computada para estas "
@@ -432,7 +451,7 @@ def secao_confirmatorio() -> str:
             r"$p$-valor não é, de todo modo, uma medida de incerteza. Nenhum $p$ desta "
             r"tabela é lido como significância no corpo do texto.")
     return CONF_TEXTO + chr(10) + chr(10) + tabela(
-        linhas, "p{3.2cm}p{1.9cm}cccccc", cab,
+        linhas, "p{3.0cm}p{1.8cm}ccccccr", cab,
         (r"Grade confirmatória do \emph{drive} comum",
          r"Grade confirmatória completa do desenho \emph{shift-share}."),
         "tab:confirmatorio", nota)
@@ -932,22 +951,29 @@ def secao_oferta() -> str:
         linhas.append(" & ".join([
             esc(r["spec"]), reg(r["regressor"]),
             num(r["beta"], 3, mais=True), num(r["se"], 3), p_val(r["p"]),
+            ROTULO_CLUSTER.get(str(r["cluster"]), esc(r["cluster"])),
             num(r["r2_within"], 3), f'{int(r["n_obs"]):,}'.replace(",", "."),
         ]) + r" \\")
-    t1 = tabela(linhas, "p{4.0cm}p{2.6cm}ccccr",
+    t1 = tabela(linhas, "p{3.7cm}p{2.4cm}cccccr",
                 (r"\textbf{Especificação} & \textbf{Regressor} & \textbf{$\hat{\beta}$} & "
-                 r"\textbf{EP} & \textbf{$p$} & \textbf{$R^2_w$} & \textbf{$n$} \\"),
+                 r"\textbf{EP} & \textbf{$p$} & \textbf{Agrup.} & \textbf{$R^2_w$} & "
+                 r"\textbf{$n$} \\"),
                 ("Canal de disponibilidade", "O canal de disponibilidade: fluxo de conversão contra estoque."),
                 "tab:disponibilidade",
                 (r"desfecho: fluxo anual de conversão, exceto nas linhas \texttt{B2a} e "
-                 r"\texttt{B2b}, cujo desfecho é a \emph{taxa}. Erros-padrão agrupados nas "
-                 r"duas dimensões; regressores em \emph{escore-z}. Efeitos fixos de unidade "
+                 r"\texttt{B2b}, cujo desfecho é a \emph{taxa}. Regressores em "
+                 r"\emph{escore-z}. Efeitos fixos de unidade "
                  r"e de ano em todas as linhas \textbf{menos} as do \texttt{B3}, que "
                  r"dispensa o de ano de propósito: os sinais de demanda que ele testa "
                  r"(câmbio, preço, crédito) são nacionais e um efeito fixo de ano os "
                  r"absorveria por inteiro, deixando o coeficiente sem identificação. Esse é "
                  r"também o motivo de os $p$ do \texttt{B3} não serem lidos como o das "
-                 r"demais linhas. A linha \texttt{B2b} é a especificação que a decisão D29 "
+                 r"demais linhas. ``Agrup.'' é a dimensão do agrupamento do erro-padrão, e "
+                 r"\textbf{não é a mesma em todas as linhas}: sem efeito fixo de ano, o "
+                 r"\texttt{B3} não admite o agrupamento por ano e recai no de unidade --- é "
+                 r"a exceção que a Seção~\ref{ap:convencoes} antecipa, e por isso ela é "
+                 r"reportada linha a linha e não afirmada uma vez para a tabela inteira. "
+                 r"A linha \texttt{B2b} é a especificação que a decisão D29 "
                  r"superou; ver a Tabela~\ref{tab:deplecao}."),
                 tam="footnotesize")
 
@@ -986,7 +1012,11 @@ def secao_oferta() -> str:
                  r"tratamento --- dezessete vezes; ``p.p./0,1'' é o mesmo efeito em "
                  r"unidade natural, pontos percentuais de taxa anual por décimo de "
                  r"depleção, e é essa a coluna em que os tratamentos podem ser comparados "
-                 r"e em que se lê a convergência para $-0{,}5$ a $-0{,}8$. O $n$ varia "
+                 r"e em que se lê a convergência para $-0{,}5$ a $-0{,}8$. O "
+                 r"\emph{winsor p1} corta \textbf{só a cauda inferior} no percentil 1 --- o "
+                 r"defeito é de valores muito negativos, e não de cauda dupla ---, e é por "
+                 r"isso o único tratamento que não devolve a variável ao domínio "
+                 r"declarado. O $n$ varia "
                  r"porque \emph{domínio} descarta as unidades fora de $[0,1]$ e "
                  r"\texttt{corte1k} as de estoque abaixo de mil hectares. A linha ``sem "
                  r"tratamento'' é a especificação publicada antes da D29, e o nulo dela é "
