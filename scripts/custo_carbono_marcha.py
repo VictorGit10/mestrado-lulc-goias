@@ -209,10 +209,45 @@ DENSIDADES_POR_REGUA = {  # régua: {formação: {cenário: Mg C/ha}}
 }
 
 # Estoque do uso que ENTRA (Cerrado, 4º Inventário via SEEG, Tabela 5 p. 36).
-# Não entra na manchete: a conta publicada é de estoque removido, e passar a
-# descontar o uso de destino é mudança de método, não de parâmetro. Fica aqui
-# para dimensionar o viés, que o relatório imprime.
+#
+# D31 (2026-08-20). Até aqui estes valores estavam definidos e NÃO usados: a
+# conta era `área perdida × densidade da origem`, isto é, ESTOQUE REMOVIDO — mas
+# o texto a descrevia como "a diferença entre o estoque antes e depois", que é
+# outra coisa. Ou o número mudava, ou o rótulo mudava. Agora o pipeline calcula
+# as DUAS e o texto reporta as duas com nomes distintos:
+#
+#   estoque removido   = Σ_f  perda_ha_f × D_f                (o número publicado)
+#   emissão líquida    = Σ_f  perda_ha_f × (D_f − d_destino)  (o método do IPCC)
+#
+# `d_destino` não é chutado: sai da composição observada dos destinos da
+# vegetação natural (#12/#19), ponderada em `densidade_destino_ponderada()`,
+# com o estoque que a fonte publica para cada destino. Ver ESTOQUE_POR_DESTINO
+# logo abaixo, inclusive quanto ao Mosaico de Usos.
 ESTOQUE_DESTINO_CERRADO = {"pastagem": 7.57, "agricultura_anual": 5.00}
+
+# Estoque por grupo de destino, TODOS publicados (SEEG, Nota Metodológica MUT,
+# Tabela 5, p. 36; valores do Cerrado).
+#
+# CORREÇÃO 2026-08-20, mesmo dia da D31: a primeira versão desta tabela punha o
+# Mosaico como `None` alegando que a classe 21 "não tem estoque próprio
+# publicado", e resolvia isso por bracket. Isso é FALSO, e a fonte estava em
+# ref/pdf/ o tempo todo. A Nota do SEEG trata a classe 21 nominalmente: "Uma
+# ressalva deve ser feita para a classe 21 [...] Para essa classe consideraram-se
+# os valores de estoque de agricultura anual para cada bioma (Tabela 5)" — e a
+# Tabela 5 traz, na coluna Cerrado, "Mosaico de pastagem e agricultura (classe
+# 21) ... 5,00". A convenção publicada é, portanto, um PONTO, não um intervalo.
+#
+# O cenário "Mosaico como pastagem" continua rodando, mas com o estatuto certo:
+# é SENSIBILIDADE a uma convenção declarada, e não incerteza da fonte.
+ESTOQUE_POR_DESTINO = {
+    "pastagem":    7.57,
+    "agricultura": 5.00,
+    "mosaico":     5.00,   # SEEG Tab. 5: classe 21 recebe o estoque da agric. anual
+    "area_urbana": 0.00,
+}
+
+# Valor alternativo do Mosaico no cenário de sensibilidade (tratá-lo como pasto).
+MOSAICO_COMO_PASTO = 7.57
 
 # Régua ativa. `main()` a define; o default preserva o comportamento publicado.
 REGUA = "d18"
@@ -281,12 +316,19 @@ def perda_estoque(pan: pd.DataFrame, ano_a: int, ano_b: int) -> pd.DataFrame:
     return out.reset_index()
 
 
-def emissao(perda: pd.DataFrame, cenario: str, com_solo: bool) -> pd.DataFrame:
-    """Converte ha perdidos em Mg C comprometido por AMC (cenário de densidade)."""
+def emissao(perda: pd.DataFrame, cenario: str, com_solo: bool,
+            dens_destino: float = 0.0) -> pd.DataFrame:
+    """Converte ha perdidos em Mg C por AMC (cenário de densidade).
+
+    Com `dens_destino = 0` devolve o ESTOQUE REMOVIDO da cobertura de origem —
+    o número publicado até a D31. Com `dens_destino > 0` devolve a EMISSÃO
+    LÍQUIDA do método de diferença de estoque, descontando o carbono que o uso
+    que entra passa a estocar. Ver ESTOQUE_POR_DESTINO.
+    """
     df = perda.copy()
     tot = np.zeros(len(df))
     for chave in FORMACOES:
-        d = DENSIDADES[chave][cenario]
+        d = DENSIDADES[chave][cenario] - dens_destino
         c = df[f"perda_ha_{chave}"] * d  # Mg C (líquido; negativo = sequestro)
         if com_solo:
             c = c + df[f"perda_ha_{chave}"] * SOC_MGC_HA * SOC_FRACAO_LIBERADA
@@ -374,6 +416,30 @@ def _weiszfeld(x, y, w, iters=64, eps=1e-6):
             break
         cx, cy = nx, ny
     return cx, cy
+
+
+# ---------------------------------------------------------------------------
+# 4-bis. Densidade do uso que ENTRA, ponderada pelos destinos observados (D31)
+# ---------------------------------------------------------------------------
+
+def densidade_destino_ponderada() -> dict:
+    """Estoque médio do uso que substitui a vegetação natural, em Mg C/ha.
+
+    A composição vem do fluxo observado vegetação natural → uso antrópico
+    (#12/#19), e não de suposição. Todos os estoques de destino são publicados
+    (SEEG Tab. 5), inclusive o do Mosaico; `publicada` é a convenção da fonte e
+    `mosaico_pasto` é a sensibilidade a ela. Água e "outros" ficam fora — não
+    são uso antrópico e o seu destino de carbono não é este.
+    """
+    t = pd.read_csv(ARQ_TRANS)
+    v = t[t.grupo_orig == "vegetacao_natural"]
+    ha = {g: v[v.grupo_dest == g].area_ha.sum() for g in ESTOQUE_POR_DESTINO}
+    tot = sum(ha.values()) or 1.0
+    share = {g: ha[g] / tot for g in ha}
+    publicada = sum(share[g] * ESTOQUE_POR_DESTINO[g] for g in ha)
+    alt = publicada + share["mosaico"] * (MOSAICO_COMO_PASTO
+                                          - ESTOQUE_POR_DESTINO["mosaico"])
+    return {"share": share, "publicada": publicada, "mosaico_pasto": alt}
 
 
 # ---------------------------------------------------------------------------
@@ -535,8 +601,37 @@ def main() -> None:
     dom_carb = b.loc[b.MtCO2_central.idxmax(), "formacao"].split(" (")[0]
     tot_co2 = bal.loc[bal.formacao == "TOTAL", "MtCO2_central"].iloc[0]
     print(f"\n  → maior perda de ÁREA: {dom_area};  maior emissão de CARBONO: {dom_carb}")
-    print(f"  → TOTAL comprometido (biomassa, central): {tot_co2:.0f} Mt CO₂e "
+    print(f"  → ESTOQUE REMOVIDO da origem (central): {tot_co2:.0f} Mt CO₂e "
           f"({tot_co2/(ANO_FIM-ANO_INI):.1f} Mt/ano médio)")
+
+    # --- D31: a mesma perda, agora pelo método de diferença de estoque ---
+    dd = densidade_destino_ponderada()
+    sh = dd["share"]
+    print("\n  → D31 — desconto do estoque do uso que ENTRA:")
+    print("     composição observada do destino: " + ", ".join(
+        f"{g} {100*sh[g]:.1f}%" for g in ("pastagem", "mosaico", "agricultura", "area_urbana")))
+    print(f"     densidade do destino, ponderada: {dd['publicada']:.2f} Mg C/ha "
+          f"(convenção SEEG) | {dd['mosaico_pasto']:.2f} (sensib.: Mosaico como pasto)")
+    linhas_d31 = []
+    for lab, dz in (("estoque removido", 0.0),
+                    ("emissão líquida (SEEG)", dd["publicada"]),
+                    ("emissão líq. (sensib.)", dd["mosaico_pasto"])):
+        e = emissao(perda_tot, "central", args.com_solo, dz)
+        v = e["MgC_total"].sum() * C_PARA_CO2 / 1e6
+        linhas_d31.append({"medida": lab, "dens_destino_MgCha": dz, "MtCO2": v})
+        print(f"     {lab:<24} {v:7.1f} Mt CO₂e")
+    d31 = pd.DataFrame(linhas_d31)
+    d31.to_csv(DIR_PROC / f"carbono_desconto_destino{suf}.csv", index=False, encoding="utf-8")
+    liq = float(d31[d31.medida == "emissão líquida (SEEG)"]["MtCO2"].iloc[0])
+    print(f"     → na convenção publicada o desconto retira {tot_co2 - liq:.0f} Mt "
+          f"({100*(tot_co2-liq)/tot_co2:.1f}% do total)")
+
+    # A composição por formação sobrevive ao desconto? Não presumir: medir.
+    e_liq = emissao(perda_tot, "central", args.com_solo, dd["publicada"])
+    r_bruto = (perda_tot["perda_ha_savanica"].sum() * DENS("savanica")) /               (perda_tot["perda_ha_floresta"].sum() * DENS("floresta"))
+    r_liq = e_liq["MgC_savanica"].sum() / e_liq["MgC_floresta"].sum()
+    print(f"     → razão savânica/floresta: {r_bruto:.2f} sem desconto → {r_liq:.2f} com "
+          f"({'ordenamento MANTIDO' if (r_bruto > 1) == (r_liq > 1) else 'ORDENAMENTO INVERTE'})")
 
     # --- A razão crítica: o número de que a afirmação de composição depende ---
     # "A floresta perde menos área e ainda assim emite mais" NÃO é uma afirmação

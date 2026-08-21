@@ -16,8 +16,15 @@ disciplina de teste aplicada a cada afirmação.
 \section{Área de estudo}
 \label{sec:met-area}
 
-A área de estudo é o estado de Goiás, integralmente inserido no bioma Cerrado,
-em seus 246 municípios atuais. O recorte estadual não é apenas administrativo:
+A área de estudo é o estado de Goiás, em seus 246 municípios atuais. O estado
+está quase inteiramente inserido no bioma Cerrado: pela malha de biomas do
+IBGE, 98,4\% do território (335,8 de 341,3 mil km\textsuperscript{2}), com
+os 1,6\% restantes classificados como Mata Atlântica numa faixa do extremo
+sudeste. Nada neste trabalho recorta por bioma --- o recorte é o estadual ---,
+de modo que essa faixa não é excluída das contagens; ela fica registrada para
+que a descrição da área não afirme uma homogeneidade que a malha não tem.
+
+O recorte estadual não é apenas administrativo:
 é ele que dá acesso simultâneo à estatística socioeconômica municipal,
 publicada pelo IBGE e pelo Banco Central nessa malha, e à série de
 sensoriamento remoto de resolução fina.
@@ -123,7 +130,8 @@ Seção~\ref{sec:met-aptidao}, o cadastro nacional de unidades armazenadoras
 \cite{CONAB_Armazenagem}, o sistema de monitoramento do
 desmatamento por satélite (PRODES) do Instituto Nacional de Pesquisas
 Espaciais (INPE, \citeyear{INPE_PRODES}), usado como aferição externa e não como
-insumo, o Atlas do Desenvolvimento Humano no Brasil \cite{IPEA_IDHM}, e as malhas
+insumo, os dados de cadeia exportadora da Trase \cite{Trase2026}, o Atlas do
+Desenvolvimento Humano no Brasil \cite{IPEA_IDHM}, e as malhas
 territoriais oficiais --- inclusive a de unidades de conservação, do Cadastro
 Nacional de Unidades de Conservação --- obtidas pelo pacote \emph{geobr}
 \cite{Pereira2019geobr}.
@@ -193,9 +201,9 @@ Malhas territoriais, via \emph{geobr} & 2017--2020 &
 Municípios, mesorregiões, estados, biomas, unidades de conservação e terras
 indígenas (as duas últimas do Cadastro Nacional de Unidades de Conservação) \\
 \addlinespace
-Trase & 2004--2020 &
-Cadeia produtiva da soja e da carne bovina, com separação explícita entre
-volume exportado e produção \\
+Trase \cite{Trase2026} & soja 2004--2022; bovinos 2011--2023 &
+Cadeia exportadora da soja e da carne bovina (volume embarcado e valor FOB por
+município de origem), mantida distinta da produção \\
 \addlinespace
 Embrapa --- aptidão agrícola & estática &
 Exposição física exógena (gradiente edafoclimático) nos desenhos de
@@ -360,6 +368,23 @@ produz quebra empírica em nenhuma das três séries, o que rebaixa seu estatuto
 de marco periodizador, ainda que não diga nada sobre seus efeitos por outras
 vias.
 
+Uma convenção de contagem decorre daí e vale para todo o Capítulo~\ref{cap:resultados}. Sempre que uma grandeza é medida \emph{entre} dois anos ---
+fluxos de conversão, emissão, taxas por ato ---, cada ato é medido entre o seu
+primeiro e o seu último ano, de modo que as duas transições de virada,
+2000--2001 e 2019--2020, não pertencem a ato nenhum. A alternativa, atribuir a
+virada a um dos lados, faria a conta do ato depender de uma escolha sem
+critério, e justamente no ponto em que o regime muda. O custo é que a soma dos
+atos fica abaixo do período inteiro: 3\% na conta de carbono da
+Seção~\ref{sec:res-carbono}. Como as transições omitidas são justamente as de
+virada, o efeito sobre a repartição \emph{foi medido} em vez de suposto, atribuindo
+cada virada ao ato anterior e depois ao seguinte. A parcela do Ato~I é de
+76,4\% na convenção adotada, 76,6\% se a virada vai para o ato anterior e
+74,1\% se vai para o seguinte; a do Ato~II, de 18,6\%, 18,6\% e 20,5\%. A
+repartição, portanto, \emph{move-se} --- até 2,3 pontos ---, e a afirmação que o
+Capítulo~\ref{cap:resultados} faz sobre ela (``três quartos no Ato~I'')
+sobrevive às três convenções. É esse o alcance da declaração: a escolha não é
+inócua, mas não é ela que sustenta a leitura.
+
 A tipologia dos marcos institucionais (A, B ou C) organiza essa assimetria:
 marcos com quebra empírica coincidente e mecanismo plausível, marcos com
 suporte parcial e marcos de importância discursiva sem suporte empírico
@@ -367,6 +392,12 @@ detectável são tratados como categorias distintas ao longo do texto.
 
 \section{Instrumental analítico}
 \label{sec:met-instrumental}
+
+As equações estimadas, a definição e a escala de cada variável, a estrutura de
+efeitos fixos, o agrupamento dos erros-padrão e o resultado de \emph{todas} as
+especificações rodadas --- inclusive as que o Capítulo~\ref{cap:resultados} não
+comenta --- estão no Apêndice~\ref{ap:especificacoes}. Esta seção descreve a lógica
+de cada desenho; o apêndice o torna reconstruível.
 
 Os métodos empregados organizam-se pelas quatro frentes de investigação
 enunciadas nos objetivos específicos, e cada métrica é definida
@@ -786,7 +817,7 @@ para esta métrica.
 \section{Decisões metodológicas críticas}
 \label{sec:met-decisoes}
 
-Esta seção registra seis decisões que alteraram resultados já obtidos. Elas
+Esta seção registra oito decisões que alteraram resultados já obtidos. Elas
 constam aqui, e não em nota de rodapé: respondem à pergunta legítima ``por que
 seus números mudaram?'' e impedem que a escolha mais simples seja
 restabelecida por conveniência, inclusive pelo próprio autor, no futuro. O
@@ -939,6 +970,50 @@ cada parâmetro isoladamente. Uma sensibilidade que move os parâmetros na mesma
 direção não é sensibilidade nenhuma para a afirmação que depende do contraste
 entre eles.
 
+\subsection{Estoque removido não é emissão líquida (D31)}
+\label{sec:met-d31}
+
+A D30 acertou a procedência do parâmetro e deixou de pé um problema de
+definição que estava um nível acima dele. A rotina calculava, para cada
+hectare convertido, a densidade de carbono da formação que ali estava --- e
+parava aí. Isso mede o \textbf{estoque removido} da cobertura de origem. O
+método de diferença de estoque, porém, pede a diferença entre o estoque antes
+e o estoque \emph{depois}, porque a pastagem e a lavoura que entram no lugar
+não estocam carbono nenhum apenas em teoria. Os estoques do uso que entra
+estavam inclusive escritos na rotina, e não eram aplicados.
+
+São duas grandezas diferentes, e a decisão D31 é \textbf{calcular e reportar
+as duas com nomes distintos}, em vez de escolher entre corrigir o número e
+corrigir o rótulo. O desconto não é arbitrado: a composição do destino sai do
+fluxo observado de vegetação natural para uso antrópico (64,1\% pastagem,
+32,9\% Mosaico de Usos, 2,7\% agricultura, 0,3\% área urbana), e cada destino
+recebe o estoque que a mesma fonte lhe atribui --- inclusive o Mosaico, ao
+qual o Inventário atribui nominalmente o estoque da agricultura anual, por
+não distinguir ali lavoura de pecuária \cite{SEEG2025}. Daí uma densidade de
+destino de 6,63 toneladas de carbono por hectare e um desconto de 14,4\% sobre
+o total. Tratar todo o Mosaico como pastagem, que é a convenção alternativa,
+levaria a densidade a 7,48 e o desconto a 16,2\%; isso entra como
+\emph{sensibilidade} a uma convenção declarada, e não como incerteza da fonte.
+
+Três verificações acompanham a decisão, porque um desconto quase uniforme por
+hectare poderia deslocar comparações que o capítulo seguinte faz. A repartição
+entre os atos não se move (o Ato~I passa de 76,4\% para 77,0\% do total); o
+ordenamento entre formações não se inverte (a razão savânica sobre florestal
+vai de 1,69 para 1,58); e a comparação por hectare, que é a afirmação
+substantiva da seção, \emph{fortalece-se}, porque descontar um mesmo valor de
+dois estoques desiguais aumenta a razão entre eles --- de 1,57 para 1,69. Só
+os totais absolutos mudam.
+
+Duas aproximações ficam declaradas, porque a equação exata do método não é
+a que a rotina resolve. A composição do destino é \textbf{estadual e média}: ela
+não pareia cada hectare de floresta, savana ou campo ao destino daquele
+hectare, e sim aplica a mesma densidade média de destino às três formações e
+aos três atos. Fazer o pareamento exigiria a matriz de transição resolvida
+por formação de origem, que o cubo de sete grupos não separa. E o desconto
+incide sobre o saldo \emph{líquido} de estoque entre as pontas da série, não sobre
+cada conversão datada, de modo que a dinâmica temporal da liberação continua
+fora --- como já estava no termo ``comprometido''.
+
 \subsection{Lotação em cabeças por hectare}
 
 A medida de intensidade da pecuária deixou de ser expressa em Unidade Animal e
@@ -1033,7 +1108,8 @@ espaciais aumenta esse número.
 \textbf{E o gradiente estimado não é atribuível à aptidão em particular.} A
 corrida entre exposições mostrou que a latitude, posta na mesma regressão,
 absorve o coeficiente da aptidão (Seção~\ref{sec:res-perna3}). O que fica
-medido é que o choque comum bate mais forte no eixo Sul--Norte; \emph{qual}
+corroborado --- aquém do corte de significância, na régua de permutação --- é
+que o choque comum bate mais forte no eixo Sul--Norte; \emph{qual}
 característica desse eixo faz a diferença --- solo e clima, acesso, preço da
 terra, estrutura fundiária, idade da ocupação --- este desenho não separa,
 porque todas elas variam na mesma direção e o poder disponível não distingue

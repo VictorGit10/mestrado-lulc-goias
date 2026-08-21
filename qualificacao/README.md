@@ -1232,6 +1232,240 @@ pé sem estar declaradas, e uma banca as encontra:
 **Estado ao fim**: `verificar.py` 0 erros / 0 avisos; `compilar.ps1` sem Overfull e sem
 referência indefinida; **83 páginas**, 8 figuras; `verificar_reforma.py` todas passaram.
 
+### Resposta à leitura crítica externa (20/ago/2026) — D31 e o Apêndice A
+
+Um parecer externo (e a réplica dele à auditoria deste repositório) apontou sete
+"impeditivos". Conferidos um a um contra o código e o PDF, **oito achados eram
+reais**; a calibragem de gravidade do parecer estava errada, mas os fatos não.
+O que foi feito:
+
+**1. Carbono — D31, a correção de método (não de rótulo).** A rotina calculava
+`área perdida × densidade da origem` e o texto a descrevia como "a diferença
+entre o estoque antes e depois". Os estoques do uso de destino estavam escritos
+no script e **não eram aplicados**. Agora o `#47` calcula as duas grandezas e o
+texto reporta as duas com nomes distintos:
+
+| medida | Mt CO₂e |
+|---|---|
+| estoque removido da origem (4 compartimentos) | 973 |
+| estoque removido, só biomassa | 82–92% do acima (faixa, não ponto) |
+| **emissão líquida** (descontado o uso entrante, convenção SEEG) | **833** |
+| emissão líquida, Mosaico contado como pastagem (sensibilidade) | 815 |
+
+O desconto **não é arbitrado**: sai da composição observada do destino da
+vegetação natural (64,1% pastagem, 32,9% Mosaico, 2,7% agricultura, 0,3%
+urbana), e cada destino recebe o estoque que a fonte lhe atribui. Densidade de
+destino 6,63 tC/ha, desconto de 14,4%.
+
+🔴 **Erro meu, corrigido no mesmo dia — o Mosaico TEM estoque publicado.** A
+primeira versão da D31 afirmou que a classe 21 "não tem estoque próprio
+publicado por ser classe mista" e resolveu isso por *bracket* [5,00 ; 7,57],
+publicando a manchete como faixa 815–833. **É falso**, e a fonte estava em
+`ref/pdf/` o tempo todo: a Nota Metodológica do SEEG trata a classe 21
+nominalmente — *"Uma ressalva deve ser feita para a classe 21 […] Para essa
+classe consideraram-se os valores de estoque de agricultura anual para cada
+bioma (Tabela 5)"* — e a Tabela 5 (p. 36) traz, na coluna Cerrado, **"Mosaico
+de pastagem e agricultura (classe 21) … 5,00"**. A convenção publicada é um
+**ponto**, não um intervalo. Manchete corrigida para **833 Mt**, com 815 Mt
+rebaixado a *sensibilidade a uma convenção declarada*.
+
+⚠️ A classe do erro é exatamente a que este repositório mais persegue:
+**afirmar um negativo sobre uma fonte sem abrir a fonte.** O PDF já tinha sido
+aberto nesta mesma sessão, para outra pergunta. Regra que sai daí: *"a fonte
+não publica X" é asserção sobre a fonte, e exige o mesmo grep que "a fonte
+publica X".*
+
+Três verificações, porque um desconto quase uniforme por hectare poderia mover
+comparações: a repartição entre atos **não se move** (Ato I 76,4%→77,0%); o
+ordenamento entre formações **não inverte** (savânica/floresta 1,69→1,58); e a
+comparação por hectare **fortalece** (floresta/savânica 1,57→**1,69**), porque
+subtrair um mesmo valor de dois estoques desiguais aumenta a razão entre eles.
+
+**Duas aproximações agora declaradas no §3.8.7**, porque a equação exata não é a
+que a rotina resolve: (a) a composição do destino é **estadual e média** — não
+pareia origem × destino × lugar × ano, e aplica a mesma densidade às três
+formações e aos três atos; pareá-la exigiria a matriz de transição resolvida
+por formação, que o cubo de sete grupos não separa; (b) o desconto incide sobre
+o **saldo líquido** entre as pontas, não sobre cada conversão datada.
+
+**"Piso" saiu de vez.** A primeira versão dizia que, descontado o destino, "a
+única omissão restante é o solo", logo o número seria piso. Falso duas vezes:
+o solo no Cerrado **não tem sinal garantido** (sob pastagem bem conduzida pode
+perder, manter ou ganhar), e ele não é a única omissão — ficam também a
+dinâmica temporal, os gases não-CO₂, a queima, os produtos madeireiros e a
+heterogeneidade de manejo. O texto agora enumera as omissões e diz que o número
+**não é piso nem teto**: é o que foi contado, nos compartimentos nomeados.
+
+**2. Apêndice A — especificações completas.** O documento tinha **uma** equação
+em 85 páginas e **nenhuma** tabela de regressão. Agora há um apêndice gerado por
+`apendice/gerar_apendice.py` a partir dos mesmos CSVs dos pipelines (nenhum
+coeficiente digitado à mão): convenções comuns (painel, D7, escore-z, 2FE,
+agrupamento, as duas réguas de inferência); a equação do SLX com a construção
+de `W` (166×166, 8 vizinhos mais próximos em EPSG:5880, filtro direcional,
+padronizada por linha) e os **doze** termos de vizinhança; a equação do
+*shift-share* com a razão de não haver termos principais, a permutação circular
+e o piso de resolução `1/38 ≈ 0,026`; a corrida entre exposições (10 specs) e a
+**grade confirmatória completa** (14 specs, inclusive os nulos de área).
+
+**3. Calibragem do *drive* comum — eram quatro lugares, não uma palavra.**
+`§4.4` abria respondendo *"Porque ambos respondem ao mesmo estímulo externo"* a
+uma pergunta que a seção ia testar; passou a enunciar a hipótese **e a dizer que
+descartar o empurrão não instala a alternativa**. "O que fica medido" virou "o
+que fica corroborado" em `cap. 4`, `cap. 5` e no `§3.9` de limitações, sempre
+com o aquém-do-corte explícito.
+
+**4. Proteção — o Quadro 8 fechava o que o cap. 4 declara aberto.** A linha da
+Perna 4 dizia "não de demanda **nem de proteção**"; o `04:1103` diz que a
+sensibilidade de −20% de RL "não separa essas duas leituras dentro do Sul" e
+que "fica registrado como limite, e não como questão vencida". A linha passou a
+declarar o escopo: *elimina-se a proteção integral; RL e APP não são separadas
+do esgotamento*. E "nada a elevar" saiu da linha 1 (a acurácia do classificador
+nenhum recorte alcança).
+
+**5. Reparos formais, todos conferidos na fonte.**
+
+- **Goiás não é integralmente Cerrado.** Cruzando `_geo_biomas.gpkg` ×
+  `_geo_ufs_brasil.gpkg` — as camadas que a própria Figura 1 plota — dá
+  **98,4% Cerrado / 1,6% Mata Atlântica** (5.555 km², extremo sudeste).
+- **Carneiro Filho saía "FILHO, A. C."**. O `.bib` tinha sete linhas de
+  comentário explicando que as chaves duplas são obrigatórias e **a entrada
+  estava sem elas**. Restauradas em `CarneiroFilho2016` e em `Rausch2019`.
+- **"seis decisões" → oito.** A contagem não acompanhou a D30 (nem a D31).
+- **Trase não tinha referência** e o quadro de fontes dizia "2004--2020";
+  a cobertura real é soja 2004--2022 e bovinos 2011--2023 (conferido no
+  parquet). Entrada `Trase2026` criada com as versões dos pacotes que o
+  `coleta_trase.py` registra.
+- **A regra de fronteira dos atos** (2000--2001 e 2019--2020 não pertencem a
+  ato nenhum) estava declarada só na conta de carbono; subiu para o `§3.5`,
+  onde a periodização nasce, com o custo medido (3%).
+
+**Compilação:** 93 págs, **0 overfull, 0 referência indefinida, 0 erro de
+BibTeX**, verificado no texto extraído do PDF.
+
+**6. O 849 Mt saiu do texto — verificado em 20/ago e resolvido na raiz.**
+O número não tinha implementação: nenhuma linha de `custo_carbono_marcha.py` o
+produz, nenhum CSV o guarda, e não há valores de biomassa por formação
+persistidos em lugar nenhum do repositório (`grep` em `scripts/`, `Textos/`,
+`qualificacao/`: as sete ocorrências são todas de prosa). A base registrada é a
+leitura compartimento a compartimento da D30 — "aéreo+subterrâneo é 82–92% do
+total" —, e essa banda **não determina um ponto**: aplicada aos 973, ela
+autoriza qualquer valor entre ~798 e ~896 Mt. O 849 (87,3% do total) é
+consistente com ela e não é derivável dela.
+
+Tentei reproduzi-lo na fonte primária antes de mexer no texto. A Tabela 24 do
+MCTI (p. 119–127) **tem** os quatro reservatórios por fitofisionomia, e a
+Tabela 3 do SEEG (p. 33) confirma o 64,72 de Goiás — mas juntar as duas exige
+refazer a agregação fisionomia→classe do MapBiomas, que é justamente o passo
+que a D30 declarou **não** ter refeito para a classe 3. Reproduzir seria
+análise nova, não conferência.
+
+Resolvido por declaração: o `§4.5.3` deixou de reportar um ponto e passou a
+reportar a banda, dizendo por que ela fica banda ("converter a leitura num
+valor único seria mais preciso do que ela autoriza"). O texto agora tem
+**dois** números de carbono, e os dois saem do pipeline: 973 (estoque removido)
+e 815–833 (emissão líquida).
+
+⚠️ **Os docs de trabalho ainda dizem 849** — `Textos/ensaio_a_investigacao.md`,
+`indice_logico_pipelines.md`, `narrativa_pipelines.md` e `pipelines/README.md`.
+Não foram tocados neste passe; quem os ler depois do texto vai achar
+divergência que já foi decidida.
+
+**9. Apêndice A completado (20/ago) — a objeção original está fechada.**
+A pergunta era se os seis instrumentos que faltavam exigiam análise nova ou
+fonte nova. **Nenhum dos dois**: todos já tinham CSV persistido, e a expansão
+foi só geração. O apêndice passou de 3 para **10 tabelas** e o documento de
+95 para **101 páginas**.
+
+| bloco novo | fonte | conteúdo |
+|---|---|---|
+| A.2 Precedência temporal | `granger_reverso_lags.csv` | 12 linhas: $p$ Granger clássico × $p$ Wald HAC (Toda-Yamamoto), por defasagem, nas duas direções — inclusive a **reversa**, que é o artefato da D16 |
+| A.4 Dependência espacial | `painel_espacial_dinamico.csv` | 4 modelos × MQ/SAR/SEM, com $ho$, $\lambda$, forma preferida pelo LM robusto e se o coeficiente sobrevive |
+| A.6 Placebos | `perna4_placebos.csv` | os 8 placebos de desfecho e de tempo do *shift-share* |
+| A.7 Teto de oferta | `fronteira_teste_supply.csv` + `_39b.csv` | canal de disponibilidade (9 linhas) + **grade completa de tratamentos da depleção** (D29) |
+| A.8 Desenvolvimento | `desenvolvimento_gradiente.csv` | gradiente transversal (4 specs) + painel 2FE dentro do município (4) |
+
+O bloco **"O que não está aqui"** foi reescrito para o que de fato falta, com o
+motivo de cada um: as quebras estruturais já têm o Quadro 5 no corpo; o ajuste
+de mistura da idade da pastagem não é regressão (são médias, dispersões e
+pesos, enunciados no §4.3); e a grade **exploratória** (192 combinações) fica
+fora por desenho, não por espaço — existe para gerar hipóteses sob controle de
+multiplicidade e nenhuma afirmação se apoia nela.
+
+⚠️ **Três armadilhas do gerador, para quem mexer nele depois.** (a) Os CSVs
+trazem `Δ`, `→` e `≤`, que o pdflatex não conhece em modo texto — `esc()` agora
+os mapeia. (b) O `~` dos CSVs (`fluxo ~ estoque`) é **til de LaTeX**, espaço
+inquebrável, e sai como "fluxo estoque"; vira `$\sim$`. (c) Nomes crus de
+regressor (`zd_preco_recebido_soja_idx`) não quebram linha e estouram a mancha;
+há um `ROTULO_REGRESSOR` que os traduz.
+
+**Compilação final:** 101 págs, 13 tabelas, **0 overfull, 0 indefinida, 0 erro
+de BibTeX**.
+
+**8. Segunda rodada do parecer externo (20/ago, mesmo dia) — 5 achados, todos
+procedentes.** Além do Mosaico (acima), o parecer achou:
+
+- **A contagem do SLX estava errada no próprio apêndice.** O texto dizia "doze
+  combinações e trinta e seis coeficientes" e a legenda dizia "doze
+  especificações", mas a grade é 2 janelas × 3 réguas × 3 modelos = **dezoito**
+  especificações, cada uma com termo local e de vizinhança = 36 coeficientes, e
+  a tabela sempre teve **18** linhas. Corrigido nos três lugares.
+- **O apêndice prometia completude que não entrega.** O preâmbulo dizia "cada
+  desenho inferencial" e "todas as especificações rodadas"; cobre três desenhos
+  de painel. Passou a nomear os três e a listar, num bloco *"O que não está
+  aqui"*, os seis instrumentos que ficaram de fora (precedência temporal e
+  Toda-Yamamoto, mecanismo em painel, SAR/SEM, grade de depleção, painel do
+  IFDM, quebras estruturais), remetendo ao cronograma.
+- **"Todas as regressões correm sobre o painel de 166 AMC"** era falso para os
+  testes temporais agregados e os VAR. Virou "as regressões deste apêndice".
+- **A nota da grade confirmatória mandava o leitor à tabela errada** para o *p*
+  de permutação: aquela tabela tem outras regressões. Agora declara que a régua
+  de permutação **não foi computada para aquelas linhas** e que os *p*
+  reportados são limite inferior da incerteza.
+- **A convenção dos atos trazia afirmação não testada.** O §3.5 dizia que a
+  omissão das viradas "não altera nenhuma repartição relativa". **Testei**,
+  atribuindo cada virada ao ato anterior e depois ao seguinte:
+
+  | convenção | %I | %II | %III | soma |
+  |---|---|---|---|---|
+  | exclui a virada (adotada) | 76,4 | 18,6 | 5,0 | 943,9 |
+  | virada no ato anterior | 76,6 | 18,6 | 4,8 | 973,3 |
+  | virada no ato seguinte | 74,1 | 20,5 | 5,4 | 973,3 |
+
+  A repartição **move-se** — até 2,3 pontos —, e "três quartos no Ato I"
+  sobrevive às três. O §3.5 passou a trazer a tabela em prosa em vez da
+  afirmação.
+
+Também caiu a última formulação causal do Quadro 8 (linha 3b): "O choque comum
+desloca o rebanho ao longo do eixo Sul--Norte" virou "a resposta ao choque
+comum distribui-se ao longo do eixo, no sentido previsto e aquém do corte de
+significância; nem a força nem a característica do eixo são identificadas".
+E a régua foi uniformizada no parágrafo dos atos, que anunciava "estoque
+removido" e depois dizia "emissor" e "emitem".
+
+**Compilação após esta rodada:** 95 págs, 0 overfull, 0 indefinida, 0 erro de
+BibTeX; 14 asserções conferidas no texto extraído.
+
+**7. Trase — o resíduo era falso alarme, e a conferência achou outra coisa.**
+A correção de jul/2026 **está** aplicada onde importa: `painel_trase.csv`
+(17/jul) e `painel_unificado.parquet` (29/jul) trazem
+`trase_soja_volume_export_t` e `_domestico_t`, e o `#45` lê o painel municipal,
+não o de AMC. A afirmação do quadro de fontes ("mantida distinta da produção")
+é verdadeira.
+
+O que a conferência achou foi outra coisa: `painel_amc_goias.parquet` é de
+**4/jun/2026**, um mês atrás do municipal, e carrega as oito colunas Trase
+pré-correção sem as seis separadas. Como nada lê Trase do painel de AMC, é peso
+morto e não defeito. E a data **não** implica dado velho: agregando o painel
+municipal pelo crosswalk e comparando as cinco colunas que a conta de carbono e
+as regressões de rebanho usam (`lulc_floresta_nativa_ha`,
+`lulc_formacao_savanica_ha`, `lulc_campo_nativo_ha`, `lulc_campo_alagado_ha`,
+`pec_bovinos_cab`), o desvio é **0,000e+00 em 6.640 linhas**. A defasagem é de
+carimbo, não de conteúdo.
+
+⚠️ Ambos os painéis ainda carregam `pec_bovinos_ua` e `lotacao_ua_ha_pasto`,
+que a remoção da UA (29/jul) previa que cairiam ao re-rodar. Não caíram. Nada
+no texto as usa, mas a previsão do registro está errada e vale corrigir lá.
+
 ### A régua de carbono trocada — D30 (20/ago/2026)
 
 O autor perguntou se dava para fechar a conta de carbono sem os dois artigos pagos.
