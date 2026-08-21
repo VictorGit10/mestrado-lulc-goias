@@ -24,6 +24,15 @@ C. Decompor a desaceleração Ato II→III em efeito-ESTOQUE (oferta) vs efeito-
    (demanda/governança) por região: Δ(fluxo) = h̄·Δestoque + estoquē·Δhazard
    (decomposição exata de um produto pelo ponto médio). Veredito honesto e por região.
 
+⚠ NOME QUE ENGANA: as colunas de regressor `lestoque`, `lestoque2` e `ldeplecao`
+  NÃO são logaritmos. O `l` é herança de uma versão anterior; hoje elas recebem
+  `estoque_prev`, `estoque_prev**2` e `deplecao_prev` em NÍVEL (ver l. 260-262;
+  `np.log` não aparece neste arquivo). Quem consumir o CSV pela coluna `regressor`
+  precisa rotular como nível — o apêndice da qualificação rotulou como "log" até
+  20/ago/2026, e isso mandaria o leitor reconstruir o modelo transformado.
+  Os nomes não foram trocados porque a coluna `regressor` é chave de dado e o
+  rótulo vive no consumidor; a etiqueta certa está em qualificacao/apendice/.
+
 D13 — "TERRA CONVERTÍVEL" (decisão metodológica, proxy com teto declarado)
 -------------------------------------------------------------------------
 Sem CAR/UC/PRODES integrados (coletas pendentes), reportamos 3 definições lado a lado:

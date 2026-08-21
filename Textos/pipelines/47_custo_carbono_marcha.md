@@ -4,11 +4,11 @@
 **Quando foi feito**: 2026-07-16. Segunda perna do **eixo ambiental** aberto pelo #46; realiza o "próximo passo" que o #46 e o #44 apontaram (aplicar densidades de C do Cerrado às formações que recuam).
 **Depende de**: #44 (vegetação natural aberta em 3 formações — floresta/savânica/campo), #32/#34/#39 (máquina de regionalização Sul/Centro/Norte + faixa de latitude + centróide EPSG:5880), #12/#19 (transições brutas, para o cross-check). Painel AMC (#25).
 **Outputs**:
-- `data/processed/carbono_por_formacao.csv` — Bloco A: área perdida + Mt C/CO₂e por formação (3 cenários).
-- `data/processed/carbono_regional_ato.csv` — Bloco B: emissão por região × ato × formação.
-- `data/processed/carbono_por_amc.csv` — perda + emissão por AMC (com lat/região) para mapa.
-- `data/processed/carbono_centroide_ato.csv` — centróide da perda de C por ato (a marcha do custo).
-- `data/processed/carbono_sensibilidade.csv` — manchete por cenário baixa/central/alta.
+- `data/processed/carbono_por_formacao_mcti.csv` — Bloco A: área perdida + Mt C/CO₂e por formação (3 cenários).
+- `data/processed/carbono_regional_ato_mcti.csv` — Bloco B: emissão por região × ato × formação.
+- `data/processed/carbono_por_amc_mcti.csv` — perda + emissão por AMC (com lat/região) para mapa.
+- `data/processed/carbono_centroide_ato_mcti.csv` — centróide da perda de C por ato (a marcha do custo).
+- `data/processed/carbono_sensibilidade_mcti.csv` — manchete por cenário baixa/central/alta.
 - `outputs/custo_carbono/carbono_por_formacao.png`, `carbono_regiao_ato.png`, `carbono_centroide_marcha.png`.
 
 ---
@@ -68,8 +68,8 @@ Ritmo de emissão (Mt CO₂e/ano) por região × ato:
 
 **80% do carbono comprometido saiu no Ato I** (1985–2000) — a expansão inicial do pasto sobre o Cerrado, concentrada no **Sul** (20,5 Mt/ano). Depois de 2001 o ritmo despenca ~6× e **inverte a geografia**: no Ato III o **Sul é o menor** (1,4) e Centro/Norte lideram (4,6 / 3,1). O **centróide da perda de carbono marcha +98 km ao norte** de Ato I (lat −16,06) a Ato III (−15,17). Isto **amarra diretamente com o #39**: o Sul esgotou o Cerrado convertível (fronteira fechada) e o custo residual de carbono migrou para onde ainda há o que converter — o Norte/Centro. A soma cumulativa por região fica quase equilibrada (Sul 36% / Centro 32% / Norte 32%) *porque o Sul carrega a herança do Ato I*.
 
-> **Nota de reconciliação (29/jul/2026).** A decomposição por ato (`carbono_regional_ato.csv`)
-> soma **946,7 Mt = 97,3% do total-manchete de 973 Mt** (`carbono_por_formacao.csv`), porque cada
+> **Nota de reconciliação (29/jul/2026).** A decomposição por ato (`carbono_regional_ato_mcti.csv`)
+> soma **946,7 Mt = 97,3% do total-manchete de 973 Mt** (`carbono_por_formacao_mcti.csv`), porque cada
 > ato é medido por **diferença de estoque entre seus endpoints** (I=1985→2000, II=2001→2019,
 > III=2020→2024) e as transições dos **dois anos-fronteira entre atos (2000→01 e 2019→20)** não
 > caem em ato nenhum — verificado: `perda(2000,01) + perda(2019,20) = 26,4 Mt`, exatamente o gap.

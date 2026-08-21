@@ -34,28 +34,38 @@ transcrito à mão.
 \section{Convenções comuns}
 \label{ap:convencoes}
 
-\textbf{Unidade e painel.} As regressões deste apêndice correm sobre o painel de 166
-Áreas Mínimas Comparáveis de Goiás, 1985--2024 (\(166 \times 40 = 6.640\)
-células), descrito na Seção~\ref{sec:met-amc}. Quando uma fonte não cobre a
-janela inteira, o \(n\) reportado na tabela é o efetivo após exclusão de
+\textbf{Alcance destas convenções.} Elas valem para os desenhos em painel de
+AMCs --- as Seções~\ref{ap:slx} a \ref{ap:oferta}. Dois blocos correm sobre
+outra unidade e \emph{não} as seguem: a precedência temporal
+(Seção~\ref{ap:precedencia}), que usa séries anuais agregadas por região, e o
+desenvolvimento municipal (Seção~\ref{ap:ifdm}), cujo primeiro bloco é uma
+seção transversal de municípios em \emph{nível}. Cada um declara as suas na
+abertura da seção.
+
+\textbf{Unidade e painel.} As regressões em painel deste apêndice correm sobre
+o painel de 166 Áreas Mínimas Comparáveis de Goiás, 1985--2024 (\(166 \times 40
+= 6.640\) células), descrito na Seção~\ref{sec:met-amc}. Quando uma fonte não
+cobre a janela inteira, o \(n\) reportado na tabela é o efetivo após exclusão de
 ausentes por lista.
 
-\textbf{Primeira diferença (D7).} O desfecho é sempre a variação anual, e não o
-nível: \(\Delta y_{it} = y_{it} - y_{i,t-1}\). É essa transformação que desarma
-o vazamento entre regressor e regressando documentado na
-Seção~\ref{sec:met-painel}.
+\textbf{Primeira diferença (D7).} Nesses desenhos o desfecho é a variação
+anual, e não o nível: \(\Delta y_{it} = y_{it} - y_{i,t-1}\). É essa
+transformação que desarma o vazamento entre regressor e regressando documentado
+na Seção~\ref{sec:met-painel}.
 
 \textbf{Padronização.} As exposições entram em \emph{escore-z} calculado sobre
 a seção transversal das 166 unidades \(\tilde{E}_i = (E_i - \bar{E})/\sigma_E\),
 com \(\sigma\) populacional. Os coeficientes de interação lêem-se, portanto,
 como efeito de um desvio-padrão de exposição.
 
-\textbf{Efeitos fixos e erros-padrão.} Salvo indicação em contrário, todas as
-especificações trazem efeito fixo de unidade \emph{e} de ano (2FE) e
+\textbf{Efeitos fixos e erros-padrão.} Salvo indicação em contrário, as
+especificações em painel trazem efeito fixo de unidade \emph{e} de ano (2FE) e
 erros-padrão agrupados nas duas dimensões. O agrupamento efetivamente aplicado
-é reportado em cada tabela, porque em uma especificação ele recai para
-agrupamento só por unidade quando a matriz de covariância bidimensional não é
-positiva-definida.
+é reportado em cada tabela, porque há especificações em que ele recai para
+agrupamento só por unidade --- por escolha do desenho, no painel municipal da
+Seção~\ref{ap:ifdm}, ou porque a matriz de covariância bidimensional não é
+positiva-definida. Onde uma especificação dispensa o efeito fixo de ano, a
+própria linha o diz.
 
 \textbf{Duas réguas de inferência.} Onde o desenho é do tipo
 \emph{shift-share}, o \(p\) agrupado e o \(p\) de permutação circular do
@@ -65,61 +75,105 @@ não. A régua defensável é a segunda, pela razão exposta na
 Seção~\ref{sec:met-instrumental}.
 
 
+\FloatBarrier
+
 \section{Precedência temporal entre as séries regionais}
 \label{ap:precedencia}
 
 Antes do teste espacial, a hipótese do empurrão foi examinada no tempo: se a
 lavoura do Sul puxa a pastagem do Norte, o passado de uma deve ajudar a prever
-a outra. Este é o único bloco do apêndice que \emph{não} usa o painel de AMCs.
-Ele corre sobre \textbf{séries anuais agregadas por região}, o que dá cerca de
-38 observações --- e é dessa escassez, e não do desenho, que vem a maior parte
-da limitação de poder.
+a outra. Este bloco \emph{não} usa o painel de AMCs e não segue as convenções
+da Seção~\ref{ap:convencoes}: ele corre sobre \textbf{séries anuais agregadas
+por região}, o que dá cerca de 38 observações --- e é dessa escassez, e não do
+desenho, que vem a maior parte da limitação de poder.
 
 A leitura do teste de Granger tem de ser literal: ele mede \emph{precedência
 preditiva}, não causalidade. E, aplicado a séries integradas, fabrica
-precedência inexistente --- foi o que a decisão D16 registrou. Por isso a
-Tabela~\ref{tab:precedencia} reporta, lado a lado, o \(p\) clássico e o \(p\)
-de um teste de Wald com erros-padrão robustos a heterocedasticidade e
-autocorrelação, na receita de Toda-Yamamoto, que permanece válido sob
-integração.
+precedência inexistente --- foi o que a decisão D16 registrou. O diagnóstico
+que sustenta essa decisão vem em dois passos, e as duas tabelas seguintes os
+separam porque \textbf{não são o mesmo teste}.
+
+O primeiro passo é a classificação das ordens de integração, por triangulação
+entre os testes de Dickey-Fuller aumentado (ADF) e de
+Kwiatkowski-Phillips-Schmidt-Shin (KPSS), cujas hipóteses nulas são opostas.
+A Tabela~\ref{tab:integracao} traz as quatro séries. É ela que mostra o
+descasamento: a agricultura do Sul é estacionária já em nível pelo ADF,
+enquanto a pastagem do Norte não o é nem depois de convertida em variações
+anuais --- a montagem clássica que fabrica precedência.
+
+O segundo passo é a inferência válida sob integração. A
+Tabela~\ref{tab:precedencia} reporta três colunas de \(p\), e a distinção entre
+elas é a correção que esta versão do apêndice faz. O \(p\) de Granger é o
+teste-F clássico. O \(p\) de Wald HAC é o mesmo teste em primeira diferença,
+com covariância robusta a heterocedasticidade e autocorrelação: ele corrige o
+\emph{erro-padrão}, e não a integração, de modo que \textbf{não} resolve o
+problema diagnosticado acima. Quem o resolve é a terceira coluna, o \(p\) de
+Toda-Yamamoto \cite{TodaYamamoto1995}, que ajusta o modelo vetorial
+autorregressivo em \emph{níveis} com \(p + d_{\max}\) defasagens e aplica o
+teste de Wald apenas às \(p\) primeiras. É esse o número que o
+Capítulo~\ref{cap:resultados} usa para o veredito, e é ele que apaga o
+resultado nas duas direções.
 
 A direção \emph{reversa} está na tabela de propósito. Ela é o achado que a
 decisão D16 classificou como \textbf{artefato espúrio}: o sinal forte que
-aparece de norte para sul não sobrevive ao tratamento da integração como
-relação de longo prazo, e é reportado aqui para que o leitor veja o que o
-diagnóstico teve de descartar.
+aparece de norte para sul --- \(p < 0{,}001\) nas duas primeiras colunas ---
+não sobrevive à terceira, e é reportado aqui para que o leitor veja o que o
+diagnóstico teve de descartar. O contraste entre as colunas é, ele próprio, a
+evidência: uma régua que corrige o erro-padrão mantém o achado; a que corrige a
+integração o dissolve.
 
 
-\begin{table}[htb]
+\begin{table}[!ht]
 \centering
-\caption[Precedência temporal entre séries regionais]{Precedência temporal entre as séries regionais, por defasagem.}
-\label{tab:precedencia}
-\small
-\begin{tabular}{lcccccr}
+\caption[Ordens de integração das séries regionais]{Testes de raiz unitária nas séries regionais, em nível e em primeira diferença.}
+\label{tab:integracao}
+\footnotesize
+\begin{tabular}{lrccl}
 \toprule
-& \textbf{Def.} & \textbf{$p$ Granger} & \textbf{$p$ Wald HAC} & \textbf{$\hat{\beta}_1$} & \textbf{$p(\hat{\beta}_1)$} & \textbf{$n$} \\
+\textbf{Série} & \textbf{$n$} & \textbf{$p$ ADF} & \textbf{$p$ KPSS} & \textbf{Veredito (ADF)} \\
 \midrule
-\multicolumn{7}{l}{\textit{Sul$\rightarrow$Norte: $\Delta$Agric\_Sul $\rightarrow$ $\Delta$Pasto\_Norte}} \\
- & 1 & $0{,}971$ & $0{,}959$ & $+0{,}0022$ & $0{,}959$ & 38 \\
- & 2 & $0{,}760$ & $0{,}703$ & $-0{,}0257$ & $0{,}669$ & 37 \\
- & 3 & $0{,}822$ & $0{,}518$ & $-0{,}0202$ & $0{,}744$ & 36 \\
-\multicolumn{7}{l}{\textit{REVERSO:   $\Delta$Pasto\_Norte $\rightarrow$ $\Delta$Agric\_Sul}} \\
- & 1 & $<0{,}001$ & $<0{,}001$ & $+0{,}4394$ & $<0{,}001$ & 38 \\
- & 2 & $0{,}075$ & $0{,}005$ & $+0{,}3494$ & $0{,}339$ & 37 \\
- & 3 & $0{,}179$ & $0{,}006$ & $+0{,}2306$ & $0{,}554$ & 36 \\
-\multicolumn{7}{l}{\textit{REVERSO bov: $\Delta$Bovinos\_Norte $\rightarrow$ $\Delta$Agric\_Sul}} \\
- & 1 & $0{,}723$ & $0{,}650$ & $-0{,}0151$ & $0{,}647$ & 38 \\
- & 2 & $0{,}192$ & $0{,}407$ & $-0{,}0323$ & $0{,}392$ & 37 \\
- & 3 & $0{,}299$ & $0{,}346$ & $-0{,}0425$ & $0{,}308$ & 36 \\
-\multicolumn{7}{l}{\textit{Sul$\rightarrow$Norte bov: $\Delta$Agric\_Sul $\rightarrow$ $\Delta$Bovinos\_Norte}} \\
- & 1 & $0{,}325$ & $0{,}180$ & $+0{,}6209$ & $0{,}171$ & 38 \\
- & 2 & $0{,}593$ & $0{,}242$ & $+0{,}6756$ & $0{,}095$ & 37 \\
- & 3 & $0{,}723$ & $0{,}332$ & $+0{,}9161$ & $0{,}095$ & 36 \\
+Agricultura do Sul, em nível & 40 & $0{,}011$ & $0{,}010$ & estacionária \\
+Pastagem do Norte, em nível & 40 & $0{,}960$ & $0{,}010$ & não estacionária \\
+Agricultura do Sul, em 1\textsuperscript{a} diferença & 39 & $0{,}001$ & $0{,}050$ & estacionária \\
+Pastagem do Norte, em 1\textsuperscript{a} diferença & 39 & $0{,}922$ & $0{,}010$ & não estacionária \\
 \bottomrule
 \end{tabular}
 \fontefig{elaboração própria.}
-\notafig{séries anuais agregadas por região, em primeira diferença; ``Def.'' é o número de defasagens do modelo. $p$ Granger é o teste-F clássico e $p$ Wald HAC o mesmo teste com covariância robusta a heterocedasticidade e autocorrelação; $\hat{\beta}_1$ é o coeficiente da primeira defasagem da série candidata a precedente. O bloco \textsc{reverso} é reportado porque foi ele que originou a decisão D16, e não porque sustente afirmação.}
+\notafig{as hipóteses nulas dos dois testes são \textbf{opostas}: o ADF tem por nula a presença de raiz unitária, de modo que $p$ baixo indica série estacionária; o KPSS tem por nula a estacionariedade, de modo que $p$ baixo indica o contrário. O veredito da última coluna é o do ADF. O KPSS rejeita em todas, inclusive onde o ADF não rejeita, e essa discordância é a razão de a classificação ser \emph{a resposta do teste} nesta amostra, e não propriedade estabelecida do processo: com 39 observações e duas quebras estimadas nessas mesmas séries, nenhum dos dois é decisivo sozinho. O que a tabela estabelece com segurança é o \emph{descasamento} entre as duas séries, que é o que invalida o teste clássico.}
 \end{table}
+
+\begin{table}[!ht]
+\centering
+\caption[Precedência temporal entre séries regionais]{Precedência temporal entre as séries regionais, por defasagem e por régua de inferência.}
+\label{tab:precedencia}
+\footnotesize
+\begin{tabular}{lccccccr}
+\toprule
+& \textbf{Def.} & \textbf{$p$ Granger} & \textbf{$p$ Wald HAC} & \textbf{$p$ T-Y} & \textbf{$\hat{\beta}_1$} & \textbf{$p(\hat{\beta}_1)$} & \textbf{$n$} \\
+\midrule
+\multicolumn{8}{l}{\textit{Sul$\rightarrow$Norte: $\Delta$Agric\_Sul $\rightarrow$ $\Delta$Pasto\_Norte}} \\
+ & 1 & $0{,}971$ & $0{,}959$ & $0{,}252$ & $+0{,}0022$ & $0{,}959$ & 38 \\
+ & 2 & $0{,}760$ & $0{,}703$ & $0{,}246$ & $-0{,}0257$ & $0{,}669$ & 37 \\
+ & 3 & $0{,}822$ & $0{,}518$ & --- & $-0{,}0202$ & $0{,}744$ & 36 \\
+\multicolumn{8}{l}{\textit{REVERSO:   $\Delta$Pasto\_Norte $\rightarrow$ $\Delta$Agric\_Sul}} \\
+ & 1 & $<0{,}001$ & $<0{,}001$ & $0{,}455$ & $+0{,}4394$ & $<0{,}001$ & 38 \\
+ & 2 & $0{,}075$ & $0{,}005$ & $0{,}748$ & $+0{,}3494$ & $0{,}339$ & 37 \\
+ & 3 & $0{,}179$ & $0{,}006$ & --- & $+0{,}2306$ & $0{,}554$ & 36 \\
+\multicolumn{8}{l}{\textit{REVERSO bov: $\Delta$Bovinos\_Norte $\rightarrow$ $\Delta$Agric\_Sul}} \\
+ & 1 & $0{,}723$ & $0{,}650$ & --- & $-0{,}0151$ & $0{,}647$ & 38 \\
+ & 2 & $0{,}192$ & $0{,}407$ & --- & $-0{,}0323$ & $0{,}392$ & 37 \\
+ & 3 & $0{,}299$ & $0{,}346$ & --- & $-0{,}0425$ & $0{,}308$ & 36 \\
+\multicolumn{8}{l}{\textit{Sul$\rightarrow$Norte bov: $\Delta$Agric\_Sul $\rightarrow$ $\Delta$Bovinos\_Norte}} \\
+ & 1 & $0{,}325$ & $0{,}180$ & --- & $+0{,}6209$ & $0{,}171$ & 38 \\
+ & 2 & $0{,}593$ & $0{,}242$ & --- & $+0{,}6756$ & $0{,}095$ & 37 \\
+ & 3 & $0{,}723$ & $0{,}332$ & --- & $+0{,}9161$ & $0{,}095$ & 36 \\
+\bottomrule
+\end{tabular}
+\fontefig{elaboração própria.}
+\notafig{séries anuais agregadas por região; ``Def.'' é o número de defasagens do modelo. As três colunas de $p$ \textbf{não são a mesma régua}. $p$ Granger é o teste-F clássico em primeira diferença. $p$ Wald HAC é o mesmo teste com covariância robusta a heterocedasticidade e autocorrelação (Newey-West): corrige o erro-padrão, não a integração. $p$ T-Y é o de Toda-Yamamoto, ajustado em \emph{níveis} com $p + d_{\max}$ defasagens ($d_{\max} = 2$) e com o teste de Wald restrito às $p$ primeiras --- é a única das três válida sob integração, e é a reportada no Capítulo~\ref{cap:resultados}. Ela consta apenas do par agricultura--pastagem, que é onde o resultado espúrio apareceu e onde o diagnóstico foi conduzido; nos dois blocos \textsc{bov} não foi computada, e as linhas trazem ``---'' em vez de repetir a coluna vizinha. $\hat{\beta}_1$ é o coeficiente da primeira defasagem da série candidata a precedente, na equação em diferenças. O bloco \textsc{reverso} é reportado porque foi ele que originou a decisão D16, e não porque sustente afirmação.}
+\end{table}
+
+\FloatBarrier
 
 \section{Teste espacial do deslocamento local (Perna 3a)}
 \label{ap:slx}
@@ -164,7 +218,7 @@ Tabela~\ref{tab:slx} traz os dezoito termos de vizinhança, que são os de
 interesse.
 
 
-\begin{table}[htb]
+\begin{table}[!ht]
 \centering
 \caption[Termo de vizinhança do teste espacial]{Termo de vizinhança do teste espacial do deslocamento, nas dezoito especificações.}
 \label{tab:slx}
@@ -199,6 +253,8 @@ Soja (SIDRA) & $\Delta$ bovinos & $W_{\mathrm{sul}}$ & $-0{,}007$ & $0{,}088$ & 
 \notafig{estimação por mínimos quadrados com efeitos fixos de unidade e de ano; erros-padrão agrupados por unidade. O coeficiente reportado é o do termo de vizinhança $\hat{\theta}$ da Equação~\ref{eq:slx}; o termo local $\hat{\beta}$ é omitido porque mede substituição dentro da unidade, que não é deslocamento. O $n$ menor nas linhas da soja reflete o início mais tardio da série municipal do SIDRA.}
 \end{table}
 
+\FloatBarrier
+
 \section{Dependência espacial: modelos de defasagem e de erro}
 \label{ap:sarsem}
 
@@ -210,31 +266,87 @@ comparação responde a uma pergunta só --- se os coeficientes de interesse
 sobrevivem quando a dependência é modelada --- e a resposta consta na última
 coluna da Tabela~\ref{tab:sarsem}.
 
-A matriz \(W\) aqui é de contiguidade \emph{queen} entre as 166 unidades,
-padronizada por linha, e não a matriz direcional de oito vizinhos da
-Seção~\ref{ap:slx}: aqui o objeto é a dependência genérica, e não a direção
-sul-norte. Os testes do multiplicador de Lagrange, em suas versões simples e
-robusta, indicam qual das duas formas o dado prefere.
+Partindo da especificação por mínimos quadrados, em primeira diferença e com
+os dois efeitos fixos,
+\begin{equation}
+\Delta y_{it} = \Delta \mathbf{x}_{it}'\boldsymbol{\beta}
+             + \alpha_i + \lambda_t + \varepsilon_{it},
+\label{eq:mq}
+\end{equation}
+\noindent as duas formas espaciais acrescentam um termo cada. O SAR põe a
+dependência na variável dependente,
+\begin{equation}
+\Delta y_{it} = \rho\,(W\Delta y)_{it} + \Delta \mathbf{x}_{it}'\boldsymbol{\beta}
+             + \alpha_i + \lambda_t + \varepsilon_{it},
+\label{eq:sar}
+\end{equation}
+\noindent e o SEM a põe no erro, deixando a equação de média intacta:
+\begin{equation}
+\Delta y_{it} = \Delta \mathbf{x}_{it}'\boldsymbol{\beta} + \alpha_i + \lambda_t + u_{it},
+\qquad u_{it} = \lambda\,(Wu)_{it} + \varepsilon_{it}.
+\label{eq:sem}
+\end{equation}
+
+\noindent A distinção importa para a leitura. Sob o SAR, o efeito de um choque
+numa unidade transborda para as vizinhas e volta, de modo que
+\(\boldsymbol{\beta}\) deixa de ser o efeito total; sob o SEM, \(\boldsymbol{\beta}\)
+continua interpretável e o que muda é a eficiência da estimativa. Os
+coeficientes das duas colunas espaciais da tabela \textbf{não são, portanto,
+diretamente comparáveis} ao de mínimos quadrados --- e o que a tabela pergunta
+não é se eles coincidem, e sim se o sinal e a significância resistem.
+
+A matriz \(W\) é, na maioria das linhas, de contiguidade \emph{queen} entre as
+166 unidades, padronizada por linha --- e não a matriz direcional de oito
+vizinhos da Seção~\ref{ap:slx}, porque aqui o objeto é a dependência genérica,
+e não a direção sul-norte. O modelo M3 é estimado \emph{duas vezes}, uma com
+cada matriz, e as duas linhas constam da tabela: é o teste de sensibilidade da
+escolha de \(W\). A coluna \(W\) identifica qual foi usada em cada linha. Os
+testes do multiplicador de Lagrange, em suas versões simples e robusta, indicam
+qual das duas formas de dependência o dado prefere.
+
+\textbf{Os três modelos.} A Tabela~\ref{tab:sarsem} reporta apenas o
+coeficiente de interesse de cada um, e não a regressão inteira; os regressores
+completos são estes.
+
+\begin{description}
+\item[M1 --- intensificação.] Desfecho \(\Delta\)agricultura; regressor de
+interesse \(\Delta\) valor adicionado agropecuário real. Um \(\beta\) negativo
+indica que o valor adicionado cresce sem acompanhar a área \emph{dentro} da
+unidade, que é a assinatura de intensificação discutida na
+Seção~\ref{sec:res-perna2}.
+\item[M2 --- crédito para pastagem.] Desfecho \(\Delta\)pastagem; regressor de
+interesse \(\Delta\) crédito rural do SICOR, com \(\Delta\) valor adicionado
+agropecuário como controle na mesma regressão. A janela é a do SICOR, que
+começa em 2013, e é a razão de o \(n\) desta linha ser o menor da tabela.
+\item[M3 --- substituição local.] Desfecho \(\Delta\)pastagem; regressor de
+interesse \(\Delta\)agricultura, sem controles. Mede troca de uso \emph{dentro}
+da unidade --- e não deslocamento, que é objeto da Seção~\ref{ap:slx}.
+\end{description}
+
+O erro-padrão e o \(p\) reportados são os da estimação por mínimos quadrados,
+que é a referência contra a qual as outras duas colunas são lidas.
 
 
-\begin{table}[htb]
+\begin{table}[!ht]
 \centering
-\caption[Dependência espacial nos três modelos de painel]{Coeficientes de interesse sob mínimos quadrados, SAR e SEM.}
+\caption[Dependência espacial nos três modelos de painel]{Coeficientes de interesse sob mínimos quadrados, SAR e SEM, nas duas matrizes de peso.}
 \label{tab:sarsem}
-\footnotesize
-\begin{tabular}{lp{3.3cm}cccccll}
+\scriptsize
+\begin{tabular}{lcrcccccccll}
 \toprule
-& \textbf{Especificação} & \textbf{$\hat{\beta}_{MQ}$} & \textbf{$\hat{\beta}_{SAR}$} & \textbf{$\hat{\beta}_{SEM}$} & \textbf{$\hat{\rho}$} & \textbf{$\hat{\lambda}$} & \textbf{Forma} & \textbf{Sobrev.} \\
+\textbf{Modelo} & \textbf{$W$} & \textbf{$n$} & \textbf{$\hat{\beta}_{MQ}$} & \textbf{EP} & \textbf{$p$} & \textbf{$\hat{\beta}_{SAR}$} & \textbf{$\hat{\beta}_{SEM}$} & \textbf{$\hat{\rho}$} & \textbf{$\hat{\lambda}$} & \textbf{Forma} & \textbf{Sobrev.} \\
 \midrule
-M1 & Intensificação: $\Delta$agricultura $\sim$ $\Delta$ VA agro & $-0{,}0047$ & $-0{,}0043$ & $-0{,}0046$ & $0{,}353$ & $0{,}368$ & error & sim \\
-M2 & Crédito$\rightarrow$pasto: $\Delta$pastagem $\sim$ $\Delta$ SICOR + $\Delta$ VA agro & $-0{,}0040$ & $-0{,}0035$ & $-0{,}0034$ & $0{,}398$ & $0{,}401$ & lag & sim \\
-M3 & Substituição local: $\Delta$pastagem $\sim$ $\Delta$agricultura & $-0{,}5458$ & $-0{,}4774$ & $-0{,}5356$ & $0{,}391$ & $0{,}414$ & error & sim \\
-M3 & Substituição local: $\Delta$pastagem $\sim$ $\Delta$agricultura & $-0{,}5458$ & $-0{,}4813$ & $-0{,}5491$ & $0{,}532$ & $0{,}558$ & error & sim \\
+M1 & \emph{queen} & 3.154 & $-0{,}0047$ & $0{,}0005$ & $<0{,}001$ & $-0{,}0043$ & $-0{,}0046$ & $0{,}353$ & $0{,}368$ & SEM & sim \\
+M2 & \emph{queen} & 1.328 & $-0{,}0040$ & $0{,}0008$ & $<0{,}001$ & $-0{,}0035$ & $-0{,}0034$ & $0{,}398$ & $0{,}401$ & SAR & sim \\
+M3 & \emph{queen} & 6.474 & $-0{,}5458$ & $0{,}0774$ & $<0{,}001$ & $-0{,}4774$ & $-0{,}5356$ & $0{,}391$ & $0{,}414$ & SEM & sim \\
+M3 & 8 viz. & 6.474 & $-0{,}5458$ & $0{,}0774$ & $<0{,}001$ & $-0{,}4813$ & $-0{,}5491$ & $0{,}532$ & $0{,}558$ & SEM & sim \\
 \bottomrule
 \end{tabular}
 \fontefig{elaboração própria.}
-\notafig{$W$ de contiguidade \emph{queen} entre as 166 unidades, padronizada por linha. $\hat{\rho}$ é o parâmetro de defasagem espacial do SAR e $\hat{\lambda}$ o de dependência do erro no SEM; ``Forma'' é a preferida pelos testes do multiplicador de Lagrange em versão robusta. ``Sobrev.'' indica se o sinal e a significância do coeficiente de interesse resistem à modelagem da dependência. Todos os coeficientes vêm de especificações em primeira diferença com efeitos fixos.}
+\notafig{todas as especificações correm sobre as 166 unidades, em primeira diferença e com efeitos fixos de unidade e de ano; $n$ é o total de células após exclusão de ausentes, e varia porque as fontes dos regressores cobrem janelas diferentes (o SICOR do M2 começa em 2013). $W$ identifica a matriz de pesos: \emph{queen} é a de contiguidade, ``8 viz.'' a dos oito vizinhos mais próximos --- o M3 é estimado com as duas, para medir quanto a escolha de $W$ move o resultado. O erro-padrão e o $p$ são os da estimação por mínimos quadrados; $\hat{\rho}$ é o parâmetro de defasagem espacial do SAR e $\hat{\lambda}$ o de dependência do erro no SEM. ``Forma'' é a preferida pelos testes do multiplicador de Lagrange em versão robusta, nomeada pela forma que ela indica (SAR para defasagem, SEM para erro). ``Sobrev.'' indica se o sinal e a significância do coeficiente de interesse resistem à modelagem da dependência: nas quatro linhas o coeficiente atenua-se e nenhuma troca de sinal.}
 \end{table}
+
+\FloatBarrier
 
 \section{\emph{Drive} comum: desenho \emph{shift-share} (Perna 3b)}
 \label{ap:shiftshare}
@@ -286,7 +398,7 @@ exposições rivais na mesma regressão. A latitude entra como confundidor puro:
 ela mede ``quão ao norte'' sem nenhum conteúdo agronômico.
 
 
-\begin{table}[htb]
+\begin{table}[!ht]
 \centering
 \caption[Corrida entre exposições rivais]{Corrida entre exposições rivais no desenho \emph{shift-share}.}
 \label{tab:horserace}
@@ -311,6 +423,8 @@ S6 & aptidão + latitude + acesso & Distância ao núcleo de lavoura 1985 & $-0{
 \notafig{desfecho: variação anual do efetivo bovino. Efeitos fixos de unidade e de ano em todas as linhas; erros-padrão agrupados por unidade e por ano ($n = 6.308$ observações, 166 unidades). $p_{\mathrm{agr}}$ é o $p$ do erro-padrão agrupado e $p_{\mathrm{perm}}$ o da permutação circular do \emph{shifter}; as duas réguas não são comparáveis entre si, e a segunda é a defensável. $R^2_w$ é o $R^2$ \emph{within}. Quando uma especificação traz mais de uma exposição, cada linha reporta o termo de interação da exposição nomeada, com as demais mantidas na mesma regressão.}
 \end{table}
 
+\FloatBarrier
+
 \subsection{A bateria de placebos}
 
 O que sustenta a leitura da Seção~\ref{ap:shiftshare} não é a magnitude do
@@ -327,32 +441,34 @@ pergunta é a da corrida entre exposições, e a resposta dela reduz o alcance d
 frente.
 
 
-\begin{table}[htb]
+\begin{table}[!ht]
 \centering
 \caption[Placebos de desfecho e de tempo]{Bateria de placebos de desfecho e de tempo do desenho \emph{shift-share}.}
 \label{tab:placebos}
-\small
-\begin{tabular}{lp{4.2cm}lcccc}
+\footnotesize
+\begin{tabular}{lp{4.0cm}lccccr}
 \toprule
-& \textbf{Placebo} & \textbf{Tipo} & \textbf{$\hat{\gamma}$} & \textbf{EP} & \textbf{$p$} & \textbf{$R^2_w$} \\
+& \textbf{Placebo} & \textbf{Tipo} & \textbf{$\hat{\gamma}$} & \textbf{EP} & \textbf{$p$} & \textbf{$R^2_w$} & \textbf{$n$} \\
 \midrule
-\multicolumn{7}{l}{\textit{H1 proxy de área (\#38)}} \\
- & $\Delta$ Área urbana (placebo) & desfecho & $+0{,}0029$ & $0{,}0045$ & $0{,}520$ & $0{,}00003$ \\
- & $\Delta$ Água (placebo) & desfecho & $-0{,}0342$ & $0{,}0294$ & $0{,}244$ & $0{,}00123$ \\
-\multicolumn{7}{l}{\textit{H2 aptidão exógena (\#52)}} \\
- & $\Delta$ Área urbana (placebo) & desfecho & $-0{,}0040$ & $0{,}0042$ & $0{,}343$ & $0{,}00006$ \\
- & $\Delta$ Água (placebo) & desfecho & $+0{,}0272$ & $0{,}0281$ & $0{,}332$ & $0{,}00078$ \\
-\multicolumn{7}{l}{\textit{H1 proxy de área (\#38)}} \\
- & nan & tempo & $-0{,}0177$ & $0{,}0095$ & $0{,}062$ & $0{,}00033$ \\
- & nan & tempo & $-0{,}0246$ & $0{,}0136$ & $0{,}070$ & $0{,}00065$ \\
-\multicolumn{7}{l}{\textit{H2 aptidão exógena (\#52)}} \\
- & nan & tempo & $+0{,}0243$ & $0{,}0150$ & $0{,}105$ & $0{,}00062$ \\
- & nan & tempo & $+0{,}0045$ & $0{,}0154$ & $0{,}772$ & $0{,}00002$ \\
+\multicolumn{8}{l}{\textit{H1 proxy de área (\#38)}} \\
+ & $\Delta$ Área urbana (placebo) & desfecho & $+0{,}0029$ & $0{,}0045$ & $0{,}520$ & $0{,}00003$ & 6.308 \\
+ & $\Delta$ Água (placebo) & desfecho & $-0{,}0342$ & $0{,}0294$ & $0{,}244$ & $0{,}00123$ & 6.308 \\
+\multicolumn{8}{l}{\textit{H2 aptidão exógena (\#52)}} \\
+ & $\Delta$ Área urbana (placebo) & desfecho & $-0{,}0040$ & $0{,}0042$ & $0{,}343$ & $0{,}00006$ & 6.308 \\
+ & $\Delta$ Água (placebo) & desfecho & $+0{,}0272$ & $0{,}0281$ & $0{,}332$ & $0{,}00078$ & 6.308 \\
+\multicolumn{8}{l}{\textit{H1 proxy de área (\#38)}} \\
+ & \emph{Shifter} adiantado um ano & tempo & $-0{,}0177$ & $0{,}0095$ & $0{,}062$ & $0{,}00033$ & 6.308 \\
+ & \emph{Shifter} adiantado dois anos & tempo & $-0{,}0246$ & $0{,}0136$ & $0{,}070$ & $0{,}00065$ & 6.142 \\
+\multicolumn{8}{l}{\textit{H2 aptidão exógena (\#52)}} \\
+ & \emph{Shifter} adiantado um ano & tempo & $+0{,}0243$ & $0{,}0150$ & $0{,}105$ & $0{,}00062$ & 6.308 \\
+ & \emph{Shifter} adiantado dois anos & tempo & $+0{,}0045$ & $0{,}0154$ & $0{,}772$ & $0{,}00002$ & 6.142 \\
 \bottomrule
 \end{tabular}
 \fontefig{elaboração própria.}
-\notafig{mesma equação da Seção~\ref{ap:shiftshare}, com o desfecho ou a defasagem trocados. $n = 6.308$ observações, 166 unidades; efeitos fixos de unidade e de ano; erros-padrão agrupados nas duas dimensões. Um placebo cumpre o seu papel quando \textbf{não} rejeita: aqui nenhum dos oito o faz.}
+\notafig{mesma equação da Seção~\ref{ap:shiftshare}, com o desfecho ou a defasagem trocados; 166 unidades em todas as linhas, com efeitos fixos de unidade e de ano e erros-padrão agrupados nas duas dimensões. O $n$ é reportado por linha porque \textbf{não é o mesmo}: adiantar o \emph{shifter} em dois anos custa um ano de painel, e as duas linhas correspondentes caem para 6.142 células. Um placebo cumpre o seu papel quando \textbf{não} rejeita: aqui nenhum dos oito o faz. Os que chegam mais perto são os dois placebos de tempo da exposição de fronteira, com $p$ de $0{,}062$ e $0{,}070$, e convém dizer por que não são inquietantes: o sinal deles é \emph{negativo}, isto é, o oposto do que a hipótese prevê para essa exposição. Um placebo que quase rejeita na direção contrária à hipótese não a socorre.}
 \end{table}
+
+\FloatBarrier
 
 \subsection{A grade confirmatória completa}
 
@@ -365,7 +481,7 @@ segunda. Os desfechos de área --- pastagem e agricultura --- são nulos, e isso
 consta aqui com o mesmo destaque dos demais.
 
 
-\begin{table}[htb]
+\begin{table}[!ht]
 \centering
 \caption[Grade confirmatória do \emph{drive} comum]{Grade confirmatória completa do desenho \emph{shift-share}.}
 \label{tab:confirmatorio}
@@ -391,8 +507,10 @@ Aptidão edafoclim. (exógena) & $\Delta$ Pastagem & 1 & - & $-0{,}0026$ & $0{,}
 \bottomrule
 \end{tabular}
 \fontefig{elaboração própria.}
-\notafig{\emph{shifter}: variação padronizada do índice de taxa de câmbio efetiva real. ``Def.'' é a defasagem em anos do \emph{shifter}; ``Sinal'' é a direção prevista antes da estimação. Efeitos fixos de unidade e de ano; erros-padrão agrupados nas duas dimensões; 166 unidades. O $p$ desta tabela é o do erro-padrão agrupado, que a Seção~\ref{sec:met-instrumental} mostra ser otimista neste desenho. A régua de permutação não foi computada para estas linhas: ela existe para a especificação confirmatória do rebanho, na Tabela~\ref{tab:horserace}, cujas regressões são outras. Os $p$ abaixo, portanto, são limite inferior da incerteza, e nenhum deles é lido como significância no corpo do texto.}
+\notafig{\emph{shifter}: variação padronizada do índice de taxa de câmbio efetiva real. ``Def.'' é a defasagem em anos do \emph{shifter}; ``Sinal'' é a direção prevista antes da estimação. Efeitos fixos de unidade e de ano; erros-padrão agrupados nas duas dimensões; 166 unidades. O $p$ desta tabela é o do erro-padrão agrupado, que a Seção~\ref{sec:met-instrumental} mostra ser otimista neste desenho, porque trata cada ano como realização independente do choque quando as realizações efetivas são cerca de 38. A régua de permutação não foi computada para estas linhas: ela existe para a especificação confirmatória do rebanho, na Tabela~\ref{tab:horserace}, cujas regressões são outras. Nas dez linhas em que as duas foram computadas lado a lado, o $p$ agrupado saiu \emph{menor} que o de permutação em oito --- e em duas, maior. É regularidade observada, e não garantia matemática de que o agrupado limite o outro por baixo; chamá-lo de ``piso da incerteza'' seria dizer mais do que se mediu, e o $p$-valor não é, de todo modo, uma medida de incerteza. Nenhum $p$ desta tabela é lido como significância no corpo do texto.}
 \end{table}
+
+\FloatBarrier
 
 \section{Teto de oferta: disponibilidade e depleção}
 \label{ap:oferta}
@@ -404,6 +522,30 @@ medida que a unidade se deplete --- e é essa que distingue esgotamento de mera
 aritmética, porque um fluxo proporcional ao estoque cairia sozinho sem que a
 taxa mudasse.
 
+As duas são a mesma equação com desfecho e regressor trocados, ambas em painel
+com os dois efeitos fixos:
+\begin{equation}
+\text{fluxo}_{it} = \beta\,\text{estoque}_{i,t-1}
+                  + \alpha_i + \lambda_t + \varepsilon_{it},
+\label{eq:b1}
+\end{equation}
+\begin{equation}
+\text{taxa}_{it} = \beta\,\text{depleção}_{i,t-1}
+                 + \alpha_i + \lambda_t + \varepsilon_{it}.
+\label{eq:b2b}
+\end{equation}
+
+\noindent Estoque e depleção entram \textbf{em nível}, e não em logaritmo ---
+registre-se porque as colunas correspondentes do repositório trazem um prefixo
+\texttt{l} que sugere o contrário, e quem reconstruir o modelo aplicando
+logaritmo não reproduzirá estes coeficientes. A depleção é a fração
+\(1 - \text{estoque}_t/\text{estoque}_{1985}\) e o estoque é medido em hectares.
+A taxa é \(\text{fluxo}_{it}/\text{estoque}_{i,t-1}\), de modo que a
+Equação~\ref{eq:b1} carrega a identidade \(\text{fluxo} \equiv \text{taxa}
+\times \text{estoque}\) e não pode surpreender; é a Equação~\ref{eq:b2b} que
+tem conteúdo empírico. Regressor e desfecho entram em \emph{escore-z}, e por
+isso cada célula reporta também o efeito em unidade natural.
+
 A segunda afirmação é a que a decisão D29 reabriu. A variável de depleção,
 construída como \(1 - \text{estoque}_t/\text{estoque}_{1985}\), sai do intervalo
 \([0,1]\) em cerca de 14\% do painel, nas unidades que \emph{ganharam} estoque.
@@ -412,8 +554,39 @@ era artefato disso. A Tabela~\ref{tab:deplecao} traz a grade inteira de
 tratamentos dessa variável, com e sem ponderação pelo tamanho do estoque, em
 duas amostras --- e não apenas a combinação adotada.
 
+\textbf{Como ler as duas tabelas juntas.} A linha \texttt{B2b} da
+Tabela~\ref{tab:disponibilidade} é a especificação \emph{publicada antes} da
+D29, e o seu nulo (\(p = 0{,}481\)) é o artefato: ela está ali porque a tabela
+reproduz o bloco do Pipeline~\#39 como ele saiu, e não porque sustente
+afirmação. A Tabela~\ref{tab:deplecao} é a que a substitui, e a primeira linha
+dela é a mesma estimativa, agora no seu lugar --- a célula ``sem tratamento'',
+sem peso, na amostra completa.
 
-\begin{table}[htb]
+\textbf{Três limites da grade, que o veredito não dissolve.} O primeiro é que o
+tratamento por \emph{domínio} descarta 46 unidades, e elas não são
+desprezíveis: detêm 17,3\% do estoque convertível de 2024. Para a regressão a
+exclusão é correta --- nessas unidades a depleção é indefinida, e não extrema ---,
+mas quem for somar hectares não deve herdá-la. É por isso que a grade traz
+também o tratamento de \emph{piso em zero}, que não descarta ninguém e dá o
+mesmo veredito. O segundo é que esse piso, por sua vez, cria um acúmulo
+artificial de observações exatamente em zero, o que é um defeito de forma
+distinto; os dois tratamentos têm defeitos diferentes e concordam, e é a
+concordância que carrega a leitura, não qualquer um deles isolado. O terceiro é
+que nenhum dos quatro conserta a \emph{razão} de as 46 existirem, que é a
+oscilação do classificador na borda entre pastagem e savana, discutida na
+Seção~\ref{sec:met-decisoes}.
+
+\textbf{Sobre multiplicidade.} As dezesseis células são dezesseis leituras da
+\emph{mesma} hipótese, pré-declarada no Pipeline~\#39 antes da estimação, e não
+uma família de hipóteses distintas. O controle de falsas descobertas da
+Seção~\ref{sec:met-instrumental} incide sobre grades exploratórias, que
+perguntam coisas diferentes; aplicá-lo a uma grade de robustez, que pergunta a
+mesma coisa de quatro maneiras, puniria a checagem em vez da pescaria. O que
+esta grade oferece no lugar é a concordância entre tratamentos com defeitos
+independentes.
+
+
+\begin{table}[!ht]
 \centering
 \caption[Canal de disponibilidade]{O canal de disponibilidade: fluxo de conversão contra estoque.}
 \label{tab:disponibilidade}
@@ -422,57 +595,53 @@ duas amostras --- e não apenas a combinação adotada.
 \toprule
 \textbf{Especificação} & \textbf{Regressor} & \textbf{$\hat{\beta}$} & \textbf{EP} & \textbf{$p$} & \textbf{$R^2_w$} & \textbf{$n$} \\
 \midrule
-B1  fluxo $\sim$ estoque\_def (disponibilidade) & log estoque (z) & $+2{,}756$ & $0{,}472$ & $<0{,}001$ & $0{,}434$ & 6.396 \\
-B1q fluxo $\sim$ estoque + estoque$^2$ (não-linear) & log estoque (z) & $+2{,}686$ & $0{,}476$ & $<0{,}001$ & $0{,}434$ & 6.396 \\
-B1q fluxo $\sim$ estoque + estoque$^2$ (não-linear) & log estoque$^2$ (z) & $+0{,}045$ & $0{,}451$ & $0{,}920$ & $0{,}434$ & 6.396 \\
-B2a hazard $\sim$ estoque\_def & log estoque (z) & $-0{,}319$ & $0{,}189$ & $0{,}092$ & $-0{,}009$ & 6.379 \\
-B2b hazard $\sim$ depleção\_def & log depleção (z) & $-0{,}015$ & $0{,}022$ & $0{,}481$ & $-0{,}000$ & 6.379 \\
-B3  fluxo $\sim$ estoque + demanda (sem ano FE) & log estoque (z) & $+2{,}763$ & $0{,}391$ & $<0{,}001$ & $0{,}436$ & 6.396 \\
+B1  fluxo $\sim$ estoque\_def (disponibilidade) & estoque defasado (z) & $+2{,}756$ & $0{,}472$ & $<0{,}001$ & $0{,}434$ & 6.396 \\
+B1q fluxo $\sim$ estoque + estoque$^2$ (não-linear) & estoque defasado (z) & $+2{,}686$ & $0{,}476$ & $<0{,}001$ & $0{,}434$ & 6.396 \\
+B1q fluxo $\sim$ estoque + estoque$^2$ (não-linear) & estoque defasado$^2$ (z) & $+0{,}045$ & $0{,}451$ & $0{,}920$ & $0{,}434$ & 6.396 \\
+B2a hazard $\sim$ estoque\_def & estoque defasado (z) & $-0{,}319$ & $0{,}189$ & $0{,}092$ & $-0{,}009$ & 6.379 \\
+B2b hazard $\sim$ depleção\_def & depleção defasada (z) & $-0{,}015$ & $0{,}022$ & $0{,}481$ & $-0{,}000$ & 6.379 \\
+B3  fluxo $\sim$ estoque + demanda (sem ano FE) & estoque defasado (z) & $+2{,}763$ & $0{,}391$ & $<0{,}001$ & $0{,}436$ & 6.396 \\
 B3  fluxo $\sim$ estoque + demanda (sem ano FE) & $\Delta$ câmbio real (z) & $+0{,}022$ & $0{,}007$ & $0{,}003$ & $0{,}436$ & 6.396 \\
 B3  fluxo $\sim$ estoque + demanda (sem ano FE) & $\Delta$ preço da soja (z) & $-0{,}030$ & $0{,}006$ & $<0{,}001$ & $0{,}436$ & 6.396 \\
 B3  fluxo $\sim$ estoque + demanda (sem ano FE) & $\Delta$ crédito rural (z) & $+0{,}001$ & $0{,}005$ & $0{,}828$ & $0{,}436$ & 6.396 \\
 \bottomrule
 \end{tabular}
 \fontefig{elaboração própria.}
-\notafig{desfecho: fluxo anual de conversão. Efeitos fixos de unidade e de ano; erros-padrão agrupados nas duas dimensões. Regressores em \emph{escore-z}.}
+\notafig{desfecho: fluxo anual de conversão, exceto nas linhas \texttt{B2a} e \texttt{B2b}, cujo desfecho é a \emph{taxa}. Erros-padrão agrupados nas duas dimensões; regressores em \emph{escore-z}. Efeitos fixos de unidade e de ano em todas as linhas \textbf{menos} as do \texttt{B3}, que dispensa o de ano de propósito: os sinais de demanda que ele testa (câmbio, preço, crédito) são nacionais e um efeito fixo de ano os absorveria por inteiro, deixando o coeficiente sem identificação. Esse é também o motivo de os $p$ do \texttt{B3} não serem lidos como o das demais linhas. A linha \texttt{B2b} é a especificação que a decisão D29 superou; ver a Tabela~\ref{tab:deplecao}.}
 \end{table}
 
-\begin{table}[htb]
+\begin{table}[!ht]
 \centering
 \caption[Grade de tratamentos da variável de depleção]{Grade completa de tratamentos da variável de depleção (decisão D29).}
 \label{tab:deplecao}
-\footnotesize
-\begin{tabular}{p{4.0cm}llcccc}
+\scriptsize
+\begin{tabular}{p{3.6cm}llcccccr}
 \toprule
-\textbf{Tratamento da depleção} & \textbf{Amostra} & \textbf{Peso} & \textbf{$\hat{\beta}$} & \textbf{$p_{ent}$} & \textbf{$p_{ent+ano}$} & \textbf{$R^2_w$} \\
+\textbf{Tratamento da depleção} & \textbf{Amostra} & \textbf{Peso} & \textbf{$\hat{\beta}_z$} & \textbf{p.p./0,1} & \textbf{$p_{ent}$} & \textbf{$p_{ent+ano}$} & \textbf{$R^2_w$} & \textbf{$n$} \\
 \midrule
-sem tratamento (a do \#39) & todas & --- & $-0{,}015$ & $0{,}317$ & $0{,}481$ & $-0{,}0002$ \\
-sem tratamento (a do \#39) & todas & estoque & $-1{,}165$ & $0{,}050$ & $0{,}060$ & $0{,}1043$ \\
-piso em 0 (não descarta linha) & todas & --- & $-0{,}202$ & $<0{,}001$ & $0{,}053$ & $0{,}0451$ \\
-piso em 0 (não descarta linha) & todas & estoque & $-0{,}215$ & $<0{,}001$ & $<0{,}001$ & $0{,}1846$ \\
-domínio documentado [0,1] & todas & --- & $-0{,}311$ & $<0{,}001$ & $0{,}039$ & $0{,}0921$ \\
-domínio documentado [0,1] & todas & estoque & $-0{,}202$ & $<0{,}001$ & $<0{,}001$ & $0{,}1947$ \\
-winsor p1 (não põe no domínio) & todas & --- & $-0{,}069$ & $0{,}026$ & $0{,}111$ & $0{,}0014$ \\
-winsor p1 (não põe no domínio) & todas & estoque & $-0{,}497$ & $<0{,}001$ & $<0{,}001$ & $0{,}1661$ \\
-sem tratamento (a do \#39) & corte1k & --- & $-0{,}291$ & $0{,}242$ & $0{,}262$ & $0{,}0298$ \\
-sem tratamento (a do \#39) & corte1k & estoque & $-1{,}097$ & $<0{,}001$ & $<0{,}001$ & $0{,}1819$ \\
-piso em 0 (não descarta linha) & corte1k & --- & $-0{,}440$ & $<0{,}001$ & $<0{,}001$ & $0{,}1341$ \\
-piso em 0 (não descarta linha) & corte1k & estoque & $-0{,}400$ & $<0{,}001$ & $<0{,}001$ & $0{,}1879$ \\
-domínio documentado [0,1] & corte1k & --- & $-0{,}452$ & $<0{,}001$ & $<0{,}001$ & $0{,}1722$ \\
-domínio documentado [0,1] & corte1k & estoque & $-0{,}397$ & $<0{,}001$ & $<0{,}001$ & $0{,}1968$ \\
-winsor p1 (não põe no domínio) & corte1k & --- & $-0{,}444$ & $0{,}002$ & $0{,}009$ & $0{,}0664$ \\
-winsor p1 (não põe no domínio) & corte1k & estoque & $-0{,}808$ & $<0{,}001$ & $<0{,}001$ & $0{,}1854$ \\
-nan & todas & --- & $+2{,}756$ & $<0{,}001$ & $<0{,}001$ & $0{,}4341$ \\
-nan & todas & --- & $+2{,}686$ & $<0{,}001$ & $<0{,}001$ & $0{,}4342$ \\
-nan & todas & --- & $-0{,}320$ & $0{,}002$ & $0{,}092$ & $-0{,}0095$ \\
-nan & corte1k & --- & $+2{,}690$ & $<0{,}001$ & $<0{,}001$ & $0{,}4342$ \\
-nan & corte1k & --- & $+2{,}623$ & $<0{,}001$ & $<0{,}001$ & $0{,}4342$ \\
-nan & corte1k & --- & $-0{,}057$ & $0{,}632$ & $0{,}737$ & $-0{,}0034$ \\
+sem tratamento (a do \#39) & todas & --- & $-0{,}015$ & $-0{,}002$ & $0{,}317$ & $0{,}481$ & $-0{,}0002$ & 6.379 \\
+sem tratamento (a do \#39) & todas & estoque & $-1{,}165$ & $-0{,}181$ & $0{,}050$ & $0{,}060$ & $0{,}1043$ & 6.379 \\
+piso em 0 (não descarta linha) & todas & --- & $-0{,}202$ & $-0{,}495$ & $<0{,}001$ & $0{,}053$ & $0{,}0451$ & 6.379 \\
+piso em 0 (não descarta linha) & todas & estoque & $-0{,}215$ & $-0{,}528$ & $<0{,}001$ & $<0{,}001$ & $0{,}1846$ & 6.379 \\
+domínio documentado [0,1] & todas & --- & $-0{,}311$ & $-0{,}818$ & $<0{,}001$ & $0{,}039$ & $0{,}0921$ & 5.459 \\
+domínio documentado [0,1] & todas & estoque & $-0{,}202$ & $-0{,}532$ & $<0{,}001$ & $<0{,}001$ & $0{,}1947$ & 5.459 \\
+winsor p1 (não põe no domínio) & todas & --- & $-0{,}069$ & $-0{,}051$ & $0{,}026$ & $0{,}111$ & $0{,}0014$ & 6.379 \\
+winsor p1 (não põe no domínio) & todas & estoque & $-0{,}497$ & $-0{,}367$ & $<0{,}001$ & $<0{,}001$ & $0{,}1661$ & 6.379 \\
+sem tratamento (a do \#39) & corte1k & --- & $-0{,}291$ & $-0{,}117$ & $0{,}242$ & $0{,}262$ & $0{,}0298$ & 4.595 \\
+sem tratamento (a do \#39) & corte1k & estoque & $-1{,}097$ & $-0{,}440$ & $<0{,}001$ & $<0{,}001$ & $0{,}1819$ & 4.595 \\
+piso em 0 (não descarta linha) & corte1k & --- & $-0{,}440$ & $-0{,}576$ & $<0{,}001$ & $<0{,}001$ & $0{,}1341$ & 4.595 \\
+piso em 0 (não descarta linha) & corte1k & estoque & $-0{,}400$ & $-0{,}524$ & $<0{,}001$ & $<0{,}001$ & $0{,}1879$ & 4.595 \\
+domínio documentado [0,1] & corte1k & --- & $-0{,}452$ & $-0{,}596$ & $<0{,}001$ & $<0{,}001$ & $0{,}1722$ & 4.179 \\
+domínio documentado [0,1] & corte1k & estoque & $-0{,}397$ & $-0{,}524$ & $<0{,}001$ & $<0{,}001$ & $0{,}1968$ & 4.179 \\
+winsor p1 (não põe no domínio) & corte1k & --- & $-0{,}444$ & $-0{,}260$ & $0{,}002$ & $0{,}009$ & $0{,}0664$ & 4.595 \\
+winsor p1 (não põe no domínio) & corte1k & estoque & $-0{,}808$ & $-0{,}473$ & $<0{,}001$ & $<0{,}001$ & $0{,}1854$ & 4.595 \\
 \bottomrule
 \end{tabular}
 \fontefig{elaboração própria.}
-\notafig{desfecho: taxa anual de conversão. $p_{ent}$ agrupa por unidade e $p_{ent+ano}$ nas duas dimensões, que é a régua adotada no teste de origem e a reportada no corpo do texto. ``Peso'' indica ponderação pelo tamanho do estoque. A linha ``sem tratamento'' é a especificação publicada antes da D29, e o nulo dela é o artefato que a decisão corrigiu.}
+\notafig{desfecho: taxa anual de conversão; todas as dezesseis linhas são a especificação \texttt{B2b}, com efeitos fixos de unidade e de ano. $p_{ent}$ agrupa por unidade e $p_{ent+ano}$ nas duas dimensões, que é a régua adotada no teste de origem e a reportada no corpo do texto. ``Peso'' indica ponderação pelo tamanho do estoque. As duas colunas de efeito \textbf{não são a mesma medida}: $\hat{\beta}_z$ está em \emph{escore-z} e \textbf{não é comparável entre tratamentos}, porque o desvio-padrão do regressor vai de $0{,}21$ no domínio a $3{,}54$ sem tratamento --- dezessete vezes; ``p.p./0,1'' é o mesmo efeito em unidade natural, pontos percentuais de taxa anual por décimo de depleção, e é essa a coluna em que os tratamentos podem ser comparados e em que se lê a convergência para $-0{,}5$ a $-0{,}8$. O $n$ varia porque \emph{domínio} descarta as unidades fora de $[0,1]$ e \texttt{corte1k} as de estoque abaixo de mil hectares. A linha ``sem tratamento'' é a especificação publicada antes da D29, e o nulo dela é o artefato que a decisão corrigiu.}
 \end{table}
+
+\FloatBarrier
 
 \section{Desenvolvimento municipal e o gradiente}
 \label{ap:ifdm}
@@ -481,15 +650,29 @@ A última conta do Capítulo~\ref{cap:resultados} pergunta se a expansão da ár
 cultivada comprou desenvolvimento. Ela tem dois blocos, e os dois são
 \textbf{associativos}: nenhum identifica efeito causal.
 
-O primeiro é transversal, sobre os 246 municípios, e mede se o índice de
-desenvolvimento se ordena pela latitude --- em nível e em variação --- com e sem
-controle de longitude, que separa o gradiente sul-norte do gradiente
-leste-oeste. O segundo é um painel de efeitos fixos \emph{dentro} do município,
-que pergunta quanto de desenvolvimento acompanha uma duplicação da área ou do
-valor adicionado.
+Esta seção é a segunda que \emph{não} segue as convenções da
+Seção~\ref{ap:convencoes}, e convém dizer em quê antes das tabelas. A unidade
+não é a AMC e sim o \textbf{município} (246 em Goiás). O primeiro bloco não está
+em primeira diferença: é uma seção transversal em \emph{nível}, sem efeitos
+fixos, e o que nele se padroniza é a latitude, não uma exposição. E o painel do
+segundo bloco agrupa os erros-padrão \textbf{apenas por município}, e não nas
+duas dimensões.
+
+A fonte também tem um limite que decide a janela. O índice é a série revista da
+FIRJAN, que começa em 2013: a revisão metodológica a tornou internamente
+consistente mas \textbf{não emendável} com a série anterior, de 2005 a 2016, de
+modo que nenhuma conta aqui atravessa esse corte. Onze anos é janela curta para
+um índice de desenvolvimento, e é a razão principal de os dois blocos serem
+lidos como associativos.
+
+O primeiro bloco é transversal e mede se o índice se ordena pela latitude --- em
+nível e em variação --- com e sem controle de longitude, que separa o gradiente
+sul-norte do gradiente leste-oeste. O segundo é um painel de efeitos fixos
+\emph{dentro} do município, que pergunta quanto de desenvolvimento acompanha uma
+duplicação da área ou do valor adicionado.
 
 
-\begin{table}[htb]
+\begin{table}[!ht]
 \centering
 \caption[Gradiente do desenvolvimento municipal]{Gradiente latitudinal do desenvolvimento municipal, com e sem controle de longitude.}
 \label{tab:ifdm-gradiente}
@@ -505,24 +688,24 @@ $\Delta$ IFDM 2013$\rightarrow$2023 & $\sim$lat+lon & 245 & $0{,}025$ & $+0{,}00
 \bottomrule
 \end{tabular}
 \fontefig{elaboração própria.}
-\notafig{mínimos quadrados sobre a seção transversal dos municípios; latitude e longitude em graus decimais do centroide. Um $\hat{\beta}_{lat}$ negativo no nível significa índice menor mais ao norte. A leitura é associativa.}
+\notafig{mínimos quadrados sobre a seção transversal dos municípios, em \textbf{nível} e sem efeitos fixos --- não se aplicam aqui as convenções de primeira diferença e padronização da Seção~\ref{ap:convencoes}. Erros-padrão robustos a heterocedasticidade (HC1). Latitude e longitude são as do centroide \emph{municipal}, e não da AMC, e entram em \emph{escore-z}: $\hat{\beta}_{lat}$ lê-se por desvio-padrão de latitude, e não por grau. As duas primeiras linhas usam o índice de 2023; as duas últimas, a variação na janela cheia da série revista (2013 a 2023), e perdem um município sem observação nas duas pontas. Um $\hat{\beta}_{lat}$ negativo no nível significa índice menor mais ao norte. A leitura é associativa: nenhuma das quatro linhas identifica efeito causal.}
 \end{table}
 
-\begin{table}[htb]
+\begin{table}[!ht]
 \centering
 \caption[Painel de efeitos fixos do desenvolvimento]{Desenvolvimento municipal em painel de efeitos fixos, dentro do município.}
 \label{tab:ifdm-painel}
 \footnotesize
-\begin{tabular}{llccc}
+\begin{tabular}{llcccr}
 \toprule
-\textbf{Modelo} & \textbf{Regressor} & \textbf{$\hat{\beta}$} & \textbf{$p$} & \textbf{$R^2_w$} \\
+\textbf{Modelo} & \textbf{Regressor} & \textbf{$\hat{\beta}$} & \textbf{$p$} & \textbf{$R^2_w$} & \textbf{$n$} \\
 \midrule
-d\_l\_va & $\Delta$ log VA agro & $+0{,}0039$ & $0{,}539$ & $0{,}00049$ \\
-d\_l\_area & $\Delta$ log área cultivada & $+0{,}0118$ & $0{,}011$ & $-0{,}00033$ \\
-d\_l\_va+d\_l\_area & $\Delta$ log VA agro & $+0{,}0035$ & $0{,}582$ & $0{,}00034$ \\
-d\_l\_va+d\_l\_area & $\Delta$ log área cultivada & $+0{,}0117$ & $0{,}012$ & $0{,}00034$ \\
+d\_l\_va & $\Delta$ log VA agro & $+0{,}0039$ & $0{,}539$ & $0{,}00049$ & 1.950 \\
+d\_l\_area & $\Delta$ log área cultivada & $+0{,}0118$ & $0{,}011$ & $-0{,}00033$ & 1.950 \\
+d\_l\_va+d\_l\_area & $\Delta$ log VA agro & $+0{,}0035$ & $0{,}582$ & $0{,}00034$ & 1.950 \\
+d\_l\_va+d\_l\_area & $\Delta$ log área cultivada & $+0{,}0117$ & $0{,}012$ & $0{,}00034$ & 1.950 \\
 \bottomrule
 \end{tabular}
 \fontefig{elaboração própria.}
-\notafig{variáveis em log-diferença; efeitos fixos de município e de ano. \texttt{d\_l\_area} é a variação log da área cultivada e \texttt{d\_l\_va} a do valor adicionado agropecuário. O $R^2$ \emph{within} negativo indica ajuste pior que a média dentro do município, e é reportado como saiu.}
+\notafig{variáveis em log-diferença; efeitos fixos de município e de ano, com erros-padrão agrupados \textbf{apenas por município} --- o painel tem oito anos, poucos demais para agrupar também na dimensão temporal. $n = 1.950$ células, de 245 municípios sobre as diferenças anuais de 2014 a 2021: a janela termina em 2021 porque é onde acaba a série de valor adicionado do IBGE, e o painel é desbalanceado porque um município não tem par de anos completo e dez células caem por ausência. \texttt{d\_l\_area} é a variação log da área cultivada e \texttt{d\_l\_va} a do valor adicionado agropecuário. O $R^2$ \emph{within} negativo indica ajuste pior que a média dentro do município, e é reportado como saiu.}
 \end{table}

@@ -108,22 +108,23 @@ ENTRADAS
         amc_goias.gpkg  (via deslocamento_espacial.amc_para_meso — região+lat)
     data/processed/conversao_bruta_goias.csv    (#12/#19 — cross-check bruto)
 
-SAÍDAS
-    data/processed/carbono_por_formacao.csv     (estado × formação × cenário)
-    data/processed/carbono_regional_ato.csv     (região × ato × formação)
-    data/processed/carbono_por_amc.csv          (AMC × formação: perda + lat/reg)
-    data/processed/carbono_centroide_ato.csv    (centróide da perda por ato)
-    data/processed/carbono_sensibilidade.csv    (baixa/central/alta — manchetes)
-    outputs/custo_carbono/*.png                 (3 figuras)
+SAÍDAS  (todas etiquetadas pela régua: sufixo `_mcti` ou `_d18`)
+    data/processed/carbono_por_formacao_<regua>.csv   (estado × formação × cenário)
+    data/processed/carbono_regional_ato_<regua>.csv   (região × ato × formação)
+    data/processed/carbono_por_amc_<regua>.csv        (AMC × formação: perda + lat/reg)
+    data/processed/carbono_centroide_ato_<regua>.csv  (centróide da perda por ato)
+    data/processed/carbono_sensibilidade_<regua>.csv  (baixa/central/alta — manchetes)
+    data/processed/carbono_desconto_destino_<regua>.csv (D31: removido × líquido)
+    outputs/custo_carbono/*.png                       (3 figuras)
 
-    Com `--regua mcti` os CSVs saem com sufixo `_mcti`. A régua publicada NÃO é
-    sobrescrita de propósito: o texto da qualificação cita os arquivos sem sufixo,
-    e trocar a régua do texto é decisão editorial, não efeito colateral de rodar
-    o pipeline.
+    NENHUMA saída fica sem etiqueta de régua. Até 20/ago/2026 a `d18` gravava os
+    arquivos sem sufixo e era o default, de modo que o comando padrão devolvia
+    números que o texto não usa mais — e um CSV sem etiqueta não acusa isso em
+    lugar nenhum. É a causa-raiz que esta mudança fecha.
 
 COMO RODAR
-    py -3.14 scripts/custo_carbono_marcha.py                      # régua d18 (publicada)
-    py -3.14 scripts/custo_carbono_marcha.py --regua mcti         # régua oficial (GO)
+    py -3.14 scripts/custo_carbono_marcha.py                      # régua mcti (PUBLICADA)
+    py -3.14 scripts/custo_carbono_marcha.py --regua d18          # régua superada
     py -3.14 scripts/custo_carbono_marcha.py --com-solo --sem-figuras
 
 Depende de: #44 (formações abertas), #32/#34/#39 (máquina de região/centróide),
@@ -249,8 +250,11 @@ ESTOQUE_POR_DESTINO = {
 # Valor alternativo do Mosaico no cenário de sensibilidade (tratá-lo como pasto).
 MOSAICO_COMO_PASTO = 7.57
 
-# Régua ativa. `main()` a define; o default preserva o comportamento publicado.
-REGUA = "d18"
+# Régua ativa. `main()` a define. O default é a `mcti` desde 20/ago/2026: e a regua
+# que a qualificacao publica (D30), e o comando sem argumento tem de reproduzir a
+# manchete do texto. A `d18` continua rodavel por `--regua d18`, mas nao e mais o
+# default -- deixa-la la fazia o comando padrao devolver numeros que o texto nao usa.
+REGUA = "mcti"
 
 
 def DENS(formacao: str, cenario: str = "central") -> float:
@@ -558,16 +562,19 @@ def main() -> None:
     ap.add_argument("--com-solo", action="store_true",
                     help="inclui SOC (0-30cm) × fração liberada — camada opcional")
     ap.add_argument("--sem-figuras", action="store_true")
-    ap.add_argument("--regua", choices=("d18", "mcti"), default="d18",
-                    help="régua de densidade (ver cabeçalho). d18 = publicada; "
-                         "mcti = 4o Inventario Nacional, especifica p/ Goias")
+    ap.add_argument("--regua", choices=("d18", "mcti"), default="mcti",
+                    help="régua de densidade (ver cabeçalho). mcti = 4o Inventario "
+                         "Nacional, especifica p/ Goias, e a PUBLICADA na qualificacao "
+                         "(D30); d18 = faixas de literatura, a regua superada")
     ap.add_argument("--sufixo", default="",
-                    help="sufixo dos CSVs de saida; evita sobrescrever a regua publicada")
+                    help="sufixo dos CSVs de saida; sobrepoe o sufixo automatico da regua")
     args = ap.parse_args()
 
     global REGUA
     REGUA = args.regua
-    suf = args.sufixo or ("" if args.regua == "d18" else f"_{args.regua}")
+    # Cada regua etiqueta a propria saida. Nao ha CSV "sem sufixo": arquivo sem etiqueta
+    # de regua foi a causa-raiz de o texto e a figura discordarem sem que nada acusasse.
+    suf = args.sufixo or f"_{args.regua}"
 
     print("=" * 70)
     print("Pipeline #47 — Custo de carbono da marcha ao norte")

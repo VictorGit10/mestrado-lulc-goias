@@ -16,8 +16,8 @@ FIGURAS
 ENTRADAS  (todas em data/processed/)
     protecao_temporal.csv, protecao_uc_amc.csv, protecao_gap_regional.csv,
     protecao_gap_pixel_regiao.csv, fronteira_regional.csv,
-    fronteira_estoque_convertivel.csv, carbono_por_formacao.csv,
-    carbono_regional_ato.csv, carbono_centroide_ato.csv,
+    fronteira_estoque_convertivel.csv, carbono_por_formacao_mcti.csv,
+    carbono_regional_ato_mcti.csv, carbono_centroide_ato_mcti.csv,
     ifdm_goias_municipal.csv, mapeamento_mesorregioes.csv,
     desenvolvimento_gradiente.csv, painel_unificado.parquet
 
@@ -250,7 +250,7 @@ def figura1() -> str:
 # FIGURA 2 — emissao = area x densidade
 # --------------------------------------------------------------------------
 def figura2() -> str:
-    cf = pd.read_csv(PROC / "carbono_por_formacao.csv")
+    cf = pd.read_csv(PROC / "carbono_por_formacao_mcti.csv")
     tot = cf[cf.formacao == "TOTAL"].iloc[0]
     f = cf[cf.formacao != "TOTAL"].copy()
     for c in ["baixa", "central", "alta"]:
@@ -350,10 +350,10 @@ def figura2() -> str:
 # FIGURA 3 — quando e onde se pagou
 # --------------------------------------------------------------------------
 def figura3() -> str:
-    ca = pd.read_csv(PROC / "carbono_regional_ato.csv")
+    ca = pd.read_csv(PROC / "carbono_regional_ato_mcti.csv")
     tab = (ca.pivot_table(index=["ato", "regiao"], values="MtCO2_por_ano", aggfunc="sum")
              .reset_index())
-    cen = pd.read_csv(PROC / "carbono_centroide_ato.csv").set_index("ato")
+    cen = pd.read_csv(PROC / "carbono_centroide_ato_mcti.csv").set_index("ato")
     periodos = {"I": "1985&ndash;2000", "II": "2001&ndash;2019", "III": "2020&ndash;2024"}
 
     largura, x_ini, gap = 172, 22, 24

@@ -130,10 +130,11 @@ Seção~\ref{sec:met-aptidao}, o cadastro nacional de unidades armazenadoras
 \cite{CONAB_Armazenagem}, o sistema de monitoramento do
 desmatamento por satélite (PRODES) do Instituto Nacional de Pesquisas
 Espaciais (INPE, \citeyear{INPE_PRODES}), usado como aferição externa e não como
-insumo, os dados de cadeia exportadora da Trase \cite{Trase2026}, o Atlas do
-Desenvolvimento Humano no Brasil \cite{IPEA_IDHM}, e as malhas
+insumo, os dados de cadeia de comercialização da Trase \cite{Trase2026}, o
+Atlas do Desenvolvimento Humano no Brasil \cite{IPEA_IDHM}, e as malhas
 territoriais oficiais --- inclusive a de unidades de conservação, do Cadastro
-Nacional de Unidades de Conservação --- obtidas pelo pacote \emph{geobr}
+Nacional de Unidades de Conservação, e a de terras indígenas, da Fundação
+Nacional dos Povos Indígenas --- obtidas pelo pacote \emph{geobr}
 \cite{Pereira2019geobr}.
 
 % Este quadro é mais alto que a mancha em corpo \small: nessa medida ele
@@ -189,21 +190,30 @@ Capítulo~\ref{cap:resultados} \\
 IPEA --- IDH-M & 1991, 2000, 2010 &
 Desenvolvimento humano municipal; série descontinuada após 2010 \\
 \addlinespace
-FIRJAN --- IFDM & 2005--2023 &
+FIRJAN --- IFDM & 2013--2023 &
 Índice de desenvolvimento municipal (emprego e renda, educação, saúde);
-usado apenas na conta de desenvolvimento da Seção~\ref{sec:res-perna4} \\
+usado apenas na conta de desenvolvimento da Seção~\ref{sec:res-perna4}. A
+janela é a da \emph{série revista}: a revisão metodológica da FIRJAN tornou-a
+internamente consistente e \textbf{não emendável} com a série anterior
+(2005--2016), e nenhuma conta aqui atravessa esse corte \\
 \addlinespace
 CONAB --- unidades armazenadoras & cadastro corrente &
 Capacidade estática de armazenagem por município, no teste de simetria
 (quem está à frente da fronteira) \\
 \addlinespace
 Malhas territoriais, via \emph{geobr} & 2017--2020 &
-Municípios, mesorregiões, estados, biomas, unidades de conservação e terras
-indígenas (as duas últimas do Cadastro Nacional de Unidades de Conservação) \\
+Municípios, mesorregiões, estados, biomas, unidades de conservação (do Cadastro
+Nacional de Unidades de Conservação, do Ministério do Meio Ambiente) e terras
+indígenas (da Fundação Nacional dos Povos Indígenas, que é a fonte
+institucional delas) \\
 \addlinespace
 Trase \cite{Trase2026} & soja 2004--2022; bovinos 2011--2023 &
-Cadeia exportadora da soja e da carne bovina (volume embarcado e valor FOB por
-município de origem), mantida distinta da produção \\
+Cadeia de comercialização da soja e da carne bovina por município de origem,
+mantida distinta da produção. O pacote da soja \textbf{não} é só exportação:
+44,6\% do volume rastreado sai como esmagamento doméstico, e apenas a coluna
+específica de embarque é exportadora --- distinção que uma auditoria própria
+impôs ao esquema depois de o volume total ter sido tomado por exportação. O
+pacote do boi é de exportação de fato \\
 \addlinespace
 Embrapa --- aptidão agrícola & estática &
 Exposição física exógena (gradiente edafoclimático) nos desenhos de

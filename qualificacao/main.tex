@@ -30,7 +30,25 @@
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{xcolor}
+\usepackage{placeins}      % \FloatBarrier. Usado SÓ no apêndice (o gerador o
+                           % emite ao fim de cada seção): lá as tabelas são
+                           % muitas e grandes, e sem barreira elas escorriam
+                           % para dentro da seção seguinte — a Tabela da A.6
+                           % saía depois de a A.7 já ter começado. Sem a opção
+                           % [section], que valeria para o documento inteiro e
+                           % mexeria na diagramação já conferida dos capítulos.
 \usepackage[alf]{abntex2cite}   % citações ABNT autor-data
+
+% Página de flutuante alinhada ao ALTO. Quando uma página contém só tabelas
+% ("float page"), o default do LaTeX é \@fptop = 0pt plus 1fil, que distribui
+% o vazio e empurra a tabela para o meio — no apêndice isso abria uma faixa
+% branca de um terço de página acima de cada tabela grande. Com \@fptop = 0pt
+% a tabela encosta no alto e o vazio sobra embaixo, onde não se lê como erro.
+\makeatletter
+\setlength{\@fptop}{0pt}
+\setlength{\@fpsep}{14pt plus 1fil}
+\setlength{\@fpbot}{0pt plus 1fil}
+\makeatother
 
 \graphicspath{{fig/}}
 

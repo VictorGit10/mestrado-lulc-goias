@@ -769,9 +769,19 @@ apropriada ao desenho (permutação do \emph{shifter}, conforme a Seção~\ref{s
 de 0,001), mas o p-valor honesto fica entre 0,07 e 0,13, sem cruzar o corte de
 5\%. O que sustenta a leitura é a especificidade: cada teste que deveria sair
 vazio sai vazio. Os placebos de desfecho são nulos (área urbana, $p = 0{,}34$;
-água, $p = 0{,}33$); os placebos no tempo também ($p = 0{,}105$ para a
-liderança de um ano, $p = 0{,}77$ para a de dois); e o sinal é estável no \emph{jackknife},
-em 38 dos 38 anos.
+água, $p = 0{,}33$); os placebos no tempo, que adiantam o \emph{shifter} de modo
+que o efeito precederia a causa, também ($p = 0{,}105$ para a liderança de um
+ano, $p = 0{,}77$ para a de dois); e o sinal é estável no \emph{jackknife}, em
+38 dos 38 anos.
+
+A bateria completa está na Tabela~\ref{tab:placebos} do
+Apêndice~\ref{ap:especificacoes}, e cabe dizer aqui o que ela mostra e este
+parágrafo não mostraria sozinho: os oito placebos não são igualmente vazios. Os
+dois que chegam mais perto de rejeitar são os de tempo da \emph{outra}
+exposição, a de fronteira, com $p$ de 0,062 e 0,070. Eles não socorrem a
+hipótese, porque o sinal deles é o oposto do que ela prevê --- um placebo que
+quase acende na direção contrária não é evidência a favor ---, mas citar apenas
+os dois mais nulos seria escolher a régua depois de ver o resultado.
 
 \subsubsection*{A corrida entre exposições}
 
@@ -972,7 +982,12 @@ convertido: $\text{fluxo} = \text{taxa} \times \text{estoque}$. Segue daí,
 \emph{sem nenhum dado}, que se a taxa for aproximadamente constante o fluxo
 acompanha o estoque. A regressão do fluxo sobre o estoque devolve exatamente
 isso ($\beta = +2{,}76$, com $R^2$ \emph{within} de 0,43), e esse número não é
-evidência de coisa alguma: é a identidade se reapresentando.
+evidência de coisa alguma: é a identidade se reapresentando. Acrescentar a essa
+mesma regressão um termo quadrático no estoque não muda nada --- ele sai nulo
+($p = 0{,}92$) ---, o que diz que a relação entre fluxo e estoque é a linha reta
+que a identidade prevê, sem curvatura própria. É uma afirmação sobre o
+\emph{estoque}, e não sobre o comportamento da taxa, que é o assunto do
+parágrafo seguinte.
 
 O conteúdo empírico está na outra metade, a do comportamento da \emph{taxa}, e
 ele diz que ela não é constante: \textbf{a taxa de conversão cai à medida que a
@@ -989,18 +1004,44 @@ anual a menos a cada dez pontos de depleção ---, e a fração da variação
 explicada dentro das unidades, nula na especificação original, passa a
 situar-se entre 4\% e 20\%. A inclinação é medida \emph{dentro} de cada
 unidade ao longo do tempo e líquida do ano: diz o que acontece a uma unidade
-enquanto ela se deplete, e não é uma comparação entre regiões. O termo quadrático é nulo: a
-queda é gradual, não uma saturação abrupta.
+enquanto ela se deplete, e não é uma comparação entre regiões.
 
-Daí sai o mecanismo da frente. Quando uma região se deplete, \textbf{caem as
-duas coisas ao mesmo tempo} --- o estoque que resta e a taxa com que ele é
-convertido, porque o que sobra é mais difícil de converter. É a assinatura de
-atrito de oferta, e a subseção seguinte a reencontra por um caminho
-independente, ao mostrar que o remanescente do Sul é hoje, em três quintos, a
-fisionomia que a fronteira não consome. Parte da parcela residual da
-decomposição, que a Figura~\ref{fig:fronteira} adverte não ser demanda, ganha
-com isso nome e sinal medido. A Figura~\ref{fig:fronteira} decompõe a queda
-entre estoque e taxa.
+Três ressalvas acompanham a grade, e nenhuma se dissolve pela concordância
+entre os tratamentos. A primeira é que a especificação por domínio, que é a
+mais limpa conceitualmente, descarta 46 unidades --- e elas detêm 17,3\% do
+estoque convertível de 2024. Para a regressão a exclusão é correta, porque
+nessas unidades a depleção não é extrema e sim indefinida; para quem for somar
+hectares, não é inócua. A segunda é que o tratamento alternativo, o piso em
+zero, evita esse descarte ao custo de criar um acúmulo artificial de
+observações exatamente em zero. Os dois têm defeitos diferentes e chegam ao
+mesmo lugar, e é essa a razão de a leitura descansar na concordância, e não em
+qualquer um deles. A terceira é que nenhum dos quatro conserta a causa de as 46
+existirem, que é a oscilação do classificador entre pastagem e savana descrita
+na Seção~\ref{sec:met-decisoes}. Registre-se também que as dezesseis células
+não são uma família de hipóteses sob controle de multiplicidade: são dezesseis
+leituras da mesma hipótese, pré-declarada antes da estimação.
+
+Daí sai a leitura da frente, e ela precisa de uma palavra exata. O que a grade
+mede é que, quando uma unidade se deplete, \textbf{caem as duas coisas ao mesmo
+tempo} --- o estoque que resta e a taxa com que ele é convertido. Isso é uma
+regularidade compatível com atrito de oferta, e não a demonstração de que a
+dificuldade do remanescente seja a causa da queda: depleção e taxa são
+construídas a partir do mesmo estoque, e os efeitos fixos reduzem o
+confundimento sem transformar uma relação dinâmica em mecanismo identificado.
+Vale, porém, registrar de que lado corre a aritmética do desenho. Taxa e
+depleção compartilham o estoque anterior --- no denominador de uma, no
+numerador com sinal trocado da outra ---, e esse acoplamento empurra o
+coeficiente para \emph{cima}: achar sinal negativo é achar contra a montagem,
+não a favor dela.
+
+A razão de dar nome a essa regularidade vem de fora da regressão. A subseção
+seguinte reencontra o mesmo padrão por caminho independente, ao mostrar que o
+remanescente do Sul é hoje, em três quintos, a fisionomia que a fronteira não
+consome. São duas medidas distintas apontando para a mesma coisa, e é a
+convergência entre elas --- não o coeficiente sozinho --- que autoriza dizer que
+parte da parcela residual da decomposição, que a Figura~\ref{fig:fronteira}
+adverte não ser demanda, tem nome e sinal medido. A Figura~\ref{fig:fronteira}
+decompõe a queda entre estoque e taxa.
 
 \begin{figure}[htb]
 \centering
@@ -1073,9 +1114,8 @@ não no Sul, a conversão está de fato consumindo primeiro as unidades melhores
 que é o comportamento de uma fronteira ativa descendo o gradiente.
 
 \textbf{Dentro da unidade, o quadro é outro.} A fração do remanescente em
-formação florestal --- mata de galeria e cerradão, que acompanham a drenagem,
-ocupam relevo mais quebrado e são o que a Área de Preservação Permanente
-protege por definição --- sobe de 52,2\% para 59,9\% no Sul e de 29,6\% para
+formação florestal --- mata de galeria e cerradão, as fisionomias mais densas do
+Cerrado --- sobe de 52,2\% para 59,9\% no Sul e de 29,6\% para
 34,3\% no Norte. A alta, porém, é do estado inteiro (37,0\% para 42,5\%), e o
 excesso do Sul sobre a média estadual não passa de dois pontos: a
 \emph{tendência} não separa seleção de uma deriva de classificador na fronteira
@@ -1124,12 +1164,19 @@ qualquer região, e congelou: 76\% da que Goiás tem hoje já existia em 1985 e
 89\% já existia em 2000; em quarenta anos ela cresceu 0,12~Mha, contra
 4,11~Mha suprimidos do mesmo estoque convertível (os 10,67~Mha de savana e
 campo de 1985 reduzidos aos 6,56~Mha de hoje). O que cresceu nos anos 2000 foi
-o Uso Sustentável, que admite uso rural e não veda conversão.
+o grupo de Uso Sustentável, cujas categorias admitem uso rural em graus que
+variam, e onde a restrição à conversão depende da categoria e do plano de
+manejo de cada unidade --- não é uniforme, e este trabalho não a examinou
+unidade a unidade.
 
-O sentido de ``desprotegido'' aqui é estreito: fora da única categoria que
-veda a conversão. Não significa livre para desmatar. Reserva Legal e APP
-seguem valendo dentro de cada propriedade e protegem parte desse mesmo
-estoque, e é por isso que os 6,56~Mha são um teto. A conta mede outra coisa, a
+Essa variação é a razão de o recorte adotado aqui ser o da Proteção Integral, e
+o sentido de ``desprotegido'' que ele produz é estreito: fora do grupo cujo
+regime veda a conversão de modo geral. Não significa livre para desmatar, nem
+significa que nada no grupo de Uso Sustentável restrinja conversão --- há
+categorias nele que restringem. Significa apenas que a única barreira de que
+este trabalho tem medida espacial completa não está no caminho da fronteira.
+Reserva Legal e APP seguem valendo dentro de cada propriedade e protegem parte
+desse mesmo estoque, e é por isso que os 6,56~Mha são um teto. A conta mede outra coisa, a
 de saber se o instrumento de política que poderia deter a fronteira de
 propósito está no caminho dela. Não está, e o Norte, que guarda 44\% do que
 resta, não tem pela frente área protegida que barre a conversão.
@@ -1256,7 +1303,7 @@ seu primeiro e o seu último ano e as duas viradas de período, 2000--2001 e
 2019--2020, não pertencem a nenhum deles; a diferença é de 3\%. O centroide da
 perda marcha 91~km ao norte, atrás da fronteira. No acumulado dos quarenta
 anos, note-se, as três regiões respondem por parcelas próximas (Sul 34\%, Norte 34\%,
-Centro 32\%): o que distingue o Sul é ter emitido cedo, e não o total
+Centro 32\%): o que distingue o Sul é ter removido cedo, e não o total
 acumulado.
 
 Um ponto de composição fecha a conta. No Ato~I o estoque removido se dividia quase
@@ -1339,7 +1386,8 @@ D29 \\
 A formação florestal emite mais que a savânica, apesar de perder menos área &
 A afirmação dependia de uma razão entre duas densidades superar 2,64, e os três
 cenários de sensibilidade moviam as duas juntas; com os estoques do inventário
-oficial a razão é 1,57, e a savânica emite 573~Mt contra 340 &
+oficial a razão é 1,57, e a savânica responde por 573~Mt de estoque removido
+contra 340 &
 D30 \\
 \bottomrule
 \end{tabular}
