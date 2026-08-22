@@ -799,7 +799,7 @@ exportadora **não lidera nem co-move materialmente** — o único co-movimento 
 **proteção**: a marcha ao norte se dirige a Cerrado convertível que está **97% desprotegido** (a Proteção
 Integral cobre <3% e congelou após 2000), de modo que o teto de oferta do #39 é **físico, não
 institucional** (**D17**). O **#47** precifica o **custo de carbono da marcha** por diferença de estoque
-(IPCC Tier 1, **D30**): ~**973 Mt CO₂e** comprometidos (849 só com biomassa — faixa de **escopo**, não de incerteza), com a **savânica dominando a emissão** (573 × 340 Mt: ela
+(IPCC Tier 1, **D30**): ~**973 Mt CO₂e** de **estoque removido** (a **emissão líquida** é de **833 Mt**, descontado o estoque do uso que entra no lugar — **D31**), com a **savânica dominando o estoque removido** (573 × 340 Mt: ela
 perdeu 2,6× mais área, e isso mais que compensa valer menos por hectare), e o centróide da perda marchando +91 km ao norte (amarra com o #39: o Sul
 fechou a fronteira). O **#48** **valida** a base de perda de vegetação contra o **PRODES/INPE** — no regime
 anual 2013–24 as duas fontes concordam (r=0,91) —, fechando a pendência PRODES da D17 (o refino pixel via GEE
