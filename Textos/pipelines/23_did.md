@@ -92,8 +92,9 @@ Apenas um par sobrevive ao conjunto de testes (parallel trends ok + placebo n.s.
 > co-movimento*, não uma estimativa causal — nem no par sobrevivente.**
 >
 > A versão anterior desta linha dizia que Veg×1995 vs TO era "a única evidência DiD interpretável
-> como causal". **Não é**, e a razão é anterior a qualquer teste de robustez: **os quatro marcos são
-> federais/nacionais**. Plano Real, Lei Kandir, Código Florestal e Cerrado Manifesto **não tratam
+> como causal". **Não é**, e a razão é anterior a qualquer teste de robustez: **nenhum dos quatro
+> marcos é goiano**. Plano Real (1995), Commodity Boom (2003), Código Florestal (2012) e a
+> reorganização de mercado de 2018 são federais ou globais e **não tratam
 > Goiás e não tratam Tocantins** — incidem sobre os dois ao mesmo tempo. Num DiD, `treated × post`
 > só identifica efeito causal do marco se o grupo de controle **não** tiver recebido o tratamento;
 > aqui recebeu. O que o β mede, então, é **exposição diferencial** a um choque comum (GO e TO têm
@@ -114,6 +115,17 @@ Apenas um par sobrevive ao conjunto de testes (parallel trends ok + placebo n.s.
 > pernas de evidência. A identificação causal dos marcos exigiria variação **subnacional** no
 > tratamento (ex.: municípios diferencialmente expostos à Kandir por pauta exportadora), que este
 > desenho não tem.
+
+> ⚠️ **Correção de 21/ago/2026 — a lista de marcos desta nota estava errada.** Ela dizia "Plano
+> Real, **Lei Kandir**, Código Florestal e Cerrado Manifesto", contradizendo a tabela *Marcos
+> testados* acima e o `MARCOS` do próprio [`piecewise_did.py`](../../scripts/piecewise_did.py),
+> que fixam **2003 / Commodity Boom** como segundo marco. A Kandir nunca foi marco do DiD; ela
+> aparece legitimamente logo acima, no item (iii), porque é o [#26](26_deteccao_quebras.md) que
+> atribui a ela a quebra de 1998 da vegetação. **O erro propagou**: a §3.6.1 do texto de
+> qualificação repetia a lista errada, e foi encontrado só em 21/ago. Como "federais" também não
+> descrevia um ciclo global de preços, o argumento foi reenunciado como "nenhum deles é goiano",
+> que é a propriedade de que o rebaixamento realmente depende. **Lição**: quando a prosa de uma
+> ficha discorda da tabela da mesma ficha, é a tabela e o código que decidem.
 
 ### Saídas adicionais
 
