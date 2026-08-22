@@ -33,6 +33,13 @@ C. Decompor a desaceleração Ato II→III em efeito-ESTOQUE (oferta) vs efeito-
   Os nomes não foram trocados porque a coluna `regressor` é chave de dado e o
   rótulo vive no consumidor; a etiqueta certa está em qualificacao/apendice/.
 
+⚠ DUAS RÉGUAS DE ERRO-PADRÃO (corrigido em 21/ago/2026)
+  O bloco B reporta o p agrupado por entidade E o agrupado por entidade+ano em toda
+  linha, e não só na que decide. Antes desta data o ajuste amarrava o agrupamento ao
+  efeito fixo de ano, de modo que o B3 — o único sem ano FE — saía com a régua frouxa
+  sozinha. Ver `_painel_fe`. O veredito do bloco não muda: o que muda é que os p dos
+  sinais de demanda do B3 deixam de cruzar 5%, e eles nunca sustentaram afirmação.
+
 D13 — "TERRA CONVERTÍVEL" (decisão metodológica, proxy com teto declarado)
 -------------------------------------------------------------------------
 Sem CAR/UC/PRODES integrados (coletas pendentes), reportamos 3 definições lado a lado:
@@ -236,9 +243,27 @@ def agregar_regional(est: pd.DataFrame) -> pd.DataFrame:
 # ---------------------------------------------------------------------------
 
 def _painel_fe(df: pd.DataFrame, y: str, xs: list[str], time_effects: bool = True) -> dict | None:
-    """PanelOLS com efeitos de entidade (+ tempo). Cluster duplo entidade+ano quando
-    há time_effects (driver/oferta = choque comum no ano); fallback entidade se a vcov
-    two-way não for PSD. Variáveis padronizadas (z) na chamada → betas comparáveis."""
+    """PanelOLS com efeito fixo de entidade (+ tempo), nas DUAS réguas de erro-padrão.
+
+    Absorver o ano e AGRUPAR por ano são escolhas independentes: o cluster duplo
+    entidade+ano é computável com ou sem `time_effects`. Ele é a régua que decide,
+    aqui como no #39B; o agrupamento só por entidade vem ao lado porque é a régua
+    mais frouxa, e mostrar as duas é o que impede a régua de ser trocada em silêncio.
+
+    ⚠ CORREÇÃO DATADA (21/ago/2026). Até aqui as duas escolhas estavam amarradas neste
+      ajuste: sem `time_effects`, o B3 recaía no agrupamento por entidade, e o apêndice
+      da qualificação publicava isso como imposição do desenho ("sem efeito fixo de ano,
+      o B3 não admite o agrupamento por ano"). Não era imposição, era acoplamento de
+      código — e caía justamente onde mais custa, porque os regressores de demanda do B3
+      são séries nacionais, constantes dentro do ano, para as quais o agrupamento por
+      entidade subestima o erro-padrão. Sob a régua que decide, o estoque sobrevive
+      (p<0,001, o resultado que a linha sustenta) e os três sinais de demanda deixam de
+      cruzar 5% (câmbio 0,003→0,179; preço da soja <0,001→0,150; crédito 0,828→0,950).
+      Nenhum deles era lido como significância no texto; a linha do estoque, que era,
+      não se move.
+
+    Variáveis padronizadas (z) na chamada → betas comparáveis.
+    """
     from linearmodels.panel import PanelOLS
     sub = df[["code_amc", "ano", y, *xs]].dropna().copy()
     if sub["code_amc"].nunique() < 30 or len(sub) < 200:
@@ -247,18 +272,18 @@ def _painel_fe(df: pd.DataFrame, y: str, xs: list[str], time_effects: bool = Tru
     try:
         mod = PanelOLS(sub[y], sub[xs], entity_effects=True, time_effects=time_effects,
                        check_rank=False)
-        if time_effects:
-            res = mod.fit(cov_type="clustered", cluster_entity=True, cluster_time=True)
-            cluster = "entidade+ano"
-            if not np.all(np.isfinite(res.std_errors.to_numpy())):
-                res = mod.fit(cov_type="clustered", cluster_entity=True)
-                cluster = "entidade (fallback)"
-        else:
-            res = mod.fit(cov_type="clustered", cluster_entity=True)
-            cluster = "entidade"
+        r_ent = mod.fit(cov_type="clustered", cluster_entity=True)
+        r_2w  = mod.fit(cov_type="clustered", cluster_entity=True, cluster_time=True)
     except Exception as e:  # noqa: BLE001
         return {"erro": str(e)[:120]}
+    # A de duas dimensões decide; a de entidade só assume se a vcov bidimensional não
+    # sair positiva-definida (erro-padrão não finito) — e o rótulo diz quando assumiu.
+    if np.all(np.isfinite(r_2w.std_errors.to_numpy())):
+        res, cluster = r_2w, "entidade+ano"
+    else:
+        res, cluster = r_ent, "entidade (fallback)"
     return {"params": res.params, "se": res.std_errors, "t": res.tstats, "p": res.pvalues,
+            "p_entidade": r_ent.pvalues, "p_entidade_ano": r_2w.pvalues,
             "n_obs": int(res.nobs), "n_amc": int(sub.index.get_level_values(0).nunique()),
             "r2_within": float(res.rsquared_within), "cluster": cluster}
 
@@ -292,9 +317,9 @@ def teste_supply(est: pd.DataFrame) -> pd.DataFrame:
         ("B2a hazard ~ estoque_def",
          "hazard_z", ["lestoque_z"], True,
          "β>0: AMCs com mais estoque convertem MAIS por unidade (comportamento de fronteira)."),
-        ("B2b hazard ~ depleção_def",
+        ("B2b hazard ~ esgotamento_def",
          "hazard_z", ["ldeplecao_z"], True,
-         "β<0: hazard CAI com a depleção = remanescente difícil de converter (atrito de oferta)."),
+         "β<0: hazard CAI com o esgotamento = remanescente difícil de converter (atrito de oferta)."),
         ("B3  fluxo ~ estoque + demanda (sem ano FE)",
          "fluxo_ha_z", ["lestoque_z", "zd_cambio_real_efetivo",
                         "zd_preco_recebido_soja_idx", "zd_credito_rural_go_real"], False,
@@ -307,11 +332,15 @@ def teste_supply(est: pd.DataFrame) -> pd.DataFrame:
             linhas.append({"spec": rotulo, "erro": (r or {}).get("erro", "amostra insuficiente")})
             continue
         for x in xs:
+            # `p` é o da régua que decide (a mesma de `se`/`t`); `p_entidade` e
+            # `p_entidade_ano` vão ao lado para que a troca de régua não passe calada.
             linhas.append({"spec": rotulo, "regressor": x,
                            "beta": round(float(r["params"][x]), 4),
                            "se": round(float(r["se"][x]), 4),
                            "t": round(float(r["t"][x]), 2),
                            "p": round(float(r["p"][x]), 4),
+                           "p_entidade": round(float(r["p_entidade"][x]), 4),
+                           "p_entidade_ano": round(float(r["p_entidade_ano"][x]), 4),
                            "n_obs": r["n_obs"], "n_amc": r["n_amc"],
                            "r2_within": round(r["r2_within"], 4),
                            "cluster": r["cluster"], "hipotese": hip})
@@ -322,7 +351,8 @@ def teste_supply(est: pd.DataFrame) -> pd.DataFrame:
             print(f"   {r['spec']}: {r['erro']}"); continue
         sig = "***" if r["p"] < 0.01 else "**" if r["p"] < 0.05 else "*" if r["p"] < 0.1 else ""
         print(f"   {r['spec'][:36]:<36} {r['regressor']:<26} β={r['beta']:+.3f} "
-              f"p={r['p']:.3f}{sig:<3} N={r['n_obs']}")
+              f"p={r['p']:.3f}{sig:<3} (ent={r['p_entidade']:.3f} "
+              f"ent+ano={r['p_entidade_ano']:.3f}) N={r['n_obs']} AMCs={r['n_amc']}")
     return out
 
 
@@ -434,7 +464,7 @@ def figuras(reg_df: pd.DataFrame, est: pd.DataFrame, dec: pd.DataFrame) -> None:
         s = fl[fl["grupo"] == g].sort_values("ano")
         ax.plot(s["ano"], s["pct_restante"] * 100, lw=2, color=cor, label=str(g))
     ax.set_xlabel("Ano"); ax.set_ylabel("% do estoque convertível de 1985 ainda restante")
-    ax.set_title("Depleção do Cerrado convertível por faixa de latitude (Sul→Norte)")
+    ax.set_title("Esgotamento do Cerrado convertível por faixa de latitude (Sul→Norte)")
     ax.legend(title="Faixa (latitude)"); ax.set_xlim(ANO_INI, ANO_FIM)
     fig.tight_layout(); fig.savefig(DIR_OUT / "deplecao_latitude.png", dpi=140); plt.close(fig)
 
@@ -447,9 +477,9 @@ def figuras(reg_df: pd.DataFrame, est: pd.DataFrame, dec: pd.DataFrame) -> None:
     fig, ax = plt.subplots(figsize=(9, 5.5))
     ax.scatter(d["deplecao_prev"], d["hazard"], s=4, alpha=0.06, color="#777")
     ax.plot(gb["centro"], gb["mean"], "-o", color="#b3261e", lw=2.2, label="hazard médio por bin")
-    ax.set_xlabel("Depleção acumulada do estoque convertível (0 = intacto, 1 = exaurido)")
+    ax.set_xlabel("Esgotamento acumulado do estoque convertível (0 = intacto, 1 = exaurido)")
     ax.set_ylabel("Hazard anual (perda / estoque do ano anterior)")
-    ax.set_title("A conversão trava onde o estoque acabou? (hazard × depleção, AMC×ano)")
+    ax.set_title("A conversão trava onde o estoque acabou? (hazard × esgotamento, AMC×ano)")
     ax.set_ylim(0, min(0.2, float(d["hazard"].quantile(0.99)))); ax.legend()
     fig.tight_layout(); fig.savefig(DIR_OUT / "hazard_vs_deplecao.png", dpi=140); plt.close(fig)
 

@@ -83,20 +83,31 @@ fato, ao norte.
 
 Painel 2-way FE (z-score; N≈6.400; cluster entidade+ano):
 
+> ⚠ **Correção de 21/ago/2026 — a régua do B3.** Até esta data o `_painel_fe` amarrava o
+> agrupamento do erro-padrão ao efeito fixo de ano, e o **B3** — o único sem ano FE — saía
+> sozinho na régua de **entidade**, a mais frouxa. As duas escolhas são independentes, e o
+> B3 é justamente onde a frouxa mais custa: os regressores de demanda são séries nacionais,
+> constantes dentro do ano. Desamarradas, o CSV traz `p_entidade` e `p_entidade_ano` em toda
+> linha. O **estoque não se move** (p<0,001 nas duas), e os sinais de demanda do B3 deixam de
+> cruzar 5% (câmbio 0,003→0,179; preço da soja <0,001→0,150; crédito 0,828→0,950) — nenhum
+> deles sustentava afirmação. Mesmo princípio já enunciado no #38 e no #39B.
+
 | Spec | Regressor | β | p | Leitura |
 |---|---|---|---|---|
 | B1 fluxo ~ estoque | estoque_{t−1} | **+2,76** | <0,001 | conversão escala com a oferta disponível |
 | B1q fluxo ~ estoque + estoque² | estoque²_{t−1} | +0,05 | 0,92 | **n.s.** — sem curvatura: a conversão **não satura** quando o estoque rareia |
 | B2a hazard ~ estoque | estoque_{t−1} | −0,32 | 0,092 | (marginal) estoque-rico converte um pouco menos por unidade |
-| B2b hazard ~ depleção | depleção_{t−1} | −0,02 | 0,48 | **n.s.** — hazard não cai com a depleção (sem atrito claro) |
+| B2b hazard ~ depleção | depleção_{t−1} | −0,02 | 0,48 | ~~n.s. — sem atrito claro~~ **→ SUPERADA pela D29 (#39B)**: o nulo era artefato de padronizar uma variável fora do domínio [0,1] em ~14% do painel. Tratada, a taxa **cai** com a depleção — β<0 nas 16 células da grade, cruza 5% em 11, entre 0,5 e 0,8 p.p. de taxa anual a menos a cada 10 pontos de depleção |
 | B3 fluxo ~ estoque + demanda | estoque_{t−1} | **+2,76** | <0,001 | sobrevive a controlar câmbio/preço/crédito (#37) |
 
 > **Honestidade**: B1/B3 são **parcialmente mecânicos** (fluxo ≡ estoque × hazard), então o β
-> grande do estoque é em parte definicional. O teste informativo é o **hazard** (B2): a taxa de
-> conversão *por unidade de estoque* **não** sobe com a depleção — ou seja, o remanescente não é
-> convertido mais rápido nem trava por atrito. A conversão é, em primeira ordem, **paced pela
-> oferta** (fluxo ≈ estoque × taxa ~constante). A spec quadrática **B1q** confirma: o termo estoque²
-> é **n.s.** (p=0,92) — não há saturação nem colapso quando o estoque rareia, coerente com o hazard plano.
+> grande do estoque é em parte definicional. O teste informativo é o **hazard** (B2), e a
+> leitura dele mudou com a **D29**: a taxa de conversão *por unidade de estoque* **cai** com a
+> depleção — o remanescente trava, e isso é a assinatura de **atrito de oferta** que o próprio
+> #39 pré-declarou. O "hazard plano" publicado aqui era artefato de domínio; ver o #39B.
+> A spec quadrática **B1q** segue nula (estoque², p=0,92): a relação entre fluxo e estoque é a
+> reta que a identidade prevê, sem curvatura própria — e isso é afirmação sobre o **estoque**,
+> não sobre o comportamento da taxa.
 
 ### 3. A desaceleração Ato II→III é regional, não estadual — a fronteira **migrou**, não fechou
 
@@ -176,7 +187,7 @@ do #32 é, em parte, a fronteira **perseguindo o estoque que só resta no norte*
 - **Convertível = proxy MapBiomas** (teto; sem CAR/UC/PRODES). Cenário RL (20%) é cru.
 - **Fluxo = perda líquida de estoque** clipada em 0 (ignora rebrota; gross `veg→pasto` via
   `analise_transicoes.py` refinaria).
-- **B1/B3 parcialmente mecânicos**; a inferência forte vem do hazard (B2, fraco/plano) + decomposição.
+- **B1/B3 parcialmente mecânicos**; a inferência forte vem do hazard (B2) + decomposição. O B2b saiu "fraco/plano" aqui, e a **D29** mostrou que o plano era artefato: tratada a variável, o hazard cai com a depleção.
 - **Descritivo/quase-causal**; recorte mesorregional (3 regiões) é grosso; Ato III tem só 4–5 anos.
 
 ## Como rodar
