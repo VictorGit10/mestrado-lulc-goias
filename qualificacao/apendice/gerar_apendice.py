@@ -32,7 +32,7 @@ def esc(s) -> str:
 
     Guarda o ausente como `num()` e `p_val()` já guardavam: sem isto, uma célula
     vazia do CSV vira a string "nan" e sai impressa na tabela. Foi o defeito que
-    a leitura externa de 20/ago encontrou nas Tabelas de placebos e de depleção.
+    a leitura externa de 20/ago encontrou nas Tabelas de placebos e de esgotamento.
     """
     if s is None or (not isinstance(s, str) and pd.isna(s)):
         return "---"
@@ -58,7 +58,7 @@ def esc(s) -> str:
 ROTULO_REGRESSOR = {
     "lestoque_z":                 "estoque defasado (z)",
     "lestoque2_z":                "estoque defasado$^2$ (z)",
-    "ldeplecao_z":                "depleção defasada (z)",
+    "ldeplecao_z":                "esgotamento defasado (z)",
     "zd_cambio_real_efetivo":     "$" + BR + "Delta$ câmbio real (z)",
     "zd_preco_recebido_soja_idx": "$" + BR + "Delta$ preço da soja (z)",
     "zd_credito_rural_go_real":   "$" + BR + "Delta$ crédito rural (z)",
@@ -67,14 +67,11 @@ ROTULO_REGRESSOR = {
 }
 
 
-# A dimensao do agrupamento vem do CSV, nunca digitada: em fronteira_teste_supply
-# ela varia dentro da MESMA tabela (o B3, sem efeito fixo de ano, recai no
-# agrupamento por unidade), e a nota anterior afirmava "duas dimensoes" para as nove.
-ROTULO_CLUSTER = {
-    "entidade+ano": "un.+ano",
-    "entidade":     "unidade",
-    "ano":          "ano",
-}
+# A coluna "Agrup." da tab:disponibilidade existiu ate 21/ago/2026 porque a regua
+# variava dentro da MESMA tabela: o B3, sem efeito fixo de ano, recaia no agrupamento
+# por unidade. Recaia por acoplamento de codigo, nao por imposiçao do desenho -- e o
+# #39 desamarrou os dois. Hoje as nove linhas trazem as DUAS reguas em colunas
+# proprias, como a tab:deplecao ja fazia, e o rotulo de dimensao unica nao tem uso.
 
 
 def reg(nome):
@@ -156,7 +153,7 @@ entre as séries regionais; o teste espacial do deslocamento; a dependência
 espacial nas formas SAR e SEM; o desenho \emph{shift-share} do \emph{drive}
 comum, com a sua bateria de placebos e a corrida entre exposições rivais; a
 grade confirmatória completa; o teto de oferta, com a grade inteira de
-tratamentos da variável de depleção; e o desenvolvimento municipal.
+tratamentos da variável de esgotamento; e o desenvolvimento municipal.
 
 \textbf{O que não está aqui, e por quê.} Três coisas. As \textbf{estatísticas
 das quebras estruturais} já têm quadro próprio no corpo do texto
@@ -208,7 +205,12 @@ erros-padrão agrupados nas duas dimensões. O agrupamento efetivamente aplicado
 agrupamento só por unidade --- por escolha do desenho, no painel municipal da
 Seção~\ref{ap:ifdm}, ou porque a matriz de covariância bidimensional não é
 positiva-definida. Onde uma especificação dispensa o efeito fixo de ano, a
-própria linha o diz.
+própria linha o diz --- e dispensá-lo \emph{não} obriga a abrir mão do
+agrupamento por ano, que é escolha independente dele. Onde as duas réguas
+foram computadas, as Tabelas~\ref{tab:disponibilidade} e \ref{tab:deplecao}
+trazem as duas em colunas próprias, e a que decide é sempre a de duas
+dimensões; a de unidade fica ao lado por ser a mais frouxa, e é mostrá-las
+juntas que impede a régua de ser trocada em silêncio.
 
 \textbf{Duas réguas de inferência.} Onde o desenho é do tipo
 \emph{shift-share}, o \(p\) agrupado e o \(p\) de permutação circular do
@@ -262,8 +264,8 @@ não com \(W_{\mathrm{norte}}\).
 \textbf{Grade de especificações.} A grade é o produto de três réguas de
 lavoura --- a classe Agricultura do MapBiomas, a união dela com o Mosaico de
 Usos (o \emph{bracket} da decisão D26) e a área plantada de soja do SIDRA, que
-é imune ao classificador --- por duas janelas --- a série plena e a truncada em
-2019, que exclui o trecho de deriva do Mosaico --- por três modelos, sendo um
+é imune ao classificador, por duas janelas (a série plena e a truncada em
+2019, que exclui o trecho de deriva do Mosaico) e por três modelos, sendo um
 deles o placebo com $W_{\mathrm{norte}}$. São dezoito especificações e trinta e
 seis coeficientes, já que cada uma estima o termo local e o de vizinhança; a
 Tabela~\ref{tab:slx} traz os dezoito termos de vizinhança, que são os de
@@ -365,7 +367,7 @@ teria piso zero --- que faz o menor \(p\) atingível ser \(1/38 \approx
 A bateria de placebos do Capítulo~\ref{cap:resultados} é toda de \emph{desfecho}:
 ela pergunta se o sinal aparece onde não deveria. A
 Tabela~\ref{tab:horserace} responde a outra pergunta, que é a decisiva para uma
-\emph{share} espacial --- se a exposição escolhida é a certa --- pondo as
+\emph{share} espacial (se a exposição escolhida é a certa), pondo as
 exposições rivais na mesma regressão. A latitude entra como confundidor puro:
 ela mede ``quão ao norte'' sem nenhum conteúdo agronômico.
 """
@@ -413,7 +415,7 @@ desfecho e defasagem que a grade confirmatória rodou, e não apenas as
 comentadas no Capítulo~\ref{cap:resultados}. A distinção entre grade
 confirmatória e exploratória foi fixada antes da estimação, e o controle de
 multiplicidade descrito na Seção~\ref{sec:met-instrumental} incide sobre a
-segunda. Os desfechos de área --- pastagem e agricultura --- são nulos, e isso
+segunda. Os desfechos de área (pastagem e agricultura) são nulos, e isso
 consta aqui com o mesmo destaque dos demais.
 """
 
@@ -436,9 +438,12 @@ def secao_confirmatorio() -> str:
             r"real. ``Def.'' é a defasagem em anos do \emph{shifter}; ``Sinal'' é a "
             r"direção prevista antes da estimação. Efeitos fixos de unidade e de ano; "
             r"erros-padrão agrupados nas duas dimensões em todas as linhas; " +
-            str(n_amc) + r" unidades. O $n$ \textbf{não é o mesmo em toda a grade} --- ele "
-            r"varia com a cobertura da exposição de cada linha, e por isso é reportado "
-            r"linha a linha. O $p$ desta tabela é o do erro-padrão agrupado, que a "
+            str(n_amc) + r" unidades. O $n$ \textbf{não é o mesmo em toda a grade}, e o "
+            r"que o move é a \textbf{defasagem}, não a cobertura das exposições: nenhuma "
+            r"delas perde célula, e defasar o \emph{shifter} em um ano custa um ano de "
+            r"painel em cada unidade --- as duas linhas de cada exposição diferem, por "
+            r"isso, exatamente pelo número de unidades. É reportado linha a linha "
+            r"mesmo assim. O $p$ desta tabela é o do erro-padrão agrupado, que a "
             r"Seção~\ref{sec:met-instrumental} mostra ser otimista neste desenho, porque "
             r"trata cada ano como realização independente do choque quando as realizações "
             r"efetivas são cerca de 38. A régua de permutação não foi computada para estas "
@@ -869,13 +874,13 @@ def secao_placebos() -> str:
 # ---------------------------------------------------------------------------
 
 OFERTA_TEXTO = r"""
-\section{Teto de oferta: disponibilidade e depleção}
+\section{Teto de oferta: disponibilidade e esgotamento}
 \label{ap:oferta}
 
 A frente do teto de oferta separa duas afirmações que o mesmo painel testa. A
 primeira é de \emph{nível}: o fluxo de conversão escala com o estoque ainda
 disponível. A segunda é de \emph{comportamento}: a taxa de conversão cai à
-medida que a unidade se deplete --- e é essa que distingue esgotamento de mera
+medida que a unidade se esgota --- e é essa que distingue esgotamento de mera
 aritmética, porque um fluxo proporcional ao estoque cairia sozinho sem que a
 taxa mudasse.
 
@@ -887,15 +892,15 @@ com os dois efeitos fixos:
 \label{eq:b1}
 \end{equation}
 \begin{equation}
-\text{taxa}_{it} = \beta\,\text{depleção}_{i,t-1}
+\text{taxa}_{it} = \beta\,\text{esgotamento}_{i,t-1}
                  + \alpha_i + \lambda_t + \varepsilon_{it}.
 \label{eq:b2b}
 \end{equation}
 
-\noindent Estoque e depleção entram \textbf{em nível}, e não em logaritmo ---
+\noindent Estoque e esgotamento entram \textbf{em nível}, e não em logaritmo ---
 registre-se porque as colunas correspondentes do repositório trazem um prefixo
 \texttt{l} que sugere o contrário, e quem reconstruir o modelo aplicando
-logaritmo não reproduzirá estes coeficientes. A depleção é a fração
+logaritmo não reproduzirá estes coeficientes. O esgotamento é a fração
 \(1 - \text{estoque}_t/\text{estoque}_{1985}\) e o estoque é medido em hectares.
 A taxa é \(\text{fluxo}_{it}/\text{estoque}_{i,t-1}\), de modo que a
 Equação~\ref{eq:b1} carrega a identidade \(\text{fluxo} \equiv \text{taxa}
@@ -903,7 +908,7 @@ Equação~\ref{eq:b1} carrega a identidade \(\text{fluxo} \equiv \text{taxa}
 tem conteúdo empírico. Regressor e desfecho entram em \emph{escore-z}, e por
 isso cada célula reporta também o efeito em unidade natural.
 
-A segunda afirmação é a que a decisão D29 reabriu. A variável de depleção,
+A segunda afirmação é a que a decisão D29 reabriu. A variável de esgotamento,
 construída como \(1 - \text{estoque}_t/\text{estoque}_{1985}\), sai do intervalo
 \([0,1]\) em cerca de 14\% do painel, nas unidades que \emph{ganharam} estoque.
 Padronizar uma variável com domínio violado dilui o sinal, e o nulo publicado
@@ -922,7 +927,7 @@ sem peso, na amostra completa.
 \textbf{Três limites da grade, que o veredito não dissolve.} O primeiro é que o
 tratamento por \emph{domínio} descarta 46 unidades, e elas não são
 desprezíveis: detêm 17,3\% do estoque convertível de 2024. Para a regressão a
-exclusão é correta --- nessas unidades a depleção é indefinida, e não extrema ---,
+exclusão é correta --- nessas unidades o esgotamento é indefinido, e não extremo ---,
 mas quem for somar hectares não deve herdá-la. É por isso que a grade traz
 também o tratamento de \emph{piso em zero}, que não descarta ninguém e dá o
 mesmo veredito. O segundo é que esse piso, por sua vez, cria um acúmulo
@@ -946,18 +951,26 @@ independentes.
 
 def secao_oferta() -> str:
     b1 = pd.read_csv(PROC / "fronteira_teste_supply.csv")
+    # A regua que decide e' a mesma nas nove linhas desde 21/ago/2026, quando o #39
+    # deixou de amarrar o agrupamento do erro-padrao ao efeito fixo de ano. Se um dia
+    # uma linha cair no fallback (vcov bidimensional nao positiva-definida), isto quebra
+    # a geraçao em vez de imprimir calada uma tabela cuja nota afirma regua unica.
+    reguas = sorted(b1["cluster"].astype(str).unique())
+    assert reguas == ["entidade+ano"], f"regua nao uniforme em tab:disponibilidade: {reguas}"
+    n_amcs = sorted(b1["n_amc"].unique())
+    assert len(n_amcs) == 1, f"n_amc nao uniforme em tab:disponibilidade: {n_amcs}"
     linhas = []
     for _, r in b1.iterrows():
         linhas.append(" & ".join([
             esc(r["spec"]), reg(r["regressor"]),
-            num(r["beta"], 3, mais=True), num(r["se"], 3), p_val(r["p"]),
-            ROTULO_CLUSTER.get(str(r["cluster"]), esc(r["cluster"])),
+            num(r["beta"], 3, mais=True), num(r["se"], 3),
+            p_val(r["p_entidade"]), p_val(r["p_entidade_ano"]),
             num(r["r2_within"], 3), f'{int(r["n_obs"]):,}'.replace(",", "."),
         ]) + r" \\")
     t1 = tabela(linhas, "p{3.7cm}p{2.4cm}cccccr",
                 (r"\textbf{Especificação} & \textbf{Regressor} & \textbf{$\hat{\beta}$} & "
-                 r"\textbf{EP} & \textbf{$p$} & \textbf{Agrup.} & \textbf{$R^2_w$} & "
-                 r"\textbf{$n$} \\"),
+                 r"\textbf{EP} & \textbf{$p_{ent}$} & \textbf{$p_{ent+ano}$} & "
+                 r"\textbf{$R^2_w$} & \textbf{$n$} \\"),
                 ("Canal de disponibilidade", "O canal de disponibilidade: fluxo de conversão contra estoque."),
                 "tab:disponibilidade",
                 (r"desfecho: fluxo anual de conversão, exceto nas linhas \texttt{B2a} e "
@@ -966,15 +979,24 @@ def secao_oferta() -> str:
                  r"e de ano em todas as linhas \textbf{menos} as do \texttt{B3}, que "
                  r"dispensa o de ano de propósito: os sinais de demanda que ele testa "
                  r"(câmbio, preço, crédito) são nacionais e um efeito fixo de ano os "
-                 r"absorveria por inteiro, deixando o coeficiente sem identificação. Esse é "
-                 r"também o motivo de os $p$ do \texttt{B3} não serem lidos como o das "
-                 r"demais linhas. ``Agrup.'' é a dimensão do agrupamento do erro-padrão, e "
-                 r"\textbf{não é a mesma em todas as linhas}: sem efeito fixo de ano, o "
-                 r"\texttt{B3} não admite o agrupamento por ano e recai no de unidade --- é "
-                 r"a exceção que a Seção~\ref{ap:convencoes} antecipa, e por isso ela é "
-                 r"reportada linha a linha e não afirmada uma vez para a tabela inteira. "
-                 r"A linha \texttt{B2b} é a especificação que a decisão D29 "
-                 r"superou; ver a Tabela~\ref{tab:deplecao}."),
+                 r"absorveria por inteiro, deixando o coeficiente sem identificação. "
+                 r"Dispensar o efeito fixo de ano \textbf{não} impede o agrupamento por "
+                 r"ano, que é escolha independente dele: as nove linhas trazem as duas "
+                 r"réguas de erro-padrão, e a que decide é a de duas dimensões, como na "
+                 r"Tabela~\ref{tab:deplecao}. O erro-padrão da coluna EP é o dela. "
+                 r"Registre-se que até 21/ago/2026 esta tabela publicava o \texttt{B3} só "
+                 r"na régua de unidade e a descrevia como imposição do desenho: era "
+                 r"acoplamento de código, e recaía justamente onde mais custa, porque "
+                 r"regressor constante dentro do ano tem o erro-padrão subestimado pelo "
+                 r"agrupamento por unidade. Corrigido, o estoque segue com $p<0{,}001$ e os "
+                 r"três sinais de demanda deixam de cruzar 5\%. Nenhum dos três é lido como "
+                 r"significância --- e a Seção~\ref{sec:met-instrumental} não o autorizaria "
+                 r"nem sob a régua de duas dimensões, que trata cada ano como realização "
+                 r"independente de um choque nacional. O painel efetivo destas linhas tem "
+                 f"{n_amcs[0]} das 166 unidades: duas AMCs do Sul não registram formação savânica "
+                 r"nem campo nativo em ano algum da série, e nelas o estoque convertível é "
+                 r"\emph{ausente}, e não zero. A linha \texttt{B2b} é a especificação que a "
+                 r"decisão D29 superou; ver a Tabela~\ref{tab:deplecao}."),
                 tam="footnotesize")
 
     d2 = pd.read_csv(PROC / "fronteira_teste_supply_39b.csv")
@@ -995,11 +1017,11 @@ def secao_oferta() -> str:
             num(r["r2_within"], 4), n_obs(r["n_obs"]),
         ]) + r" \\")
     t2 = tabela(linhas2, "p{3.6cm}llcccccr",
-                (r"\textbf{Tratamento da depleção} & \textbf{Amostra} & \textbf{Peso} & "
+                (r"\textbf{Tratamento do esgotamento} & \textbf{Amostra} & \textbf{Peso} & "
                  r"\textbf{$\hat{\beta}_z$} & \textbf{p.p./0,1} & \textbf{$p_{ent}$} & "
                  r"\textbf{$p_{ent+ano}$} & \textbf{$R^2_w$} & \textbf{$n$} \\"),
-                ("Grade de tratamentos da variável de depleção",
-                 "Grade completa de tratamentos da variável de depleção (decisão D29)."),
+                ("Grade de tratamentos da variável de esgotamento",
+                 "Grade completa de tratamentos da variável de esgotamento (decisão D29)."),
                 "tab:deplecao",
                 (r"desfecho: taxa anual de conversão; todas as dezesseis linhas são a "
                  r"especificação \texttt{B2b}, com efeitos fixos de unidade e de ano. "
@@ -1011,7 +1033,7 @@ def secao_oferta() -> str:
                  r"desvio-padrão do regressor vai de $0{,}21$ no domínio a $3{,}54$ sem "
                  r"tratamento --- dezessete vezes; ``p.p./0,1'' é o mesmo efeito em "
                  r"unidade natural, pontos percentuais de taxa anual por décimo de "
-                 r"depleção, e é essa a coluna em que os tratamentos podem ser comparados "
+                 r"esgotamento, e é essa a coluna em que os tratamentos podem ser comparados "
                  r"e em que se lê a convergência para $-0{,}5$ a $-0{,}8$. O "
                  r"\emph{winsor p1} corta \textbf{só a cauda inferior} no percentil 1 --- o "
                  r"defeito é de valores muito negativos, e não de cauda dupla ---, e é por "

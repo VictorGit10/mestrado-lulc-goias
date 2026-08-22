@@ -13,7 +13,7 @@ entre as séries regionais; o teste espacial do deslocamento; a dependência
 espacial nas formas SAR e SEM; o desenho \emph{shift-share} do \emph{drive}
 comum, com a sua bateria de placebos e a corrida entre exposições rivais; a
 grade confirmatória completa; o teto de oferta, com a grade inteira de
-tratamentos da variável de depleção; e o desenvolvimento municipal.
+tratamentos da variável de esgotamento; e o desenvolvimento municipal.
 
 \textbf{O que não está aqui, e por quê.} Três coisas. As \textbf{estatísticas
 das quebras estruturais} já têm quadro próprio no corpo do texto
@@ -65,7 +65,12 @@ erros-padrão agrupados nas duas dimensões. O agrupamento efetivamente aplicado
 agrupamento só por unidade --- por escolha do desenho, no painel municipal da
 Seção~\ref{ap:ifdm}, ou porque a matriz de covariância bidimensional não é
 positiva-definida. Onde uma especificação dispensa o efeito fixo de ano, a
-própria linha o diz.
+própria linha o diz --- e dispensá-lo \emph{não} obriga a abrir mão do
+agrupamento por ano, que é escolha independente dele. Onde as duas réguas
+foram computadas, as Tabelas~\ref{tab:disponibilidade} e \ref{tab:deplecao}
+trazem as duas em colunas próprias, e a que decide é sempre a de duas
+dimensões; a de unidade fica ao lado por ser a mais frouxa, e é mostrá-las
+juntas que impede a régua de ser trocada em silêncio.
 
 \textbf{Duas réguas de inferência.} Onde o desenho é do tipo
 \emph{shift-share}, o \(p\) agrupado e o \(p\) de permutação circular do
@@ -220,8 +225,8 @@ não com \(W_{\mathrm{norte}}\).
 \textbf{Grade de especificações.} A grade é o produto de três réguas de
 lavoura --- a classe Agricultura do MapBiomas, a união dela com o Mosaico de
 Usos (o \emph{bracket} da decisão D26) e a área plantada de soja do SIDRA, que
-é imune ao classificador --- por duas janelas --- a série plena e a truncada em
-2019, que exclui o trecho de deriva do Mosaico --- por três modelos, sendo um
+é imune ao classificador, por duas janelas (a série plena e a truncada em
+2019, que exclui o trecho de deriva do Mosaico) e por três modelos, sendo um
 deles o placebo com $W_{\mathrm{norte}}$. São dezoito especificações e trinta e
 seis coeficientes, já que cada uma estima o termo local e o de vizinhança; a
 Tabela~\ref{tab:slx} traz os dezoito termos de vizinhança, que são os de
@@ -409,7 +414,7 @@ teria piso zero --- que faz o menor \(p\) atingível ser \(1/38 \approx
 A bateria de placebos do Capítulo~\ref{cap:resultados} é toda de \emph{desfecho}:
 ela pergunta se o sinal aparece onde não deveria. A
 Tabela~\ref{tab:horserace} responde a outra pergunta, que é a decisiva para uma
-\emph{share} espacial --- se a exposição escolhida é a certa --- pondo as
+\emph{share} espacial (se a exposição escolhida é a certa), pondo as
 exposições rivais na mesma regressão. A latitude entra como confundidor puro:
 ela mede ``quão ao norte'' sem nenhum conteúdo agronômico.
 
@@ -493,7 +498,7 @@ desfecho e defasagem que a grade confirmatória rodou, e não apenas as
 comentadas no Capítulo~\ref{cap:resultados}. A distinção entre grade
 confirmatória e exploratória foi fixada antes da estimação, e o controle de
 multiplicidade descrito na Seção~\ref{sec:met-instrumental} incide sobre a
-segunda. Os desfechos de área --- pastagem e agricultura --- são nulos, e isso
+segunda. Os desfechos de área (pastagem e agricultura) são nulos, e isso
 consta aqui com o mesmo destaque dos demais.
 
 
@@ -523,18 +528,18 @@ Aptidão edafoclim. (exógena) & $\Delta$ Pastagem & 1 & - & $-0{,}0026$ & $0{,}
 \bottomrule
 \end{tabular}
 \fontefig{elaboração própria.}
-\notafig{\emph{shifter}: variação padronizada do índice de taxa de câmbio efetiva real. ``Def.'' é a defasagem em anos do \emph{shifter}; ``Sinal'' é a direção prevista antes da estimação. Efeitos fixos de unidade e de ano; erros-padrão agrupados nas duas dimensões em todas as linhas; 166 unidades. O $n$ \textbf{não é o mesmo em toda a grade} --- ele varia com a cobertura da exposição de cada linha, e por isso é reportado linha a linha. O $p$ desta tabela é o do erro-padrão agrupado, que a Seção~\ref{sec:met-instrumental} mostra ser otimista neste desenho, porque trata cada ano como realização independente do choque quando as realizações efetivas são cerca de 38. A régua de permutação não foi computada para estas linhas: ela existe para a especificação confirmatória do rebanho, na Tabela~\ref{tab:horserace}, cujas regressões são outras. Nas dez linhas em que as duas foram computadas lado a lado, o $p$ agrupado saiu \emph{menor} que o de permutação em oito --- e em duas, maior. É regularidade observada, e não garantia matemática de que o agrupado limite o outro por baixo; chamá-lo de ``piso da incerteza'' seria dizer mais do que se mediu, e o $p$-valor não é, de todo modo, uma medida de incerteza. Nenhum $p$ desta tabela é lido como significância no corpo do texto.}
+\notafig{\emph{shifter}: variação padronizada do índice de taxa de câmbio efetiva real. ``Def.'' é a defasagem em anos do \emph{shifter}; ``Sinal'' é a direção prevista antes da estimação. Efeitos fixos de unidade e de ano; erros-padrão agrupados nas duas dimensões em todas as linhas; 166 unidades. O $n$ \textbf{não é o mesmo em toda a grade}, e o que o move é a \textbf{defasagem}, não a cobertura das exposições: nenhuma delas perde célula, e defasar o \emph{shifter} em um ano custa um ano de painel em cada unidade --- as duas linhas de cada exposição diferem, por isso, exatamente pelo número de unidades. É reportado linha a linha mesmo assim. O $p$ desta tabela é o do erro-padrão agrupado, que a Seção~\ref{sec:met-instrumental} mostra ser otimista neste desenho, porque trata cada ano como realização independente do choque quando as realizações efetivas são cerca de 38. A régua de permutação não foi computada para estas linhas: ela existe para a especificação confirmatória do rebanho, na Tabela~\ref{tab:horserace}, cujas regressões são outras. Nas dez linhas em que as duas foram computadas lado a lado, o $p$ agrupado saiu \emph{menor} que o de permutação em oito --- e em duas, maior. É regularidade observada, e não garantia matemática de que o agrupado limite o outro por baixo; chamá-lo de ``piso da incerteza'' seria dizer mais do que se mediu, e o $p$-valor não é, de todo modo, uma medida de incerteza. Nenhum $p$ desta tabela é lido como significância no corpo do texto.}
 \end{table}
 
 \FloatBarrier
 
-\section{Teto de oferta: disponibilidade e depleção}
+\section{Teto de oferta: disponibilidade e esgotamento}
 \label{ap:oferta}
 
 A frente do teto de oferta separa duas afirmações que o mesmo painel testa. A
 primeira é de \emph{nível}: o fluxo de conversão escala com o estoque ainda
 disponível. A segunda é de \emph{comportamento}: a taxa de conversão cai à
-medida que a unidade se deplete --- e é essa que distingue esgotamento de mera
+medida que a unidade se esgota --- e é essa que distingue esgotamento de mera
 aritmética, porque um fluxo proporcional ao estoque cairia sozinho sem que a
 taxa mudasse.
 
@@ -546,15 +551,15 @@ com os dois efeitos fixos:
 \label{eq:b1}
 \end{equation}
 \begin{equation}
-\text{taxa}_{it} = \beta\,\text{depleção}_{i,t-1}
+\text{taxa}_{it} = \beta\,\text{esgotamento}_{i,t-1}
                  + \alpha_i + \lambda_t + \varepsilon_{it}.
 \label{eq:b2b}
 \end{equation}
 
-\noindent Estoque e depleção entram \textbf{em nível}, e não em logaritmo ---
+\noindent Estoque e esgotamento entram \textbf{em nível}, e não em logaritmo ---
 registre-se porque as colunas correspondentes do repositório trazem um prefixo
 \texttt{l} que sugere o contrário, e quem reconstruir o modelo aplicando
-logaritmo não reproduzirá estes coeficientes. A depleção é a fração
+logaritmo não reproduzirá estes coeficientes. O esgotamento é a fração
 \(1 - \text{estoque}_t/\text{estoque}_{1985}\) e o estoque é medido em hectares.
 A taxa é \(\text{fluxo}_{it}/\text{estoque}_{i,t-1}\), de modo que a
 Equação~\ref{eq:b1} carrega a identidade \(\text{fluxo} \equiv \text{taxa}
@@ -562,7 +567,7 @@ Equação~\ref{eq:b1} carrega a identidade \(\text{fluxo} \equiv \text{taxa}
 tem conteúdo empírico. Regressor e desfecho entram em \emph{escore-z}, e por
 isso cada célula reporta também o efeito em unidade natural.
 
-A segunda afirmação é a que a decisão D29 reabriu. A variável de depleção,
+A segunda afirmação é a que a decisão D29 reabriu. A variável de esgotamento,
 construída como \(1 - \text{estoque}_t/\text{estoque}_{1985}\), sai do intervalo
 \([0,1]\) em cerca de 14\% do painel, nas unidades que \emph{ganharam} estoque.
 Padronizar uma variável com domínio violado dilui o sinal, e o nulo publicado
@@ -581,7 +586,7 @@ sem peso, na amostra completa.
 \textbf{Três limites da grade, que o veredito não dissolve.} O primeiro é que o
 tratamento por \emph{domínio} descarta 46 unidades, e elas não são
 desprezíveis: detêm 17,3\% do estoque convertível de 2024. Para a regressão a
-exclusão é correta --- nessas unidades a depleção é indefinida, e não extrema ---,
+exclusão é correta --- nessas unidades o esgotamento é indefinido, e não extremo ---,
 mas quem for somar hectares não deve herdá-la. É por isso que a grade traz
 também o tratamento de \emph{piso em zero}, que não descarta ninguém e dá o
 mesmo veredito. O segundo é que esse piso, por sua vez, cria um acúmulo
@@ -609,31 +614,31 @@ independentes.
 \footnotesize
 \begin{tabular}{p{3.7cm}p{2.4cm}cccccr}
 \toprule
-\textbf{Especificação} & \textbf{Regressor} & \textbf{$\hat{\beta}$} & \textbf{EP} & \textbf{$p$} & \textbf{Agrup.} & \textbf{$R^2_w$} & \textbf{$n$} \\
+\textbf{Especificação} & \textbf{Regressor} & \textbf{$\hat{\beta}$} & \textbf{EP} & \textbf{$p_{ent}$} & \textbf{$p_{ent+ano}$} & \textbf{$R^2_w$} & \textbf{$n$} \\
 \midrule
-B1  fluxo $\sim$ estoque\_def (disponibilidade) & estoque defasado (z) & $+2{,}756$ & $0{,}472$ & $<0{,}001$ & un.+ano & $0{,}434$ & 6.396 \\
-B1q fluxo $\sim$ estoque + estoque$^2$ (não-linear) & estoque defasado (z) & $+2{,}686$ & $0{,}476$ & $<0{,}001$ & un.+ano & $0{,}434$ & 6.396 \\
-B1q fluxo $\sim$ estoque + estoque$^2$ (não-linear) & estoque defasado$^2$ (z) & $+0{,}045$ & $0{,}451$ & $0{,}920$ & un.+ano & $0{,}434$ & 6.396 \\
-B2a hazard $\sim$ estoque\_def & estoque defasado (z) & $-0{,}319$ & $0{,}189$ & $0{,}092$ & un.+ano & $-0{,}009$ & 6.379 \\
-B2b hazard $\sim$ depleção\_def & depleção defasada (z) & $-0{,}015$ & $0{,}022$ & $0{,}481$ & un.+ano & $-0{,}000$ & 6.379 \\
-B3  fluxo $\sim$ estoque + demanda (sem ano FE) & estoque defasado (z) & $+2{,}763$ & $0{,}391$ & $<0{,}001$ & unidade & $0{,}436$ & 6.396 \\
-B3  fluxo $\sim$ estoque + demanda (sem ano FE) & $\Delta$ câmbio real (z) & $+0{,}022$ & $0{,}007$ & $0{,}003$ & unidade & $0{,}436$ & 6.396 \\
-B3  fluxo $\sim$ estoque + demanda (sem ano FE) & $\Delta$ preço da soja (z) & $-0{,}030$ & $0{,}006$ & $<0{,}001$ & unidade & $0{,}436$ & 6.396 \\
-B3  fluxo $\sim$ estoque + demanda (sem ano FE) & $\Delta$ crédito rural (z) & $+0{,}001$ & $0{,}005$ & $0{,}828$ & unidade & $0{,}436$ & 6.396 \\
+B1  fluxo $\sim$ estoque\_def (disponibilidade) & estoque defasado (z) & $+2{,}756$ & $0{,}472$ & $<0{,}001$ & $<0{,}001$ & $0{,}434$ & 6.396 \\
+B1q fluxo $\sim$ estoque + estoque$^2$ (não-linear) & estoque defasado (z) & $+2{,}686$ & $0{,}476$ & $<0{,}001$ & $<0{,}001$ & $0{,}434$ & 6.396 \\
+B1q fluxo $\sim$ estoque + estoque$^2$ (não-linear) & estoque defasado$^2$ (z) & $+0{,}045$ & $0{,}451$ & $0{,}928$ & $0{,}920$ & $0{,}434$ & 6.396 \\
+B2a hazard $\sim$ estoque\_def & estoque defasado (z) & $-0{,}319$ & $0{,}189$ & $0{,}002$ & $0{,}092$ & $-0{,}009$ & 6.379 \\
+B2b hazard $\sim$ esgotamento\_def & esgotamento defasado (z) & $-0{,}015$ & $0{,}022$ & $0{,}317$ & $0{,}481$ & $-0{,}000$ & 6.379 \\
+B3  fluxo $\sim$ estoque + demanda (sem ano FE) & estoque defasado (z) & $+2{,}763$ & $0{,}455$ & $<0{,}001$ & $<0{,}001$ & $0{,}436$ & 6.396 \\
+B3  fluxo $\sim$ estoque + demanda (sem ano FE) & $\Delta$ câmbio real (z) & $+0{,}022$ & $0{,}017$ & $0{,}003$ & $0{,}179$ & $0{,}436$ & 6.396 \\
+B3  fluxo $\sim$ estoque + demanda (sem ano FE) & $\Delta$ preço da soja (z) & $-0{,}030$ & $0{,}021$ & $<0{,}001$ & $0{,}150$ & $0{,}436$ & 6.396 \\
+B3  fluxo $\sim$ estoque + demanda (sem ano FE) & $\Delta$ crédito rural (z) & $+0{,}001$ & $0{,}017$ & $0{,}828$ & $0{,}950$ & $0{,}436$ & 6.396 \\
 \bottomrule
 \end{tabular}
 \fontefig{elaboração própria.}
-\notafig{desfecho: fluxo anual de conversão, exceto nas linhas \texttt{B2a} e \texttt{B2b}, cujo desfecho é a \emph{taxa}. Regressores em \emph{escore-z}. Efeitos fixos de unidade e de ano em todas as linhas \textbf{menos} as do \texttt{B3}, que dispensa o de ano de propósito: os sinais de demanda que ele testa (câmbio, preço, crédito) são nacionais e um efeito fixo de ano os absorveria por inteiro, deixando o coeficiente sem identificação. Esse é também o motivo de os $p$ do \texttt{B3} não serem lidos como o das demais linhas. ``Agrup.'' é a dimensão do agrupamento do erro-padrão, e \textbf{não é a mesma em todas as linhas}: sem efeito fixo de ano, o \texttt{B3} não admite o agrupamento por ano e recai no de unidade --- é a exceção que a Seção~\ref{ap:convencoes} antecipa, e por isso ela é reportada linha a linha e não afirmada uma vez para a tabela inteira. A linha \texttt{B2b} é a especificação que a decisão D29 superou; ver a Tabela~\ref{tab:deplecao}.}
+\notafig{desfecho: fluxo anual de conversão, exceto nas linhas \texttt{B2a} e \texttt{B2b}, cujo desfecho é a \emph{taxa}. Regressores em \emph{escore-z}. Efeitos fixos de unidade e de ano em todas as linhas \textbf{menos} as do \texttt{B3}, que dispensa o de ano de propósito: os sinais de demanda que ele testa (câmbio, preço, crédito) são nacionais e um efeito fixo de ano os absorveria por inteiro, deixando o coeficiente sem identificação. Dispensar o efeito fixo de ano \textbf{não} impede o agrupamento por ano, que é escolha independente dele: as nove linhas trazem as duas réguas de erro-padrão, e a que decide é a de duas dimensões, como na Tabela~\ref{tab:deplecao}. O erro-padrão da coluna EP é o dela. Registre-se que até 21/ago/2026 esta tabela publicava o \texttt{B3} só na régua de unidade e a descrevia como imposição do desenho: era acoplamento de código, e recaía justamente onde mais custa, porque regressor constante dentro do ano tem o erro-padrão subestimado pelo agrupamento por unidade. Corrigido, o estoque segue com $p<0{,}001$ e os três sinais de demanda deixam de cruzar 5\%. Nenhum dos três é lido como significância --- e a Seção~\ref{sec:met-instrumental} não o autorizaria nem sob a régua de duas dimensões, que trata cada ano como realização independente de um choque nacional. O painel efetivo destas linhas tem 164 das 166 unidades: duas AMCs do Sul não registram formação savânica nem campo nativo em ano algum da série, e nelas o estoque convertível é \emph{ausente}, e não zero. A linha \texttt{B2b} é a especificação que a decisão D29 superou; ver a Tabela~\ref{tab:deplecao}.}
 \end{table}
 
 \begin{table}[!ht]
 \centering
-\caption[Grade de tratamentos da variável de depleção]{Grade completa de tratamentos da variável de depleção (decisão D29).}
+\caption[Grade de tratamentos da variável de esgotamento]{Grade completa de tratamentos da variável de esgotamento (decisão D29).}
 \label{tab:deplecao}
 \scriptsize
 \begin{tabular}{p{3.6cm}llcccccr}
 \toprule
-\textbf{Tratamento da depleção} & \textbf{Amostra} & \textbf{Peso} & \textbf{$\hat{\beta}_z$} & \textbf{p.p./0,1} & \textbf{$p_{ent}$} & \textbf{$p_{ent+ano}$} & \textbf{$R^2_w$} & \textbf{$n$} \\
+\textbf{Tratamento do esgotamento} & \textbf{Amostra} & \textbf{Peso} & \textbf{$\hat{\beta}_z$} & \textbf{p.p./0,1} & \textbf{$p_{ent}$} & \textbf{$p_{ent+ano}$} & \textbf{$R^2_w$} & \textbf{$n$} \\
 \midrule
 sem tratamento (a do \#39) & todas & --- & $-0{,}015$ & $-0{,}002$ & $0{,}317$ & $0{,}481$ & $-0{,}0002$ & 6.379 \\
 sem tratamento (a do \#39) & todas & estoque & $-1{,}165$ & $-0{,}181$ & $0{,}050$ & $0{,}060$ & $0{,}1043$ & 6.379 \\
@@ -654,7 +659,7 @@ winsor p1 (não põe no domínio) & corte1k & estoque & $-0{,}808$ & $-0{,}473$ 
 \bottomrule
 \end{tabular}
 \fontefig{elaboração própria.}
-\notafig{desfecho: taxa anual de conversão; todas as dezesseis linhas são a especificação \texttt{B2b}, com efeitos fixos de unidade e de ano. $p_{ent}$ agrupa por unidade e $p_{ent+ano}$ nas duas dimensões, que é a régua adotada no teste de origem e a reportada no corpo do texto. ``Peso'' indica ponderação pelo tamanho do estoque. As duas colunas de efeito \textbf{não são a mesma medida}: $\hat{\beta}_z$ está em \emph{escore-z} e \textbf{não é comparável entre tratamentos}, porque o desvio-padrão do regressor vai de $0{,}21$ no domínio a $3{,}54$ sem tratamento --- dezessete vezes; ``p.p./0,1'' é o mesmo efeito em unidade natural, pontos percentuais de taxa anual por décimo de depleção, e é essa a coluna em que os tratamentos podem ser comparados e em que se lê a convergência para $-0{,}5$ a $-0{,}8$. O \emph{winsor p1} corta \textbf{só a cauda inferior} no percentil 1 --- o defeito é de valores muito negativos, e não de cauda dupla ---, e é por isso o único tratamento que não devolve a variável ao domínio declarado. O $n$ varia porque \emph{domínio} descarta as unidades fora de $[0,1]$ e \texttt{corte1k} as de estoque abaixo de mil hectares. A linha ``sem tratamento'' é a especificação publicada antes da D29, e o nulo dela é o artefato que a decisão corrigiu.}
+\notafig{desfecho: taxa anual de conversão; todas as dezesseis linhas são a especificação \texttt{B2b}, com efeitos fixos de unidade e de ano. $p_{ent}$ agrupa por unidade e $p_{ent+ano}$ nas duas dimensões, que é a régua adotada no teste de origem e a reportada no corpo do texto. ``Peso'' indica ponderação pelo tamanho do estoque. As duas colunas de efeito \textbf{não são a mesma medida}: $\hat{\beta}_z$ está em \emph{escore-z} e \textbf{não é comparável entre tratamentos}, porque o desvio-padrão do regressor vai de $0{,}21$ no domínio a $3{,}54$ sem tratamento --- dezessete vezes; ``p.p./0,1'' é o mesmo efeito em unidade natural, pontos percentuais de taxa anual por décimo de esgotamento, e é essa a coluna em que os tratamentos podem ser comparados e em que se lê a convergência para $-0{,}5$ a $-0{,}8$. O \emph{winsor p1} corta \textbf{só a cauda inferior} no percentil 1 --- o defeito é de valores muito negativos, e não de cauda dupla ---, e é por isso o único tratamento que não devolve a variável ao domínio declarado. O $n$ varia porque \emph{domínio} descarta as unidades fora de $[0,1]$ e \texttt{corte1k} as de estoque abaixo de mil hectares. A linha ``sem tratamento'' é a especificação publicada antes da D29, e o nulo dela é o artefato que a decisão corrigiu.}
 \end{table}
 
 \FloatBarrier
