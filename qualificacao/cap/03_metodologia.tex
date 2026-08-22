@@ -338,9 +338,9 @@ agrícola e pecuária, o produto e o valor adicionado, o crédito rural, a
 população e as variáveis derivadas. É desse painel, e de sua versão agregada
 em AMCs, que sai toda a estimação do trabalho.
 
-A segunda decisão estruturante (D7) é que \textbf{nenhuma associação é
-estimada em nível}: todas as variáveis entram em primeira diferença,
-$\Delta x_t = x_t - x_{t-1}$. A razão é que quase toda série do painel tem
+A segunda decisão estruturante (D7) é que \textbf{nenhuma associação do
+painel é estimada em nível}, e todas as variáveis entram em primeira
+diferença, $\Delta x_t = x_t - x_{t-1}$. A razão é que quase toda série do painel tem
 tendência (área, produção, produto e população crescem ao longo de quatro
 décadas), e correlacionar níveis entre séries com tendência comum produz
 associações altas e vazias. Diferenciar remove a tendência e reformula a
@@ -355,6 +355,17 @@ em nível da ordem de 0,9. Estimar uma sobre a outra em nível mede uma
 identidade contábil disfarçada. A primeira diferença, combinada com os efeitos
 fixos descritos adiante, desarma esse vazamento, e as mesmas duplas apresentam
 correlação próxima de zero em variação \emph{within}.
+
+A regra governa o painel de associação, e convém declarar as três leituras
+deste texto que correm fora dela, cada uma por exigência do próprio método. A
+correlação em nível estadual do Quadro~\ref{quadro:camadas} é descritiva e vem
+com os seus limites declarados na mesma linha em que aparece. O procedimento
+de Toda-Yamamoto ajusta o vetor autorregressivo em níveis por construção, e é
+justamente isso que torna a sua inferência válida sob integração
+(Apêndice~\ref{ap:precedencia}). E as equações do teto de oferta retiram a
+tendência por efeitos fixos de unidade e de ano em vez de por diferença,
+porque o que elas medem é o que acontece a uma unidade enquanto ela se
+esgota, e diferenciar apagaria justamente esse nível (Apêndice~\ref{ap:oferta}).
 
 Na montagem do painel de estimação perdem-se duas observações, pois a série de
 cobertura tem 40 observações anuais (1985--2024), a primeira diferença
