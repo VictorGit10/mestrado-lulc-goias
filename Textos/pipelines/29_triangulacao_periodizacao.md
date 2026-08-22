@@ -42,16 +42,22 @@ Quandt-Andrews sup-F multivariado para a matriz (N=39, p=3) com Δveg_nat, Δpas
 
 ### Teste 2: Transições KL/TV (`periodizacao_transicoes.py`)
 
-Divergência KL (row-weighted por distribuição estacionária) entre matrizes de transição 6×6 ano-a-ano. Bootstrap com 1000 permutações para significância. TV(π) = variação total da distribuição estacionária.
+Divergência KL (row-weighted por distribuição estacionária) entre a matriz média 6×6 **anterior** ao ano-candidato e a **posterior** a ele. Bootstrap com 1000 permutações para significância. TV(π) = variação total entre as distribuições estacionárias das duas matrizes.
+
+⚠️ **As duas medidas não têm o mesmo estatuto, e o p de permutação é só do KL.** O bootstrap roda sobre `kl_simetrico`; `tv_pi` sai do CSV **sem p-valor**. Quem localiza fronteira aqui é o TV, não o KL — logo, a linha "KL/TV ✓" da triangulação abaixo é, na prática, uma linha de **TV sem teste de significância**. Registrado em 21/ago/2026, junto com a correção do texto da qualificação, que descrevia o TV como distância entre matrizes de transição e estendia a ele o p de permutação.
 
 **Resultados:**
-- KL é monotonicamente crescente — todo ano ≥1996 é significativamente diferente de 1985
-- TV(π) tem pico local em 2003 (0.168) e plateau em 2018-2020
-- KL não discrimina anos de fronteira específicos (ver limitações)
+- KL cresce em 24 dos 34 passos (0.0037 em 1988 → 0.0162 em 2022), com picos locais só em 1996 e 2005 — informa direção, não localização
+- TV(π) tem pico local em 2003 (0.2003, contra 0.1982 em 2002 e 0.1856 em 2004) e outro em 2019/2021 (máximo 0.2305 em 2021)
+- 2001 é apenas o 19º de 35 candidatos pelo KL (11º pelo TV): a corroboração da fronteira de 2001 vem do pico de TV em 2003, e não do KL
 
 ### Teste 3: Rodionov STARS (`periodizacao_stars.py`)
 
-Sequential t-test Analysis of Regime Shifts (l=5, α=0.05, Huber weight=1) nas 3 séries GO.
+Sequential t-test Analysis of Regime Shifts (l=5, α=0.05) nas 3 séries GO.
+
+⚠️ **É uma versão SIMPLIFICADA do algoritmo de Rodionov (2004), e não o algoritmo.** Três desvios, agora declarados no cabeçalho de `periodizacao_stars.py` e na §3.4 da qualificação: (1) não há confirmação pelo **Regime Shift Index** — no artigo o candidato só vira quebra se o RSI acumulado se mantiver positivo nos `l` anos seguintes; (2) graus de liberdade `l-1` (t=2,776) em vez do `2l-2` do artigo (t=2,306); (3) dispersão por MAD da série inteira em vez do desvio médio dos intervalos de comprimento `l`. Os desvios (2) e (3) tornam o limiar mais exigente, o (1) o torna menos; o efeito líquido não foi medido. Por isso o detector é sensibilidade, nunca fronteira sozinho.
+
+O **"Huber weight=1"** que esta ficha declarava até 21/ago/2026 saiu: era um `HUBER_W = 1.0` passado à função e **nunca usado no corpo dela**, e o peso de Huber é parâmetro do *programa* STARS (v6.x), não do artigo de 2004 — que é o que o `.bib` cita. Nenhum resultado muda, porque o parâmetro nunca teve efeito.
 
 **Resultados (l=5, α=0.05):**
 

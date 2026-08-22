@@ -24,7 +24,9 @@ registradas no Apêndice~\ref{ap:decisoes}.
 A régua temporal da Seção~\ref{sec:met-periodizacao} devolveu duas fronteiras,
 e o Quadro~\ref{quadro:quebras} mostra a convergência dos métodos que as
 sustentam. A de 2001 é apontada pelo método primário com folga e corroborada
-pelos dois métodos de sensibilidade. A de 2020, pelo primário e,
+pelo detector de divergência, cujo pico local cai em 2003; o detector
+sequencial não a aponta, e sim o intervalo de 2004 a 2006, que corresponde à
+candidata a quarto período examinada adiante nesta seção. A de 2020, pelo primário e,
 decisivamente, por uma fonte que não passa por classificador algum, a saber, a
 área de soja plantada que o IBGE recolhe em campo, que quebra em 2020 sozinha.
 
@@ -39,16 +41,19 @@ decisivamente, por uma fonte que não passa por classificador algum, a saber, a
 \midrule
 sup-F multivariado (primário) & $F = 62{,}2$ & $F = 21{,}5$ \\
 Rodionov/STARS (sensibilidade) & 2004--2006 & --- \\
-Divergência entre matrizes de transição & pico em 2003 & pico em 2019--2022 \\
+Divergência entre matrizes (variação total) & pico em 2003 & pico em 2019--2022 \\
 Soja plantada, IBGE (âncora independente) & --- & quebra em 2020 \\
 \bottomrule
 \end{tabular}
 \fontefig{elaboração própria a partir do MapBiomas Coleção 10.1 e da Produção
 Agrícola Municipal do IBGE (Pipeline~\#29).}
 \notafig{o traço indica que o método não aponta aquela fronteira, e não que ela
-tenha sido rejeitada por ele: o STARS opera sobre a série de nível e o
+tenha sido rejeitada por ele, pois o STARS opera sobre a série de nível e o
 detector de divergência, sobre matrizes de transição, de modo que cada um
-enxerga um objeto diferente.}
+enxerga um objeto diferente. Os picos da terceira linha são os da distância de
+variação total, que localiza fronteiras; a divergência de Kullback-Leibler
+cresce ao longo de quase toda a série e informa sobre direção, não sobre
+localização.}
 \end{quadro}
 
 A caracterização global dos atos vem de uma análise de intensidade, com teste

@@ -372,13 +372,22 @@ A regra de decisão foi fixada antes de rodar os testes: um método primário, a
 estatística sup-F de Quandt-Andrews \cite{Quandt1960, Andrews1993} na versão
 multivariada, aplicada conjuntamente às variações anuais de vegetação natural,
 pastagem e agricultura, com segmentação binária; e dois métodos de
-sensibilidade independentes: o detector sequencial de mudança de regime de
-Rodionov (STARS, na sigla inglesa) \cite{Rodionov2004} e a divergência entre
-matrizes de transição anuais (Kullback-Leibler e variação total, com
-significância por permutação). Uma fronteira só é confirmada quando o método
+sensibilidade independentes, uma versão simplificada do detector sequencial de
+mudança de regime de Rodionov (STARS, na sigla inglesa) \cite{Rodionov2004} e a
+divergência entre a matriz média de transição anterior a cada ano-candidato e a
+posterior a ele. Essa divergência é lida por duas medidas de alcance desigual. A
+primeira é a de Kullback-Leibler entre as duas matrizes, ponderada pela
+distribuição estacionária e com significância por permutação, que cresce ao
+longo de quase toda a série e por isso informa mais sobre direção do que sobre a
+localização de uma fronteira. A segunda é a distância de variação total entre as
+distribuições estacionárias que essas matrizes implicam, que localiza melhor,
+mas não recebe teste de significância e entra como leitura auxiliar. Uma
+fronteira só é confirmada quando o método
 primário e ao menos um método de sensibilidade convergem; divergência entre os
 três seria documentada como sensibilidade ao método, nunca resolvida por
-escolha.
+escolha. A independência entre os métodos de sensibilidade e o primário é
+suposição da regra, e não propriedade garantida, tanto que ela falha em uma das
+fronteiras pela razão registrada no Capítulo~\ref{cap:resultados}.
 
 A segmentação binária tem três parâmetros que precisam ser declarados, porque
 determinam quais anos-candidatos o método primário chega a devolver: o segmento
@@ -388,9 +397,18 @@ ele alcança regimes curtos que o \emph{trimming} descarta ---; o número máxim
 de quebras procuradas é \textbf{três}; e uma quebra nova só é aceita com
 \(F \geq 4\), limiar mais frouxo que o usual no caso univariado porque a
 estatística aqui é conjunta a três séries. O detector de Rodionov corre com
-comprimento mínimo de regime também de cinco anos, nível de \(0{,}05\) e peso
-de Huber igual a 1. Todos foram fixados junto com a regra de decisão, antes dos
-testes.
+comprimento mínimo de regime também de cinco anos e nível de \(0{,}05\). Todos
+foram fixados junto com a regra de decisão, antes dos testes.
+
+A implementação do detector sequencial não reproduz o algoritmo publicado em
+todos os pontos, e o registro disso importa mais do que a economia de o omitir.
+Ela mantém o teste sequencial de médias, mas dispensa a etapa de confirmação
+pelo índice de mudança de regime, estima a dispersão de forma robusta sobre a
+série inteira e adota limiar mais exigente que o do artigo. As três escolhas
+puxam em direções que não se somam de modo previsível, e o efeito líquido delas
+não foi medido. É por isso que o detector entra aqui apenas como sensibilidade,
+com poder de corroborar ou de deixar de corroborar uma fronteira que o método
+primário já apontou, nunca de estabelecer fronteira por conta própria.
 
 O procedimento devolveu duas fronteiras robustas, \textbf{2001} ($F = 62{,}2$)
 e \textbf{2020} ($F = 21{,}5$), e uma terceira, em 1991, com suporte bem mais
@@ -572,10 +590,15 @@ da explicativa de interesse; e $\varepsilon_{it}$ é o erro, com erros-padrão
 agrupados por unidade. O estimador compara cada unidade consigo mesma ao longo
 do tempo.
 
-A especificação em diferenças não é a do manual, que costuma escrever o modelo
-em níveis. Trata-se de escolha deliberada, coerente com D7, segundo a qual o objeto modelado
-é a \emph{mudança} do uso da terra. Nela, $\alpha_i$ absorve a tendência
-própria de cada unidade e $\gamma_t$, o choque comum às variações daquele ano.
+Como as duas pontas da equação entram em primeira diferença (D7), os efeitos
+fixos absorvem coisa distinta da que absorveriam num modelo escrito em nível. A
+diferenciação já retira o patamar de cada município, e $\alpha_i$, que num
+modelo em nível seria esse patamar, passa a retirar a tendência própria da
+unidade, isto é, o ritmo médio a que ela vinha mudando ao longo da série. O
+efeito de ano absorve o choque comum às variações daquele ano, e não ao estoque
+acumulado até ele. O que resta para $\beta$ estimar é o quanto a variação de um
+município num ano se afasta do que a tendência dele e o ano em curso já
+explicavam.
 
 Os diagnósticos que acompanham o painel são o fator de inflação de variância
 (VIF), para multicolinearidade entre as explicativas, e o exame da estrutura
@@ -1078,12 +1101,12 @@ está na Seção~\ref{sec:res-perna4}.
 \subsection{Parâmetro de inventário vem de inventário (D30)}
 \label{sec:met-d30}
 
-A conta de carbono da Seção~\ref{sec:res-carbono} é área medida multiplicada
-por densidade de tabela, e a densidade era o único insumo do trabalho sem
-localizador de página. Ela vinha, pela decisão D18 que esta substitui, de uma
-faixa compilada de quatro fontes, das quais duas nunca haviam sido lidas por
-serem pagas. Seis números sem
-procedência conferível sustentavam a ordem de um bilhão de toneladas.
+A conta de carbono da Seção~\ref{sec:res-carbono} multiplica área medida por
+densidade de tabela, e são seis densidades, uma por classe de cobertura, que
+fixam a ordem de grandeza de um resultado contado em centenas de milhões de
+toneladas. Sob a decisão D18, que esta substitui, elas vinham de uma faixa
+compilada da literatura no nível 1 do IPCC, e o custo saía reportado em três
+cenários, o que reconhecia a incerteza do parâmetro sem responder pela origem dele.
 
 A decisão D30 é que, \textbf{havendo inventário oficial para o parâmetro, é
 dele que o parâmetro vem}. Os estoques passaram a ser os do Quarto Inventário
@@ -1160,24 +1183,59 @@ fora --- como já estava no termo ``comprometido''.
 \section{Arquitetura computacional e reprodutibilidade}
 \label{sec:met-repro}
 
-A análise é implementada como um conjunto de 58 rotinas de coleta e análise
-em Python, encadeadas por dependências explícitas, com processamento de
-imagens no Google Earth Engine onde a escala exige e processamento local do
-cubo de transições onde o custo de nuvem não se justifica. Cada rotina tem
-documentação própria, registrando pergunta, dependências, arquivos de saída
-e limitações conhecidas; o conjunto é indexado por uma ordem lógica que
-descreve o papel de cada peça na construção do argumento, publicada com o
-repositório.
+Todo o material desta pesquisa vive num repositório público, e descrever como
+ele se organiza é parte de descrever o método.\footnote{Disponível em
+\url{\urlrepo}.}
 
-A rastreabilidade apoia-se em duas convenções. A primeira é que todo número
-exibido, seja no texto, nas figuras ou na visualização interativa, deve ser
-rastreável até um arquivo de dados que o produziu, e auditorias periódicas
-percorrem os números publicados verificando essa correspondência. A segunda é
-que o identificador numérico de cada rotina é permanente, e rotinas não são
-renumeradas quando a ordem lógica muda. O número é referência cruzada em toda
-a documentação, e apagá-lo apagaria também o registro datado das correções. É
-por esse número que as fontes das figuras deste texto identificam a rotina que
-as produziu, e o Apêndice~\ref{ap:rotinas} diz o que cada uma das rotinas
+A análise é um conjunto de 58 rotinas em Python, uma por arquivo em
+\texttt{scripts/}, encadeadas por dependências explícitas, com as versões de
+biblioteca fixadas em \texttt{requirements.txt}. Tabela e geometria são
+tratadas com pandas e GeoPandas, a estimação de painel com linearmodels e
+statsmodels, a estatística espacial com a família PySAL (libpysal para as
+matrizes de peso, esda para o I de Moran e o LISA, spreg para SAR e SEM) e as
+figuras com Matplotlib. O processamento de imagem corre no Google Earth Engine
+onde a escala exige, e o cubo de transições, que cabe comprimido em menos de um
+gigabyte, corre na máquina local, onde o custo de nuvem não se justifica.
+
+Cada rotina tem ficha própria em \texttt{Textos/pipelines/}, com a pergunta que
+responde, as rotinas de que depende, o comando que a executa, os arquivos que
+grava e as limitações conhecidas, e o
+\texttt{Textos/indice\_logico\_pipelines.md} reordena o mesmo conjunto pelo
+papel de cada peça na construção do argumento, de modo que se entra por ele
+quando a pergunta é o que sustenta a tese, e pela ficha quando a pergunta é o
+que faz determinado arquivo.
+
+Os dados ficam fora do controle de versão por tamanho, tanto as fontes brutas
+quanto os arquivos processados e as saídas, e as rotinas de coleta buscam as
+séries na origem, de modo que quem clona o repositório reconstrói o material
+processado rodando a cadeia, e não recebendo o resultado dela. A exceção é o
+recorte leve que a visualização consome, versionado junto com ela porque é o
+que a mantém no ar.
+
+Duas verificações automáticas acompanham o repositório, e o que elas guardam é
+a classe de defeito que a reescrita produz. A cada envio que toque a
+visualização, um fluxo de integração contínua a sobe num servidor local e a
+percorre em navegador sem interface, falhando se um número âncora sumiu da
+página, se o console acusou erro, se uma peça interativa deixou de responder ou
+se reapareceu ali algum dos números que uma conferência posterior derrubou. Do
+lado do texto, um verificador roda seis invariantes, que apanham o ponteiro sem
+destino, a citação sem entrada na bibliografia, a obra da bibliografia ausente
+da lista de leitura, a sigla usada antes de definida, a calibragem que a
+reescrita perdeu e a decisão ou rotina citada no corpo sem entrada no registro.
+O Apêndice~\ref{ap:especificacoes}, por sua vez, é gerado a partir dos arquivos
+que as próprias rotinas gravaram, de modo que nenhum coeficiente ali foi
+digitado à mão. Nenhuma das duas verificações confere número contra fonte, que
+é trabalho de leitura humana e tem escopo declarado a cada vez.
+
+Duas convenções, por fim, sustentam a rastreabilidade. A primeira é que todo
+número exibido, no texto, nas figuras ou na visualização, deve ser rastreável
+até o arquivo de dados que o produziu, e auditorias periódicas percorrem os
+números publicados verificando essa correspondência. A segunda é que o
+identificador numérico de cada rotina é permanente, e rotinas não são
+renumeradas quando a ordem lógica muda, pois o número é referência cruzada em
+toda a documentação e apagá-lo apagaria também o registro datado das correções.
+É por esse número que as fontes das figuras deste texto identificam a rotina
+que as produziu, e o Apêndice~\ref{ap:rotinas} diz o que cada uma das rotinas
 assim citadas responde e em que arquivo ela está.
 
 Dessa arquitetura derivam os produtos de uso direto do trabalho, a saber, o

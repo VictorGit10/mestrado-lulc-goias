@@ -1,16 +1,31 @@
 """periodizacao_stars.py — Pipeline #29b: Rodionov STARS (Sequential T-test Analysis of Regime Shifts)
 ================================================================================================
 
-Implementa o teste de Rodionov (2004) para deteccao de mudancas de regime
-com janela deslizante. Complementa o Quandt-Andrews sup-F ao detectar
-regimes curtos que o sup-F (que requer trimming) pode perder.
+Implementa uma versao SIMPLIFICADA do teste de Rodionov (2004) para deteccao de
+mudancas de regime com janela deslizante. Complementa o Quandt-Andrews sup-F ao
+detectar regimes curtos que o sup-F (que requer trimming) pode perder.
+
+ATENCAO — o que aqui NAO reproduz o algoritmo publicado (registrado em
+21/ago/2026; ate entao o cabecalho dizia so "o teste de Rodionov (2004)"):
+    1. NAO ha etapa de confirmacao pelo Regime Shift Index (RSI). No artigo, o
+       candidato so vira quebra se o RSI acumulado se mantiver positivo nos l
+       anos seguintes; aqui o candidato e aceito no proprio teste t.
+    2. Graus de liberdade: usa l-1 (=4, t_crit=2,776); o artigo usa 2l-2 (=8,
+       t_crit=2,306). Limiar mais exigente que o publicado.
+    3. Dispersao: MAD*1,4826 da serie INTEIRA; o artigo usa o desvio medio dos
+       intervalos de comprimento l. A MAD global carrega variancia entre
+       regimes, o que tambem torna o limiar mais exigente.
+    O efeito liquido dos tres desvios nao foi medido. Por isso o detector entra
+    apenas como SENSIBILIDADE (corrobora ou nao corrobora uma fronteira que o
+    sup-F ja apontou), nunca como metodo que estabelece fronteira sozinho.
+    Ver qualificacao/cap/03_metodologia.tex, secao "Periodizacao orientada
+    pelos dados", e Textos/pipelines/29_triangulacao_periodizacao.md.
 
 Especificacao:
     Para cada ponto t na serie, testa se a media do regime atual
     difere significativamente da media de referencia:
     - Regime length (l): 5 anos
     - Significancia (alpha): 0.05
-    - Huber weight parameter: 1 (reduz impacto de outliers)
 
 Metodo:
     1. Calcular media de referencia dos primeiros l pontos
@@ -51,23 +66,28 @@ from config_periodos import MARCOS, ATOS, CORES_ATO
 CLASSES = ["vegetacao_natural", "pastagem", "agricultura"]
 REGIME_LENGTH = 5    # comprimento minimo do regime (anos)
 ALPHA = 0.05         # nivel de significancia
-HUBER_W = 1.0        # parametro de peso de Huber
 TOL_MARCO = 2        # tolerancia para coincidencia com marcos
+# NAO existe parametro de peso de Huber aqui. Havia um `HUBER_W = 1.0` passado a
+# rodionov_stars() e NUNCA usado no corpo da funcao, e o texto da qualificacao o
+# declarava como parametro fixado antes dos testes. Removido em 21/ago/2026: o
+# peso de Huber e parametro do PROGRAMA STARS do Rodionov (v6.x), nao do artigo
+# de 2004, e aqui nao tinha efeito nenhum sobre o resultado.
 
 
 # ─────────────────────────── Rodionov STARS ───────────────────────────
 
 def rodionov_stars(y: np.ndarray, l: int = REGIME_LENGTH,
-                   alpha: float = ALPHA,
-                   huber_w: float = HUBER_W) -> list[dict]:
-    """Aplica Rodionov STARS para detectar regime shifts.
+                   alpha: float = ALPHA) -> list[dict]:
+    """Aplica a versao simplificada do Rodionov STARS (ver desvios no cabecalho).
 
     Retorna lista de dicts com ano do shift e media antes/depois.
     """
     n = len(y)
+    # df = l-1, e nao o 2l-2 do artigo: limiar mais exigente (desvio 2)
     t_crit = t_dist.ppf(1 - alpha / 2, df=l - 1)
 
-    # Calcular desvio padrao robusto (MAD-based)
+    # Desvio padrao robusto (MAD) da serie inteira, e nao o desvio medio dos
+    # intervalos de comprimento l do artigo (desvio 3)
     mad = np.median(np.abs(y - np.median(y))) * 1.4826
     diff_std = mad * np.sqrt(2.0 / l)  # diff entre medias de l pontos
 
