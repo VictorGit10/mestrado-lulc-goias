@@ -334,7 +334,15 @@ O levantamento apontou, tema a tema, obras ainda não lidas. Elas estão abaixo
 em forma bibliográfica completa, para que possam ser localizadas, e com o que
 se espera de cada leitura. Não figuram nas referências deste texto.
 
-\begin{description}\itemsep6pt
+% itemsep de 6pt para 2pt: com doze itens, o último caía sozinho numa página
+% seguinte, com duas linhas, e os 48pt recuperados aqui trazem o item de volta.
+% A primeira tentativa foi \enlargethispage, e foi refeita: duas linhas de
+% folga levavam a margem inferior daquela página a cerca de 1cm, e uma linha,
+% a 1,18cm, ambas abaixo do mínimo da NBR 14724. Com o itemsep nenhuma margem
+% do capítulo sai da faixa que o documento já produz. A separação visual entre
+% os itens não depende deste vão, e sim do título em negrito e do bloco da
+% \ficha. Reconferir se o §2.10 mudar de tamanho.
+\begin{description}\itemsep2pt
 \item[As formulações originais da renda da terra.]\leavevmode
 \ficha{THÜNEN, J. H. von. \emph{Der isolierte Staat in Beziehung auf
 Landwirtschaft und Nationalökonomie}. Hamburg: Perthes, 1826.}
@@ -440,11 +448,6 @@ estabelecida por outras vias (documental, fundiária, demográfica), para
 confrontá-la com a periodização por dados desta pesquisa; e se o contraste
 Sul--Norte do estado já tem nome e datação na literatura regional.
 
-% O último item desta lista caía sozinho numa página, com duas linhas: a
-% \ficha fechava a página anterior e o "Pode oferecer" atravessava a quebra.
-% Duas linhas de folga trazem o item inteiro de volta e encerram o capítulo
-% na mesma página. Reconferir se o §2.10 mudar de tamanho.
-\enlargethispage{2\baselineskip}
 \item[O sistema de classificação de aptidão agrícola.]\leavevmode
 \ficha{RAMALHO FILHO, A.; BEEK, K. J. \emph{Sistema de avaliação da aptidão
 agrícola das terras}. 3. ed. rev. Rio de Janeiro: EMBRAPA-CNPS, 1995.}
