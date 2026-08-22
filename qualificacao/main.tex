@@ -116,6 +116,23 @@
   \hangindent=1.2em\hangafter=1\noindent #1\par\endgroup
   \vspace{2pt}}
 
+% Entrada do registro de decisões (Apêndice B). Não é quadro flutuante: as 31
+% entradas têm comprimento muito desigual (de uma linha a cinco) e ocupam mais
+% de uma página, o que um float não atravessa. O recuo pendente alinha o corpo
+% da explicação sob o título e deixa o identificador saliente na margem, que é
+% o que se procura ao chegar do texto com um número na mão. O verificar.py lê
+% estas entradas para conferir que todo DNN citado no corpo tem registro; por
+% isso uma decisão por comando.
+% O \filbreak mantém a entrada inteira numa página. Num registro que se
+% consulta por número, uma entrada de quatro linhas partida ao meio custa
+% mais que o vão que sobra ao fim da página anterior, porque quem chega aqui
+% com um "D26" na mão quer ler a entrada, e não procurá-la em duas páginas.
+\newcommand{\decisao}[3]{%
+  \par\filbreak\begingroup\SingleSpacing
+  \hangindent=1.5em\hangafter=1\noindent
+  \textbf{#1}\hspace{0.6em}\textbf{#2.} #3\par\endgroup
+  \vspace{4pt}}
+
 % Endereço da visualização interativa, definido num só lugar.
 \newcommand{\urlviz}{https://victorgit10.github.io/mestrado-lulc-goias/Visualizacao/}
 
@@ -231,11 +248,15 @@ para a obtenção do título de Mestre em Ciências Ambientais.}
 
 \bibliography{ref/referencias}
 
-% Apêndice gerado por apendice/gerar_apendice.py a partir dos CSVs dos
-% pipelines — não editar 07_apendice.tex à mão.
+% O apêndice A (07_apendice.tex) é gerado por apendice/gerar_apendice.py a
+% partir dos CSVs dos pipelines — não editar à mão. Os apêndices B e C
+% (08_decisoes.tex e 09_rotinas.tex) são editoriais e mantidos à mão; a
+% distinção está declarada no cabeçalho de cada arquivo.
 \begin{apendicesenv}
 \partapendices
 \include{cap/07_apendice}
+\include{cap/08_decisoes}
+\include{cap/09_rotinas}
 \end{apendicesenv}
 
 \end{document}

@@ -1,0 +1,261 @@
+% !TEX root = ../main.tex
+% ---------------------------------------------------------------------
+% Apêndice B — registro das 31 decisões metodológicas.
+%
+% ATENÇÃO: este arquivo é MANTIDO À MÃO, ao contrário do 07_apendice.tex, que
+% é gerado por apendice/gerar_apendice.py a partir dos CSVs dos pipelines. O
+% conteúdo aqui é editorial (o que se decidiu e por quê), não saída de
+% pipeline, e por isso não tem gerador.
+%
+% A fonte espelhada é o bloco #p4-decisoes da Visualizacao/index.html. Quando
+% uma decisão nova entrar, ela entra nos dois lugares. O verificar.py confere
+% que todo DNN citado no corpo tem entrada aqui; ele NÃO confere o contrário
+% (dez das trinta e uma não são citadas em passagem nenhuma, e isso é o
+% esperado num registro completo) nem confere o texto de uma contra a outra,
+% que é trabalho humano.
+%
+% ⚠ Número que entra aqui tem de existir no corpo do texto. O rascunho deste
+% arquivo trouxe três números do registro da viz que o texto impresso não
+% carrega, e um apêndice que introduz número não conferível é pior que a
+% citação sem destino que ele veio resolver.
+% ---------------------------------------------------------------------
+\chapter{Registro das decisões metodológicas}
+\label{ap:decisoes}
+
+Cada escolha de desenho que alterou algum resultado já obtido, ou que fixou
+uma regra à qual as análises seguintes ficaram submetidas, recebeu um número
+no curso da pesquisa, e são trinta e uma ao todo. Onde uma delas incide sobre
+uma passagem do texto, a passagem a cita pelo número e não repete ali o que
+ela decidiu, e é por isso que este apêndice existe. Vinte e uma são citadas assim;
+as dez restantes valem para o trabalho todo sem que nenhuma passagem em
+particular dependa delas, e estão aqui porque um registro com buracos deixa de
+ser registro.
+
+A numeração segue a ordem em que as decisões foram tomadas, e não a ordem de
+importância, o que explica por que uma entrada de uma linha convive aqui com
+outra que ocupa um parágrafo inteiro. Ela também não é reaproveitada, de modo
+que uma decisão superada permanece no registro com indicação de qual a
+substituiu, como acontece com a D18. Manter a decisão superada tem função,
+porque é ela que informa o que teria sido publicado se a conferência posterior
+não tivesse existido.
+
+Sete episódios de correção alteraram resultados já obtidos e recebem
+tratamento próprio na Seção~\ref{sec:met-decisoes}, onde constam o defeito, a
+correção e a regra geral que ficou no lugar. Episódio não é sinônimo de
+decisão, porque um deles fixou quatro decisões de uma vez, outro fixou duas e
+um terceiro não gerou decisão numerada nenhuma, e é por isso que sete
+episódios cobrem dez das entradas abaixo. As entradas correspondentes aqui são
+resumidas e remetem àquela seção. Também não se confundem com os sete
+resultados superados do Quadro~\ref{quadro:superados}, que são outra lista e
+respondem a outra pergunta, a de o que teria sido publicado sem o teste que o
+superou. O mesmo registro, em versão navegável e acompanhado das séries que
+cada decisão moveu, está na visualização interativa (\url{\urlviz}).
+
+\section{Classes e medição}
+
+\decisao{D1}{Seis classes nos estoques e sete nos fluxos, com o Mosaico de
+Usos como grupo próprio}{O agrupamento reduz o ruído das subclasses e é o
+mesmo em mapas, matrizes de transição e taxas. O Mosaico ganhou identidade
+própria nos fluxos porque é ele que absorve a conversão no fim da série, e
+continua fora dos mapas anuais de cobertura, de modo que a regra é que o fluxo
+o pinta e o estoque não.}
+
+\decisao{D2}{As taxas vêm do MapBiomas diretamente}{A fonte é a série
+municipal original, e não o painel derivado, o que impede que uma etapa
+intermediária de agregação redefina a medida sem que isso apareça.}
+
+\decisao{D10}{A idade da pastagem é calculada localmente, em Python}{O cálculo
+percorre as quarenta bandas anuais, e o encadeamento de mais de trinta
+operações que ele exige estoura o limite de complexidade do Google Earth
+Engine.}
+
+\decisao{D13}{``Terra convertível'' é um \emph{proxy} do MapBiomas, lido como
+teto}{Não existe medida direta da oferta de Cerrado passível de conversão, e o
+que se pode construir é um limite superior. Ele é calculado em três definições
+alternativas, para que a conclusão não dependa de qual delas se adote.}
+
+\decisao{D17}{A proteção legal entra como malha vetorial, e não como classe de
+cobertura}{As unidades de conservação vêm do Cadastro Nacional e as terras
+indígenas da Funai, e ambas são cruzadas por sobreposição com as AMCs. Foi
+assim que se mediu quanto do Cerrado convertível remanescente está fora de
+proteção integral, que é a única categoria a vedar a conversão de modo geral,
+entre 94,3\% e 97\% conforme a conta seja refeita pixel a pixel ou feita sobre
+a malha de unidades (Seção~\ref{sec:res-perna4}). Estar fora dela não torna o
+restante livre, porque Reserva Legal e Área de Preservação Permanente
+continuam incidindo sobre ele.}
+
+\decisao{D18}{O custo de carbono é reportado em três cenários de densidade, e
+nunca em número único}{As densidades vinham compiladas da literatura sob o
+nível 1 do IPCC, e o resultado era reportado como faixa, e não como ponto, o
+que reconhecia a incerteza do parâmetro sem resolver a procedência dele. A
+decisão fica registrada, e não removida, porque foi superada pela D30 e é o
+que se teria publicado antes da conferência que a substituiu
+(Seção~\ref{sec:met-d30}).}
+
+\decisao{D30}{Havendo inventário oficial para o parâmetro, é dele que o
+parâmetro vem}{Os estoques de carbono passaram a ser os do Quarto Inventário
+Nacional, que os publica por fitofisionomia e com valor próprio para Goiás.
+Da troca saiu também a regra de que, quando uma conclusão depende de uma razão
+entre parâmetros, é a razão que precisa entrar na análise de sensibilidade (Seção~\ref{sec:met-d30}).}
+
+\decisao{D31}{Estoque removido não é emissão líquida, e as duas grandezas são
+calculadas e reportadas com nomes distintos}{Atribuir a cada hectare
+convertido a densidade da formação que ali estava mede o que saiu da cobertura
+de origem, e o método de diferença de estoque pede também o que o uso entrante
+repõe (Seção~\ref{sec:met-d31}).}
+
+\section{Tempo, taxas e janelas}
+
+\decisao{D3}{A inclinação da tendência é estimada em janela móvel de cinco
+anos}{São mantidas duas versões, uma retroativa, que é a usada em inferência,
+e uma centrada, que serve apenas à visualização e nunca a um teste.}
+
+\decisao{D4}{O erro-padrão dessas inclinações é o de Newey-West, com duas
+defasagens}{Janelas móveis sobrepostas produzem autocorrelação de resíduos por
+construção, e um erro-padrão que a ignore é otimista por desenho.}
+
+\decisao{D5}{A aceleração é a diferença entre inclinações consecutivas}{É a
+métrica mais frágil do conjunto, porque acumula o ruído de duas estimativas,
+e por isso só entram nos gráficos os pontos que superam dois desvios-padrão.}
+
+\decisao{D12}{As janelas temporais são explícitas, e toda análise por período
+roda em quatro resoluções}{As quatro são a série contínua, os três atos, uma
+grade regular de cinco anos e as décadas, e o que se reporta é a concordância
+entre elas. É também o princípio que impede uma análise de reimportar as
+fronteiras da periodização que ela deveria testar (Seção~\ref{sec:met-robustez}).}
+
+\section{Espaço e unidades de análise}
+
+\decisao{D6}{A malha regional de base é a das cinco mesorregiões do IBGE de
+2017}{Não a das 22 regiões geográficas imediatas, porque é sobre as
+mesorregiões que o eixo Sul--Norte se lê com unidades grandes o bastante para
+comportar a comparação entre regimes, e porque a análise fina já corre sobre
+as 166 AMCs. Parte dos resultados agrega as cinco em três blocos latitudinais,
+o Sul, o Centro e o Norte, onde o número de unidades por bloco precisa ser
+maior, e o texto declara qual das duas malhas está em uso a cada vez
+(Seção~\ref{sec:met-area}).}
+
+\decisao{D11}{As séries longitudinais são agregadas em 166 Áreas Mínimas
+Comparáveis de território constante}{Um quarto dos municípios goianos de hoje
+foi criado depois de 1985, e a série municipal registraria como queda o que é
+apenas desmembramento de território (Seção~\ref{sec:met-amc}).}
+
+\section{Inferência e identificação}
+
+\decisao{D7}{Nenhuma associação é lida em nível, e todas passam para primeiras
+diferenças}{Duas séries com tendência comum correlacionam-se sem que exista
+relação entre elas, e a primeira diferença é o que retira essa tendência antes
+de qualquer leitura (Seção~\ref{sec:met-painel}).}
+
+\decisao{D8}{O painel tem efeitos fixos de unidade e de ano, com erro-padrão
+agrupado}{Os efeitos de unidade absorvem a heterogeneidade local que não varia
+no tempo, e os de ano absorvem os choques comuns a todas as unidades no mesmo
+ano (Seção~\ref{sec:met-instrumental}).}
+
+\decisao{D9}{O desenho de diferenças em diferenças entre Goiás, Mato Grosso e
+Tocantins é lido como sensibilidade, e nunca como causa}{Os quatro marcos
+testados são federais e incidem no mesmo dia sobre o estado tratado e sobre os
+controles, de modo que não existe grupo não tratado e o coeficiente mede
+exposição diferencial a um choque comum. Uma ressalva posterior acrescenta que
+tratado e controle nem sequer partem do mesmo piso de Reserva Legal, porque o
+cerrado tocantinense está na Amazônia Legal e Goiás não, o que é mais uma
+razão para não ler o contraste entre os dois como efeito de lei. Nenhuma
+conclusão deste trabalho se apoia neste desenho
+(Seção~\ref{sec:met-camadas}).}
+
+\decisao{D14}{Em recorte transversal estadual, reporta-se a correlação parcial
+controlando a latitude}{O gradiente Sul--Norte confunde quase toda variável
+observada em Goiás, e sem esse controle a latitude é atribuída à variável que
+por acaso a acompanha. A regra nasceu de uma autocorreção, quando uma
+associação transversal que parecia identificar um mecanismo próprio, entre a
+idade da pastagem e a difusão do plantio direto, encolheu e deixou de ser
+sustentável assim que a latitude entrou na mesma conta
+(Seção~\ref{sec:res-perna2}).}
+
+\decisao{D15}{O fogo do ano $t$ é alinhado à conversão cuja origem é $t$, e
+tratado como contemporâneo}{Alinhá-lo de outro modo atribuiria ao fogo uma
+liderança temporal que é em parte definicional, porque a queima faz parte do
+próprio evento de conversão que se está medindo.}
+
+\decisao{D16}{Precedência entre séries integradas exige Toda-Yamamoto e
+placebos direcionais}{O teste de Granger aplicado a séries integradas fabrica
+precedência que não existe, e foi o que aconteceu na primeira versão do teste
+de deslocamento (Seção~\ref{sec:met-instrumental}).}
+
+\decisao{D19}{Todo deslocamento de centroide vem com intervalo de confiança de
+95\% por \emph{bootstrap}}{As 166 AMCs são reamostradas com reposição, e um
+vão entre duas camadas só é lido como real quando as faixas não se sobrepõem.
+É o que separa uma diferença medida de duas linhas que parecem distintas no
+gráfico.}
+
+\decisao{D20}{Quando o choque é nacional e único, o $p$ vem de permutação, e
+não do erro-padrão}{Um choque que é um número por ano para o estado inteiro dá
+cerca de quarenta observações independentes, e o erro-padrão agrupado se
+comporta como se houvesse milhares. Embaralhar o próprio choque entre os anos
+devolve o $p$ que corresponde ao desenho (Seção~\ref{sec:met-instrumental}).}
+
+\section{Quando a amostra virou censo}
+
+As quatro decisões desta seção vêm do mesmo episódio, detalhado na
+Seção~\ref{sec:met-d21}.
+
+\decisao{D21}{Toda amostra espacial declara que fração dela caiu fora do
+recorte pretendido}{A amostra original era sorteada sobre o retângulo que
+envolve Goiás, e não sobre o polígono do estado, de modo que 43,7\% dos pixels
+coletados estavam fora do território. O rótulo de cada ponto era corrigido
+depois, mas a alocação da amostra já havia ocorrido.}
+
+\decisao{D22}{O código sentinela de erro nunca compartilha valor com categoria
+real}{Uma classe ausente da tabela de tradução caía no valor de preenchimento
+e passava a contar como dado válido, sem que nada no processamento sinalizasse
+a falha. Uma falha de configuração precisa interromper a execução, e não virar
+número.}
+
+\decisao{D23}{Com censo, o $p$-valor deixa de medir evidência}{Quando o número
+de observações é a população inteira, qualquer desvio ínfimo do modelo nulo
+produz estatística arbitrariamente grande, e o que ela mede é o tamanho da
+população. A robustez passa a ser buscada na estabilidade entre recortes.}
+
+\decisao{D24}{Estatística ponderada é verificada por contrato}{Toda conta
+sobre células com peso tem de reduzir exatamente ao caso sem peso quando o
+peso é um, e isso é testado, e não presumido. O contrato vale por módulo,
+porque quem implementa a própria conta ponderada precisa da própria
+verificação.}
+
+\section{A mudança de rótulo do MapBiomas}
+
+As duas decisões desta seção vêm do mesmo episódio, detalhado na
+Seção~\ref{sec:met-d25}.
+
+\decisao{D25}{O objeto medido não é constante ao longo da série}{No trecho
+final, parte da terra que sai da pastagem passa a ser rotulada como ``Mosaico
+de Usos'' em vez de agricultura, enquanto a estatística de área plantada, que
+não passa pelo classificador, registra a lavoura crescendo no mesmo período.
+Uma transição pode desaparecer da medida sem que nada tenha mudado no campo.}
+
+\decisao{D26}{Medir em intervalo, com uma âncora vinda de fora do
+classificador}{Todo número que tenha agricultura no destino é reportado entre
+duas réguas, a classe isolada como piso e sua união com o Mosaico como teto, e
+comparado a uma fonte que não passa pelo classificador. Considera-se robusta
+apenas a conclusão que sobrevive nas duas pontas.}
+
+\section{Auditoria de figuras e de exposições}
+
+\decisao{D27}{Toda figura importada de um script é reauditada antes de
+publicar}{O rótulo de uma figura é uma afirmação e envelhece como qualquer
+outra, com o agravante de que um arquivo de imagem não é localizável por busca
+textual e não aparece na comparação entre versões. A auditoria pergunta se o
+título, os eixos, a legenda e o nome de cada série ainda dizem o que a rotina
+conclui hoje. O escopo é dado pelas vistas efetivamente publicadas, e não pelo
+inventário de arquivos gerados.}
+
+\decisao{D28}{A exposição do \emph{drive} comum é a régua do gradiente, e não
+o canal}{A aptidão edafoclimática correlaciona-se $-0{,}44$ com a latitude, e
+posta a latitude na mesma regressão ela perde a maior parte da magnitude e
+toda a significância. O achado passa a ser enunciado como gradiente
+Sul--Norte (Seção~\ref{sec:met-d28}).}
+
+\decisao{D29}{Variável fora do domínio declarado não entra padronizada}{A
+variável de esgotamento é uma fração e deveria viver entre zero e um, e no
+painel alcançava $-84{,}9$ em 14\% dos pares unidade-ano. Padronizada, passava
+a ser dominada por esses poucos valores (Seção~\ref{sec:met-d29}).}

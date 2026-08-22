@@ -8,11 +8,22 @@ material da visualização (`Visualizacao/index.html`) e de `Textos/`.
 ```
 main.tex          — preâmbulo, dados da capa, ordem dos capítulos
 pre/              — resumo, abstract e lista de abreviaturas e siglas
-cap/              — um .tex por capítulo (00 = memorial, 01–06 = texto)
+cap/              — um .tex por capítulo (00 = memorial, 01–06 = texto,
+                    07–09 = apêndices A, B e C)
 ref/referencias.bib — bibliografia (ABNT autor-data via abntex2cite [alf])
 fig/              — figuras + o gerador que as produz (ver abaixo)
 compilar.ps1      — pdflatex → bibtex → pdflatex ×2 → main.pdf
 ```
+
+**Os três apêndices não têm o mesmo regime.** O A (`cap/07_apendice.tex`) é
+**gerado** por `apendice/gerar_apendice.py` a partir dos CSVs dos pipelines, e
+corrigir nele é corrigir no gerador. O B (`cap/08_decisoes.tex`, registro das
+31 decisões) e o C (`cap/09_rotinas.tex`, as 11 rotinas citadas nominalmente)
+são **editoriais e mantidos à mão**, porque o conteúdo deles é o que se
+decidiu e por quê, e não saída de pipeline. A distinção está declarada no
+cabeçalho de cada arquivo, e a invariante 6 do `verificar.py` confere que todo
+`DNN` e todo `Pipeline #NN` citados no corpo têm entrada no apêndice
+correspondente.
 
 ## Figuras
 
@@ -162,6 +173,106 @@ capítulo só, e não como hábito. Comentar de volta antes da entrega.
 > por rota, todas aquecidas e cada uma precedida de uma alteração real de
 > conteúdo — carimbo de data não serve, porque o latexmk compara conteúdo e
 > trata `touch` como “nada mudou”.
+
+### Citação sem destino, e a §3.8 solta (21/ago/2026)
+
+Dois defeitos apontados pelo autor, ambos da mesma família (o texto aponta
+para algo que não existe no documento).
+
+**1. Decisões e rotinas citadas sem lugar onde consultá-las.** O corpo citava
+18 decisões numeradas e 11 rotinas pelo número, e o único ponteiro era uma
+frase mandando o leitor para a visualização. Um documento impresso precisa se
+bastar. Entraram o **Apêndice B** (as 31 decisões, entrada curta por decisão,
+agrupadas nos 7 temas do registro da viz) e o **Apêndice C** (as 11 rotinas
+citadas nominalmente, com a pergunta que cada uma responde e o arquivo em
+`scripts/`), mais três ponteiros: um parágrafo de convenção na abertura do
+cap. 3 (antes da primeira citação, que é a D6 na §3.1), uma frase na §3.9 e
+uma na abertura do cap. 4. Nova invariante 6 no `verificar.py`.
+
+> ⚠️ **A armadilha do apêndice B foi puxar número do registro da viz.** Três
+> números que escrevi no rascunho não existem no corpo do texto (a faixa
+> 751–1.208 Mt da D18, a razão 0,6→32,5 da D25, os pisos de Reserva Legal de
+> 20% e 35% da D9). Um apêndice que introduz número não conferível no texto
+> impresso é pior que a citação sem destino que ele veio resolver. Regra:
+> **entrada de apêndice usa número que o corpo carrega, ou descreve a
+> substância sem número.** A varredura final cruza cada algarismo dos dois
+> arquivos novos contra os caps. 1–5 e 7.
+
+**2. A §3.8 lida como gaveta.** Ela fundia dois trabalhos sem anunciar nenhum,
+regras que o cap. 4 precisa e narrativas de correção que só assentam depois do
+resultado, e cada subseção abria numa referência para a frente. Ganhou
+abertura com princípio de ordenação (as três primeiras mudam *o que se mede*,
+as quatro últimas mudam *o que se pode afirmar*) e o **Quadro 5**, que dá a
+cada correção um destino no cap. 4. A antiga §3.8.8 (lotação em cabeças por
+hectare) era órfã de fato, porque *lotação* e *Unidade Animal* não apareciam
+em nenhum outro ponto do documento: virou nota de unidade na §3.3, onde as
+grandezas derivadas já são definidas.
+
+**Três erros achados no caminho e corrigidos:** a §3.10 dizia "as **sete**
+descritas na §3.8" contra "**oito** decisões" na própria §3.8 (com a saída da
+lotação, sete ficou certo); a subseção da D28 abria em "A **quarta** frente"
+sendo a **terceira** (a referência cruzada no mesmo parágrafo aponta para
+`sec:res-perna3`, e o objetivo 4 é o teto de oferta) — resíduo da nomenclatura
+interna, em que o *shift-share* é a "Perna 4"; e um "e e" duplicado na §4.3.3.
+
+**Compilação:** 106 → 114 págs, 0 overfull, 0 referência indefinida;
+`verificar.py` em 0 erros e os 2 avisos de sigla de sempre.
+
+#### Revisão externa da própria revisão (21/ago/2026, mesmo dia)
+
+Cinco defeitos técnicos apontados, **os cinco procedentes**, e o primeiro é
+erro de diagnóstico meu.
+
+**1. O segundo marco do DiD não é a Lei Kandir.** A §3.6.1 dizia "Plano Real,
+Lei Kandir, Código Florestal e Cerrado Manifesto". O que
+[`piecewise_did.py`](../scripts/piecewise_did.py) estima é 1995 Plano Real,
+**2003 Commodity Boom**, 2012 Código Florestal e 2018 reorganização de mercado
+(Cerrado Manifesto + consolidação frigorífica), e a **tabela** da ficha do #23
+diz o mesmo. Eu havia registrado isto como "divergência da viz que pede um
+olhar" porque li a **nota em prosa** da ficha (que diz Kandir) e não a tabela
+dela nem o código. A viz estava certa.
+
+> ⚠️ **A ficha do #23 é internamente contraditória**: a tabela diz Commodity
+> Boom, a nota da linha 96 diz Lei Kandir. Foi de lá que o erro entrou no
+> texto. **Não corrigida** — a nota argumenta que "os marcos são federais", e
+> com o Commodity Boom no lugar da Kandir o argumento muda de forma, então é
+> reescrita de conteúdo e não troca de palavra.
+
+A correção do marco **revelou uma contradição no cap. 4**: a §4.1.2 dizia
+"nenhum desses marcos foi testado neste trabalho" a respeito do super-ciclo de
+commodities, que é justamente o marco de 2003 do DiD. Reescrita para dizer que
+só ele entrou em teste, na camada que a §3.6.1 rebaixa.
+
+**2. Goiás tem 22 Regiões Geográficas Imediatas, não 133.** Conferido no
+`geobr`: 22 imediatas (códigos 520001–520022) e 6 intermediárias. **133 é o
+total de Regiões Intermediárias do Brasil inteiro.** O erro estava no corpo
+(§3.1) desde antes e eu o propaguei para a D6. Corrigido nos dois, e a
+justificativa teve de mudar junto, porque com 22 unidades o argumento de que
+elas "pulverizariam o painel" não se sustenta. A D6 também passou a registrar
+a agregação em três blocos latitudinais, que ela omitia.
+
+**3. "Sete dessas decisões" era impreciso.** São sete *episódios* cobrindo dez
+números D mais um sem número. O apêndice agora distingue episódio de decisão e
+avisa que os sete episódios não são os sete **resultados superados** do
+Quadro 8, que é outra lista.
+
+**4. O comentário da invariante 6 prometia simetria que ela não tem.** O
+sentido inverso só vale para rotinas. Para decisões a assimetria é deliberada
+(dez das 31 não são citadas em passagem alguma, e num registro completo isso é
+o esperado), e agora está escrita como tal. A frase do apêndice que dizia "o
+texto as cita por esse número" também implicava as 31, e foi corrigida.
+
+**5. `periodizacao_*.py` casa quatro arquivos**, não três, porque
+`periodizacao_robustez_deriva.py` também bate no curinga. As três da
+triangulação estão nominadas.
+
+**Apresentação, três reparos:** o Quadro 5 flutuava para depois do primeiro
+parágrafo da §3.8.1, o que anula a função de mapa de leitura, e ganhou
+`\FloatBarrier` antes da subseção; as entradas do Apêndice B se partiam entre
+páginas (D17 e D26), e o `\decisao` ganhou `\filbreak`; e **"0 overfull" não
+era relatório suficiente**, porque o log registra `Float too large for page by
+21.46pt` no Quadro 2 (fontes de dados) — pré-existente, não introduzido aqui,
+mas é layout apertado e deve ser reportado junto.
 
 ## Estado (13/ago/2026)
 
@@ -1872,6 +1983,78 @@ do dado. Onde a nota passou a ser calculada (a faixa do SAR/SEM em 21/ago, a col
 agora), o defeito não pode voltar.
 
 **Estado:** 106 páginas, zero `Overfull`, zero indefinido, `verificar.py` 0/0.
+
+### A régua do B3 — quarta leitura externa (21/ago/2026)
+
+Quatro pontos, todos conferidos rodando o código e lendo os arquivos. **Os quatro procedem.**
+O parecer chamou o primeiro de bloqueador; ele não é — nenhuma afirmação do texto descansa nele.
+
+**1. O B3 publicava a régua frouxa, e dizia que era imposição do desenho.** A nota da
+Tabela~11 afirmava que "sem efeito fixo de ano, o B3 não admite o agrupamento por ano". É falso:
+absorver o ano e agrupar por ano são escolhas independentes, e a estimação com cluster duplo roda
+sem erro. O que existia era acoplamento de código — o `_painel_fe` do #39 amarrava as duas —, e ele
+caía justo onde mais custa, porque os regressores de demanda do B3 são séries nacionais, constantes
+dentro do ano, para as quais o agrupamento por unidade subestima o erro-padrão.
+
+| Regressor | p (unidade) | p (unidade+ano) |
+|---|---:|---:|
+| Estoque defasado | <0,001 | **<0,001** |
+| Δ câmbio real | 0,003 | **0,179** |
+| Δ preço da soja | <0,001 | **0,150** |
+| Δ crédito rural | 0,828 | **0,950** |
+
+O β não se move em nenhum dos quatro; muda só o erro-padrão. **A linha que sustenta afirmação —
+o estoque sobrevive ao controle por demanda — sobrevive às duas réguas**, e os três sinais de
+demanda nunca foram lidos como significância (nem no corpo, nem sob a régua de duas dimensões,
+que a §3.6 já mostra ser otimista para um choque nacional). Por isso: correção obrigatória, tese
+intacta.
+
+O argumento mais forte é interno, e o parecer não o usou. O `fronteira_fechando_39b.py` já
+enuncia a regra que o B3 violava: *"`p_entidade` fica ao lado porque é mais frouxa e porque
+mostrar as duas é o que impede a régua de ser trocada em silêncio"* — e o #38 já registrava que
+"clusterizar só por AMC subestima o erro" quando o driver é choque comum. O B3 mostrava só a
+frouxa, e a apresentava como imposição.
+
+**Feito:** `_painel_fe` desamarrou as duas escolhas e passou a devolver `p_entidade` e
+`p_entidade_ano` em toda linha; o #39 foi re-rodado; a coluna `Agrup.` da Tabela~11 deu lugar às
+duas colunas de p, no padrão que a Tabela~12 já usava; a nota perdeu a frase falsa e ganhou o
+registro datado. O gerador agora **quebra** se a régua deixar de ser uniforme (fallback por vcov
+não positiva-definida), em vez de imprimir calado. O #39B não se move: ele lê a linha B2a, que já
+era entidade+ano (p=0,0917).
+
+**2. A causa do n variar estava errada.** A nota da Tabela~10 dizia que o n varia com a cobertura
+das exposições. Não varia: dentro de cada defasagem o n é o mesmo nas sete linhas, e 6.474 − 6.308
+= 166 = exatamente uma unidade por AMC. Quem move o n é a **defasagem**. A explicação certa já
+estava redigida na nota da tabela vizinha (placebos). Corrigido no gerador.
+
+**3. 164 × 166 — procede, e a causa é declarável.** O CSV do bloco B traz `n_amc=164`, e
+6.396 = 164 × 39. As duas ausentes são as AMCs **16044 e 16196**, ambas do Sul: nenhuma registra
+formação savânica ou campo nativo em ano algum da série, e o `min_count=1` transforma isso em
+estoque convertível **ausente**, não zero. Elas caem do bloco B inteiro. Não é só reprodutibilidade
+— são unidades no extremo do gradiente de oferta, saindo caladas do teste de que o fluxo escala com
+o estoque. A direção é conservadora (estoque ≈ 0 daria fluxo ≈ 0, a favor da hipótese), e agora a
+nota da Tabela~11 declara o número e o motivo, lendo o 164 do CSV.
+
+**4. O 849 Mt sobrevivia em `Textos/`.** Saiu do PDF e da viz em 20/ago, mas três documentos
+correntes ainda o traziam, e chamavam 573/340 de "emissão" onde a D31 passou a dizer **estoque
+removido**: `ensaio_a_investigacao.md`, `indice_logico_pipelines.md` e `narrativa_pipelines.md`
+(este último não estava no parecer). Alinhados à régua: 973 Mt de estoque removido, **833 Mt** de
+emissão líquida, e o 849 — que nenhuma linha de código produz — fora.
+
+**Achado fora do parecer.** O `Textos/pipelines/39_fronteira_fechando.md` ainda publicava a leitura
+que a **D29 superou** ("hazard não cai com a depleção, sem atrito claro"), em três lugares — tabela,
+parágrafo de honestidade e resumo final. O doc do pipeline contradizia o Apêndice~A da própria
+dissertação. Corrigido nos três.
+
+**O padrão-raiz, e por que a varredura de ontem não podia achá-lo.** A varredura de 21/ago tratou
+a classe "nota de tabela que **afirma** o que o código faz" e resolveu-a fazendo a coluna `Agrup.`
+ser **calculada** a partir do CSV, para que a nota não pudesse divergir do código. Funcionou para o
+que ela procurava — e é exatamente por isso que não achou este: uma coluna calculada reporta com
+fidelidade um valor que o código escolheu errado. **Transcrição fiel não é escolha correta**, e
+varredura acha só a classe que procura. A classe nova é: *parâmetro de estimação que o código fixa
+por acoplamento e o texto descreve como imposição do desenho.*
+
+**Estado:** 105 páginas, zero `Overfull`, zero indefinido, zero erro de BibTeX, `verificar.py` 0/0.
 
 ### `verificar.py` — invariantes (17/ago/2026)
 

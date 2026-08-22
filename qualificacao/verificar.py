@@ -256,7 +256,61 @@ def inv5() -> None:
 
 
 # --------------------------------------------------------------------------
-TODAS = {1: inv1, 2: inv2, 3: inv3, 4: inv4, 5: inv5}
+# 6. Todo DNN e todo Pipeline #NN citados no corpo têm registro no apêndice
+# --------------------------------------------------------------------------
+# A classe de defeito é a citação sem destino. Antes dos apêndices B e C o
+# texto citava dezoito decisões e onze rotinas pelo número, e o leitor não
+# tinha onde descobrir o que eram. Reintroduzir uma citação nova sem a linha
+# correspondente no apêndice recria o defeito em silêncio, porque o LaTeX
+# compila igual.
+#
+# Os dois sentidos NÃO são simétricos, e a assimetria é deliberada. Nas duas
+# direções, citação sem entrada é erro. Entrada sem citação é aviso para as
+# rotinas, porque o apêndice C só lista as que o texto cita e uma sobra ali
+# significa citação removida; e não é nada para as decisões, porque o apêndice
+# B é um registro completo por construção e dez das trinta e uma valem para o
+# trabalho todo sem que passagem alguma dependa delas. Se um dia o B passar a
+# listar só as citadas, esta é a linha que muda.
+AP_DECISOES = RAIZ / "cap" / "08_decisoes.tex"
+AP_ROTINAS = RAIZ / "cap" / "09_rotinas.tex"
+
+
+def inv6() -> None:
+    corpo = [p for p in CORPO if p.name not in {"08_decisoes.tex", "09_rotinas.tex"}]
+
+    registradas = set(re.findall(r"\\decisao\{(D\d+)\}", sem_comentario(ler(AP_DECISOES))))
+    citadas: dict[str, tuple[str, int]] = {}
+    for p in corpo:
+        for n, linha in enumerate(sem_comentario(ler(p)).splitlines(), 1):
+            for d in re.findall(r"\b(D\d{1,2})\b(?!\d)", linha):
+                citadas.setdefault(d, (rel(p), n))
+    for d, (arquivo, n) in sorted(citadas.items(), key=lambda kv: int(kv[0][1:])):
+        if d not in registradas:
+            erros.append(f"[6] {arquivo}:{n} — decisão {d} citada e ausente do Apêndice B")
+
+    # Rotinas: no corpo aparecem como "Pipeline~\#32" ou "\#28C"; no apêndice,
+    # como a primeira célula da linha do quadro.
+    linhas_ap = sem_comentario(ler(AP_ROTINAS))
+    listadas = set(re.findall(r"^\\#(\d+[A-Z]?) &", linhas_ap, re.M))
+    usadas: dict[str, tuple[str, int]] = {}
+    for p in corpo:
+        for n, linha in enumerate(sem_comentario(ler(p)).splitlines(), 1):
+            for r in re.findall(r"\\#(\d+[A-Z]?)\b", linha):
+                usadas.setdefault(r, (rel(p), n))
+    for r, (arquivo, n) in sorted(usadas.items(), key=lambda kv: int(re.sub(r"\D", "", kv[0]))):
+        if r not in listadas:
+            erros.append(f"[6] {arquivo}:{n} — rotina #{r} citada e ausente do Apêndice C")
+    for r in sorted(listadas - set(usadas), key=lambda s: int(re.sub(r"\D", "", s))):
+        avisos.append(f"[6] rotina #{r} está no Apêndice C e não é citada no corpo")
+
+    print(
+        f"  6. registros ....... {len(citadas)} decisões citadas de {len(registradas)} "
+        f"registradas; {len(usadas)} rotinas citadas de {len(listadas)} listadas"
+    )
+
+
+# --------------------------------------------------------------------------
+TODAS = {1: inv1, 2: inv2, 3: inv3, 4: inv4, 5: inv5, 6: inv6}
 
 if __name__ == "__main__":
     pedidas = [int(a) for a in sys.argv[1:]] or sorted(TODAS)

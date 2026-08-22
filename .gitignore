@@ -33,3 +33,6 @@ Visualizacao/scratch/
 .vscode/
 .DS_Store
 *.swp
+
+# Scratch de auditoria (PDFs por commit, checadores de uma sessão só)
+tmp/

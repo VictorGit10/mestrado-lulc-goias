@@ -1,0 +1,106 @@
+% !TEX root = ../main.tex
+% ---------------------------------------------------------------------
+% Apêndice C — as rotinas citadas nominalmente no texto.
+%
+% MANTIDO À MÃO (ver a nota equivalente no 08_decisoes.tex). Lista apenas as
+% rotinas que o corpo cita pelo número, e não as 58 do repositório: o que este
+% apêndice resolve é o leitor que encontra "#49" na fonte de uma figura e não
+% tem como saber o que é. O índice completo, com as dependências entre
+% rotinas, vive no repositório.
+%
+% Ao acrescentar uma citação de rotina no corpo, acrescentar a linha aqui. O
+% verificar.py confere a correspondência nos dois sentidos.
+% ---------------------------------------------------------------------
+\chapter{Rotinas citadas no texto}
+\label{ap:rotinas}
+
+As fontes das figuras e algumas passagens do texto identificam a rotina que
+produziu o número pelo seu identificador numérico, na forma
+``Pipeline~\#32''. O identificador é permanente e não é reatribuído quando a
+ordem lógica do conjunto muda, pelas razões dadas na
+Seção~\ref{sec:met-repro}, o que o torna uma referência estável sem torná-la
+informativa por si. O Quadro~\ref{quadro:rotinas} diz o que cada rotina
+responde e em que arquivo ela está, e cobre as onze que o texto cita
+nominalmente, e não as 58 do conjunto, cujo índice completo, com as
+dependências, os arquivos de saída e as limitações conhecidas de cada uma,
+acompanha o repositório e a visualização interativa (\url{\urlviz}).
+
+Dois identificadores do quadro trazem sufixo de letra, e a convenção merece
+registro porque ela é consequência direta da regra de não renumerar. Quando
+uma rotina precisa ser inserida no lugar lógico de outra, seja por refazer o
+que ela fazia sobre material melhor, seja por estender o que ela deixou em
+aberto, a rotina nova recebe o número da antiga acrescido de uma letra, e é
+por isso que a matriz de transição recontada sobre o censo é o \#12B e a
+decomposição regional da idade é o \#28C. O sufixo diz que existe uma rotina
+anterior com aquele número, ainda no repositório e ainda documentada, cujo
+resultado a rotina sufixada substituiu ou completou. Apagar a anterior
+apagaria a data da correção, que é justamente o que o registro serve para
+guardar.
+
+\begin{quadro}[!ht]
+\centering
+\caption[Rotinas citadas no texto]{Rotinas citadas nominalmente no texto, com a pergunta que cada uma responde.}
+\label{quadro:rotinas}
+\footnotesize
+\begin{tabular}{p{1.3cm}p{6.1cm}p{5.8cm}}
+\toprule
+\textbf{Rotina} & \textbf{Pergunta que responde} & \textbf{Arquivo em \texttt{scripts/}} \\
+\midrule
+\#10 & Como era a cobertura do estado em cada um dos quarenta anos? Baixa o
+raster do MapBiomas e gera os mapas anuais em resolução nativa
+(Figura~\ref{fig:cobertura}) &
+\texttt{gerar\_mapas\_lulc\_gee\_40anos.py} \\
+\addlinespace
+\#12B & Para onde foi cada hectare entre 1985 e 2024? Reconta a matriz de
+transição sobre o censo local de pixels, com o Mosaico de Usos como sétimo
+grupo (Figura~\ref{fig:sankey}) &
+\texttt{transicoes\_cubo.py} \\
+\addlinespace
+\#25 & Que unidade espacial permite comparar 1985 com 2024? Constrói as 166
+AMCs de território constante e o painel que roda sobre elas &
+\texttt{construir\_amc\_goias.py} \\
+\addlinespace
+\#28C & A bimodalidade da idade da pastagem é efeito da região? Decompõe a
+distribuição por mesorregião e por AMC sobre o censo
+(Figura~\ref{fig:idade}) &
+\texttt{bimodalidade\_regional.py} \\
+\addlinespace
+\#29 & Onde caem as fronteiras entre os períodos? Triangula três métodos de
+detecção de quebra e fixa os três atos &
+\texttt{periodizacao\_multivariada.py}
+\newline \texttt{periodizacao\_stars.py}
+\newline \texttt{periodizacao\_transicoes.py} \\
+\addlinespace
+\#32 & O centro de massa de cada classe se desloca, e em que direção?
+Calcula centro médio e centro mediano ano a ano
+(Figura~\ref{fig:centromassa}) &
+\texttt{centro\_massa.py} \\
+\addlinespace
+\#38 & O choque cambial incide de forma desigual sobre unidades com exposição
+diferente? Estima o desenho de interação no painel de AMCs &
+\texttt{drive\_comum\_amc.py} \\
+\addlinespace
+\#39 & A desaceleração da conversão no Sul vem da demanda ou do esgotamento
+da oferta? Decompõe a queda e mede o estoque exposto
+(Figura~\ref{fig:fronteira}) &
+\texttt{fronteira\_fechando.py} \\
+\addlinespace
+\#49 & Os canais estimados no painel sobrevivem à dependência espacial?
+Estima as especificações com defasagem e com erro espacial
+(Figura~\ref{fig:espacial}) &
+\texttt{painel\_espacial\_dinamico.py} \\
+\addlinespace
+\#52 & A exposição do choque pode ser medida por uma característica física,
+exógena ao uso da terra? Constrói a camada de aptidão e a substitui no
+desenho do \#38 &
+\texttt{aptidao\_edafo\_exposicao.py}
+\newline \texttt{aptidao\_edafo\_drive38.py} \\
+\addlinespace
+\#56 & O gradiente estimado é da aptidão ou do eixo Sul--Norte? Põe as
+exposições rivais na mesma regressão
+(Figura~\ref{fig:horserace}) &
+\texttt{drive\_horse\_race\_latitude.py} \\
+\bottomrule
+\end{tabular}
+\fontefig{elaboração própria.}
+\end{quadro}

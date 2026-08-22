@@ -4,7 +4,7 @@
 
 O desenho da pesquisa vem declarado a seguir: área de estudo, fontes, unidades
 de análise, painel, régua temporal, instrumental de estimação e testes de
-robustez. Duas seções fogem ao roteiro habitual: a
+robustez. Duas seções fogem ao roteiro habitual, e a
 Seção~\ref{sec:met-decisoes} registra as decisões que alteraram resultados já
 obtidos, e a Seção~\ref{sec:met-ia} declara o papel da inteligência
 artificial como instrumento.
@@ -14,19 +14,25 @@ públicos. A contribuição está no cruzamento sistemático de bases já
 existentes, na construção de unidades espaciais e temporais comparáveis e na
 disciplina de teste aplicada a cada afirmação.
 
+Uma convenção de notação atravessa este capítulo e os seguintes. As escolhas
+de desenho tomadas no curso da pesquisa são numeradas de D1 a D31, e o texto
+as cita por esse número no ponto em que cada uma incide, sem repetir ali o que
+ela decidiu. O Apêndice~\ref{ap:decisoes} reúne as trinta e uma, com o que foi
+decidido em cada caso e a razão pela qual foi decidido assim, e é para onde
+convém ir quando uma citação dessas não se explicar pelo próprio contexto.
+
 \section{Área de estudo}
 \label{sec:met-area}
 
 A área de estudo é o estado de Goiás, em seus 246 municípios atuais. O estado
-está quase inteiramente inserido no bioma Cerrado: pela malha de biomas do
+está quase inteiramente inserido no bioma Cerrado, pois pela malha de biomas do
 IBGE, 98,4\% do território (335,8 de 341,3 mil km\textsuperscript{2}), com
 os 1,6\% restantes classificados como Mata Atlântica numa faixa do extremo
-sudeste. Nada neste trabalho recorta por bioma --- o recorte é o estadual ---,
+sudeste. Nada neste trabalho recorta por bioma (o recorte é o estadual),
 de modo que essa faixa não é excluída das contagens; ela fica registrada para
 que a descrição da área não afirme uma homogeneidade que a malha não tem.
 
-O recorte estadual não é apenas administrativo:
-é ele que dá acesso simultâneo à estatística socioeconômica municipal,
+E o recorte estadual não é apenas administrativo, pois é ele que dá acesso simultâneo à estatística socioeconômica municipal,
 publicada pelo IBGE e pelo Banco Central nessa malha, e à série de
 sensoriamento remoto de resolução fina.
 
@@ -63,10 +69,15 @@ Norte Goiano    & 27 & $-14{,}1^\circ$ \\
 \fontefig{elaboração própria a partir da malha de mesorregiões do IBGE (2017).}
 \end{table}
 
-A alternativa de usar as Regiões Geográficas Imediatas (133 unidades em Goiás)
-foi descartada, porque pulverizaria o painel sem ganho de leitura no eixo
-Sul--Norte. A Figura~\ref{fig:localizacao} situa o estado e a partição
-mesorregional adotada.
+A alternativa de usar as Regiões Geográficas Imediatas, que são 22 em Goiás,
+foi descartada porque não acrescentaria leitura a nenhuma das duas escalas que
+o trabalho já usa. O recorte regional serve à leitura grossa do eixo
+Sul--Norte, para a qual cinco unidades ordenadas em latitude bastam, e toda a
+análise fina roda sobre as 166 Áreas Mínimas Comparáveis descritas na
+Seção~\ref{sec:met-amc}, que são mais numerosas que as Imediatas e têm a
+vantagem de território constante ao longo da série. A
+Figura~\ref{fig:localizacao} situa o estado e a partição mesorregional
+adotada.
 
 Uma segunda partição, mais grossa, aparece em parte dos resultados. Quando o
 texto falar em \textbf{três regiões} (Sul, Centro e Norte), trata-se do
@@ -74,7 +85,7 @@ agrupamento das cinco mesorregiões em três blocos latitudinais: o Sul
 corresponde ao Sul Goiano; o Centro reúne o Centro Goiano e o Leste Goiano; e
 o Norte reúne o Norte Goiano e o Noroeste Goiano. Essa malha de três é usada
 onde o número de unidades por bloco precisa ser grande o bastante para
-sustentar comparação: a decomposição da fronteira, o desenho de \emph{drive}
+sustentar comparação, como na decomposição da fronteira, o desenho de \emph{drive}
 comum e a conta de carbono. Onde o texto disser ``mesorregião'', a malha é a
 de cinco. Como ``Sul'' nomeia a mesma coisa nas duas partições, mas ``Centro''
 e ``Norte'' não, cada resultado adiante declara a malha em que foi medido.
@@ -100,7 +111,7 @@ Goiano é o Distrito Federal, que não integra o estado.}
 \label{sec:met-fontes}
 
 Todas as fontes são públicas e foram coletadas por rotinas automatizadas, com
-cache local dos arquivos brutos: qualquer número do trabalho pode ser
+cache local dos arquivos brutos, de modo que qualquer número do trabalho pode ser
 reconstruído a partir do dado original. O Quadro~\ref{quadro:fontes} resume
 fonte, cobertura e papel na análise.
 
@@ -111,14 +122,14 @@ série de área queimada da Coleção 4 do mesmo projeto
 os registros administrativos reunidos no Sistema IBGE de Recuperação
 Automática (SIDRA) \cite{IBGE_SIDRA}, de onde saem a Produção Agrícola
 Municipal (PAM), a Pesquisa da Pecuária Municipal (PPM), as Contas Regionais
---- com o produto interno bruto (PIB) e o valor adicionado por setor --- e o
+, com o produto interno bruto (PIB) e o valor adicionado por setor, e o
 Índice Nacional de Preços ao Consumidor Amplo (IPCA), usado como deflator.
 
 O painel macroeconômico vem do Ipeadata, base de séries do Instituto de
 Pesquisa Econômica Aplicada (IPEA, \citeyear{IPEA_Ipeadata}): a taxa de câmbio
 real efetiva e os preços recebidos pelo produtor de soja e de boi. Convém
 nomear a série cambial com precisão, porque é ela que faz o papel de choque
-comum em toda a Seção~\ref{sec:res-perna3}: trata-se do índice de taxa de
+comum em toda a Seção~\ref{sec:res-perna3}; trata-se do índice de taxa de
 câmbio efetiva real, deflacionado pelo Índice Nacional de Preços ao Consumidor
 e ponderado pela pauta de exportações, em que a \emph{alta} do índice significa
 moeda \emph{depreciada}.
@@ -133,9 +144,9 @@ desmatamento por satélite (PRODES) do Instituto Nacional de Pesquisas
 Espaciais (INPE, \citeyear{INPE_PRODES}), usado como aferição externa e não como
 insumo, os dados de cadeia de comercialização da Trase \cite{Trase2026}, o
 Atlas do Desenvolvimento Humano no Brasil \cite{IPEA_IDHM}, e as malhas
-territoriais oficiais --- inclusive a de unidades de conservação, do Cadastro
+territoriais oficiais (inclusive a de unidades de conservação, do Cadastro
 Nacional de Unidades de Conservação, e a de terras indígenas, da Fundação
-Nacional dos Povos Indígenas --- obtidas pelo pacote \emph{geobr}
+Nacional dos Povos Indígenas), obtidas pelo pacote \emph{geobr}
 \cite{Pereira2019geobr}.
 
 % Este quadro é mais alto que a mancha em corpo \small: nessa medida ele
@@ -241,7 +252,7 @@ correspondentes entrem.
 \label{sec:met-amc}
 
 A malha municipal brasileira não é constante no tempo, e Goiás é um caso
-severo: o estado tinha 184 municípios com estatística municipal em 1985 e tem
+severo, pois o estado tinha 184 municípios com estatística municipal em 1985 e tem
 246 hoje. Dados de sensoriamento remoto e dados de pesquisa comportam-se de
 maneiras opostas diante de uma emancipação. O raster é recortado pelo polígono
 \emph{atual} em todos os anos, ao passo que a estatística do IBGE é tabulada
@@ -266,7 +277,7 @@ unidade de território constante ao longo de toda a janela. Aplicada a Goiás
 com a concordância de 1980--2010, janela que antecede todas as emancipações do
 período analisado, a agregação reduz os 246 municípios a \textbf{166 AMCs},
 sendo 53 grupos de pai e filhos e 113 unidades que permanecem idênticas ao
-município. A validação é direta: o total estadual é idêntico ao da malha
+município. A validação é direta, pois o total estadual é idêntico ao da malha
 municipal, e nenhuma das 166 AMCs estreia depois de 1985.
 
 A agregação obedece a uma regra que vale para qualquer variável derivada:
@@ -275,6 +286,15 @@ grandezas \emph{derivadas} (razões, densidades, lotação) são
 \emph{recalculadas} a partir das extensivas já somadas, e nunca somadas ou
 promediadas diretamente, o que produziria média de razões em lugar de razão
 de totais.
+
+A lotação da pastagem é uma dessas grandezas derivadas e merece uma nota de
+unidade, pois é reportada em cabeças por hectare e não na Unidade Animal
+usual na zootecnia. A conversão para Unidade Animal aplica um fator constante
+ao efetivo do rebanho, e por ser constante ela se cancela em qualquer análise
+de tendência ou de variação, que é onde a lotação entra neste trabalho. Por
+ser também fixa no tempo, ela produziria um nível não comparável entre 1985 e
+2024, já que o peso médio do animal mudou ao longo do período. A medida
+reportada é, portanto, a diretamente observada.
 
 Disso resulta uma estratégia de dois trilhos, e usar o trilho errado é erro
 metodológico. As AMCs (166 unidades) são a malha de toda análise longitudinal
@@ -285,7 +305,7 @@ Censo Agropecuário de 2017 e os mapas de um único ano. Desse arranjo decorre
 um preço, com a aritmética correta. Os 133 municípios reunidos nos 53 grupos
 deixam de ser analisáveis isoladamente nas séries longas, e a malha perde 80
 unidades em relação às 246. É um preço inevitável quando o dado vem de
-pesquisa. A informação histórica do município-filho não existe separada: ela
+pesquisa. A informação histórica do município-filho não existe separada, pois ela
 estava no pai.
 
 As medidas apoiam-se em duas convenções geodésicas, cada uma respondendo
@@ -323,20 +343,14 @@ modelo responde ``quando o crédito de um município subiu, o pasto dele
 recuou?''.
 
 Essa escolha foi objeto de auditoria específica. Muitas variáveis do painel
-são internamente relacionadas por construção: área plantada e produção, ou
+são internamente relacionadas por construção, já que área plantada e produção, ou
 área e valor adicionado, medem facetas do mesmo fato e apresentam correlação
 em nível da ordem de 0,9. Estimar uma sobre a outra em nível mede uma
 identidade contábil disfarçada. A primeira diferença, combinada com os efeitos
-fixos descritos adiante, desarma esse vazamento: as mesmas duplas apresentam
-correlação próxima de zero em variação \emph{within}. A auditoria de
-circularidade residual encontrou um único caso não resolvido pela
-diferenciação, a saber, o abate bovino, que na fonte é reconstruído como taxa
-aplicada ao rebanho e, portanto, é redundante com ele por definição. Essa
-variável foi descartada como evidência. Onde ela ainda aparece em resultado de
-pipeline, o coeficiente é declarado identidade contábil, e não associação
-estimada.
+fixos descritos adiante, desarma esse vazamento, e as mesmas duplas apresentam
+correlação próxima de zero em variação \emph{within}.
 
-Na montagem do painel de estimação perdem-se duas observações: a série de
+Na montagem do painel de estimação perdem-se duas observações, pois a série de
 cobertura tem 40 observações anuais (1985--2024), a primeira diferença
 consome a primeira e a defasagem de um ano consome a segunda. Daí as
 \textbf{38 diferenças anuais} que aparecem nas regressões, no cálculo de
@@ -350,7 +364,7 @@ objeto é a série descritiva; quando disser 38, é o painel estimado.
 Narrar quarenta anos exige dividi-los em períodos, e onde cai cada divisa muda
 o que a narrativa mostra. Ancorar as divisas em marcos institucionais
 escolhidos de antemão deixaria sem resposta a pergunta ``por que 2005 e não
-2006?''. A lógica adotada aqui é a inversa: as fronteiras saem dos dados, e os
+2006?''. A lógica adotada aqui é a inversa, e as fronteiras saem dos dados, e os
 marcos institucionais são classificados depois, pela força da evidência que os
 sustenta.
 
@@ -383,7 +397,7 @@ e \textbf{2020} ($F = 21{,}5$), e uma terceira, em 1991, com suporte bem mais
 fraco ($F = 10{,}3$), não adotada. Daí resultam os três atos que organizam a
 narrativa do Capítulo~\ref{cap:resultados}: 1985--2000, 2001--2019 e
 2020--2024. Dois pontos merecem registro. Primeiro, o p-valor do sup-F é
-bruto: muitos anos-candidatos são testados. A periodização passou, então, por
+bruto, pois muitos anos-candidatos são testados. A periodização passou, então, por
 uma verificação de falso positivo, aplicando o mesmo procedimento a séries de
 ruído para medir quantas quebras aparecem por acaso. Segundo, a ausência de
 quebra também é resultado. Nesse sentido, o Código Florestal de 2012 não
@@ -397,16 +411,16 @@ primeiro e o seu último ano, de modo que as duas transições de virada,
 2000--2001 e 2019--2020, não pertencem a ato nenhum. A alternativa, atribuir a
 virada a um dos lados, faria a conta do ato depender de uma escolha sem
 critério, e justamente no ponto em que o regime muda. O custo é que a soma dos
-atos fica abaixo do período inteiro: 3\% na conta de carbono da
+atos fica abaixo do período inteiro, com 3\% na conta de carbono da
 Seção~\ref{sec:res-carbono}. Como as transições omitidas são justamente as de
 virada, o efeito sobre a repartição \emph{foi medido} em vez de suposto, atribuindo
 cada virada ao ato anterior e depois ao seguinte. A parcela do Ato~I é de
 76,4\% na convenção adotada, 76,6\% se a virada vai para o ato anterior e
 74,1\% se vai para o seguinte; a do Ato~II, de 18,6\%, 18,6\% e 20,5\%. A
-repartição, portanto, \emph{move-se} --- até 2,3 pontos ---, e a afirmação que o
+repartição, portanto, \emph{move-se} (até 2,3 pontos), e a afirmação que o
 Capítulo~\ref{cap:resultados} faz sobre ela (``três quartos no Ato~I'')
-sobrevive às três convenções. É esse o alcance da declaração: a escolha não é
-inócua, mas não é ela que sustenta a leitura.
+sobrevive às três convenções. É esse o alcance da declaração, pois a escolha não é
+inofensiva, mas não é ela que sustenta a leitura.
 
 A tipologia dos marcos institucionais (A, B ou C) organiza essa assimetria:
 marcos com quebra empírica coincidente e mecanismo plausível, marcos com
@@ -418,8 +432,8 @@ detectável são tratados como categorias distintas ao longo do texto.
 
 As equações estimadas, a definição e a escala de cada variável, a estrutura de
 efeitos fixos, o agrupamento dos erros-padrão e o resultado de \emph{todas} as
-especificações rodadas --- inclusive as que o Capítulo~\ref{cap:resultados} não
-comenta --- estão no Apêndice~\ref{ap:especificacoes}. Esta seção descreve a lógica
+especificações rodadas, inclusive as que o Capítulo~\ref{cap:resultados} não
+comenta, estão no Apêndice~\ref{ap:especificacoes}. Esta seção descreve a lógica
 de cada desenho; o apêndice o torna reconstruível.
 
 Os métodos empregados organizam-se pelas quatro frentes de investigação
@@ -464,29 +478,41 @@ modo que não existe grupo não tratado \\
 \end{quadro}
 
 A terceira camada foi \emph{rebaixada} no curso da pesquisa, e isso altera o
-que se pode dizer sobre política. Os quatro marcos submetidos ao teste (Plano
-Real, Lei Kandir, Código Florestal e Cerrado Manifesto) são federais, isto é,
-valeram no mesmo dia para o estado tratado e para os controles do mesmo bioma.
-Sem grupo não tratado, nem o par que sobrevive a todos os testes de robustez
-(tendências paralelas, estudo de evento e placebo temporal) identifica efeito
+que se pode dizer sobre política. Os quatro marcos submetidos ao teste são a
+estabilização monetária do Plano Real, tomada em 1995, o \emph{boom} de
+commodities de 2003, o Código Florestal de 2012 e a reorganização de mercado
+de 2018, que reúne o Cerrado Manifesto e a consolidação frigorífica. Nenhum
+deles é goiano. Dois são federais e dois são de alcance nacional ou
+internacional, e em qualquer dos dois casos eles alcançaram no mesmo momento o
+estado tratado e os controles do mesmo bioma. Sem grupo não tratado, nem o par
+que sobrevive a todos os testes de robustez (tendências paralelas, estudo de
+evento e placebo temporal) identifica efeito
 causal. O problema está no desenho, não na estimação, e nenhum teste adicional
 o corrige; separar as hipóteses exigiria variação \emph{dentro} do estado,
 entre municípios mais e menos expostos a cada marco, que este desenho não
 possui. O que o coeficiente mede é exposição diferencial ao mesmo choque, e é
 assim que ele é reportado, como sensibilidade de co-movimento. Os marcos
-institucionais aparecem no Capítulo~\ref{cap:resultados} como contexto da
+aparecem no Capítulo~\ref{cap:resultados} como contexto da
 periodização, nunca como motor de um resultado.
 
 \subsection{Padrão espaço-temporal: centros de massa}
+\label{sec:met-centros}
 
 A descrição do deslocamento usa o \emph{centro médio} ponderado, isto é, a
-média das coordenadas de cada unidade ponderada pela área da classe ou pelo
-efetivo do rebanho, calculado ano a ano sobre os centroides das unidades
+média das coordenadas de cada unidade ponderada por uma quantidade de
+interesse, calculado ano a ano sobre os centroides das unidades
 em coordenadas projetadas (EPSG:5880), com os pesos vindos da contagem de
-pixels descrita na Seção~\ref{sec:met-area}. É
+pixels descrita na Seção~\ref{sec:met-area}. A mesma fórmula recebe dois tipos
+de peso. O peso de \emph{estoque} é a quantidade que a unidade guarda no ano
+--- a área da classe de cobertura, o efetivo do rebanho ---, e dele saem os
+centros da Tabela~\ref{tab:centros}. O peso de \emph{fluxo} é a área que,
+naquela unidade, mudou de uma classe para outra entre dois anos consecutivos,
+tomada da matriz de transição e rotulada pelo ano de origem do par; dele sai o
+centro da conversão. É
 instrumento da estatística espacial descritiva, com o alcance de filiação que
-a Seção~\ref{sec:ref-centroide} delimita: para o centro de massa aplicado a
-matrizes de transição de uso da terra não se localizou precedente.
+a Seção~\ref{sec:ref-centroide} delimita: a versão de estoque é procedimento
+clássico, e é para a versão de fluxo, aplicada a matrizes de transição de uso
+da terra, que não se localizou precedente.
 Acompanham-no o \emph{centro mediano}, obtido pelo algoritmo de
 \citeonline{Weiszfeld1937}, que minimiza a soma das distâncias e é robusto a
 um aglomerado dominante; e a elipse de desvio-padrão, que descreve dispersão e
@@ -513,7 +539,7 @@ intervalo sai estreito demais. Por isso o mesmo cálculo é refeito com
 particionado em blocos contíguos (agrupamento por $k$-médias sobre os
 centroides) e sorteiam-se os blocos inteiros, com todos os seus vizinhos
 juntos. O tamanho do bloco não é um valor a descobrir, e sim um parâmetro que
-se varre: um bloco de uma AMC reproduz o \emph{bootstrap} original, e blocos
+se varre, pois um bloco de uma AMC reproduz o \emph{bootstrap} original, e blocos
 grandes dão intervalos mais conservadores e menos precisos. Reporta-se, como
 nas demais réguas, a \emph{concordância} do veredito ao longo da grade de
 tamanhos, e não um tamanho eleito (Seção~\ref{sec:met-robustez}).
@@ -547,7 +573,7 @@ agrupados por unidade. O estimador compara cada unidade consigo mesma ao longo
 do tempo.
 
 A especificação em diferenças não é a do manual, que costuma escrever o modelo
-em níveis. Trata-se de escolha deliberada, coerente com D7: o objeto modelado
+em níveis. Trata-se de escolha deliberada, coerente com D7, segundo a qual o objeto modelado
 é a \emph{mudança} do uso da terra. Nela, $\alpha_i$ absorve a tendência
 própria de cada unidade e $\gamma_t$, o choque comum às variações daquele ano.
 
@@ -573,14 +599,14 @@ foi rodado para medir o tamanho desse resíduo. Os parâmetros de defasagem e de
 erro espacial situam-se entre $+0{,}35$ e $+0{,}56$, confirmando a
 dependência. As magnitudes, porém, quase não se movem quando ela é modelada:
 das oito estimativas espaciais, sete atenuam-se em relação aos mínimos
-quadrados --- no máximo $14{,}6\%$ --- e uma cresce $0{,}6\%$, sem que nenhuma
+quadrados (no máximo $14{,}6\%$), e uma cresce $0{,}6\%$, sem que nenhuma
 troque de sinal ou perca significância. A dependência espacial é, portanto,
 real e mensurada. O ponto se desloca, mas dentro de uma faixa que não troca
-sinal, não retira significância e não muda veredito algum: o que a modelagem
+sinal, não retira significância e não muda veredito algum, e o que a modelagem
 da dependência corrige, no que interessa à leitura, é a barra de erro.
 
 Essa mesma dependência tem uma segunda consequência, sobre a barra de erro dos
-centros de massa, e a Seção~\ref{sec:met-robustez} volta a ela: se as unidades
+centros de massa, e a Seção~\ref{sec:met-robustez} volta a ela, pois se as unidades
 vizinhas não são independentes, uma reamostragem que as trate como tal produz
 intervalo estreito demais.
 
@@ -597,7 +623,7 @@ O teste da hipótese de deslocamento intra-estadual, a lavoura do Sul
 empurrando o pasto para o Norte, começa pela correlação cruzada com defasagens
 (\emph{lead-lag}), instrumento descritivo que localiza em que encaixe temporal
 duas séries melhor se ajustam e orienta onde aplicar os testes formais. O
-teste formal de precedência é o de Granger, cujo nome deve ser lido com rigor:
+teste formal de precedência é o de Granger, cujo nome deve ser lido com rigor, pois
 ele mede \emph{precedência preditiva}, isto é, se o passado de uma série ajuda
 a prever a outra, e não causalidade.
 
@@ -611,7 +637,7 @@ concordar que é --- e é essa linha, exibida na Seção~\ref{ap:precedencia}, q
 fixa a ordem em dois em vez de a supor. A classificação, com quarenta
 observações anuais e duas quebras estimadas nessas mesmas séries, é a resposta
 do teste e não uma propriedade estabelecida do processo. Enquanto isso, a série de agricultura do Sul é I(0).
-Séries de ordens diferentes não podem ser cointegradas: não há relação de
+Séries de ordens diferentes não podem ser cointegradas, pois não há relação de
 longo prazo entre os níveis para o teste detectar, e qualquer ``precedência''
 encontrada nessa configuração é artefato.
 
@@ -638,7 +664,7 @@ desfecho da especificação confirmatória é a \textbf{variação anual do reba
 bovino}; a mesma grade foi rodada também sobre variação de área de pastagem e
 de área de agricultura, e a Seção~\ref{sec:res-perna3} reporta os três. O
 interesse recai sobre o coeficiente da interação, isto é, sobre o
-\emph{gradiente} do efeito, e não sobre seu nível: com efeito fixo de ano no
+\emph{gradiente} do efeito, e não sobre seu nível, pois com efeito fixo de ano no
 modelo, o nível do choque comum é absorvido por construção. A previsão testada
 é que a depreciação cambial faça o rebanho crescer \emph{mais onde a aptidão
 edafoclimática é baixa}, na fronteira do Norte, e menos no núcleo apto do Sul,
@@ -666,15 +692,15 @@ interação é essa média
 padronizada em escore~$z$ sobre as 166 unidades.
 
 Três propriedades da camada governam o que ela pode e o que não pode sustentar.
-A primeira é o que a torna útil: ela é construída de solo, clima e relevo, e
+A primeira é o que a torna útil, pois ela é construída de solo, clima e relevo, e
 não do uso observado, de sorte que não incorpora a variável a explicar. A
 segunda é que ela é \textbf{estática}, um valor por unidade sem variação no
 tempo; toda a identificação vem, portanto, da interação com o choque, e não de
 mudança na exposição. A terceira é uma suposição de medida que convém declarar:
 o escore $7 - \text{grupo}$ trata como \emph{cardinal}, com espaçamento igual
 entre grupos, o que na origem é uma classificação \emph{ordinal}. Uma
-construção alternativa que não faz essa suposição --- a fração da unidade em
-grupos aptos à lavoura --- é calculada da mesma camada e acompanha a média do
+construção alternativa que não faz essa suposição, a fração da unidade em
+grupos aptos à lavoura, é calculada da mesma camada e acompanha a média do
 escore na medida de qualidade do remanescente
 (Seção~\ref{sec:met-teto}). Some-se que
 1:500.000 é escala grosseira diante dos 30~m da série de cobertura: a camada
@@ -685,7 +711,7 @@ argumento anticircularidade.
 
 A inferência exigiu tratamento próprio. Para desenhos \emph{shift-share} com um único \emph{shifter}, o
 erro-padrão agrupado é otimista \cite{Adao2019, Borusyak2022}. A decisão D20
-fixa a consequência: ele foi substituído por inferência por
+fixa a consequência, e ele foi substituído por inferência por
 permutação do \emph{shifter}. A série anual do câmbio é reembaralhada entre os anos,
 mantidas fixas as \emph{shares}, a interação e o coeficiente são recomputados a cada
 replicação, e o p-valor é a fração de coeficientes nulos que igualam ou
@@ -720,7 +746,7 @@ recebe as duas inferências, a agrupada e a permutação circular, e o resultado
 está na Seção~\ref{sec:res-perna3}.
 
 O desenho tem, contudo, um teto. O \emph{shifter} é uma série nacional, com
-cerca de 38 realizações: o poder estatístico fica limitado pela dimensão
+cerca de 38 realizações, e o poder estatístico fica limitado pela dimensão
 temporal e não aumenta com o número de unidades espaciais. Nenhuma quantidade
 adicional de AMCs resolve isso; a consequência para a leitura dos resultados
 está na Seção~\ref{sec:met-limites}.
@@ -733,13 +759,13 @@ decomposição entre componentes de oferta e de demanda e pelo exame da
 distribuição da idade da pastagem no momento de sua conversão para a lavoura.
 
 A essa decomposição soma-se um teste de \emph{composição}, que responde à
-alternativa mais séria à leitura de esgotamento: e se o que restou na região
+alternativa mais séria à leitura de esgotamento, no e se o que restou na região
 que freou não for apenas menos terra, e sim terra pior? As duas leituras
 produzem a mesma série de estoque decrescente, e dizem coisas diferentes ---
 esgotamento de quantidade contra seleção de qualidade, em que a conversão
 consome primeiro o que é fácil e para ao encontrar relevo quebrado, solo raso e
 mata de galeria. Duas medidas a separam. A primeira é a aptidão média do
-estoque ainda em pé, ponderada pelo próprio estoque: se a conversão consumiu
+estoque ainda em pé, ponderada pelo próprio estoque, de modo que, se a conversão consumiu
 antes as unidades aptas, essa média cai ao longo da série. A segunda é a
 composição fitofisionômica do remanescente, isto é, a fração dele que é
 formação florestal --- em Goiás, sobretudo mata de galeria e cerradão, que
@@ -752,7 +778,7 @@ Nesse último ponto, a pergunta é se há um ou dois mecanismos operando, e ela 
 respondida por mistura de gaussianas, em que se ajustam modelos de uma e de
 duas componentes e se comparam pelo critério de informação bayesiano (BIC).
 Aqui, porém, entra uma restrição que o próprio desenho impõe (decisão D23). A
-análise roda sobre o \textbf{censo} de eventos, e não sobre uma amostra: o $n$
+análise roda sobre o \textbf{censo} de eventos, e não sobre uma amostra, pois o $n$
 é a população inteira, e qualquer afastamento ínfimo do modelo de uma
 componente produz diferença de BIC astronômica. A magnitude do $\Delta$BIC
 mede o tamanho de $n$, não a força da evidência, e por isso ela \emph{não} é
@@ -766,11 +792,11 @@ intercambiáveis, ponto a que a Seção~\ref{sec:met-decisoes} retorna.
 \subsection{Multiplicidade}
 
 Sempre que uma família de testes é executada (e algumas grades deste trabalho
-passam de uma centena), a significância bruta deixa de ser informativa: com
+passam de uma centena), a significância bruta deixa de ser informativa, pois com
 corte de 5\%, cerca de cinco em cem resultados aparecem significativos por
 acaso. Os resultados de grades exploratórias são, por isso, reportados sob
 controle da taxa de falsas descobertas \cite{BenjaminiHochberg1995}, declarando-se explicitamente
-quantos testes compõem a família. O tamanho da família altera o veredito: um
+quantos testes compõem a família. O tamanho da família altera o veredito, pois um
 resultado que sobrevive numa grade pequena pode não sobreviver quando ela é
 ampliada.
 
@@ -845,14 +871,99 @@ para esta métrica.
 \section{Decisões metodológicas críticas}
 \label{sec:met-decisoes}
 
-Esta seção registra oito decisões que alteraram resultados já obtidos. Elas
-constam aqui, e não em nota de rodapé: respondem à pergunta legítima ``por que
+As sete correções reunidas nesta seção têm em comum o fato de terem mudado um
+resultado que já estava obtido. Em cada uma delas, um defeito encontrado
+depois do cálculo derrubou uma medida ou uma leitura já escrita, e no lugar do
+resultado antigo ficaram duas coisas, o resultado novo e uma regra geral
+destinada a impedir que o mesmo defeito reapareça em outro ponto do trabalho.
+É por causa dessa regra que elas estão na metodologia, e não junto do
+resultado que cada uma corrigiu, porque o que elas fixam vale para além do
+caso em que foi descoberto.
+
+Elas constam aqui, e não em nota de rodapé, pois respondem à pergunta legítima ``por que
 seus números mudaram?'' e impedem que a escolha mais simples seja
-restabelecida por conveniência, inclusive pelo próprio autor, no futuro. O
-registro das trinta e uma está na visualização interativa indicada na
-abertura deste texto.
+restabelecida por conveniência, inclusive pelo próprio autor, no futuro.
+
+As três primeiras nascem do material de origem, isto é, do que o classificador
+de imagens entrega e da maneira como o que ele entrega muda ao longo de
+quarenta anos, e o que elas alteram é o que está sendo medido. As quatro
+últimas nascem da análise, no tratamento de uma variável antes da estimação,
+na leitura de um coeficiente já estimado e na procedência de um parâmetro
+trazido de fora, e o que elas alteram é o que se pode afirmar a partir da
+medida. O Quadro~\ref{quadro:decisoes} indica onde o efeito de cada correção
+aparece no Capítulo~\ref{cap:resultados}. As demais decisões numeradas do
+trabalho fixam convenções de medida, de recorte e de inferência, são citadas
+pelo número no ponto em que incidem e estão reunidas, junto com estas sete, no
+Apêndice~\ref{ap:decisoes}.
+
+\begin{quadro}[htb]
+\centering
+\caption[Correções que alteraram resultados já obtidos]{Correções que alteraram resultados já obtidos, e onde o efeito de cada uma aparece.}
+\label{quadro:decisoes}
+\small
+\begin{tabular}{p{2.2cm}p{7.2cm}p{3.9cm}}
+\toprule
+\textbf{Decisão} & \textbf{O que a correção atingiu} & \textbf{Onde o efeito aparece} \\
+\midrule
+\multicolumn{3}{l}{\emph{O material de origem, isto é, o que está sendo medido}} \\
+\addlinespace
+D21--D24 &
+Amostra sorteada sobre o retângulo que envolve o estado, e classe ausente do
+dicionário de grupos tratada como dado faltante &
+Idade da pastagem
+(Seção~\ref{sec:res-perna2}) \\
+\addlinespace
+D25--D26 &
+Parte da conversão de pastagem em lavoura passa a ser rotulada como ``Mosaico
+de Usos'' no trecho final da série &
+Balanço de área (Seção~\ref{sec:res-atos}) e mecanismo
+(Seção~\ref{sec:res-perna2}) \\
+\addlinespace
+Oscilação pastagem--savana &
+Fluxo reverso de pastagem para vegetação natural passível de ser lido como
+regeneração &
+Estoque exposto
+(Seção~\ref{sec:res-perna4}) \\
+\addlinespace
+\multicolumn{3}{l}{\emph{A análise, isto é, o que se pode afirmar a partir da medida}} \\
+\addlinespace
+D28 &
+Gradiente atribuído à aptidão edafoclimática, que não sobrevive ao controle
+por latitude &
+\emph{Drive} comum
+(Seção~\ref{sec:res-perna3}) \\
+\addlinespace
+D29 &
+Variável de esgotamento padronizada com 14\% dos valores fora do domínio que a
+define &
+Teto de oferta
+(Seção~\ref{sec:res-perna4}) \\
+\addlinespace
+D30 &
+Densidade de carbono vinda de faixa compilada, com dois dos quatro trabalhos
+de origem nunca lidos &
+Custo de carbono
+(Seção~\ref{sec:res-carbono}) \\
+\addlinespace
+D31 &
+Estoque removido da cobertura de origem reportado como se fosse emissão
+líquida &
+Custo de carbono
+(Seção~\ref{sec:res-carbono}) \\
+\bottomrule
+\end{tabular}
+\fontefig{elaboração própria.}
+\end{quadro}
+
+% O Quadro 5 é mapa de leitura da seção, e um mapa que aparece depois do
+% primeiro trecho mapeado não cumpre a função. Sem a barreira ele escorria
+% para o alto da página seguinte, já dentro da §3.8.1. É o mesmo recurso que
+% o gerador do apêndice emite ao fim de cada seção, aplicado aqui por uma
+% razão de leitura, e não de diagramação.
+\FloatBarrier
 
 \subsection{Censo de pixels em lugar de amostra (D21--D24)}
+\label{sec:met-d21}
 
 A idade da pastagem é medida sobre o censo completo das conversões de pastagem
 em lavoura no estado (44.639.028 eventos), e não sobre amostra. A amostragem
@@ -862,7 +973,7 @@ coletadas caíam fora do território goiano; e confundia num único código ``da
 censurado'' com ``busca no dicionário de classes falhou'', que passaram a ser
 estados distintos (decisão D22). O segundo defeito era o mais grave. A classe
 21, ``Mosaico de Usos'', estava ausente do dicionário de grupos, e uma idade
-perfeitamente conhecida era descartada como desconhecida: a taxa de censura
+perfeitamente conhecida era descartada como desconhecida, e a taxa de censura
 caiu de 74,9\% para 63,7\% quando o erro foi corrigido, e as observações
 utilizáveis passaram de 11.035 para 15.933, um aumento de 44\%. O que torna
 esse defeito sério não é a magnitude, e sim o fato de os registros
@@ -874,13 +985,14 @@ Como o censo traz contagens, todo módulo que o consome é explicitamente ciente
 de peso (contrato D24), sob pena de o gradiente estimado desaparecer sem
 aviso. A troca da amostra pelo censo tem ainda uma
 consequência inferencial que vale isolar (D23). Com $n$ igual à população, os
-testes de hipótese perdem o sentido usual: qualquer desvio ínfimo do modelo
+testes de hipótese perdem o sentido usual, pois qualquer desvio ínfimo do modelo
 nulo gera estatística arbitrariamente grande. Nos módulos que rodam sobre o
 censo, portanto, a robustez é buscada na \emph{estabilidade entre recortes}, o
 mesmo padrão reaparecendo em mesorregiões, AMCs e no pixel, e não em p-valor
 ou em diferença de critério de informação.
 
 \subsection{A mudança de rótulo do Mosaico de Usos (D25--D26)}
+\label{sec:met-d25}
 
 No trecho final da série, parte da conversão de pastagem em agricultura passa
 a ser rotulada como classe 21, ``Mosaico de Usos''. Toda medida de agricultura
@@ -888,7 +1000,7 @@ em janela que alcance 2020--2024 é, por isso, reportada como o intervalo entre
 a classe ``Agricultura'' isolada, que subconta, e sua união com o Mosaico, que
 superconta. Considera-se robusta apenas a conclusão que sobrevive nos dois
 extremos, e conclusões que dependam da convenção de classe são declaradas como
-tais (decisão D26). A união não é correção: somar as duas classes suporia que
+tais (decisão D26). A união não é correção, pois somar as duas classes suporia que
 todo o Mosaico é agricultura mal rotulada, o que é falso, pois a classe contém
 também sistemas integrados de lavoura e pecuária, mosaicos finos demais para
 separar a 30~m e mosaico antigo e estável, anterior ao fenômeno. A união
@@ -899,10 +1011,11 @@ plantada, rebanho, crédito, valor adicionado), é ela que responde, e o
 intervalo fica reservado ao que só o sensoriamento remoto mede.
 
 \subsection{Oscilação classificatória entre pastagem e savana}
+\label{sec:met-oscilacao}
 
 O fluxo reverso de pastagem para vegetação natural, volumoso nas matrizes de
 transição, é dirigido quase inteiramente à formação savânica (de 75\% a 98\%
-conforme o par de anos) e é aproximadamente simétrico ao fluxo de ida: a razão
+conforme o par de anos) e é aproximadamente simétrico ao fluxo de ida, e a razão
 entre a ida e a volta colapsa de 8,4 vezes, no primeiro par decenal, para 1,22
 vez no par anual mais recente. Regeneração real é lenta e unidirecional;
 oscilação de classificador é bidirecional e balanceada. Dessa constatação
@@ -913,27 +1026,29 @@ se cancela no líquido. Há um componente real minoritário, em formação
 florestal, que só se acumula em horizontes longos.
 
 \subsection{A exposição do \emph{drive} comum não nomeia o canal (D28)}
+\label{sec:met-d28}
 
-A quarta frente de investigação media o gradiente do choque macroeconômico por
+A terceira frente de investigação media o gradiente do choque macroeconômico por
 uma exposição de aptidão edafoclimática, escolhida por ser física e exógena ao
 uso da terra --- e essa escolha resolvia, de fato, o problema de circularidade
 que a mede pelo próprio uso que se quer explicar. Ela não resolvia o problema
-seguinte, que é o de confundimento: a aptidão correlaciona-se $-0{,}44$ com a
+seguinte, que é o de confundimento, pois a aptidão correlaciona-se $-0{,}44$ com a
 latitude, e o eixo Sul--Norte carrega, junto com solo e clima, tudo o mais que
 varia nessa direção.
 
 Posta a latitude na mesma regressão, a aptidão perde 62\% da magnitude e toda
 a significância, enquanto a latitude praticamente não se move
 (Seção~\ref{sec:res-perna3}). A decisão D28 fixa a consequência para a
-redação: o resultado da frente passa a ser enunciado como gradiente
+redação, e o resultado da frente passa a ser enunciado como gradiente
 \emph{Sul--Norte}, e a aptidão é descrita como a régua com que ele foi medido,
 não como o canal identificado. Nenhuma afirmação do texto atribui o efeito a
 solo e clima em particular.
 
 \subsection{Variável fora do domínio não entra padronizada (D29)}
+\label{sec:met-d29}
 
-A quarta frente apoiava-se num resultado nulo: a taxa de conversão não cairia
-com a depleção do estoque. O nulo era artefato. A variável de depleção é uma
+A quarta frente apoiava-se num resultado nulo, segundo o qual a taxa de conversão não cairia
+com o esgotamento do estoque. O nulo era artefato. A variável de esgotamento é uma
 fração do estoque de 1985 e deveria viver entre zero e um; no painel ela
 alcançava $-84{,}9$, em 14\% dos pares unidade-ano, vindos de unidades cujo
 estoque inicial era próximo de zero e cujo estoque \emph{cresceu} ao longo da
@@ -946,11 +1061,11 @@ entrar padronizada} --- um z-score não é robusto a nada, e um único valor
 oitenta vezes fora de escala redefine a unidade de medida de toda a coluna. A
 segunda é que, onde há tratamento possível para um valor fora do domínio, o
 resultado reportado é o que \emph{concorda entre os tratamentos}, e não o de um
-deles: a correção foi aceita porque uma grade de dezesseis combinações --- quatro
+deles: a correção foi aceita porque uma grade de dezesseis combinações (quatro
 tratamentos da variável, com e sem ponderação pelo tamanho do denominador, em
-duas amostras --- devolve o mesmo sinal nas dezesseis, e não porque a régua nova
+duas amostras) devolve o mesmo sinal nas dezesseis, e não porque a régua nova
 fosse mais conveniente que a antiga. Comparar tratamentos, porém, exige
-convertê-los à mesma unidade: o desvio-padrão da variável tratada varia
+convertê-los à mesma unidade, pois o desvio-padrão da variável tratada varia
 dezessete vezes de um tratamento a outro, de modo que os coeficientes
 padronizados \emph{não} são comparáveis entre si, e é o coeficiente em unidade
 natural que autoriza dizer que concordam. A terceira regra é que \textbf{a
@@ -981,7 +1096,7 @@ Duas consequências merecem registro, porque foi a troca que as tornou visíveis
 A primeira é que o \textbf{total praticamente não se move} --- 973 milhões de toneladas sob as
 duas réguas ---, o que é corroboração externa da magnitude por uma fonte
 independente. A segunda é que a \emph{composição} se inverte, e o motivo
-interessa mais que o resultado: a afirmação de que a formação florestal emitia
+interessa mais que o resultado, pois a afirmação de que a formação florestal emitia
 mais que a savânica, apesar de perder menos área, não depende das seis
 densidades, e sim de \emph{uma razão} entre duas delas, que precisava superar
 2,64 --- a razão entre as áreas perdidas. A régua antiga entregava 2,88, com
@@ -989,7 +1104,7 @@ nove por cento de folga, e seus três cenários de sensibilidade moviam as duas
 densidades juntas, mantendo a razão entre 2,88 e 3,00. Eles testavam o nível e
 eram, por construção, incapazes de testar a composição. Sob a régua oficial a
 razão é 1,57, e a afirmação cai. Fica no lugar dela a que a comparação por
-hectare sustenta, e que continua valendo: hectares convertidos não são
+hectare sustenta, e que continua valendo, pois hectares convertidos não são
 intercambiáveis em carbono.
 
 Daí a regra geral: \textbf{quando uma conclusão depende de uma razão entre
@@ -1012,7 +1127,7 @@ estavam inclusive escritos na rotina, e não eram aplicados.
 
 São duas grandezas diferentes, e a decisão D31 é \textbf{calcular e reportar
 as duas com nomes distintos}, em vez de escolher entre corrigir o número e
-corrigir o rótulo. O desconto não é arbitrado: a composição do destino sai do
+corrigir o rótulo. O desconto não é arbitrado, pois a composição do destino sai do
 fluxo observado de vegetação natural para uso antrópico (64,1\% pastagem,
 32,9\% Mosaico de Usos, 2,7\% agricultura, 0,3\% área urbana), e cada destino
 recebe o estoque que a mesma fonte lhe atribui --- inclusive o Mosaico, ao
@@ -1042,17 +1157,6 @@ incide sobre o saldo \emph{líquido} de estoque entre as pontas da série, não 
 cada conversão datada, de modo que a dinâmica temporal da liberação continua
 fora --- como já estava no termo ``comprometido''.
 
-\subsection{Lotação em cabeças por hectare}
-
-A medida de intensidade da pecuária deixou de ser expressa em Unidade Animal e
-passou a ser expressa em cabeças por hectare. A conversão para Unidade Animal
-aplica um fator constante ao efetivo do rebanho; sendo constante, ela cancela
-em qualquer análise de tendência ou de variação, e, sendo fixa no tempo,
-produz um nível não comparável entre 1985 e 2024: o peso médio do animal mudou
-ao longo do período. Nenhuma análise inferencial do trabalho utilizava a
-conversão (ela apenas era exibida), e a medida reportada passou a ser a
-diretamente medida.
-
 \section{Arquitetura computacional e reprodutibilidade}
 \label{sec:met-repro}
 
@@ -1069,16 +1173,19 @@ A rastreabilidade apoia-se em duas convenções. A primeira é que todo número
 exibido, seja no texto, nas figuras ou na visualização interativa, deve ser
 rastreável até um arquivo de dados que o produziu, e auditorias periódicas
 percorrem os números publicados verificando essa correspondência. A segunda é
-que o identificador numérico de cada rotina é permanente: rotinas não são
+que o identificador numérico de cada rotina é permanente, e rotinas não são
 renumeradas quando a ordem lógica muda. O número é referência cruzada em toda
-a documentação, e apagá-lo apagaria também o registro datado das correções.
+a documentação, e apagá-lo apagaria também o registro datado das correções. É
+por esse número que as fontes das figuras deste texto identificam a rotina que
+as produziu, e o Apêndice~\ref{ap:rotinas} diz o que cada uma das rotinas
+assim citadas responde e em que arquivo ela está.
 
 Dessa arquitetura derivam os produtos de uso direto do trabalho, a saber, o
 repositório de rotinas reprodutíveis sobre dados públicos e a visualização
 interativa que torna os achados navegáveis.\footnote{Disponível em
 \url{\urlviz}. Além das quatro frentes de evidência, a visualização reúne o
-registro das trinta e uma decisões metodológicas, a descrição dos métodos
-frente a frente e o glossário das métricas.}
+registro das trinta e uma decisões metodológicas em versão navegável, a
+descrição dos métodos frente a frente e o glossário das métricas.}
 
 \section{O uso de inteligência artificial como instrumento}
 \label{sec:met-ia}
@@ -1105,7 +1212,7 @@ revisão cruzada entre assistentes de fornecedores distintos, com verificação
 manual dos números pelo pesquisador; e o registro das autocorreções
 (resultados que teriam sido publicados e foram superados por um teste
 adicional permanecem documentados, e não removidos). A revisão cruzada
-mostrou-se necessária: essas revisões acertam diagnósticos estruturais e ao
+mostrou-se necessária, pois essas revisões acertam diagnósticos estruturais e ao
 mesmo tempo produzem números que parecem verificados e não são.
 
 O limite, no entanto, é claro. A verificação recai sobre o produto (código,
@@ -1115,7 +1222,7 @@ inspecionou, e a confiança se constrói pela validação das saídas contra fon
 independentes, pela reprodutibilidade e pela consistência interna, e não pela
 auditoria do instrumento. As auditorias descritas na
 Seção~\ref{sec:met-decisoes} mostram o alcance e a necessidade dessa
-disciplina: os defeitos ali registrados foram encontrados por verificação
+disciplina, e os defeitos ali registrados foram encontrados por verificação
 sistemática, e não pelo instrumento.
 
 \section{Limitações metodológicas}
@@ -1129,17 +1236,17 @@ Capítulo~\ref{cap:resultados}.
 de interação estima o gradiente do efeito, não seu nível, e a inferência
 apropriada ao caso (permutação do \emph{shifter}) não sustenta significância
 aos níveis convencionais. O resultado é corroborante e não estabelecido. O
-teto é estrutural: um choque macroeconômico nacional oferece cerca de 38
+teto é estrutural, pois um choque macroeconômico nacional oferece cerca de 38
 realizações independentes, e nenhuma quantidade adicional de unidades
 espaciais aumenta esse número.
 
 \textbf{E o gradiente estimado não é atribuível à aptidão em particular.} A
 corrida entre exposições mostrou que a latitude, posta na mesma regressão,
 absorve o coeficiente da aptidão (Seção~\ref{sec:res-perna3}). O que fica
-corroborado --- aquém do corte de significância, na régua de permutação --- é
+corroborado (aquém do corte de significância, na régua de permutação) é
 que o choque comum bate mais forte no eixo Sul--Norte; \emph{qual}
-característica desse eixo faz a diferença --- solo e clima, acesso, preço da
-terra, estrutura fundiária, idade da ocupação --- este desenho não separa,
+característica desse eixo faz a diferença (solo e clima, acesso, preço da
+terra, estrutura fundiária, idade da ocupação), este desenho não separa,
 porque todas elas variam na mesma direção e o poder disponível não distingue
 gradientes correlacionados. Onde o texto disser ``gradiente de aptidão'',
 leia-se a exposição \emph{medida} por aptidão, e não a aptidão estabelecida
@@ -1151,8 +1258,8 @@ testada não aparece nos dados examinados, com o poder disponível, e não que o
 fenômeno de deslocamento indireto de uso da terra tenha sido refutado, o que
 exigiria desenho e escala distintos. A distinção entre ``não encontrei'' e
 ``não há'' vale, em particular, quando a variável dependente é medida com
-ruído: erro de medida no desfecho atenua qualquer associação em direção a
-zero. Esta pesquisa encontrou um caso concreto disso: um resultado nulo
+ruído, pois erro de medida no desfecho atenua qualquer associação em direção a
+zero. Esta pesquisa encontrou um caso concreto disso, em que um resultado nulo
 aparentemente limpo inverteu-se ao ser recalculado nos mesmos municípios com
 desfecho medido por censo em lugar de amostra.
 
@@ -1175,7 +1282,7 @@ estatísticas calculadas sobre ele têm precisão correspondente. Onde uma
 afirmação depende exclusivamente desse período, a fragilidade é declarada.
 
 \textbf{Restrições de cobertura das fontes.} O crédito rural só existe em
-série municipal a partir de 2013: os resultados que o envolvem descrevem uma
+série municipal a partir de 2013, e os resultados que o envolvem descrevem uma
 janela de pouco mais de uma década, e não as quatro. O IDH-M não é publicado
 após 2010. O Censo Agropecuário fornece variáveis de manejo apenas para 2017,
 em corte transversal. O painel com efeitos fixos controla o que é fixo no
