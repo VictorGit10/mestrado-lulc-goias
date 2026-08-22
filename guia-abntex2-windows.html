@@ -1,0 +1,341 @@
+<title>Compilar abnTeX2 no Windows</title>
+
+<style>
+  :root{
+    --bg:#FAF8F4; --text:#1E1E22; --muted:#6B6B72; --rule:#E2DED4;
+    --accent:#8A3A2B; --code-bg:#F0EDE5; --code-text:#1E1E22;
+    --warn-bg:#F6EDE9; --warn-border:#C98A7B; --warn-text:#5C2418;
+    --ok-bg:#EDF1EC; --ok-border:#7E9A78; --ok-text:#284023;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#1A1A1E; --text:#ECE9E3; --muted:#9A968F; --rule:#34323E;
+      --accent:#C97558; --code-bg:#25242A; --code-text:#ECE9E3;
+      --warn-bg:#2A1F1C; --warn-border:#9A5A48; --warn-text:#E2A99A;
+      --ok-bg:#1E2620; --ok-border:#5E7A5A; --ok-text:#A6C2A0;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#1A1A1E; --text:#ECE9E3; --muted:#9A968F; --rule:#34323E;
+    --accent:#C97558; --code-bg:#25242A; --code-text:#ECE9E3;
+    --warn-bg:#2A1F1C; --warn-border:#9A5A48; --warn-text:#E2A99A;
+    --ok-bg:#1E2620; --ok-border:#5E7A5A; --ok-text:#A6C2A0;
+  }
+
+  html{font-size:17px}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:Georgia,'Times New Roman',serif;
+    line-height:1.6; margin:0;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:46rem; margin:0 auto; padding:3.5rem 1.5rem 6rem}
+  .muted{color:var(--muted)}
+
+  h1,h2,h3{font-family:Cambria,Georgia,serif; line-height:1.2; text-wrap:balance; font-weight:600}
+  h1{font-size:2.3rem; margin:0 0 .4rem; letter-spacing:-.01em}
+  h2{font-size:1.45rem; margin:2.8rem 0 .4rem; padding-bottom:.3rem; border-bottom:1px solid var(--rule)}
+  h3{font-size:1.1rem; margin:1.8rem 0 .3rem}
+  p{margin:.5rem 0 1.1rem}
+  ul,ol{padding-left:1.3rem; margin:.4rem 0 1.1rem}
+  li{margin:.25rem 0}
+  a{color:var(--accent)}
+  strong{font-weight:600}
+
+  .lede{font-size:1.12rem; color:var(--muted); margin:0 0 2.2rem; line-height:1.55}
+
+  .num{
+    font-family:Consolas,'Courier New',monospace; font-size:.72rem;
+    letter-spacing:.14em; color:var(--accent); text-transform:uppercase;
+    display:block; margin-bottom:.2rem;
+  }
+
+  /* sumário */
+  .toc{
+    background:var(--code-bg); border:1px solid var(--rule); border-radius:6px;
+    padding:1rem 1.3rem; margin:2rem 0 2.5rem;
+    font-family:Consolas,monospace; font-size:.85rem; line-height:1.9;
+  }
+  .toc a{color:var(--text); text-decoration:none}
+  .toc a:hover{color:var(--accent)}
+
+  /* blocos de código com etiqueta */
+  .code{
+    margin:1.1rem 0 1.4rem; border:1px solid var(--rule); border-radius:6px;
+    overflow:hidden; background:var(--code-bg);
+  }
+  .code .label{
+    font-family:Consolas,monospace; font-size:.72rem; letter-spacing:.05em;
+    color:var(--muted); padding:.4rem .9rem; border-bottom:1px solid var(--rule);
+    background:color-mix(in srgb, var(--code-bg) 85%, var(--rule));
+  }
+  pre{
+    margin:0; padding:1rem 1.1rem; overflow-x:auto;
+    font-family:Consolas,'Courier New',monospace; font-size:.84rem; line-height:1.5;
+    color:var(--code-text);
+  }
+  pre .c{color:var(--muted)} /* comentário */
+
+  .inline{
+    font-family:Consolas,monospace; font-size:.88em;
+    background:var(--code-bg); padding:.1em .35em; border-radius:3px;
+    border:1px solid var(--rule);
+  }
+
+  .callout{
+    border-left:3px solid var(--warn-border); background:var(--warn-bg);
+    padding:.85rem 1.1rem; margin:1.2rem 0; border-radius:0 4px 4px 0;
+    color:var(--text);
+  }
+  .callout .h{
+    font-family:Consolas,monospace; font-size:.72rem; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--warn-text); display:block; margin-bottom:.3rem;
+  }
+  .callout.ok{border-left-color:var(--ok-border); background:var(--ok-bg)}
+  .callout.ok .h{color:var(--ok-text)}
+  .callout p{margin:.2rem 0}
+
+  .tree{font-family:Consolas,monospace; font-size:.84rem; line-height:1.65; white-space:pre; overflow-x:auto}
+
+  hr{border:none; border-top:1px solid var(--rule); margin:3rem 0}
+
+  .signoff{margin-top:3rem; color:var(--muted); font-size:.9rem; font-style:italic}
+  kbd{
+    font-family:Consolas,monospace; font-size:.8em;
+    background:var(--code-bg); border:1px solid var(--rule); border-bottom-width:2px;
+    border-radius:3px; padding:.1em .4em;
+  }
+</style>
+
+<div class="wrap">
+
+<h1>Compilar um documento abnTeX2 no Windows</h1>
+<p class="lede">Do zero até o PDF, usando MiKTeX + abnTeX2 e um script de três passadas. É o mesmo fluxo que uso na minha qualificação — só precisa ser montado uma vez por máquina.</p>
+
+<div class="toc">
+  <strong>Sumário</strong><br>
+  1. <a href="#s1">O que você precisa</a><br>
+  2. <a href="#s2">Instalar o MiKTeX</a><br>
+  3. <a href="#s3">Instalar o abnTeX2</a><br>
+  4. <a href="#s4">Organizar a pasta</a><br>
+  5. <a href="#s5">O arquivo principal (main.tex)</a><br>
+  6. <a href="#s6">O script de compilação</a><br>
+  7. <a href="#s7">Compilar</a><br>
+  8. <a href="#s8">Problemas comuns</a><br>
+  9. <a href="#s9">Rotina de edição</a>
+</div>
+
+<h2 id="s1"><span class="num">01</span>O que você precisa</h2>
+<ul>
+  <li><strong>Windows 10/11.</strong></li>
+  <li><strong>MiKTeX</strong> — a distribuição LaTeX para Windows (gerencia o <span class="inline">pdflatex</span>, o <span class="inline">bibtex</span> e os pacotes).</li>
+  <li><strong>Um editor de texto</strong> para mexer no <span class="inline">.tex</span>. Qualquer um serve (Bloco de Notas, VS Code, TeXstudio). O script compila fora do editor.</li>
+</ul>
+<p>Não é necessário pagar nada. Tudo é gratuito.</p>
+
+<h2 id="s2"><span class="num">02</span>Instalar o MiKTeX</h2>
+<ol>
+  <li>Baixe em <a href="https://miktex.org/download">miktex.org/download</a> e instale com as opções padrão.</li>
+  <li>Após instalar, abra o <strong>MiKTeX Console</strong> (busca no menu Iniciar).</li>
+  <li>Vá em <strong>Updates → Update now</strong> para atualizar os pacotes base.</li>
+</ol>
+<div class="callout ok">
+  <span class="h">Importante — pacotes sob demanda</span>
+  <p>No MiKTeX Console, vá em <strong>Settings → General</strong> e deixe <em>“Install missing packages on-the-fly”</em> como <strong>Always</strong>. Assim, qualquer pacote que o documento peja (o abnTeX2 e suas dependências) é baixado automaticamente na primeira compilação, sem você precisar caçar nada.</p>
+</div>
+
+<h2 id="s3"><span class="num">03</span>Instalar o abnTeX2</h2>
+<p>O <strong>abnTeX2</strong> é a classe que formata o documento nas normas ABNT (NBR 14724, 6023, 10520). Ele é um pacote LaTeX normal e vive no mesmo repositório do MiKTeX.</p>
+<p>Com a opção <em>on-the-fly = Always</em> ativa (passo 2), o abnTeX2 é instalado sozinho na primeira compilação. Se preferir instalar à mão antes:</p>
+<ol>
+  <li>No MiKTeX Console, vá em <strong>Packages</strong>.</li>
+  <li>Busque por <span class="inline">abntex2</span> e clique no <strong>+</strong> para instalar.</li>
+  <li>Instale também <span class="inline">abntex2cite</span> (vem junto, mas confirme).</li>
+</ol>
+
+<h2 id="s4"><span class="num">04</span>Organizar a pasta</h2>
+<p>Crie uma pasta para o trabalho e monte esta estrutura. Os nomes dos arquivos importam porque o <span class="inline">main.tex</span> os referencia por caminho.</p>
+<div class="code">
+  <div class="label">pasta do trabalho/</div>
+<pre class="tree">meu-trabalho/
+├── main.tex              ← arquivo principal (a raiz do documento)
+├── compilar.ps1          ← o script de compilação
+├── ref/
+│   └── referencias.bib   ← bibliografia (BibTeX)
+├── cap/
+│   └── introducao.tex    ← um arquivo .tex por capítulo
+└── fig/
+    └── (figuras em .pdf ou .png)
+</pre>
+</div>
+<p>Os arquivos <span class="inline">.tex</span> dos capítulos e o <span class="inline">.bib</span> podem começar vazios — o importante é existirem, senão a compilação reclama de arquivo não encontrado.</p>
+
+<h2 id="s5"><span class="num">05</span>O arquivo principal (main.tex)</h2>
+<p>Este é um <span class="inline">main.tex</span> mínimo e funcional, no mesmo padrão da minha qualificação. Cole no arquivo e ajuste os dados (título, autor, orientador, preâmbulo).</p>
+<div class="code">
+  <div class="label">main.tex</div>
+<pre><span class="c">% Classe abnTeX2 (ABNT NBR 14724) + citações alfabéticas (autor-data)</span>
+\documentclass[
+  12pt,
+  oneside,          <span class="c">% frente única</span>
+  a4paper,
+  chapter=TITLE,
+  section=TITLE,
+  brazil
+]{abntex2}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage[alf]{abntex2cite}   <span class="c">% citações ABNT autor-data</span>
+
+\graphicspath{{fig/}}            <span class="c">% procurar figuras em fig/</span>
+
+\titulo{Título do trabalho}
+\autor{Nome do Autor}
+\local{Cidade}
+\data{2026}
+\orientador{Prof. Dr. Fulano de Tal}
+\instituicao{Universidade X\par Programa de Pós-Graduação em Y}
+\tipotrabalho{Trabalho acadêmico}
+\preambulo{Trabalho apresentado ao Programa de Pós-Graduação em Y
+  da Universidade X como requisito parcial para...}
+
+\begin{document}
+
+\frenchspacing
+
+<span class="c">% --- pré-textuais ---</span>
+\imprimircapa
+\imprimirfolhaderosto
+
+\pdfbookmark[0]{\contentsname}{toc}
+\tableofcontents*
+\cleardoublepage
+
+<span class="c">% --- textuais ---</span>
+\textual
+\include{cap/introducao}      <span class="c">% um arquivo por capítulo</span>
+
+<span class="c">% --- pós-textuais ---</span>
+\postextual
+\bibliography{ref/referencias}
+
+\end{document}
+</pre>
+</div>
+<p>E o esqueleto de um capítulo:</p>
+<div class="code">
+  <div class="label">cap/introducao.tex</div>
+<pre>\chapter{Introdução}
+
+Este é o primeiro parágrafo da introdução. O abnTeX2 cuida da
+numeração, do espaçamento 1,5 e do recuo de primeira linha.
+
+\section{Contexto}
+Texto da seção...
+
+Para citar um autor: \cite{autor2020}.
+</pre>
+</div>
+<p>E o arquivo de bibliografia, com ao menos uma entrada (senão o BibTeX dá erro de nada a processar):</p>
+<div class="code">
+  <div class="label">ref/referencias.bib</div>
+<pre>@book{autor2020,
+  author    = {Nome do Autor},
+  title     = {Título da Obra},
+  year      = {2020},
+  publisher = {Editora},
+  address   = {Cidade}
+}
+</pre>
+</div>
+<div class="callout">
+  <span class="h">Atenção — comentários dentro de entradas .bib</span>
+  <p>Não coloque comentários (<span class="inline">%</span>) <strong>dentro</strong> de uma entrada <span class="inline">@book{...}</span>. O BibTeX os lê mal e quebra a entrada inteira. Se precisar anotar algo, ponha o comentário em linha própria, fora das chaves.</p>
+</div>
+
+<h2 id="s6"><span class="num">06</span>O script de compilação</h2>
+<p>A compilação de um documento com bibliografia não é um comando só: ela precisa de <strong>três passadas do <span class="inline">pdflatex</span></strong> intercaladas com <strong>uma do <span class="inline">bibtex</span></strong>, para resolver citações, sumário e lista de figuras. Em vez de digitar isso a cada vez, use este script.</p>
+<p>Salve como <span class="inline">compilar.ps1</span> na raiz da pasta (ao lado do <span class="inline">main.tex</span>):</p>
+<div class="code">
+  <div class="label">compilar.ps1</div>
+<pre><span class="c"># Compila o documento (pdflatex -> bibtex -> pdflatex x2).</span>
+<span class="c"># Uso: .\compilar.ps1</span>
+$ErrorActionPreference = 'Stop'
+Set-Location $PSScriptRoot
+
+pdflatex -interaction=nonstopmode -halt-on-error main.tex
+if ($LASTEXITCODE -ne 0) { throw "pdflatex falhou (1a passada) - ver main.log" }
+
+bibtex main
+if (-not (Test-Path main.bbl)) { throw "bibtex nao gerou main.bbl - ver main.blg" }
+
+pdflatex -interaction=nonstopmode -halt-on-error main.tex | Out-Null
+if ($LASTEXITCODE -ne 0) { throw "pdflatex falhou (2a passada) - ver main.log" }
+
+pdflatex -interaction=nonstopmode -halt-on-error main.tex
+if ($LASTEXITCODE -ne 0) { throw "pdflatex falhou (3a passada) - ver main.log" }
+
+Write-Host "`nOK -> $PSScriptRoot\main.pdf"
+</pre>
+</div>
+<p>O <span class="inline">-halt-on-error</span> faz o processo parar no primeiro erro (em vez de seguir e gerar um PDF quebrado). O script aborta com mensagem se algo falhar — é mais fácil diagnosticar.</p>
+
+<h2 id="s7"><span class="num">07</span>Compilar</h2>
+<ol>
+  <li>Abra o <strong>PowerShell</strong> (menu Iniciar → digite “powershell”).</li>
+  <li>Vá até a pasta do trabalho:
+    <div class="code" style="margin:.4rem 0"><div class="label">powershell</div><pre>cd C:\Caminho\Para\meu-trabalho</pre></div>
+  </li>
+  <li>Rode o script:
+    <div class="code" style="margin:.4rem 0"><div class="label">powershell</div><pre>.\compilar.ps1</pre></div>
+  </li>
+</ol>
+<p>Na primeira vez, o MiKTeX baixa o abnTeX2 e as dependências — pode demorar alguns minutos e aparecerão mensagens de “installing package…”. É normal. Ao final, aparece:</p>
+<div class="code"><div class="label">saída</div><pre>OK -> C:\Caminho\Para\meu-trabalho\main.pdf</pre></div>
+<p>Abra o <span class="inline">main.pdf</span> — ele é regerado a cada compilação.</p>
+<div class="callout">
+  <span class="h">Atenção — política de execução do PowerShell</span>
+  <p>Se aparecer o erro <em>“não pode ser carregado porque a execução de scripts foi desabilitada neste sistema”</em>, rode uma vez, como Administrador:</p>
+  <div class="code" style="margin:.4rem 0"><div class="label">powershell (admin)</div><pre>Set-ExecutionPolicy -Scope CurrentUser RemoteSigned</pre></div>
+  <p>Isso permite rodar scripts locais (o seu) e só exige assinatura para scripts baixados da internet. Depois rode o <span class="inline">.\compilar.ps1</span> de novo.</p>
+</div>
+
+<h2 id="s8"><span class="num">08</span>Problemas comuns</h2>
+
+<h3>“Package X not found” / pacote não instalado</h3>
+<p>Confirme que <em>on-the-fly = Always</em> está ativo (passo 2). Se ainda assim faltar, abra o MiKTeX Console → <strong>Packages</strong>, busque o nome do pacote e instale. Rode o script de novo.</p>
+
+<h3>O script para com “pdflatex falhou (1a passada)”</h3>
+<p>Há um erro de sintaxe no <span class="inline">.tex</span>. Abra o <span class="inline">main.log</span> (na mesma pasta) e procure a primeira linha com <strong>“! ”</strong> — ela diz o erro e a linha aproximada. Corrija e recompile. Erros de LaTeX cascateiam; leia sempre o <em>primeiro</em>, não os seguintes.</p>
+
+<h3>“bibtex não gerou main.bbl”</h3>
+<p>O BibTeX não conseguiu processar as referências. Cheque o <span class="inline">main.blg</span> (o log do BibTeX). Causas típicas:</p>
+<ul>
+  <li>O <span class="inline">.bib</span> não existe ou o caminho em <span class="inline">\bibliography{ref/referencias}</span> está errado (não inclua a extensão <span class="inline">.bib</span> no comando).</li>
+  <li>Comentário <span class="inline">%</span> dentro de uma entrada <span class="inline">@book{...}</span> (ver passo 5).</li>
+  <li>Nenhuma chave <span class="inline">\cite{...}</span> no texto e <span class="inline">.bib</span> vazio — o BibTeX não tem o que processar.</li>
+</ul>
+
+<h3>Acentos aparecem trocados (Ã§, Ã£)</h3>
+<p>O arquivo <span class="inline">.tex</span> foi salvo em outra codificação. Salve como <strong>UTF-8</strong> no editor (VS Code: canto inferior direito → “UTF-8”). O <span class="inline">\usepackage[utf8]{inputenc}</span> já está no template.</p>
+
+<h3>“Overfull \hbox” / “Underfull \hbox” no log</h3>
+<p>São <strong>avisos</strong>, não erros — o PDF sai do mesmo jeito. Significam que uma linha ficou um pouco esticada/comprimida. Pode ignorar na maior parte do tempo.</p>
+
+<h3>Sobrenome composto sai errado na citação</h3>
+<p>No <span class="inline">.bib</span>, sobrenomes compostos (ex.: “Sousa Silva”) precisam de chaves duplas: <span class="inline">author = {{Sousa Silva}, João}</span>. Sem as chaves extras, o abnTeX2 pode pegar só “Silva”.</p>
+
+<h2 id="s9"><span class="num">09</span>Rotina de edição</h2>
+<p>Depois de montado, o dia a dia é curto:</p>
+<ul>
+  <li><strong>Editou só texto</strong> (capítulo, parágrafo): basta uma passada — <span class="inline">pdflatex main.tex</span> — e abrir o PDF.</li>
+  <li><strong>Mexeu na bibliografia</strong> (adicionou/.removeu entrada, trocou uma citação): rode o <span class="inline">.\compilar.ps1</span> completo, com o <span class="inline">bibtex</span> no meio.</li>
+</ul>
+<p>Na dúvida, rode o script inteiro. Ele é idempotente — rodar a mais nunca estraga nada.</p>
+
+<hr>
+<p class="signoff">Este guia descreve o fluxo que uso no meu documento de qualificação (MiKTeX + abnTeX2, Windows). Qualquer dúvida, me avise. — Victor</p>
+
+</div>
