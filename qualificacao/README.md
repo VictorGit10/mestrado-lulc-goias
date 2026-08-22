@@ -284,10 +284,9 @@ mas é layout apertado e deve ser reportado junto.
   Geoprocessamento" (o lab foi renomeado); frase final reescrita a pedido
   (brilho contido).
 - `cap/01_introducao.tex` — **Introdução** (contexto/problema, pergunta/objeto,
-  justificativa, objetivos, organização). Aguardando validação do autor:
-  (a) o parágrafo de implicação de política ("conter a lavoura conteria a
-  fronteira…"); (b) o parágrafo de produtos do mestrado profissional
-  (pipelines + visualização) — alinhar à definição formal do programa se houver.
+  justificativa, objetivos, organização). Aguardando validação do autor: o
+  parágrafo de implicação de política ("conter a lavoura conteria a
+  fronteira…").
 - `cap/02_referencial.tex` — **Referencial teórico**. **Reescrito em 15/ago/2026**
   e **revarrido em 16/ago** (ver as duas seções abaixo; a segunda varredura achou
   3 defeitos + 1 lacuna que a primeira não olhava). Estrutura atual: 2.1 estatuto +
@@ -1700,6 +1699,77 @@ autocorreção datada — e as contagens passaram a trinta decisões (D1–D30).
 
 **Estado ao fim**: `verificar.py` 0 erros / 0 avisos; `compilar.ps1` sem Overfull e sem
 referência indefinida; **85 páginas**, 8 figuras; `verificar_reforma.py` todas passaram.
+
+### Conferência do cap. 5 contra as fontes integrais (22/ago/2026)
+
+**Escopo declarado, e ele é estreito.** Foram conferidas (a) as **sete
+atribuições de conteúdo** do cap. 5, cada uma contra o texto integral em
+`ref/pdf/`, e (b) os **números do cap. 5 que vêm do cap. 4**. Não foi auditado o
+resto do documento, nem a aritmética interna do cap. 4, nem os pipelines.
+
+**Nenhum erro.** As sete conferem:
+
+| Afirmação no cap. 5 | Onde no original |
+|---|---|
+| Angelsen: 4 estágios, o 3º é estabilização e o 4º reflorestamento | *"four stages: … (3) slow-down of deforestation and forest cover stabilization, and (4) a period of reforestation"* (abstract e §3.3) |
+| Rudel: sem regeneração líquida, a transição **não** ocorreu | *"Places experience forest transitions when declines in forest cover cease **and** recoveries in forest cover begin"* — a definição exige as duas metades |
+| Arima: achou efeito, unidade municipal, ligação **distal** | *"counties located hundreds of kilometers away"*; centros a >900 km; 761 municípios; W por distância invertida sobre todos os pares |
+| Carneiro Filho: consolidado sobre pasto × MATOPIBA sobre vegetação natural | fora do MATOPIBA 80% e 89%; dentro, 68% e 62% sobre vegetação nativa (p. 5) |
+| Richards: nível causal câmbio→soja, escala nacional/continental | 80 mil km² / 31% (BR+BO+PY); 63 mil km² / 29% só no Brasil (p. 12) |
+| Martins: frente de expansão × frente pioneira | é o subtítulo do próprio artigo |
+| Cohn: disputa por terra projetada em modelo | GLOBIOM *"depicts the competition for land between the forestry, crop, and livestock sectors"*; p. 7238 para o resultado locacional |
+
+**Os números batem.** Conferidos contra o cap. 4: 65–78 km, 123–135 km,
+6,56/11,88 Mha, 60%, 44%, 0,12 × 4,11 Mha, 1,6/2,6 do carbono, "um quarto da
+área e mais de um terço do estoque", três quartos antes de 2001, 70 km do
+crédito, 150 km da armazenagem, três quintos do remanescente do Sul, o `p = 0,02`
+da décima segunda célula e os 36 recortes (12 espaciais + 24 temporais). Zero
+divergência. Compilação com 0 citação indefinida e 0 erro de BibTeX.
+
+**O `1/38` do §4.3 está certo e é prática padrão.** O `permutacao_multi` do #56
+enumera **todas** as rotações (`range(1, T)`) com o estimador `(1 + #{|β*| ≥
+|β̂|}) / T`, então a resolução do teste é 1/T. Prova interna: todos os p
+circulares do `drive_horse_race_latitude.csv` são múltiplos exatos de 1/38 —
+0,0263, 0,0526, 0,0789, 0,1316, 0,1842, 0,4737. Os β também batem ao terceiro
+decimal com o texto (S1 −0,0325; S2 +0,0512; S4 −0,0123 e +0,0458; S6 −0,0255 e
++0,0810), e o "perde 62% da magnitude" é 62,3%.
+
+**A convenção de sinal do câmbio foi verificada e não pegou.** O *shifter* é o
+`GAC12_TCERXTINPC12` do Ipeadata e o `coleta_drivers_macro.py:204` calcula
+`preco_recebido = preco_usd × cambio_real_efetivo`, o que só fecha se índice alto
+= depreciação. Bate com a previsão de interação negativa, e o cruzado confirma:
+latitude (cresce ao norte) dá β **+0,051**, aptidão (cai ao norte) dá **−0,033**
+— os dois dizem "mais ao norte".
+
+**Quatro pontos de defensabilidade, nenhum deles erro. Decisão do autor
+(22/ago/2026): não mexer no texto; documentar.** Estão escritos como perguntas de
+banca com resposta pronta em
+[`Textos/guia_de_leitura.md`](../Textos/guia_de_leitura.md), Parte 5:
+
+1. **A previsão rival do gradiente invertido não está declarada.** Terra boa
+   também é melhor para gado, o que daria interação positiva; o sinal negativo só
+   sai se a substituição dominar a produtividade, e o texto afirma a dominância
+   sem argumentá-la. O argumento existe em fonte já lida (Richards, p. 6: Brasil
+   exporta ~19% da carne e ~70% do peso da soja).
+2. **O desfecho está em nível (`d_bovinos_mcab`, milhões de cabeças).** O efeito
+   fixo de entidade absorve o nível médio da AMC, mas não a interação dela com um
+   choque que varia no tempo — a corrida do #56 põe latitude e acesso na régua e
+   **não põe tamanho do rebanho**. É o único dos quatro que tem conserto por
+   pipeline (Δlog como desfecho, ou o rebanho de 1985 como quarta exposição).
+3. **O cap. 5 perde a ressalva de Cohn** que o cap. 2 declara ("condicional a
+   políticas simuladas que não vigoraram em Goiás"). Lido sozinho, o
+   `05_discussao.tex:136` faz Cohn parecer precedente mais forte do que é.
+4. **O limite floresta × savana não é repetido onde a conclusão é tirada.** O
+   `02_referencial.tex:98–104` declara que o arcabouço foi construído sobre
+   florestas; o §5.1 conclui "o terceiro estágio e não o quarto" sem retomá-lo.
+
+**Segue pendente, do que já estava registrado:** Adão 2019 e Borusyak 2022
+recebem afirmação de conteúdo no cap. 3 sem estarem em `ref/pdf/`.
+
+**Fora do escopo, achado de passagem:** o `Textos/guia_de_leitura.md` fecha a
+Parte 5 com *"o iLUC intra-estadual foi **refutado** no canal testado"* — palavra
+que a regra do projeto proíbe (a assinatura do canal não aparece; o fenômeno não
+é refutado). O `Textos/` ainda não foi varrido por essa regra.
 
 ### Terceira leitura externa — os cinco pontos (21/ago/2026)
 

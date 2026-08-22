@@ -1228,6 +1228,91 @@ nenhum ano isolado** (jackknife estável, nem 1999/2015 carregam sozinhos). Para
 "corroborante" a "estabelecido" eu precisaria de outro dado — um choque que varie no espaço e no tempo
 (frete, ferrovia, clima) ou um IV para o câmbio —, e digo isso na dissertação em vez de superafirmar.
 
+**"O senhor prevê que o rebanho cresça MAIS onde a terra é pior. Por que essa previsão, e por que
+não a contrária?"** *(conferido em 22/ago/2026 — a previsão está correta; o que falta é o argumento
+que a sustenta)*
+A lógica é de **custo de oportunidade**, não de vocação: não é que o gado prefira terra ruim, é que
+na terra boa ele **perde a disputa**. Sob depreciação, soja e boi sobem juntos em reais; onde a
+aptidão é alta a soja é viável e arremata a terra, então o rebanho cresce menos; onde a aptidão é
+baixa a soja não disputa, e o ganho de preço do boi não é competido. Interação **negativa** — é o
+que o `03_metodologia.tex:691` registra como previsão e o que o código do #54 já traz declarado
+(`HEADLINES`, sinal esperado `"-"`), ou seja, o sinal foi previsto **antes**, não lido depois.
+**O buraco a tapar**: existe uma previsão rival igualmente plausível — terra boa também é melhor
+para *gado* (pasto mais produtivo, lotação maior), o que daria interação **positiva**. O sinal
+negativo só sai se o efeito-substituição dominar o efeito-produtividade, e o texto **afirma** essa
+dominância sem argumentá-la. O argumento existe e está numa fonte já lida: Richards (2012, p. 6)
+registra que o Brasil exporta **~19% da carne** e **~70% do peso da safra de soja**. É essa
+assimetria de exposição ao câmbio que faz a depreciação mexer muito mais no preço da soja do que no
+do boi — e é ela que sustenta a dominância do canal de substituição. Dizer isso converte uma
+asserção em dedução e, de quebra, deixa explícito que o sinal contrário era possível: sem isso a
+previsão parece desenhada depois do resultado.
+**Uma armadilha que foi verificada e não pegou**: o *shifter* é o `GAC12_TCERXTINPC12` do Ipeadata,
+e o `coleta_drivers_macro.py:204` calcula `preco_recebido = preco_usd × cambio_real_efetivo` — o que
+só faz sentido se índice **alto = depreciação**. Bate com a previsão. E o teste cruzado fecha: com
+**latitude** (que cresce ao norte) o β é **+0,051**; com **aptidão** (que cai ao norte) é
+**−0,033**. Os dois dizem "mais ao norte". Se um deles estivesse com o sinal invertido, brigariam.
+
+**"p = 0,026 com 38 anos de série. Esse número é forte?"**
+Não, e é por isso que eu mesmo digo o que ele é. A permutação circular rotaciona a série do câmbio
+sobre as suas próprias posições, então ela tem **tantas realizações quanto anos**: com T = 38, o
+p-valor sai no estimador convencional `(1 + #{|β*| ≥ |β̂|}) / T`, cuja **resolução é 1/38 = 0,026**.
+O `0,026` observado é, portanto, **o menor valor que este teste pode devolver** — significa "nenhuma
+rotação superou o coeficiente real", e não "margem folgada". A evidência interna disso é direta:
+**todos** os p circulares do `drive_horse_race_latitude.csv` são múltiplos exatos de 1/38 — 0,0263
+(1/38), 0,0526 (2/38), 0,0789 (3/38), 0,1316 (5/38), 0,1842 (7/38), 0,4737 (18/38). Não é
+coincidência, é a granularidade do teste aparecendo na tabela.
+**Isto é prática padrão, e é o lado forte do trecho.** O nome técnico é *teste de randomização
+exato* (o código enumera **todas** as rotações, `range(1, T)`), o estimador com o `+1` é a convenção
+de Phipson & Smyth / Davison & Hinkley, e declarar o **p mínimo alcançável** é o que a literatura de
+inferência por randomização manda fazer. A justificativa de *por que* essa régua é uma cadeia de
+três elos, todos já no `03_metodologia.tex:738–748`: (1) *shift-share* com um único *shifter* → SE
+clusterizado otimista (D20); (2) série serialmente correlacionada → permutação **livre** quebra a
+autocorrelação e é otimista de novo; (3) sobra a **circular**, e a resolução de 1/T é
+**consequência** dela, não escolha.
+**Um ganho de retórica que o texto deixa na mesa**: o `0,07` da faixa "0,07 a 0,13" é o `p_naive`,
+a permutação **livre** — aquela que a minha própria metodologia chama de otimista. Dizer isso torna
+a conclusão mais forte, não mais fraca: *nem sob a régua que eu mesmo considero frouxa o resultado
+cruza os 5%*.
+
+**"O seu desfecho é a variação do rebanho em milhões de cabeças. Isso não está medindo apenas onde
+o rebanho é grande?"** ⚠️ *Esta é a pergunta sem resposta pronta — o rival não foi testado.*
+`d_bovinos_mcab` é a variação **em nível**, não normalizada. AMC com rebanho grande tem variação
+absoluta grande sob qualquer choque — e o **efeito fixo de entidade absorve o nível médio da AMC,
+mas não a interação dela com um choque que varia no tempo**. Se o rebanho é maior ao norte, uma
+interação negativa com aptidão pode aparecer **por escala**, sem nenhum mecanismo de disputa por
+terra. A corrida de exposições do #56 põe **latitude** e **acesso** na régua; **não põe tamanho do
+rebanho**. É o rival mais barato que está faltando: `Δbovinos/bovinos` (ou Δlog) como desfecho, ou o
+rebanho de 1985 como quarta exposição interagida com o mesmo choque. Enquanto não for rodado, a
+resposta honesta é que a ameaça está identificada e não testada — o que não derruba o achado (já
+reportado como *corroborante, não estabelecido*, com R²*within* de 0,001 declarado), mas é um flanco
+aberto que sai da banca em quinze segundos.
+
+**"Cohn projeta uma disputa por terra sob políticas que nunca vigoraram em Goiás. Como ela é
+precedente do seu achado?"**
+Ela é precedente do **mecanismo**, não do cenário — e é assim que o cap. 2 declara: *"O resultado é
+condicional a políticas simuladas que não vigoraram em Goiás, e o que se compara é o mecanismo, e
+não o cenário"* (`02_referencial.tex:163`). O que o GLOBIOM modela é competição por terra entre os
+setores (florestal, lavoura, pecuária), e o resultado locacional específico é que o pasto
+**intensivo** tem ~2× a chance do convencional de se instalar na terra apta e barata para soja
+(Cohn et al., 2014, p. 7238). **O ponto de atenção**: o cap. 5 (`05_discussao.tex:136`) perde essa
+ressalva e diz apenas *"É o desfecho observado da disputa por terra que Cohn projetam em modelo"* —
+lido sozinho, faz Cohn parecer precedente mais forte do que é. Meia oração resolveria, se um dia se
+mexer no texto ("disputa que ali é projetada sob políticas simuladas, e aqui aparece como desfecho
+medido"). Fica registrado como decisão consciente de 22/ago/2026: **não mexer**, porque a ressalva
+está declarada no cap. 2 e os dois capítulos se referenciam mutuamente.
+
+**"A transição florestal foi formulada sobre floresta. O seu remanescente é Cerrado."**
+Sim, e o limite está declarado — no cap. 2: *"Ele foi construído sobre florestas, ao passo que o
+remanescente goiano é fisionomia de Cerrado… Se a fase tardia se comporta do mesmo modo nesse
+conjunto é questão em aberto"* (`02_referencial.tex:98–104`). A formação savânica responde por pouco
+mais da metade do remanescente e quase todo o resto é mata de galeria e cerradão — fisionomias do
+próprio bioma, não a floresta sobre a qual Rudel e Angelsen formularam. **O ponto de atenção**: o
+§5.1, que é **onde a conclusão de fato é tirada** ("exibe o terceiro estágio e não o quarto", "a
+transição florestal não ocorreu"), não repete o limite. Um avaliador vai querer lê-lo junto da
+conclusão, não trinta páginas antes. Também registrado como **não mexer** em 22/ago/2026; a resposta
+oral é esta, e a lista de leitura do §2.10 já pede a literatura de transição em **savanas** exatamente
+para fechar essa lacuna.
+
 **"O Trase mede só fluxo exportador. E a capacidade instalada (silos, frigoríficos) — não pode ela
 estar liderando a fronteira?"**
 Testei pela metade viável e o veredito reforça o resto (#53). O cadastro de armazéns da **CONAB**

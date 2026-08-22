@@ -554,10 +554,11 @@ diagnóstico espacial do próprio trabalho mostra que não são. Onde há depend
 entre vizinhas, o número efetivo de unidades independentes é menor que 166 e o
 intervalo sai estreito demais. Por isso o mesmo cálculo é refeito com
 \emph{bootstrap de blocos espaciais}: em vez de sortear AMC a AMC, o estado é
-particionado em blocos contíguos (agrupamento por $k$-médias sobre os
-centroides) e sorteiam-se os blocos inteiros, com todos os seus vizinhos
-juntos. O tamanho do bloco não é um valor a descobrir, e sim um parâmetro que
-se varre, pois um bloco de uma AMC reproduz o \emph{bootstrap} original, e blocos
+particionado em blocos espacialmente coerentes (agrupamento por $k$-médias
+sobre os centroides, que os torna compactos sem impor contiguidade) e
+sorteiam-se os blocos inteiros, com todos os seus vizinhos juntos. O tamanho
+do bloco não é um valor a descobrir, e sim um parâmetro que se varre, pois um
+bloco de uma AMC reproduz o \emph{bootstrap} original, e blocos
 grandes dão intervalos mais conservadores e menos precisos. Reporta-se, como
 nas demais réguas, a \emph{concordância} do veredito ao longo da grade de
 tamanhos, e não um tamanho eleito (Seção~\ref{sec:met-robustez}).
@@ -583,7 +584,10 @@ ferramenta de inferência do trabalho (decisão D8):
 \noindent onde $\Delta \mathrm{lulc}_{it}$ é a variação anual do uso da terra
 na unidade $i$; $\alpha_i$ é o efeito fixo de unidade, que absorve tudo o que
 não muda no tempo naquele lugar (solo, relevo, distância a mercados, tradição
-produtiva), mesmo que tais atributos não estejam observados no painel;
+produtiva), mesmo que tais atributos não estejam observados no painel, com a
+ressalva de que numa equação escrita em primeira diferença, como esta, o que
+ele absorve é a tendência própria da unidade, conforme o parágrafo seguinte
+detalha;
 $\gamma_t$ é o efeito fixo de ano, que absorve os choques comuns a todas as
 unidades (preços internacionais, câmbio, crises); $\Delta x_{it}$ é a variação
 da explicativa de interesse; e $\varepsilon_{it}$ é o erro, com erros-padrão
@@ -659,7 +663,10 @@ diferença é estacionária; só na segunda diferença os dois testes voltam a
 concordar que é --- e é essa linha, exibida na Seção~\ref{ap:precedencia}, que
 fixa a ordem em dois em vez de a supor. A classificação, com quarenta
 observações anuais e duas quebras estimadas nessas mesmas séries, é a resposta
-do teste e não uma propriedade estabelecida do processo. Enquanto isso, a série de agricultura do Sul é I(0).
+do teste e não uma propriedade estabelecida do processo. Enquanto isso, a série
+de agricultura do Sul é estacionária já em nível pelo ADF, isto é, I(0). Nas
+duas séries o veredito de ordem é o do ADF, e a mesma seção do apêndice
+registra em que linhas o KPSS diverge dele.
 Séries de ordens diferentes não podem ser cointegradas, pois não há relação de
 longo prazo entre os níveis para o teste detectar, e qualquer ``precedência''
 encontrada nessa configuração é artefato.
@@ -747,7 +754,7 @@ com placebos de desfecho (a mesma interação sobre variáveis que não deveriam
 responder, como área urbana e água), placebo temporal e \emph{jackknife} por ano.
 
 Esses placebos são todos de \emph{desfecho}: mostram que o efeito é específico
-da variável que deveria responder, e não uma deriva genérica. Eles não tocam,
+da variável que deveria responder, e não uma resposta genérica. Eles não tocam,
 porém, na ameaça própria de uma \emph{share} espacial. Exógena não é o mesmo
 que isolada. A aptidão correlaciona-se $-0{,}44$ com a latitude, e a latitude
 organiza, em Goiás, quase tudo o que varia de sul para norte: idade da
@@ -1102,11 +1109,12 @@ está na Seção~\ref{sec:res-perna4}.
 \label{sec:met-d30}
 
 A conta de carbono da Seção~\ref{sec:res-carbono} multiplica área medida por
-densidade de tabela, e são seis densidades, uma por classe de cobertura, que
-fixam a ordem de grandeza de um resultado contado em centenas de milhões de
-toneladas. Sob a decisão D18, que esta substitui, elas vinham de uma faixa
-compilada da literatura no nível 1 do IPCC, e o custo saía reportado em três
-cenários, o que reconhecia a incerteza do parâmetro sem responder pela origem dele.
+densidade de tabela, e são quatro densidades, uma por classe de vegetação
+natural, que fixam a ordem de grandeza de um resultado contado em centenas de
+milhões de toneladas. Sob a decisão D18, que esta substitui, três delas vinham
+de uma faixa compilada da literatura no nível 1 do IPCC, o campo alagado ficava
+fora da conta, e o custo saía reportado em três cenários, o que reconhecia a
+incerteza do parâmetro sem responder pela origem dele.
 
 A decisão D30 é que, \textbf{havendo inventário oficial para o parâmetro, é
 dele que o parâmetro vem}. Os estoques passaram a ser os do Quarto Inventário
@@ -1259,7 +1267,7 @@ os documentos afirmam. A formulação das perguntas de pesquisa, as decisões
 metodológicas e a interpretação dos resultados permanecem do pesquisador. Essa
 distinção não é retórica. As decisões numeradas ao longo deste capítulo, e as
 sete descritas na Seção~\ref{sec:met-decisoes}, são escolhas de desenho,
-tomadas diante de alternativas com custos diferentes, e é sobre elas que recai
+tomadas diante de alternativas com custos diferentes, e recai sobre elas
 a responsabilidade autoral.
 
 Assim, um instrumento dessa natureza cobra contrapartida de verificação, e a
@@ -1272,16 +1280,6 @@ manual dos números pelo pesquisador; e o registro das autocorreções
 adicional permanecem documentados, e não removidos). A revisão cruzada
 mostrou-se necessária, pois essas revisões acertam diagnósticos estruturais e ao
 mesmo tempo produzem números que parecem verificados e não são.
-
-O limite, no entanto, é claro. A verificação recai sobre o produto (código,
-número, figura) e não sobre o processo que o gerou. É a mesma relação que um
-pesquisador mantém com uma biblioteca estatística cujo código-fonte não
-inspecionou, e a confiança se constrói pela validação das saídas contra fontes
-independentes, pela reprodutibilidade e pela consistência interna, e não pela
-auditoria do instrumento. As auditorias descritas na
-Seção~\ref{sec:met-decisoes} mostram o alcance e a necessidade dessa
-disciplina, e os defeitos ali registrados foram encontrados por verificação
-sistemática, e não pelo instrumento.
 
 \section{Limitações metodológicas}
 \label{sec:met-limites}

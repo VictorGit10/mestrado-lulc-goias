@@ -67,6 +67,17 @@ Perda líquida de vegetação nativa 1985→2024 = **5,55 Mha**. Balanço por fo
 A savânica perde **2,6× mais área** que a floresta, mas a floresta **emite mais carbono** (499 > 458 Mt) por ser ~3× mais densa por hectare. **Manchete**: o custo de carbono da conversão **não é proporcional à área** — a mata de galeria/cerradão, que o #44 mostrou "presa" e imóvel, quando cai custa desproporcionalmente caro. Campo nativo é quase gratuito em carbono (16 Mt, 1,6% do total). Total comprometido ≈ **973 Mt CO₂e** (biomassa, central; ~25 Mt/ano médio), robusto no ordenamento em toda a faixa 751–1208.
 
 ### 2. O custo foi pago cedo e no Sul; o que resta migra ao norte
+
+> ⚠ **ESTA SUBSEÇÃO ESTÁ NA RÉGUA D18, SUPERADA.** A cronologia e a geografia sobrevivem
+> (o custo foi pago cedo e no Sul; o centróide marcha ao norte), mas os **números**
+> mudam na régua do 4º Inventário: o Ato I concentra **76%**, não 80% (722 Mt, não 774);
+> o ritmo cai **~5×**, não ~6× (48,1 → 9,7 Mt/ano; o Sul do Ato I cai de 20,5 para 18,3);
+> o centróide avança **+91 km**, não +98; e o split cumulativo por região, já quase
+> equilibrado, iguala ainda mais (Sul ~34 / Centro ~32 / Norte ~34). A régua vigente
+> está em [§ Régua nova](#régua-nova-os-estoques-do-4º-inventário-nacional-20ago2026).
+> A subseção fica registrada, e não corrigida: é o que se publicaria antes da
+> conferência de procedência que a substituiu.
+
 Ritmo de emissão (Mt CO₂e/ano) por região × ato:
 
 | ato | Sul | Centro | Norte |
