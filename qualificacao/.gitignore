@@ -20,7 +20,7 @@ main.pdf
 
 # Figuras vetoriais do documento: são fonte, não artefato. Precisam da exceção
 # porque o *.pdf do .gitignore da raiz as engoliria e o documento não
-# compilaria a partir de um clone (6 das 7 figuras são PDF).
+# compilaria a partir de um clone (7 das 8 figuras são PDF).
 !fig/*.pdf
 
 # PDFs das referências: uso pessoal de leitura/conferência. O repositório é

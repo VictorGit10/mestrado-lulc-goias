@@ -274,6 +274,46 @@ era relatório suficiente**, porque o log registra `Float too large for page by
 21.46pt` no Quadro 2 (fontes de dados) — pré-existente, não introduzido aqui,
 mas é layout apertado e deve ser reportado junto.
 
+### Colocação dos flutuantes, e a ilustração sem citação (22/ago/2026)
+
+Passe de fechamento antes da submissão. O autor aplicou três ajustes de
+colocação, e a conferência comparou o PDF com o da revisão anterior,
+recompilada lado a lado. Os três funcionaram.
+
+**1. `\FloatBarrier` antes da §3.2.** A Figura 1 caía na p. 27, uma página
+depois de a §3.2 já ter começado, e o mapa da área de estudo aparecia sob o
+título "Fontes de dados". Com a barreira a §3.2 passa a abrir na p. 27, abaixo
+da figura. **O preço está no pé da p. 26**, que fecha com cerca de 14 cm de
+folga, porque a figura é alta demais para caber no que sobra e não há mais
+texto da §3.1 para preencher. É o mesmo tipo de troca do `enlargethispage` do
+§2.10, e está comentada no ponto de uso.
+
+**2. `\FloatBarrier` antes da §4.2.** Mesmo defeito. A Figura 3, o Sankey,
+escorria para depois do título da §4.2, e o cruzamento de 1985 com 2024, que
+fecha o balanço da §4.1.4, aparecia dentro da seção da marcha ao norte.
+
+**3. A subseção 4.2.1 subiu no fonte.** O parágrafo da régua ("O tamanho exato
+desse vão depende, aliás, da régua") e a Figura 4 estavam antes do título
+`Sensibilidade da marcha à régua de medida` e caíam do lado errado dele. Movido
+o título, o parágrafo e a figura passam a viver na subseção que os nomeia. E o
+parágrafo do Sankey ganhou a citação `\ref` que lhe faltava.
+
+**Nenhum dos três custou página.** São 115 antes e 115 depois, e nenhuma outra
+figura, tabela ou quadro mudou de página.
+
+**A varredura que o passe pediu: toda ilustração é citada no texto?** A ABNT
+exige, e três não eram. O Quadro 10, o cronograma, fecha o cap. 6 sem que o
+texto o chame; as Tabelas 13 e 14, as do IFDM, têm a prosa que as descreve, mas
+sem o `\ref`. Corrigidas as três, e as duas do apêndice **no gerador**, que é
+onde se corrige o Apêndice A. O `verificar.py` não pega essa classe: a
+invariante 1 confere que todo `\ref` tem `\label`, e não o inverso.
+
+**Dois comentários que a reestruturação deixou para trás.** O preâmbulo dizia
+que o `placeins` era usado "SÓ no apêndice" quando o corpo já o usava, uma vez
+antes deste passe e três depois, e o `.gitignore` dizia "6 das 7 figuras são
+PDF" quando são 7 de 8. É a frase-resumo que não acompanha a reestruturação,
+desta vez no comentário de código.
+
 ## Estado (13/ago/2026)
 
 **Em prosa (redigidos e revisados em conversa com o autor):**

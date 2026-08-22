@@ -30,13 +30,15 @@
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{xcolor}
-\usepackage{placeins}      % \FloatBarrier. Usado SÓ no apêndice (o gerador o
-                           % emite ao fim de cada seção): lá as tabelas são
-                           % muitas e grandes, e sem barreira elas escorriam
-                           % para dentro da seção seguinte — a Tabela da A.6
-                           % saía depois de a A.7 já ter começado. Sem a opção
-                           % [section], que valeria para o documento inteiro e
-                           % mexeria na diagramação já conferida dos capítulos.
+\usepackage{placeins}      % \FloatBarrier. Nasceu para o apêndice (o gerador o
+                           % emite ao fim de cada seção), onde as tabelas são
+                           % muitas e grandes e sem barreira escorriam para
+                           % dentro da seção seguinte — a Tabela da A.6 saía
+                           % depois de a A.7 já ter começado. Hoje o corpo o usa
+                           % em três pontos, cada um comentado no lugar, sempre
+                           % onde um flutuante ultrapassava o título seguinte.
+                           % Sem a opção [section], que valeria para o documento
+                           % inteiro e mexeria na diagramação já conferida.
 \usepackage[alf]{abntex2cite}   % citações ABNT autor-data
 
 % Página de flutuante alinhada ao ALTO. Quando uma página contém só tabelas

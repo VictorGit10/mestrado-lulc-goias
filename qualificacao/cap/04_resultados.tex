@@ -238,20 +238,20 @@ pontas conta o estado inicial e o final do pixel, e não cada passagem
 intermediária.}
 \end{table}
 
-O cruzamento pixel a pixel entre 1985 e 2024 mostra de onde veio a terra que
-cada classe ganhou. Três fluxos desenham a marcha: a conversão de vegetação
-natural em pastagem, com 4,10~Mha, é o maior da série: desmatamento
-histórico para pecuária extensiva, concentrado sobretudo nos anos 1980 e
-1990; a conversão de pastagem em agricultura, com 2,72~Mha, é a maior
-transição entre classes já manejadas, e é ela que permite a expansão da
-lavoura sem desmatamento direto; e a conversão direta de vegetação natural
-em agricultura, com 1,29~Mha, menor que a rota via pasto, mas existente e
-com peso crescente no nordeste após 2010. A pastagem é, portanto, o elo
-intermediário da maior parte da entrada em agricultura: 2,72 dos 4,65~Mha
-que entram na classe, ou 58\%. Entre as duas rotas que vêm de fora do sistema
-já manejado (pasto e vegetação natural), a proporção sobe a 68\%; o
-restante da entrada vem sobretudo do próprio Mosaico de Usos (0,56~Mha), que
-por isso não pode ficar fora do denominador.
+A Figura~\ref{fig:sankey} mostra, pelo cruzamento pixel a pixel entre 1985 e
+2024, de onde veio a terra que cada classe ganhou. Três fluxos desenham a
+marcha: a conversão de vegetação natural em pastagem, com 4,10~Mha, é o maior
+da série, desmatamento histórico para pecuária extensiva, concentrado
+sobretudo nos anos 1980 e 1990; a conversão de pastagem em agricultura, com
+2,72~Mha, é a maior transição entre classes já manejadas, e é ela que permite
+a expansão da lavoura sem desmatamento direto; e a conversão direta de
+vegetação natural em agricultura, com 1,29~Mha, menor que a rota via pasto,
+mas existente e com peso crescente no nordeste após 2010. A pastagem é,
+portanto, o elo intermediário da maior parte da entrada em agricultura: 2,72
+dos 4,65~Mha que entram na classe, ou 58\%. Entre as duas rotas que vêm de
+fora do sistema já manejado (pasto e vegetação natural), a proporção sobe a
+68\%; o restante da entrada vem sobretudo do próprio Mosaico de Usos
+(0,56~Mha), que por isso não pode ficar fora do denominador.
 
 Um quarto fluxo, de 1,00~Mha de vegetação natural para Mosaico de Usos,
 foi mantido fora da conta de conversão antrópica, já que incluí-lo faria a medida
@@ -274,6 +274,11 @@ menores que a contagem de eventos anuais usada na Seção~\ref{sec:res-perna2}.
 O agrupamento em sete classes difere da Tabela~\ref{tab:balanco} em duas
 convenções, campo alagado e silvicultura, detalhadas na nota daquela tabela.}
 \end{figure}
+
+% Mesma razão da barreira da §3.2: sem ela a Figura 3 escorria para depois do
+% título da §4.2, e o cruzamento de 1985 com 2024 — que fecha o balanço —
+% aparecia dentro da seção da marcha ao norte.
+\FloatBarrier
 
 \section{O padrão: a marcha ao norte}
 \label{sec:res-perna1}
@@ -340,6 +345,8 @@ essa faixa, mas não é constante, pois estreita-se até 123~km em 2018--2019 e 
 porque ela é medida com o centroide agrícola já contaminado pela mudança de
 rótulo.
 
+\subsection{Sensibilidade da marcha à régua de medida}
+
 O tamanho exato desse vão depende, aliás, da régua. Em 2024 ele é de 135~km
 pela classe do satélite, 111~km pela régua da união e 122~km pela soja que o
 IBGE mede em campo, grande e persistente em qualquer uma das três. A
@@ -365,8 +372,6 @@ recém-convertida passa a receber o rótulo ``Mosaico de Usos'' e deixa de entra
 neste centroide (decisões D25 e D26); o achatamento visível no Ato~III é, em
 parte não medida, artefato de rótulo.}
 \end{figure}
-
-\subsection{Sensibilidade da marcha à régua de medida}
 
 O centroide da agricultura pesa cada região pela área que o satélite rotula
 como agricultura, e, a partir de 2021, parte da conversão recente passa a
