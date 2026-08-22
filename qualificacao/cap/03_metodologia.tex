@@ -121,8 +121,8 @@ série de área queimada da Coleção 4 do mesmo projeto
 (\citeyear{MapBiomas2025fogo}). Vêm depois as pesquisas e
 os registros administrativos reunidos no Sistema IBGE de Recuperação
 Automática (SIDRA) \cite{IBGE_SIDRA}, de onde saem a Produção Agrícola
-Municipal (PAM), a Pesquisa da Pecuária Municipal (PPM), as Contas Regionais
-, com o produto interno bruto (PIB) e o valor adicionado por setor, e o
+Municipal (PAM), a Pesquisa da Pecuária Municipal (PPM), as Contas Regionais,
+com o produto interno bruto (PIB) e o valor adicionado por setor, e o
 Índice Nacional de Preços ao Consumidor Amplo (IPCA), usado como deflator.
 
 O painel macroeconômico vem do Ipeadata, base de séries do Instituto de
@@ -151,14 +151,20 @@ Nacional dos Povos Indígenas), obtidas pelo pacote \emph{geobr}
 
 % Este quadro é mais alto que a mancha em corpo \small: nessa medida ele
 % estourava a margem inferior e, por ser adiado, empurrava para o fim do
-% capítulo os dois quadros seguintes (floats não se reordenam). Em
-% \footnotesize ele cabe, e o [p] autoriza a página de flutuante que um
-% quadro desta altura pede.
+% capítulo os dois quadros seguintes (floats não se reordenam). Daí o
+% \footnotesize e o [p], que autoriza a página de flutuante que um quadro
+% desta altura pede.
+% Em 22/ago/2026 o log ainda acusava "Float too large for page by 21.46pt",
+% mesmo na página de flutuante. Com quinze \addlinespace, o vão entre linhas
+% respondia sozinho por mais do que a sobra, e reduzir \defaultaddspace de
+% 0,5em para 2pt resolve sem mexer no corpo nem na largura das colunas. Se o
+% quadro ganhar linhas, reconferir o log antes de supor que ainda cabe.
 \begin{quadro}[p]
 \centering
 \caption[Fontes de dados: cobertura e papel na análise]{Fontes de dados: cobertura temporal e papel na análise.}
 \label{quadro:fontes}
 \footnotesize
+\setlength{\defaultaddspace}{2pt}
 \begin{tabular}{p{3.6cm}p{2.4cm}p{7.6cm}}
 \toprule
 \textbf{Fonte} & \textbf{Cobertura} & \textbf{Papel na análise} \\
@@ -646,7 +652,7 @@ protege contra falso positivo e esconde efeitos reais fracos.
 
 \subsection{Deslocamento: precedência temporal e transbordamento}
 
-O teste da hipótese de deslocamento intra-estadual, a lavoura do Sul
+O teste da hipótese de deslocamento intraestadual, a lavoura do Sul
 empurrando o pasto para o Norte, começa pela correlação cruzada com defasagens
 (\emph{lead-lag}), instrumento descritivo que localiza em que encaixe temporal
 duas séries melhor se ajustam e orienta onde aplicar os testes formais. O
@@ -789,12 +795,12 @@ decomposição entre componentes de oferta e de demanda e pelo exame da
 distribuição da idade da pastagem no momento de sua conversão para a lavoura.
 
 A essa decomposição soma-se um teste de \emph{composição}, que responde à
-alternativa mais séria à leitura de esgotamento, no e se o que restou na região
-que freou não for apenas menos terra, e sim terra pior? As duas leituras
-produzem a mesma série de estoque decrescente, e dizem coisas diferentes ---
-esgotamento de quantidade contra seleção de qualidade, em que a conversão
-consome primeiro o que é fácil e para ao encontrar relevo quebrado, solo raso e
-mata de galeria. Duas medidas a separam. A primeira é a aptidão média do
+alternativa mais séria à leitura de esgotamento, aquela que pergunta se o que
+restou na região que freou não é apenas menos terra, e sim terra pior. As duas
+leituras produzem a mesma série de estoque decrescente, e dizem coisas
+diferentes --- esgotamento de quantidade contra seleção de qualidade, em que a
+conversão consome primeiro o que é fácil e para ao encontrar relevo quebrado,
+solo raso e mata de galeria. Duas medidas a separam. A primeira é a aptidão média do
 estoque ainda em pé, ponderada pelo próprio estoque, de modo que, se a conversão consumiu
 antes as unidades aptas, essa média cai ao longo da série. A segunda é a
 composição fitofisionômica do remanescente, isto é, a fração dele que é
@@ -1309,7 +1315,7 @@ leia-se a exposição \emph{medida} por aptidão, e não a aptidão estabelecida
 como o canal.
 
 \textbf{Resultado nulo não é refutação.} Onde o trabalho não encontra o canal
-de deslocamento intra-estadual, a afirmação sustentável é que a assinatura
+de deslocamento intraestadual, a afirmação sustentável é que a assinatura
 testada não aparece nos dados examinados, com o poder disponível, e não que o
 fenômeno de deslocamento indireto de uso da terra tenha sido refutado, o que
 exigiria desenho e escala distintos. A distinção entre ``não encontrei'' e
