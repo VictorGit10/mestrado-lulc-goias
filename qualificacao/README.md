@@ -314,6 +314,58 @@ antes deste passe e três depois, e o `.gitignore` dizia "6 das 7 figuras são
 PDF" quando são 7 de 8. É a frase-resumo que não acompanha a reestruturação,
 desta vez no comentário de código.
 
+### Resumo e abstract conferidos contra o corpo (22/ago/2026)
+
+Conferência cláusula por cláusula do resumo contra os capítulos, e do abstract contra
+o resumo. O que já batia: 246 municípios, 166 AMCs, os três atos, as quatro frentes, o
+grau da frente 3 (`corroborante, não estabelecida`, igual ao Quadro 9, linha 3b) e o da
+frente 4, já com a eliminação, o mecanismo medido e a queda da taxa que a D29 devolveu.
+A voz de exposição também estava certa, com "terra ainda exposta à conversão" e não
+"disponível". Quatro reparos.
+
+**1. O Ato III tinha perdido a metade que o calibra.** O corpo o nomeia `conversão
+acelerada **sob rótulo ambíguo**` e abre com "este é o ato em que o satélite engana",
+porque a aceleração só aparece na régua da união e a §3.11 declara pendente quanto do
+vão é reetiquetagem. O resumo dizia liso "conversão acelerada". Era a única afirmação do
+resumo que o corpo não sustentava na forma escrita, e caía justamente onde o documento
+inteiro reporta intervalo em vez de ponto.
+
+**2. `drive` violava a convenção que o próprio texto declara.** A §2.5 reserva
+*driver* para **a força**, que é o câmbio, e chama de *drive* comum **a hipótese**. O
+resumo escrevia "resposta coordenada a um *drive* macroeconômico comum", mas responde-se
+à força. Passou a *driver*, e em itálico. Curiosidade útil: **o abstract já estava
+certo**, com "a common macroeconomic driver".
+
+**3. A frente 2 ficava só com a metade regional.** O resumo dava a divisão Sul/Norte,
+que é a abertura do §4.3 e está correta, mas omitia o achado que **sobrevive** ao
+fechamento do viés, e que é de ênfase oposta: a distância entre a forma do Sul e a do
+Norte cai de 0,22 para 0,02, e "quanto menos a região explica, mais universal se mostra
+a convivência dos dois mecanismos". Agora a coexistência vem primeiro e a dominância
+regional entra como concessão, na ordem do Quadro 9.
+
+**4. A frente 1 perdia a segunda metade da afirmação do Quadro 9**, o gradiente
+latitudinal que persiste, e chamava a medida de "centro de massa da conversão" quando a
+Tabela 3 mede o centro de massa de **cada uso da terra**.
+
+**Abstract, três palavras.** `socioeconomic drivers` virou `factors`, porque *driver* é
+causal em inglês e o título diz "fatores"; `pasture as inheritance` virou `as legacy`,
+porque *inheritance* é herança de espólio e aqui é condição herdada; e `as a region is
+depleted` virou `the region`, porque o PT fala do Sul e o artigo indefinido
+generalizava. Também saíram os decalques `a mesh of 166` (para `a set of`) e
+`two simultaneous logics`. `qualifying text` foi **mantido** de propósito: espelha o
+`\tipotrabalho` da folha de rosto, e trocá-lo por *report* nomearia outro gênero.
+
+**A varredura que isso pediu: estrangeirismo em redondo.** Cinco no corpo, onde o texto
+os italiciza em outro lugar, um deles dentro do mesmo período (`03:525` italicizava
+*boom* e deixava "commodities" reto) e um dentro do mesmo título (`\subsection{Drive
+comum: desenho \emph{shift-share}...}`, enquanto os outros quatro títulos com "drive"
+italicizam). Ficam de fora, por não serem defeito: `hazard` nas duas linhas da tabela do
+apêndice, que é nome de modelo e o texto nunca italiciza, e `driver`/`within` no
+abstract, que são palavras inglesas em texto inglês.
+
+Resumo com 280 palavras e abstract com 279, dentro dos 150--500 da NBR 6028, um parágrafo
+cada, sem travessão e com dois-pontos só nos dois lugares estruturais.
+
 ## Estado (13/ago/2026)
 
 **Em prosa (redigidos e revisados em conversa com o autor):**
