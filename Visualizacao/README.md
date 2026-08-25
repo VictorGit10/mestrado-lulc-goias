@@ -1,8 +1,16 @@
-# Visualizacao — Linha do tempo LULC Goias 1985-2024
+# Visualizacao — A Marcha ao Norte (Goias, 1985-2024)
 
 Companion digital interativo da dissertacao (CIAMB-UFG). Scrollytelling em
-HTML/CSS/JS puro mostrando a relacao entre uso e cobertura da terra em Goias
-e marcos institucionais (Plano Real, Lei Kandir, Plano Safra, Codigo Florestal).
+HTML/CSS/JS puro sobre a dinamica de uso e cobertura da terra em Goias e sua
+relacao com fatores socioeconomicos.
+
+> **Estrutura atual (desde 2/ago/2026): quatro pernas de evidencia, pagina
+> unica, sem abas.** A re-arquitetura proposta em `docs/PROPOSTA_REFORMULACAO.md`
+> **foi executada**: `index.html` e a peca em quatro pernas, alinhada a
+> `Textos/indice_logico_pipelines.md`; a versao anterior, por abas e
+> atos/movimentos, ficou congelada em `index-original.html` e nao recebe mais
+> correcao. O texto de qualificacao (`qualificacao/`) e a fonte canonica dos
+> numeros: quando as duas divergirem, quem se ajusta e esta pagina.
 
 ## Documentacao
 
@@ -17,10 +25,14 @@ e marcos institucionais (Plano Real, Lei Kandir, Plano Safra, Codigo Florestal).
 Visualizacao/
 ├── index.html                  # pagina unica
 ├── assets/
-│   ├── css/styles.css
-│   ├── js/                     # 12 modulos + vendor
+│   ├── css/                    # reforma.css (peca atual) + styles.css (legado)
+│   ├── js/                     # 19 modulos + vendor
 │   │   ├── vendor/             # scrollama, d3.v7, d3-sankey
-│   │   ├── router.js           # hash routing entre as abas
+│   │   ├── rail.js             # trilho lateral de navegacao (peca atual)
+│   │   ├── reforma-hero.js     # abertura
+│   │   ├── reserva-perna2.js   # mapa + histograma da Perna 2
+│   │   ├── pipeline-modal.js   # ficha de pipeline em modal
+│   │   ├── router.js           # hash routing (legado: index-original.html)
 │   │   ├── timeline.js         # scrollytelling dos atos
 │   │   ├── marcha.js           # scrollytelling do Movimento III
 │   │   ├── marcha-mapa.js      # mapa animado do centro de massa
@@ -101,33 +113,39 @@ Para parar o servidor: `Ctrl+C` no terminal (ou fechar a janela).
 
 ## Status
 
-Comecou como MVP de 5 dias (escopo deliberadamente reduzido) e cresceu para o
-companion completo descrito acima. Proposta de re-arquitetura em **4 pernas de
-evidencia** (alinhada a `Textos/indice_logico_pipelines.md`) esta em
-`docs/PROPOSTA_REFORMULACAO.md` — **redigida, nao executada**: o site ainda
-apresenta a estrutura por atos/movimentos. Pendencias tecnicas em
-`docs/IMPLEMENTACAO.md`.
+Comecou como MVP de 5 dias (escopo deliberadamente reduzido), cresceu para um
+companion por atos/movimentos e, em 2/ago/2026, foi **re-arquitetada em quatro
+pernas de evidencia** — a proposta de `docs/PROPOSTA_REFORMULACAO.md`, executada.
+Pendencias tecnicas em `docs/IMPLEMENTACAO.md`.
 
-## Abas (jun/2026, revisado jul/2026)
+## Estrutura da peca (desde ago/2026)
 
-A pagina tem **duas abas** (hash routing em `router.js`):
+Pagina unica, sem abas, com **trilho lateral** de navegacao (`rail.js`):
 
-- **Narrativa** — scrollytelling dos 3 atos (40 mapas) + "Depois dos mapas",
-  o argumento em 3 movimentos (saldo/fluxos → processos no agregado → marcha
-  ao norte) ate a tese. Cada secao abre com a *pergunta* e fecha com a
-  *resposta em uma frase* (`.bloco-pergunta` / `.bloco-resposta`); jargao tem
-  tooltip (`.termo`). O **Movimento III e um segundo scrollytelling**
-  (`marcha.js` + `.marcha-scrolly`): painel de figura fixo a esquerda troca a
-  figura-chave (#32→#33→#42→#37→#39) conforme o leitor avanca pelos passos
-  7–11; em telas <1020px degrada para fluxo normal com figuras inline
-  (`.figura-chave`). A secao 12 expoe a **autocorrecao** do metodo (#40, #41,
-  #28C) em cards visiveis. Depois dos mapas, a regua superior vira uma
-  **navegacao de blocos** (`secoes.js` + `#rail-secoes`). Rolagens
-  programaticas respeitam `prefers-reduced-motion`.
-- **Metodos** — a oficina: periodizacao dos atos, metricas do tempo, tres
-  camadas de evidencia, vitrine do painel, **decisoes D1-D26** (agrupadas por
-  tema), limitacoes e glossario. Ancoras: `#metodos/<id>` (ex.:
-  `#metodos/metodo-evidencia`); de volta, `#narrativa/<id>`.
+- **Parte 1 — o que aconteceu**: os 3 atos no territorio (40 mapas), o saldo
+  por classe e os fluxos (Sankey).
+- **Parte 2 — as quatro pernas**: o padrao existe (centro de massa e as cinco
+  verificacoes); o mecanismo (duas logicas da pastagem, com mapa e histograma
+  interativos em `reserva-perna2.js`); o teste do deslocamento causal, que nao
+  se confirma, e o drive comum; e o teto de oferta.
+- **Parte 3 — o veredito** e o que o trabalho **nao** afirma.
+- **Parte 4 — a oficina**: periodizacao, reguas de robustez, vitrine do painel,
+  as **31 decisoes (D1–D31)** em cards colapsados, limites e glossario. As
+  fichas de pipeline abrem em modal (`pipeline-modal.js`).
+- **Para alem da tese**: as leituras que o dado sustenta fora do argumento
+  central.
+
+`verificar_reforma.py` (Playwright) confere as invariantes: contagem de cards de
+decisao e de autocorrecoes, 166 AMCs no mapa, ancoras sem duplicata nem link
+quebrado, ausencia das frases banidas, console limpo e comportamento no celular.
+Rodar com o site servido em `127.0.0.1:8765`.
+
+### Legado — `index-original.html`
+
+A versao por **abas** (Narrativa / Metodos, hash routing em `router.js`), com o
+argumento em 3 movimentos e as decisoes D1–D26, fica arquivada e **nao recebe
+mais correcao**. Os numeros dela sao os de jul/2026; para qualquer conferencia,
+usar `index.html` e o texto de qualificacao.
 
 ## Estrutura narrativa: 3 atos no territorio
 
@@ -140,7 +158,19 @@ A peca conta 1985-2024 em **3 atos** com protagonistas no territorio. Os
 | II. Expansao e intensificacao | 2001-2019 | Soja + commodity boom |
 | III. Conversao acelerada (mascarada) | 2020-2024 | Aceleracao que a medida crua esconde (#28D) |
 
-### Marcos politicos (pinos da regua, validar com orientador)
+> O texto de qualificacao intitula o terceiro ato "conversao acelerada **sob
+> rotulo ambiguo**", formulacao mais contida que o "(mascarada)" do nome curto
+> de `config_periodos.py`: o que parou foi a **classe**, e quanto do vao entre
+> as duas reguas e reetiquetagem e quanto e uso misto de fato fica declarado
+> como pendente. O nome curto permanece porque e a chave que os scripts usam.
+
+### Marcos politicos (pinos da regua — contexto, nao achado)
+
+> Os marcos sao **pinos de contexto**, e nao causas testadas. O unico que chegou
+> a entrar num desenho causal foi o **Commodity Boom de 2003**, no DiD — que o
+> proprio texto rebaixa por nao existir grupo nao tratado. A **Lei Kandir nunca
+> foi marco do DiD** (ver `Textos/pipelines/23_did.md`), e a ela nao se pendura
+> conclusao alguma.
 
 1. **1985** — Inicio da serie / redemocratizacao (baseline)
 2. **1994** — Plano Real
