@@ -1,12 +1,17 @@
 # Backlog
 
-> **Modo atual: EXPLORAÇÃO, não redação.** A fase agora é gerar análises, pensá-las e
-> **descobrir as histórias dos 40 anos de dados**. A redação é adiada **por opção** — virá
-> quando o autor decidir parar e escrever (e será barata, porque tudo está documentado em
-> `Textos/` de forma completa e didática). **Como ler este arquivo**: "Já feito" é o *mapa
-> do território já explorado* (inventário, não checklist de conclusão); **"Fios em aberto"
-> logo abaixo é onde a ação está**. As frentes mais antigas falam em "sprint / prioritário
-> / redação" — descontar esse enquadramento de conclusão ao ler.
+> **Modo atual: REDAÇÃO.** O modo exploração foi **encerrado em 11/ago/2026** para escrever a
+> qualificação, que está em [`qualificacao/`](../qualificacao/README.md) — texto ABNT
+> (abnTeX2), capítulos 00–09, 8 figuras, 115 páginas, com depósito previsto para dez/2026 e
+> defesa para jan/2027. O cronograma até a defesa está no capítulo 6 do próprio texto; as
+> arestas empíricas residuais, no apêndice de decisões (D1–D31).
+>
+> **Como ler este arquivo**: ele é o **log cronológico da investigação**, não o plano de
+> trabalho atual. "Já feito" é o *mapa do território explorado* (inventário, não checklist de
+> conclusão), e "Fios em aberto" registra o que estava aberto **no fim da exploração** — parte
+> foi absorvida pela qualificação, parte segue viva no cronograma dela. As frentes mais antigas
+> falam em "sprint / prioritário / exploração"; descontar esse enquadramento ao ler, e tratar o
+> cronograma do capítulo 6 como a fonte do que vem a seguir.
 
 Itens alinhados com o plano-mestre e [fontes_dados_adicionais.md](referencia/fontes_dados_adicionais.md).
 
@@ -431,12 +436,13 @@ onde o fluxo não a mostra.
 
 ### Eixo B — Iniciar redação da dissertação
 
-> **ADIADO POR OPÇÃO** (jun/2026) — a fase atual é EXPLORAÇÃO, não escrita. Esta frente
-> fica registrada como opção futura; **não** é prioridade agora e **não** deve ser sugerida
-> proativamente. A doc completa em `Textos/` é o que torna a escrita barata quando o momento
-> chegar (ver banner no topo e "Fios em aberto").
+> **✅ ABERTA EM 11/ago/2026 E EM CURSO.** A previsão de "adiada por opção" que este eixo
+> registrava vigorou de junho a agosto de 2026 e não vale mais. O documento de qualificação
+> existe: [`qualificacao/`](../qualificacao/README.md), 115 páginas, capítulos 00–09, 8 figuras,
+> D1–D31 no apêndice B e as rotinas no apêndice C. O parágrafo abaixo fica como registro do
+> estado em que a frente foi encontrada.
 
-- **Estado**: zero capítulos. Só metadados, pipelines documentados, decisões metodológicas D1-D9, validação cruzada.
+- **Estado (jun/2026, superado)**: zero capítulos. Só metadados, pipelines documentados, decisões metodológicas D1-D9, validação cruzada.
 - **Estrutura típica CIAMB**: Introdução → Referencial → Métodos → Resultados → Discussão → Conclusões → Referências.
 - **Estratégia**: começar por Métodos (~70% pronto em `Textos/metodologia/`), depois Resultados (consolida narrativa do site em prosa), por último Introdução + Referencial (exigem revisão bibliográfica externa).
 - **Esforço**: trabalho contínuo de semanas, não cabe em sprint.
