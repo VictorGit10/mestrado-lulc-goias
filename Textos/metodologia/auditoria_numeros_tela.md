@@ -6,6 +6,16 @@
 > registrou como "outro método, que merece dia próprio" — foi ela que, feita *ad hoc* na
 > Perna 4, achou os três erros da §18.6. Este é o dia próprio, feito sobre a peça inteira.
 
+> ⚠️ **Este é um registro datado, e a tela mudou depois dele (nota de ago/2026).** As colunas
+> "exatos" atestam a conferência **como ela estava em 28–29/jul/2026**, contra a
+> `reforma.html` daquele dia. De lá para cá a peça foi republicada como `index.html` e várias
+> réguas foram trocadas — entre elas a do carbono (**D30/D31**: quem paga é a savânica, 573 ×
+> 340 Mt, e o estoque removido de 973 Mt não é a emissão líquida de 833 Mt; o centróide marcha
+> +91 km, não +98) e a do esgotamento (**D29**: o `p=0,4809` do B2b era artefato de domínio, e
+> tratada a variável a taxa **cai** com a depleção). **Não reusar as linhas desta tabela como
+> referência do que está na tela hoje** — a régua vigente é o texto de qualificação. A tabela
+> fica como registro do que a varredura encontrou naquele dia, que é o objeto dela.
+
 ## 1. Método
 
 1. **Extração mecânica**, não leitura: um parser de HTML percorre `reforma.html` e devolve
