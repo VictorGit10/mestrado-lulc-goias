@@ -7,7 +7,7 @@ Checklist para continuar a dissertação em qualquer sessão do Claude Code.
 1. [README.md](../README.md) — índice mestre.
 2. [narrativa_pipelines.md](../narrativa_pipelines.md) — a **história** de como o trabalho foi construído (fio condutor de todos os pipelines).
 3. [guia_de_leitura.md](../guia_de_leitura.md) — os **métodos** em linguagem simples (o que cada um faz, por que foi usado, o que não pode dizer).
-4. [pipelines/README.md](../pipelines/README.md) — ficha técnica de cada pipeline (#1–#54; os quatro de agosto/2026 estão no [índice lógico](../indice_logico_pipelines.md)).
+4. [pipelines/README.md](../pipelines/README.md) — ficha técnica de cada pipeline (#1–#57, + #28C, #28D, #39B, #40B).
 5. [backlog.md](../backlog.md) — fios em aberto (modo **exploração**).
 6. [escopo_dissertacao.md](escopo_dissertacao.md) — escopo/hipóteses **iniciais** (a tese que de fato emergiu está na narrativa e no guia).
 7. [estrutura_diretorios.md](estrutura_diretorios.md) — estrutura do projeto.
@@ -28,7 +28,7 @@ Duas tabelas-mãe: `painel_unificado.parquet` (9.840×185, o **transversal** —
 
 > **Se você está retomando agora**, o ponto de partida é [`qualificacao/README.md`](../../qualificacao/README.md), que é o estado vivo da redação (o que já foi conferido, por qual régua, e o que ficou pendente). Este documento aqui cobre a infraestrutura empírica que sustenta o texto.
 
-Quatro pipelines nasceram durante a redação e ainda não têm ficha em `pipelines/`: **#55** (bootstrap de blocos, robustece a Perna 1), **#56** (corrida de exposições — origem da **D28**, que rebaixou a aptidão de canal a régua), **#57** (qualidade do remanescente) e **#39B** (domínio do esgotamento — origem da **D29**). Estão documentados em [indice_logico_pipelines.md](../indice_logico_pipelines.md).
+Quatro pipelines nasceram durante a redação: **#55** (bootstrap de blocos, robustece a Perna 1), **#56** (corrida de exposições — origem da **D28**, que rebaixou a aptidão de canal a régua), **#57** (qualidade do remanescente) e **#39B** (domínio do esgotamento — origem da **D29**). Ficha de cada um em [pipelines/](../pipelines/README.md); a leitura em conjunto, em [indice_logico_pipelines.md](../indice_logico_pipelines.md).
 
 | Fase | Pipelines | O que entregou |
 |---|---|---|

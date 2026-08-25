@@ -6,7 +6,7 @@ Mestrado/
 │   ├── README.md                     # Índice mestre
 │   ├── backlog.md                    # O que falta fazer
 │   ├── visao_geral/                  # Escopo, estrutura, como retomar
-│   ├── pipelines/                    # pipelines documentados (#1–#54, + #28C, #28D, #40B)
+│   ├── pipelines/                    # pipelines documentados (#1–#57, + #28C, #28D, #39B, #40B)
 │   ├── outputs/                      # Catálogo de gráficos, mapas, CSVs
 │   ├── metodologia/                  # Decisões transversais
 │   ├── referencia/                   # Ambiente, fontes, memórias

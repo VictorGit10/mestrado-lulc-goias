@@ -2,12 +2,10 @@
 
 Pipelines **#1–#54 (+ #28C, #28D, #40B)** documentados aqui — **56 arquivos** de doc (52 números de #1 a #54 exceto #30 e #31; mais #28C, #28D, #40B e a leitura crítica complementar [28_idade_pastagem_critica.md](28_idade_pastagem_critica.md)): o **#30** e o **#31** vivem dentro do [#29](29_triangulacao_periodizacao.md). Cada arquivo descreve **processo** (o que faz, como rodar, decisões metodológicas, validações, limitações). Para descrição dos **produtos** (PNGs, CSVs com interpretação para redação), ver [outputs/](../outputs/).
 
-> ⚠️ **Quatro pipelines de agosto/2026 ainda não têm ficha aqui.** O **#55** (`robustez_bootstrap_bloco.py`),
-> o **#56** (`drive_horse_race_latitude.py`, origem da **D28**), o **#57** (`remanescente_qualidade.py`)
-> e o **#39B** (`fronteira_fechando_39b.py`, origem da **D29**) nasceram durante a redação da
-> qualificação e estão documentados em
-> [indice_logico_pipelines.md](../indice_logico_pipelines.md) e no
-> [texto de qualificação](../../qualificacao/README.md). Com eles o trabalho tem **58 pipelines**.
+> **Os quatro pipelines de agosto/2026** — **#55**, **#56** (origem da **D28**), **#57** e **#39B**
+> (origem da **D29**) — nasceram durante a redação da qualificação, na leitura do texto *como banca*
+> e na auditoria dela. Com eles o trabalho tem **58 pipelines**. Ficam ao fim da tabela, na ordem em
+> que nasceram; o **#39B** fica junto do #39, que é o pipeline que ele corrige.
 
 > **O número é identidade, não ordem de leitura.** Ele registra *quando* o pipeline nasceu — é
 > um handle permanente (aparece em ~1.050 referências cruzadas, nas docstrings, na memória do
@@ -66,6 +64,7 @@ Pipelines **#1–#54 (+ #28C, #28D, #40B)** documentados aqui — **56 arquivos*
 | 37 | [37_drive_comum.md](37_drive_comum.md) | `coleta_drivers_macro.py` + `drive_comum.py` | Drivers macro (preço recebido, câmbio real, crédito) × inflexões do LULC — testa o "drive comum" do #34 | 1985–2024 | UF (GO) | ✅ |
 | 38 | [38_drive_comum_amc.md](38_drive_comum_amc.md) | `drive_comum_amc.py` | Drive comum no painel AMC: interação **driver × exposição** (2FE) — testa o gradiente de aptidão (indício sugestivo, não confirmado sob FDR) | 1985–2024 | AMC (166) | ✅ |
 | 39 | [39_fronteira_fechando.md](39_fronteira_fechando.md) | `fronteira_fechando.py` | A fronteira está fechando? Estoque de Cerrado convertível como restrição de **oferta** (D13) | 1985–2024 | AMC + faixa lat. | ✅ |
+| 39B | [39B_fronteira_dominio_deplecao.md](39B_fronteira_dominio_deplecao.md) | `fronteira_fechando_39b.py` | O nulo do B2b do #39 era artefato de domínio: tratada a variável, a taxa **cai** com a depleção (**D29**) | 1985–2024 | AMC (166) | ✅ |
 | 40 | [40_duas_logicas_pastagem.md](40_duas_logicas_pastagem.md) | `duas_logicas_pastagem.py` | As duas lógicas da pastagem: espacialização do #28 + cruzamento com plantio direto (D14) | 2010–2024 | AMC + municipal | ✅ |
 | 40B | [40B_calcario_orientacao.md](40B_calcario_orientacao.md) | `duas_logicas_calcario_orientacao.py` | Calcário + orientação técnica (Censo 6850) no arcabouço das duas lógicas — generaliza a D14 | 2017 | AMC + municipal | ✅ |
 | 41 | [41_fogo_fronteira.md](41_fogo_fronteira.md) | `fogo_lidera_fronteira.py` | O fogo lidera a marcha ao norte? Centroide do fogo vs conversão veg→pasto + lead-lag local (D15) | 1985–2023 | AMC | ✅ |
@@ -82,6 +81,9 @@ Pipelines **#1–#54 (+ #28C, #28D, #40B)** documentados aqui — **56 arquivos*
 | 52 | [52_aptidao_edafoclimatica.md](52_aptidao_edafoclimatica.md) | `aptidao_edafo_exposicao.py` + `aptidao_edafo_drive38.py` | Aptidão edafoclimática **exógena** (Embrapa 1:500k, WFS) como exposição no #38 — ataca o drive comum (o positivo da perna 3). **52A**: a aptidão física reproduz o gradiente Sul→Norte (r_lat=−0,44; Sul 4,69>Centro 4,47>Norte 4,17) → a premissa vira medida. **52B**: o achado do #38 reaparece sem a complementaridade mecânica (câmbio×aptidão→rebanho β=−0,033, p=0,026) e a grade de 192 devolve 2 sobreviventes do FDR — mas via a mesma fragilidade de tamanho de família do #38. Mais firme/defensável, não estabelecido; teto temporal intacto. Pendência: MacroZAEE-GO (não fetchável) | 1985–2024 | AMC (166) | ✅ |
 | 53 | [53_centro_massa_capacidade.md](53_centro_massa_capacidade.md) | `centro_massa_capacidade.py` | Centro de massa da **capacidade instalada de armazenagem** (CONAB, 1.135 armazéns, 18,5 Mt) — fecha a metade "silos" da ressalva do #45 no eixo espacial do #50. A capacidade é a camada **mais ao sul de todas**: ~150 km ao sul do pasto/rebanho, **~83 km ao sul até do crédito**, colada ao núcleo de lavoura (só −16 km da agricultura). Ponto e AMC coincidem (Δ 0,3 km); IC95% por bootstrap de armazéns. Descritivo (snapshot, sem tempo — a série CONAB é por UF, não municipal); só grãos (frigoríficos seguem sem dado) | atual (snapshot) | Ponto + AMC (166) | ✅ |
 | 54 | [54_defensabilidade_perna4.md](54_defensabilidade_perna4.md) | `defensabilidade_perna4.py` | **Endurecimento shift-share do drive comum** (o positivo da perna 3; opção B: defensabilidade sem dado novo). Nomeia o desenho do #38/#52 como shift-share (shift=câmbio, share=aptidão) e roda a **inferência correta**: **permutação do shifter** (câmbio embaralhado, aptidão fixa) mostra que o p clusterizado era **otimista** — de p≈0,03 (#38/#52) para **p≈0,07 (naive) a 0,13 (rotação circular) = não significante a 5%**. Mas o padrão **sobrevive** na especificidade: **placebos nulos** (câmbio×aptidão→urbano/água p>0,24), **lead limpo** para o headline exógeno (câmbio_(t+1)→rebanho p=0,11), **jackknife estável** (sinal 100%, nenhum ano isolado carrega). Veredito: **mais defensável, menos significante — "corroborante, não estabelecido"**. Teto temporal quantificado (N efetivo=38 anos) | 1985–2024 | AMC (166) | ✅ |
+| 55 | [55_robustez_bootstrap_bloco.md](55_robustez_bootstrap_bloco.md) | `robustez_bootstrap_bloco.py` | O IC do centro de massa sob dependência espacial: *bootstrap* de blocos, varrendo o tamanho — veredito invariante em 6/6 | 1985–2024 | AMC (166) | ✅ |
+| 56 | [56_drive_horse_race_latitude.md](56_drive_horse_race_latitude.md) | `drive_horse_race_latitude.py` | A corrida de exposições: posta a latitude na mesma regressão, a aptidão perde 62% da magnitude e a significância (**D28**) | 1985–2024 | AMC (166) | ✅ |
+| 57 | [57_remanescente_qualidade.md](57_remanescente_qualidade.md) | `remanescente_qualidade.py` | O remanescente do Sul é pior ou só menor? Canal entre-AMCs eliminado; dentro da unidade, 60% do que resta no Sul é floresta | 1985–2024 | AMC + região | ✅ |
 
 ## Como os pipelines se cruzam
 
