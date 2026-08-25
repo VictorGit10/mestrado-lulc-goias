@@ -42,10 +42,18 @@ DIR_QUAL = ROOT / "qualificacao" / "fig"
 OUT = ROOT / "Visualizacao" / "img" / "graficos"
 NOME = "idade_pastagem_duas_populacoes"
 
-# 200 dpi sobre a mancha de 16 cm dá ~1.260 px de largura: o dobro da coluna de
-# texto do site (~630 px de conteúdo em telas grandes), que é o que mantém o
-# rótulo das faixas nítido em tela de alta densidade sem inflar o bundle.
+# 200 dpi dá ~1.700 px de largura: mais que o dobro da coluna de texto do site
+# (~700 px em tela grande), que é o que mantém o rótulo das faixas nítido em tela
+# de alta densidade e no lightbox, sem inflar o bundle.
 DPI_TELA = 200
+
+# A qualificação põe os dois painéis LADO A LADO, que é o certo para a mancha de
+# 16 cm. Na página, não: a coluna de texto tem ~700 px e no celular cai a ~330,
+# e a essa largura os rótulos de dentro das faixas ficam ilegíveis mesmo no
+# lightbox — foi por isso que a figura anterior do site era empilhada. Aqui a
+# mesma função é chamada com o arranjo trocado para 2×1: muda a forma, e nenhum
+# número.
+FIGSIZE_EMPILHADO = (7.6, 8.4)
 
 
 def main() -> None:
@@ -58,20 +66,36 @@ def main() -> None:
 
     def salvar_na_viz(fig, nome: str, raster: bool = False) -> Path:
         fig.savefig(destino, dpi=DPI_TELA, facecolor="white",
-                    bbox_inches="tight", pad_inches=0.12)
+                    bbox_inches="tight", pad_inches=0.15)
         plt.close(fig)
         return destino
 
-    # A função de figura chama `salvar` pelo nome que importou no módulo dela,
-    # então é o do `gerar_figuras` que precisa ser trocado — trocar só o do
-    # `estilo` não teria efeito.
+    subplots_original = gerar_figuras.plt.subplots
+
+    def subplots_empilhado(*args, **kwargs):
+        """Devolve 2 linhas × 1 coluna onde a qualificação pede 1 × 2.
+
+        A função de figura desempacota ``fig, (ax1, ax2)``, então o que ela
+        precisa é de um par de eixos — a disposição deles na tela é indiferente
+        para o código que desenha.
+        """
+        if args[:2] == (1, 2):
+            kwargs["figsize"] = FIGSIZE_EMPILHADO
+            return subplots_original(2, 1, **kwargs)
+        return subplots_original(*args, **kwargs)
+
+    # A função chama `salvar` e `plt` pelos nomes que o módulo dela importou,
+    # então é lá que a troca precisa acontecer — mexer no `estilo` não teria
+    # efeito.
     original = gerar_figuras.salvar
     gerar_figuras.salvar = salvar_na_viz
+    gerar_figuras.plt.subplots = subplots_empilhado
     try:
         estilo.configurar()
         gerar_figuras.fig_idade_pastagem()
     finally:
         gerar_figuras.salvar = original
+        gerar_figuras.plt.subplots = subplots_original
 
     kb = destino.stat().st_size // 1024
     print(f"[OK] {destino.relative_to(ROOT)}  ({kb} KB, {DPI_TELA} dpi)")
