@@ -1674,3 +1674,12 @@ body.reforma .pl-src code { background: none; color: inherit; }
    datada é parte da evidência — ver "Resultados superados"). */
 .decisao-card--superada { opacity: .62; }
 .decisao-card--superada .decisao-badge { filter: grayscale(1); }
+
+/* Resultado superado, narrado ao lado do objeto dele (e nao so na lista de
+   autocorrecoes): registra o que se publicaria antes da regua que o substituiu. */
+.nota-superado {
+  border-left: 3px solid var(--color-rule, #d8d6cf);
+  padding-left: 0.9rem;
+  font-size: 0.94em;
+  opacity: 0.86;
+}

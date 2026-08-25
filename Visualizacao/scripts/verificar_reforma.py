@@ -253,7 +253,8 @@ def main():
         # da peca — e o teste passaria a premiar quem varre o erro para debaixo
         # do tapete. Por isso sao excluidos da varredura, por classe explicita.
         EXCLUIR = [".nao-diz", ".nota-honestidade", ".autocorrecoes",
-                   ".decisoes-corpo", ".regua-decidiu", ".decisao-por-que"]
+                   ".decisoes-corpo", ".regua-decidiu", ".decisao-por-que",
+                   ".nota-superado"]
         texto = pg.evaluate("""(sel) => {
             const c = document.body.cloneNode(true);
             c.querySelectorAll(sel.join(',')).forEach(e => e.remove());
