@@ -28,11 +28,18 @@ O teste sup-F procura o ponto no tempo onde dividir a série em dois segmentos *
 - **~2001**: F = 62.2 (muito significativo) → Goiás mudou fundamentalmente de regime nesse ponto
 - **~2020**: F = 21.5 (significativo) → Outra mudança de regime
 
+> [!WARNING]
+> O `F = 21.5` de 2020 sai da série de agricultura **crua**, que a deriva do Mosaico de Usos
+> distorce (ver [D25/D26](Textos/metodologia/tratamento_deriva_mosaico.md)). Sob a régua corrigida
+> — `agricultura ∪ mosaico` — a mesma quebra dá **F = 34,1**: a fronteira não só sobrevive à
+> correção como fica **mais forte**. É o número a citar quando a pergunta for se o corte de 2020
+> é artefato de classificador.
+
 O teste é **multivariado** — analisa simultaneamente vegetação natural, pastagem, agricultura e outras classes, não uma por vez. Isso evita encontrar quebras espúrias que aparecem numa variável isolada.
 
 ### Método 2: Rodionov STARS (Pipeline #29b) — **Sensibilidade**
 
-O STARS (Sequential t-test Analysis of Regime Shifts) varre a série ano a ano procurando **mudanças abruptas na média**. Com parâmetros conservadores (α = 0.05, janela l = 5):
+O STARS (Sequential t-test Analysis of Regime Shifts) varre a série ano a ano procurando **mudanças abruptas na média**. O que roda aqui é uma **versão simplificada** do detector de Rodionov (2004), e não o programa STARS v6.x — é assim que o texto de qualificação a nomeia, e a distinção importa porque o programa tem parâmetros (o peso de Huber, entre outros) que esta implementação não tem. Com parâmetros conservadores (α = 0.05, janela l = 5):
 
 - Detecta shifts em **2004/2006** — compatível com a quebra ~2001 do sup-F
 - Com α = 0.01 (mais rigoroso), **nada detecta** — evidência de que as quebras são moderadas, não cataclísmicas
@@ -43,6 +50,17 @@ Este método mede o quanto a **matriz de transição LULC** (quem virou o quê) 
 
 - **Pico em 2003**: A forma como a terra mudava de classe alterou-se bruscamente
 - **Pico em 2018–2020**: Outro momento de reorganização das transições
+
+> [!WARNING]
+> **As duas medidas têm alcance desigual, e o "✓" de 2020 não é corroboração independente.**
+> O KL recebe p-valor por permutação mas **cresce ao longo de quase toda a série** — informa
+> direção, não localização (2001 é só o 19º de 35 candidatos por ele). Quem localiza fronteira
+> aqui é o **TV**, que sai sem teste de significância e entra como leitura auxiliar. E, para
+> ~2020, o método opera sobre a matriz de 6 classes que **não rastreia o Mosaico de Usos**:
+> ele lê o mesmo artefato de rótulo que contamina o primário, em vez de um objeto independente.
+> A corroboração independente e imune do corte de 2020 é a **soja plantada do IBGE/SIDRA**
+> (quebra em 2020 sozinha, F = 7,8), a **pastagem** e o **câmbio** (#37). Ver
+> [#29](Textos/pipelines/29_triangulacao_periodizacao.md).
 
 ### Método 4: Intensity Analysis — Aldwaik & Pontius 2012 (Pipeline #31) — **Diagnóstico complementar**
 
@@ -80,17 +98,29 @@ Zoom máximo: olha transições individuais (ex: pasto→agricultura, cerrado→
 > [!NOTE]
 > O Intensity Analysis não "detecta" quebras — ele **valida** se as quebras encontradas pelos outros métodos correspondem a mudanças reais no regime de uso da terra. É o teste do "faz sentido?"
 
+> [!CAUTION]
+> **As leituras de Nível 2 e 3 para o Ato III foram refeitas em julho de 2026 e mudaram.** A
+> linha-base `uniform` também perde o fluxo reetiquetado como Mosaico, o que inflava em ~3× **toda**
+> razão `*_vs_uniform` do Ato III — inclusive as de transições que o problema de rótulo não toca.
+> E a "retração da agricultura" em P3 **inverte** sob o bracket: −84% na régua crua, **+67%** na
+> união `agricultura ∪ mosaico`. As leituras dos Atos I e II não são afetadas. Detalhe em
+> [#29 → Intensity Analysis](Textos/pipelines/29_triangulacao_periodizacao.md) e em
+> [#28D](Textos/pipelines/28D_deriva_mosaico.md).
+
 ### A convergência dos 4 métodos
 
 ```
                               DETECÇÃO DE QUEBRAS
 Método                    Quebra ~2001    Quebra ~2020
 ──────────────────────────────────────────────────────
-sup-F (primário)              ✓ F=62.2      ✓ F=21.5
-STARS                         ✓ 2004/06     —
-KL/TV                         ✓ pico 2003   ✓ 2018-2020
+sup-F (primário)              ✓ F=62.2      ✓ F=21.5 (34,1 corrigido)
+STARS (simplificado)          ✓ 2004/06     —
+KL/TV                         ✓ pico 2003   ⚠ 2018-2020 (contaminado)
+soja plantada (SIDRA)         —             ✓ F=7,8 (imune)
 ──────────────────────────────────────────────────────
-Concordância (detecção):      3/3           2/3
+Concordância (detecção):      3/3           2/3 — mas a 2ª
+                                            sensibilidade de 2020 é
+                                            a SIDRA, não o KL/TV
 
                        VALIDAÇÃO GLOBAL
 Método                    Resultado
@@ -162,19 +192,45 @@ O Intensity Analysis tem seu **próprio script de verificação** com 5 testes:
 
 ### Ato I — Pastagem como herança (1985–2000)
 
-Goiás entra na série com um padrão herdado: **pecuária extensiva dominante**, grandes áreas de pastagem degradada, vegetação natural ainda significativa. A dinâmica é relativamente estável — conversões acontecem, mas em ritmo lento. É a "inércia" do modelo agropecuário pré-estabilização econômica.
+Goiás entra na série com um padrão herdado: em 1985 quase um terço do estado já é pastagem, herança de uma ocupação que começa **antes** do primeiro ano da série e que, por isso, o trabalho registra sem medir. O que domina o centro-sul é pasto; o que resiste no norte e no nordeste, sobretudo no Vão do Paranã, é Cerrado.
 
-- **Protagonista**: Pastagem extensiva (ocupa mais da metade do estado)
-- **Marcos dentro do ato**: Plano Real (1994), Lei Kandir (1996) — esta última é o **único marco com evidência causal GO-específica** (quebra em veg_nat 1998, F = 86.6, DiD robusto p = 0.005)
-- **Dinâmica**: Lenta conversão de cerrado em pasto; soja ainda incipiente
+> [!IMPORTANT]
+> **Este é o ato mais destrutivo dos três, e não o preâmbulo dos outros dois.** A descrição
+> anterior desta ficha — "conversões em ritmo lento", "a inércia do modelo pré-estabilização" —
+> estava errada, e foi corrigida em 19/ago/2026 junto com a reescrita do capítulo de resultados.
+
+- **Protagonista**: a pastagem, que avança **3,71 Mha em quinze anos, a 0,248 Mha/ano** — ritmo que nenhum período posterior alcança
+- **Vegetação natural**: cede **4,10 Mha, a 0,27 Mha/ano — quatro vezes** o ritmo dos dois atos seguintes. É daqui que sai a maior parte dos **três quartos** do estoque de carbono de quarenta anos removidos antes de 2001
+- **A lavoura não fica parada**: sai de 1,17 para 3,00 Mha (+1,83 Mha, a 0,122 Mha/ano) e a **soja quase sextuplica** (0,37 → 2,13 Mha). O que se mantém no sudoeste é a *geografia* da lavoura, não o seu tamanho — o mapa muda pouco de endereço enquanto a mancha engrossa
+- **Marcos dentro do ato**: Plano Real (1994) e Lei Kandir (1996) entram como **pinos de contexto**, não como causas testadas
+
+> [!WARNING]
+> **A Lei Kandir nunca foi marco do DiD.** Esta ficha atribuía a ela "a única evidência causal
+> GO-específica (F = 86.6, DiD robusto p = 0.005)". O marco do desenho de diferenças em diferenças
+> é o **Commodity Boom (2003)** — ver [#23](Textos/pipelines/23_did.md), corrigido em 21/ago/2026.
+> E o próprio DiD é rebaixado no texto de qualificação por não existir grupo não tratado. O rótulo
+> "pastagem como herança" descreve o que domina a paisagem, e não uma pausa agrícola que os dados
+> não mostram.
 
 ### Ato II — Expansão e intensificação (2001–2019)
 
-A entrada da China na OMC (dez/2001) e a sistematização do crédito rural (Plano Safra 2002) detonam o super-ciclo de commodities. A soja explode em área plantada, substituindo pastagens degradadas e vegetação natural. É o período de **transformação acelerada** da matriz produtiva.
+O ato começa com a moeda estabilizada e a exportação de grãos já desonerada. A agricultura goiana passa de 9,3% para 16,0% do território ao longo do período; no mapa, o sudoeste (Rio Verde, Jataí, Mineiros) se converte à lavoura sobre o pasto. A pastagem atinge o pico por volta de **2003, perto de 14,8 Mha**, e passa a ceder área: a pecuária segue dominante em extensão, mas a dinâmica econômica passa à soja.
 
-- **Protagonista**: Soja + commodity boom
-- **Marcos dentro do ato**: Crédito/China (2002), boom de commodities (2003), Código Florestal (2012) — notavelmente, o Código Florestal **não produziu quebra estrutural detectável** (reserva legal de 20% no Cerrado é permissiva; a ausência de efeito é o achado)
-- **Dinâmica**: Substituição massiva de pasto → soja; perda acelerada de vegetação natural; **pico de transformação na sub-fase 2001–2005** seguido de consolidação
+> [!IMPORTANT]
+> **Não é a lavoura que acelera em 2001 — quem quebra é a pastagem.** A leitura natural do rótulo
+> erra o alvo, e esta ficha a repetia ("a soja explode", "transformação acelerada"). Os números:
+> a lavoura cresce 2,31 Mha em dezoito anos, a **0,128 Mha/ano contra 0,122 no Ato I** — o mesmo
+> ritmo absoluto —, e a soja avança a 0,116 Mha/ano contra 0,117 no ato anterior. O que inverte o
+> sinal é a **pastagem: de +0,248 para −0,076 Mha/ano**. A quebra que o sup-F detecta em 2001 é,
+> na origem, uma quebra da série de pastagem — e é por isso que ela aparece num teste aplicado
+> *conjuntamente* às três séries, e não em nenhuma delas isolada.
+
+**A leitura correta do ato**: o que muda em 2001 não é a velocidade da expansão agrícola, e sim a **fonte da terra** que a alimenta. Até então a lavoura crescia enquanto o pasto também crescia, ambos sobre vegetação natural; a partir dali a lavoura passa a crescer **sobre o pasto**. É o mesmo mecanismo que aparece adiante como substituição local, e que reaparece vinte anos depois na freada do Sul.
+
+- **Protagonista**: a soja — mas por **mudança de fonte da terra**, não por aceleração
+- **Marcos dentro do ato**: entrada da China na OMC (fim de 2001), sistematização do crédito rural (2002–2003), super-ciclo de preços (2003) e Código Florestal (2012). ⚠️ Os três primeiros entram como **cenário, e não como achado**: nenhum é sustentado por fonte conferida, e só o super-ciclo chegou a entrar em teste — no DiD que o próprio texto rebaixa por não existir grupo não tratado. A eles não se pendura conclusão alguma
+- **Código Florestal (2012)**: **não produziu quebra estrutural detectável** — a reserva legal de 20% no Cerrado é permissiva, e a ausência de efeito é o achado
+- **Dinâmica**: substituição de pasto → soja; **pico de transformação na sub-fase 2001–2005** seguido de consolidação
 
 ### Ato III — Conversão acelerada (mascarada) (2020–2024)
 
@@ -197,8 +253,17 @@ cresce **+38%** (3,58 → 4,94 Mha) exatamente nessa janela.
 - **Protagonista**: a soja, de novo — agora sobre pasto consolidado, e sob um classificador que
   deixou de conseguir separar lavoura de pastagem
 - **Marcos dentro do ato**: reorganização de mercado (2018, que precede o ato), estado atual (2024)
-- **Dinâmica**: conversão **acelerando** sobre pasto, com a fronteira de vegetação nativa
-  migrando ao norte (essa parte é medida por `veg→pasto`, imune ao problema de rótulo)
+- **Dinâmica**: conversão **acelerando** sobre pasto — o recuo da pastagem quase **quadruplica de
+  velocidade, de 0,07 para 0,27 Mha/ano** —, com a fronteira de vegetação natural migrando ao
+  norte (essa parte é medida por `veg→pasto`, imune ao problema de rótulo)
+- **A vegetação natural não muda de ritmo**: perde ~0,06 Mha/ano em saldo líquido tanto no Ato II
+  quanto no Ato III. O que muda é o **endereço** — ela passa a ceder ao norte, onde ainda há
+  Cerrado em pé. Goiás chega a 2024 com **34,9% do território** em vegetação natural, sem que a
+  série dê sinal de estabilização até aqui
+- **O que o texto de qualificação não afirma**: quanto do vão entre as duas réguas é
+  reetiquetagem e quanto é uso misto de fato. A distinção fica declarada como pendente — por isso
+  o capítulo intitula o ato "conversão acelerada **sob rótulo ambíguo**", uma formulação mais
+  contida que o "(mascarada)" do nome curto
 - **O que o ato ensina de método**: é o caso-livro da **D25** — *a transição de interesse
   "desaparece" enquanto o fenômeno de campo acelera*. "(mascarada)" está no nome de propósito:
   o traço que define o período é que a medida crua diz o oposto do que ocorreu.
