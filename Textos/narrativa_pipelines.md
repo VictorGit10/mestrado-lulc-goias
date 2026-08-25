@@ -516,8 +516,8 @@ veredito é de **não-confirmação**: (1) **sem precedência temporal** (Grange
 ao sul co-expandem, não empurram); (3) mas **substituição local forte** (Δagric→Δpasto β=−0,52
 — onde a lavoura entra, o pasto sai *localmente*: intensificação, confirmando o #22). A leitura
 defensável: **não é iLUC causal, é reorganização espacial** — dois mecanismos locais paralelos
-(intensificar no Sul, abrir fronteira no Norte) sob um mesmo impulso macro, sobre um gradiente
-de aptidão. Daí a regra de redação: nunca dizer "deslocamento" sem qualificar; usar
+(intensificar no Sul, abrir fronteira no Norte) sob um mesmo impulso macro, ao longo do gradiente
+Sul→Norte (a aptidão é a régua com que esse eixo foi medido, não o canal — **D28**). Daí a regra de redação: nunca dizer "deslocamento" sem qualificar; usar
 "reorganização espacial" ou "marcha ao norte da fronteira". O nulo aqui é **força, não
 fraqueza** — refuta uma hipótese tentadora e errada. (Um detalhe ficou pendente: o *teste
 reverso* desse lead-lag deu um resultado isolado e significativo — ΔPasto_Norte → ΔAgric_Sul,
@@ -762,7 +762,7 @@ Três traços de método merecem registro, porque são o que dá credibilidade �
    desmontado como espúrio) não são fracassos escondidos — são a espinha dorsal da honestidade do
    trabalho. A regra D14 nasceu de uma autocorreção; a D16, de levar a sério uma ponta solta em
    vez de varrê-la para baixo do "N pequeno".
-2. **As decisões são explícitas e centralizadas.** As vinte decisões (D1–D20) e os atos
+2. **As decisões são explícitas e centralizadas.** As trinta e uma decisões (D1–D31) e os atos
    (`config_periodos.py`) garantem que peças escritas em meses diferentes usem a mesma régua —
    e que a régua possa ser defendida, não apenas usada.
 3. **Tudo é validado contra verdades independentes.** Os auxiliares de validação

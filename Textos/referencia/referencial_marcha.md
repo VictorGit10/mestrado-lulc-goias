@@ -22,12 +22,16 @@
 ## A tese em uma frase, e por que ela precisa de referencial
 
 > Goiás viveu uma **reorganização espacial da produção agropecuária** (1985–2024) — intensificação
-> no Sul, fronteira no Norte — coordenada por **forças de mercado comuns** sobre um **gradiente de
-> aptidão**, limitada por um **teto de oferta** de terra convertível, e **não** um deslocamento
+> no Sul, fronteira no Norte — coordenada por **forças de mercado comuns** ao longo do **gradiente
+> Sul→Norte**, limitada por um **teto de oferta** de terra convertível, e **não** um deslocamento
 > causal de uma região sobre a outra.
 
+*(Dizia "sobre um gradiente de aptidão" até a **D28**, de 19/ago/2026: posta a latitude na mesma
+regressão, a aptidão perde 62% da magnitude e a significância. O arcabouço teórico não muda — von
+Thünen continua sendo a âncora —, mas a atribuição empírica a solo e clima, sim. Ver A.1.)*
+
 Cada substantivo dessa frase tem um arcabouço próprio: *reorganização/fronteira* (teoria da
-fronteira), *gradiente de aptidão* (renda da terra / von Thünen), *deslocamento causal* (iLUC /
+fronteira), *gradiente Sul→Norte* (renda da terra / von Thünen — a aptidão é a régua, não o canal: D28), *deslocamento causal* (iLUC /
 teleacoplamento), *forças de mercado* (drivers macro / câmbio), *teto de oferta* (transição
 florestal). Os cinco eixos abaixo cobrem esses arcabouços.
 
