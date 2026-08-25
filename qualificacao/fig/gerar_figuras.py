@@ -293,7 +293,7 @@ def fig_horse_race() -> None:
     Fonte: ``drive_horse_race_latitude.csv`` (#56).
 
     A leitura da figura é o CONTRASTE entre as duas colunas de pontos: sozinha,
-    a aptidão fica claramente à esquerda do zero; acompanhada da latitude, ela
+    a aptidão fica inteiramente à esquerda do zero; acompanhada da latitude, ela
     cruza o zero enquanto a latitude não cruza. Por isso as especificações
     aparecem empilhadas na mesma escala, e não em painéis separados.
 
@@ -349,7 +349,11 @@ def fig_horse_race() -> None:
                   fontsize=9)
     ax.grid(axis="y", visible=False)
 
-    ax.annotate("aptidão sozinha:\nlonge do zero", xy=(-0.033, 0),
+    # "não cruza o zero", e não "longe do zero": o IC agrupado de S1 é
+    # [-0,0611; -0,0040] e encosta no zero. Dizer "longe" exageraria justamente
+    # a estimativa que a D28 rebaixa, e ainda por cima sobre o SE que a nota da
+    # figura declara otimista. O contraste com S4 se sustenta sem o exagero.
+    ax.annotate("aptidão sozinha:\nnão cruza o zero", xy=(-0.033, 0),
                 xytext=(-0.155, 1.25), fontsize=6.5, style="italic",
                 color=cores["exp_apt_edafo"], va="center")
     ax.annotate("com a latitude no modelo,\na aptidão cruza o zero",

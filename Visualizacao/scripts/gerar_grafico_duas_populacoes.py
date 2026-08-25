@@ -1,7 +1,24 @@
 """Gera a figura-âncora da Perna 2 do site: "duas populações de pastagem".
 
+⚠️ APOSENTADO EM 25/ago/2026 — A PÁGINA NÃO USA MAIS A SAÍDA DESTE SCRIPT.
+--------------------------------------------------------------------------
+A peça publicava dois PNGs recortados à mão desta figura em 2/ago
+(`sintese_idade_painel_topo.png` e `_base.png`), que **nenhum script
+reproduzia**. Órfãos, envelheceram: a legenda do painel B seguiu dizendo
+"VEGETAÇÃO NATIVA" três semanas depois de o projeto ter trocado o termo por
+"natural" no resto da superfície (D27 — o rótulo de uma figura é afirmação, e
+um PNG não é grepável nem entra no diff).
+
+Em vez de manter dois geradores da mesma figura, que precisariam concordar
+entre si para sempre, a página passou a consumir **a figura da qualificação**,
+que é a mantida — ver `gerar_figura_idade_web.py`, ao lado. Este arquivo fica
+como registro do desenho anterior e da razão dele (a nota abaixo, sobre por que
+a figura por Ato foi abandonada, continua valendo e não está escrita em outro
+lugar). **Não republicar a saída dele sem antes decidir qual das duas figuras é
+a da página** — foi a coexistência silenciosa que produziu o defeito.
+
 Saída em Visualizacao/img/graficos/:
-  - sintese_idade_duas_populacoes.png
+  - sintese_idade_duas_populacoes.png   (não referenciado pelo index.html)
 
 POR QUE ESTA FIGURA SUBSTITUI `sintese_idade_pastagem_atos.png` (2026-07-28)
 ---------------------------------------------------------------------------
@@ -26,7 +43,7 @@ Esta figura ataca o que o texto de fato afirma, em dois painéis:
   B. **A mesma conclusão sem modelo nenhum.** Separando os eventos pela ORIGEM
      anterior à pastagem, as duas populações aparecem sem GMM, sem BIC e sem
      ajuste: pasto que veio de lavoura morre jovem (mediana 5a); pasto que veio
-     de vegetação nativa dura (mediana 13a, cauda longa). Este painel é a
+     de vegetação natural dura (mediana 13a, cauda longa). Este painel é a
      corroboração independente do painel A — é o argumento que não depende de
      nenhuma escolha de método.
 
@@ -162,7 +179,7 @@ COORTES = [
     ("agricultura", "antes era LAVOURA — rotação lavoura-pastagem", COR_JOVEM),
     ("mosaico", "antes era MOSAICO DE USOS (o classificador não separou)", "#c8b9a0"),
     ("outros", "outras origens", "#e6e3dc"),
-    ("vegetacao_natural", "antes era VEGETAÇÃO NATIVA — reserva antiga", COR_VELHO),
+    ("vegetacao_natural", "antes era VEGETAÇÃO NATURAL — reserva antiga", COR_VELHO),
 ]
 
 

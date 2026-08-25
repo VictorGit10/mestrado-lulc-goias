@@ -285,7 +285,7 @@
             <span class="legend-swatch legend-swatch--tr-pasto">Pastagem</span>
             <span class="legend-swatch legend-swatch--tr-agric">Agricultura</span>
             <span class="legend-swatch legend-swatch--tr-mosaico">Mosaico de usos</span>
-            <span class="legend-nota legend-nota--bloco">a classe de <em>destino</em> que mais recebeu área em cada município</span>
+            <span class="legend-nota legend-nota--bloco">a classe de <em>destino</em> que mais recebeu área em cada município. ⚠️ Nos períodos recentes o Mosaico de Usos domina o mapa em boa parte do estado, e isso é em grande medida <strong>mudança de classe, não de território</strong>: a partir de ~2021 a lavoura nova sobre pasto passa a cair nessa categoria. Ver <a href="dossie-mosaico.html">O Caso do Mosaico de Usos</a>.</span>
           </div>
 
           <div class="map-caption">
@@ -931,15 +931,9 @@
           </p>
 
           <figure class="grafico-card grafico-card--wide">
-            <img src="img/graficos/sintese_idade_painel_topo.png"
-                 alt="Distribuição da idade da pastagem na conversão para lavoura: a curva cinza do dado bruto tem um pico jovem e um ombro longo; a linha tracejada do ajuste de uma única população erra o pico e erra a cauda" loading="lazy">
-            <figcaption><strong>O que observar.</strong> A curva cinza é o dado bruto — e ela <em>não</em> tem dois picos visíveis: tem um pico jovem e um ombro longo. A linha tracejada mostra o que uma única população de pastagem produziria: ela erra o pico e erra a cauda. A razão de o segundo grupo não formar um segundo pico está nos desvios — o pasto jovem é concentrado (σ≈1,6 ano), o velho é espalhado por décadas (σ≈7,5 anos), e uma população larga vira platô, não espiga. Fonte: MapBiomas Coleção 10.1, contagem pixel-a-pixel.</figcaption>
-          </figure>
-
-          <figure class="grafico-card grafico-card--wide">
-            <img src="img/graficos/sintese_idade_painel_base.png"
-                 alt="Composição da origem anterior do pasto ao longo da idade: pasto jovem vem majoritariamente de lavoura anterior (rotação lavoura-pasto-lavoura); pasto velho vem de vegetação natural (reserva ativada)" loading="lazy">
-            <figcaption><strong>O que observar.</strong> Todos os eventos são a mesma coisa: pastagem que virou lavoura. A cor mostra <strong>o que havia naquele pixel antes de ele virar pastagem</strong> — ou seja, olhando para trás no tempo. Pasto de 3 anos que vira lavoura, em metade dos casos, já tinha sido lavoura antes (lavoura→pasto→lavoura: é rotação). Pasto de 33 anos quase sempre veio de vegetação natural (cerrado→pasto→lavoura: é reserva ativada). Fonte: MapBiomas Coleção 10.1, contagem pixel-a-pixel.</figcaption>
+            <img src="img/graficos/idade_pastagem_duas_populacoes.png"
+                 alt="Dois painéis. No painel (a), a distribuição da idade da pastagem na conversão para lavoura: o censo de pixels desenha um pico jovem estreito e um ombro longo, e o ajuste de uma única população (linha tracejada, média 12 anos) erra o pico e erra a cauda, enquanto a soma de duas populações — uma jovem de média 3,9 anos e desvio 1,6, com 33% da massa, e uma velha de média 16,3 anos e desvio 7,5, com 67% — acompanha a forma. No painel (b), a composição da origem anterior do pixel ao longo da idade: o pasto jovem vem majoritariamente de lavoura anterior (mediana 5 anos), o pasto velho vem de vegetação natural (mediana 13 anos), e entre os dois fica a faixa do Mosaico de Usos (mediana 12 anos), que o classificador não separou." loading="lazy">
+            <figcaption><strong>O que observar.</strong> No painel <strong>(a)</strong>, a curva cinza é o dado bruto — e ela <em>não</em> tem dois picos visíveis: tem um pico jovem e um ombro longo. A linha tracejada mostra o que uma única população de pastagem produziria, e ela erra as duas pontas, subestimando o pico jovem <em>e</em> a cauda velha. A razão de o segundo grupo não formar um segundo pico está nos desvios: o pasto jovem é concentrado (σ≈1,6 ano), o velho é cinco vezes mais espalhado (σ≈7,5 anos), e uma população larga vira platô, não espiga. No painel <strong>(b)</strong>, a mesma divisão aparece <em>sem ajustar modelo nenhum</em>: todos os eventos são a mesma coisa — pastagem que virou lavoura —, e a cor mostra o que havia naquele pixel <strong>antes de ele virar pastagem</strong>. Pasto novo que vira lavoura, em metade dos casos, já tinha sido lavoura antes (lavoura→pasto→lavoura: é rotação); pasto de trinta anos quase sempre veio de vegetação natural (cerrado→pasto→lavoura: é reserva ativada). A faixa do meio é o Mosaico de Usos, a classe em que o classificador não separou os usos — ela fica com faixa própria, e não somada a uma das duas, porque é incerteza de classificação e não origem conhecida. Fonte: MapBiomas Coleção 10.1, censo pixel-a-pixel do #28C. Mesma figura do texto de qualificação, em resolução de tela.</figcaption>
           </figure>
 
           <p>
