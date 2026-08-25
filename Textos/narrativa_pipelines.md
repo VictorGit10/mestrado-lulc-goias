@@ -61,8 +61,9 @@ faz peças escritas em momentos diferentes conversarem entre si.
   os **246 municípios** atuais. Para análises **longitudinais** (1ª diferença, painel FE, DiD,
   tendências), as **166 Áreas Mínimas Comparáveis (AMC)** de território constante — porque 25%
   dos municípios goianos nasceram depois de 1985 e produziriam quedas espúrias.
-- **As decisões (D1–D20).** Ao longo do texto aparecem referências a decisões metodológicas
-  numeradas. Resumidas:
+- **As decisões (D1–D31).** Ao longo do texto aparecem referências a decisões metodológicas
+  numeradas. A lista canônica, em prosa, é o Apêndice de decisões do texto de qualificação
+  (`qualificacao/cap/08_decisoes.tex`). Resumidas:
 
   | # | Decisão | Onde |
   |---|---|---|
@@ -92,6 +93,11 @@ faz peças escritas em momentos diferentes conversarem entre si.
   | D24 | Estatística **ponderada** deve reduzir *exatamente* ao caso não-ponderado com peso=1, verificado por teste — é o que garante que a diferença amostra × censo venha dos dados, não da implementação | #28 |
   | D25 | Antes de comparar uma medida de transição LULC entre períodos distantes, verifique que a **classe de destino manteve o mesmo significado**; diagnóstico barato = contar o destino **completo** das saídas e olhar *frações*, não níveis | #28D |
   | D26 | `agric ∪ mosaico` **não é correção**, é o **limite superior** de um bracket cujo inferior é `agric` só; reportar o **intervalo**, nunca um ponto — robusto ⇔ sobrevive nos dois extremos. A âncora dos anos terminais é a **SIDRA** (imune), não o bracket | #28D, #29, #32, #33, #40, #49 |
+  | D27 | Toda figura importada de um script é **reauditada antes de publicar**: o rótulo de uma figura é afirmação e envelhece, com o agravante de que um PNG não é grepável nem entra no diff. O escopo é dado pelas **vistas publicadas**, não pelo inventário de arquivos gerados | auditoria de figuras |
+  | D28 | A exposição do *drive* comum é a **régua do gradiente, e não o canal**: a aptidão edafoclimática correlaciona −0,44 com a latitude e, posta a latitude na mesma regressão, perde a maior parte da magnitude e toda a significância. O achado passa a ser enunciado como **gradiente Sul→Norte** | #56, #38, #52, #54 |
+  | D29 | **Variável fora do domínio declarado não entra padronizada.** O esgotamento é uma fração e deveria viver em [0,1]; no painel chegava a −84,9 em 14% dos pares unidade-ano, e z-scorada passava a ser definida por esses poucos valores | #39B, #39 |
+  | D30 | **Havendo inventário oficial para o parâmetro, é dele que o parâmetro vem** (4º Inventário Nacional, por fitofisionomia e com valor próprio de Goiás — substitui a D18). Corolário: quando a conclusão depende de uma **razão** entre parâmetros, é a razão que precisa entrar na sensibilidade, não cada parâmetro isolado | #47 |
+  | D31 | **Estoque removido não é emissão líquida**, e as duas grandezas são calculadas e reportadas com nomes distintos: a diferença de estoque pede também o que o uso entrante repõe (973 Mt removidos × 833 Mt de emissão líquida) | #47 |
 
 - **Os atos (a régua narrativa).** A periodização data-driven (Fase 5) cristalizou três
   **atos** em `config_periodos.py`: **I — Pastagem como herança (1985–2000)**, **II — Expansão

@@ -2,6 +2,13 @@
 
 Pipelines **#1–#54 (+ #28C, #28D, #40B)** documentados aqui — **56 arquivos** de doc (52 números de #1 a #54 exceto #30 e #31; mais #28C, #28D, #40B e a leitura crítica complementar [28_idade_pastagem_critica.md](28_idade_pastagem_critica.md)): o **#30** e o **#31** vivem dentro do [#29](29_triangulacao_periodizacao.md). Cada arquivo descreve **processo** (o que faz, como rodar, decisões metodológicas, validações, limitações). Para descrição dos **produtos** (PNGs, CSVs com interpretação para redação), ver [outputs/](../outputs/).
 
+> ⚠️ **Quatro pipelines de agosto/2026 ainda não têm ficha aqui.** O **#55** (`robustez_bootstrap_bloco.py`),
+> o **#56** (`drive_horse_race_latitude.py`, origem da **D28**), o **#57** (`remanescente_qualidade.py`)
+> e o **#39B** (`fronteira_fechando_39b.py`, origem da **D29**) nasceram durante a redação da
+> qualificação e estão documentados em
+> [indice_logico_pipelines.md](../indice_logico_pipelines.md) e no
+> [texto de qualificação](../../qualificacao/README.md). Com eles o trabalho tem **58 pipelines**.
+
 > **O número é identidade, não ordem de leitura.** Ele registra *quando* o pipeline nasceu — é
 > um handle permanente (aparece em ~1.050 referências cruzadas, nas docstrings, na memória do
 > projeto e nas mensagens de commit) e **não é renumerado**. A cronologia é deliberada: é ela que

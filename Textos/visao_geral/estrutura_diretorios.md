@@ -6,13 +6,13 @@ Mestrado/
 │   ├── README.md                     # Índice mestre
 │   ├── backlog.md                    # O que falta fazer
 │   ├── visao_geral/                  # Escopo, estrutura, como retomar
-│   ├── pipelines/                    # pipelines documentados (#1–#54, + #28C, #40B)
+│   ├── pipelines/                    # pipelines documentados (#1–#54, + #28C, #28D, #40B)
 │   ├── outputs/                      # Catálogo de gráficos, mapas, CSVs
 │   ├── metodologia/                  # Decisões transversais
 │   ├── referencia/                   # Ambiente, fontes, memórias
 │   └── _arquivo/                     # Histórico preservado
 │
-├── scripts/                          # Pipelines Python (#1–#54) — índice completo em narrativa_pipelines.md (Apêndice A)
+├── scripts/                          # Pipelines Python (#1–#58) — índice completo em narrativa_pipelines.md (Apêndice A)
 │   ├── grafico_pastagem_pib_goias.py      # #1
 │   ├── analise_expandida_goias.py         # #2
 │   ├── coleta_sidra.py                    # #3 + #7 + #15 (+ Censo 6850)
