@@ -38,9 +38,14 @@ florestal). Os cinco eixos abaixo cobrem esses arcabouços.
 ### A.1 Renda da terra e localização — von Thünen (espaço)
 O modelo de **von Thünen (1826)** postula que a terra é alocada ao uso que rende a maior renda, e
 que a renda de cada uso é determinada pela **localização**. É a base ricardiana da leitura de que a
-expansão ocupa **primeiro a terra de melhor aptidão e depois a pior** — exatamente o **gradiente
-Sul→Norte de aptidão** que a tese mede (a agricultura ~120–130 km ao sul do pasto em *todos* os
-anos; a aptidão edafoclimática da Embrapa caindo monotonicamente Sul→Norte, #52).
+expansão ocupa **primeiro a terra de melhor aptidão e depois a pior** — o **gradiente Sul→Norte**
+que a tese mede (a agricultura **123–135 km** ao sul do pasto em *todos* os anos; a aptidão
+edafoclimática da Embrapa caindo monotonicamente Sul→Norte, #52). ⚠️ A leitura teórica continua
+valendo, mas a **atribuição empírica à aptidão não sobreviveu**: pela **D28** (#56), posta a
+latitude na mesma regressão, a aptidão perde 62% da magnitude e a significância. O eixo Sul→Norte
+carrega, junto com solo e clima, idade da ocupação, infraestrutura, distância aos mercados e preço
+da terra — que são justamente as outras variáveis do próprio von Thünen. O dado nomeia o **eixo**,
+não o canal.
 → **Conecta:** Perna 1 (o gradiente latitudinal persistente) e Perna 2 (o mecanismo local duplo).
 
 ### A.2 Transição florestal — o pico-e-declínio (tempo)
@@ -57,7 +62,8 @@ crescente eleva o desmatamento (fase 2) até que a renda caia (desenvolvimento) 
 floresta eleve a renda da floresta (fase 3–4), revertendo a trajetória. É **o arcabouço-teto da
 tese**: von Thünen dá o *gradiente espacial* (Perna 2), a transição florestal dá o *pico temporal*
 (Perna 4), e Angelsen mostra que são **duas faces do mesmo processo de renda** — que é precisamente
-a leitura de "reorganização coordenada por forças de mercado sobre um gradiente de aptidão".
+a leitura de "reorganização coordenada por forças de mercado ao longo do gradiente Sul→Norte"
+(dizia "gradiente de aptidão" até a **D28** — ver o aviso em A.1).
 → **Peça-chave do referencial.** Uma citação que sustenta Perna 2 **e** Perna 4 de uma vez.
 
 ### A.4 A tradição brasileira da fronteira — Martins e Becker
@@ -233,7 +239,7 @@ crítica de "métrica caseira"** ao #32/#43.
 fronteira do Cerrado ao norte/MATOPIBA e o iLUC entre biomas; **a tese leva isso a alta resolução
 dentro de um estado**, com malha de território constante (AMC), e **testa formalmente o canal de
 deslocamento intra-estadual — que não se confirma** — reconstruindo a leitura como reorganização
-coordenada por um drive macro comum sobre um gradiente de aptidão, contra um teto físico de oferta.
+coordenada por um drive macro comum ao longo do gradiente Sul→Norte, contra um teto físico de oferta.
 
 ---
 

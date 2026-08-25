@@ -59,9 +59,15 @@ virtude: mostra que você perseguiu a resposta certa, não a resposta bonita.
 **A frase de uma linha, para decorar:**
 
 > *Goiás viveu uma reorganização espacial da produção agropecuária (intensificação no Sul,
-> fronteira no Norte), coordenada por forças de mercado comuns sobre um gradiente de aptidão e
-> limitada por um teto de oferta de terra — e não um deslocamento causal de uma região sobre a
-> outra.*
+> fronteira no Norte), coordenada por forças de mercado comuns distribuídas ao longo do gradiente
+> Sul→Norte e limitada por um teto de oferta de terra — e não um deslocamento causal de uma região
+> sobre a outra.*
+
+> ⚠️ **A frase dizia "gradiente de aptidão" até 19/ago/2026.** A [D28](indice_logico_pipelines.md)
+> (#56) mostrou que, posta a latitude na mesma regressão, a aptidão perde 62% da magnitude e a
+> significância nas duas réguas: o gradiente medido é o do **eixo Sul→Norte**, e a aptidão é a
+> **régua** com que ele foi medido, não o canal identificado. A conclusão da perna sobrevive
+> inteira; o que caiu foi a atribuição a solo e clima.
 
 Tudo na Parte 4 é essa frase, destrinchada em pernas de evidência. Tudo na Parte 3 é o
 ferramental que permitiu afirmá-la com honestidade.
@@ -384,7 +390,7 @@ longo do tempo**. É essa riqueza que o efeito fixo explora.
   verdade).
 - **Seu resultado (a manchete):** de 1985 a 2024, o centro de massa subiu ao norte —
   **pastagem +78 km, rebanho +67 km, agricultura +65 km** — enquanto a **vegetação natural ficou
-  ancorada**. A lavoura fica sempre ~120–130 km **ao sul** do pasto/rebanho (o gradiente
+  ancorada**. A lavoura fica sempre **123–135 km** ao sul do pasto/rebanho (o gradiente
   latitudinal persistente). E **só no Ato III (2020–24) a agricultura praticamente estaciona**
   (avança só +0,2 km, dentro do ruído do bootstrap — é desaceleração recente, não reversão)
   enquanto pasto e rebanho seguem subindo — o sinal mais limpo de deslocamento, e é recente.
@@ -985,7 +991,7 @@ São as mais "técnicas", mas cada uma resolve um problema concreto do seu traba
   qualquer ano (nenhuma desvalorização isolada carrega o resultado). Levantar o teto de vez pediria
   outro tipo de dado — um choque que varie **no espaço e no tempo** (frete, ferrovia, clima) ou um IV
   para o câmbio (a "opção A", um fio novo). **Mas atenção ao alcance**: mesmo a opção A responderia
-  sobre o **mecanismo** ("o gradiente de aptidão medeia choques exógenos?"), não sobre o câmbio em
+  sobre o **mecanismo** ("o gradiente Sul→Norte medeia choques exógenos?"), não sobre o câmbio em
   si — a pergunta "foi *o câmbio*?" é **estruturalmente irrespondível** com dado existente (o desfecho
   é anual, o choque é nacional, e nada multiplica as ~38 realizações; um IV resolveria exogeneidade,
   não poder). Isso não é um buraco na tese: é um limite **nomeado, medido e corretamente rebaixado**
@@ -1002,9 +1008,12 @@ perna — é isso que uma banca respeita.
 **A afirmação central:**
 
 > Goiás viveu uma **reorganização espacial da produção agropecuária** (1985–2024) —
-> intensificação no Sul, fronteira no Norte — coordenada por **forças de mercado comuns** sobre
-> um **gradiente de aptidão**, e limitada por um **teto de oferta** de terra convertível — e
-> **não** um deslocamento causal de uma região sobre a outra.
+> intensificação no Sul, fronteira no Norte — coordenada por **forças de mercado comuns**
+> distribuídas ao longo do **gradiente Sul→Norte**, e limitada por um **teto de oferta** de terra
+> convertível — e **não** um deslocamento causal de uma região sobre a outra.
+
+*(Dizia "gradiente de aptidão" até a **D28** — ver o aviso na Parte 1. A aptidão continua sendo a
+régua com que o gradiente foi medido; deixou de ser o canal identificado.)*
 
 Ela se apoia em quatro pernas:
 

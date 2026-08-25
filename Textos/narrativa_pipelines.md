@@ -466,7 +466,7 @@ resultado **refina e em parte contraria** a hipótese-mãe: não é "agricultura
 subindo" — **toda a fronteira agropecuária marchou ao norte** (pastagem +78 km, rebanho +67
 km, agricultura +65 km; só a vegetação natural ficou quase parada, +8 km). Mas três coisas
 *sustentam* a narrativa: (a) há um **gradiente latitudinal persistente** — a agricultura fica
-~120–130 km ao sul de pasto/rebanho *em todos os anos*; (b) a **pastagem lidera** o avanço; e
+**123–135 km** ao sul de pasto/rebanho *em todos os anos*; (b) a **pastagem lidera** o avanço; e
 (c) **só no Ato III (2020–24) a agricultura desacelera** enquanto pasto e rebanho seguem
 subindo — o sinal de deslocamento mais limpo, e é recente.
 
@@ -583,7 +583,7 @@ Puxa o fio do #28 ao nível espacial. Espacializa a mistura de mecanismos (Rota�
 Oportunístico antigo) por AMC e município, cruza com plantio direto (Censo 2017) e propõe uma
 tipologia de "carreira da terra". O achado que **parecia** robusto era a **geografia das duas
 lógicas** — a Rotação (pasto jovem) dominando o Sul/Centro e o Oportunístico (pasto antigo) o
-Norte, as duas como **faces do gradiente de aptidão Sul→Norte** (índice jovem × latitude
+Norte, as duas como **faces do gradiente Sul→Norte** (índice jovem × latitude
 r=−0,236 no censo; a amostra dava −0,49).
 
 > 🛑 **Esse achado caiu — e é a autocorreção mais dura da perna.** O bracket-por-evento (julho de
