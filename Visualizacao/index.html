@@ -818,10 +818,15 @@
               original (pasto +79,2 contra +78 km; agricultura +66,9 contra +65). <em>(#43)</em>
             </p>
             <p>
-              <strong>A "muralha norte" é a floresta, não a vegetação inteira.</strong> Ao abrir
-              o agregado em formações, o que resiste é a floresta; o campo nativo recuou +35 km.
-              Foi uma autocorreção: o número médio escondia o oposto acontecendo por dentro.
-              <em>(#44)</em>
+              <strong>Tampouco é artefato de agregação de classes.</strong> Aberto o agregado em
+              formações, a vegetação natural <em>não</em> está parada por dentro: a
+              <strong>floresta</strong> desloca-se ao norte (+8,7 km, IC95% [+2,5; +15,1]) e o
+              <strong>campo nativo</strong> também (+35 km, direção robusta e magnitude
+              imprecisa, com intervalo largo); quem tem intervalo incluindo zero é a
+              <strong>savânica</strong> &mdash; e é ela, a mais extensa das três, que domina o
+              agregado. O que parecia imobilidade da vegetação é a soma de uma classe parada com
+              duas que andaram. Foi uma autocorreção: o número médio escondia comportamentos
+              distintos por dentro. <em>(#44)</em>
             </p>
             <p>
               <strong>Toda a marcha vem com barra de erro.</strong> Bootstrap de AMCs
@@ -3140,6 +3145,25 @@
           ao lado (<a href="#p4-decisoes">D19</a>).
           <em class="autoc-ref">#32</em>
         </p>
+        <p>
+          Só que essa reamostragem supõe que as 166 AMCs são <em>trocáveis e independentes</em>
+          &mdash; e o diagnóstico espacial deste mesmo trabalho mostra que não são. Onde há
+          dependência entre vizinhas, o número efetivo de unidades independentes é menor que 166,
+          e o intervalo sai <strong>estreito demais</strong>. Por isso a conta é refeita com
+          <strong>bootstrap de blocos espaciais</strong>: em vez de sortear AMC a AMC, o estado é
+          particionado em blocos compactos e sorteiam-se os blocos inteiros, com os vizinhos
+          juntos. O tamanho do bloco não é um valor a descobrir, e sim um parâmetro que se varre
+          &mdash; de 1 a 14 AMCs por bloco.
+        </p>
+        <p>
+          O intervalo alarga como esperado (no caso da pastagem, de 45 para <strong>80 km</strong>
+          de largura) e <strong>o veredito não muda em nenhum tamanho de bloco</strong>: pastagem,
+          rebanho e agricultura excluem zero nas seis partições; a vegetação natural inclui zero
+          nas seis. A leitura da tabela não depende, portanto, de tratar as unidades como
+          independentes. O único ponto em que a régua importa é a <em>componente leste</em> da
+          agricultura, que passa a incluir zero quando os blocos chegam a oito AMCs.
+          <em class="autoc-ref">#55</em>
+        </p>
 
         <h4>Robustez de malha &mdash; centro de massa pixel a pixel</h4>
         <p>
@@ -3158,12 +3182,20 @@
         <p>
           Um centro de massa é uma média, e toda média esconde. "A vegetação natural ficou
           ancorada" é verdade <em>no agregado</em> &mdash; mas o agregado mistura formações
-          que fizeram coisas diferentes. Abertas em três, o quadro muda: a
-          <strong>floresta</strong> (mata de galeria, veredas) de fato ficou parada
-          (+9&nbsp;km); mas o <strong>campo nativo</strong> &mdash; o Cerrado aberto, a
+          que fizeram coisas diferentes. Abertas em três, o quadro muda &mdash; e não na direção
+          que se supõe. A <strong>floresta</strong> (mata de galeria, veredas) marcha
+          <strong>+8,7&nbsp;km</strong> ao norte com intervalo que exclui zero
+          ([+2,5;&nbsp;+15,1]), e o <strong>campo nativo</strong> &mdash; o Cerrado aberto, a
           formação que a fronteira mais consome &mdash; marcha <strong>+35&nbsp;km</strong>
-          ao norte (com IC largo). A "muralha verde" do norte é a floresta, não a vegetação
-          inteira.
+          (direção robusta, magnitude imprecisa: o IC é largo). A única que <em>inclui</em> zero
+          é a <strong>savânica</strong>, que é a mais extensa das três e por isso arrasta o
+          agregado: é dela que vem o "ancorada" da média, e não de uma imobilidade geral.
+        </p>
+        <p class="nota-superado">
+          <strong>Resultado superado.</strong> Esta página dizia, até agosto de 2026, que "a
+          floresta de fato ficou parada" e que a "muralha verde" do norte era ela. É o inverso do
+          que o intervalo mostra: a floresta é justamente a formação cujo deslocamento ao norte
+          tem o intervalo mais limpo das três. <em class="autoc-ref">#44 &rarr; D19</em>
         </p>
         <p>
           A mesma técnica serviu como <strong>placebo</strong>: o centroide da
@@ -3215,7 +3247,7 @@
  │                                                     Não → pixel a pixel bate a ~1-2 km
  │
  ├─ #44  centro_massa_desagregado.py   AUTOCORREÇÃO    "O que a média esconde?"
- │                                                     A "muralha" é a floresta · soja não lidera
+ │                                                     quem inclui zero é a savânica · soja não lidera
  │                                                     urbano parado · leite ancorado
  │
  ├─ #50  centro_massa_economico.py     EXTENSÃO        "E o dinheiro, marcha junto?"
