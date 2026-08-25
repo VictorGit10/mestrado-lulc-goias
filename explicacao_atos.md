@@ -49,7 +49,7 @@ O STARS (Sequential t-test Analysis of Regime Shifts) varre a série ano a ano p
 Este método mede o quanto a **matriz de transição LULC** (quem virou o quê) muda de um ano para o seguinte. Se a matriz em 2002→2003 é muito diferente da matriz em 2001→2002, algo mudou na dinâmica de conversão.
 
 - **Pico em 2003**: A forma como a terra mudava de classe alterou-se bruscamente
-- **Pico em 2018–2020**: Outro momento de reorganização das transições
+- **Pico em 2019–2022**: outro momento de reorganização das transições. ⚠️ Esta ficha trazia "2018–2020": quando a matriz foi recontada em jul/2026 **já incluindo o Mosaico de Usos**, o pico do indicador **migrou para 2022**, e os quatro métodos deixaram de apontar exatamente o mesmo ano
 
 > [!WARNING]
 > **As duas medidas têm alcance desigual, e o "✓" de 2020 não é corroboração independente.**
@@ -77,7 +77,7 @@ taxa_anual = (área que mudou de classe) / (área total)
 ```
 
 Depois agrupa essas taxas por Ato e testa estatisticamente se as distribuições diferem:
-- **Kruskal-Wallis (3 períodos)**: H = 22.57, p < 0.001 → **Sim, os Atos diferem**
+- **Kruskal-Wallis (3 períodos)**: H = 20,26, p < 0,001 → **Sim, os Atos diferem**. *(O `H = 22,57` que esta ficha trazia é o da partição em **quatro** períodos, a que inclui a candidata de ~2005/06 — e é a partição que o trabalho **descartou**. Corrigido em ago/2026.)*
 - Comparações par-a-par com Mann-Whitney + correção Bonferroni
 
 #### Nível 2 — Categoria: ganho e perda de cada classe variam?
@@ -115,7 +115,7 @@ Método                    Quebra ~2001    Quebra ~2020
 ──────────────────────────────────────────────────────
 sup-F (primário)              ✓ F=62.2      ✓ F=21.5 (34,1 corrigido)
 STARS (simplificado)          ✓ 2004/06     —
-KL/TV                         ✓ pico 2003   ⚠ 2018-2020 (contaminado)
+KL/TV                         ✓ pico 2003   ⚠ 2019-2022 (contaminado)
 soja plantada (SIDRA)         —             ✓ F=7,8 (imune)
 ──────────────────────────────────────────────────────
 Concordância (detecção):      3/3           2/3 — mas a 2ª
@@ -125,13 +125,13 @@ Concordância (detecção):      3/3           2/3 — mas a 2ª
                        VALIDAÇÃO GLOBAL
 Método                    Resultado
 ──────────────────────────────────────────────────────
-Intensity Analysis        Kruskal-Wallis H = 22.57,
-(Aldwaik & Pontius)       p < 0.001 (3 Atos diferem)
+Intensity Analysis        Kruskal-Wallis H = 20,26,
+(Aldwaik & Pontius)       p < 0,001 (3 Atos diferem)
 ──────────────────────────────────────────────────────
 ```
 
 > [!NOTE]
-> Os 3 primeiros métodos **detectam** onde estão as quebras (cada um aponta anos específicos). O Intensity Analysis tem papel diferente: ele **valida globalmente** se os períodos resultantes são de fato distintos. O teste Kruskal-Wallis compara os 3 Atos simultaneamente — `H = 22.57` é a estatística do teste e `p < 0.001` é o p-valor desse mesmo teste. Não são detecções separadas para ~2001 e ~2020; são **um resultado único** que diz "os três períodos diferem significativamente em taxa de mudança LULC".
+> Os 3 primeiros métodos **detectam** onde estão as quebras (cada um aponta anos específicos). O Intensity Analysis tem papel diferente: ele **valida globalmente** se os períodos resultantes são de fato distintos. O teste Kruskal-Wallis compara os 3 Atos simultaneamente — `H = 20,26` é a estatística do teste e `p < 0,001` é o p-valor desse mesmo teste. Não são detecções separadas para ~2001 e ~2020; são **um resultado único** que diz "os três períodos diferem significativamente em taxa de mudança LULC".
 
 > [!TIP]
 > A lógica é: **3 métodos independentes convergem para as mesmas fronteiras, e o 4º confirma que o que existe de cada lado delas é qualitativamente diferente**. É como ter três testemunhas que não se conhecem apontando o mesmo momento — e um perito que examina o antes e o depois e confirma que algo de fato mudou.

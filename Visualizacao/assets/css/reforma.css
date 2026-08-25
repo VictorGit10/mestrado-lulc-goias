@@ -1675,6 +1675,14 @@ body.reforma .pl-src code { background: none; color: inherit; }
 .decisao-card--superada { opacity: .62; }
 .decisao-card--superada .decisao-badge { filter: grayscale(1); }
 
+/* Ressalva curta dentro de celula de tabela: o valor principal manda, o
+   qualificador fica legivel sem competir com ele. */
+.nota-inline-min {
+  font-size: 0.85em;
+  opacity: 0.72;
+  white-space: nowrap;
+}
+
 /* Resultado superado, narrado ao lado do objeto dele (e nao so na lista de
    autocorrecoes): registra o que se publicaria antes da regua que o substituiu. */
 .nota-superado {
