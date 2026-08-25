@@ -7,9 +7,9 @@
 
   <title>O Caso do Mosaico de Usos — Goiás, MapBiomas × SIDRA (1985–2024)</title>
 
-  <meta name="description" content="Uma classe do MapBiomas pensada para a ambiguidade — lavoura ou pasto, indistinguíveis a 30 metros — passou a concentrar quase toda a expansão agrícola recente de Goiás. A investigação completa: contagem de pixels, centros de massa, quatro coleções do MapBiomas e o Sentinel-2 de 10 metros.">
-  <meta property="og:title" content="O Caso do Mosaico de Usos — Goiás, MapBiomas × SIDRA (1985–2024)">
-  <meta property="og:description" content="Uma classe pensada para a ambiguidade classificatória passou a concentrar quase toda a expansão agrícola recente de Goiás. A investigação completa, coleção a coleção.">
+  <meta name="description" content="Entre 2020 e 2024, uma classe do MapBiomas destinada a pixels ambíguos (lavoura ou pasto, indistinguíveis a 30 metros) absorveu quase toda a expansão agrícola recente de Goiás. Quatro testes independentes examinam se a mudança está na paisagem ou na régua de medição.">
+  <meta property="og:title" content="O Caso do Mosaico de Usos · Goiás, MapBiomas × SIDRA (1985–2024)">
+  <meta property="og:description" content="Entre 2020 e 2024, uma classe do MapBiomas destinada a pixels ambíguos absorveu quase toda a expansão agrícola recente de Goiás. Quatro testes independentes.">
   <meta property="og:type" content="website">
 
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23fafaf7'/%3E%3Ccircle cx='32' cy='32' r='14' fill='%238b3a1d'/%3E%3C/svg%3E">
@@ -499,21 +499,16 @@
   <div class="investigacao-container">
 
     <header class="investigacao-header">
-      <span class="investigacao-tag">Uma investigação sobre um rótulo do mapa</span>
       <h1 class="investigacao-title">O Caso do Mosaico de Usos</h1>
       <p class="investigacao-subtitle">
-        Uma classe pensada para a ambiguidade — lavoura ou pasto, indistinguíveis a 30 metros —
-        passou a concentrar quase toda a expansão agrícola recente de Goiás. Esta página reconstrói,
-        passo a passo, a investigação que fizemos para descobrir se é a paisagem que mudou ou o mapa
-        que perdeu o rastro dela.
+        Entre 2020 e 2024, uma classe do MapBiomas destinada a pixels ambíguos (lavoura ou pasto,
+        indistinguíveis a 30 metros) absorveu quase toda a expansão agrícola recente de Goiás,
+        enquanto a classe "Agricultura" ficou parada. Quatro testes independentes examinam se a
+        mudança está na paisagem ou na régua de medição.
       </p>
       <div class="investigacao-meta-bar">
-        Esta página é um recorte autocontido de uma dissertação de mestrado sobre uso e cobertura da
-        terra em Goiás (1985–2024). Não é preciso conhecer o resto do projeto para acompanhar —
-        só saber que existe um mapa anual de uso da terra (o <strong>MapBiomas</strong>, construído a
-        partir de imagens de satélite) e que, dentro dele, uma classe chamada <strong>"Mosaico de
-        Usos"</strong> começou a se comportar de um jeito estranho. <strong>Leitura:</strong> ~20–25
-        minutos. <strong>Fontes:</strong> MapBiomas (coleções 6, 8, 9, 10.1 e a coleção de 10&nbsp;m) e
+        Recorte autocontido de uma dissertação de mestrado sobre uso e cobertura da terra em Goiás
+        (1985–2024). <strong>Fontes:</strong> MapBiomas (coleções 6, 8, 9, 10.1 e a coleção de 10&nbsp;m) e
         IBGE/SIDRA (Produção Agrícola e Pecuária Municipal).
       </div>
     </header>
@@ -532,7 +527,7 @@
       <div class="kpi-card kpi-mosaico">
         <div class="kpi-label">Para onde ela foi parar</div>
         <div class="kpi-value">+60,5%</div>
-        <div class="kpi-sub">"Mosaico de Usos", 2020→2024: +1,35 Mha — quase exatamente o tamanho do descompasso acima.</div>
+        <div class="kpi-sub">"Mosaico de Usos", 2020→2024: +1,35 Mha, quase o tamanho do descompasso acima.</div>
       </div>
       <div class="kpi-card kpi-razao">
         <div class="kpi-label">A troca de destino</div>
@@ -542,77 +537,52 @@
     </div>
 
     <nav class="roteiro" aria-label="Roteiro da investigação">
-      <h2>Roteiro desta investigação</h2>
+      <h2>Roteiro</h2>
       <ol>
-        <li><a href="#origem">1. Como isso começou</a><span class="roteiro-teaser">Uma classe que estávamos ignorando, e o defeito de contabilidade que a trouxe à tona.</span></li>
-        <li><a href="#primeiro-sinal">2. O primeiro sinal</a><span class="roteiro-teaser">A idade das pastagens convertidas desabou nos últimos anos da série — e nenhum suspeito óbvio explica por quê.</span></li>
-        <li><a href="#contando">3. Contando para onde o pasto vai</a><span class="roteiro-teaser">Paramos de olhar só para "virou lavoura" e contamos todos os destinos possíveis.</span></li>
-        <li><a href="#nao-parou">4. Isso não é "a conversão parou"</a><span class="roteiro-teaser">A soja plantada em Goiás cresceu 38% no exato período em que a "Agricultura" do mapa ficou parada.</span></li>
-        <li><a href="#duas-hipoteses">5. Câmera ou paisagem?</a><span class="roteiro-teaser">Duas explicações concorrentes — e por que os dados, sozinhos, não escolhem entre elas.</span></li>
-        <li><a href="#teste-forma">6. Teste 1 — a forma do sinal</a><span class="roteiro-teaser">O campo cresce liso; a régua do mapa sobe em degraus. Isso já diz alguma coisa.</span></li>
-        <li><a href="#teste-centro-massa">7. Teste 2 — onde está a massa escondida</a><span class="roteiro-teaser">Duas fontes que concordaram por quase 40 anos e, de repente, discordam.</span></li>
-        <li><a href="#teste-colecoes">8. Teste 3 — perguntando às coleções antigas</a><span class="roteiro-teaser">Baixamos três versões mais velhas do mesmo mapa para separar borda de calendário.</span></li>
-        <li><a href="#teste-sentinel">9. Teste 4 — olhando mais de perto</a><span class="roteiro-teaser">Um satélite diferente, 3× mais fino. O que ele mostra dentro de cada pixel ambíguo.</span></li>
-        <li><a href="#veredito">10. O que ficamos sabendo</a><span class="roteiro-teaser">Um balanço: o que caiu, o que se sustentou, o que continua sem resposta.</span></li>
-        <li><a href="#tratamento">11. Como passamos a lidar com isso</a><span class="roteiro-teaser">A regra que adotamos para nunca publicar um número que dependa de um rótulo em movimento.</span></li>
+        <li><a href="#origem">1. A correção que abriu o caso</a></li>
+        <li><a href="#primeiro-sinal">2. A queda na idade das conversões: de 22 para 4 anos</a></li>
+        <li><a href="#contando">3. O destino da pastagem mudou de Agricultura para Mosaico</a></li>
+        <li><a href="#nao-parou">4. A soja cresceu 38% enquanto a Agricultura do mapa ficou parada</a></li>
+        <li><a href="#duas-hipoteses">5. Duas hipóteses concorrentes</a></li>
+        <li><a href="#teste-forma">6. A forma do sinal aponta para a régua, não para o campo</a></li>
+        <li><a href="#teste-centro-massa">7. O crescimento do Mosaico está concentrado na fronteira</a></li>
+        <li><a href="#teste-colecoes">8. A subida está presa ao calendário, não à borda da coleção</a></li>
+        <li><a href="#teste-sentinel">9. Um sensor mais fino não desfaz o Mosaico em lavoura</a></li>
+        <li><a href="#tratamento">10. A régua dupla: piso pela classe, teto pela união</a></li>
       </ol>
     </nav>
 
     <!-- 1 — ORIGEM ============================================================ -->
     <section class="capitulo" id="origem">
       <div class="capitulo-eyebrow">Capítulo 1</div>
-      <h2>Como isso começou</h2>
+      <h2>A correção que abriu o caso</h2>
 
       <p>
-        Esta investigação nasceu de uma pergunta bem mais modesta do que ela virou. Dentro do projeto
-        maior — como o uso da terra em Goiás mudou entre 1985 e 2024 — havia uma pergunta específica:
-        quando uma pastagem vira lavoura, quanto tempo ela durou como pastagem antes disso? Para
-        responder, é preciso um mapa anual de cobertura da terra (o MapBiomas fornece exatamente isso,
-        pixel a pixel, desde 1985) e uma forma de separar, em cada pixel, se aquele ano é
-        <strong>Pastagem</strong> (classe 15) ou <strong>Agricultura</strong> (classe 19).
-      </p>
-
-      <p>
-        O problema é que existe uma terceira classe que não é nem uma coisa nem outra: o
-        <strong>"Mosaico de Usos"</strong> (classe 21) — a categoria que o próprio MapBiomas reserva
-        para quando a imagem de satélite, a 30 metros de resolução, não permite distinguir com
-        segurança se aquele pixel é lavoura, pasto, ou uma mistura das duas coisas dentro da mesma
-        propriedade. É uma classe honesta: em vez de forçar uma resposta que a imagem não sustenta, o
-        classificador admite a dúvida.
-      </p>
-
-      <p>
-        No início da nossa contagem, essa classe simplesmente não tinha lugar. Ela não era pastagem,
-        não era agricultura — e por isso decidimos deixá-la de fora: parecia uma categoria que não
-        faria diferença nos resultados, e mantê-la só adicionaria ruído a uma contagem pensada para
-        pasto e lavoura. A escolha foi deliberada, e foi um erro. Ela entrou no código como uma linha
-        faltando na tabela de correspondência, e um preenchimento automático de valores vazios cobriu
-        o buraco com a resposta errada — a mesma usada para "não sei", quando a resposta certa para
-        aqueles pixels específicos era conhecida. O que parecia uma omissão acidental era uma decisão
-        tomada de propósito, cuja consequência é que ficou silenciosa: nenhuma mensagem de erro, só
-        pixels sumindo da conta como se não existissem.
+        A investigação nasceu de uma pergunta sobre a idade das pastagens que se convertem em
+        lavoura, que exige separar <strong>Pastagem</strong> (classe 15) de
+        <strong>Agricultura</strong> (classe 19) no mapa anual do MapBiomas. Uma terceira classe,
+        o <strong>"Mosaico de Usos"</strong> (classe 21), é reservada para pixels em que a imagem
+        de satélite (30 metros) não permite distinguir se aquele ponto é lavoura, pasto ou uma
+        mistura dos dois. Na contagem original essa classe ficou de fora por uma linha faltando
+        na tabela de correspondência, e um preenchimento automático cobriu o buraco com a resposta
+        errada, fazendo os pixels sumirem da conta sem nenhuma mensagem de erro.
       </p>
 
       <div class="pista">
         <h4>O defeito de contabilidade</h4>
         <p>
-          Quando fomos auditar a base de pixels que sustentava essa análise, encontramos o problema:
-          cerca de <strong>4.900 pixels</strong>, cuja classe anterior era Mosaico de Usos, estavam
-          sendo descartados como "idade desconhecida" — quando na verdade tinham idade perfeitamente
-          conhecida, só não cabiam na tabela de categorias. Corrigido isso e dada à classe 21 um grupo
-          próprio, o volume de dados aproveitáveis para as análises principais subiu <strong>44%</strong>.
-          E os pixels resgatados não eram um recorte aleatório: eram desproporcionalmente os de origem
-          mista lavoura/pastagem — justamente a categoria mais próxima do fenômeno que a pergunta
-          original queria isolar.
+          Cerca de <strong>4.900 pixels</strong> cuja classe anterior era Mosaico de Usos estavam
+          sendo descartados como "idade desconhecida", quando tinham idade conhecida e apenas não
+          cabiam na tabela de categorias. Corrigido o mapeamento, o volume de dados aproveitáveis
+          subiu <strong>44%</strong>, e os pixels resgatados eram desproporcionalmente de origem
+          mista lavoura/pastagem.
         </p>
       </div>
 
       <p>
-        Esse conserto, sozinho, já teria sido o fim da história: uma correção de contabilidade, um
-        número atualizado, seguir em frente. Mas foi só depois de arrumar essa contagem — e de trocar
-        uma amostra de pixels por um <strong>censo completo</strong>, contando literalmente todo pixel
-        de Goiás em todos os 40 anos, em vez de uma fração deles — que outra coisa, mais estranha,
-        apareceu debaixo da primeira. Foi esse sintoma que abriu o caso que esta página conta.
+        A correção da contabilidade teria encerrado a questão, mas a troca da amostra por um
+        <strong>censo completo</strong> de todos os pixels de Goiás nos 40 anos da série revelou
+        o padrão que o restante desta página examina.
       </p>
 
       <a class="voltar-topo" href="#top">↑ roteiro</a>
@@ -621,12 +591,11 @@
     <!-- 2 — PRIMEIRO SINAL ==================================================== -->
     <section class="capitulo" id="primeiro-sinal">
       <div class="capitulo-eyebrow">Capítulo 2</div>
-      <h2>O primeiro sinal: uma idade que não parava de cair</h2>
+      <h2>A queda na idade das conversões: de 22 para 4 anos</h2>
 
       <p>
-        Com a contagem corrigida, olhamos para a idade das pastagens no momento em que viravam
-        lavoura, ano a ano. Quatro coisas caíram juntas nos anos mais recentes da série, e nenhuma
-        delas, isoladamente, fazia sentido:
+        Com a contagem corrigida, a idade das pastagens no momento da conversão em lavoura
+        revelou quatro anomalias simultâneas nos anos mais recentes.
       </p>
 
       <div class="tabela-wrap">
@@ -651,29 +620,28 @@
         </table>
       </div>
       <p class="chart-caption" style="text-align:left; margin-top:-0.6rem;">
-        Cada linha de "idade desconhecida" aqui é legítima (a idade só pode ser calculada quando a
-        conversão anterior também foi observada dentro da série) — a coluna que importa é a de
-        conversões registradas, que despenca, e a mediana, que cai junto.
+        "Idade desconhecida" é legítima, porque a idade só pode ser calculada quando a conversão
+        anterior também foi observada dentro da série; a coluna relevante é a de conversões
+        registradas, que despenca, e a mediana, que cai junto.
       </p>
 
       <p>
-        O número de conversões catalogadas cai de mais de um milhão em 2019 para 157 mil em 2024. A
-        idade mediana das que sobram cai de 22 anos para uma faixa entre 4 e 11. E a fração de dados
-        com "idade desconhecida" oscila de forma que não acompanha nada óbvio. Colocamos quatro
-        suspeitos na mesa:
+        As conversões catalogadas caem de mais de um milhão em 2019 para 157 mil em 2024 e a
+        idade mediana cai de 22 para uma faixa entre 4 e 11 anos. Quatro explicações alternativas
+        foram examinadas, e nenhuma delas resistiu. A de reclassificação, em que novas subclasses
+        de agricultura estariam entrando na contagem, não se sustenta porque a área total de
+        Agricultura no mapa está praticamente parada, como o Capítulo 4 mostra. A de concentração
+        espacial, em que a queda viria de menos municípios sendo observados, também não, já que a
+        queda é estadual e monotônica em todo o território. A de mudança de comportamento do
+        produtor contraria o que os dados de campo registram, e o Capítulo 4 traz os números.
+        Resta a de um soluço isolado de uma versão específica do mapa, à qual o Capítulo 8 é
+        inteiramente dedicado, e que também não se confirma.
       </p>
 
-      <ul>
-        <li><strong>Reclassificação:</strong> novas subclasses de agricultura entrando na contagem? Não — a área total de Agricultura no mapa está, como o próximo capítulo mostra, praticamente parada.</li>
-        <li><strong>Concentração espacial:</strong> a queda vem de menos municípios sendo observados? Não — a queda é estadual e cai de forma monotônica, ano após ano, em todo o território.</li>
-        <li><strong>Mudança de comportamento do produtor:</strong> os agricultores pararam de converter pasto em lavoura? Não é o que os dados de campo mostram — o próximo capítulo traz os números.</li>
-        <li><strong>Um problema pontual de uma versão do mapa:</strong> um "soluço" isolado de uma coleção específica do MapBiomas? Também não — e o Capítulo 8 é inteiramente dedicado a testar exatamente essa hipótese, baixando coleções antigas para verificar.</li>
-      </ul>
-
       <p>
-        Nenhum dos quatro, na forma como foi formulado, resistiu. A pergunta que restou era mais
-        desconfortável: e se a coisa que estávamos medindo — "pastagem que virou lavoura" — não
-        significasse mais, em 2024, a mesma coisa que significava em 2015?
+        Com as quatro descartadas, a pergunta que restou era se a medida que estávamos fazendo,
+        "pastagem que virou lavoura", continuava significando em 2024 a mesma coisa que
+        significava em 2015.
       </p>
 
       <a class="voltar-topo" href="#top">↑ roteiro</a>
@@ -682,20 +650,13 @@
     <!-- 3 — CONTANDO ========================================================== -->
     <section class="capitulo" id="contando">
       <div class="capitulo-eyebrow">Capítulo 3</div>
-      <h2>Contando para onde o pasto vai</h2>
+      <h2>O destino da pastagem mudou de Agricultura para Mosaico</h2>
 
       <p>
-        Até aqui, toda a análise olhava só para uma pergunta: "essa pastagem virou lavoura?" — e
-        ignorava qualquer pastagem que tivesse saído para outro destino. Era hora de parar de fazer
-        essa pergunta estreita e fazer a pergunta completa: <strong>de tudo que deixa de ser pastagem
-        em um determinado ano, para onde vai?</strong>
-      </p>
-
-      <p>
-        Isso exige contar, pixel a pixel, todos os 379 milhões de pixels de 30 metros que cobrem
-        Goiás, em cada um dos 40 anos da série — um censo completo, não uma amostra. Restringimos o
-        olhar a um recorte simples: de toda a pastagem que sai (que deixa de ser classe 15 de um ano
-        para o outro), quanto vai para Agricultura e quanto vai para Mosaico de Usos?
+        A análise anterior perguntava apenas se a pastagem virou lavoura. A pergunta completa
+        abrange todos os destinos possíveis, medidos pixel a pixel sobre os 379 milhões de células
+        de 30 metros de Goiás ao longo dos 40 anos da série. O recorte que importa é a partição
+        da pastagem que sai entre Agricultura e Mosaico de Usos.
       </p>
 
       <div class="chart-box">
@@ -738,29 +699,24 @@
         </table>
       </div>
       <p class="chart-caption" style="text-align:left; margin-top:-0.6rem;">
-        Contagem sobre o retângulo que envolve Goiás (inclui faixas finas de estados vizinhos) —
-        adequado para razões e participações, que é o que estas colunas mostram; os totais absolutos
-        em hectares, restritos ao polígono real do estado, aparecem no próximo capítulo.
+        Contagem sobre o retângulo que envolve Goiás, que inclui faixas de estados vizinhos e por
+        isso serve para razões e participações; os totais em hectares, restritos ao polígono do
+        estado, aparecem no próximo capítulo.
       </p>
 
       <p>
-        Em 2015, de cada dez pixels que deixavam de ser pastagem rumo a um dos dois destinos, cerca de
-        cinco e meio viravam Agricultura e três e meio viravam Mosaico — o equivalente à razão de
-        0,60×. Em 2024, essa proporção se inverteu de forma quase completa: apenas 2,6% das saídas de
-        pastagem chegam a Agricultura; <strong>85,9% chegam a Mosaico de Usos</strong>. A razão entre
-        os dois destinos foi de 0,6× para <strong>32,5×</strong> — ou seja, para cada pixel que o mapa
-        registra como tendo virado lavoura pura em 2024, trinta e dois outros pixels de pastagem que
-        também saíram ficaram etiquetados como "não consigo separar".
+        Em 2015, a razão Mosaico/Agricultura entre esses destinos era de 0,60×, com mais da
+        metade indo para Agricultura. Em 2024, <strong>85,9%</strong> das saídas de pastagem chegam a
+        Mosaico e apenas 2,6% a Agricultura, uma razão de <strong>32,5×</strong>.
       </p>
 
       <div class="veredito-box">
         <h4>O que isso significa</h4>
         <p>
-          A análise original — "pastagem que virou lavoura" — não estava medindo um fenômeno
-          constante ao longo dos 40 anos. Estava medindo uma fatia cada vez menor e mais atípica dele.
-          Em 2024, a classe "Agricultura" só captura cerca de <strong>7,5%</strong> do volume de
-          conversão que capturava em 2015 — não porque a conversão tenha diminuído nessa proporção,
-          mas porque o destino que o mapa atribui a ela mudou.
+          A análise original, "pastagem que virou lavoura", mede uma fatia cada vez menor do
+          fenômeno. Em 2024, a classe "Agricultura" captura cerca de <strong>7,5%</strong> do
+          volume de conversão que capturava em 2015, não porque a conversão tenha diminuído nessa
+          proporção, mas porque o destino que o mapa atribui a ela mudou.
         </p>
       </div>
 
@@ -770,12 +726,11 @@
     <!-- 4 — NÃO PAROU ========================================================= -->
     <section class="capitulo" id="nao-parou">
       <div class="capitulo-eyebrow">Capítulo 4</div>
-      <h2>Isso não é "a conversão parou"</h2>
+      <h2>A soja cresceu 38% enquanto a Agricultura do mapa ficou parada</h2>
 
       <p>
-        A leitura mais simples do capítulo anterior seria: a conversão de pasto em lavoura desacelerou
-        demais depois de 2015. É uma hipótese razoável — e é falsa. Quatro âncoras, a maioria delas
-        completamente fora do sensoriamento remoto, mostram por quê.
+        A leitura mais simples do capítulo anterior seria que a conversão desacelerou. Quatro
+        âncoras fora do sensoriamento remoto mostram que essa leitura é falsa.
       </p>
 
       <div class="chart-box">
@@ -793,29 +748,21 @@
         </div>
       </div>
 
-      <p><strong>(a) A lavoura cresceu, muito, na janela exata.</strong> A área de soja plantada em
-      Goiás — um dado de campo, apurado pelo IBGE junto a produtores, que não passa por nenhum
-      classificador de imagem de satélite — foi de 3,578 milhões de hectares em 2020 para 4,942
-      milhões em 2024: <strong>+1,364 Mha, +38,1%</strong> em quatro anos.</p>
-
-      <p><strong>(b) A "Agricultura" do MapBiomas não se mexeu.</strong> No mesmo intervalo, ela foi de
-      5,668 para 5,732 Mha — um acréscimo de apenas <strong>63.930 hectares (+1,1%)</strong>, contra um
-      ritmo de +150 a +180 mil hectares por ano que a própria série mostrava entre 2015 e 2017.</p>
-
-      <p><strong>(c) O Mosaico de Usos cresceu quase exatamente o tamanho do descompasso.</strong> De
-      2,235 para 3,586 Mha: <strong>+1,351 Mha</strong> — praticamente idêntico aos +1,364 Mha de soja
-      nova que o IBGE registrou no campo. A coincidência de magnitude é grande demais para ser
-      acidental, mas — e isto importa — <strong>uma coincidência de totais não é, sozinha, uma prova</strong>;
-      ela mostra que as contas fecham, não que sabemos exatamente quais pixels se movimentaram. É
-      esse o motivo de existir todo o resto desta investigação.</p>
-
-      <p><strong>(d) A pastagem continua saindo.</strong> De 13,146 para 11,989 Mha: <strong>−1,157
-      Mha (−8,8%)</strong>. O pasto está desaparecendo do mapa; só não está sendo contabilizado como
-      chegando à Agricultura.</p>
+      <p>
+        A soja plantada em Goiás, que o IBGE apura em campo, foi de 3,578 para 4,942 milhões de
+        hectares entre 2020 e 2024, <strong>+1,364 Mha (+38,1%)</strong>. No mesmo intervalo,
+        a "Agricultura" do MapBiomas foi de 5,668 para 5,732 Mha (<strong>+63.930 ha,
+        +1,1%</strong>), contra +150 a +180 mil ha/ano entre 2015 e 2017. O Mosaico cresceu de
+        2,235 para 3,586 Mha (<strong>+1,351 Mha</strong>), magnitude quase idêntica à soja nova
+        do IBGE. A coincidência é grande demais para ser acidental, embora não constitua prova
+        por si mesma, pois mostra que as contas fecham, não que se sabe quais pixels se
+        movimentaram. A pastagem continua saindo, de 13,146 para 11,989 Mha
+        (<strong>−1,157 Mha, −8,8%</strong>), sem ser contabilizada como chegando à Agricultura.
+      </p>
 
       <p>
-        Em resumo: há expansão agrícola real e acelerada em Goiás nesses anos, ela aparece no dado de
-        campo, e o MapBiomas até a registra — só que sob o rótulo "Mosaico de Usos", não "Agricultura".
+        Há expansão agrícola real e acelerada em Goiás nesses anos, visível no dado de campo,
+        registrada pelo MapBiomas sob o rótulo "Mosaico de Usos", não "Agricultura".
       </p>
 
       <a class="voltar-topo" href="#top">↑ roteiro</a>
@@ -824,47 +771,22 @@
     <!-- 5 — DUAS HIPÓTESES ==================================================== -->
     <section class="capitulo" id="duas-hipoteses">
       <div class="capitulo-eyebrow">Capítulo 5</div>
-      <h2>Câmera ou paisagem? As duas hipóteses</h2>
+      <h2>Duas hipóteses concorrentes</h2>
 
       <p>
-        Uma classe "Mosaico de Usos" que cresce pode significar duas coisas muito diferentes, e é
-        importante dizer com clareza que os capítulos anteriores <strong>não</strong> separam uma da
-        outra:
+        O crescimento do Mosaico de Usos admite duas leituras que os capítulos anteriores não
+        separam. A primeira (hipótese A) é um comportamento do classificador no fim da série, pois
+        a documentação técnica da Coleção 10 declara que os filtros de pós-classificação usam
+        janelas retroativas de três e quatro anos, de modo que uma conversão perto da borda
+        temporal do mapa não tem anos futuros suficientes para ser confirmada e o classificador
+        pode preferir a resposta mais cautelosa, "Mosaico". A segunda (hipótese B) é uma mudança
+        real na paisagem, já que a integração lavoura-pecuária é prática crescente em Goiás e
+        uma paisagem genuinamente mais misturada deveria produzir mais Mosaico por estar certa,
+        não por falhar. As duas hipóteses produzem o mesmo padrão agregado, e os balanços de
+        contas do Capítulo 4, embora sugestivos, não demonstram que sejam os mesmos pixels.
+        Separá-las exige evidência que trate cada uma de forma distinta, o que é o objeto dos
+        quatro testes que seguem.
       </p>
-
-      <h3>Hipótese A — um comportamento do classificador no fim da série</h3>
-      <p>
-        A documentação técnica pública da Coleção 10 do MapBiomas (o "ATBD", o documento que descreve
-        o algoritmo) declara que os filtros de pós-classificação usam janelas retroativas de três e
-        quatro anos — isto é, para decidir com confiança que um pixel virou lavoura em determinado
-        ano, o algoritmo se apoia em parte no que acontece <em>depois</em> daquele ano. A própria
-        documentação prevê regras adicionais especificamente "para os últimos anos da série, quando a
-        janela de análise é limitada". Uma conversão perto da borda temporal do mapa não tem anos
-        futuros suficientes para ser confirmada — e é plausível que, nessa situação, o classificador
-        prefira a resposta mais cautelosa: "não sei separar", isto é, Mosaico.
-      </p>
-
-      <h3>Hipótese B — uma mudança real na paisagem</h3>
-      <p>
-        A integração lavoura-pecuária (sistemas em que a mesma área alterna, ou combina, lavoura e
-        pasto ao longo do tempo ou do espaço) é uma prática real e crescente em Goiás — em outra parte
-        deste projeto, ao mapear o padrão de manejo predominante por município, encontramos esse tipo
-        de rotação como a categoria mais comum em quase metade dos municípios estudados. Uma paisagem
-        genuinamente mais misturada <em>deveria</em> produzir mais Mosaico — não por falha do
-        classificador, mas porque ele está certo: aquele pixel de fato alterna entre os dois usos.
-      </p>
-
-      <div class="nao-mostra">
-        <h4>O que os capítulos 1 a 4 não provam</h4>
-        <p>
-          O balanço de contas do Capítulo 4 é <strong>sugestivo, não é uma demonstração</strong>. Ele
-          mostra que os totais fecham (a soja que cresceu ≈ o Mosaico que cresceu), mas não mostra que
-          são <em>os mesmos pixels</em>. As duas hipóteses acima produzem exatamente o mesmo padrão
-          agregado. Separá-las exige sair da conta de totais e ir atrás de evidência que trate as duas
-          hipóteses de formas diferentes — é isso que os próximos quatro capítulos fazem, um teste de
-          cada vez.
-        </p>
-      </div>
 
       <a class="voltar-topo" href="#top">↑ roteiro</a>
     </section>
@@ -872,15 +794,12 @@
     <!-- 6 — TESTE 1: FORMA ==================================================== -->
     <section class="capitulo" id="teste-forma">
       <div class="capitulo-eyebrow">Capítulo 6 · Teste 1</div>
-      <h2>O ritmo do campo é liso; a régua do mapa sobe em degraus</h2>
+      <h2>A forma do sinal aponta para a régua, não para o campo</h2>
 
       <p>
-        Antes de qualquer teste mais caro, havia um teste barato à mão: comparar a <em>forma</em> das
-        duas curvas, ano a ano, não apenas o total acumulado. Se a causa fosse inteiramente uma
-        mudança real e gradual no campo, esperaríamos que a métrica do mapa acompanhasse — em forma,
-        não só em tendência — o crescimento suave que o IBGE mede na lavoura. Se a causa fosse (ao
-        menos em parte) um comportamento do classificador, esperaríamos uma métrica que se move aos
-        solavancos, sem relação clara com o ritmo ano a ano do campo.
+        Se a causa fosse uma mudança real no campo, a métrica do mapa deveria acompanhar, em
+        forma, o crescimento suave que o IBGE mede na lavoura. Se fosse um comportamento do
+        classificador, a métrica se moveria aos solavancos.
       </p>
 
       <div class="chart-box">
@@ -897,32 +816,19 @@
       </div>
 
       <p>
-        A soja de campo cresce de forma <strong>lisa</strong>: variações anuais entre −0,5% e +10,6%,
-        sempre nessa faixa estreita, ano após ano, sem nenhum salto abrupto. O fluxo pasto→Agricultura
-        do mapa, no mesmo período, se move em <strong>degraus</strong>: −37,2% em 2016, +11,5% em
-        2017, −22,9% em 2018, e então uma sequência de quedas cada vez mais violentas — <strong>−37,9%
-        em 2020 e −52,2% em 2021</strong>, justamente no ano em que a soja de campo cresceu um
-        tranquilo +7,8%.
+        A soja de campo cresce de forma lisa, com variações anuais entre −0,5% e +10,6%. O fluxo
+        pasto→Agricultura move-se em degraus, sendo −37,2% em 2016, +11,5% em 2017 e −22,9% em
+        2018, e depois desce em quedas cada vez mais acentuadas, <strong>−37,9% em 2020 e −52,2%
+        em 2021</strong>, esta última no ano em que a soja cresceu +7,8%.
       </p>
 
       <div class="pista">
-        <h4>Por que a forma importa mais que o nível</h4>
+        <h4>Por que a forma importa</h4>
         <p>
-          Um processo real da paisagem — decisões de milhares de produtores independentes, em anos
-          diferentes, por motivos diferentes — tende a se mover de forma suave quando agregado em
-          escala estadual; é assim que a série da soja se comporta desde sempre. Uma mudança abrupta e
-          crescente de <em>régua de medição</em> — um limiar de decisão do classificador se deslocando
-          — tende a produzir exatamente o padrão de degraus que vemos no fluxo pasto→Agricultura. A
-          forma do sinal aponta para a régua, não para o campo.
-        </p>
-      </div>
-
-      <div class="nao-mostra">
-        <h4>O que este teste não prova</h4>
-        <p>
-          Um sinal em degraus é consistente com uma mudança de classificador — mas não descarta, por
-          si só, que parte do efeito seja integração lavoura-pecuária real se espalhando de forma
-          desigual pelo território. É um indício, o primeiro de vários, não um veredito.
+          Decisões de milhares de produtores independentes tendem a produzir um agregado suave em
+          escala estadual; um deslocamento de limiar do classificador tende a produzir degraus. A
+          forma do sinal favorece a hipótese da régua, embora uma difusão irregular de integração
+          lavoura-pecuária também pudesse produzir saltos.
         </p>
       </div>
 
@@ -932,16 +838,13 @@
     <!-- 7 — TESTE 2: CENTRO DE MASSA ========================================== -->
     <section class="capitulo" id="teste-centro-massa">
       <div class="capitulo-eyebrow">Capítulo 7 · Teste 2</div>
-      <h2>Onde está a massa escondida</h2>
+      <h2>O crescimento do Mosaico está concentrado na fronteira</h2>
 
       <p>
-        Em outra frente deste projeto, calculamos o <strong>centro de massa</strong> de várias
-        variáveis do uso da terra em Goiás — o ponto médio, ponderado pela área de cada região, de
-        onde aquela variável está concentrada a cada ano. Ao longo de quatro décadas, a fronteira
-        agropecuária inteira marcha para o norte: pastagem, rebanho bovino e lavoura sobem juntos o
-        mapa. Isso deu um jeito indireto — e independente de qualquer contagem de pixels — de checar
-        a mesma pergunta: se a Agricultura do mapa está subestimando a expansão real, o centro de
-        massa dela devia estar puxado para trás, mais ao sul do que devia.
+        O centro de massa geográfico de cada variável de uso da terra em Goiás, que é o ponto de
+        equilíbrio ponderado pela área, mostra a fronteira agropecuária marchando para o norte ao
+        longo de quatro décadas. Se a Agricultura do mapa subestima a expansão recente, seu centro
+        de massa deveria ficar estagnado em relação a fontes independentes do classificador.
       </p>
 
       <div class="chart-box">
@@ -953,69 +856,38 @@
         </div>
         <div class="chart-container" id="chartCentroMassa"></div>
         <div class="chart-caption">
-          Figura 4. Latitude do centro de massa de cada variável, 2018–2024 (graus Sul; para cima no
-          gráfico = mais ao norte). A Agricultura do mapa é a única linha que não se move; somar o
-          Mosaico de volta (linha da união) devolve o avanço ao norte.
+          Figura 4. Latitude do centro de massa, 2018–2024 (graus Sul; para cima = mais ao norte).
+          A Agricultura é a única linha que não se move; somar o Mosaico devolve o avanço ao norte.
         </div>
       </div>
 
       <p>
-        E era exatamente isso que aparecia: entre 2019 e 2024, o centro de massa da Agricultura visível
-        no mapa avançou apenas <strong>+0,2 km ao norte</strong> (intervalo de confiança de 95% inclui
-        zero — estatisticamente, parado). No mesmo período, duas fontes <em>completamente
-        independentes</em> uma da outra — a soja plantada do IBGE e o rebanho bovino do IBGE, nenhuma
-        das duas derivada do classificador de imagem — avançaram <strong>+8 a +12 km ao norte</strong>.
-        Se misturamos o crescimento do Mosaico à conta de Agricultura, o centro de massa da união
-        avança um valor intermediário, robusto e estatisticamente distinto de zero: <strong>+4,1 km
-        [+1,0; +6,9]</strong>.
-      </p>
-
-      <p>
-        Fomos além e perguntamos: onde, exatamente, está a massa que o Mosaico ganhou entre 2019 e
-        2024? Calculamos o centro de massa apenas do <em>crescimento</em> do Mosaico nesses cinco
-        anos — não do seu estoque total, só do que foi adicionado — e comparamos com o centro de massa
-        da Agricultura visível em 2024.
+        Entre 2019 e 2024, o centro de massa da Agricultura avançou apenas
+        <strong>+0,2 km ao norte</strong> (IC 95% inclui zero), enquanto soja plantada e rebanho
+        bovino (IBGE) avançaram <strong>+8 a +12 km</strong>. A união Agricultura+Mosaico avança
+        <strong>+4,1 km [+1,0; +6,9]</strong>, valor intermediário e distinto de zero.
       </p>
 
       <div class="veredito-box">
-        <h4>A massa escondida aterrissa exatamente onde a fronteira está avançando</h4>
+        <h4>O crescimento do Mosaico aterrissa na fronteira</h4>
         <p>
-          O centro de massa do crescimento recente do Mosaico está <strong>46,5 km ao norte</strong>
-          do centro de massa da Agricultura visível — ou seja, a massa "desaparecida" não está
-          espalhada ao acaso: ela está concentrada precisamente na direção em que a fronteira
-          agropecuária avança. E, por município, o crescimento do Mosaico entre 2019 e 2024 tem
-          correlação de <strong>r = 0,84</strong> com o crescimento da soja plantada do IBGE no mesmo
-          período, com magnitudes quase idênticas (1,53 contra 1,54 Mha). O mosaico novo está,
-          espacialmente, onde a soja nova está.
+          Calculado sobre o acréscimo de 2019–2024 e não sobre o estoque total, o centro de massa do
+          crescimento do Mosaico está <strong>46,5 km ao norte</strong> do centro de massa da
+          Agricultura visível. Por município, o crescimento do Mosaico tem correlação de
+          <strong>r = 0,84</strong> com o crescimento da soja plantada do IBGE, com magnitudes
+          quase idênticas (1,53 contra 1,54 Mha). A correlação espacial mostra coincidência de
+          localização, não identidade de conteúdo.
         </p>
       </div>
 
       <p>
-        Um último fio, talvez o mais revelador, veio de comparar a soja medida por sensoriamento
-        remoto (o raster de soja do próprio MapBiomas) com a soja medida em campo pelo IBGE. Essas
-        duas fontes concordaram de perto por 37 anos seguidos — correlação de 0,89 na posição
-        latitudinal ao longo de toda a série. No período mais recente (2020–2024), pela primeira vez,
-        elas se separam: o centro de massa da soja <em>vista pelo satélite</em> recua <strong>7,1 km
-        ao sul</strong>, enquanto o centro de massa da soja <em>medida em campo</em> avança <strong>8,2
-        km ao norte</strong> — as duas fontes se afastando por quase 15 km em quatro anos, depois de
-        quase quatro décadas de concordância.
+        A soja-satélite, medida no raster do MapBiomas, e a soja-campo, apurada pelo IBGE,
+        concordaram com correlação de
+        0,89 na latitude por 37 anos. Entre 2020 e 2024, pela primeira vez se separam. A
+        soja-satélite recua <strong>7,1 km ao sul</strong>, a soja-campo avança <strong>8,2 km ao
+        norte</strong>, quase 15 km de afastamento. O que recuou foi o alcance do rótulo, pois a
+        soja nova nascia onde o Mosaico crescia e deixava de ser reconhecida como soja.
       </p>
-
-      <p>
-        Não é que a lavoura de soja tenha recuado para o sul. É que o <em>rótulo</em> "Soja" perdeu de
-        vista a soja nova, que estava nascendo mais ao norte — no mesmo lugar para onde o Mosaico
-        estava crescendo.
-      </p>
-
-      <div class="nao-mostra">
-        <h4>O que este teste não prova</h4>
-        <p>
-          A geografia mostra <em>onde</em> a massa reetiquetada está — na fronteira, junto com a soja
-          nova — mas continua sem dizer se, pixel a pixel, ela é soja "pura" que o classificador não
-          conseguiu confirmar a tempo, ou se é genuinamente uma mistura de usos. Uma correlação
-          espacial forte não distingue coincidência de identidade.
-        </p>
-      </div>
 
       <a class="voltar-topo" href="#top">↑ roteiro</a>
     </section>
@@ -1023,25 +895,13 @@
     <!-- 8 — TESTE 3: COLEÇÕES ANTIGAS ========================================= -->
     <section class="capitulo" id="teste-colecoes">
       <div class="capitulo-eyebrow">Capítulo 8 · Teste 3</div>
-      <h2>Perguntando às coleções antigas</h2>
+      <h2>A subida está presa ao calendário, não à borda da coleção</h2>
 
       <p>
-        O MapBiomas relança o mapa todo ano como uma "coleção" nova, cada uma reprocessando a série
-        inteira com melhorias de algoritmo e mais um ano de dados. Isso deu acesso a um teste que a
-        Coleção 10.1 sozinha não permite: coleções mais antigas têm a <strong>borda da série em anos
-        diferentes</strong>. Baixamos e reprocessamos, além da 10.1 (que vai até 2024), as Coleções 9
-        (até 2023), 8 (até 2022) e 6 (até 2020) — quatro fotografias do mesmo território, cada uma
-        parando em um ano de calendário diferente.
-      </p>
-
-      <p>
-        A lógica do teste: se o salto na razão Mosaico/Agricultura é um artefato de <strong>borda</strong>
-        — o classificador ficando mais hesitante nos últimos anos de qualquer coleção, por falta de
-        anos futuros para confirmar —, então o salto deveria acompanhar a borda de cada coleção. A
-        Coleção 6, que termina em 2020, deveria mostrar o salto <em>nela</em>, perto de 2020. Se em vez
-        disso o salto está fixo em um ano de calendário específico — aparecendo em toda coleção que
-        alcança aquele ano, e ausente nas que não alcançam —, a explicação é outra: alguma coisa
-        aconteceu naquele momento específico do tempo, não naquela distância da borda.
+        O MapBiomas reprocessa a série completa a cada ano como uma "coleção" nova. Reprocessamos
+        as Coleções 10.1 (até 2024), 9 (até 2023), 8 (até 2022) e 6 (até 2020). Se o salto na
+        razão fosse artefato de borda, com o classificador hesitando perto do fim da série, ele
+        deveria acompanhar a borda de cada coleção, não um ano fixo do calendário.
       </p>
 
       <div class="chart-box">
@@ -1054,38 +914,20 @@
         <div class="chart-container" id="chartBordaMovel"></div>
         <div class="chart-caption">
           Figura 5. Razão Mosaico/Agricultura por coleção, escala logarítmica. Cada linha termina no
-          seu próprio último ano — e nenhuma delas dispara perto do próprio fim; todas disparam a
+          seu próprio último ano, e nenhuma delas dispara perto do próprio fim; todas disparam a
           partir de 2021, mesmo a que nunca chega lá.
         </div>
       </div>
 
       <p>
-        Três achados, cada um checável de forma independente:
-      </p>
-
-      <p>
-        <strong>1. A subida está presa ao calendário, não à borda.</strong> A razão explode a partir de
-        2021 em toda coleção que alcança esse ano (8, 9 e 10.1) — e está simplesmente <strong>ausente
-        na Coleção 6</strong>, que termina em 2020: seus últimos valores (4,66 em 2018, 4,06 em 2019,
-        2,59 em 2020) estão <em>caindo</em>, não subindo, na aproximação da própria borda. Se o efeito
-        fosse de borda, seria a Coleção 6 — a mais perto do seu próprio fim nesses anos — a mostrar o
-        salto. Mostra o oposto.
-      </p>
-
-      <p>
-        <strong>2. O ano final de cada coleção não vem inflado.</strong> Recontamos, pixel a pixel e
-        com o mesmo método exato, o ano de <strong>2023</strong> de duas formas: como o ano
-        <em>terminal</em> da Coleção 9 (sem nenhum ano futuro para confirmar) e como um ano
-        <em>interior</em> da Coleção 10.1 (com 2024 disponível para confirmar). Se a borda inflasse a
-        razão, o valor terminal da Coleção 9 deveria ser <em>maior</em>. Encontramos o oposto: Coleção
-        9 (terminal) = <strong>32,5</strong>; Coleção 10.1 (interior) = <strong>34,7</strong>. Ganhar
-        um ano de futuro não reduziu a razão — ela é, se algo, um pouco maior com mais dados.
-      </p>
-
-      <p>
-        <strong>3. O rótulo, uma vez atribuído, é estável.</strong> Cruzamos, pixel a pixel, todo o
-        Mosaico que a Coleção 9 via em 2023 contra o que a Coleção 10.1 (um ano mais nova) via no
-        mesmo local em 2024.
+        A razão explode a partir de 2021 em toda coleção que alcança esse ano (8, 9 e 10.1) e
+        está ausente na Coleção 6, que termina em 2020 e cujos últimos valores, 4,66 em 2018,
+        4,06 em 2019 e 2,59 em 2020, vêm caindo na aproximação da própria borda. Tampouco o
+        ano final vem inflado. Recontado <strong>2023</strong> como ano terminal da Coleção 9 e
+        como ano interior da Coleção 10.1, o valor terminal é menor (Coleção 9 =
+        <strong>32,5</strong>; Coleção 10.1 = <strong>34,7</strong>); ganhar um ano de futuro
+        não reduziu a razão. Cruzados pixel a pixel todo o Mosaico que a Coleção 9 via em 2023
+        contra o que a Coleção 10.1 via no mesmo local em 2024, o rótulo é estável.
       </p>
 
       <details class="leia-mais">
@@ -1118,36 +960,20 @@
       </details>
 
       <p>
-        Apenas <strong>2,5%</strong> dos pixels que a Coleção 9 rotulava Mosaico em 2023 "curam" para
-        Agricultura quando revistos pela Coleção 10.1 um ano depois — uma taxa estatisticamente igual
-        aos <strong>2,4%</strong> de pixels que já eram Mosaico havia mais de uma década, em pleno
-        interior tranquilo da série, sem nenhuma proximidade de borda. Ganhar um ano inteiro de futuro
-        não resolveu o impasse: a esmagadora maioria continua Mosaico, ou vira alguma coisa que não é
-        Agricultura.
+        Apenas <strong>2,5%</strong> dos pixels que a Coleção 9 rotulava Mosaico em 2023 passam
+        a Agricultura na Coleção 10.1 um ano depois, taxa igual aos <strong>2,4%</strong> de
+        pixels que já eram Mosaico havia mais de uma década. Os três achados eliminam a hipótese
+        de instabilidade de borda. O padrão é estável, reproduzido em três coleções, ancorado
+        a partir de 2021, e coincide com a aceleração real da soja medida pelo IBGE.
       </p>
 
-      <div class="veredito-box">
-        <h4>Veredito do Teste 3</h4>
-        <p>
-          Os três achados, juntos, eliminam a hipótese mais simples e mais fácil de corrigir: a de que
-          isto seria um problema temporário e localizado na borda de cada coleção, que o próprio
-          reprocessamento anual resolveria sozinho. Não é. É um traço <strong>estável, reproduzido de
-          forma independente em três coleções</strong>, ancorado num momento específico do calendário
-          (2021 em diante) — coincidindo, mais uma vez, com a aceleração real da soja medida pelo
-          IBGE.
-        </p>
-      </div>
-
       <div class="nao-mostra">
-        <h4>O que este teste não prova</h4>
+        <h4>O que este teste não separa</h4>
         <p>
-          Refutar "instabilidade de borda" não é o mesmo que provar "artefato do classificador". Uma
-          tendência <em>compartilhada</em> por todas as coleções — por exemplo, uma mudança no próprio
-          sensor de satélite usado como insumo por volta de 2021 (a transição operacional entre os
-          satélites Landsat 7 e Landsat 9), ou uma atualização de metodologia aplicada de forma
-          retroativa a toda a série — produziria exatamente esse padrão sem que fosse, tecnicamente,
-          um "erro de borda". Esse teste separa borda de calendário; não separa classificador de
-          paisagem. Por isso foi preciso um quarto teste.
+          Refutar instabilidade de borda não é o mesmo que provar artefato do classificador. Uma
+          causa compartilhada por todas as coleções, seja uma mudança no sensor Landsat por volta de
+          2021, seja uma atualização de metodologia aplicada retroativamente, produziria o mesmo
+          padrão sem ser erro de borda. Este teste separa borda de calendário, não classificador de paisagem.
         </p>
       </div>
 
@@ -1157,29 +983,17 @@
     <!-- 9 — TESTE 4: SENTINEL ================================================= -->
     <section class="capitulo" id="teste-sentinel">
       <div class="capitulo-eyebrow">Capítulo 9 · Teste 4</div>
-      <h2>Olhando mais de perto, com outro satélite</h2>
+      <h2>Um sensor mais fino não desfaz o Mosaico em lavoura</h2>
 
       <p>
-        Restava um ângulo que nenhum dos testes anteriores tinha tocado: e se o problema fosse
-        simplesmente <strong>resolução</strong>? Um pixel de 30 metros (Landsat, a fonte de toda a
-        série até aqui) cobre 900 m² — área suficiente para conter, ao mesmo tempo, uma beirada de
-        lavoura e uma beirada de pasto, sem que nenhum dos dois domine claramente. Se essa mistura de
-        borda fosse a explicação inteira, um sensor mais fino deveria conseguir "abrir" o pixel
-        ambíguo e revelar, lá dentro, uma parcela de lavoura limpa esperando para ser contada.
-      </p>
-
-      <p>
-        O próprio MapBiomas publica uma coleção separada baseada no <strong>Sentinel-2</strong>, um
-        satélite europeu de resolução espacial três vezes mais fina (10 metros), cobrindo 2017–2024.
-        É um teste de dois gumes: por vir de um satélite diferente, é imune à hipótese de que a causa
-        seja uma mudança no insumo Landsat por volta de 2021 — mas, por usar a mesma legenda e a mesma
-        metodologia geral do MapBiomas, não pode arbitrar sozinho entre "a paisagem é mesmo mista" e
-        "a legenda rotula conversão recente como Mosaico por cautela".
-      </p>
-
-      <p>
-        O teste: dentro de cada célula de 30 metros que a Landsat rotula Mosaico de Usos, olhamos o
-        que as nove células de 10 metros correspondentes, do Sentinel-2, enxergam lá dentro.
+        Se o Mosaico fosse mistura de borda dentro de um pixel de 30 metros, um sensor mais fino
+        deveria revelar lavoura limpa. O MapBiomas publica uma coleção baseada no
+        <strong>Sentinel-2</strong>, de 10 metros e cobrindo 2017 a 2024, que é imune à hipótese
+        de mudança no insumo Landsat, mas que herda a mesma legenda geral e por isso não separa
+        "paisagem genuinamente mista" de "cautela diante de conversão recente". O próprio
+        MapBiomas alerta para não comparar anos dentro dessa coleção, de modo que ela serve aqui
+        para medir composição num único ano. Dentro de cada célula de 30 metros rotulada Mosaico,
+        as nove de 10 metros correspondentes enxergam o seguinte.
       </p>
 
       <div class="composicao-bloco">
@@ -1205,39 +1019,29 @@
         </div>
       </div>
       <p class="chart-caption" style="text-align:left; margin-top:-0.6rem;">
-        Figura 6. Composição, vista pelo Sentinel-2 (10&nbsp;m), do que está dentro de cada célula que
-        a Landsat (30&nbsp;m) rotula Mosaico de Usos em Goiás, 2024. Média de seis recortes de
-        latitude cobrindo o estado de sul a norte.
+        Figura 6. Composição ao Sentinel-2 (10&nbsp;m) dentro de cada célula que a Landsat (30&nbsp;m)
+        rotula Mosaico de Usos em Goiás, 2024. Média de seis recortes de latitude.
       </p>
 
       <p>
-        Para calibrar o que esses números significam, medimos a mesma composição dentro de células que
-        a Landsat classifica, sem ambiguidade, como Pastagem pura ou como Agricultura pura. Dentro de
-        uma célula "Pastagem" de verdade, o Sentinel-2 enxerga lavoura em apenas <strong>2%</strong>
-        dos casos — o piso. Dentro de uma célula "Agricultura" de verdade, enxerga lavoura em
-        <strong>78%</strong> — o teto (o resto já é normal: bordas de talhão, estradas, solo exposto
-        entre safras). Nessa régua, o Mosaico de Usos, com seus 11,5% de composição-lavoura, está a
-        apenas <strong>12% do caminho</strong> entre "isso é pasto" e "isso é lavoura".
+        Na régua de calibração, a Pastagem pura tem <strong>2%</strong> de lavoura ao Sentinel-2
+        (o piso) e a Agricultura pura tem <strong>78%</strong> (o teto). O Mosaico, com 11,5%,
+        está a apenas <strong>12% do caminho</strong> entre pasto e lavoura.
       </p>
 
       <div class="veredito-box">
-        <h4>Não há lavoura limpa escondida ali dentro</h4>
+        <h4>Veredito do Teste 4</h4>
         <p>
-          Um sensor independente e três vezes mais fino <strong>não resolve</strong> o Mosaico em
-          lavoura. O maior pedaço, mesmo vendo em detalhe três vezes maior, continua sendo Mosaico
-          (33,5%) — o sensor mais fino também hesita. E a fração que ele consegue rotular com
-          confiança é majoritariamente pasto e vegetação, não lavoura. A hipótese de que bastaria
-          "olhar mais de perto" para encontrar a soja nova, limpa e pronta para contar, não se
-          sustenta.
+          Um sensor independente e três vezes mais fino não resolve o Mosaico em lavoura. O maior
+          pedaço continua sendo Mosaico (33,5%), e a fração rotulada com confiança é pasto e
+          vegetação, não lavoura.
         </p>
       </div>
 
       <p>
-        Um último corte: olhando só para os pixels mais "quentes" — pastagem em 2017 que a Landsat já
-        rotulava Mosaico de Usos em 2024 (a população mais próxima da mudança de rótulo em si, não o
-        estoque acumulado de décadas de Mosaico antigo) — a composição muda um pouco: 18% lavoura, 31%
-        pasto, 43% ainda Mosaico até no Sentinel-2, 8% outra coisa. E essa fração de lavoura tem um
-        gradiente geográfico nítido:
+        Nos pixels mais próximos da mudança de rótulo (pastagem em 2017 já rotulada Mosaico
+        em 2024), a composição muda para 18% lavoura, 31% pasto, 43% Mosaico e 8% outra coisa,
+        com gradiente geográfico nítido.
       </p>
 
       <div class="gradiente-bloco">
@@ -1273,115 +1077,70 @@
         </div>
       </div>
       <p class="chart-caption" style="text-align:left; margin-top:-0.6rem;">
-        Figura 7. Fração-lavoura, vista pelo Sentinel-2, dentro dos pixels de pastagem-2017 que viraram
-        Mosaico-2024, por recorte de latitude (sul → norte). O mesmo gradiente que o Teste 2 encontrou
-        pelo centro de massa aparece de novo, agora dentro do próprio pixel.
+        Figura 7. Fração-lavoura ao Sentinel-2 dentro dos pixels de pastagem-2017 que viraram
+        Mosaico-2024, por recorte de latitude (sul → norte).
       </p>
 
       <p>
-        Quanto mais ao sul — mais perto do núcleo agrícola já consolidado do sudoeste de Goiás — mais
-        parecida com lavoura de verdade é a mistura que o Sentinel-2 encontra dentro do Mosaico. Quanto
-        mais ao norte — mais perto da fronteira em expansão —, mais essa mistura se parece com
-        pastagem e vegetação. É o terceiro caminho independente, depois da forma do sinal (Teste 1) e
-        da geografia do centro de massa (Teste 2), a apontar para o mesmo lugar.
+        Quanto mais ao sul, perto do núcleo agrícola consolidado, mais parecida com lavoura é
+        a mistura; quanto mais ao norte, mais ela se parece com pastagem e vegetação, convergindo
+        com os resultados dos Testes 1 e 2 por um terceiro caminho independente.
       </p>
 
-      <div class="nao-mostra">
-        <h4>O que este teste não prova</h4>
+      <div class="nao-mostra" id="veredito">
+        <h4>O que os quatro testes não separam</h4>
         <p>
-          Ele elimina a hipótese de "resolução" (um sensor mais fino não desfaz o Mosaico em lavoura) —
-          mas continua sem separar "a legenda rotula com cautela" de "a paisagem é mesmo mista", porque
-          o Sentinel-2 do MapBiomas herda a mesma legenda e, em boa medida, a mesma lógica de decisão
-          do produto Landsat. Além disso, a coleção de 10&nbsp;m é recente e o próprio MapBiomas alerta
-          para não comparar anos entre si dentro dela — por isso não a usamos para medir tendência,
-          só composição num único ano.
+          Nenhum dos quatro testes separa, de forma definitiva, um comportamento do classificador
+          de uma integração lavoura-pecuária genuinamente mais intensa na fronteira. As duas
+          explicações continuam compatíveis com tudo o que foi encontrado. O que os testes permitem
+          dizer é que a fatia de artefato é grande demais para ser descartada, e que qualquer
+          leitura que a ignore está incompleta.
         </p>
       </div>
 
       <a class="voltar-topo" href="#top">↑ roteiro</a>
     </section>
 
-    <!-- 10 — VEREDITO ========================================================= -->
-    <section class="capitulo" id="veredito">
-      <div class="capitulo-eyebrow">Capítulo 10</div>
-      <h2>O que ficamos sabendo</h2>
-
-      <p>
-        Quatro testes, quatro ângulos independentes — forma do sinal, geografia do centro de massa,
-        comparação entre coleções, e resolução espacial. Nenhum deles, sozinho, prova a hipótese A (um
-        comportamento do classificador) além de qualquer dúvida. Juntos, formam um padrão consistente
-        demais para ser ignorado.
-      </p>
-
-      <h3>O que caiu</h3>
-      <ul>
-        <li>A ideia de que a conversão de pasto em lavoura simplesmente desacelerou depois de 2015 (Capítulo 4).</li>
-        <li>A ideia de que isto é um problema pontual e temporário, restrito à borda de uma única coleção do mapa, que o próximo reprocessamento resolveria sozinho (Capítulo 8).</li>
-        <li>A ideia de que bastaria mais resolução espacial para "abrir" o Mosaico e encontrar lavoura limpa lá dentro (Capítulo 9).</li>
-        <li>Como consequência direta, qualquer leitura de tendência que dependa da classe "Agricultura" do MapBiomas numa janela que toque 2020–2024 — por exemplo, a composição etária das pastagens convertidas nesse período — deixa de ser confiável como está. Não porque o método de análise esteja errado, mas porque o objeto que ele mede mudou de composição no meio do caminho.</li>
-      </ul>
-
-      <h3>O que se sustenta</h3>
-      <ul>
-        <li>A mudança de rótulo é <strong>real, estável e ancorada num momento específico do calendário</strong> (2021 em diante) — não um ruído aleatório nem um artefato que desaparece ao trocar de coleção.</li>
-        <li>Ela está <strong>espacialmente concentrada</strong> exatamente onde a fronteira agropecuária está avançando — não distribuída ao acaso pelo território.</li>
-        <li>Sua <strong>magnitude coincide</strong>, de forma consistente em três testes diferentes (balanço de contas, correlação municipal, composição por pixel), com a expansão real da soja medida em campo.</li>
-        <li>As fontes que não dependem do classificador de imagem — soja plantada e rebanho bovino, ambas do IBGE — continuam mostrando a fronteira avançando ao norte sem interrupção.</li>
-      </ul>
-
-      <div class="pista">
-        <h4>O que continua genuinamente sem resposta</h4>
-        <p>
-          Nenhum dos quatro testes separa, de forma definitiva, um <strong>comportamento do
-          classificador</strong> (cautela crescente diante de janelas temporais curtas, ou uma mudança
-          de insumo compartilhada por toda a série a partir de 2021) de uma <strong>integração
-          lavoura-pecuária genuinamente mais intensa</strong> na fronteira. As duas explicações
-          continuam compatíveis com tudo o que encontramos. O que os testes permitem dizer, com
-          segurança, é que a fatia de "artefato de mapeamento" no que estamos vendo é grande demais
-          para ser descartada — e que qualquer leitura que ignore essa possibilidade está, na melhor
-          das hipóteses, incompleta.
-        </p>
-      </div>
-
-      <a class="voltar-topo" href="#top">↑ roteiro</a>
-    </section>
-
-    <!-- 11 — TRATAMENTO ======================================================= -->
+    <!-- 10 — TRATAMENTO ======================================================= -->
     <section class="capitulo" id="tratamento">
-      <div class="capitulo-eyebrow">Capítulo 11</div>
-      <h2>Como passamos a lidar com isso</h2>
+      <div class="capitulo-eyebrow">Capítulo 10</div>
+      <h2>A régua dupla: piso pela classe, teto pela união</h2>
 
       <p>
-        Diante de uma ambiguidade que a evidência não fecha por completo, a resposta mais honesta não
-        é escolher um lado e seguir em frente — é mudar a forma como se reporta qualquer número que
-        passe perto dela. Adotamos uma regra simples para o restante do trabalho:
+        A consequência direta atinge primeiro este próprio trabalho, porque qualquer leitura de
+        tendência que dependa da classe "Agricultura" do MapBiomas numa janela que toque 2020 a
+        2024 deixa de ser confiável como está, e a composição etária das pastagens convertidas
+        nesse período, que foi a pergunta de onde a investigação partiu, é o caso mais direto.
+        O problema não está no método de análise, mas no objeto que ele mede, que mudou de
+        composição no meio do caminho.
+      </p>
+
+      <p>
+        Diante de uma ambiguidade que a evidência não fecha por completo, adotamos então uma
+        regra para o restante do trabalho.
       </p>
 
       <div class="veredito-box" style="background: rgba(139,58,29,0.045); border-left-color: var(--color-accent);">
         <h4>A regra</h4>
         <p>
           Toda vez que uma pergunta depende de "quanto virou lavoura" numa janela que toca 2020 em
-          diante, reportamos um <strong>intervalo</strong>, não um número solto: o <strong>piso</strong>
-          — só a classe Agricultura, que provavelmente subconta a expansão recente — e o
-          <strong>teto</strong> — Agricultura somada ao Mosaico de Usos inteiro, que provavelmente
-          superconta, porque inclui integração lavoura-pecuária legítima e Mosaico antigo que nada tem
-          a ver com este episódio. Uma conclusão só é declarada robusta se ela se sustenta nas duas
-          pontas do intervalo. E sempre que existe uma fonte que não passa pelo classificador — soja
-          plantada, rebanho bovino, crédito rural, valor da produção, todas do IBGE ou do Banco Central
-          —, é essa fonte, não o intervalo, que tem a palavra final.
+          diante, reportamos um <strong>intervalo</strong>, não um número solto. O <strong>piso</strong>
+          é dado apenas pela classe Agricultura, que provavelmente subconta a expansão recente, e o
+          <strong>teto</strong> pela Agricultura somada ao Mosaico de Usos inteiro, que provavelmente
+          superconta, uma vez que inclui integração lavoura-pecuária legítima e Mosaico antigo sem
+          relação com este episódio. Uma conclusão só é declarada robusta se ela se sustenta nas
+          duas pontas do intervalo. E sempre que existe uma fonte que não passa pelo classificador
+          (soja plantada, rebanho bovino, crédito rural, valor da produção, todas do IBGE ou do
+          Banco Central), é essa fonte, não o intervalo, que tem a palavra final.
         </p>
       </div>
 
       <p>
-        É importante dizer o que essa soma <strong>não é</strong>: somar Agricultura e Mosaico não é
-        "desfazer" o problema e recuperar o número verdadeiro. Isso exigiria assumir que <em>todo</em>
-        o Mosaico é, na verdade, lavoura mal-rotulada — o que é falso, porque o Mosaico de Usos já
-        existia, estável, em torno de 2 milhões de hectares desde muito antes de 2020, e inclui
-        integração lavoura-pecuária genuína. A soma responde a uma pergunta diferente e mais grossa —
-        "quanto saiu de pasto puro para lavoura-ou-uso-misto?" — que é robusta à mudança de rótulo por
-        construção (mover um pixel de "Agricultura" para "Mosaico" não muda essa soma), mas que
-        mistura conversão produtiva com integração real. As duas perguntas são legítimas; o erro seria
-        confundir uma com a outra.
+        A soma não "desfaz" o problema, pois assumir que todo o Mosaico é lavoura mal-rotulada
+        é falso (a classe já existia, estável, em torno de 2 milhões de hectares antes de 2020,
+        e inclui integração lavoura-pecuária genuína). Ela responde a uma pergunta mais grossa
+        ("quanto saiu de pasto puro para lavoura-ou-uso-misto?"), robusta à mudança de rótulo por
+        construção, mas que mistura conversão produtiva com integração real.
       </p>
 
       <a class="voltar-topo" href="#top">↑ roteiro</a>
@@ -1389,9 +1148,9 @@
 
     <footer class="ds-footer">
       <p>
-        <strong>Fontes de dados:</strong> MapBiomas — Coleções 6, 8, 9 e 10.1 (Landsat, 30&nbsp;m) e
+        <strong>Fontes de dados.</strong> MapBiomas, Coleções 6, 8, 9 e 10.1 (Landsat, 30&nbsp;m) e
         Coleção 3 da série de 10&nbsp;m (Sentinel-2); documento técnico do algoritmo (ATBD) da Coleção
-        10. IBGE/SIDRA — Produção Agrícola Municipal (soja plantada) e Pesquisa Pecuária Municipal
+        10. IBGE/SIDRA, Produção Agrícola Municipal (soja plantada) e Pesquisa Pecuária Municipal
         (rebanho bovino).
       </p>
       <p>
@@ -1399,7 +1158,7 @@
         1985–2024; comparação entre coleções por reprocessamento local e por leitura server-side;
         composição por pixel obtida por cruzamento de grade entre a coleção Landsat e a coleção
         Sentinel-2. Todos os números desta página vêm de contagem direta sobre os mapas públicos do
-        MapBiomas ou de tabelas públicas do IBGE — nenhum é estimado por extrapolação.
+        MapBiomas ou de tabelas públicas do IBGE; nenhum é estimado por extrapolação.
       </p>
       <div class="ds-footer-bottom">
         Página independente, parte de uma dissertação de mestrado em andamento.
