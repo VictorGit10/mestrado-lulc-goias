@@ -14,12 +14,20 @@ Decisões transversais sobre projeção, malha municipal e divisão de papéis P
 
 | Uso | CRS | Por quê |
 |---|---|---|
-| **Cálculo de área** | **EPSG:5880** (SIRGAS Albers Brasil) | Cônica de áreas iguais — única opção honesta para hectares |
+| **Cálculo de área** | **EPSG:5880** (SIRGAS 2000 / **Brazil Polyconic**) | Projeção métrica de **compromisso** — nem conforme, nem equivalente. A distorção de área é pequena para a extensão compacta de Goiás, e o refino pixel-a-pixel do #46 e a validação do #43 confirmam as manchetes calculadas nela |
 | **Mapas finais** | EPSG:4674 (SIRGAS 2000 lat/long) | Default do `geobr`, não distorce visualmente em escala estadual |
 | **Análise hidrográfica/regional** | UTM 22S ou 23S | Goiás cobre os dois fusos — cuidado |
 | **Web embed (Folium/Leaflet)** | EPSG:3857 (Web Mercator) | Só para isso. Distorce área em ~30% em latitude -16° |
 
 **Não use Web Mercator (EPSG:3857) para análise** — distorce área significativamente nessa latitude.
+
+> ⚠️ **Correção (jul/2026).** Esta tabela rotulava o EPSG:5880 como "SIRGAS Albers Brasil — cônica
+> de áreas iguais, única opção honesta para hectares". O `pyproj` confirma que 5880 é **policônica**,
+> uma projeção de compromisso, e **não** equal-area. Nenhum resultado do trabalho muda — a marcha
+> ao norte é validada a ~1–2 km por pixel pelo #43, e o overlay de proteção do #46 é confirmado no
+> refino pixel-a-pixel —, mas o rótulo estava errado e circulou por vários documentos. Ver
+> [#32](../pipelines/32_centro_massa.md), [#46](../pipelines/46_fronteira_protecao.md) e
+> [#52](../pipelines/52_aptidao_edafoclimatica.md), e `scripts/centro_massa.py`.
 
 ## Divisão de papéis Python ↔ QGIS
 

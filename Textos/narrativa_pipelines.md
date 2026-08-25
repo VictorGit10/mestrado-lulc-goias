@@ -49,8 +49,10 @@ faz peças escritas em momentos diferentes conversarem entre si.
   que permite o *join* entre MapBiomas, SIDRA, BACEN e geobr.
 - **Deflação.** Todo valor monetário (PIB, VAB, crédito) é convertido para **reais de
   dezembro/2024** via IPCA (SIDRA 1737). Sem isso, anos não são comparáveis.
-- **CRS de área e distância.** Cálculos espaciais de área usam **EPSG:5880** (SIRGAS 2000 /
-  Albers Brasil, *equal-area*); rótulos de latitude reprojetam para EPSG:4674.
+- **CRS de área e distância.** Cálculos espaciais usam **EPSG:5880** (SIRGAS 2000 / **Brazil
+  Polyconic** — projeção métrica de compromisso, **não** *equal-area*; correção de jul/2026, ver
+  [metodologia/espacializacao.md](metodologia/espacializacao.md)); rótulos de latitude
+  reprojetam para EPSG:4674.
 - **As seis classes (D1).** Os 30+ códigos do MapBiomas são agregados em **6 grupos** —
   vegetação natural, pastagem, agricultura, água, área urbana, outros — com o **Mosaico
   (ID 21) excluído** (no Cerrado goiano é majoritariamente pasto, e misturá-lo contaminaria a

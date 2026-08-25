@@ -504,7 +504,7 @@ Itens 1-2 (~1-2 h totais) são triviais e fecham lacunas menores. Item 3 (IDH-M 
 ## Decisões de espacialização pendentes
 
 - Malha de referência: **IBGE 2020** (recomendado, default).
-- CRS para cálculo de área: **EPSG:5880 SIRGAS Albers** (Brasil).
+- CRS para cálculo de área: **EPSG:5880** (SIRGAS 2000 / **Brazil Polyconic** — projeção de compromisso, **não** equal-area; ver a correção em [metodologia/espacializacao.md](metodologia/espacializacao.md)).
 - Pacote de malha: `geobr`.
 - Mapas finais: pipeline gera GPKG/CSV, QGIS faz layout cartográfico.
 > **✅ FECHADA EM 28/jul/2026 — o #34 passou pela varredura da deriva do Mosaico.** Veredito ao fim do bloco; diagnóstico preservado como registro.

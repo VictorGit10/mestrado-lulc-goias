@@ -57,7 +57,7 @@ Detalhe pipeline a pipeline em [pipelines/README.md](../pipelines/README.md); lo
 - Scripts em Python (pandas, geopandas, matplotlib, requests, sidrapy).
 - QGIS para layout cartográfico final.
 - Valores monetários deflacionados via IPCA (dez/2024).
-- Malha municipal IBGE 2020, CRS área = EPSG:5880.
+- Malha municipal IBGE 2020, CRS métrico = EPSG:5880 (policônica de compromisso, não equal-area).
 
 ## 6. Reprodutibilidade
 
