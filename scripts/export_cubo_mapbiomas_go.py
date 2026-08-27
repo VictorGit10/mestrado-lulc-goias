@@ -1,7 +1,8 @@
 """export_cubo_mapbiomas_go.py — Pipeline #28 (coleta censitária)
 
-Exporta o cubo completo MapBiomas 10.1 (40 bandas classification_1985..2024)
-cobrindo o bbox de Goiás, via task batch do GEE para o Google Drive.
+Exporta o cubo completo MapBiomas cobrindo o bbox de Goiás, via task batch do GEE
+para o Google Drive. A coleção é escolhida em `--colecao` (ver COLECOES abaixo):
+10.1 (default, 40 bandas, 1985..2024), 9 (39 bandas, ..2023) ou 11 (41, ..2025).
 
 Substitui a amostragem do `coleta_idade_pastagem.py`, que sofria de dois
 problemas: (a) amostrava o RETÂNGULO ENVOLVENTE de GO, colocando 43,7% dos
@@ -32,6 +33,8 @@ Como rodar:
     3. python scripts/export_cubo_mapbiomas_go.py --teste     (1 shard, valida o caminho)
     4. python scripts/export_cubo_mapbiomas_go.py             (export completo)
     5. python scripts/export_cubo_mapbiomas_go.py --monitor   (acompanha as tasks)
+    (para outra coleção, acrescente --colecao 9 / --colecao 11 em TODOS os passos —
+     `--monitor` filtra pelo prefixo da coleção e não enxerga as tasks das outras)
 
 Pré-requisitos:
     pip install earthengine-api geobr geopandas
@@ -54,12 +57,23 @@ GEE_PROJECT_DEFAULT = "extreme-height-447417-a9"
 
 ANO_MIN = 1985
 
-# Coleções suportadas. A grade nativa (PX/ORIGEM) é a MESMA para as duas — a 9 e a
-# 10.1 partilham a grade continental do MapBiomas (offset inteiro de 3253 col × 9300
-# lin, conferido: resíduo < 1e-11 px). Exportar as duas com o MESMO crsTransform faz
-# os shards co-registrarem pixel-a-pixel SEM reamostragem — pré-requisito do teste de
-# borda-móvel da Coleção 9 (§9 do 28D_deriva_mosaico.md). A 9 termina em 2023 (39
-# bandas); a 10.1 em 2024 (40 bandas). Pasta/prefixo distintos p/ não colidir no Drive.
+# Coleções suportadas. A grade nativa (PX/ORIGEM) é a MESMA para as três — a 9, a
+# 10.1 e a 11 partilham a grade continental do MapBiomas. Entre a 9 e a 10.1 há um
+# offset inteiro de 3253 col × 9300 lin (conferido: resíduo < 1e-11 px); a 11 traz
+# affineTransform e dimensões IDÊNTICOS aos da 10.1 (154468 × 146235 px, origem
+# -74,02073025380652 / 5,405791885246045), isto é, offset ZERO — conferido em
+# 2026-08-26 via ee.data.getAsset(). Exportar todas com o MESMO crsTransform faz os
+# shards co-registrarem pixel-a-pixel SEM reamostragem — pré-requisito do teste de
+# borda-móvel (§9 do 28D_deriva_mosaico.md). A 9 termina em 2023 (39 bandas); a 10.1
+# em 2024 (40); a 11 em 2025 (41). Pasta/prefixo distintos p/ não colidir no Drive.
+#
+# Col. 11 — duas ressalvas apuradas na sondagem de 2026-08-26:
+#   (a) o asset legível é o `coverage_v3`. O listAssets também mostra `_v1` e `_v2`,
+#       mas getAsset nega ambos ("does not exist or doesn't allow this operation"):
+#       são revisões retiradas, não alternativas. Não trocar o sufixo sem reconferir.
+#   (b) a coleção declara `class_remap = 13->77` (Outras Formações não Florestais).
+#       Em Goiás isso é inócuo — nem 13 nem 77 aparecem no recorte estadual —, mas
+#       qualquer uso fora de GO precisa refazer o mapa de IDs.
 COLECOES = {
     "10.1": dict(
         asset="projects/mapbiomas-public/assets/brazil/lulc/collection10_1/mapbiomas_brazil_collection10_1_coverage_v1",
@@ -67,6 +81,9 @@ COLECOES = {
     "9": dict(
         asset="projects/mapbiomas-public/assets/brazil/lulc/collection9/mapbiomas_collection90_integration_v1",
         ano_max=2023, pasta="mestrado_mapbiomas_go_col9", prefixo="cubo_go_col9"),
+    "11": dict(
+        asset="projects/mapbiomas-public/assets/brazil/lulc/collection11/mapbiomas_brazil_collection11_coverage_v3",
+        ano_max=2025, pasta="mestrado_mapbiomas_go_col11", prefixo="cubo_go_col11"),
 }
 
 # Grade nativa do asset MapBiomas (conferida via projection().getInfo(); igual na 9 e na 10.1)

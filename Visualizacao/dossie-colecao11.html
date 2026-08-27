@@ -1,0 +1,1761 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>A Coleção 11 e o Mosaico de Usos — Goiás, MapBiomas (1985–2025)</title>
+
+  <meta name="description" content="Em agosto de 2026, o MapBiomas publicou a Coleção 11, que reclassificou quase metade do Mosaico de Usos de Goiás. Doze testes examinam o que sobrevive e o que muda na investigação anterior.">
+  <meta property="og:title" content="A Coleção 11 e o Mosaico de Usos · Goiás, MapBiomas (1985–2025)">
+  <meta property="og:description" content="A Coleção 11 do MapBiomas reclassificou quase metade do Mosaico de Usos de Goiás. Doze testes examinam o que sobrevive.">
+  <meta property="og:type" content="website">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23fafaf7'/%3E%3Ccircle cx='32' cy='32' r='14' fill='%232d5a3d'/%3E%3C/svg%3E">
+
+  <link rel="stylesheet" href="assets/css/styles.css?v=5">
+
+  <style>
+    body.investigacao-page {
+      line-height: 1.7;
+    }
+
+    /* ── Barra de navegação ─────────────────────────────────────────── */
+    .ds-nav-bar {
+      background: #ffffff;
+      border-bottom: 1px solid var(--color-rule);
+      padding: 0.8rem 1.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+    }
+    .ds-nav-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 1rem;
+    }
+    .ds-nav-brand {
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--color-fg);
+      margin-right: auto;
+      display: none;
+    }
+    .ds-nav-badge {
+      font-family: var(--font-sans);
+      background: var(--color-rule);
+      color: var(--color-fg);
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    @media (min-width: 640px) {
+      .ds-nav-brand { display: inline; }
+    }
+
+    .investigacao-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 5rem;
+    }
+
+    /* ── Cabeçalho ──────────────────────────────────────────────────── */
+    .investigacao-header {
+      border-bottom: 2px solid var(--color-rule);
+      padding-bottom: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .investigacao-tag {
+      display: inline-block;
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      background: rgba(45, 90, 61, 0.08);
+      color: var(--color-veg);
+      padding: 0.25rem 0.75rem;
+      border-radius: 4px;
+      border: 1px solid rgba(45, 90, 61, 0.22);
+      margin-bottom: 1rem;
+    }
+
+    .investigacao-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--color-fg);
+      line-height: 1.15;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .investigacao-subtitle {
+      font-size: 1.2rem;
+      color: var(--color-muted);
+      margin-bottom: 1.5rem;
+      max-width: 68ch;
+    }
+
+    .investigacao-meta-bar {
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      color: var(--color-muted);
+      background: rgba(216, 214, 207, 0.25);
+      padding: 0.9rem 1.25rem;
+      border-radius: 6px;
+      border: 1px solid var(--color-rule);
+      line-height: 1.6;
+    }
+    .investigacao-meta-bar strong { color: var(--color-fg); }
+
+    /* ── KPIs ───────────────────────────────────────────────────────── */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1.1rem;
+      margin-bottom: 2.5rem;
+    }
+    .kpi-card {
+      background: #ffffff;
+      border: 1px solid var(--color-rule);
+      border-radius: 8px;
+      padding: 1.1rem 1.3rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+      position: relative;
+      overflow: hidden;
+    }
+    .kpi-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 4px; height: 100%;
+    }
+    .kpi-card.kpi-mosaico::before { background-color: var(--color-mosaico); }
+    .kpi-card.kpi-pasto::before { background-color: var(--color-pasto); }
+    .kpi-card.kpi-sentinel::before { background-color: var(--color-veg); }
+    .kpi-card.kpi-soja::before { background-color: var(--color-soja); }
+    .kpi-label {
+      font-family: var(--font-sans);
+      font-size: 0.76rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--color-muted);
+      margin-bottom: 0.4rem;
+    }
+    .kpi-value {
+      font-family: var(--font-sans);
+      font-size: 1.7rem;
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--color-fg);
+      margin-bottom: 0.4rem;
+    }
+    .kpi-sub {
+      font-size: 0.83rem;
+      color: var(--color-muted);
+      line-height: 1.4;
+    }
+
+    /* ── Roteiro (TOC) ──────────────────────────────────────────────── */
+    .roteiro {
+      background: #fff;
+      border: 1px solid var(--color-rule);
+      border-radius: 10px;
+      padding: 1.5rem 1.75rem;
+      margin-bottom: 3rem;
+    }
+    .roteiro h2 {
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-muted);
+      margin-bottom: 1rem;
+    }
+    .roteiro ol {
+      margin: 0;
+      padding-left: 1.35rem;
+      columns: 1;
+      list-style: none;
+    }
+    .roteiro li { margin-bottom: 0.6rem; }
+    .roteiro a {
+      color: var(--color-fg);
+      text-decoration: none;
+      font-weight: 600;
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+    }
+    .roteiro a:hover { color: var(--color-accent); }
+    .roteiro-teaser {
+      display: block;
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: 0.92rem;
+      color: var(--color-muted);
+      margin-top: 0.1rem;
+    }
+    .parte-label {
+      font-family: var(--font-sans);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--color-veg);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-top: 1rem;
+      margin-bottom: 0.3rem;
+      padding-top: 0.6rem;
+      border-top: 1px solid var(--color-rule);
+    }
+    .parte-label:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+
+    /* ── Capítulos ──────────────────────────────────────────────────── */
+    .capitulo {
+      margin-bottom: 3.25rem;
+      scroll-margin-top: 5rem;
+    }
+    .capitulo-eyebrow {
+      font-family: var(--font-sans);
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--color-veg);
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      margin-bottom: 0.4rem;
+    }
+    .capitulo h2 {
+      font-size: 1.7rem;
+      margin-bottom: 1.1rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--color-rule);
+    }
+    .capitulo h3 {
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      text-transform: none;
+      letter-spacing: 0;
+      color: var(--color-fg);
+      font-weight: 700;
+      margin: 1.6rem 0 0.7rem;
+    }
+    .voltar-topo {
+      display: inline-block;
+      margin-top: 0.5rem;
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+      color: var(--color-muted);
+      text-decoration: none;
+      border-bottom: 1px dotted var(--color-rule);
+    }
+    .voltar-topo:hover { color: var(--color-accent); }
+
+    /* ── Parte-header ──────────────────────────────────────────────── */
+    .parte-header {
+      font-family: var(--font-sans);
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--color-veg);
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      margin: 2.5rem 0 1.5rem;
+      padding: 0.5rem 0;
+      border-top: 2px solid var(--color-veg);
+      border-bottom: 1px solid var(--color-rule);
+    }
+
+    /* ── Blocos utilitários ─────────────────────────────────────────── */
+    .pista {
+      background: rgba(45, 90, 61, 0.045);
+      border-left: 4px solid var(--color-veg);
+      padding: 1.1rem 1.4rem;
+      margin: 1.5rem 0;
+      border-radius: 0 8px 8px 0;
+    }
+    .pista h4 {
+      font-family: var(--font-sans);
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--color-veg);
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .pista p:last-child { margin-bottom: 0; }
+
+    .veredito-box {
+      background: rgba(45, 90, 61, 0.05);
+      border-left: 4px solid var(--color-veg);
+      padding: 1.1rem 1.4rem;
+      margin: 1.5rem 0;
+      border-radius: 0 8px 8px 0;
+    }
+    .veredito-box h4 {
+      font-family: var(--font-sans);
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--color-veg);
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .veredito-box p:last-child { margin-bottom: 0; }
+
+    .nao-mostra {
+      border: 1px dashed var(--color-rule);
+      background: #fbfaf7;
+      padding: 1rem 1.3rem;
+      margin: 1.5rem 0;
+      border-radius: 8px;
+      font-size: 0.94rem;
+    }
+    .nao-mostra h4 {
+      font-family: var(--font-sans);
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--color-muted);
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .nao-mostra p:last-child { margin-bottom: 0; }
+
+    .ressalva-box {
+      background: rgba(139, 58, 29, 0.04);
+      border-left: 4px solid var(--color-accent-soft);
+      padding: 1.1rem 1.4rem;
+      margin: 1.5rem 0;
+      border-radius: 0 8px 8px 0;
+    }
+    .ressalva-box h4 {
+      font-family: var(--font-sans);
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--color-accent);
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .ressalva-box p:last-child { margin-bottom: 0; }
+
+    /* ── Gráficos ───────────────────────────────────────────────────── */
+    .chart-box {
+      background: #fafaf7;
+      border: 1px solid var(--color-rule);
+      border-radius: 8px;
+      padding: 1.4rem 1.4rem 1.2rem;
+      margin: 1.6rem 0;
+    }
+    .chart-container { position: relative; width: 100%; }
+    .chart-container svg {
+      width: 100%;
+      max-width: 700px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+    .chart-caption {
+      font-family: var(--font-sans);
+      font-size: 0.81rem;
+      color: var(--color-muted);
+      margin-top: 0.75rem;
+      text-align: center;
+      line-height: 1.5;
+    }
+    .chart-legend {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem 1.1rem;
+      margin-bottom: 0.75rem;
+      font-family: var(--font-sans);
+      font-size: 0.77rem;
+      color: var(--color-fg);
+    }
+    .legend-item { display: inline-flex; align-items: center; gap: 0.35rem; }
+    .legend-line { display: inline-block; width: 18px; height: 3px; border-radius: 1px; flex-shrink: 0; }
+    .legend-line--dash { background: transparent !important; height: 0; border-top: 2.5px dashed; }
+    .legend-swatch { display: inline-block; width: 11px; height: 11px; border-radius: 2px; flex-shrink: 0; }
+
+    /* ── Régua visual (Sentinel) ───────────────────────────────────── */
+    .regua-container {
+      margin: 1.6rem 0;
+      padding: 1rem 0;
+    }
+    .regua-row {
+      display: grid;
+      grid-template-columns: 200px 1fr 60px;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 0.7rem;
+      font-family: var(--font-sans);
+      font-size: 0.84rem;
+    }
+    @media (max-width: 640px) {
+      .regua-row { grid-template-columns: 140px 1fr 50px; font-size: 0.78rem; }
+    }
+    .regua-label { color: var(--color-fg); line-height: 1.3; }
+    .regua-label small { display: block; font-size: 0.78em; color: var(--color-muted); }
+    .regua-track {
+      background: linear-gradient(to right, var(--color-pasto), var(--color-agric));
+      border-radius: 4px;
+      height: 22px;
+      position: relative;
+      border: 1px solid var(--color-rule);
+    }
+    .regua-marker {
+      position: absolute;
+      top: -4px;
+      width: 3px;
+      height: 30px;
+      background: var(--color-fg);
+      border-radius: 2px;
+      transform: translateX(-50%);
+    }
+    .regua-marker--piso,
+    .regua-marker--teto {
+      background: var(--color-muted);
+      width: 2px;
+    }
+    .regua-pct {
+      text-align: right;
+      font-weight: 700;
+      color: var(--color-fg);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ── Tabelas ────────────────────────────────────────────────────── */
+    .tabela-wrap { overflow-x: auto; margin: 1.4rem 0; }
+    .tabela-dados {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-sans);
+      font-size: 0.84rem;
+    }
+    .tabela-dados th {
+      background: rgba(216, 214, 207, 0.4);
+      color: var(--color-fg);
+      font-weight: 700;
+      text-align: left;
+      padding: 0.6rem 0.85rem;
+      border-bottom: 2px solid var(--color-rule);
+      white-space: nowrap;
+    }
+    .tabela-dados td {
+      padding: 0.6rem 0.85rem;
+      border-bottom: 1px solid var(--color-rule);
+      white-space: nowrap;
+    }
+    .tabela-dados tr:hover { background: rgba(250, 250, 247, 0.8); }
+    .tabela-dados .num { text-align: right; font-variant-numeric: tabular-nums; }
+    .tabela-dados .destaque { background: rgba(45, 90, 61, 0.06); }
+
+    /* ── Detalhes (progressive disclosure) ──────────────────────────── */
+    details.leia-mais {
+      background: #fff;
+      border: 1px solid var(--color-rule);
+      border-radius: 6px;
+      margin: 1.4rem 0;
+      overflow: hidden;
+    }
+    details.leia-mais summary {
+      font-family: var(--font-sans);
+      font-size: 0.83rem;
+      font-weight: 600;
+      color: var(--color-fg);
+      padding: 0.7rem 1rem;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    details.leia-mais summary::-webkit-details-marker { display: none; }
+    details.leia-mais summary::after {
+      content: "ver tabela +";
+      font-size: 0.78rem;
+      font-weight: 400;
+      color: var(--color-veg);
+    }
+    details.leia-mais[open] summary::after { content: "recolher −"; }
+    details.leia-mais summary:hover { background: #f5f3ed; }
+    details.leia-mais .leia-mais-corpo { padding: 0 1rem 1rem; }
+
+    /* ── Rodapé ─────────────────────────────────────────────────────── */
+    .ds-footer {
+      border-top: 2px solid var(--color-rule);
+      padding-top: 2rem;
+      margin-top: 3rem;
+      font-family: var(--font-sans);
+      font-size: 0.83rem;
+      color: var(--color-muted);
+      line-height: 1.6;
+    }
+    .ds-footer-bottom {
+      text-align: center;
+      margin-top: 1.5rem;
+      color: #8a8a82;
+    }
+  </style>
+</head>
+
+<body class="investigacao-page" id="top">
+
+  <header class="ds-nav-bar">
+    <div class="ds-nav-inner">
+      <div class="ds-nav-brand">Goiás 1985–2025</div>
+      <span class="ds-nav-badge">Exploratório · Coleção 11</span>
+    </div>
+  </header>
+
+  <div class="investigacao-container">
+
+    <header class="investigacao-header">
+      <div class="investigacao-tag">Exploratório</div>
+      <h1 class="investigacao-title">A Coleção 11 e o Mosaico de Usos</h1>
+      <p class="investigacao-subtitle">
+        Em agosto de 2026 o MapBiomas publicou uma nova coleção que reclassificou quase metade do
+        Mosaico de Usos de Goiás, passando a maior parte para Pastagem. Esta página testa, com
+        doze análises independentes, se a investigação anterior sobre essa classe sobrevive à revisão.
+      </p>
+      <div class="investigacao-meta-bar">
+        Página exploratória, recorte independente de uma dissertação de mestrado sobre uso e cobertura
+        da terra em Goiás (1985–2024). A dissertação usa a Coleção 10.1 e anteriores; esta página não
+        altera resultados dela.
+        <strong>Fontes</strong> MapBiomas Coleções 6, 8, 9, 10.1 e 11 (Landsat, 30&nbsp;m),
+        coleção de 10&nbsp;m (Sentinel-2) e IBGE/SIDRA (PAM 1612, soja plantada por município).
+      </div>
+    </header>
+
+    <div class="kpi-grid">
+      <div class="kpi-card kpi-mosaico">
+        <div class="kpi-label">A classe que encolheu</div>
+        <div class="kpi-value">−47,4%</div>
+        <div class="kpi-sub">Mosaico de Usos em Goiás, 2024: de 3,586 para 1,888 Mha entre a Coleção 10.1 e a 11.</div>
+      </div>
+      <div class="kpi-card kpi-pasto">
+        <div class="kpi-label">Para onde ela foi</div>
+        <div class="kpi-value">44,7%</div>
+        <div class="kpi-sub">Do Mosaico da 10.1 é Pastagem na 11; apenas 4,3% é Agricultura.</div>
+      </div>
+      <div class="kpi-card kpi-sentinel">
+        <div class="kpi-label">O juiz independente</div>
+        <div class="kpi-value">10×</div>
+        <div class="kpi-sub">Separação, ao Sentinel-2, entre o que a 11 chamou de pasto e o que chamou de lavoura.</div>
+      </div>
+      <div class="kpi-card kpi-soja">
+        <div class="kpi-label">O que não mudou</div>
+        <div class="kpi-value">+1,7%</div>
+        <div class="kpi-sub">Maior diferença da classe Soja entre as duas coleções; a 11 tem sempre um pouco mais, entre +1,3% e +1,7%.</div>
+      </div>
+    </div>
+
+    <nav class="roteiro" aria-label="Roteiro da investigação">
+      <h2>Roteiro</h2>
+
+      <div class="parte-label" style="border-top:none; padding-top:0; margin-top:0;">Parte I — O que a Coleção 11 fez</div>
+      <ol>
+        <li><a href="#cap1">1. A coleção nova e o que ela mudou</a></li>
+        <li><a href="#cap2">2. Como esta página foi construída</a></li>
+      </ol>
+
+      <div class="parte-label">Parte II — A Coleção 11 acertou?</div>
+      <ol start="3">
+        <li><a href="#cap3">3. Um terceiro sensor julga as duas coleções</a>
+          <span class="roteiro-teaser">O capítulo central desta página</span></li>
+      </ol>
+
+      <div class="parte-label">Parte III — O que sobrevive</div>
+      <ol start="4">
+        <li><a href="#cap4">4. O tombo continua preso ao calendário</a></li>
+        <li><a href="#cap5">5. O destino da pastagem continua migrando</a></li>
+        <li><a href="#cap6">6. O colapso da idade continua</a></li>
+        <li><a href="#cap7">7. A soja não se mexe</a></li>
+      </ol>
+
+      <div class="parte-label">Parte IV — O que muda</div>
+      <ol start="8">
+        <li><a href="#cap8">8. De onde veio a soja nova</a></li>
+        <li><a href="#cap9">9. Os centros de massa: o que anda e o que para</a></li>
+        <li><a href="#cap10">10. A régua dupla encolhe, e o teto muda de lado</a></li>
+      </ol>
+
+      <div class="parte-label">Parte V — Limites</div>
+      <ol start="11">
+        <li><a href="#cap11">11. O que continua sem resposta</a></li>
+        <li><a href="#cap12">12. Um número que não reproduz</a></li>
+      </ol>
+    </nav>
+
+
+    <!-- ══════════════════════════════════════════════════════════════════
+         PARTE I — O QUE A COLEÇÃO 11 FEZ
+         ══════════════════════════════════════════════════════════════════ -->
+    <div class="parte-header">Parte I — O que a Coleção 11 fez</div>
+
+    <!-- 1 ─────────────────────────────────────────────────────────────── -->
+    <section class="capitulo" id="cap1">
+      <div class="capitulo-eyebrow">Capítulo 1</div>
+      <h2>A coleção nova e o que ela mudou</h2>
+
+      <p>
+        O MapBiomas publica periodicamente novas versões do seu mapa anual de cobertura do Brasil,
+        cada uma reprocessando a série inteira desde 1985 com algoritmos revisados e dados de
+        treinamento atualizados. A Coleção 11, publicada em agosto de 2026, estende a série até
+        2025 e cobre o mesmo território com a mesma grade de 30 metros da coleção anterior (10.1),
+        o que permite comparar os dois mapas pixel a pixel, sem reamostragem nem alinhamento.
+      </p>
+
+      <p>
+        Para Goiás, a concordância entre as duas coleções é alta no agregado, com
+        <strong>87,86%</strong> dos pixels recebendo o mesmo rótulo no ano de 2024. A discordância
+        se concentra numa única classe. Do Mosaico de Usos da Coleção 10.1, <strong>44,7%</strong>
+        passou a ser Pastagem na 11, <strong>36,8%</strong> permaneceu como Mosaico,
+        <strong>13,4%</strong> foi reclassificado como vegetação natural e <strong>4,3%</strong>
+        como Agricultura. A classe inteira encolheu quase pela metade, de 3,586 para 1,888 Mha.
+      </p>
+
+      <p>
+        A reclassificação tem ordem geográfica. Os pixels que a Coleção 11 enviou para
+        Agricultura estão na latitude média de <strong>−17,19°</strong>, no extremo sul do
+        estado, enquanto os que foram para vegetação natural aparecem a <strong>−16,17°</strong>,
+        ao norte. Os que permaneceram como Mosaico e os que viraram Pastagem ficam entre os dois
+        extremos, a −16,67° e −16,53° respectivamente. A revisão seguiu um gradiente nítido de
+        sul para norte na composição do uso da terra.
+      </p>
+
+      <div class="chart-box">
+        <div class="chart-container" id="chartDestinos"></div>
+        <div class="chart-caption">
+          Figura 1. Destino dos pixels de Mosaico de Usos da Coleção 10.1 na Coleção 11, com a
+          latitude média de cada grupo anotada. Goiás, 2024, leitura a 100&nbsp;m sobre o contorno
+          GAUL. As latitudes são médias dos pixels de cada braço.
+        </div>
+      </div>
+
+      <p>
+        A revisão é grande, mas não caótica. A maior parte do estado segue com o mesmo rótulo, e
+        toda a discordância relevante acontece dentro de uma única classe, exatamente a que estava
+        no centro da investigação anterior sobre o desvio do fluxo pasto→lavoura. Isso coloca a
+        pergunta natural que o restante desta página vai perseguir: o que a investigação anterior
+        concluiu ainda se sustenta com o mapa novo, ou a revisão muda o resultado?
+      </p>
+
+      <a class="voltar-topo" href="#top">↑ roteiro</a>
+    </section>
+
+
+    <!-- 2 ─────────────────────────────────────────────────────────────── -->
+    <section class="capitulo" id="cap2">
+      <div class="capitulo-eyebrow">Capítulo 2</div>
+      <h2>Como esta página foi construída</h2>
+
+      <p>
+        Todas as comparações desta página foram feitas na mesma régua com que a investigação
+        anterior mediu, e essa régua foi conferida reproduzindo os números dela. Os dois cubos
+        de dados (Coleção 10.1 e Coleção 11) foram baixados inteiros e processados pelo mesmo
+        código, na grade nativa de 30 metros, sob a malha municipal do IBGE com os 246 municípios
+        de Goiás. As duas coleções compartilham a grade pixel a pixel, com deslocamento zero,
+        o que permite cruzar o mesmo ponto do terreno entre elas sem reamostragem.
+      </p>
+
+      <p>
+        A conversão de pixel em hectare respeita o cosseno da latitude, porque a grade é
+        geográfica (EPSG:4326) e a largura de cada célula encolhe à medida que se afasta do
+        equador. No equador o pixel vale 894 m²; na latitude média de Goiás (~16°S), cerca de
+        858 m². As leituras foram refeitas sobre a malha do IBGE porque o contorno usado pelo
+        Earth Engine difere dela em cerca de 5%.
+      </p>
+
+      <h3>Validação contra os números publicados</h3>
+
+      <p>
+        Para confirmar que a régua está correta, os números da investigação anterior foram
+        reproduzidos usando a mesma fonte de dados dela (<code>mapbiomas_munis_goias.csv</code>).
+        Os estoques de Agricultura de 2020 e 2024 dão <strong>5,668</strong> e
+        <strong>5,732 Mha</strong>; os de Mosaico em 2024 dão <strong>3,586 Mha</strong> e os
+        de Pastagem <strong>11,989 Mha</strong>, todos idênticos aos publicados. Os 18 números do
+        capítulo sobre a idade das conversões (conversões registradas, fração de idade desconhecida
+        e mediana, para cada ano de 2019 a 2024) reproduzem com exatidão. O deslocamento do centro
+        de massa da união Agricultura+Mosaico entre 2019 e 2024 dá <strong>+4,13 km
+        [+0,52; +7,29]</strong>, contra os +4,1 km [+1,0; +6,9] publicados.
+      </p>
+
+      <p>
+        Quando se usa o censo de pixels próprio desta página em vez da fonte do dossiê, aparece
+        um desvio uniforme de <strong>0,12%</strong>, igual na área total do estado (33.984
+        contra 34.024 mil hectares), portanto de rasterização e não de classe. Os dois caminhos
+        concordam sobre a composição da paisagem; o que difere é como a geometria do estado é
+        recortada da grade.
+      </p>
+
+      <a class="voltar-topo" href="#top">↑ roteiro</a>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════════════════════════════
+         PARTE II — A COLEÇÃO 11 ACERTOU?
+         ══════════════════════════════════════════════════════════════════ -->
+    <div class="parte-header">Parte II — A Coleção 11 acertou?</div>
+
+    <!-- 3 ─────────────────────────────────────────────────────────────── -->
+    <section class="capitulo" id="cap3">
+      <div class="capitulo-eyebrow">Capítulo 3 · Capítulo central</div>
+      <h2>Um terceiro sensor julga as duas coleções</h2>
+
+      <p>
+        Todos os outros capítulos desta página comparam a Coleção 11 com a 10.1, duas versões de
+        um mesmo mapa derivado do mesmo satélite. Este capítulo faz uma pergunta diferente, e é
+        o que o torna central: em vez de comparar as coleções entre si, ele pergunta qual das duas
+        está mais perto do que um sensor independente vê no campo.
+      </p>
+
+      <h3>O desenho do teste</h3>
+
+      <p>
+        A Coleção 11 discorda da 10.1 sobre o que é o Mosaico, mas discordância não significa
+        melhora. Quem decide entre as duas não pode ser nenhuma delas. O árbitro escolhido foi a
+        coleção MapBiomas baseada em Sentinel-2, um sensor diferente do Landsat e com resolução
+        três vezes mais fina (10 metros). Para cada população de pixels de 30 m definida pelo par
+        de coleções Landsat, mediu-se a composição vista pelo Sentinel em seis recortes de ~1° que
+        cobrem Goiás de sul a norte.
+      </p>
+
+      <p>
+        Os números brutos de composição não significam nada sem calibração. Para ancorá-los,
+        mediu-se também a fração de lavoura dentro de pixels que <em>as duas</em> coleções Landsat
+        chamam de Pastagem (o piso, 0%) e que <em>as duas</em> chamam de Agricultura (o teto, 100%).
+        O que se reporta é a posição de cada população nesse vão.
+      </p>
+
+      <p>
+        As predições foram registradas no código antes do teste rodar, o que torna o resultado
+        capaz de reprovar a Coleção 11 em vez de apenas descrevê-la. Se a revisão acertou, os
+        pixels que ela mandou para Pastagem ficam perto do piso, e os que mandou para Agricultura
+        ficam perto do teto. Se os dois grupos viessem parecidos, a Coleção 11 teria trocado rótulo
+        sem ganhar informação.
+      </p>
+
+      <h3>O resultado</h3>
+
+      <div class="tabela-wrap">
+        <table class="tabela-dados">
+          <thead>
+            <tr>
+              <th>População</th>
+              <th class="num">Fração de lavoura (Sentinel)</th>
+              <th class="num">Posição no vão pasto→lavoura</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Pastagem nas duas coleções (piso)</td><td class="num">0,021</td><td class="num">0%</td></tr>
+            <tr class="destaque"><td>Mosaico(10.1) → <strong>Pastagem</strong>(11)</td><td class="num">0,056</td><td class="num"><strong>4,6%</strong></td></tr>
+            <tr><td>Mosaico novo, que só a 11 vê</td><td class="num">0,044</td><td class="num">3,0%</td></tr>
+            <tr><td>Mosaico que sobrevive nas duas</td><td class="num">0,201</td><td class="num">23,5%</td></tr>
+            <tr class="destaque"><td>Mosaico(10.1) → <strong>Agricultura</strong>(11)</td><td class="num">0,374</td><td class="num"><strong>46,1%</strong></td></tr>
+            <tr><td>Agricultura nas duas (teto)</td><td class="num">0,789</td><td class="num">100%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="chart-box">
+        <div class="chart-container" id="chartRegua"></div>
+        <div class="chart-caption">
+          Figura 2. Posição de cada população de pixels na régua do piso (Pastagem nas duas coleções)
+          ao teto (Agricultura nas duas). Sentinel-2, 10&nbsp;m, 6 recortes cobrindo Goiás, 2024.
+          Piso e teto são definidos pelas populações de concordância entre as coleções.
+        </div>
+      </div>
+
+      <p>
+        A separação entre as duas populações que a Coleção 11 aparta é de <strong>dez vezes</strong>
+        na direção prevista. O que ela passou a chamar de Pastagem parece pastagem ao Sentinel
+        (4,6% do vão), e o que passou a chamar de Agricultura já está quase na metade do caminho
+        rumo à lavoura (46,1%). Quando se reconstrói o Mosaico inteiro da Coleção 10.1 a partir
+        das partes que a 11 separou, a fração de lavoura é de <strong>0,135</strong>, consistente
+        com os 11,5% que a investigação anterior mediu para a classe inteira.
+      </p>
+
+      <div class="veredito-box">
+        <h4>O que isso indica</h4>
+        <p>
+          A Coleção 11 não derrubou o Teste 4 da investigação anterior. Ela separou uma classe
+          heterogênea em partes homogêneas, e o sensor independente concorda com a separação. O
+          Mosaico da 10.1 era uma média de coisas diferentes, e a 11 as distinguiu na direção
+          que o Sentinel confirma. A reconstrução do Mosaico inteiro a partir das partes recupera
+          o valor publicado antes, o que mostra que as duas medições são a mesma medição vista com
+          granularidade diferente, e não duas medições em conflito.
+        </p>
+      </div>
+
+      <div class="ressalva-box">
+        <h4>Ressalva</h4>
+        <p>
+          O Sentinel-2 usado aqui é também do MapBiomas, o mesmo produtor, com a mesma legenda
+          geral e uma classe 21 própria. O teste é de sensor e resolução, não de metodologia nem
+          de legenda. Se o Mosaico for uma escolha de legenda, a coleção de 10 m herda a mesma
+          escolha. Essa limitação não invalida a separação de dez vezes, mas impede que ela seja
+          lida como prova absoluta de que a Coleção 11 acertou.
+        </p>
+      </div>
+
+      <a class="voltar-topo" href="#top">↑ roteiro</a>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════════════════════════════
+         PARTE III — O QUE SOBREVIVE
+         ══════════════════════════════════════════════════════════════════ -->
+    <div class="parte-header">Parte III — O que sobrevive</div>
+
+    <!-- 4 ─────────────────────────────────────────────────────────────── -->
+    <section class="capitulo" id="cap4">
+      <div class="capitulo-eyebrow">Capítulo 4</div>
+      <h2>O tombo continua preso ao calendário</h2>
+
+      <p>
+        A investigação anterior mostrou que o fluxo de pastagem para lavoura despenca em todas as
+        coleções por volta de 2021, independentemente de onde cada uma termina. A Coleção 11 permite
+        replicar o mesmo teste com uma coleção a mais e, pela primeira vez, medir os fluxos em
+        hectares em vez de razão.
+      </p>
+
+      <div class="tabela-wrap">
+        <table class="tabela-dados">
+          <thead>
+            <tr>
+              <th>Coleção (fim)</th>
+              <th class="num">2019</th>
+              <th class="num">2020</th>
+              <th class="num">2021</th>
+              <th class="num">2022</th>
+              <th class="num">2023</th>
+              <th class="num">2024</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>col6 (2020)</td><td class="num">99,3</td><td class="num">72,9</td><td class="num" colspan="4"></td></tr>
+            <tr><td>col8 (2022)</td><td class="num">98,3</td><td class="num">63,8</td><td class="num destaque"><strong>17,0</strong></td><td class="num">29,3</td><td class="num" colspan="2"></td></tr>
+            <tr><td>col9 (2023)</td><td class="num">95,3</td><td class="num">60,3</td><td class="num destaque"><strong>14,9</strong></td><td class="num">25,2</td><td class="num">12,2</td><td class="num"></td></tr>
+            <tr><td>col10.1 (2024)</td><td class="num">103,8</td><td class="num">57,5</td><td class="num destaque"><strong>21,8</strong></td><td class="num">28,3</td><td class="num">13,9</td><td class="num">16,1</td></tr>
+            <tr><td>col11 (2025)</td><td class="num">135,0</td><td class="num">83,9</td><td class="num destaque"><strong>34,3</strong></td><td class="num">51,9</td><td class="num">34,0</td><td class="num">48,5</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="chart-caption" style="text-align:left; margin-top:-0.6rem;">
+        Pasto → Agricultura, mil ha/ano. Leitura a 100&nbsp;m sobre o contorno GAUL.
+      </p>
+
+      <div class="chart-box">
+        <div class="chart-container" id="chartBorda"></div>
+        <div class="chart-caption">
+          Figura 3. Fluxo anual de pastagem para agricultura, em mil hectares, para as cinco coleções
+          disponíveis. Cada linha termina no último ano da respectiva coleção. Leitura a 100&nbsp;m,
+          contorno GAUL.
+        </div>
+      </div>
+
+      <p>
+        O argumento mais forte da tabela está na Coleção 8, que termina em 2022 mas despenca em
+        2021, um ano <em>antes</em> do próprio fim, e depois <em>sobe</em> em 2022. A Coleção 9
+        termina em 2023 e despenca dois anos antes do fim; a 10.1, em 2024, três anos antes. Se o
+        tombo fosse artefato de borda, cada coleção despencaria no seu próprio fim. Elas despencam
+        todas no mesmo ano do calendário.
+      </p>
+
+      <p>
+        A Coleção 11 tem o nível mais alto em todo ano, com fluxos entre duas e três vezes maiores,
+        mas preserva a mesma forma. O tombo de 2021 aparece com a mesma nitidez, e o vale se mantém
+        no mesmo ponto temporal. O veredito da investigação anterior fica replicado com uma coleção
+        a mais e medido em hectares, que são robustos à escala de leitura, ao contrário da razão
+        que havia sido usada antes.
+      </p>
+
+      <div class="nao-mostra">
+        <h4>O que isso não estabelece</h4>
+        <p>
+          Refutar instabilidade de borda não é provar artefato do classificador. Uma causa
+          compartilhada por todas as coleções, como uma mudança no insumo Landsat por volta de
+          2021 ou uma revisão de metodologia aplicada retroativamente, produziria exatamente este
+          padrão sem ser erro de borda. A Coleção 11 é mais uma coleção com ele, não um árbitro
+          sobre ele.
+        </p>
+      </div>
+
+      <a class="voltar-topo" href="#top">↑ roteiro</a>
+    </section>
+
+
+    <!-- 5 ─────────────────────────────────────────────────────────────── -->
+    <section class="capitulo" id="cap5">
+      <div class="capitulo-eyebrow">Capítulo 5</div>
+      <h2>O destino da pastagem continua migrando</h2>
+
+      <p>
+        A investigação anterior mostrou que o destino da pastagem que sai migrou de Agricultura
+        para Mosaico ao longo dos anos recentes. Com o censo local de pixels sobre a malha do IBGE,
+        o mesmo padrão pode ser medido nas duas coleções lado a lado.
+      </p>
+
+      <div class="tabela-wrap">
+        <table class="tabela-dados">
+          <thead>
+            <tr>
+              <th>Ano</th>
+              <th class="num">→Agric 10.1</th>
+              <th class="num">→Agric 11</th>
+              <th class="num">→Mosaico 10.1</th>
+              <th class="num">→Mosaico 11</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>2015</td><td class="num">190,1</td><td class="num">256,6</td><td class="num">126,3</td><td class="num">86,9</td></tr>
+            <tr><td>2019</td><td class="num">100,5</td><td class="num">133,7</td><td class="num">194,3</td><td class="num">113,2</td></tr>
+            <tr><td>2021</td><td class="num">20,2</td><td class="num">33,7</td><td class="num">305,5</td><td class="num">168,4</td></tr>
+            <tr><td>2024</td><td class="num">14,2</td><td class="num">47,7</td><td class="num">534,1</td><td class="num">233,3</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="chart-caption" style="text-align:left; margin-top:-0.6rem;">
+        Mil ha/ano. Censo local, 30&nbsp;m, malha do IBGE (246 municípios).
+      </p>
+
+      <p>
+        A queda do fluxo para Agricultura entre 2015 e 2024 é de <strong>13,4 vezes</strong> na
+        Coleção 10.1 e de <strong>5,4 vezes</strong> na 11. A razão Mosaico/Agricultura em 2024
+        chega a 37,74 na 10.1 e a 4,89 na 11. A Coleção 11 atenua o fenômeno sensivelmente, mas
+        não o elimina. Mesmo com o mapa revisado, o Mosaico de Usos em 2024 absorve quase cinco
+        vezes mais pastagem que a Agricultura.
+      </p>
+
+      <div class="ressalva-box">
+        <h4>Nota sobre a comparação</h4>
+        <p>
+          Estes números usam a malha municipal do IBGE, diferente do retângulo envolvente que a
+          investigação anterior usou no capítulo equivalente. Lá, a Coleção 10.1 em 2024 trazia
+          303.432 pixels e razão de 32,55; aqui, sob a malha do IBGE, são 14,2 mil ha e razão
+          37,74. A diferença é de máscara, não de divergência entre os resultados.
+        </p>
+      </div>
+
+      <a class="voltar-topo" href="#top">↑ roteiro</a>
+    </section>
+
+
+    <!-- 6 ─────────────────────────────────────────────────────────────── -->
+    <section class="capitulo" id="cap6">
+      <div class="capitulo-eyebrow">Capítulo 6</div>
+      <h2>O colapso da idade continua</h2>
+
+      <p>
+        A pergunta de onde toda a investigação nasceu foi sobre a idade das pastagens no momento
+        da conversão em lavoura. A Coleção 11 encontra mais conversões nos anos recentes, mas com
+        a mesma idade baixa.
+      </p>
+
+      <div class="tabela-wrap">
+        <table class="tabela-dados">
+          <thead>
+            <tr>
+              <th>Ano</th>
+              <th class="num">Conversões 10.1</th>
+              <th class="num">Mediana 10.1</th>
+              <th class="num">Conversões 11</th>
+              <th class="num">Mediana 11</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>2019</td><td class="num">1.117.213</td><td class="num"><strong>22 anos</strong></td><td class="num">1.485.850</td><td class="num"><strong>19 anos</strong></td></tr>
+            <tr><td>2022</td><td class="num">285.236</td><td class="num"><strong>4 anos</strong></td><td class="num">565.971</td><td class="num"><strong>4 anos</strong></td></tr>
+            <tr><td>2024</td><td class="num">157.245</td><td class="num"><strong>5 anos</strong></td><td class="num">529.865</td><td class="num"><strong>6 anos</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="chart-caption" style="text-align:left; margin-top:-0.6rem;">
+        Censo local, malha do IBGE. "Idade desconhecida" não é erro; são pixels cuja pastagem
+        já existia em 1985, quando a série começa, e cuja idade real é portanto maior do que
+        qualquer coisa observável.
+      </p>
+
+      <p>
+        A Coleção 11 encontra <strong>3,37 vezes</strong> mais conversões em 2024, o que faz
+        sentido dado que ela absorveu parte do Mosaico na Pastagem e portanto expandiu o universo
+        de pixels que podem sair como conversão. As medianas, porém, continuam baixas nas duas
+        coleções. A transição que os dois mapas registram nos anos recentes é de pasto novo,
+        não de pastagem antiga sendo substituída por lavoura.
+      </p>
+
+      <div class="nao-mostra">
+        <h4>Ponto em aberto</h4>
+        <p>
+          A Coleção 10.1 tem apenas 4,0% de idade desconhecida em 2024, contra 27,8% da
+          Coleção 11 no mesmo ano. A diferença é grande e não explicada pelo horizonte de
+          observação, que é idêntico nas duas. O registro fica como lacuna não explicada.
+        </p>
+      </div>
+
+      <a class="voltar-topo" href="#top">↑ roteiro</a>
+    </section>
+
+
+    <!-- 7 ─────────────────────────────────────────────────────────────── -->
+    <section class="capitulo" id="cap7">
+      <div class="capitulo-eyebrow">Capítulo 7</div>
+      <h2>A soja não se mexe</h2>
+
+      <p>
+        A revisão da Coleção 11 foi cirúrgica: ela mexeu na fronteira entre Mosaico e Pastagem,
+        e quase nada além disso. A classe Soja é praticamente idêntica nas duas coleções, o que
+        localiza toda a mudança num lugar muito específico do mapa.
+      </p>
+
+      <div class="tabela-wrap">
+        <table class="tabela-dados">
+          <thead>
+            <tr>
+              <th>Ano</th>
+              <th class="num">Soja 10.1 (Mha)</th>
+              <th class="num">Soja 11 (Mha)</th>
+              <th class="num">Soja IBGE (Mha)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>2014</td><td class="num">3,130</td><td class="num">3,176</td><td class="num">3,177</td></tr>
+            <tr><td>2019</td><td class="num">4,289</td><td class="num">4,353</td><td class="num">3,403</td></tr>
+            <tr><td>2024</td><td class="num">4,747</td><td class="num">4,810</td><td class="num">4,942</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>
+        A Coleção 11 tem sempre um pouco mais de soja do que a 10.1, numa faixa de <strong>+1,35%
+        a +1,72%</strong>, com sinal constante em todos os anos medidos. A diferença é pequena
+        demais para mudar qualquer conclusão sobre a classe.
+      </p>
+
+      <p>
+        Há um achado sutil que a tabela traz e que merece atenção. A afirmação "o mapa perde a
+        expansão da soja" depende inteiramente de onde se começa a contar. De 2019 a 2024 o mapa
+        captura apenas 30% do crescimento que o IBGE mede, porque em 2019 o mapa já estava 26%
+        acima do IBGE. De 2014, onde as duas séries praticamente coincidem (diferença de 1,5%),
+        o IBGE cresce 55,6% e o mapa 51,7%. As duas séries têm formas diferentes e chegam quase
+        ao mesmo lugar.
+      </p>
+
+      <div class="nao-mostra">
+        <h4>O que isso não invalida</h4>
+        <p>
+          A investigação anterior fala da classe <strong>Agricultura</strong> agregada, que de
+          fato ficou parada entre 2020 e 2024. O que este capítulo acrescenta é que a sub-classe
+          Soja, dentro dela, não ficou parada nas mesmas proporções, e que a aparente perda de
+          cobertura depende do ponto de partida da comparação.
+        </p>
+      </div>
+
+      <a class="voltar-topo" href="#top">↑ roteiro</a>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════════════════════════════
+         PARTE IV — O QUE MUDA
+         ══════════════════════════════════════════════════════════════════ -->
+    <div class="parte-header">Parte IV — O que muda</div>
+
+    <!-- 8 ─────────────────────────────────────────────────────────────── -->
+    <section class="capitulo" id="cap8">
+      <div class="capitulo-eyebrow">Capítulo 8</div>
+      <h2>De onde veio a soja nova</h2>
+
+      <p>
+        Este capítulo não tem equivalente na investigação anterior. Ele responde a um enigma que
+        lá ficou em aberto: como a soja pode crescer tanto enquanto a classe Agricultura do mapa
+        fica parada?
+      </p>
+
+      <p>
+        A resposta emerge quando se rastreia a origem, em 2019, de cada pixel que é Soja (classe
+        39) em 2024 na Coleção 10.1.
+      </p>
+
+      <div class="tabela-wrap">
+        <table class="tabela-dados">
+          <thead>
+            <tr>
+              <th>Origem em 2019</th>
+              <th class="num">Fração</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Outras lavouras temporárias</td><td class="num"><strong>43,3%</strong></td></tr>
+            <tr><td>Cana-de-açúcar</td><td class="num"><strong>35,1%</strong></td></tr>
+            <tr><td>Pastagem</td><td class="num">11,5%</td></tr>
+            <tr><td>Mosaico de Usos</td><td class="num">8,5%</td></tr>
+            <tr><td>Vegetação natural</td><td class="num">menos de 1%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="chart-caption" style="text-align:left; margin-top:-0.6rem;">
+        Coleção 10.1, escala 100&nbsp;m. O que era, em 2019, cada pixel que é Soja em 2024.
+      </p>
+
+      <p>
+        Cerca de <strong>78,4%</strong> da soja nova veio de terra que já era lavoura em 2019, na
+        forma de outras lavouras temporárias e cana-de-açúcar. A pastagem contribui com 11,5% e o
+        Mosaico com 8,5%. A vegetação natural de Goiás está praticamente ausente da origem da soja
+        nova.
+      </p>
+
+      <p>
+        Sem essa medição, o resultado que sairia publicado seria o do capítulo equivalente na
+        investigação anterior: um agregado que não cresce quando a soja cresce, o que sugeriria
+        que a expansão está sendo perdida pelo classificador. Com a origem medida, a explicação é
+        mais simples. Um agregado que não cresce é o resultado esperado quando a expansão é
+        substituição dentro dele. A soja cresceu ocupando o lugar de outras lavouras e da cana
+        dentro do mesmo agregado Agricultura, e por isso a área total da classe mal se moveu.
+      </p>
+
+      <div class="ressalva-box">
+        <h4>Ressalva</h4>
+        <p>
+          "Outras lavouras temporárias" é classe guarda-chuva, e parte dos 43,3% pode ser troca
+          de rótulo dentro da lavoura em vez de substituição real de cultura. A conclusão não
+          depende dessa distinção: em qualquer das duas leituras, a terra já era lavoura em 2019.
+        </p>
+      </div>
+
+      <a class="voltar-topo" href="#top">↑ roteiro</a>
+    </section>
+
+
+    <!-- 9 ─────────────────────────────────────────────────────────────── -->
+    <section class="capitulo" id="cap9">
+      <div class="capitulo-eyebrow">Capítulo 9</div>
+      <h2>Os centros de massa: o que anda e o que para</h2>
+
+      <p>
+        A pergunta que mais interessa à dissertação é se a marcha da fronteira agropecuária rumo ao
+        norte de Goiás resiste à troca de coleção. A investigação anterior mediu o deslocamento do
+        centro de massa de várias camadas de uso da terra entre 2019 e 2024. Aqui, a mesma medição
+        é refeita nas duas coleções, com ponderação por centroide municipal e intervalo de confiança
+        por bootstrap de 2.000 reamostragens dos 246 municípios.
+      </p>
+
+      <div class="tabela-wrap">
+        <table class="tabela-dados">
+          <thead>
+            <tr>
+              <th>Série</th>
+              <th>Coleção 10.1</th>
+              <th>Coleção 11</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Agricultura</td>
+              <td class="num">+0,65 [−0,21; +1,64]</td>
+              <td class="num"><strong>+1,71 [+0,54; +3,10]</strong></td>
+            </tr>
+            <tr>
+              <td>Mosaico</td>
+              <td class="num">−12,58 [−20,92; −4,28]</td>
+              <td class="num">−24,33 [−34,07; −14,14]</td>
+            </tr>
+            <tr>
+              <td>União (Agric + Mosaico)</td>
+              <td class="num">+4,13 [+0,52; +7,29]</td>
+              <td class="num">+3,19 [+0,92; +4,99]</td>
+            </tr>
+            <tr class="destaque">
+              <td><strong>Pastagem</strong></td>
+              <td class="num"><strong>+13,02 [+9,94; +15,94]</strong></td>
+              <td class="num"><strong>+7,28 [+5,46; +9,11]</strong></td>
+            </tr>
+            <tr>
+              <td>Soja (satélite)</td>
+              <td class="num">−6,47 [−10,70; −3,49]</td>
+              <td class="num">−5,91 [−9,93; −3,10]</td>
+            </tr>
+            <tr>
+              <td>Soja plantada (IBGE)</td>
+              <td class="num">+9,93 [+0,56; +18,59]</td>
+              <td class="num">(mesma série)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="chart-caption" style="text-align:left; margin-top:-0.6rem;">
+        Deslocamento do centro de massa entre 2019 e 2024, em km ao norte.
+        Ponderação por centroide municipal, bootstrap de 2.000 reamostragens.
+      </p>
+
+      <div class="chart-box">
+        <div class="chart-container" id="chartCM"></div>
+        <div class="chart-caption">
+          Figura 4. Deslocamento dos centros de massa entre 2019 e 2024, em km ao norte, por coleção.
+          Barras de erro pelo bootstrap. A linha vertical marca o zero (sem deslocamento).
+        </div>
+      </div>
+
+      <p>
+        Três achados emergem da tabela, e a ordem entre eles importa.
+      </p>
+
+      <p>
+        Primeiro, um enunciado de manchete da investigação anterior muda. Lá, a Agricultura é
+        descrita como "a única linha que não se move". Na Coleção 10.1, isso se sustenta
+        (o intervalo de confiança inclui zero). Na Coleção 11, o deslocamento é de
+        <strong>+1,71 km</strong>, com intervalo inteiramente positivo [+0,54; +3,10]. A
+        Agricultura na coleção nova também marcha ao norte.
+      </p>
+
+      <p>
+        Segundo, a pastagem perde <strong>44%</strong> da magnitude da marcha ao norte, de +13,02
+        para +7,28 km, e os intervalos de confiança não se sobrepõem. O mecanismo é direto: a
+        Coleção 11 absorve na Pastagem pixels de Mosaico concentrados no sul, e somar pixel sulista
+        puxa o centro de massa para baixo.
+      </p>
+
+      <p>
+        Terceiro, a divergência entre soja-satélite e soja-campo sobrevive sem alteração relevante.
+        O satélite recua ao sul nas duas coleções, enquanto a soja medida em campo pelo IBGE avança
+        quase 10 km ao norte. Este é o achado mais robusto do capítulo original, e a Coleção 11
+        não o toca.
+      </p>
+
+      <details class="leia-mais">
+        <summary>Robustez a MAUP (efeito de agregação espacial)</summary>
+        <div class="leia-mais-corpo">
+          <p>
+            As mesmas medidas com ponderação por pixel (sem malha municipal no meio) dão, para
+            10.1 e 11 respectivamente: Agricultura +0,72 e +1,70; Mosaico −12,48 e −23,73;
+            união +3,95 e +3,14; Pastagem +13,07 e +7,25; Soja −6,59 e −6,04. As duas
+            ponderações concordam dentro de <strong>0,6 km</strong> em todas as séries, de modo
+            que nenhum destes achados é artefato do desenho da malha municipal.
+          </p>
+        </div>
+      </details>
+
+      <a class="voltar-topo" href="#top">↑ roteiro</a>
+    </section>
+
+
+    <!-- 10 ────────────────────────────────────────────────────────────── -->
+    <section class="capitulo" id="cap10">
+      <div class="capitulo-eyebrow">Capítulo 10</div>
+      <h2>A régua dupla encolhe, e o teto muda de lado</h2>
+
+      <p>
+        A investigação anterior adotou uma regra metodológica para lidar com a ambiguidade do
+        Mosaico: reportar não um número, mas um intervalo, com piso pela classe Agricultura (que
+        provavelmente subconta) e teto pela união Agricultura+Mosaico (que provavelmente
+        superconta). Uma conclusão só era declarada robusta se se sustentasse nas duas pontas.
+        Com a Coleção 11, a ambiguidade que motivou essa regra encolhe, mas o comportamento do
+        teto muda de forma significativa.
+      </p>
+
+      <h3>No fluxo anual</h3>
+
+      <div class="tabela-wrap">
+        <table class="tabela-dados">
+          <thead>
+            <tr>
+              <th>Ano</th>
+              <th class="num">Vão na 10.1</th>
+              <th class="num">Vão na 11</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>2015</td><td class="num">1,6×</td><td class="num">1,3×</td></tr>
+            <tr><td>2020</td><td class="num">5,6×</td><td class="num">3,0×</td></tr>
+            <tr><td>2022</td><td class="num">14,5×</td><td class="num">5,3×</td></tr>
+            <tr><td>2024</td><td class="num"><strong>33,9×</strong></td><td class="num"><strong>5,8×</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="chart-caption" style="text-align:left; margin-top:-0.6rem;">
+        Largura do vão entre piso e teto no fluxo pasto→lavoura.
+      </p>
+
+      <p>
+        A régua dupla ainda abre com o tempo, mas seis vezes menos que na coleção anterior. Em
+        2024 o vão cai de 33,9× para 5,8×, o que torna o intervalo mais informativo porque as
+        duas pontas ficam mais próximas do mesmo valor.
+      </p>
+
+      <h3>Nos estoques</h3>
+
+      <div class="tabela-wrap">
+        <table class="tabela-dados">
+          <thead>
+            <tr>
+              <th>Série</th>
+              <th class="num">Coleção 10.1</th>
+              <th class="num">Coleção 11</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Agricultura (piso)</td><td class="num">+0,064 Mha</td><td class="num">+0,144 Mha</td></tr>
+            <tr><td>União (teto)</td><td class="num"><strong>+1,415 Mha</strong></td><td class="num"><strong>+0,801 Mha</strong></td></tr>
+            <tr><td>Soja plantada, IBGE</td><td class="num">+1,364 Mha</td><td class="num">(mesma)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="chart-caption" style="text-align:left; margin-top:-0.6rem;">
+        Crescimento entre 2020 e 2024.
+      </p>
+
+      <p>
+        Na Coleção 10.1 o teto pela união (+1,415 Mha) fica acima da soja medida em campo pelo
+        IBGE (+1,364 Mha), e a âncora externa cabe dentro do intervalo. Na Coleção 11 o teto cai
+        para +0,801 Mha e fica <em>abaixo</em> da âncora. Se o teto deixa de cobrir a referência
+        externa, a régua dupla não funciona da mesma forma na coleção nova.
+      </p>
+
+      <div class="ressalva-box">
+        <h4>Ressalva</h4>
+        <p>
+          Área plantada de soja não é área de lavoura nova. O Capítulo 8 mostrou que cerca de 78%
+          da soja nova veio de terra que já era lavoura, e essa parte não precisa aparecer como
+          crescimento de área agrícola. Portanto o fato de o teto ficar abaixo do número do IBGE
+          não implica, por si só, que a Coleção 11 subconte. Este capítulo levanta a questão; não
+          a resolve.
+        </p>
+      </div>
+
+      <a class="voltar-topo" href="#top">↑ roteiro</a>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════════════════════════════
+         PARTE V — LIMITES
+         ══════════════════════════════════════════════════════════════════ -->
+    <div class="parte-header">Parte V — Limites</div>
+
+    <!-- 11 ────────────────────────────────────────────────────────────── -->
+    <section class="capitulo" id="cap11">
+      <div class="capitulo-eyebrow">Capítulo 11</div>
+      <h2>O que continua sem resposta</h2>
+
+      <p>
+        O Capítulo 4 mostra que o tombo do fluxo pasto→lavoura segue o calendário e não a borda
+        de cada coleção. Isso elimina uma explicação, mas não estabelece outra. Uma causa
+        compartilhada por todas as coleções, como uma mudança no insumo Landsat por volta de
+        2021 ou uma revisão de metodologia aplicada retroativamente, produziria o mesmo padrão.
+        A Coleção 11 é mais uma coleção com ele, não um árbitro sobre ele.
+      </p>
+
+      <p>
+        O Sentinel-2 usado no Capítulo 3 vem do mesmo produtor que as coleções Landsat, com a
+        mesma legenda geral e uma classe 21 própria. O teste é de sensor e resolução, não de
+        metodologia nem de legenda. Se o Mosaico de Usos for uma escolha de legenda, a coleção
+        de 10 m herda a mesma escolha, e a separação de dez vezes continuaria aparecendo sem
+        que nenhuma das duas coleções estivesse necessariamente mais perto do campo.
+      </p>
+
+      <p>
+        A classe "Outras lavouras temporárias" usada no Capítulo 8 é guarda-chuva. Parte da
+        substituição medida ali pode ser troca de rótulo dentro da lavoura, e a fração real de
+        substituição produtiva permanece desconhecida. A conclusão de que a terra já era lavoura
+        não depende dessa distinção, mas a interpretação agronômica, sim.
+      </p>
+
+      <p>
+        A censura da idade em 2024 difere muito entre as coleções (4,0% na 10.1 contra 27,8%
+        na 11) sem que se tenha identificado a causa. O horizonte de observação é idêntico nas
+        duas coleções, e portanto não é ele que explica a diferença. Até que a causa seja
+        identificada, a comparação direta da fração de idade desconhecida entre as coleções
+        permanece em suspenso.
+      </p>
+
+      <a class="voltar-topo" href="#top">↑ roteiro</a>
+    </section>
+
+
+    <!-- 12 ────────────────────────────────────────────────────────────── -->
+    <section class="capitulo" id="cap12">
+      <div class="capitulo-eyebrow">Capítulo 12</div>
+      <h2>Um número que não reproduz</h2>
+
+      <p>
+        A investigação anterior publica r = 0,84 como coeficiente de correlação entre o
+        crescimento do Mosaico e o crescimento da soja do IBGE, por município, entre 2019 e
+        2024. A replicação desta página obtém <strong>0,739</strong>, e o valor se mantém
+        estável em nove variantes do cálculo.
+      </p>
+
+      <div class="tabela-wrap">
+        <table class="tabela-dados">
+          <thead>
+            <tr>
+              <th>Variante</th>
+              <th class="num">r</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Pearson, 246 municípios</td><td class="num"><strong>0,739</strong></td></tr>
+            <tr><td>Janela 2020→2024</td><td class="num">0,756</td></tr>
+            <tr><td>Janela 2015→2024</td><td class="num">0,738</td></tr>
+            <tr><td>Spearman</td><td class="num">0,721</td></tr>
+            <tr><td>Só municípios onde ambos crescem</td><td class="num">0,740</td></tr>
+            <tr><td>Em log(1+x)</td><td class="num">0,557</td></tr>
+            <tr><td>Níveis de 2024 em vez de variações</td><td class="num">0,733</td></tr>
+            <tr><td>Área colhida em vez de plantada</td><td class="num">0,739</td></tr>
+            <tr class="destaque"><td>Usando <code>mapbiomas_munis_goias.csv</code>, a fonte do dossiê</td><td class="num"><strong>0,739</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>
+        A última linha é a que importa. Quando se usa a mesma fonte de dados da investigação
+        anterior, o resultado é idêntico ao das demais variantes, o que descarta diferença de
+        método deste lado. As magnitudes absolutas publicadas junto ao coeficiente reproduzem
+        sem problema: crescimento do Mosaico de 1,523 Mha e da soja de 1,539 Mha, contra 1,53
+        e 1,54 no dossiê. Na Coleção 11 o mesmo cálculo dá 0,711.
+      </p>
+
+      <p>
+        A divergência pode ter origem numa definição não documentada ou num filtro aplicado ao
+        cálculo original. O registro fica como achado para o autor decidir como tratar. A
+        diferença entre 0,739 e 0,84 não altera a direção da correlação nem a conclusão
+        qualitativa de que os dois crescimentos estão associados, mas muda a força aparente
+        da associação.
+      </p>
+
+      <a class="voltar-topo" href="#top">↑ roteiro</a>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════════════════════════════
+         FONTES E MÉTODO
+         ══════════════════════════════════════════════════════════════════ -->
+    <footer class="ds-footer">
+      <h3 style="font-family: var(--font-sans); font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-veg); margin-bottom: 1rem;">Fontes e método</h3>
+      <p>
+        <strong>Dados.</strong> MapBiomas Coleções 6, 8, 9, 10.1 e 11 (Landsat, 30&nbsp;m);
+        coleção de 10&nbsp;m (Sentinel-2), usada apenas para composição num único ano.
+        IBGE/SIDRA, PAM 1612, área plantada de soja por município.
+      </p>
+      <p>
+        <strong>Coleção 11.</strong> O asset legível é
+        <code>mapbiomas_brazil_collection11_coverage_v3</code>; a série vai de 1985 a 2025
+        (41 bandas); a grade é idêntica à da 10.1, com deslocamento zero.
+      </p>
+      <p>
+        <strong>Método.</strong> Censo completo de pixels, não amostra, sobre os cubos rasterizados
+        das duas coleções de Goiás; máscara municipal do IBGE (246 municípios, geobr 2020);
+        conversão de pixel em hectare corrigida por cos(latitude). Comparações entre coleções
+        feitas pixel a pixel na grade nativa. Onde o Earth Engine foi usado (Coleções 6 e 8, que
+        não têm cubo local, e a coleção Sentinel), a escala está declarada no capítulo.
+      </p>
+      <p>
+        <strong>Intervalos de confiança.</strong> Bootstrap de 2.000 reamostragens dos 246 municípios.
+      </p>
+      <p>
+        <strong>Verificação.</strong> Os números desta página são re-derivados dos arquivos de
+        dados por um script de verificação com 114 asserções.
+      </p>
+      <p>
+        <strong>Nota de escopo.</strong> Página exploratória, recorte independente de uma dissertação
+        de mestrado em andamento. A dissertação usa a Coleção 10.1 e anteriores; esta página não
+        altera resultados dela.
+      </p>
+      <div class="ds-footer-bottom">
+        Página independente, análise exploratória.
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="assets/js/vendor/d3.v7.min.js?v=2"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+      var CF = "#1a1a1a";
+      var CM = "#6b6b6b";
+      var CR = "#d8d6cf";
+
+      function axStyle(g) {
+        g.select(".domain").attr("stroke", CR);
+        g.selectAll(".tick line").attr("stroke", CR);
+        g.selectAll(".tick text").attr("fill", CM).style("font-size", "11px").style("font-family", "var(--font-sans)");
+      }
+
+      function axisLabel(svg, x, y, rotate, text) {
+        var t = svg.append("text").attr("fill", CM)
+          .style("font-size", "10px").style("font-family", "var(--font-sans)")
+          .attr("text-anchor", "middle").text(text);
+        if (rotate) t.attr("transform", "translate(" + y + "," + (-x) + ") rotate(-90)");
+        else t.attr("x", x).attr("y", y);
+      }
+
+
+      // ─── Figura 1: Destinos do Mosaico (barra horizontal empilhada) ─────
+      (function () {
+        var W = 660, H = 200;
+        var M = { t: 20, r: 30, b: 50, l: 30 };
+
+        var dados = [
+          { label: "Pastagem", pct: 44.7, cor: "#d4b65a", lat: "−16,53°" },
+          { label: "Permanece Mosaico", pct: 36.8, cor: "#c98a4b", lat: "−16,67°" },
+          { label: "Veg. natural", pct: 13.4, cor: "#2d5a3d", lat: "−16,17°" },
+          { label: "Agricultura", pct: 4.3, cor: "#d96aa3", lat: "−17,19°" }
+        ];
+
+        var svg = d3.select("#chartDestinos").append("svg").attr("viewBox", "0 0 " + W + " " + H);
+        var barW = W - M.l - M.r;
+        var barH = 36;
+        var barY = M.t + 20;
+
+        var x = 0;
+        dados.forEach(function (d) {
+          var w = (d.pct / 100) * barW;
+          svg.append("rect").attr("x", M.l + x).attr("y", barY).attr("width", w).attr("height", barH)
+            .attr("fill", d.cor).attr("rx", 2);
+
+          if (w > 40) {
+            svg.append("text").attr("x", M.l + x + w / 2).attr("y", barY + barH / 2 + 1)
+              .attr("text-anchor", "middle").attr("dominant-baseline", "middle")
+              .attr("fill", "#fff").style("font-size", "11px").style("font-weight", "700")
+              .style("font-family", "var(--font-sans)").text(d.pct + "%");
+          }
+
+          var labelY = barY + barH + 18;
+          svg.append("text").attr("x", M.l + x + w / 2).attr("y", labelY)
+            .attr("text-anchor", "middle").attr("fill", CF)
+            .style("font-size", "10px").style("font-weight", "600")
+            .style("font-family", "var(--font-sans)").text(d.label);
+
+          svg.append("text").attr("x", M.l + x + w / 2).attr("y", labelY + 14)
+            .attr("text-anchor", "middle").attr("fill", CM)
+            .style("font-size", "9px").style("font-family", "var(--font-sans)")
+            .text("lat " + d.lat);
+
+          x += w;
+        });
+
+        svg.append("text").attr("x", M.l).attr("y", barY - 6)
+          .attr("fill", CM).style("font-size", "10px").style("font-family", "var(--font-sans)")
+          .text("Mosaico da Coleção 10.1 → destino na Coleção 11");
+      })();
+
+
+      // ─── Figura 2: Régua Sentinel ──────────────────────────────────────
+      (function () {
+        var W = 660, H = 280;
+        var M = { t: 20, r: 30, b: 30, l: 210 };
+
+        var pops = [
+          { label: "Pastagem nas duas (piso)", pct: 0, cor: "#d4b65a", bold: false },
+          { label: "Mosaico(10.1) → Pastagem(11)", pct: 4.6, cor: "#d4b65a", bold: true },
+          { label: "Mosaico novo (só 11)", pct: 3.0, cor: "#c98a4b", bold: false },
+          { label: "Mosaico que sobrevive", pct: 23.5, cor: "#c98a4b", bold: false },
+          { label: "Mosaico(10.1) → Agricultura(11)", pct: 46.1, cor: "#d96aa3", bold: true },
+          { label: "Agricultura nas duas (teto)", pct: 100, cor: "#d96aa3", bold: false }
+        ];
+
+        var svg = d3.select("#chartRegua").append("svg").attr("viewBox", "0 0 " + W + " " + H);
+        var trackW = W - M.l - M.r;
+        var rowH = 34;
+
+        var defs = svg.append("defs");
+        var grad = defs.append("linearGradient").attr("id", "reguaGrad");
+        grad.append("stop").attr("offset", "0%").attr("stop-color", "#d4b65a");
+        grad.append("stop").attr("offset", "100%").attr("stop-color", "#d96aa3");
+
+        pops.forEach(function (p, i) {
+          var y = M.t + i * rowH;
+
+          svg.append("text").attr("x", M.l - 10).attr("y", y + rowH / 2)
+            .attr("text-anchor", "end").attr("dominant-baseline", "middle")
+            .attr("fill", p.bold ? CF : CM)
+            .style("font-size", p.bold ? "11px" : "10px")
+            .style("font-weight", p.bold ? "700" : "400")
+            .style("font-family", "var(--font-sans)")
+            .text(p.label);
+
+          svg.append("rect").attr("x", M.l).attr("y", y + rowH / 2 - 4)
+            .attr("width", trackW).attr("height", 8)
+            .attr("fill", "#f1efe8").attr("rx", 3)
+            .attr("stroke", CR).attr("stroke-width", 0.5);
+
+          var markerX = M.l + (p.pct / 100) * trackW;
+          svg.append("circle").attr("cx", markerX).attr("cy", y + rowH / 2)
+            .attr("r", p.bold ? 6 : 4.5)
+            .attr("fill", p.cor)
+            .attr("stroke", "#fff").attr("stroke-width", 1.5);
+
+          svg.append("text").attr("x", M.l + trackW + 8).attr("y", y + rowH / 2)
+            .attr("text-anchor", "start").attr("dominant-baseline", "middle")
+            .attr("fill", p.bold ? CF : CM)
+            .style("font-size", "11px").style("font-weight", p.bold ? "700" : "400")
+            .style("font-family", "var(--font-sans)")
+            .text(p.pct + "%");
+        });
+
+        svg.append("text").attr("x", M.l).attr("y", M.t + pops.length * rowH + 10)
+          .attr("fill", CM).style("font-size", "9px").style("font-family", "var(--font-sans)")
+          .text("← Pasto");
+        svg.append("text").attr("x", M.l + trackW).attr("y", M.t + pops.length * rowH + 10)
+          .attr("text-anchor", "end").attr("fill", CM)
+          .style("font-size", "9px").style("font-family", "var(--font-sans)")
+          .text("Lavoura →");
+      })();
+
+
+      // ─── Figura 3: Borda móvel (5 coleções, hectares) ─────────────────
+      (function () {
+        var W = 660, H = 360;
+        var M = { t: 16, r: 20, b: 44, l: 56 };
+
+        var series = [
+          { nome: "col6", lbl: "Coleção 6 (até 2020)", cor: "#c4ad8a",
+            pts: [[2019, 99.3], [2020, 72.9]] },
+          { nome: "col8", lbl: "Coleção 8 (até 2022)", cor: "#c97052",
+            pts: [[2019, 98.3], [2020, 63.8], [2021, 17.0], [2022, 29.3]] },
+          { nome: "col9", lbl: "Coleção 9 (até 2023)", cor: "#c98a4b",
+            pts: [[2019, 95.3], [2020, 60.3], [2021, 14.9], [2022, 25.2], [2023, 12.2]] },
+          { nome: "col10", lbl: "Coleção 10.1 (até 2024)", cor: "#8b3a1d",
+            pts: [[2019, 103.8], [2020, 57.5], [2021, 21.8], [2022, 28.3], [2023, 13.9], [2024, 16.1]] },
+          { nome: "col11", lbl: "Coleção 11 (até 2025)", cor: "#2d5a3d",
+            pts: [[2019, 135.0], [2020, 83.9], [2021, 34.3], [2022, 51.9], [2023, 34.0], [2024, 48.5]] }
+        ];
+
+        var svg = d3.select("#chartBorda").append("svg").attr("viewBox", "0 0 " + W + " " + H);
+        var x = d3.scaleLinear().domain([2019, 2024]).range([M.l, W - M.r]);
+        var y = d3.scaleLinear().domain([0, 150]).range([H - M.b, M.t]);
+
+        svg.append("g").selectAll("line").data(y.ticks(6)).join("line")
+          .attr("x1", M.l).attr("x2", W - M.r)
+          .attr("y1", function (d) { return y(d); }).attr("y2", function (d) { return y(d); })
+          .attr("stroke", CR).attr("stroke-width", 0.5).attr("opacity", 0.5);
+
+        svg.append("line").attr("x1", x(2021)).attr("x2", x(2021))
+          .attr("y1", M.t).attr("y2", H - M.b)
+          .attr("stroke", "#8b3a1d").attr("stroke-width", 1).attr("stroke-dasharray", "4,3").attr("opacity", 0.5);
+        svg.append("text").attr("x", x(2021) + 4).attr("y", M.t + 12)
+          .attr("fill", "#8b3a1d").style("font-size", "9px").style("font-family", "var(--font-sans)")
+          .text("2021");
+
+        svg.append("g").attr("transform", "translate(0," + (H - M.b) + ")")
+          .call(d3.axisBottom(x).ticks(6).tickFormat(d3.format("d"))).call(axStyle);
+        svg.append("g").attr("transform", "translate(" + M.l + ",0)")
+          .call(d3.axisLeft(y).ticks(6)).call(axStyle);
+
+        axisLabel(svg, -(M.t + (H - M.b - M.t) / 2), 14, true, "mil ha/ano");
+
+        var lineGen = d3.line().x(function (d) { return x(d[0]); }).y(function (d) { return y(d[1]); }).curve(d3.curveMonotoneX);
+
+        series.forEach(function (s) {
+          svg.append("path").attr("d", lineGen(s.pts)).attr("fill", "none").attr("stroke", s.cor).attr("stroke-width", 2.4);
+          s.pts.forEach(function (p, i) {
+            var isLast = (i === s.pts.length - 1);
+            var g = svg.append("g");
+            g.append("circle").attr("cx", x(p[0])).attr("cy", y(p[1])).attr("r", isLast ? 5 : 3.2)
+              .attr("fill", isLast ? "#fff" : s.cor).attr("stroke", s.cor).attr("stroke-width", isLast ? 2.2 : 1.1);
+            g.append("title").text(s.lbl + (isLast ? " (último ano): " : ": ") + p[1].toFixed(1) + " mil ha (" + p[0] + ")");
+          });
+        });
+      })();
+
+
+      // ─── Figura 4: Centros de massa (deslocamento com barras de erro) ──
+      (function () {
+        var W = 660, H = 340;
+        var M = { t: 16, r: 30, b: 30, l: 180 };
+
+        var series = [
+          { label: "Agricultura", v101: 0.65, lo101: -0.21, hi101: 1.64, v11: 1.71, lo11: 0.54, hi11: 3.10 },
+          { label: "Mosaico", v101: -12.58, lo101: -20.92, hi101: -4.28, v11: -24.33, lo11: -34.07, hi11: -14.14 },
+          { label: "União", v101: 4.13, lo101: 0.52, hi101: 7.29, v11: 3.19, lo11: 0.92, hi11: 4.99 },
+          { label: "Pastagem", v101: 13.02, lo101: 9.94, hi101: 15.94, v11: 7.28, lo11: 5.46, hi11: 9.11 },
+          { label: "Soja (satélite)", v101: -6.47, lo101: -10.70, hi101: -3.49, v11: -5.91, lo11: -9.93, hi11: -3.10 },
+          { label: "Soja (IBGE)", v101: 9.93, lo101: 0.56, hi101: 18.59, v11: null, lo11: null, hi11: null }
+        ];
+
+        var svg = d3.select("#chartCM").append("svg").attr("viewBox", "0 0 " + W + " " + H);
+        var trackW = W - M.l - M.r;
+        var rowH = 48;
+
+        var xDomain = [-38, 22];
+        var x = d3.scaleLinear().domain(xDomain).range([M.l, M.l + trackW]);
+
+        svg.append("line").attr("x1", x(0)).attr("x2", x(0))
+          .attr("y1", M.t - 4).attr("y2", M.t + series.length * rowH)
+          .attr("stroke", CR).attr("stroke-width", 1.5);
+
+        svg.append("g").attr("transform", "translate(0," + (M.t + series.length * rowH) + ")")
+          .call(d3.axisBottom(x).ticks(8)).call(axStyle);
+
+        svg.append("text").attr("x", x(0)).attr("y", M.t + series.length * rowH + 28)
+          .attr("text-anchor", "middle").attr("fill", CM)
+          .style("font-size", "10px").style("font-family", "var(--font-sans)")
+          .text("km ao norte ←→");
+
+        var cor101 = "#8b3a1d";
+        var cor11 = "#2d5a3d";
+
+        series.forEach(function (s, i) {
+          var yBase = M.t + i * rowH;
+          var y101 = yBase + rowH / 2 - 6;
+          var y11 = yBase + rowH / 2 + 6;
+
+          svg.append("text").attr("x", M.l - 10).attr("y", yBase + rowH / 2)
+            .attr("text-anchor", "end").attr("dominant-baseline", "middle")
+            .attr("fill", CF).style("font-size", "11px").style("font-weight", "600")
+            .style("font-family", "var(--font-sans)").text(s.label);
+
+          svg.append("line").attr("x1", x(s.lo101)).attr("x2", x(s.hi101))
+            .attr("y1", y101).attr("y2", y101)
+            .attr("stroke", cor101).attr("stroke-width", 2);
+          svg.append("circle").attr("cx", x(s.v101)).attr("cy", y101).attr("r", 4)
+            .attr("fill", cor101).attr("stroke", "#fff").attr("stroke-width", 1);
+
+          if (s.v11 !== null) {
+            svg.append("line").attr("x1", x(s.lo11)).attr("x2", x(s.hi11))
+              .attr("y1", y11).attr("y2", y11)
+              .attr("stroke", cor11).attr("stroke-width", 2);
+            svg.append("circle").attr("cx", x(s.v11)).attr("cy", y11).attr("r", 4)
+              .attr("fill", cor11).attr("stroke", "#fff").attr("stroke-width", 1);
+          } else {
+            svg.append("text").attr("x", M.l + 4).attr("y", y11 + 1)
+              .attr("dominant-baseline", "middle").attr("fill", CM)
+              .style("font-size", "9px").style("font-family", "var(--font-sans)")
+              .text("(mesma série)");
+          }
+
+          if (i < series.length - 1) {
+            svg.append("line").attr("x1", M.l).attr("x2", M.l + trackW)
+              .attr("y1", yBase + rowH).attr("y2", yBase + rowH)
+              .attr("stroke", CR).attr("stroke-width", 0.5).attr("opacity", 0.4);
+          }
+        });
+
+        var legY = M.t - 8;
+        svg.append("circle").attr("cx", M.l).attr("cy", legY).attr("r", 4).attr("fill", cor101);
+        svg.append("text").attr("x", M.l + 8).attr("y", legY).attr("dominant-baseline", "middle")
+          .attr("fill", CM).style("font-size", "10px").style("font-family", "var(--font-sans)")
+          .text("Coleção 10.1");
+
+        svg.append("circle").attr("cx", M.l + 100).attr("cy", legY).attr("r", 4).attr("fill", cor11);
+        svg.append("text").attr("x", M.l + 108).attr("y", legY).attr("dominant-baseline", "middle")
+          .attr("fill", CM).style("font-size", "10px").style("font-family", "var(--font-sans)")
+          .text("Coleção 11");
+      })();
+
+    });
+  </script>
+</body>
+
+</html>
