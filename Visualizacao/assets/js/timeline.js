@@ -6,21 +6,35 @@
 (function (root) {
   "use strict";
 
+
+  // i18n: em paginas que nao carregam i18n.js (ex.: index-original.html), T/TF
+  // caem para a identidade e o texto original em portugues e' preservado.
+  var _I18N = root.GO40I18N || null;
+  var T  = _I18N ? _I18N.T  : function (s) { return s; };
+  var TF = _I18N ? _I18N.TF : function (s) {
+    var a = Array.prototype.slice.call(arguments, 1), o = String(s);
+    for (var i = 0; i < a.length; i++) o = o.split("{" + i + "}").join(String(a[i]));
+    return o;
+  };
   const ANO_MIN = 1985;
   const ANO_MAX = 2024;
   const TOTAL_ANOS = ANO_MAX - ANO_MIN;
 
-  const fmtPct = v => (v == null ? "—" : (v * 100).toFixed(1).replace(".", ",") + "%");
+  // Formatacao numerica segue o idioma da pagina (ver i18n.js).
+  const I18N = root.GO40I18N || { lang: "pt", T: s => s, num: { decimal: ",", locale: "pt-BR", bilhao: " bi" } };
+  const dec = s => I18N.num.decimal === "," ? s.replace(".", ",") : s;
+
+  const fmtPct = v => (v == null ? "—" : dec((v * 100).toFixed(1)) + "%");
   const fmtNum = (v, d = 0) => {
     if (v == null) return "—";
-    return new Intl.NumberFormat("pt-BR", { maximumFractionDigits: d }).format(v);
+    return new Intl.NumberFormat(I18N.num.locale, { maximumFractionDigits: d }).format(v);
   };
-  const fmtBilhao = v => v == null ? "—" : "R$ " + (v / 1e9).toFixed(1).replace(".", ",") + " bi";
-  const fmtMilhao = v => v == null ? "—" : (v / 1e6).toFixed(2).replace(".", ",") + " Mha";
-  const fmtPctBar = v => (v * 100).toFixed(1).replace(".", ",") + "%";
+  const fmtBilhao = v => v == null ? "—" : "R$ " + dec((v / 1e9).toFixed(1)) + I18N.num.bilhao;
+  const fmtMilhao = v => v == null ? "—" : dec((v / 1e6).toFixed(2)) + " Mha";
+  const fmtPctBar = v => dec((v * 100).toFixed(1)) + "%";
   const fmtPp = v => {
     if (v == null) return "";
-    const abs = Math.abs(v).toFixed(1).replace(".", ",");
+    const abs = dec(Math.abs(v).toFixed(1));
     return `${abs} pp`;
   };
 
@@ -28,27 +42,27 @@
   const ERA_RANGES = [
     {
       era: "heranca",
-      ato: "Ato I",
+      ato: T("Ato I"),
       start: 1985,
       end: 2000,
-      titulo: "Pastagem como herança",
-      resumo: "pastagem domina e a soja ainda é pontual"
+      titulo: T("Pastagem como herança"),
+      resumo: T("pastagem domina e a soja ainda é pontual")
     },
     {
       era: "expansao",
-      ato: "Ato II",
+      ato: T("Ato II"),
       start: 2001,
       end: 2019,
-      titulo: "Expansão e intensificação",
-      resumo: "soja avança sobre pastagem; intensificação sem fronteira"
+      titulo: T("Expansão e intensificação"),
+      resumo: T("soja avança sobre pastagem; intensificação sem fronteira")
     },
     {
       era: "conversao",
-      ato: "Ato III",
+      ato: T("Ato III"),
       start: 2020,
       end: 2024,
-      titulo: "Conversão acelerada (mascarada)",
-      resumo: "a pastagem cede três vezes mais rápido; a conversão acelera — e a medida crua esconde"
+      titulo: T("Conversão acelerada (mascarada)"),
+      resumo: T("a pastagem cede três vezes mais rápido; a conversão acelera — e a medida crua esconde")
     }
   ];
 
@@ -62,10 +76,10 @@
 
   // Helpers de cobertura (datasets com gaps): marcar campos com nota inline.
   function valorOuTraco(v, formatador) {
-    return v == null ? '<span class="metric-na" title="sem dado neste ano">—</span>' : formatador(v);
+    return v == null ? '<span class="metric-na" title="' + T("sem dado neste ano") + '">—</span>' : formatador(v);
   }
   const fmtTon = v => {
-    if (v >= 1e6) return fmtNum(v / 1e6, 2) + " Mt";
+    if (v >= 1e6) return fmtNum(v / 1e6, 2) + T(" Mt");
     if (v >= 1e3) return fmtNum(v / 1e3, 0) + " kt";
     return fmtNum(v, 0) + " t";
   };
@@ -74,7 +88,7 @@
   async function carregarDados() {
     const [painel, marcos] = await Promise.all([
       fetch("assets/data/painel_goias.json").then(r => r.json()),
-      fetch("assets/data/marcos.json").then(r => r.json())
+      fetch(I18N.lang === "en" ? "assets/data/marcos.en.json" : "assets/data/marcos.json").then(r => r.json())
     ]);
     return { painel, marcos };
   }
@@ -190,12 +204,12 @@
   // As chaves de categoria sao slugs ASCII no JSON; trocar "_" por espaco
   // deixava "regulacao ambiental" e "credito publico" na tela.
   const ROTULO_CATEGORIA = {
-    contexto: "contexto",
-    macroeconomia: "macroeconomia",
-    "tributação": "tributação",
-    credito_publico: "crédito público",
-    regulacao_ambiental: "regulação ambiental",
-    mercado: "mercado"
+    contexto: T("contexto"),
+    macroeconomia: T("macroeconomia"),
+    "tributação": T("tributação"),
+    credito_publico: T("crédito público"),
+    regulacao_ambiental: T("regulação ambiental"),
+    mercado: T("mercado")
   };
 
   function hidratarSteps(painel, marcos) {
@@ -212,9 +226,9 @@
     // Cards LULC: tres metricas sempre visiveis, mesma altura entre steps.
     function cardsLULC(dado, prev) {
       return [
-        metricCard('Veg. natural', fmtPct(dado.pct_vegetacao_nativa), formatDelta(dado.pct_vegetacao_nativa, prev ? prev.pct_vegetacao_nativa : null, 'veg'), 'veg'),
-        metricCard('Pastagem',    fmtPct(dado.pct_pastagem),         formatDelta(dado.pct_pastagem,         prev ? prev.pct_pastagem         : null, 'pasto'), 'pasto'),
-        metricCard('Agricultura', fmtPct(dado.pct_agricultura),      formatDelta(dado.pct_agricultura,      prev ? prev.pct_agricultura      : null, 'soja'), 'agric'),
+        metricCard(T('Veg. natural'), fmtPct(dado.pct_vegetacao_nativa), formatDelta(dado.pct_vegetacao_nativa, prev ? prev.pct_vegetacao_nativa : null, 'veg'), 'veg'),
+        metricCard(T('Pastagem'),    fmtPct(dado.pct_pastagem),         formatDelta(dado.pct_pastagem,         prev ? prev.pct_pastagem         : null, 'pasto'), 'pasto'),
+        metricCard(T('Agricultura'), fmtPct(dado.pct_agricultura),      formatDelta(dado.pct_agricultura,      prev ? prev.pct_agricultura      : null, 'soja'), 'agric'),
       ].join('');
     }
 
@@ -234,39 +248,39 @@
 
     function acordeaoAgricultura(dado) {
       const culturas = [
-        ['Soja',     dado.agri_soja_ton],
-        ['Milho',    dado.agri_milho_total_ton],
-        ['Cana',     dado.agri_cana_ton],
-        ['Algodão',  dado.agri_algodao_ton],
-        ['Sorgo',    dado.agri_sorgo_ton],
-        ['Arroz',    dado.agri_arroz_ton],
-        ['Feijão',   dado.agri_feijao_ton],
+        [T('Soja'),     dado.agri_soja_ton],
+        [T('Milho'),    dado.agri_milho_total_ton],
+        [T('Cana'),     dado.agri_cana_ton],
+        [T('Algodão'),  dado.agri_algodao_ton],
+        [T('Sorgo'),    dado.agri_sorgo_ton],
+        [T('Arroz'),    dado.agri_arroz_ton],
+        [T('Feijão'),   dado.agri_feijao_ton],
       ];
       const linhas = culturas
         .map(([nome, v]) => linhaTabela(nome, valorOuTraco(v, fmtTon)))
         .join('');
-      return acordeao('agro', 'Produção agrícola (toneladas)', linhas);
+      return acordeao('agro', T('Produção agrícola (toneladas)'), linhas);
     }
 
     function acordeaoPecuaria(dado) {
       const linhas = [
-        linhaTabela('Rebanho bovino', valorOuTraco(dado.pec_bovinos_cab, v => fmtNum(v / 1e6, 2) + ' M cab')),
-        linhaTabela('Lotação',        valorOuTraco(dado.lotacao_bov_ha_pasto, v => fmtNum(v, 2) + ' cab/ha')),
-        linhaTabela('Leite',          valorOuTraco(dado.agri_leite_mil_litros, v => fmtNum(v / 1e3, 1) + ' Mi L')),
+        linhaTabela(T('Rebanho bovino'), valorOuTraco(dado.pec_bovinos_cab, v => fmtNum(v / 1e6, 2) + T(' M cab'))),
+        linhaTabela(T('Lotação'),        valorOuTraco(dado.lotacao_bov_ha_pasto, v => fmtNum(v, 2) + T(' cab/ha'))),
+        linhaTabela(T('Leite'),          valorOuTraco(dado.agri_leite_mil_litros, v => fmtNum(v / 1e3, 1) + T(' Mi L'))),
       ].join('');
-      return acordeao('pecuaria', 'Pecuária', linhas);
+      return acordeao('pecuaria', T('Pecuária'), linhas);
     }
 
     function acordeaoSocio(dado) {
       const linhas = [
-        linhaTabela('PIB (IPEA UF)',     valorOuTraco(dado.pib_uf_real_rs,     fmtBilhao), 'IBGE Contas Reg., 1985+'),
-        linhaTabela('PIB (Σ municípios)', valorOuTraco(dado.pib_real_rs,        fmtBilhao), 'SIDRA 5938, 2002+'),
-        linhaTabela('VA Agro (IPEA UF)',     valorOuTraco(dado.va_agro_uf_real_rs, fmtBilhao), 'IBGE Contas Reg., 1985+'),
-        linhaTabela('VA Agro (Σ municípios)', valorOuTraco(dado.va_agro_real_rs,    fmtBilhao), 'SIDRA 5938, 2002+'),
-        linhaTabela('Crédito rural', valorOuTraco(dado.sicor_total_real_rs, fmtBilhao), 'desde 2013'),
-        linhaTabela('População',     valorOuTraco(dado.populacao,           v => fmtNum(v / 1e6, 2) + ' Mi'), 'desde 2001'),
+        linhaTabela(T('PIB (IPEA UF)'),     valorOuTraco(dado.pib_uf_real_rs,     fmtBilhao), T('IBGE Contas Reg., 1985+')),
+        linhaTabela(T('PIB (Σ municípios)'), valorOuTraco(dado.pib_real_rs,        fmtBilhao), T('SIDRA 5938, 2002+')),
+        linhaTabela(T('VA Agro (IPEA UF)'),     valorOuTraco(dado.va_agro_uf_real_rs, fmtBilhao), T('IBGE Contas Reg., 1985+')),
+        linhaTabela(T('VA Agro (Σ municípios)'), valorOuTraco(dado.va_agro_real_rs,    fmtBilhao), T('SIDRA 5938, 2002+')),
+        linhaTabela(T('Crédito rural'), valorOuTraco(dado.sicor_total_real_rs, fmtBilhao), T('desde 2013')),
+        linhaTabela(T('População'),     valorOuTraco(dado.populacao,           v => fmtNum(v / 1e6, 2) + T(' Mi')), T('desde 2001')),
       ].join('');
-      return acordeao('socio', 'Socioeconômico', linhas);
+      return acordeao('socio', T('Socioeconômico'), linhas);
     }
 
     document.querySelectorAll(".step[data-year]").forEach(step => {
@@ -288,7 +302,7 @@
         // Fica de fora dos marcos de "contexto" (1985 e 2024), que sao as
         // pontas da serie e nao tem nada a testar.
         if (marco.categoria !== "contexto") {
-          html += '<p class="marco-ressalva">Contexto: os números abaixo acompanham o marco, não o testam.</p>';
+          html += '<p class="marco-ressalva">' + T("Contexto: os números abaixo acompanham o marco, não o testam.") + '</p>';
         }
       } else {
         html += '<span class="marco-tag muted-year">' + ano + '</span>';
@@ -344,13 +358,13 @@
 
     const map = { veg, pasto, agric, mosaico, agua, urbano, outros };
     const nomes = {
-      veg: "Vegetação natural",
-      pasto: "Pastagem",
-      agric: "Agricultura",
-      mosaico: "Mosaico de usos",
-      agua: "Água",
-      urbano: "Área urbana",
-      outros: "Outros"
+      veg: T("Vegetação natural"),
+      pasto: T("Pastagem"),
+      agric: T("Agricultura"),
+      mosaico: T("Mosaico de usos"),
+      agua: T("Água"),
+      urbano: T("Área urbana"),
+      outros: T("Outros")
     };
     document.querySelectorAll("#composition-bar .bar-segment").forEach(seg => {
       const k = seg.dataset.class;
@@ -377,7 +391,7 @@
     const ancora = document.getElementById("map-anchor");
     if (!ancora) return;
     if (camadaAtual === "transicoes") {
-      ancora.textContent = "destino dominante no período";
+      ancora.textContent = T("destino dominante no período");
       return;
     }
     const cur = porAno[ano];
@@ -387,15 +401,15 @@
       return;
     }
     if (ano === ANO_MIN) {
-      ancora.textContent = "linha de base";
+      ancora.textContent = T("linha de base");
       return;
     }
     const delta = (chave) => {
       const dpp = (cur[chave] - base[chave]) * 100;
       const sinal = dpp > 0 ? "+" : "−";
-      return sinal + Math.abs(dpp).toFixed(1).replace(".", ",") + " pp";
+      return sinal + fmtPp(dpp);
     };
-    ancora.textContent = `acumulado desde 1985: veg ${delta("pct_vegetacao_nativa")} · pasto ${delta("pct_pastagem")}`;
+    ancora.textContent = TF("acumulado desde 1985: veg {0} · pasto {1}", delta("pct_vegetacao_nativa"), delta("pct_pastagem"));
   }
 
   // -------------------- mapa cross-fade --------------------
@@ -427,9 +441,9 @@
   function altDoMapa(camada, ano) {
     if (camada === "transicoes") {
       const p = periodoTransicao(ano);
-      return `Transição dominante por município em Goiás entre ${p.ini} e ${p.fim}`;
+      return TF("Transição dominante por município em Goiás entre {0} e {1}", p.ini, p.fim);
     }
-    return `Cobertura e uso da terra em Goiás em ${ano}`;
+    return TF("Cobertura e uso da terra em Goiás em {0}", ano);
   }
 
   // Cada camada tem unidade espacial e fonte proprias. Antes de ago/2026 a
@@ -437,14 +451,14 @@
   // imagem trocava — inclusive para coropleticos. Agora trocam juntos.
   const FONTE_CAMADA = {
     cobertura:
-      'Fonte: MapBiomas Coleção 10.1 &middot; pixel-a-pixel (30&nbsp;m) &middot; ' +
-      'o mapa é reduzido para caber na tela, então classes fragmentadas encolhem ' +
-      'no desenho: a medida está na barra acima',
+      T('Fonte: MapBiomas Coleção 10.1 &middot; pixel-a-pixel (30&nbsp;m) &middot; ' +
+        'o mapa é reduzido para caber na tela, então classes fragmentadas encolhem ' +
+        'no desenho: a medida está na barra acima'),
     transicoes:
-      'Fonte: MapBiomas Coleção 10.1 &middot; agregado <strong>por município</strong>, ' +
-      'não por pixel &middot; a partir de 2015 o destino dominante na maior parte do estado ' +
-      'é o <em>Mosaico de usos</em>, o que é mudança de rótulo tanto quanto de uso ' +
-      '(<a href="dossie-mosaico.html">a investigação</a>)'
+      T('Fonte: MapBiomas Coleção 10.1 &middot; agregado <strong>por município</strong>, ' +
+        'não por pixel &middot; a partir de 2015 o destino dominante na maior parte do estado ' +
+        'é o <em>Mosaico de usos</em>, o que é mudança de rótulo tanto quanto de uso ' +
+        '(<a href="dossie-mosaico.html">a investigação</a>)')
   };
 
   function rotuloDoAno(camada, ano) {
@@ -560,11 +574,11 @@
   function gerarStepsAnuais() {
     const eraRanges = [
       { era: 'heranca',  ato: 'I',   start: 1985, end: 2000,
-        lede: 'Para onde foram os hectares entre 1985 e 2000: cruzamento pixel-a-pixel das transições deste período.' },
+        lede: T('Para onde foram os hectares entre 1985 e 2000: cruzamento pixel-a-pixel das transições deste período.') },
       { era: 'expansao', ato: 'II',  start: 2001, end: 2019,
-        lede: 'Para onde foram os hectares entre 2001 e 2019: o período da grande expansão agrícola sobre a pastagem.' },
+        lede: T('Para onde foram os hectares entre 2001 e 2019: o período da grande expansão agrícola sobre a pastagem.') },
       { era: 'conversao', ato: 'III', start: 2020, end: 2024,
-        lede: 'Para onde foram os hectares entre 2020 e 2024: a conversão acelera sobre a pastagem — e o mapa, sozinho, diz o contrário.' },
+        lede: T('Para onde foram os hectares entre 2020 e 2024: a conversão acelera sobre a pastagem — e o mapa, sozinho, diz o contrário.') },
     ];
     eraRanges.forEach(({ era, ato, start, end, lede }) => {
       const eraCard = document.querySelector(`.step--era[data-era="${era}"]`);
@@ -583,10 +597,10 @@
       mini.className = 'step--mini-sankey';
       mini.dataset.ato = ato;
       mini.innerHTML = `
-        <p class="mini-sankey-titulo">Fluxos do Ato ${ato}</p>
+        <p class="mini-sankey-titulo">${TF("Fluxos do Ato {0}", ato)}</p>
         <p class="mini-sankey-lede">${lede}</p>
-        <div class="mini-sankey-svg" data-ato="${ato}" role="img" aria-label="Sankey de transições do Ato ${ato}"></div>
-        <p class="mini-sankey-fonte">Fonte: MapBiomas Col. 10.1 · Pipeline #25</p>
+        <div class="mini-sankey-svg" data-ato="${ato}" role="img" aria-label="${TF("Sankey de transições do Ato {0}", ato)}"></div>
+        <p class="mini-sankey-fonte">${T("Fonte: MapBiomas Col. 10.1 · Pipeline #25")}</p>
       `;
       anchor.insertAdjacentElement('afterend', mini);
     });
@@ -689,8 +703,8 @@
       if (cont) {
         cont.innerHTML =
           `<p class="resumo-loading" style="color:#8b3a1d">` +
-          `Falha ao carregar dados: ${err.message}. ` +
-          `Se voce abriu via duplo-clique, use o servir.bat ou servir.ps1.</p>`;
+          TF("Falha ao carregar dados: {0}. ", err.message) +
+          T("Se voce abriu via duplo-clique, use o servir.bat ou servir.ps1.") + `</p>`;
       }
     }
     root.GO40 = root.GO40 || {};

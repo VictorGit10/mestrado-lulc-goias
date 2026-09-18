@@ -6,6 +6,16 @@
 (function (root) {
   "use strict";
 
+
+  // i18n: em paginas que nao carregam i18n.js (ex.: index-original.html), T/TF
+  // caem para a identidade e o texto original em portugues e' preservado.
+  var _I18N = root.GO40I18N || null;
+  var T  = _I18N ? _I18N.T  : function (s) { return s; };
+  var TF = _I18N ? _I18N.TF : function (s) {
+    var a = Array.prototype.slice.call(arguments, 1), o = String(s);
+    for (var i = 0; i < a.length; i++) o = o.split("{" + i + "}").join(String(a[i]));
+    return o;
+  };
   const G = root.GO40 || {};
   let loaded = false;
   let cachedData = null;
@@ -25,7 +35,7 @@
     // Separa "Classe (ano)" para reacentuar so a classe.
     const m = /^(.*?)(\s\(\d{4}\))?$/.exec(texto);
     const classe = m[1];
-    return (ACENTOS[classe] || classe) + (m[2] || "");
+    return T(ACENTOS[classe] || classe) + (m[2] || "");
   }
 
   // -------------------- carregar vendors --------------------
@@ -56,11 +66,11 @@
     }
 
     ctrl.innerHTML = `
-      <span class="sankey-controls-label">Mosaico de Usos:</span>
-      <div class="sankey-controls-group" role="radiogroup" aria-label="Modo de exibição do Mosaico de Usos">
-        <button type="button" class="sankey-ctrl-btn ${currentMode === 'full' ? 'active' : ''}" data-mode="full">Exibir normal</button>
-        <button type="button" class="sankey-ctrl-btn ${currentMode === 'faded' ? 'active' : ''}" data-mode="faded">Esmaecer (Marcha)</button>
-        <button type="button" class="sankey-ctrl-btn ${currentMode === 'hidden' ? 'active' : ''}" data-mode="hidden">Ocultar (Filtrar)</button>
+      <span class="sankey-controls-label">${T("Mosaico de Usos")}:</span>
+      <div class="sankey-controls-group" role="radiogroup" aria-label="${T("Modo de exibição do Mosaico de Usos")}">
+        <button type="button" class="sankey-ctrl-btn ${currentMode === 'full' ? 'active' : ''}" data-mode="full">${T("Exibir normal")}</button>
+        <button type="button" class="sankey-ctrl-btn ${currentMode === 'faded' ? 'active' : ''}" data-mode="faded">${T("Esmaecer (Marcha)")}</button>
+        <button type="button" class="sankey-ctrl-btn ${currentMode === 'hidden' ? 'active' : ''}" data-mode="hidden">${T("Ocultar (Filtrar)")}</button>
       </div>
     `;
 
@@ -149,7 +159,7 @@
       .attr("viewBox", `0 0 ${width} ${height}`)
       .attr("preserveAspectRatio", "xMidYMid meet")
       .attr("role", "img")
-      .attr("aria-label", "Diagrama de Sankey: transições de uso da terra 1985-2024")
+      .attr("aria-label", T("Diagrama de Sankey: transições de uso da terra 1985-2024"))
       .style("max-width", "100%")
       .style("height", "auto");
 
@@ -205,10 +215,13 @@
       .attr("font-family", "var(--font-sans)")
       .text(d => {
         return (d.label || d.id)
-          .replace("Vegetacao Natural", "Veg. natural")
-          .replace("Area Urbana", "Urbano")
-          .replace("Mosaico de Usos", "Mosaico")
-          .replace("Agua", "Água");
+          .replace("Vegetacao Natural", T("Veg. natural"))
+          .replace("Area Urbana", T("Urbano"))
+          .replace("Mosaico de Usos", T("Mosaico"))
+          .replace("Agua", T("Água"))
+          .replace("Pastagem", T("Pastagem"))
+          .replace("Agricultura", T("Agricultura"))
+          .replace("Outros", T("Outros"));
       });
 
     loaded = true;

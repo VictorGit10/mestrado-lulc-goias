@@ -15,6 +15,16 @@
 (function () {
   "use strict";
 
+
+  // i18n: em paginas que nao carregam i18n.js (ex.: index-original.html), T/TF
+  // caem para a identidade e o texto original em portugues e' preservado.
+  var _I18N = (typeof window !== "undefined" && window.GO40I18N) || null;
+  var T  = _I18N ? _I18N.T  : function (s) { return s; };
+  var TF = _I18N ? _I18N.TF : function (s) {
+    var a = Array.prototype.slice.call(arguments, 1), o = String(s);
+    for (var i = 0; i < a.length; i++) o = o.split("{" + i + "}").join(String(a[i]));
+    return o;
+  };
   // ---- Fontes (repo público VictorGit10/mestrado-lulc-goias, branch master) -------
   const RAW = "https://raw.githubusercontent.com/VictorGit10/mestrado-lulc-goias/master";
   const GH  = "https://github.com/VictorGit10/mestrado-lulc-goias/blob/master";
@@ -66,8 +76,8 @@
       <div class="pl-modal__panel" role="dialog" aria-modal="true" aria-labelledby="pl-modal-titulo">
         <header class="pl-modal__cabecalho">
           <span id="pl-modal-titulo" class="pl-modal__titulo"></span>
-          <a class="pl-modal__github" target="_blank" rel="noopener">ver no GitHub &#8599;</a>
-          <button class="pl-modal__fechar" type="button" data-pl-close aria-label="Fechar">&times;</button>
+          <a class="pl-modal__github" target="_blank" rel="noopener">${T("ver no GitHub &#8599;")}</a>
+          <button class="pl-modal__fechar" type="button" data-pl-close aria-label="${T("Fechar")}">&times;</button>
         </header>
         <div class="pl-modal__corpo" id="pl-modal-corpo"></div>
       </div>`;
@@ -98,7 +108,7 @@
     ghLink.href = GH + "/" + caminho;
 
     titulo.textContent = (tipo === "pipe") ? ("Pipeline #" + chave) : arquivo;
-    corpo.innerHTML = '<p class="pl-modal__carregando">Carregando…</p>';
+    corpo.innerHTML = '<p class="pl-modal__carregando">' + T("Carregando…") + '</p>';
     ultimoFoco = document.activeElement;
     m.hidden = false;
     document.body.classList.add("pl-lock");
@@ -125,10 +135,10 @@
       }
     } catch (err) {
       corpo.innerHTML =
-        '<p class="pl-modal__erro">Não foi possível buscar o arquivo (' +
+        '<p class="pl-modal__erro">' + T("Não foi possível buscar o arquivo (") +
         escHtml(String(err.message)) + ').</p>' +
         '<p><a class="pl-modal__github" href="' + escHtml(ghLink.href) +
-        '" target="_blank" rel="noopener">Abrir no GitHub &#8599;</a></p>';
+        '" target="_blank" rel="noopener">' + T("Abrir no GitHub &#8599;") + '</a></p>';
     }
   }
 

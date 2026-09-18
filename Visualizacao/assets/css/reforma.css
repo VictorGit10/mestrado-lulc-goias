@@ -1691,3 +1691,39 @@ body.reforma .pl-src code { background: none; color: inherit; }
   font-size: 0.94em;
   opacity: 0.86;
 }
+
+/* ==========================================================================
+   Seletor de idioma PT/EN — canto superior direito, acima da régua dos anos.
+   ========================================================================== */
+.lang-switch {
+  position: fixed;
+  top: 0.55rem;
+  right: 0.9rem;
+  z-index: 120;
+  display: flex;
+  gap: 1px;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  border: 1px solid var(--color-rule, #d8d6cf);
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--color-bg, #fafaf7);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+.lang-switch a {
+  padding: 0.24rem 0.5rem;
+  text-decoration: none;
+  color: var(--color-muted, #6b6b6b);
+  background: var(--color-bg, #fafaf7);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.lang-switch a:hover { background: #efece4; color: var(--color-fg, #1a1a1a); }
+.lang-switch a[aria-current="true"] {
+  background: var(--color-accent, #8b3a1d);
+  color: #fff;
+  font-weight: 600;
+}
+@media (max-width: 700px) {
+  .lang-switch { top: 0.35rem; right: 0.5rem; font-size: 0.64rem; }
+}

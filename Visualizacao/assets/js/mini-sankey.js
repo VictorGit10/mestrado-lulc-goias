@@ -5,6 +5,16 @@
 (function (root) {
   "use strict";
 
+
+  // i18n: em paginas que nao carregam i18n.js (ex.: index-original.html), T/TF
+  // caem para a identidade e o texto original em portugues e' preservado.
+  var _I18N = root.GO40I18N || null;
+  var T  = _I18N ? _I18N.T  : function (s) { return s; };
+  var TF = _I18N ? _I18N.TF : function (s) {
+    var a = Array.prototype.slice.call(arguments, 1), o = String(s);
+    for (var i = 0; i < a.length; i++) o = o.split("{" + i + "}").join(String(a[i]));
+    return o;
+  };
   const ATOS = ["I", "II", "III"];
   const renderizados = new Set();
   const cache = {};
@@ -22,7 +32,7 @@
     if (!texto) return texto;
     const m = /^(.*?)(\s\(\d{4}\))?$/.exec(texto);
     const classe = m[1];
-    return (ACENTOS[classe] || classe) + (m[2] || "");
+    return T(ACENTOS[classe] || classe) + (m[2] || "");
   }
 
   function loadScript(src) {
@@ -59,11 +69,11 @@
     }
 
     ctrl.innerHTML = `
-      <span class="sankey-controls-label">Mosaico:</span>
-      <div class="sankey-controls-group" role="radiogroup" aria-label="Modo de exibição do Mosaico de Usos">
-        <button type="button" class="sankey-ctrl-btn ${currentMode === 'full' ? 'active' : ''}" data-mode="full">Normal</button>
-        <button type="button" class="sankey-ctrl-btn ${currentMode === 'faded' ? 'active' : ''}" data-mode="faded">Esmaecer</button>
-        <button type="button" class="sankey-ctrl-btn ${currentMode === 'hidden' ? 'active' : ''}" data-mode="hidden">Ocultar</button>
+      <span class="sankey-controls-label">${T("Mosaico")}:</span>
+      <div class="sankey-controls-group" role="radiogroup" aria-label="${T("Modo de exibição do Mosaico de Usos")}">
+        <button type="button" class="sankey-ctrl-btn ${currentMode === 'full' ? 'active' : ''}" data-mode="full">${T("Normal")}</button>
+        <button type="button" class="sankey-ctrl-btn ${currentMode === 'faded' ? 'active' : ''}" data-mode="faded">${T("Esmaecer")}</button>
+        <button type="button" class="sankey-ctrl-btn ${currentMode === 'hidden' ? 'active' : ''}" data-mode="hidden">${T("Ocultar")}</button>
       </div>
     `;
 
@@ -211,12 +221,12 @@
         const raw = d.label || d.id;
         const label = raw.split(" (")[0];
         const map = {
-          "Vegetacao Natural": "Veg.",
-          "Area Urbana": "Urb.",
-          "Mosaico de Usos": "Mosaico",
-          "Agua": "Água"
+          "Vegetacao Natural": T("Veg."),
+          "Area Urbana": T("Urb."),
+          "Mosaico de Usos": T("Mosaico"),
+          "Agua": T("Água")
         };
-        return map[label] || label;
+        return map[label] || T(label);
       });
   }
 

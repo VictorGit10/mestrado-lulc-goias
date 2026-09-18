@@ -57,6 +57,16 @@
 (function (root) {
   "use strict";
 
+
+  // i18n: em paginas que nao carregam i18n.js (ex.: index-original.html), T/TF
+  // caem para a identidade e o texto original em portugues e' preservado.
+  var _I18N = root.GO40I18N || null;
+  var T  = _I18N ? _I18N.T  : function (s) { return s; };
+  var TF = _I18N ? _I18N.TF : function (s) {
+    var a = Array.prototype.slice.call(arguments, 1), o = String(s);
+    for (var i = 0; i < a.length; i++) o = o.split("{" + i + "}").join(String(a[i]));
+    return o;
+  };
   const COR_BIMODAL = "#8b3a1d";  // terracota — as duas populações coexistem
   const COR_UNIMODAL = "#d4b65a"; // amarelo pastagem — uma população só
   const COR_SEM = "#e6e3dc";      // sem ajuste (n < 100)
@@ -81,9 +91,11 @@
       ? root.GO40.fmt.num(v) : String(v);
   }
 
-  const vg = v => String(v).replace(".", ",");
+  const I18N = root.GO40I18N || { num: { decimal: "," } };
+  const dec = s => I18N.num.decimal === "," ? s.replace(".", ",") : s;
+  const vg = v => dec(String(v));
   const fmtPct = (v, casas) =>
-    (v * 100).toFixed(casas == null ? 0 : casas).replace(".", ",") + "%";
+    dec((v * 100).toFixed(casas == null ? 0 : casas)) + "%";
 
   function tooltip() {
     let el = document.getElementById("reserva-tooltip");
@@ -187,7 +199,7 @@
       .attr("class", "reserva-meso")
       .attr("tabindex", 0)
       .attr("role", "button")
-      .attr("aria-label", d => `Ver a distribuição de ${d.properties.mesorregiao}`)
+      .attr("aria-label", d => TF("Ver a distribuição de {0}", d.properties.mesorregiao))
       .on("pointerenter focus", function (ev, d) {
         d3.select(this).classed("is-hover", true);
         const rot = d.properties.mesorregiao;
@@ -199,9 +211,9 @@
         }).length;
         tip.hidden = false;
         tip.innerHTML = `<strong>${rot}</strong><br>` +
-          (c ? `${fmtN(c.n)} conversões de idade conhecida<br>` : "") +
-          `${nBi} de ${amcs.length} AMCs bimodais por dentro<br>` +
-          `<em>clique para ver a distribuição</em>`;
+          (c ? TF("{0} conversões de idade conhecida<br>", fmtN(c.n)) : "") +
+          TF("{0} de {1} AMCs bimodais por dentro<br>", nBi, amcs.length) +
+          T("<em>clique para ver a distribuição</em>");
       })
       .on("pointermove", ev => {
         tip.style.left = (ev.clientX + 14) + "px";
@@ -266,10 +278,10 @@
     cont.selectAll("*").remove();
     const n = contagemAmc(geo);
     const itens = [
-      [COR_BIMODAL, `as duas populações convivem ali dentro (${n.bimodal} de ${n.total})`],
+      [COR_BIMODAL, TF("as duas populações convivem ali dentro ({0} de {1})", n.bimodal, n.total)],
     ];
-    if (n.unimodal) itens.push([COR_UNIMODAL, `uma população só (${n.unimodal})`]);
-    if (n.sem) itens.push([COR_SEM, `poucas conversões para ajustar (${n.sem})`]);
+    if (n.unimodal) itens.push([COR_UNIMODAL, TF("uma população só ({0})", n.unimodal)]);
+    if (n.sem) itens.push([COR_SEM, TF("poucas conversões para ajustar ({0})", n.sem)]);
 
     const lista = cont.append("ul").attr("class", "reserva-legenda-lista");
     itens.forEach(([cor, txt]) => itemLegenda(lista.append("li"), cor, txt, false));
@@ -291,7 +303,7 @@
     const titulo = document.getElementById("reserva-hist-titulo");
     if (titulo) {
       titulo.textContent = rot === ESTADO
-        ? "Goiás inteiro" : rot.replace(" Goiano", " Goiano");
+        ? T("Goiás inteiro") : rot.replace(" Goiano", " Goiano");
     }
     if (!c) return;
 
@@ -354,10 +366,10 @@
     if (g) {
       const lista = leg.append("ul").attr("class", "reserva-legenda-lista");
       itemLegenda(lista.append("li"), COR_JOVEM,
-                  `pasto de ciclo curto · ${fmtPct(g.w_jovem)} das conversões`, false);
+                  TF("pasto de ciclo curto · {0} das conversões", fmtPct(g.w_jovem)), false);
       itemLegenda(lista.append("li"), COR_ANTIGO,
-                  `pasto antigo · ${fmtPct(g.w_velho)}`, false);
-      itemLegenda(lista.append("li"), COR_UMA, "o que uma população só produziria", true);
+                  TF("pasto antigo · {0}", fmtPct(g.w_velho)), false);
+      itemLegenda(lista.append("li"), COR_UMA, T("o que uma população só produziria"), true);
     }
 
     const nota = document.getElementById("reserva-hist-nota");
@@ -369,18 +381,18 @@
       const dip = g ? g.dip_emp : 0;
       const forma = !g ? ""
         : dip >= 0.05
-          ? `Aqui o histograma tem <strong>vale visível</strong> — desce e volta a subir por ` +
-            `volta dos ${vg(g.vale_emp_x)} anos (profundidade ${vg(Math.round(dip * 100))}%). `
-          : `Aqui não há vale visível: as duas populações se somam num pico e um ombro. `;
+          ? TF("Aqui o histograma tem <strong>vale visível</strong> — desce e volta a subir por " +
+               "volta dos {0} anos (profundidade {1}%).", vg(g.vale_emp_x), vg(Math.round(dip * 100))) + " "
+          : T("Aqui não há vale visível: as duas populações se somam num pico e um ombro.") + " ";
       nota.innerHTML = forma +
         (c.bimodal
-          ? `O ajuste separa modos em <strong>${vg(g.mu_jovem)}a</strong> e ` +
-            `<strong>${vg(g.mu_velho)}a</strong>` +
-            (g.bc_sarle ? `, e o coeficiente de Sarle — que não usa ajuste nenhum — dá ` +
-                          `<strong>${vg(g.bc_sarle)}</strong>, acima do limiar de 0,555` : "") + ". "
-          : "O ajuste não separa duas populações aqui. ") +
-        `${fmtN(c.n)} conversões de idade conhecida; outras ${fmtN(c.n_censurado)} ` +
-        `(${fmtPct(cens)}) já eram pastagem em 1985, têm a idade truncada e ficam de fora.`;
+          ? TF("O ajuste separa modos em <strong>{0}a</strong> e <strong>{1}a</strong>",
+               vg(g.mu_jovem), vg(g.mu_velho)) +
+            (g.bc_sarle ? TF(", e o coeficiente de Sarle — que não usa ajuste nenhum — dá " +
+                             "<strong>{0}</strong>, acima do limiar de 0,555", vg(g.bc_sarle)) : "") + ". "
+          : T("O ajuste não separa duas populações aqui.") + " ") +
+        TF("{0} conversões de idade conhecida; outras {1} ({2}) já eram pastagem em 1985, " +
+           "têm a idade truncada e ficam de fora.", fmtN(c.n), fmtN(c.n_censurado), fmtPct(cens));
     }
   }
 
@@ -389,9 +401,9 @@
     const el = document.getElementById("reserva-cobertura");
     if (!el || !Array.isArray(muni) || !muni.length) return;
     const min = muni.reduce((m, r) => Math.min(m, r.n_pixels), Infinity);
-    el.innerHTML = `O censo cobre <strong>${muni.length} municípios</strong>, e mesmo o menor ` +
-      `deles tem <strong>${fmtN(min)}</strong> conversões de idade conhecida — não há aqui ` +
-      `nenhum recorte medido no fio do ruído.`;
+    el.innerHTML = TF("O censo cobre <strong>{0} municípios</strong>, e mesmo o menor " +
+      "deles tem <strong>{1}</strong> conversões de idade conhecida — não há aqui " +
+      "nenhum recorte medido no fio do ruído.", muni.length, fmtN(min));
   }
 
   // d3 é carregado lazy (mesmo vendor do sankey.js) — não é global no load.

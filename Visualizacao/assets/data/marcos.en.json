@@ -1,0 +1,110 @@
+{
+  "_nota": "Institutional reference points that give context to the LULC transitions across the 3 data-driven acts. Revised on 07/Aug/2026 (Textos/metodologia/revisao_parte1_40anos.md): all values recalculated against painel_goias.json after the pixel census; the causal attribution of the 1996 card was aligned with the decision that the milestones tested are federal and measure differential exposure, not the effect of a law; the 2012 card was rewritten around the 22/07/2008 cut-off and the CAR.",
+  "marcos": [
+    {
+      "ano": 1985,
+      "titulo": "Start of the series / Return to democracy",
+      "subtitulo": "Limit of the analysis",
+      "descricao": "First year of the MapBiomas series and first year after the end of military rule. The 1985 map already records a substantially altered landscape: almost a third of Goiás is pasture, the result of a decade of state-directed occupation of the Cerrado that the series does not reach (POLOCENTRO begins in 1975). Soy is still patchy, in the southwest. High inflation discourages long-horizon agricultural investment.",
+      "evidencia": "C",
+      "escopo_empirico": "nao_aplicavel",
+      "categoria": "contexto",
+      "referencias": [
+        "MapBiomas Brasil. Coleção 10.1 da série anual de cobertura e uso da terra (1985-2024).",
+        "BRASIL. Decreto n. 75.320, de 29 de janeiro de 1975 (cria o POLOCENTRO)."
+      ]
+    },
+    {
+      "ano": 1994,
+      "titulo": "Plano Real",
+      "subtitulo": "Monetary stabilisation",
+      "descricao": "The new currency, in July 1994, brings inflation down and makes it possible to plan agricultural investment over a long horizon. The loss of natural vegetation in Goiás decelerates from 0.86 pp/yr (1991-93) to 0.62 pp/yr (1996-98). The sharpest inflection, however, only appears in 1998, closer to the Lei Kandir than to the Real.",
+      "evidencia": "B",
+      "escopo_empirico": "cerrado_amplo",
+      "categoria": "macroeconomia",
+      "referencias": [
+        "BACHA, E. L. O Plano Real: uma avaliação. In: MERCADANTE, A. (org.). O Brasil pós-Real: a política econômica em debate. Campinas: UNICAMP/IE, 1997, p. 11-70.",
+        "BRASIL. Medida Provisória n. 542, de 30 de junho de 1994 (institui o REAL a partir de 1º/07/1994)."
+      ]
+    },
+    {
+      "ano": 1996,
+      "titulo": "Lei Kandir",
+      "subtitulo": "ICMS exemption on exports",
+      "descricao": "Complementary Law 87, of 13 September 1996, exempts primary and semi-processed products destined for export from ICMS (the state value-added tax). Between 1994-98 and 1999-2003, the loss of natural vegetation in Goiás falls from 0.66 to 0.44 pp/yr, while agriculture advances in the southwest (Rio Verde, Jataí, Mineiros). Goiás diverges from the control states from 1996 onwards, but the Kandir law is federal and bears on them too: the test measures differential exposure to a common shock, not the isolated effect of the law.",
+      "evidencia": "B",
+      "escopo_empirico": "cerrado_amplo",
+      "categoria": "tributação",
+      "referencias": [
+        "BRASIL. Lei Complementar n. 87, de 13 de setembro de 1996.",
+        "REZENDE, G. C. Políticas trabalhista, fundiária e de crédito agrícola e seus impactos adversos sobre a pobreza no Brasil. Texto para Discussão IPEA n. 1180, 2006."
+      ]
+    },
+    {
+      "ano": 2002,
+      "titulo": "Credit and Chinese demand",
+      "subtitulo": "Convergence of credit and exports",
+      "descricao": "The Agricultural and Livestock Plan begins announcing each year the volume and terms of federal rural credit, from the 2002/03 harvest onwards, while China enters the WTO (Dec/2001) and pulls commodity demand. Agriculture in Goiás jumps from 9.3% to 10.8% of the territory in three years (2001-04), and pasture begins to give way. In 2004 alone, soy-maize advances 0.94 pp.",
+      "evidencia": "B",
+      "escopo_empirico": "cerrado_amplo",
+      "categoria": "credito_publico",
+      "referencias": [
+        "BACEN/SICOR. Sistema de Operações do Crédito Rural e do Proagro (SICOR), 2013-2024.",
+        "MAPA. Plano Agrícola e Pecuário, edições anuais a partir de 2002/03."
+      ]
+    },
+    {
+      "ano": 2003,
+      "titulo": "Commodity boom",
+      "subtitulo": "Start of the agricultural price super-cycle",
+      "descricao": "The acceleration of Chinese industrialisation sets off a price super-cycle for soy, beef and maize, and the exchange rate follows. In 2003 the loss of natural vegetation reaches 0.49 pp, the highest since 1998, and agricultural expansion consolidates in southwestern Goiás through the substitution of degraded pasture by soy-maize.",
+      "evidencia": "B",
+      "escopo_empirico": "cerrado_amplo",
+      "categoria": "macroeconomia",
+      "referencias": [
+        "BARROS, G. S. C. Brazilian agriculture in international perspective. Embrapa Estudos e Capacitação, 2014.",
+        "MARTINELLI, L. A. et al. Agriculture in Brazil: impacts, costs, and opportunities for a sustainable future. Current Opinion in Environmental Sustainability, v. 2, n. 5-6, p. 431-438, 2010."
+      ]
+    },
+    {
+      "ano": 2012,
+      "titulo": "Forest Code",
+      "subtitulo": "What the law consolidated",
+      "descricao": "Law 12.651/2012 replaces the 1965 code and establishes the CAR (Rural Environmental Registry). A central provision is a date: art. 3 defines occupation predating 22 July 2008 as “consolidated rural area”, and arts. 67 and 68 exempt from restoration anyone who cleared up to that point in compliance with the law then in force. The CAR is the filing that gives access to this regularisation. Over the liabilities predating 2008, then, the law consolidated more than it restricted. None of the six series tested breaks in 2012, and the loss of natural vegetation even accelerates, from 0.10 pp/yr (2008-11) to 0.21 pp/yr (2012-15), with agriculture expanding 2.8 times faster (0.19 to 0.55 pp/yr). Linking the one to the other is a plausible reading, not a tested result: the CAR only becomes operational in 2014, with enrolment deadlines extended for years, which would produce the same null by another route. On the Legal Reserve percentages: 20% across most of Goiás, but 35% in the strip north of parallel 13° S, which forms part of the Legal Amazon (state Law 18.104/2013, art. 25). That is 0.8% of the territory, in five municipalities of the far north.",
+      "evidencia": "B",
+      "escopo_empirico": "sem_quebra",
+      "categoria": "regulacao_ambiental",
+      "referencias": [
+        "BRASIL. Lei n. 12.651, de 25 de maio de 2012, arts. 3º, IV; 12; 29; 59; 67; 68.",
+        "BRASIL. Lei Complementar n. 124, de 3 de janeiro de 2007 (define a Amazônia Legal).",
+        "SOARES-FILHO, B. et al. Cracking Brazil's Forest Code. Science, v. 344, n. 6182, p. 363-364, 2014."
+      ]
+    },
+    {
+      "ano": 2018,
+      "titulo": "Market reorganisation",
+      "subtitulo": "Supply-chain pressure and the macro cycle",
+      "descricao": "Macroeconomic recovery after 2016 and a new commodity price cycle. In September 2017, around 60 civil society organisations launch the Cerrado Manifesto, and more than 60 companies sign on over the following months — but these are retailers and food manufacturers (Walmart, Unilever, Nestlé, Carrefour). The trading houses that buy direct from the farmer did not sign. Pasture begins to give up area consistently, between 0.33 and 0.61 pp per year in 2018-21. The satellite's “agriculture” class appears to stall from 2021 onwards, after growing 0.17 to 0.20 pp/yr in 2018-20; Act III shows that this stability is a change of label, not of pace. And the loss of natural vegetation, which had fallen to 0.02 pp in 2018, accelerates again to 0.30 pp in 2024.",
+      "evidencia": "B",
+      "escopo_empirico": "cerrado_amplo",
+      "categoria": "mercado",
+      "referencias": [
+        "SOTERRONI, A. C. et al. Expanding the Soy Moratorium to Brazil's Cerrado. Science Advances, v. 5, n. 7, eaav7336, 2019.",
+        "RAJÃO, R. et al. The rotten apples of Brazil's agribusiness. Science, v. 369, n. 6501, p. 246-248, 2020.",
+        "MANIFESTO DO CERRADO. Carta aberta da sociedade civil em defesa do Cerrado, 2017."
+      ]
+    },
+    {
+      "ano": 2024,
+      "titulo": "Present state",
+      "subtitulo": "Synthesis of the series",
+      "descricao": "Last year of the MapBiomas Collection 10.1 series. Goiás has consolidated the soy-maize matrix via the second crop, and pasture remains dominant in absolute area, with a rising stocking rate. Natural vegetation reaches 34.9% of the territory, against 51.9% in 1985. The frame analysed by the dissertation closes here.",
+      "evidencia": "C",
+      "escopo_empirico": "nao_aplicavel",
+      "categoria": "contexto",
+      "referencias": [
+        "MapBiomas Brasil. Coleção 10.1, dados anuais de cobertura e uso da terra até 2024."
+      ]
+    }
+  ]
+}

@@ -27,6 +27,16 @@
 (function (root) {
   "use strict";
 
+
+  // i18n: em paginas que nao carregam i18n.js (ex.: index-original.html), T/TF
+  // caem para a identidade e o texto original em portugues e' preservado.
+  var _I18N = root.GO40I18N || null;
+  var T  = _I18N ? _I18N.T  : function (s) { return s; };
+  var TF = _I18N ? _I18N.TF : function (s) {
+    var a = Array.prototype.slice.call(arguments, 1), o = String(s);
+    for (var i = 0; i < a.length; i++) o = o.split("{" + i + "}").join(String(a[i]));
+    return o;
+  };
   // Hex literais da paleta (styles.css): var(--...) num ATRIBUTO de apresentação
   // SVG não resolve confiavelmente em todo navegador (Firefox), então fixamos aqui.
   const COR_FG = "#1a1a1a";       // --color-fg
@@ -52,6 +62,9 @@
   const W_STRIP = 460, H_STRIP = 360;
 
   // ---- utilidades ----
+  const I18N = root.GO40I18N || { T: s => s, TF: (s) => s, num: { decimal: "," } };
+  const dec = s => I18N.num.decimal === "," ? s.replace(".", ",") : s;
+
   function el(id) { return document.getElementById(id); }
 
   function anoParaAto(ano) {
@@ -60,7 +73,7 @@
 
   function fmtLat(v) {
     // -17.09 -> "17,09° S"
-    return Math.abs(v).toFixed(2).replace(".", ",") + "° S";
+    return dec(Math.abs(v).toFixed(2)) + "° S";
   }
 
   // ==========================================================================
@@ -251,7 +264,7 @@
         .attr("fill", i % 2 ? "#00000000" : "#0000000a");
       gB.append("text").attr("x", (X(a.ini) + X(a.fim)) / 2).attr("y", M_STRIP.t + 11)
         .attr("text-anchor", "middle").attr("class", "marchamap-ato-txt")
-        .text("Ato " + a.id);
+        .text(T("Ato") + " " + a.id);
     });
 
     // eixos
@@ -259,7 +272,7 @@
       .call(d3.axisBottom(X).ticks(6).tickFormat(d3.format("d")))
       .attr("class", "marchamap-eixo");
     svg.append("g").attr("transform", `translate(${M_STRIP.l},0)`)
-      .call(d3.axisLeft(Y).ticks(5).tickFormat(d => Math.abs(d).toFixed(1).replace(".", ",")))
+      .call(d3.axisLeft(Y).ticks(5).tickFormat(d => dec(Math.abs(d).toFixed(1))))
       .attr("class", "marchamap-eixo");
     svg.append("text").attr("x", M_STRIP.l - 30).attr("y", M_STRIP.t - 2)
       .attr("class", "marchamap-eixo-cap").text("°S ↑ norte");
@@ -348,9 +361,9 @@
     if (nota && byId.agricultura != null && byId.pastagem != null) {
       const gap = Math.abs(byId.pastagem - byId.agricultura) * 111.0; // km aprox
       nota.innerHTML =
-        `<strong>${anoAtual}</strong>` + (ato ? ` · Ato ${ato.id} (${ato.titulo})` : "") +
-        ` — a agricultura está <strong>~${Math.round(gap)} km ao sul</strong> ` +
-        `de pasto/rebanho. Arraste a faixa ou o controle para percorrer os 40 anos.`;
+        `<strong>${anoAtual}</strong>` + (ato ? TF(" · Ato {0} ({1})", ato.id, T(ato.titulo)) : "") +
+        " " + TF("— a agricultura está <strong>~{0} km ao sul</strong> de pasto/rebanho. " +
+           "Arraste a faixa ou o controle para percorrer os 40 anos.", Math.round(gap));
     }
   }
 
@@ -369,7 +382,7 @@
     if (tocando) return;
     if (anoAtual >= DADOS.anos[DADOS.anos.length - 1]) anoAtual = DADOS.anos[0];
     tocando = true;
-    el("marchamap-play").textContent = "⏸ Pausar";
+    el("marchamap-play").textContent = "⏸ " + T("Pausar");
     el("marchamap-play").setAttribute("aria-pressed", "true");
     timer = setInterval(() => {
       if (anoAtual >= DADOS.anos[DADOS.anos.length - 1]) { parar(); return; }
@@ -382,7 +395,7 @@
     tocando = false;
     if (timer) { clearInterval(timer); timer = null; }
     const b = el("marchamap-play");
-    if (b) { b.textContent = "▶ Reproduzir"; b.setAttribute("aria-pressed", "false"); }
+    if (b) { b.textContent = "▶ " + T("Reproduzir"); b.setAttribute("aria-pressed", "false"); }
   }
 
   function desenharLegenda() {
@@ -395,16 +408,16 @@
       const dN = v.liquido.dN;
       const rob = v.liquido.robusto === false;
       item.append("span").html(
-        `${v.rotulo} <b>${dN >= 0 ? "+" : ""}${String(dN).replace(".", ",")} km</b>` +
-        (rob ? " <em>(≈ ancorada)</em>" : ""));
+        `${T(v.rotulo)} <b>${dN >= 0 ? "+" : ""}${dec(String(dN))} km</b>` +
+        (rob ? " " + T("<em>(≈ ancorada)</em>") : ""));
     });
     // Explica o pontilhado da agricultura — sem isso o traco diferente vira
     // ruido visual em vez de ressalva.
     cont.append("span").attr("class", "marchamap-leg-nota").html(
-      `A partir de ${ANO_ROTULO_DERIVA} a linha da agricultura fica ` +
-      `<b>pontilhada</b>: dali em diante o satélite roteia a conversão recente ` +
-      `para a classe "Mosaico de Usos", e o centroide da agricultura passa a ` +
-      `subcontá-la. O achatamento é do rótulo, não do campo.`);
+      TF('A partir de {0} a linha da agricultura fica <b>pontilhada</b>: dali em diante ' +
+         'o satélite roteia a conversão recente para a classe "Mosaico de Usos", e o ' +
+         'centroide da agricultura passa a subcontá-la. O achatamento é do rótulo, não do campo.',
+         ANO_ROTULO_DERIVA));
   }
 
   function ligarControles() {

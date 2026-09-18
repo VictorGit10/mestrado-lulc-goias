@@ -11,6 +11,19 @@
 (function (root) {
   "use strict";
 
+
+  // i18n: em paginas que nao carregam i18n.js (ex.: index-original.html), T/TF
+  // caem para a identidade e o texto original em portugues e' preservado.
+  var _I18N = root.GO40I18N || null;
+  var T  = _I18N ? _I18N.T  : function (s) { return s; };
+  var TF = _I18N ? _I18N.TF : function (s) {
+    var a = Array.prototype.slice.call(arguments, 1), o = String(s);
+    for (var i = 0; i < a.length; i++) o = o.split("{" + i + "}").join(String(a[i]));
+    return o;
+  };
+  var I18N = root.GO40I18N || { num: { decimal: "," } };
+  var dec = function (x) { return I18N.num.decimal === "," ? String(x).replace(".", ",") : String(x); };
+
   var G = root.GO40 || {};
   var data = null;
   var modoAtual = "pct";      // "pct" | "mha"
@@ -29,15 +42,15 @@
   };
 
   function rotulo(nomeClasse) {
-    return ROTULO_CURTO[nomeClasse] || nomeClasse;
+    return T(ROTULO_CURTO[nomeClasse] || nomeClasse);
   }
 
   // ---------- formatação ----------
 
   function fmtPct(v) {
-    if (v < 0.1 && v > 0) return "< 0,1%";
+    if (v < 0.1 && v > 0) return "< " + dec("0.1") + "%";
     if (v === 0) return "0%";
-    return v.toFixed(1).replace(".", ",") + "%";
+    return dec(v.toFixed(1)) + "%";
   }
 
   function fmtMha(v) {
@@ -68,7 +81,7 @@
 
     // Cabeçalho
     html += "<thead><tr>";
-    html += "<th>Origem ↓ / Destino →</th>";
+    html += "<th>" + T("Origem ↓ / Destino →") + "</th>";
     for (var j = 0; j < n; j++) {
       html += '<th style="text-align:right;">' + rotulo(classes[j]) + "</th>";
     }
@@ -101,16 +114,16 @@
     if (caption) {
       if (isPct) {
         caption.textContent =
-          "Cada linha soma 100%. A diagonal mostra a porcentagem que permaneceu na mesma classe; " +
-          "as células fora da diagonal mostram para onde a área foi convertida. O Mosaico de Usos " +
-          "(lavoura ou pasto, que o classificador não separa) entra como classe própria. " +
-          "Fonte: MapBiomas Coleção 10.1 (Pipeline #12B).";
+          T("Cada linha soma 100%. A diagonal mostra a porcentagem que permaneceu na mesma classe; ") +
+          T("as células fora da diagonal mostram para onde a área foi convertida. O Mosaico de Usos " +
+            "(lavoura ou pasto, que o classificador não separa) entra como classe própria.") + " " +
+          T("Fonte: MapBiomas Coleção 10.1 (Pipeline #12B).");
       } else {
         caption.textContent =
-          "Valores em milhões de hectares (Mha). Na diagonal, os pixels que permaneceram na mesma " +
-          "classe; fora dela, as transições. O Mosaico de Usos (lavoura ou pasto, que o classificador " +
-          "não separa) entra como classe própria. " +
-          "Fonte: MapBiomas Coleção 10.1 (Pipeline #12B).";
+          T("Valores em milhões de hectares (Mha). Na diagonal, os pixels que permaneceram na mesma " +
+            "classe; fora dela, as transições. O Mosaico de Usos (lavoura ou pasto, que o classificador " +
+            "não separa) entra como classe própria.") + " " +
+          T("Fonte: MapBiomas Coleção 10.1 (Pipeline #12B).");
       }
     }
 

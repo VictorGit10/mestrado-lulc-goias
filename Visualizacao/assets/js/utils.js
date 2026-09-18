@@ -9,18 +9,24 @@
   const ANO_MAX = 2024;
   const TOTAL_ANOS = ANO_MAX - ANO_MIN;
 
-  const fmtPct = v => (v == null ? "—" : (v * 100).toFixed(1).replace(".", ",") + "%");
-  const fmtPctBar = v => (v * 100).toFixed(1).replace(".", ",") + "%";
+  // Separador decimal e locale vem da camada de i18n (i18n.js carrega antes daqui).
+  const I18N = root.GO40I18N || { T: s => s, num: { decimal: ",", locale: "pt-BR", bilhao: " bi" } };
+  const T = I18N.T;
+  const DEC = I18N.num.decimal;
+  const dec = s => DEC === "," ? s.replace(".", ",") : s;
+
+  const fmtPct = v => (v == null ? "—" : dec((v * 100).toFixed(1)) + "%");
+  const fmtPctBar = v => dec((v * 100).toFixed(1)) + "%";
   const fmtPp = v => {
     if (v == null) return "";
-    return Math.abs(v).toFixed(1).replace(".", ",") + " pp";
+    return dec(Math.abs(v).toFixed(1)) + " pp";
   };
   const fmtNum = (v, d = 0) => {
     if (v == null) return "—";
-    return new Intl.NumberFormat("pt-BR", { maximumFractionDigits: d }).format(v);
+    return new Intl.NumberFormat(I18N.num.locale, { maximumFractionDigits: d }).format(v);
   };
-  const fmtBilhao = v => v == null ? "—" : "R$ " + (v / 1e9).toFixed(1).replace(".", ",") + " bi";
-  const fmtMilhao = v => v == null ? "—" : (v / 1e6).toFixed(2).replace(".", ",") + " Mha";
+  const fmtBilhao = v => v == null ? "—" : "R$ " + dec((v / 1e9).toFixed(1)) + I18N.num.bilhao;
+  const fmtMilhao = v => v == null ? "—" : dec((v / 1e6).toFixed(2)) + " Mha";
 
   const yearToPct = ano => ((ano - ANO_MIN) / TOTAL_ANOS) * 100;
   const clampAno = a => Math.max(ANO_MIN, Math.min(ANO_MAX, a));
@@ -28,9 +34,9 @@
   // Atos territoriais — definicao canonica (espelha index.html).
   // Cada ato delimita uma faixa contigua de anos (inclusivo).
   const ATOS = [
-    { id: "heranca",        titulo: "I. Pastagem como herança",     anoInicio: 1985, anoFim: 2000, cor: "#8b3a1d" },
-    { id: "expansao",       titulo: "II. Expansão e intensificação", anoInicio: 2001, anoFim: 2019, cor: "#a85234" },
-    { id: "conversao",      titulo: "III. Conversão acelerada",      anoInicio: 2020, anoFim: 2024, cor: "#2d5a3d" }
+    { id: "heranca",        titulo: T("I. Pastagem como herança"),     anoInicio: 1985, anoFim: 2000, cor: "#8b3a1d" },
+    { id: "expansao",       titulo: T("II. Expansão e intensificação"), anoInicio: 2001, anoFim: 2019, cor: "#a85234" },
+    { id: "conversao",      titulo: T("III. Conversão acelerada"),      anoInicio: 2020, anoFim: 2024, cor: "#2d5a3d" }
   ];
 
   function eraDoAno(ano) {
@@ -39,9 +45,9 @@
 
   // Pinos-dado (inicio sistematico de algum dado) — visualmente distintos.
   const ANOS_DADO = [
-    { ano: 2013, rotulo: "SICOR sistemático" },
-    { ano: 2017, rotulo: "Censo Agropecuário" },
-    { ano: 2020, rotulo: "Pandemia" }
+    { ano: 2013, rotulo: T("SICOR sistemático") },
+    { ano: 2017, rotulo: T("Censo Agropecuário") },
+    { ano: 2020, rotulo: T("Pandemia") }
   ];
 
   // -------------------- delta inline --------------------
@@ -56,7 +62,7 @@
     const dpp = (curr - prev) * 100;
     const klass = classeDelta(cls, dpp);
     if (klass === "delta--flat") {
-      return `<span class="delta delta--flat">~ 0,0 pp</span>`;
+      return `<span class="delta delta--flat">~ ${dec("0.0")} pp</span>`;
     }
     const seta = dpp > 0 ? "▲" : "▼";
     return `<span class="delta ${klass}">${seta} ${fmtPp(dpp)}</span>`;

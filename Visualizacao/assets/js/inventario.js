@@ -5,8 +5,20 @@
 (function (root) {
   "use strict";
 
+
+  // i18n: em paginas que nao carregam i18n.js (ex.: index-original.html), T/TF
+  // caem para a identidade e o texto original em portugues e' preservado.
+  var _I18N = root.GO40I18N || null;
+  var T  = _I18N ? _I18N.T  : function (s) { return s; };
+  var TF = _I18N ? _I18N.TF : function (s) {
+    var a = Array.prototype.slice.call(arguments, 1), o = String(s);
+    for (var i = 0; i < a.length; i++) o = o.split("{" + i + "}").join(String(a[i]));
+    return o;
+  };
+  const I18N = root.GO40I18N || { T: s => s, num: { locale: "pt-BR", bilhao: " bi" } };
+
   const fmtNum = (v, d = 0) =>
-    new Intl.NumberFormat("pt-BR", {
+    new Intl.NumberFormat(I18N.num.locale, {
       minimumFractionDigits: d,
       maximumFractionDigits: d
     }).format(v);
@@ -16,11 +28,11 @@
   const fmtKha    = v => v == null ? "—" : fmtNum(v / 1e3, 0) + " kha";
   const fmtMt     = v => v == null ? "—" : fmtNum(v / 1e6, 2) + " Mt";
   const fmtKt     = v => v == null ? "—" : fmtNum(v / 1e3, 0) + " kt";
-  const fmtMcab   = v => v == null ? "—" : fmtNum(v / 1e6, 2) + " M cab";
-  const fmtMhab   = v => v == null ? "—" : fmtNum(v / 1e6, 2) + " Mi hab";
-  const fmtCabHa  = v => v == null ? "—" : fmtNum(v, 2) + " cab/ha";
-  const fmtBiRs   = v => v == null ? "—" : "R$ " + fmtNum(v / 1e9, 1) + " bi";
-  const fmtBiL    = v => v == null ? "—" : fmtNum(v / 1e6, 2) + " Bi L";  // mil_litros → Bi L
+  const fmtMcab   = v => v == null ? "—" : fmtNum(v / 1e6, 2) + T(" M cab");
+  const fmtMhab   = v => v == null ? "—" : fmtNum(v / 1e6, 2) + T(" Mi hab");
+  const fmtCabHa  = v => v == null ? "—" : fmtNum(v, 2) + T(" cab/ha");
+  const fmtBiRs   = v => v == null ? "—" : "R$ " + fmtNum(v / 1e9, 1) + I18N.num.bilhao;
+  const fmtBiL    = v => v == null ? "—" : fmtNum(v / 1e6, 2) + T(" Bi L");  // mil_litros → Bi L
   const fmtMhaPlt = v => v == null ? "—" : fmtNum(v / 1e6, 2) + " Mha";   // ha_plantada → Mha
 
   // Manifest dos temas e series. Cobertura é texto livre (a logica abaixo
@@ -146,17 +158,17 @@
       .filter(p => p.v != null && !isNaN(p.v));
     const janela = janelaCobertura(serie, spec.campo);
     const coberturaTxt = janela
-      ? `${janela.primeiro}–${janela.ultimo} (anual)`
-      : "sem dado disponível";
+      ? TF("{0}–{1} (anual)", janela.primeiro, janela.ultimo)
+      : T("sem dado disponível");
 
     if (dados.length === 0) {
       return `
         <div class="inventario-card" data-tema="${temaId}">
-          <div class="inventario-card-nome">${spec.nome}</div>
-          <div class="inventario-card-valores"><em>(sem dado neste agregado)</em></div>
+          <div class="inventario-card-nome">${T(spec.nome)}</div>
+          <div class="inventario-card-valores"><em>${T("(sem dado neste agregado)")}</em></div>
           <div class="inventario-card-meta">
             <span class="inventario-card-cobertura">${coberturaTxt}</span>
-            <span class="inventario-card-fonte">${spec.fonte}</span>
+            <span class="inventario-card-fonte">${T(spec.fonte)}</span>
           </div>
         </div>
       `;
@@ -170,12 +182,12 @@
 
     return `
       <div class="inventario-card" data-tema="${temaId}">
-        <div class="inventario-card-nome">${spec.nome}</div>
+        <div class="inventario-card-nome">${T(spec.nome)}</div>
         ${makeSparkline(serie, spec.campo)}
         <div class="inventario-card-valores">${valoresHtml}</div>
         <div class="inventario-card-meta">
           <span class="inventario-card-cobertura">${coberturaTxt}</span>
-          <span class="inventario-card-fonte">${spec.fonte}</span>
+          <span class="inventario-card-fonte">${T(spec.fonte)}</span>
         </div>
       </div>
     `;
@@ -191,7 +203,7 @@
         .join("");
       return `
         <div class="inventario-tema" data-tema="${tema.id}">
-          <h4 class="inventario-tema-rotulo">${tema.rotulo}</h4>
+          <h4 class="inventario-tema-rotulo">${T(tema.rotulo)}</h4>
           <div class="inventario-tema-cards">${cards}</div>
         </div>
       `;
