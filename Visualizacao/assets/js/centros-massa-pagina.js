@@ -20,13 +20,26 @@
 
   function el(id) { return document.getElementById(id); }
 
+  // Idioma pelo <html lang>: centros-de-massa.en.html carrega o JSON em inglês
+  // (mesmos números, gerado na mesma rodada do exportador) e estes rótulos.
+  const EN = String(document.documentElement.lang || "").toLowerCase().indexOf("en") === 0;
+  const TXT = EN ? {
+    todos: "All", pausar: "⏸ Pause", reproduzir: "▶ Play",
+    norte: "North", sul: "South", ancorada: "≈ Anchored",
+    ato: "Act", fonte: "Source", ano: "Years"
+  } : {
+    todos: "Todos", pausar: "⏸ Pausar", reproduzir: "▶ Reproduzir",
+    norte: "Norte", sul: "Sul", ancorada: "≈ Ancorada",
+    ato: "Ato", fonte: "Fonte", ano: "Ano"
+  };
+
   // --------------------------------------------------------------------------
   // 1. Inicialização & Fetch
   // --------------------------------------------------------------------------
   async function init() {
     try {
       const [dados, geo] = await Promise.all([
-        d3.json("assets/data/centros_massa_completo.json"),
+        d3.json(EN ? "assets/data/centros_massa_completo.en.json" : "assets/data/centros_massa_completo.json"),
         d3.json("assets/data/malha_amc.geojson")
       ]);
 
@@ -63,7 +76,7 @@
     if (!container) return;
 
     let html = `<button class="cm-cat-pill ${activeCategory === "todos" ? "active" : ""}" data-cat="todos">
-      Todos <span class="cm-pill-count">${DADOS.variaveis.length}</span>
+      ${TXT.todos} <span class="cm-pill-count">${DADOS.variaveis.length}</span>
     </button>`;
 
     DADOS.categorias.forEach(cat => {
@@ -170,7 +183,7 @@
     if (anoAtual >= 2024) anoAtual = 1985;
     tocando = true;
     const b = el("cm-play-btn");
-    if (b) b.innerHTML = "⏸ Pausar";
+    if (b) b.innerHTML = TXT.pausar;
     timer = setInterval(() => {
       if (anoAtual >= 2024) { parar(); return; }
       anoAtual += 1;
@@ -182,7 +195,7 @@
     tocando = false;
     if (timer) { clearInterval(timer); timer = null; }
     const b = el("cm-play-btn");
-    if (b) b.innerHTML = "▶ Reproduzir";
+    if (b) b.innerHTML = TXT.reproduzir;
   }
 
   // --------------------------------------------------------------------------
@@ -345,7 +358,7 @@
         .attr("fill", i % 2 ? "transparent" : "rgba(0,0,0,0.03)");
       gB.append("text").attr("x", (X(a.ini) + X(a.fim)) / 2).attr("y", M_STRIP.t + 11)
         .attr("text-anchor", "middle").style("font-size", "9px").style("fill", "#5c5c56")
-        .text(`Ato ${a.id}`);
+        .text(`${TXT.ato} ${a.id}`);
     });
 
     // Eixos
@@ -417,14 +430,14 @@
     grid.innerHTML = list.map(v => {
       const dN = v.liquido.dN != null ? v.liquido.dN : 0;
       let tagClass = "robust";
-      let tagText = `+${dN} km (Norte)`;
+      let tagText = `+${dN} km (${TXT.norte})`;
 
       if (dN < 0) {
         tagClass = "south";
-        tagText = `${dN} km (Sul)`;
+        tagText = `${dN} km (${TXT.sul})`;
       } else if (!v.liquido.robusto && dN < 15) {
         tagClass = "anchored";
-        tagText = `+${dN} km (≈ Ancorada)`;
+        tagText = `+${dN} km (${TXT.ancorada})`;
       }
 
       // Tag extra: deslocamento no Ato III para a categoria de validação (soja)
@@ -432,7 +445,7 @@
       if (v.categoria === "validacao" && v.liquido.janelas && v.liquido.janelas["Ato III"] != null) {
         const a3 = v.liquido.janelas["Ato III"];
         const cls = a3 < 0 ? "south" : "robust";
-        atoIII = `<span class="cm-card-shift ${cls}" style="margin-left:0.35rem">Ato III: ${a3 > 0 ? "+" : ""}${a3} km</span>`;
+        atoIII = `<span class="cm-card-shift ${cls}" style="margin-left:0.35rem">${TXT.ato} III: ${a3 > 0 ? "+" : ""}${a3} km</span>`;
       }
 
       const ano0 = v.pts[0].a;
@@ -446,8 +459,8 @@
           </div>
           <p class="cm-card-insight">${v.insight}</p>
           <div class="cm-card-footer">
-            <span>Fonte: <strong>${v.fonte}</strong></span>
-            <span>Ano: ${ano0}–${ano1}</span>
+            <span>${TXT.fonte}: <strong>${v.fonte}</strong></span>
+            <span>${TXT.ano}: ${ano0}–${ano1}</span>
           </div>
         </div>
       `;

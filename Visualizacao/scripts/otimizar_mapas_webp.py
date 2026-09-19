@@ -1,11 +1,13 @@
 """Converte 40 PNGs pixel-a-pixel GEE (outputs/mapas_gee/) para WebP otimizado.
 
 Saida: Visualizacao/img/mapas_gee/cobertura_YYYY.webp
+       Visualizacao/img/mapas_gee/cobertura_YYYY.en.webp   (com --lang en)
 Reducao tipica: 80-90% (PNGs GEE compostos sao ~2.3 MB; WebP fica ~250-400 KB).
 """
 
 from __future__ import annotations
 
+import sys
 from pathlib import Path
 
 from PIL import Image
@@ -17,6 +19,7 @@ DST = ROOT / "Visualizacao" / "img" / "mapas_gee"
 QUALITY = 85
 ANO_INICIO = 1985
 ANO_FIM = 2024
+SUFIXO = ".en" if "--lang" in sys.argv and sys.argv[sys.argv.index("--lang") + 1] == "en" else ""
 
 
 def main() -> None:
@@ -25,8 +28,8 @@ def main() -> None:
     convertidos = 0
 
     for ano in range(ANO_INICIO, ANO_FIM + 1):
-        src = SRC / f"cobertura_{ano}.png"
-        dst = DST / f"cobertura_{ano}.webp"
+        src = SRC / f"cobertura_{ano}{SUFIXO}.png"
+        dst = DST / f"cobertura_{ano}{SUFIXO}.webp"
         if not src.exists():
             print(f"AVISO: {src.name} nao encontrado, pulando")
             continue

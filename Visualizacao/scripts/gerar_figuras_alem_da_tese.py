@@ -15,12 +15,18 @@ Sao achados laterais — reais, testados, e fora do fio condutor das quatro pern
 
 Uso:
   cd Visualizacao
-  python scripts/gerar_figuras_alem_da_tese.py
+  python scripts/gerar_figuras_alem_da_tese.py            # portugues (index.html)
+  python scripts/gerar_figuras_alem_da_tese.py --lang en  # ingles (index.en.html)
 
 Saida:
-  Visualizacao/img/alem_da_tese/*.png
+  Visualizacao/img/alem_da_tese/*.png      (pt)
+  Visualizacao/img/alem_da_tese/*.en.png   (en)
+
+Em ingles mudam so' os textos e o separador decimal; dados, geometria e cores
+sao os mesmos, e a saida em portugues continua byte a byte igual.
 """
 
+import sys
 from pathlib import Path
 
 import matplotlib as mpl
@@ -68,9 +74,19 @@ mpl.rcParams.update({
 })
 
 
+EN = "--lang" in sys.argv and sys.argv[sys.argv.index("--lang") + 1] == "en"
+SUFIXO = ".en.png" if EN else ".png"
+
+
+def t(pt, en):
+    """Texto da figura no idioma da rodada."""
+    return en if EN else pt
+
+
 def vg(x, casas=2):
-    """Numero no formato pt-BR (virgula decimal)."""
-    return f"{x:.{casas}f}".replace(".", ",")
+    """Numero no formato do idioma (virgula decimal em pt-BR, ponto em ingles)."""
+    s = f"{x:.{casas}f}"
+    return s if EN else s.replace(".", ",")
 
 
 def limpar(ax, esquerda=True, baixo=True):
@@ -110,8 +126,8 @@ def fig_oscilacao():
         (1995, 2005, "1995–2005", True),
         (2005, 2015, "2005–15", True),
         (2015, 2024, "2015–24", True),
-        (2023, 2024, "2023–24\num ano", False),
-        (1985, 2024, "1985–2024\n40 anos", False),
+        (2023, 2024, t("2023–24\num ano", "2023–24\none year"), False),
+        (1985, 2024, t("1985–2024\n40 anos", "1985–2024\n40 years"), False),
     ]
 
     linhas = []
@@ -132,10 +148,10 @@ def fig_oscilacao():
     y = np.arange(len(L))[::-1]
     frac = L[["flor", "sav", "campo"]].div(L.tot, axis=0) * 100
 
-    axA.barh(y, frac.flor, color=VEG, height=0.62, label="Floresta (3)")
-    axA.barh(y, frac.sav, left=frac.flor, color=SAVANA, height=0.62, label="Savana (4)")
+    axA.barh(y, frac.flor, color=VEG, height=0.62, label=t("Floresta (3)", "Forest (3)"))
+    axA.barh(y, frac.sav, left=frac.flor, color=SAVANA, height=0.62, label=t("Savana (4)", "Savanna (4)"))
     axA.barh(y, frac.campo, left=frac.flor + frac.sav, color=CAMPO, height=0.62,
-             label="Campo natural (12)")
+             label=t("Campo natural (12)", "Natural grassland (12)"))
 
     for i, yy in enumerate(y):
         pf, ps = frac.flor.iloc[i], frac.sav.iloc[i]
@@ -157,12 +173,15 @@ def fig_oscilacao():
     axA.tick_params(axis="y", length=0)
     axA.grid(axis="x", color=RULE, lw=0.6, alpha=0.7)
     axA.set_axisbelow(True)
-    titulo(axA, "Para onde vai o pasto que “volta a ser natural”",
-           sub="composição do fluxo reverso pastagem → vegetação natural")
+    titulo(axA, t("Para onde vai o pasto que “volta a ser natural”",
+                 "Where the pasture that “turns natural again” goes"),
+           sub=t("composição do fluxo reverso pastagem → vegetação natural",
+                 "composition of the reverse flow pasture → natural vegetation"))
 
     # A hipotese inicial era campo natural. Ela nao aparece — e a ausencia e' o
     # achado, entao precisa de seta: o leitor nao ve sozinho o que nao esta la.
-    axA.annotate("campo natural:\n0% em todas\nas janelas\n— era a\nhipótese inicial",
+    axA.annotate(t("campo natural:\n0% em todas\nas janelas\n— era a\nhipótese inicial",
+                   "natural grassland:\n0% in every\nwindow\n— it was the\ninitial hypothesis"),
                  xy=(101.5, y[2]), xytext=(108, y[2] - 0.6),
                  fontsize=8.4, color=ACCENT, ha="left", va="center", linespacing=1.5,
                  arrowprops=dict(arrowstyle="->", color=ACCENT, lw=1.0,
@@ -189,30 +208,38 @@ def fig_oscilacao():
                  color=ACCENT_SOFT, fontweight="600")
 
     axB.axhline(1.0, color=MUTED, lw=1.0, ls=(0, (4, 3)))
-    axB.text(-0.35, 1.22, "mão dupla equilibrada", fontsize=8.2, color=MUTED,
+    axB.text(-0.35, 1.22, t("mão dupla equilibrada", "balanced two-way flow"), fontsize=8.2, color=MUTED,
              ha="left", va="bottom")
 
-    axB.set_xticks(list(x) + [xa], list(dec.rot) + ["2023–24\num ano"], fontsize=8.6)
+    axB.set_xticks(list(x) + [xa], list(dec.rot) + [t("2023–24\num ano", "2023–24\none year")], fontsize=8.6)
     axB.set_xlim(-0.45, xa + 0.5)
     axB.set_ylim(0, 10.4)
-    axB.set_ylabel("savana→pasto ÷ pasto→savana")
+    axB.set_ylabel(t("savana→pasto ÷ pasto→savana", "savanna→pasture ÷ pasture→savanna"))
     limpar(axB)
     axB.grid(axis="y", color=RULE, lw=0.6, alpha=0.7)
     axB.set_axisbelow(True)
-    titulo(axB, "O mesmo par vai e volta, cada vez mais parelho",
-           sub="quanto o sentido dominante supera o reverso")
+    titulo(axB, t("O mesmo par vai e volta, cada vez mais parelho",
+                 "Back and forth, ever more evenly"),
+           sub=t("quanto o sentido dominante supera o reverso",
+                 "how much the dominant direction exceeds the reverse"))
 
-    axB.annotate(f"num único ano: {anual.pasto_sav/1000:,.0f} mil ha de pasto→savana\n"
-                 f"e {anual.sav_pasto/1000:,.0f} mil ha de savana→pasto".replace(",", "."),
+    nota_anual = (
+        f"in one year: {anual.pasto_sav/1000:,.0f} thousand ha pasture→savanna\n"
+        f"and {anual.sav_pasto/1000:,.0f} thousand ha savanna→pasture" if EN else
+        f"num único ano: {anual.pasto_sav/1000:,.0f} mil ha de pasto→savana\n"
+        f"e {anual.sav_pasto/1000:,.0f} mil ha de savana→pasto".replace(",", "."))
+    axB.annotate(nota_anual,
                  xy=(xa - 0.06, anual.razao + 0.35), xytext=(xa + 0.12, 5.1),
                  fontsize=8.2, color=MUTED, ha="right", va="center", linespacing=1.5,
                  arrowprops=dict(arrowstyle="->", color=MUTED, lw=0.9,
                                  connectionstyle="arc3,rad=-0.25"))
 
-    rodape(fig, "MapBiomas col. 10.1, cubo de Goiás em classe bruta (sem colapsar 3/4/12), "
-                "área corrigida por cos(lat) · script checar_transicao_pasto_natural_classe.py")
+    rodape(fig, t("MapBiomas col. 10.1, cubo de Goiás em classe bruta (sem colapsar 3/4/12), "
+                  "área corrigida por cos(lat) · script checar_transicao_pasto_natural_classe.py",
+                  "MapBiomas col. 10.1, Goiás cube in raw classes (3/4/12 not collapsed), "
+                  "area corrected by cos(lat) · script checar_transicao_pasto_natural_classe.py"))
 
-    out = OUT_DIR / "oscilacao_pasto_savana.png"
+    out = OUT_DIR / f"oscilacao_pasto_savana{SUFIXO}"
     fig.savefig(out, dpi=190, facecolor=BG)
     plt.close(fig)
     print(f"[1] {out.name}")
@@ -239,11 +266,11 @@ def fig_malha():
     # Ordenado para deixar adjacentes, a' direita, as duas classes que de fato
     # vedam a conversao (UC de protecao integral e TI homologada).
     prot_itens = [
-        ("UC de uso sustentável", d["Unidade Conservação de Uso Sustentável"], CINZA),
-        ("Terra quilombola", d["Terra Quilombola Declarado"]
+        (t("UC de uso sustentável", "Sustainable-use PA"), d["Unidade Conservação de Uso Sustentável"], CINZA),
+        (t("Terra quilombola", "Quilombola land"), d["Terra Quilombola Declarado"]
          + d["Terra Quilombola Não Declarado"], SAVANA),
-        ("UC de proteção integral", d["Unidade de Conservação de Proteção Integral"], VEG),
-        ("Terra indígena", d["Terra Indigena Homologada"]
+        (t("UC de proteção integral", "Strict-protection PA"), d["Unidade de Conservação de Proteção Integral"], VEG),
+        (t("Terra indígena", "Indigenous land"), d["Terra Indigena Homologada"]
          + d["Terra Indigena Não Homologada"], ACCENT),
     ]
     protegido = sum(v for _, v, _ in prot_itens)
@@ -256,10 +283,10 @@ def fig_malha():
 
     # ---- barra da tenure ---------------------------------------------------
     segs = [
-        ("Propriedade privada (SIGEF/SNCI + CAR)", privado, ACCENT_SOFT),
-        ("Assentamentos", assent, PASTO),
-        ("Protegido", protegido, VEG),
-        ("Água, urbano, militar, gleba pública", outros, AGUA),
+        (t("Propriedade privada (SIGEF/SNCI + CAR)", "Private property (SIGEF/SNCI + CAR)"), privado, ACCENT_SOFT),
+        (t("Assentamentos", "Settlements"), assent, PASTO),
+        (t("Protegido", "Protected"), protegido, VEG),
+        (t("Água, urbano, militar, gleba pública", "Water, urban, military, public land"), outros, AGUA),
     ]
     esq = 0.0
     x_prot = (0.0, 0.0)
@@ -271,17 +298,19 @@ def fig_malha():
             axT.text(esq + pct / 2, 0, f"{rot}\n{vg(val)} Mha · {vg(pct, 1)}%",
                      ha="center", va="center", fontsize=9.6, color="white",
                      fontweight="600", linespacing=1.5)
-        if rot == "Protegido":
+        if rot == t("Protegido", "Protected"):
             x_prot = (esq, esq + pct)
         esq += pct
 
     axT.set_xlim(0, 100)
     axT.set_ylim(-0.55, 0.55)
     axT.axis("off")
-    axT.text(0, 1.75, "Quem é dono de Goiás", transform=axT.transAxes,
+    axT.text(0, 1.75, t("Quem é dono de Goiás", "Who owns Goiás"), transform=axT.transAxes,
              fontsize=11.5, fontweight="600", color=FG, va="bottom")
-    axT.text(0, 1.20, f"território efetivo = {vg(total)} Mha  ·  APP e Reserva Legal "
-                      f"({vg(d['Ativo Ambiental'])} Mha) são sobreposição, não classe",
+    axT.text(0, 1.20, t(f"território efetivo = {vg(total)} Mha  ·  APP e Reserva Legal "
+                        f"({vg(d['Ativo Ambiental'])} Mha) são sobreposição, não classe",
+                        f"effective territory = {vg(total)} Mha  ·  APP and Legal Reserve "
+                        f"({vg(d['Ativo Ambiental'])} Mha) are an overlay, not a class"),
              transform=axT.transAxes, fontsize=9, color=MUTED, va="bottom")
 
     # Os tres buckets pequenos nao cabem dentro da barra: viram uma linha de
@@ -302,7 +331,7 @@ def fig_malha():
         largura = val / protegido * 100
         axZ.barh([0], [largura], left=esqz, color=cor, height=0.8,
                  edgecolor=BG, linewidth=1.2)
-        rotulo = f"{rot}\n{vg(val)} Mha · {vg(val / total * 100, 1)}% do estado"
+        rotulo = f"{rot}\n{vg(val)} Mha · {vg(val / total * 100, 1)}%" + t(" do estado", " of the state")
         if largura > 16:
             axZ.text(esqz + largura / 2, 0, rotulo, ha="center", va="center",
                      fontsize=8.9, color="white", fontweight="600", linespacing=1.5)
@@ -317,7 +346,7 @@ def fig_malha():
                          ha="right" if perto_da_borda else "center", va="top",
                          fontweight="600", linespacing=1.5,
                          arrowprops=dict(arrowstyle="-", color=cor, lw=0.9))
-        if rot.startswith("UC de proteção"):
+        if rot == prot_itens[2][0]:
             x_veda = esqz
         esqz += largura
 
@@ -326,13 +355,15 @@ def fig_malha():
     for xx in (x_veda, 100):
         axZ.plot([xx, xx], [0.52, 0.62], color=ACCENT, lw=1.1, clip_on=False)
     axZ.text((x_veda + 100) / 2, 0.74,
-             f"o que veda converter: {vg(veda)} Mha = {vg(veda / total * 100, 1)}% do estado",
+             t(f"o que veda converter: {vg(veda)} Mha = {vg(veda / total * 100, 1)}% do estado",
+               f"what forbids conversion: {vg(veda)} Mha = {vg(veda / total * 100, 1)}% of the state"),
              ha="center", va="bottom", fontsize=8.8, color=ACCENT, fontweight="600")
 
     axZ.set_xlim(0, 100)
     axZ.set_ylim(-0.55, 0.55)
     axZ.axis("off")
-    axZ.text(0, 1.52, f"os {vg(protegido / total * 100, 1)}% protegidos, abertos",
+    axZ.text(0, 1.52, t(f"os {vg(protegido / total * 100, 1)}% protegidos, abertos",
+                       f"the {vg(protegido / total * 100, 1)}% protected, opened up"),
              transform=axZ.transAxes, fontsize=9.8, fontweight="600",
              color=FG, va="bottom")
 
@@ -345,10 +376,12 @@ def fig_malha():
         closed=True, transform=fig.transFigure, facecolor=VEG, alpha=0.09,
         edgecolor="none", zorder=0))
 
-    rodape(fig, "Malha Fundiária Ambiental LAPIG-UFG v1.0 (snapshot abr/2026), recorte de Goiás, "
-                "área em ESRI:102033 · outputs/diag_malha_fundiaria_por_classe.csv")
+    rodape(fig, t("Malha Fundiária Ambiental LAPIG-UFG v1.0 (snapshot abr/2026), recorte de Goiás, "
+                  "área em ESRI:102033 · outputs/diag_malha_fundiaria_por_classe.csv",
+                  "LAPIG-UFG Environmental Land Tenure Layer v1.0 (Apr/2026 snapshot), Goiás clip, "
+                  "area in ESRI:102033 · outputs/diag_malha_fundiaria_por_classe.csv"))
 
-    out = OUT_DIR / "malha_fundiaria_buckets.png"
+    out = OUT_DIR / f"malha_fundiaria_buckets{SUFIXO}"
     fig.savefig(out, dpi=190, facecolor=BG)
     plt.close(fig)
     print(f"[2] {out.name}")
@@ -381,9 +414,10 @@ def fig_amc():
     for yy, m, a in zip(y, mun, amc):
         ax.plot([m, a], [yy, yy], color=RULE, lw=3.4, solid_capstyle="round", zorder=1)
     ax.scatter(mun, y, s=115, color=ACCENT, zorder=3,
-               label="município, como o IBGE tabula")
+               label=t("município, como o IBGE tabula", "municipality, as IBGE tabulates it"))
     ax.scatter(amc, y, s=115, color=VEG, zorder=3,
-               label="AMC — o município somado aos que dele saíram")
+               label=t("AMC — o município somado aos que dele saíram",
+                     "AMC — the municipality plus those split off from it"))
 
     for yy, m, a, ano in zip(y, mun, amc, d.ano):
         nome = exemplo.get(int(ano))
@@ -403,22 +437,27 @@ def fig_amc():
     ax.tick_params(axis="y", length=0)
     ax.grid(axis="x", color=RULE, lw=0.6, alpha=0.6)
     ax.set_axisbelow(True)
-    ax.set_xlabel("pior queda de rebanho bovino registrada no ano da onda")
-    titulo(ax, "O ano em que um município perde 81% do rebanho sem perder uma vaca",
-           sub="ondas de emancipação em Goiás: a mesma queda, medida de dois jeitos")
+    ax.set_xlabel(t("pior queda de rebanho bovino registrada no ano da onda",
+                   "worst cattle-herd drop recorded in the year of the wave"))
+    titulo(ax, t("O ano em que um município perde 81% do rebanho sem perder uma vaca",
+                 "The year a municipality loses 81% of its herd without losing a cow"),
+           sub=t("ondas de emancipação em Goiás: a mesma queda, medida de dois jeitos",
+                 "waves of municipal splits in Goiás: the same drop, measured two ways"))
 
     for yy, ano in zip(y, d.ano):
-        ax.text(1.015, yy, f"{n_emancipados[int(ano)]} municípios\nemancipados",
+        ax.text(1.015, yy, f"{n_emancipados[int(ano)]} " + t("municípios\nemancipados", "new\nmunicipalities"),
                 transform=ax.get_yaxis_transform(), fontsize=8.6, color=MUTED,
                 va="center", ha="left", linespacing=1.5)
 
     ax.legend(loc="upper left", bbox_to_anchor=(0.0, -0.215), ncol=2, frameon=False,
               fontsize=9, handletextpad=0.4, columnspacing=2.2)
 
-    rodape(fig, "SIDRA/PPM (rebanho bovino municipal) × agregação AMC de Ehrl (2017) para Goiás "
-                "· outputs/diagnosticos/amc_impacto_goias.csv")
+    rodape(fig, t("SIDRA/PPM (rebanho bovino municipal) × agregação AMC de Ehrl (2017) para Goiás "
+                  "· outputs/diagnosticos/amc_impacto_goias.csv",
+                  "SIDRA/PPM (municipal cattle herd) × AMC aggregation of Ehrl (2017) for Goiás "
+                  "· outputs/diagnosticos/amc_impacto_goias.csv"))
 
-    out = OUT_DIR / "amc_emancipacoes.png"
+    out = OUT_DIR / f"amc_emancipacoes{SUFIXO}"
     fig.savefig(out, dpi=190, facecolor=BG)
     plt.close(fig)
     print(f"[3] {out.name}")
@@ -439,8 +478,8 @@ def fig_quebras():
         (1994, "Plano Real", 0),
         (1996, "Lei Kandir", 1),
         (2002, "Plano Safra", 0),
-        (2003, "Boom das commodities", 1),
-        (2012, "Código Florestal", 0),
+        (2003, t("Boom das commodities", "Commodity boom"), 1),
+        (2012, t("Código Florestal", "Forest Code"), 0),
         (2018, "Cerrado Manifesto", 0),
     ]
     fileira_y = {0: 1.62, 1: 1.90}
@@ -488,32 +527,36 @@ def fig_quebras():
     ax.set_xticks(range(1985, 2025, 5))
     limpar(ax, esquerda=False)
     ax.tick_params(axis="y", length=0)
-    ax.set_xlabel("ano da quebra estrutural detectada")
-    titulo(ax, "Onde as séries quebram — e onde a lei mais esperada não deixa marca",
-           sub="15 quebras achadas sem olhar para nenhum marco; Tocantins entra como controle")
+    ax.set_xlabel(t("ano da quebra estrutural detectada", "year of the detected structural break"))
+    titulo(ax, t("Onde as séries quebram — e onde a lei mais esperada não deixa marca",
+                 "Where the series break — and where the most expected law leaves no mark"),
+           sub=t("15 quebras achadas sem olhar para nenhum marco; Tocantins entra como controle",
+                 "15 breaks found without looking at any milestone; Tocantins enters as a control"))
 
-    ax.text(2012, 0.5, "nenhuma quebra em\nnenhuma das seis séries",
+    ax.text(2012, 0.5, t("nenhuma quebra em\nnenhuma das seis séries", "no break in\nany of the six series"),
             ha="center", va="center", fontsize=8.6, color=ACCENT,
             fontweight="600", linespacing=1.5, zorder=5,
             bbox=dict(boxstyle="round,pad=0.45", fc=BG, ec=ACCENT, lw=0.9))
 
     legenda = [
-        Line2D([], [], marker="o", ls="", ms=8, mfc=VEG, mec=VEG, label="vegetação natural"),
-        Line2D([], [], marker="o", ls="", ms=8, mfc=PASTO, mec=PASTO, label="pastagem"),
-        Line2D([], [], marker="o", ls="", ms=8, mfc=AGRIC, mec=AGRIC, label="agricultura"),
+        Line2D([], [], marker="o", ls="", ms=8, mfc=VEG, mec=VEG, label=t("vegetação natural", "natural vegetation")),
+        Line2D([], [], marker="o", ls="", ms=8, mfc=PASTO, mec=PASTO, label=t("pastagem", "pasture")),
+        Line2D([], [], marker="o", ls="", ms=8, mfc=AGRIC, mec=AGRIC, label=t("agricultura", "cropland")),
         Line2D([], [], marker="o", ls="", ms=8, mfc="none", mec=MUTED, mew=1.8,
-               label="órfã: sem marco a ±2 anos"),
+               label=t("órfã: sem marco a ±2 anos", "orphan: no milestone within ±2 years")),
         Line2D([], [], marker="o", ls="", ms=11, mfc=CINZA, mec=CINZA, alpha=0.5,
-               label="área do ponto = força da quebra (F)"),
+               label=t("área do ponto = força da quebra (F)", "dot area = break strength (F)")),
     ]
     ax.legend(handles=legenda, loc="upper left", bbox_to_anchor=(0.0, -0.175),
               ncol=5, frameon=False, fontsize=8.6, handletextpad=0.35,
               columnspacing=1.5)
 
-    rodape(fig, "MapBiomas col. 10.1 (Δ anual por classe, GO e TO) · sup-F de Quandt-Andrews com "
-                "segmentação binária, F > 5,0 · outputs/correlacoes/quebras_resultados.csv")
+    rodape(fig, t("MapBiomas col. 10.1 (Δ anual por classe, GO e TO) · sup-F de Quandt-Andrews com "
+                  "segmentação binária, F > 5,0 · outputs/correlacoes/quebras_resultados.csv",
+                  "MapBiomas col. 10.1 (annual Δ by class, GO and TO) · Quandt-Andrews sup-F with "
+                  "binary segmentation, F > 5.0 · outputs/correlacoes/quebras_resultados.csv"))
 
-    out = OUT_DIR / "quebras_calendario.png"
+    out = OUT_DIR / f"quebras_calendario{SUFIXO}"
     fig.savefig(out, dpi=190, facecolor=BG)
     plt.close(fig)
     orfas = d[~d.coincide_marco]

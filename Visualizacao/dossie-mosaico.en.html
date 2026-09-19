@@ -1,0 +1,1465 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>The Case of the Mosaic of Uses — Goiás, MapBiomas × SIDRA (1985–2024)</title>
+
+  <meta name="description" content="Between 2020 and 2024, a MapBiomas class meant for ambiguous pixels (cropland or pasture, indistinguishable at 30 metres) absorbed almost all of the recent agricultural expansion of Goiás. Four independent tests examine whether the change lies in the landscape or in the measuring yardstick.">
+  <meta property="og:title" content="The Case of the Mosaic of Uses · Goiás, MapBiomas × SIDRA (1985–2024)">
+  <meta property="og:description" content="Between 2020 and 2024, a MapBiomas class meant for ambiguous pixels absorbed almost all of the recent agricultural expansion of Goiás. Four independent tests.">
+  <meta property="og:type" content="website">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23fafaf7'/%3E%3Ccircle cx='32' cy='32' r='14' fill='%238b3a1d'/%3E%3C/svg%3E">
+
+  <link rel="alternate" hreflang="pt-BR" href="dossie-mosaico.html">
+  <link rel="alternate" hreflang="en" href="dossie-mosaico.en.html">
+
+  <link rel="stylesheet" href="assets/css/styles.css?v=5">
+
+  <style>
+    body.investigacao-page {
+      line-height: 1.7;
+    }
+
+    /* ── Barra de navegação ─────────────────────────────────────────── */
+    .ds-nav-bar {
+      background: #ffffff;
+      border-bottom: 1px solid var(--color-rule);
+      padding: 0.8rem 1.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+    }
+    .ds-nav-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+    .ds-back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--color-accent);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.88rem;
+      padding: 0.4rem 0.8rem;
+      border-radius: 999px;
+      background: rgba(139, 58, 29, 0.08);
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .ds-back-link:hover {
+      background: var(--color-accent);
+      color: #ffffff;
+    }
+    .ds-nav-brand {
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--color-fg);
+      display: none;
+    }
+    .ds-nav-badge {
+      font-family: var(--font-sans);
+      background: var(--color-rule);
+      color: var(--color-fg);
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    @media (min-width: 640px) {
+      .ds-nav-brand { display: inline; }
+    }
+
+    /* ── Seletor de idioma PT/EN (mesmo visual de index.html) ─────────── */
+    .ds-nav-right { display: flex; align-items: center; gap: 0.75rem; }
+    .lang-switch {
+      display: flex;
+      gap: 1px;
+      font-family: var(--font-sans);
+      font-size: 0.7rem;
+      letter-spacing: 0.06em;
+      border: 1px solid var(--color-rule);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .lang-switch a {
+      padding: 0.24rem 0.5rem;
+      text-decoration: none;
+      color: var(--color-muted);
+      background: var(--color-bg, #fafaf7);
+    }
+    .lang-switch a:hover { background: #efece4; color: var(--color-fg); }
+    .lang-switch a[aria-current="true"] {
+      background: var(--color-accent);
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .investigacao-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 5rem;
+    }
+
+    /* ── Cabeçalho ──────────────────────────────────────────────────── */
+    .investigacao-header {
+      border-bottom: 2px solid var(--color-rule);
+      padding-bottom: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .investigacao-tag {
+      display: inline-block;
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      background: #8b3a1d15;
+      color: var(--color-accent);
+      padding: 0.25rem 0.75rem;
+      border-radius: 4px;
+      border: 1px solid #8b3a1d33;
+      margin-bottom: 1rem;
+    }
+
+    .investigacao-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--color-fg);
+      line-height: 1.15;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .investigacao-subtitle {
+      font-size: 1.2rem;
+      color: var(--color-muted);
+      margin-bottom: 1.5rem;
+      max-width: 68ch;
+    }
+
+    .investigacao-meta-bar {
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      color: var(--color-muted);
+      background: rgba(216, 214, 207, 0.25);
+      padding: 0.9rem 1.25rem;
+      border-radius: 6px;
+      border: 1px solid var(--color-rule);
+      line-height: 1.6;
+    }
+    .investigacao-meta-bar strong { color: var(--color-fg); }
+
+    /* ── KPIs ───────────────────────────────────────────────────────── */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1.1rem;
+      margin-bottom: 2.5rem;
+    }
+    .kpi-card {
+      background: #ffffff;
+      border: 1px solid var(--color-rule);
+      border-radius: 8px;
+      padding: 1.1rem 1.3rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+      position: relative;
+      overflow: hidden;
+    }
+    .kpi-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 4px; height: 100%;
+    }
+    .kpi-card.kpi-soja::before { background-color: var(--color-soja); }
+    .kpi-card.kpi-agric::before { background-color: var(--color-agric); }
+    .kpi-card.kpi-mosaico::before { background-color: var(--color-mosaico); }
+    .kpi-card.kpi-razao::before { background-color: #5a3d8b; }
+    .kpi-label {
+      font-family: var(--font-sans);
+      font-size: 0.76rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--color-muted);
+      margin-bottom: 0.4rem;
+    }
+    .kpi-value {
+      font-family: var(--font-sans);
+      font-size: 1.7rem;
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--color-fg);
+      margin-bottom: 0.4rem;
+    }
+    .kpi-sub {
+      font-size: 0.83rem;
+      color: var(--color-muted);
+      line-height: 1.4;
+    }
+
+    /* ── Roteiro (TOC) ──────────────────────────────────────────────── */
+    .roteiro {
+      background: #fff;
+      border: 1px solid var(--color-rule);
+      border-radius: 10px;
+      padding: 1.5rem 1.75rem;
+      margin-bottom: 3rem;
+    }
+    .roteiro h2 {
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-muted);
+      margin-bottom: 1rem;
+    }
+    .roteiro ol {
+      margin: 0;
+      padding-left: 1.35rem;
+      columns: 1;
+    }
+    .roteiro li { margin-bottom: 0.6rem; }
+    .roteiro a {
+      color: var(--color-fg);
+      text-decoration: none;
+      font-weight: 600;
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+    }
+    .roteiro a:hover { color: var(--color-accent); }
+    .roteiro-teaser {
+      display: block;
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: 0.92rem;
+      color: var(--color-muted);
+      margin-top: 0.1rem;
+    }
+
+    /* ── Capítulos ──────────────────────────────────────────────────── */
+    .capitulo {
+      margin-bottom: 3.25rem;
+      scroll-margin-top: 5rem;
+    }
+    .capitulo-eyebrow {
+      font-family: var(--font-sans);
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--color-accent);
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      margin-bottom: 0.4rem;
+    }
+    .capitulo h2 {
+      font-size: 1.7rem;
+      margin-bottom: 1.1rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--color-rule);
+    }
+    .capitulo h3 {
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      text-transform: none;
+      letter-spacing: 0;
+      color: var(--color-fg);
+      font-weight: 700;
+      margin: 1.6rem 0 0.7rem;
+    }
+    .voltar-topo {
+      display: inline-block;
+      margin-top: 0.5rem;
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+      color: var(--color-muted);
+      text-decoration: none;
+      border-bottom: 1px dotted var(--color-rule);
+    }
+    .voltar-topo:hover { color: var(--color-accent); }
+
+    /* ── Blocos utilitários ─────────────────────────────────────────── */
+    .pista {
+      background: rgba(139, 58, 29, 0.045);
+      border-left: 4px solid var(--color-accent);
+      padding: 1.1rem 1.4rem;
+      margin: 1.5rem 0;
+      border-radius: 0 8px 8px 0;
+    }
+    .pista h4 {
+      font-family: var(--font-sans);
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--color-accent);
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .pista p:last-child { margin-bottom: 0; }
+
+    .veredito-box {
+      background: rgba(45, 90, 61, 0.05);
+      border-left: 4px solid var(--color-veg);
+      padding: 1.1rem 1.4rem;
+      margin: 1.5rem 0;
+      border-radius: 0 8px 8px 0;
+    }
+    .veredito-box h4 {
+      font-family: var(--font-sans);
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--color-veg);
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .veredito-box p:last-child { margin-bottom: 0; }
+
+    .nao-mostra {
+      border: 1px dashed var(--color-rule);
+      background: #fbfaf7;
+      padding: 1rem 1.3rem;
+      margin: 1.5rem 0;
+      border-radius: 8px;
+      font-size: 0.94rem;
+    }
+    .nao-mostra h4 {
+      font-family: var(--font-sans);
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--color-muted);
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .nao-mostra p:last-child { margin-bottom: 0; }
+
+    /* ── Gráficos ───────────────────────────────────────────────────── */
+    .chart-box {
+      background: #fafaf7;
+      border: 1px solid var(--color-rule);
+      border-radius: 8px;
+      padding: 1.4rem 1.4rem 1.2rem;
+      margin: 1.6rem 0;
+    }
+    .chart-container { position: relative; width: 100%; }
+    .chart-container svg {
+      width: 100%;
+      max-width: 700px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+    .chart-caption {
+      font-family: var(--font-sans);
+      font-size: 0.81rem;
+      color: var(--color-muted);
+      margin-top: 0.75rem;
+      text-align: center;
+      line-height: 1.5;
+    }
+    .chart-legend {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem 1.1rem;
+      margin-bottom: 0.75rem;
+      font-family: var(--font-sans);
+      font-size: 0.77rem;
+      color: var(--color-fg);
+    }
+    .legend-item { display: inline-flex; align-items: center; gap: 0.35rem; }
+    .legend-line { display: inline-block; width: 18px; height: 3px; border-radius: 1px; flex-shrink: 0; }
+    .legend-line--dash { background: transparent !important; height: 0; border-top: 2.5px dashed; }
+    .legend-swatch { display: inline-block; width: 11px; height: 11px; border-radius: 2px; flex-shrink: 0; }
+
+    /* ── Tabelas ────────────────────────────────────────────────────── */
+    .tabela-wrap { overflow-x: auto; margin: 1.4rem 0; }
+    .tabela-dados {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-sans);
+      font-size: 0.84rem;
+    }
+    .tabela-dados th {
+      background: rgba(216, 214, 207, 0.4);
+      color: var(--color-fg);
+      font-weight: 700;
+      text-align: left;
+      padding: 0.6rem 0.85rem;
+      border-bottom: 2px solid var(--color-rule);
+      white-space: nowrap;
+    }
+    .tabela-dados td {
+      padding: 0.6rem 0.85rem;
+      border-bottom: 1px solid var(--color-rule);
+      white-space: nowrap;
+    }
+    .tabela-dados tr:hover { background: rgba(250, 250, 247, 0.8); }
+    .tabela-dados .num { text-align: right; font-variant-numeric: tabular-nums; }
+
+    /* ── Detalhes (progressive disclosure) ──────────────────────────── */
+    details.leia-mais {
+      background: #fff;
+      border: 1px solid var(--color-rule);
+      border-radius: 6px;
+      margin: 1.4rem 0;
+      overflow: hidden;
+    }
+    details.leia-mais summary {
+      font-family: var(--font-sans);
+      font-size: 0.83rem;
+      font-weight: 600;
+      color: var(--color-fg);
+      padding: 0.7rem 1rem;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    details.leia-mais summary::-webkit-details-marker { display: none; }
+    details.leia-mais summary::after {
+      content: "show table +";
+      font-size: 0.78rem;
+      font-weight: 400;
+      color: var(--color-accent);
+    }
+    details.leia-mais[open] summary::after { content: "collapse −"; }
+    details.leia-mais summary:hover { background: #f5f3ed; }
+    details.leia-mais .leia-mais-corpo { padding: 0 1rem 1rem; }
+
+    /* ── Barra de composição (reaproveita o vocabulário visual do site) */
+    .composicao-bloco { margin: 1.2rem 0 1.6rem; }
+    .composicao-linha {
+      display: flex; align-items: center; gap: 0.9rem; margin-bottom: 0.55rem;
+    }
+    .composicao-rotulo {
+      font-family: var(--font-sans); font-size: 0.82rem; color: var(--color-fg);
+      width: 165px; flex-shrink: 0;
+    }
+    .composicao-valor {
+      font-family: var(--font-sans); font-size: 0.82rem; font-weight: 700;
+      color: var(--color-fg); width: 52px; flex-shrink: 0; text-align: right;
+    }
+    .composicao-trilho {
+      flex: 1 1 auto;
+      min-width: 0;
+      height: 20px;
+      background: #f1efe8;
+      border: 1px solid var(--color-rule);
+      border-radius: 3px;
+      overflow: hidden;
+      display: block;
+    }
+    .composicao-trilho .bar-segment { display: block; }
+
+    /* ── Gradiente geográfico (barras horizontais simples) ──────────── */
+    .gradiente-bloco { margin: 1.4rem 0; }
+    .gradiente-linha {
+      display: grid;
+      grid-template-columns: 128px 1fr 46px;
+      align-items: center;
+      gap: 0.7rem;
+      margin-bottom: 0.5rem;
+      font-family: var(--font-sans);
+      font-size: 0.82rem;
+    }
+    .gradiente-rotulo { color: var(--color-fg); }
+    .gradiente-trilho {
+      background: #f1efe8;
+      border-radius: 3px;
+      height: 14px;
+      overflow: hidden;
+      border: 1px solid var(--color-rule);
+    }
+    .gradiente-preenchimento {
+      height: 100%;
+      background: var(--color-agric);
+      border-radius: 2px 0 0 2px;
+    }
+    .gradiente-valor { text-align: right; font-weight: 700; color: var(--color-fg); }
+
+    /* ── Rodapé ─────────────────────────────────────────────────────── */
+    .ds-footer {
+      border-top: 2px solid var(--color-rule);
+      padding-top: 2rem;
+      margin-top: 3rem;
+      font-family: var(--font-sans);
+      font-size: 0.83rem;
+      color: var(--color-muted);
+      line-height: 1.6;
+    }
+    .ds-footer-bottom {
+      text-align: center;
+      margin-top: 1.5rem;
+      color: #8a8a82;
+    }
+    .ds-footer-bottom a { color: var(--color-accent); text-decoration: underline; }
+  </style>
+</head>
+
+<body class="investigacao-page" id="top">
+
+  <header class="ds-nav-bar">
+    <div class="ds-nav-inner">
+      <a href="index.en.html" class="ds-back-link">← Back to the main visualisation</a>
+      <div class="ds-nav-brand">Goiás 1985–2024</div>
+      <div class="ds-nav-right">
+        <span class="ds-nav-badge">Investigation · Mosaic of Uses</span>
+        <nav class="lang-switch" aria-label="Language">
+          <a href="dossie-mosaico.html" lang="pt-BR" hreflang="pt-BR">PT</a>
+          <a href="dossie-mosaico.en.html" lang="en" hreflang="en" aria-current="true">EN</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <div class="investigacao-container">
+
+    <header class="investigacao-header">
+      <h1 class="investigacao-title">The Case of the Mosaic of Uses</h1>
+      <p class="investigacao-subtitle">
+        Between 2020 and 2024, a MapBiomas class meant for ambiguous pixels (cropland or pasture,
+        indistinguishable at 30 metres) absorbed almost all of the recent agricultural expansion of Goiás,
+        while the "Agriculture" class stood still. Four independent tests examine whether the
+        change lies in the landscape or in the measuring yardstick.
+      </p>
+      <div class="investigacao-meta-bar">
+        A self-contained excerpt from a master's dissertation on land use and land cover in Goiás
+        (1985–2024). <strong>Sources:</strong> MapBiomas (collections 6, 8, 9, 10.1 and the 10&nbsp;m collection) and
+        IBGE/SIDRA (Municipal Agricultural Production and Municipal Livestock Survey).
+      </div>
+    </header>
+
+    <div class="kpi-grid">
+      <div class="kpi-card kpi-soja">
+        <div class="kpi-label">New cropland, measured in the field</div>
+        <div class="kpi-value">+38.1%</div>
+        <div class="kpi-sub">Soy planted in Goiás, 2020→2024 (IBGE/SIDRA): 3.58 → 4.94 million hectares.</div>
+      </div>
+      <div class="kpi-card kpi-agric">
+        <div class="kpi-label">The same window, on the map</div>
+        <div class="kpi-value">+1.1%</div>
+        <div class="kpi-sub">MapBiomas "Agriculture" class, 2020→2024: practically frozen (+0.06 Mha).</div>
+      </div>
+      <div class="kpi-card kpi-mosaico">
+        <div class="kpi-label">Where it ended up</div>
+        <div class="kpi-value">+60.5%</div>
+        <div class="kpi-sub">"Mosaic of Uses", 2020→2024: +1.35 Mha, almost the size of the mismatch above.</div>
+      </div>
+      <div class="kpi-card kpi-razao">
+        <div class="kpi-label">The switch of destination</div>
+        <div class="kpi-value">0.6× → 32.5×</div>
+        <div class="kpi-sub">Mosaic/Agriculture ratio among the destinations of the pasture that leaves, 2015→2024.</div>
+      </div>
+    </div>
+
+    <nav class="roteiro" aria-label="Outline of the investigation">
+      <h2>Outline</h2>
+      <ol>
+        <li><a href="#origem">1. The correction that opened the case</a></li>
+        <li><a href="#primeiro-sinal">2. The drop in the age of conversions: from 22 to 4 years</a></li>
+        <li><a href="#contando">3. The destination of pasture shifted from Agriculture to Mosaic</a></li>
+        <li><a href="#nao-parou">4. Soy grew 38% while the map's Agriculture stood still</a></li>
+        <li><a href="#duas-hipoteses">5. Two competing hypotheses</a></li>
+        <li><a href="#teste-forma">6. The shape of the signal points to the yardstick, not the field</a></li>
+        <li><a href="#teste-centro-massa">7. The growth of the Mosaic is concentrated on the frontier</a></li>
+        <li><a href="#teste-colecoes">8. The rise is tied to the calendar, not to the edge of the collection</a></li>
+        <li><a href="#teste-sentinel">9. A finer sensor does not resolve the Mosaic into cropland</a></li>
+        <li><a href="#tratamento">10. The double yardstick: floor from the class, ceiling from the union</a></li>
+      </ol>
+    </nav>
+
+    <!-- 1 — ORIGIN ============================================================ -->
+    <section class="capitulo" id="origem">
+      <div class="capitulo-eyebrow">Chapter 1</div>
+      <h2>The correction that opened the case</h2>
+
+      <p>
+        The investigation grew out of a question about the age of pastures that are converted to
+        cropland, which requires separating <strong>Pasture</strong> (class 15) from
+        <strong>Agriculture</strong> (class 19) in the annual MapBiomas map. A third class,
+        the <strong>"Mosaic of Uses"</strong> (class 21), is reserved for pixels where the satellite
+        image (30 metres) cannot tell whether that spot is cropland, pasture or a
+        mixture of the two. In the original count this class was left out because a line was missing
+        from the lookup table, and an automatic fill covered the gap with the wrong
+        answer, making the pixels vanish from the count without any error message.
+      </p>
+
+      <div class="pista">
+        <h4>The accounting defect</h4>
+        <p>
+          About <strong>4,900 pixels</strong> whose previous class was Mosaic of Uses were
+          being discarded as "unknown age", when their age was known and they simply did not
+          fit the category table. Once the mapping was corrected, the volume of usable data
+          rose by <strong>44%</strong>, and the rescued pixels were disproportionately of mixed
+          cropland/pasture origin.
+        </p>
+      </div>
+
+      <p>
+        Correcting the accounting would have closed the matter, but replacing the sample with a
+        <strong>full census</strong> of every pixel in Goiás over the 40 years of the series revealed
+        the pattern that the rest of this page examines.
+      </p>
+
+      <a class="voltar-topo" href="#top">↑ outline</a>
+    </section>
+
+    <!-- 2 — FIRST SIGNAL ====================================================== -->
+    <section class="capitulo" id="primeiro-sinal">
+      <div class="capitulo-eyebrow">Chapter 2</div>
+      <h2>The drop in the age of conversions: from 22 to 4 years</h2>
+
+      <p>
+        With the corrected count, the age of pastures at the moment of conversion to cropland
+        revealed four simultaneous anomalies in the most recent years.
+      </p>
+
+      <div class="tabela-wrap">
+        <table class="tabela-dados">
+          <thead>
+            <tr>
+              <th>Year</th>
+              <th class="num">Conversions recorded</th>
+              <th class="num">% with unknown age</th>
+              <th class="num">Median age (known)</th>
+              <th class="num">Observation horizon</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>2019</td><td class="num">1,117,213</td><td class="num">54.9%</td><td class="num">22 years</td><td class="num">34 years</td></tr>
+            <tr><td>2020</td><td class="num">606,821</td><td class="num">47.1%</td><td class="num">20 years</td><td class="num">35 years</td></tr>
+            <tr><td>2021</td><td class="num">224,282</td><td class="num">28.6%</td><td class="num">11 years</td><td class="num">36 years</td></tr>
+            <tr><td>2022</td><td class="num">285,236</td><td class="num">18.2%</td><td class="num"><strong>4 years</strong></td><td class="num">37 years</td></tr>
+            <tr><td>2023</td><td class="num">131,265</td><td class="num">33.6%</td><td class="num">10 years</td><td class="num">38 years</td></tr>
+            <tr><td>2024</td><td class="num">157,245</td><td class="num"><strong>4.0%</strong></td><td class="num">5 years</td><td class="num">39 years</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="chart-caption" style="text-align:left; margin-top:-0.6rem;">
+        "Unknown age" is legitimate, because age can only be computed when the previous
+        conversion was also observed within the series; the relevant column is the one of recorded
+        conversions, which plummets, and the median, which falls with it.
+      </p>
+
+      <p>
+        Catalogued conversions fall from over a million in 2019 to 157 thousand in 2024, and the
+        median age falls from 22 to a range between 4 and 11 years. Four alternative explanations
+        were examined, and none of them held up. Reclassification, in which new agriculture
+        subclasses would be entering the count, does not hold because the total
+        Agriculture area on the map is practically static, as Chapter 4 shows. Spatial
+        concentration, in which the drop would come from fewer municipalities being observed, does not either, since the
+        drop is statewide and monotonic across the whole territory. A change in farmer
+        behaviour contradicts what the field data record, and Chapter 4 gives the numbers.
+        That leaves an isolated hiccup in one specific version of the map, to which Chapter 8 is
+        entirely devoted, and which is not confirmed either.
+      </p>
+
+      <p>
+        With all four ruled out, the remaining question was whether the measure we were taking,
+        "pasture that became cropland", still meant in 2024 the same thing that it
+        meant in 2015.
+      </p>
+
+      <a class="voltar-topo" href="#top">↑ outline</a>
+    </section>
+
+    <!-- 3 — COUNTING ========================================================== -->
+    <section class="capitulo" id="contando">
+      <div class="capitulo-eyebrow">Chapter 3</div>
+      <h2>The destination of pasture shifted from Agriculture to Mosaic</h2>
+
+      <p>
+        The earlier analysis asked only whether pasture became cropland. The full question
+        covers every possible destination, measured pixel by pixel over the 379 million
+        30-metre cells of Goiás across the 40 years of the series. The cut that matters is the split
+        of the pasture that leaves between Agriculture and Mosaic of Uses.
+      </p>
+
+      <div class="chart-box">
+        <div class="chart-legend">
+          <span class="legend-item"><span class="legend-swatch" style="background:rgba(217,106,163,0.65); border:1px solid #d96aa3"></span> Pasture → Agriculture</span>
+          <span class="legend-item"><span class="legend-swatch" style="background:rgba(201,138,75,0.65); border:1px solid #c98a4b"></span> Pasture → Mosaic of Uses</span>
+          <span class="legend-item"><span class="legend-line" style="background:#5a3d8b"></span> Mosaic/Agriculture ratio (right axis)</span>
+        </div>
+        <div class="chart-container" id="chartDestino"></div>
+        <div class="chart-caption">
+          Figure 1. Pasture pixels leaving for Agriculture versus for Mosaic of Uses, by year
+          (full census, in millions of 30&nbsp;m pixels). The ratio between the two destinations
+          rises monotonically from 2015 onwards.
+        </div>
+      </div>
+
+      <div class="tabela-wrap">
+        <table class="tabela-dados">
+          <thead>
+            <tr>
+              <th>Year</th>
+              <th class="num">Pasture→Agriculture</th>
+              <th class="num">Pasture→Mosaic</th>
+              <th class="num">M/A ratio</th>
+              <th class="num">% of exits → Agric.</th>
+              <th class="num">% of exits → Mosaic</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>2000</td><td class="num">1,612,565</td><td class="num">3,111,159</td><td class="num">1.93×</td><td class="num">25.5%</td><td class="num">49.2%</td></tr>
+            <tr><td>2010</td><td class="num">2,601,149</td><td class="num">2,661,703</td><td class="num">1.02×</td><td class="num">38.4%</td><td class="num">39.2%</td></tr>
+            <tr><td>2015</td><td class="num">4,040,382</td><td class="num">2,442,452</td><td class="num"><strong>0.60×</strong></td><td class="num">52.0%</td><td class="num">31.4%</td></tr>
+            <tr><td>2019</td><td class="num">2,072,349</td><td class="num">3,346,353</td><td class="num">1.61×</td><td class="num">29.1%</td><td class="num">47.0%</td></tr>
+            <tr><td>2020</td><td class="num">1,287,587</td><td class="num">4,635,043</td><td class="num">3.60×</td><td class="num">16.8%</td><td class="num">60.6%</td></tr>
+            <tr><td>2021</td><td class="num">615,153</td><td class="num">5,506,210</td><td class="num">8.95×</td><td class="num">8.3%</td><td class="num">73.9%</td></tr>
+            <tr><td>2022</td><td class="num">648,197</td><td class="num">6,774,799</td><td class="num">10.45×</td><td class="num">7.2%</td><td class="num">75.7%</td></tr>
+            <tr><td>2023</td><td class="num">402,679</td><td class="num">7,517,721</td><td class="num">18.67×</td><td class="num">4.3%</td><td class="num">79.8%</td></tr>
+            <tr><td>2024</td><td class="num">303,432</td><td class="num">9,875,689</td><td class="num"><strong>32.55×</strong></td><td class="num"><strong>2.6%</strong></td><td class="num"><strong>85.9%</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="chart-caption" style="text-align:left; margin-top:-0.6rem;">
+        Count over the rectangle enclosing Goiás, which includes strips of neighbouring states and
+        is therefore suited to ratios and shares; the totals in hectares, restricted to the state
+        polygon, appear in the next chapter.
+      </p>
+
+      <p>
+        In 2015, the Mosaic/Agriculture ratio between these destinations was 0.60×, with more than
+        half going to Agriculture. In 2024, <strong>85.9%</strong> of pasture exits end up in
+        Mosaic and only 2.6% in Agriculture, a ratio of <strong>32.5×</strong>.
+      </p>
+
+      <div class="veredito-box">
+        <h4>What this means</h4>
+        <p>
+          The original analysis, "pasture that became cropland", measures an ever smaller slice of the
+          phenomenon. In 2024, the "Agriculture" class captures about <strong>7.5%</strong> of the
+          conversion volume it captured in 2015, not because conversion shrank in that
+          proportion, but because the destination the map assigns to it changed.
+        </p>
+      </div>
+
+      <a class="voltar-topo" href="#top">↑ outline</a>
+    </section>
+
+    <!-- 4 — IT DID NOT STOP =================================================== -->
+    <section class="capitulo" id="nao-parou">
+      <div class="capitulo-eyebrow">Chapter 4</div>
+      <h2>Soy grew 38% while the map's Agriculture stood still</h2>
+
+      <p>
+        The simplest reading of the previous chapter would be that conversion slowed down. Four
+        anchors outside remote sensing show that this reading is false.
+      </p>
+
+      <div class="chart-box">
+        <div class="chart-legend">
+          <span class="legend-item"><span class="legend-line" style="background:#8b3a1d"></span> Planted soy — SIDRA/IBGE (measured in the field)</span>
+          <span class="legend-item"><span class="legend-line legend-line--dash" style="border-color:#d96aa3"></span> Agriculture — MapBiomas</span>
+          <span class="legend-item"><span class="legend-line" style="background:#c98a4b"></span> Mosaic of Uses — MapBiomas</span>
+          <span class="legend-item"><span class="legend-line legend-line--dash" style="border-color:#1a1a1a"></span> Union (Agriculture + Mosaic)</span>
+        </div>
+        <div class="chart-container" id="chartDivergencia"></div>
+        <div class="chart-caption">
+          Figure 2. Cumulative area in Goiás, 2015–2024, in millions of hectares (Mha), restricted to the
+          state polygon. Field soy and the Mosaic rise almost side by side; the map's Agriculture
+          barely moves.
+        </div>
+      </div>
+
+      <p>
+        Soy planted in Goiás, which IBGE surveys in the field, went from 3.578 to 4.942 million
+        hectares between 2020 and 2024, <strong>+1.364 Mha (+38.1%)</strong>. Over the same interval,
+        MapBiomas "Agriculture" went from 5.668 to 5.732 Mha (<strong>+63,930 ha,
+        +1.1%</strong>), against +150 to +180 thousand ha/year between 2015 and 2017. The Mosaic grew from
+        2.235 to 3.586 Mha (<strong>+1.351 Mha</strong>), a magnitude almost identical to IBGE's new
+        soy. The coincidence is too large to be accidental, although it is not proof
+        in itself, since it shows that the accounts balance, not that we know which pixels
+        moved. Pasture keeps leaving, from 13.146 to 11.989 Mha
+        (<strong>−1.157 Mha, −8.8%</strong>), without being counted as arriving in Agriculture.
+      </p>
+
+      <p>
+        There is real and accelerating agricultural expansion in Goiás in these years, visible in the field data,
+        recorded by MapBiomas under the label "Mosaic of Uses", not "Agriculture".
+      </p>
+
+      <a class="voltar-topo" href="#top">↑ outline</a>
+    </section>
+
+    <!-- 5 — TWO HYPOTHESES ==================================================== -->
+    <section class="capitulo" id="duas-hipoteses">
+      <div class="capitulo-eyebrow">Chapter 5</div>
+      <h2>Two competing hypotheses</h2>
+
+      <p>
+        The growth of the Mosaic of Uses admits two readings that the previous chapters do not
+        separate. The first (hypothesis A) is a behaviour of the classifier at the end of the series, since
+        the technical documentation of Collection 10 states that the post-classification filters use
+        backward-looking windows of three and four years, so that a conversion near the temporal
+        edge of the map does not have enough future years to be confirmed, and the classifier
+        may prefer the more cautious answer, "Mosaic". The second (hypothesis B) is a real change
+        in the landscape, since crop-livestock integration is a growing practice in Goiás and
+        a genuinely more mixed landscape should produce more Mosaic because it is right,
+        not because it fails. The two hypotheses produce the same aggregate pattern, and the account
+        balances of Chapter 4, though suggestive, do not show that they are the same pixels.
+        Separating them requires evidence that treats each one distinctly, which is the subject of the
+        four tests that follow.
+      </p>
+
+      <a class="voltar-topo" href="#top">↑ outline</a>
+    </section>
+
+    <!-- 6 — TEST 1: SHAPE ===================================================== -->
+    <section class="capitulo" id="teste-forma">
+      <div class="capitulo-eyebrow">Chapter 6 · Test 1</div>
+      <h2>The shape of the signal points to the yardstick, not the field</h2>
+
+      <p>
+        If the cause were a real change in the field, the map's metric should follow, in
+        shape, the smooth growth that IBGE measures in cropland. If it were a behaviour of the
+        classifier, the metric would move in jolts.
+      </p>
+
+      <div class="chart-box">
+        <div class="chart-legend">
+          <span class="legend-item"><span class="legend-line" style="background:#8b3a1d"></span> Planted soy, annual change (field)</span>
+          <span class="legend-item"><span class="legend-line" style="background:#c98a4b"></span> Pasture→Agriculture, annual change (map)</span>
+        </div>
+        <div class="chart-container" id="chartFormaDegrau"></div>
+        <div class="chart-caption">
+          Figure 3. Year-on-year percentage change. Field soy fluctuates within a narrow band and is
+          almost always positive; the map's pasture→Agriculture flow plunges in ever steeper
+          steps.
+        </div>
+      </div>
+
+      <p>
+        Field soy grows smoothly, with annual changes between −0.5% and +10.6%. The
+        pasture→Agriculture flow moves in steps, at −37.2% in 2016, +11.5% in 2017 and −22.9% in
+        2018, and then descends in ever steeper drops, <strong>−37.9% in 2020 and −52.2%
+        in 2021</strong>, the latter in the year that soy grew +7.8%.
+      </p>
+
+      <div class="pista">
+        <h4>Why the shape matters</h4>
+        <p>
+          The decisions of thousands of independent farmers tend to produce a smooth aggregate at
+          state scale; a threshold shift in the classifier tends to produce steps. The
+          shape of the signal favours the yardstick hypothesis, although an irregular diffusion of
+          crop-livestock integration could also produce jumps.
+        </p>
+      </div>
+
+      <a class="voltar-topo" href="#top">↑ outline</a>
+    </section>
+
+    <!-- 7 — TEST 2: CENTRE OF MASS ============================================ -->
+    <section class="capitulo" id="teste-centro-massa">
+      <div class="capitulo-eyebrow">Chapter 7 · Test 2</div>
+      <h2>The growth of the Mosaic is concentrated on the frontier</h2>
+
+      <p>
+        The geographic centre of mass of each land-use variable in Goiás, which is the
+        area-weighted balance point, shows the agricultural frontier marching north over
+        four decades. If the map's Agriculture underestimates the recent expansion, its centre
+        of mass should stall relative to sources independent of the classifier.
+      </p>
+
+      <div class="chart-box">
+        <div class="chart-legend">
+          <span class="legend-item"><span class="legend-line legend-line--dash" style="border-color:#d96aa3"></span> Agriculture (MapBiomas)</span>
+          <span class="legend-item"><span class="legend-line" style="background:#8b3a1d"></span> Planted soy (SIDRA, field)</span>
+          <span class="legend-item"><span class="legend-line" style="background:#c98a4b"></span> Agriculture ∪ Mosaic (MapBiomas)</span>
+          <span class="legend-item"><span class="legend-line" style="background:#d4b65a"></span> Cattle herd (SIDRA, field)</span>
+        </div>
+        <div class="chart-container" id="chartCentroMassa"></div>
+        <div class="chart-caption">
+          Figure 4. Latitude of the centre of mass, 2018–2024 (degrees South; up = further north).
+          Agriculture is the only line that does not move; adding the Mosaic restores the advance north.
+        </div>
+      </div>
+
+      <p>
+        Between 2019 and 2024, the centre of mass of Agriculture advanced only
+        <strong>+0.2 km north</strong> (95% CI includes zero), while planted soy and the cattle
+        herd (IBGE) advanced <strong>+8 to +12 km</strong>. The Agriculture+Mosaic union advances
+        <strong>+4.1 km [+1.0; +6.9]</strong>, an intermediate value distinct from zero.
+      </p>
+
+      <div class="veredito-box">
+        <h4>The growth of the Mosaic lands on the frontier</h4>
+        <p>
+          Computed on the 2019–2024 increment rather than on the total stock, the centre of mass of the
+          Mosaic's growth lies <strong>46.5 km north</strong> of the centre of mass of visible
+          Agriculture. By municipality, the growth of the Mosaic has a correlation of
+          <strong>r = 0.84</strong> with the growth of IBGE planted soy, with
+          almost identical magnitudes (1.53 against 1.54 Mha). The spatial correlation shows coincidence of
+          location, not identity of content.
+        </p>
+      </div>
+
+      <p>
+        Satellite soy, measured in the MapBiomas raster, and field soy, surveyed by IBGE,
+        agreed with a correlation of
+        0.89 in latitude for 37 years. Between 2020 and 2024 they part ways for the first time.
+        Satellite soy retreats <strong>7.1 km south</strong>, field soy advances <strong>8.2 km
+        north</strong>, a gap of almost 15 km. What retreated was the reach of the label, since
+        new soy was appearing where the Mosaic was growing and was no longer recognised as soy.
+      </p>
+
+      <a class="voltar-topo" href="#top">↑ outline</a>
+    </section>
+
+    <!-- 8 — TEST 3: OLDER COLLECTIONS ========================================= -->
+    <section class="capitulo" id="teste-colecoes">
+      <div class="capitulo-eyebrow">Chapter 8 · Test 3</div>
+      <h2>The rise is tied to the calendar, not to the edge of the collection</h2>
+
+      <p>
+        MapBiomas reprocesses the full series every year as a new "collection". We reprocessed
+        Collections 10.1 (up to 2024), 9 (up to 2023), 8 (up to 2022) and 6 (up to 2020). If the jump in the
+        ratio were an edge artefact, with the classifier hesitating near the end of the series, it
+        should follow the edge of each collection, not a fixed calendar year.
+      </p>
+
+      <div class="chart-box">
+        <div class="chart-legend">
+          <span class="legend-item"><span class="legend-line" style="background:#c4ad8a"></span> Collection 6 (up to 2020)</span>
+          <span class="legend-item"><span class="legend-line" style="background:#c97052"></span> Collection 8 (up to 2022)</span>
+          <span class="legend-item"><span class="legend-line" style="background:#c98a4b"></span> Collection 9 (up to 2023)</span>
+          <span class="legend-item"><span class="legend-line" style="background:#8b3a1d"></span> Collection 10.1 (up to 2024)</span>
+        </div>
+        <div class="chart-container" id="chartBordaMovel"></div>
+        <div class="chart-caption">
+          Figure 5. Mosaic/Agriculture ratio by collection, log scale. Each line ends at
+          its own last year, and none of them shoots up near its own end; all of them shoot up
+          from 2021 onwards, even the one that never gets there.
+        </div>
+      </div>
+
+      <p>
+        The ratio explodes from 2021 onwards in every collection that reaches that year (8, 9 and 10.1) and
+        is absent in Collection 6, which ends in 2020 and whose last values, 4.66 in 2018,
+        4.06 in 2019 and 2.59 in 2020, keep falling as it approaches its own edge. Nor is the
+        final year inflated. Recounting <strong>2023</strong> as the terminal year of Collection 9 and
+        as an interior year of Collection 10.1, the terminal value is the smaller one (Collection 9 =
+        <strong>32.5</strong>; Collection 10.1 = <strong>34.7</strong>); gaining a year of future
+        did not reduce the ratio. Crossing, pixel by pixel, all the Mosaic that Collection 9 saw in 2023
+        against what Collection 10.1 saw at the same location in 2024, the label is stable.
+      </p>
+
+      <details class="leia-mais">
+        <summary>See the full table of the pixel-by-pixel reclassification</summary>
+        <div class="leia-mais-corpo">
+          <div class="tabela-wrap">
+            <table class="tabela-dados">
+              <thead>
+                <tr>
+                  <th>Year (Collection 9)</th>
+                  <th class="num">Stays Mosaic</th>
+                  <th class="num">Becomes Agriculture</th>
+                  <th class="num">Becomes Pasture</th>
+                  <th class="num">Other destination</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>2010 (deep interior)</td><td class="num">62.7%</td><td class="num"><strong>2.4%</strong></td><td class="num">12.9%</td><td class="num">22.0%</td></tr>
+                <tr><td>2015</td><td class="num">64.0%</td><td class="num">4.0%</td><td class="num">12.4%</td><td class="num">19.7%</td></tr>
+                <tr><td>2019</td><td class="num">63.5%</td><td class="num">7.3%</td><td class="num">11.9%</td><td class="num">17.3%</td></tr>
+                <tr><td>2023 (edge of Collection 9)</td><td class="num">68.7%</td><td class="num"><strong>2.5%</strong></td><td class="num">13.9%</td><td class="num">15.0%</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="font-size:0.85rem; color:var(--color-muted); margin-top:0.8rem;">
+            "Other destination" groups classes outside the three tracked (natural vegetation, urban area,
+            water, etc.). The destination is read one year later, in Collection 10.1.
+          </p>
+        </div>
+      </details>
+
+      <p>
+        Only <strong>2.5%</strong> of the pixels that Collection 9 labelled Mosaic in 2023 move
+        to Agriculture in Collection 10.1 a year later, the same rate as the <strong>2.4%</strong> of
+        pixels that had already been Mosaic for more than a decade. The three findings rule out the
+        edge-instability hypothesis. The pattern is stable, reproduced in three collections, anchored
+        from 2021 onwards, and coincides with the real acceleration of soy measured by IBGE.
+      </p>
+
+      <div class="nao-mostra">
+        <h4>What this test does not separate</h4>
+        <p>
+          Refuting edge instability is not the same as proving a classifier artefact. A
+          cause shared by all collections, whether a change in the Landsat sensor around
+          2021 or a methodology update applied retroactively, would produce the same
+          pattern without being an edge error. This test separates edge from calendar, not classifier from landscape.
+        </p>
+      </div>
+
+      <a class="voltar-topo" href="#top">↑ outline</a>
+    </section>
+
+    <!-- 9 — TEST 4: SENTINEL ================================================== -->
+    <section class="capitulo" id="teste-sentinel">
+      <div class="capitulo-eyebrow">Chapter 9 · Test 4</div>
+      <h2>A finer sensor does not resolve the Mosaic into cropland</h2>
+
+      <p>
+        If the Mosaic were edge mixing within a 30-metre pixel, a finer sensor
+        should reveal clean cropland. MapBiomas publishes a collection based on
+        <strong>Sentinel-2</strong>, at 10 metres and covering 2017 to 2024, which is immune to the hypothesis
+        of a change in the Landsat input, but which inherits the same general legend and therefore does not separate
+        "genuinely mixed landscape" from "caution in the face of recent conversion". MapBiomas
+        itself warns against comparing years within this collection, so here it serves
+        to measure composition in a single year. Within each 30-metre cell labelled Mosaic,
+        the nine corresponding 10-metre cells see the following.
+      </p>
+
+      <div class="composicao-bloco">
+        <div class="composicao-linha">
+          <span class="composicao-rotulo">Agriculture</span>
+          <div class="composicao-trilho"><span class="bar-segment bar-agric" style="width:11.5%"></span></div>
+          <span class="composicao-valor">11.5%</span>
+        </div>
+        <div class="composicao-linha">
+          <span class="composicao-rotulo">Pasture</span>
+          <div class="composicao-trilho"><span class="bar-segment bar-pasto" style="width:24.5%"></span></div>
+          <span class="composicao-valor">24.5%</span>
+        </div>
+        <div class="composicao-linha">
+          <span class="composicao-rotulo">Mosaic of Uses</span>
+          <div class="composicao-trilho"><span class="bar-segment bar-mosaico" style="width:33.5%"></span></div>
+          <span class="composicao-valor">33.5%</span>
+        </div>
+        <div class="composicao-linha">
+          <span class="composicao-rotulo">Natural veg. and other</span>
+          <div class="composicao-trilho"><span class="bar-segment bar-veg" style="width:30.5%"></span></div>
+          <span class="composicao-valor">30.5%</span>
+        </div>
+      </div>
+      <p class="chart-caption" style="text-align:left; margin-top:-0.6rem;">
+        Figure 6. Composition at Sentinel-2 (10&nbsp;m) within each cell that Landsat (30&nbsp;m)
+        labels Mosaic of Uses in Goiás, 2024. Mean of six latitude strips.
+      </p>
+
+      <p>
+        On the calibration yardstick, pure Pasture has <strong>2%</strong> cropland at Sentinel-2
+        (the floor) and pure Agriculture has <strong>78%</strong> (the ceiling). The Mosaic, at 11.5%,
+        is only <strong>12% of the way</strong> between pasture and cropland.
+      </p>
+
+      <div class="veredito-box">
+        <h4>Verdict of Test 4</h4>
+        <p>
+          An independent sensor three times finer does not resolve the Mosaic into cropland. The largest
+          piece is still Mosaic (33.5%), and the fraction labelled with confidence is pasture and
+          vegetation, not cropland.
+        </p>
+      </div>
+
+      <p>
+        In the pixels closest to the label change (pasture in 2017 already labelled Mosaic
+        in 2024), the composition shifts to 18% cropland, 31% pasture, 43% Mosaic and 8% something else,
+        with a clear geographic gradient.
+      </p>
+
+      <div class="gradiente-bloco">
+        <div class="gradiente-linha">
+          <span class="gradiente-rotulo">Rio Verde (southwest)</span>
+          <div class="gradiente-trilho"><div class="gradiente-preenchimento" style="width:27.5%; background:var(--color-agric);"></div></div>
+          <span class="gradiente-valor">27.5%</span>
+        </div>
+        <div class="gradiente-linha">
+          <span class="gradiente-rotulo">Itumbiara (south)</span>
+          <div class="gradiente-trilho"><div class="gradiente-preenchimento" style="width:16.0%; background:var(--color-agric);"></div></div>
+          <span class="gradiente-valor">16.0%</span>
+        </div>
+        <div class="gradiente-linha">
+          <span class="gradiente-rotulo">Catalão (southeast)</span>
+          <div class="gradiente-trilho"><div class="gradiente-preenchimento" style="width:20.0%; background:var(--color-agric);"></div></div>
+          <span class="gradiente-valor">20.0%</span>
+        </div>
+        <div class="gradiente-linha">
+          <span class="gradiente-rotulo">Goiânia (centre)</span>
+          <div class="gradiente-trilho"><div class="gradiente-preenchimento" style="width:13.0%; background:var(--color-agric);"></div></div>
+          <span class="gradiente-valor">13.0%</span>
+        </div>
+        <div class="gradiente-linha">
+          <span class="gradiente-rotulo">Posse (northeast)</span>
+          <div class="gradiente-trilho"><div class="gradiente-preenchimento" style="width:11.9%; background:var(--color-agric);"></div></div>
+          <span class="gradiente-valor">11.9%</span>
+        </div>
+        <div class="gradiente-linha">
+          <span class="gradiente-rotulo">Porangatu (north)</span>
+          <div class="gradiente-trilho"><div class="gradiente-preenchimento" style="width:8.6%; background:var(--color-agric);"></div></div>
+          <span class="gradiente-valor">8.6%</span>
+        </div>
+      </div>
+      <p class="chart-caption" style="text-align:left; margin-top:-0.6rem;">
+        Figure 7. Cropland fraction at Sentinel-2 within the 2017-pasture pixels that became
+        2024-Mosaic, by latitude strip (south → north).
+      </p>
+
+      <p>
+        The further south, near the consolidated agricultural core, the more the mixture resembles
+        cropland; the further north, the more it resembles pasture and vegetation, converging
+        with the results of Tests 1 and 2 by a third independent route.
+      </p>
+
+      <div class="nao-mostra" id="veredito">
+        <h4>What the four tests do not separate</h4>
+        <p>
+          None of the four tests definitively separates a behaviour of the classifier
+          from a genuinely more intense crop-livestock integration on the frontier. Both
+          explanations remain compatible with everything that was found. What the tests allow
+          us to say is that the artefact share is too large to be dismissed, and that any
+          reading that ignores it is incomplete.
+        </p>
+      </div>
+
+      <a class="voltar-topo" href="#top">↑ outline</a>
+    </section>
+
+    <!-- 10 — TREATMENT ======================================================== -->
+    <section class="capitulo" id="tratamento">
+      <div class="capitulo-eyebrow">Chapter 10</div>
+      <h2>The double yardstick: floor from the class, ceiling from the union</h2>
+
+      <p>
+        The direct consequence hits this very work first, because any trend reading
+        that depends on the MapBiomas "Agriculture" class in a window touching 2020 to
+        2024 is no longer reliable as it stands, and the age composition of the pastures converted
+        in that period, which was the question the investigation started from, is the most direct case.
+        The problem lies not in the method of analysis, but in the object it measures, which changed
+        composition midway.
+      </p>
+
+      <p>
+        Faced with an ambiguity that the evidence does not fully close, we therefore adopted a
+        rule for the rest of the work.
+      </p>
+
+      <div class="veredito-box" style="background: rgba(139,58,29,0.045); border-left-color: var(--color-accent);">
+        <h4>The rule</h4>
+        <p>
+          Whenever a question depends on "how much became cropland" in a window touching 2020
+          onwards, we report an <strong>interval</strong>, not a single number. The <strong>floor</strong>
+          is given by the Agriculture class alone, which probably undercounts the recent expansion, and the
+          <strong>ceiling</strong> by Agriculture plus the entire Mosaic of Uses, which probably
+          overcounts, since it includes legitimate crop-livestock integration and old Mosaic unrelated
+          to this episode. A conclusion is only declared robust if it holds at
+          both ends of the interval. And whenever there is a source that does not pass through the classifier
+          (planted soy, cattle herd, rural credit, production value, all from IBGE or from the
+          Central Bank), it is that source, not the interval, that has the final word.
+        </p>
+      </div>
+
+      <p>
+        The sum does not "undo" the problem, since assuming that all the Mosaic is mislabelled cropland
+        is false (the class already existed, stable, at around 2 million hectares before 2020,
+        and includes genuine crop-livestock integration). It answers a coarser question
+        ("how much left pure pasture for cropland-or-mixed-use?"), robust to the label change by
+        construction, but which mixes productive conversion with real integration.
+      </p>
+
+      <a class="voltar-topo" href="#top">↑ outline</a>
+    </section>
+
+    <footer class="ds-footer">
+      <p>
+        <strong>Data sources.</strong> MapBiomas, Collections 6, 8, 9 and 10.1 (Landsat, 30&nbsp;m) and
+        Collection 3 of the 10&nbsp;m series (Sentinel-2); algorithm technical document (ATBD) of Collection
+        10. IBGE/SIDRA, Municipal Agricultural Production (planted soy) and Municipal Livestock Survey
+        (cattle herd).
+      </p>
+      <p>
+        <strong>Method:</strong> full pixel census (not a sample) over the Goiás raster cube,
+        1985–2024; comparison between collections by local reprocessing and by server-side reading;
+        per-pixel composition obtained by grid crossing between the Landsat collection and the
+        Sentinel-2 collection. Every number on this page comes from a direct count over the public
+        MapBiomas maps or from public IBGE tables; none is estimated by extrapolation.
+      </p>
+      <div class="ds-footer-bottom">
+        A standalone page, part of a master's dissertation in progress.
+        <a href="index.en.html">Back to the main visualisation</a>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="assets/js/vendor/d3.v7.min.js?v=2"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+      var CR = "#d8d6cf", CM = "#6b6b6b";
+
+      function axStyle(g) {
+        g.select(".domain").attr("stroke", CR);
+        g.selectAll(".tick line").attr("stroke", CR);
+        g.selectAll(".tick text").attr("fill", CM)
+          .style("font-size", "11px").style("font-family", "var(--font-sans)");
+      }
+
+      function axisLabel(svg, x, y, rotate, text) {
+        var t = svg.append("text")
+          .attr("x", x).attr("y", y)
+          .attr("text-anchor", "middle").attr("fill", CM)
+          .style("font-size", "11px").style("font-family", "var(--font-sans)")
+          .text(text);
+        if (rotate) t.attr("transform", "rotate(-90)");
+        return t;
+      }
+
+      // ─── Figure 1: Counting the destination (Chapter 3) ──────────────────
+      (function () {
+        var W = 660, H = 380;
+        var M = { t: 16, r: 60, b: 44, l: 58 };
+        var anos = ["2000", "2010", "2015", "2019", "2020", "2021", "2022", "2023", "2024"];
+        var pa = [1.612565, 2.601149, 4.040382, 2.072349, 1.287587, 0.615153, 0.648197, 0.402679, 0.303432];
+        var pm = [3.111159, 2.661703, 2.442452, 3.346353, 4.635043, 5.506210, 6.774799, 7.517721, 9.875689];
+        var razao = [1.93, 1.02, 0.60, 1.61, 3.60, 8.95, 10.45, 18.67, 32.55];
+
+        var svg = d3.select("#chartDestino").append("svg").attr("viewBox", "0 0 " + W + " " + H);
+
+        var xB = d3.scaleBand().domain(anos).range([M.l, W - M.r]).padding(0.28);
+        var xSub = d3.scaleBand().domain(["pa", "pm"]).range([0, xB.bandwidth()]).padding(0.1);
+        var yL = d3.scaleLinear().domain([0, 10.5]).range([H - M.b, M.t]);
+        var yR = d3.scaleLinear().domain([0, 35]).range([H - M.b, M.t]);
+
+        svg.append("g").selectAll("line").data(yL.ticks(5)).join("line")
+          .attr("x1", M.l).attr("x2", W - M.r)
+          .attr("y1", function (d) { return yL(d); }).attr("y2", function (d) { return yL(d); })
+          .attr("stroke", CR).attr("stroke-width", 0.5).attr("opacity", 0.5);
+
+        svg.append("g").attr("transform", "translate(0," + (H - M.b) + ")").call(d3.axisBottom(xB)).call(axStyle);
+        svg.append("g").attr("transform", "translate(" + M.l + ",0)").call(d3.axisLeft(yL).ticks(5)).call(axStyle);
+        svg.append("g").attr("transform", "translate(" + (W - M.r) + ",0)").call(d3.axisRight(yR).ticks(5))
+          .call(function (g) {
+            g.select(".domain").attr("stroke", CR);
+            g.selectAll(".tick line").remove();
+            g.selectAll(".tick text").attr("fill", "#5a3d8b").style("font-size", "11px").style("font-family", "var(--font-sans)");
+          });
+
+        axisLabel(svg, 0, 0, true, "30 m pixels leaving pasture (millions)")
+          .attr("x", -(M.t + (H - M.b - M.t) / 2)).attr("y", 14);
+        svg.append("text").attr("transform", "rotate(90)")
+          .attr("x", M.t + (H - M.b - M.t) / 2).attr("y", -(W - 10))
+          .attr("text-anchor", "middle").attr("fill", "#5a3d8b")
+          .style("font-size", "11px").style("font-family", "var(--font-sans)")
+          .text("Mosaic/Agriculture ratio (×)");
+
+        anos.forEach(function (ano, i) {
+          var g1 = svg.append("g");
+          g1.append("rect")
+            .attr("x", xB(ano) + xSub("pa")).attr("y", yL(pa[i]))
+            .attr("width", xSub.bandwidth()).attr("height", yL(0) - yL(pa[i]))
+            .attr("fill", "rgba(217,106,163,0.65)").attr("stroke", "#d96aa3").attr("stroke-width", 1);
+          g1.append("title").text("Pasture→Agriculture: " + pa[i].toFixed(2) + " million px (" + ano + ")");
+
+          var g2 = svg.append("g");
+          g2.append("rect")
+            .attr("x", xB(ano) + xSub("pm")).attr("y", yL(pm[i]))
+            .attr("width", xSub.bandwidth()).attr("height", yL(0) - yL(pm[i]))
+            .attr("fill", "rgba(201,138,75,0.65)").attr("stroke", "#c98a4b").attr("stroke-width", 1);
+          g2.append("title").text("Pasture→Mosaic: " + pm[i].toFixed(2) + " million px (" + ano + ")");
+        });
+
+        var lineGen = d3.line()
+          .x(function (d, i) { return xB(anos[i]) + xB.bandwidth() / 2; })
+          .y(function (d) { return yR(d); });
+        svg.append("path").attr("d", lineGen(razao)).attr("fill", "none").attr("stroke", "#5a3d8b").attr("stroke-width", 2.5);
+        razao.forEach(function (r, i) {
+          var g = svg.append("g");
+          g.append("circle").attr("cx", xB(anos[i]) + xB.bandwidth() / 2).attr("cy", yR(r)).attr("r", 3.5)
+            .attr("fill", "#5a3d8b").attr("stroke", "#fff").attr("stroke-width", 1.2);
+          g.append("title").text("M/A ratio: " + r.toFixed(2) + "× (" + anos[i] + ")");
+        });
+      })();
+
+      // ─── Figure 2: Divergence (Chapter 4) ─────────────────────────
+      (function () {
+        var W = 660, H = 380;
+        var M = { t: 16, r: 20, b: 44, l: 58 };
+        var anos = [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024];
+        var series = [
+          { vals: [3.26, 3.32, 3.33, 3.32, 3.40, 3.58, 3.86, 4.12, 4.56, 4.94], cor: "#8b3a1d", dash: null, w: 2.5, lbl: "SIDRA soy" },
+          { vals: [5.15, 5.30, 5.48, 5.54, 5.61, 5.67, 5.68, 5.71, 5.71, 5.73], cor: "#d96aa3", dash: "5,5", w: 2.5, lbl: "MapBiomas Agriculture" },
+          { vals: [1.96, 1.93, 1.90, 1.95, 2.06, 2.23, 2.47, 2.75, 3.11, 3.59], cor: "#c98a4b", dash: null, w: 2.5, lbl: "Mosaic of Uses" },
+          { vals: [7.12, 7.23, 7.38, 7.49, 7.67, 7.90, 8.15, 8.46, 8.82, 9.32], cor: "#1a1a1a", dash: "2,2", w: 1.6, lbl: "Union" }
+        ];
+
+        var svg = d3.select("#chartDivergencia").append("svg").attr("viewBox", "0 0 " + W + " " + H);
+        var x = d3.scaleLinear().domain([2015, 2024]).range([M.l, W - M.r]);
+        var y = d3.scaleLinear().domain([1.0, 10.0]).range([H - M.b, M.t]);
+
+        svg.append("g").selectAll("line").data(y.ticks(6)).join("line")
+          .attr("x1", M.l).attr("x2", W - M.r)
+          .attr("y1", function (d) { return y(d); }).attr("y2", function (d) { return y(d); })
+          .attr("stroke", CR).attr("stroke-width", 0.5).attr("opacity", 0.5);
+
+        svg.append("g").attr("transform", "translate(0," + (H - M.b) + ")").call(d3.axisBottom(x).ticks(10).tickFormat(d3.format("d"))).call(axStyle);
+        svg.append("g").attr("transform", "translate(" + M.l + ",0)").call(d3.axisLeft(y).ticks(6)).call(axStyle);
+
+        axisLabel(svg, -(M.t + (H - M.b - M.t) / 2), 14, true, "Cumulative area in Goiás (Mha)");
+        axisLabel(svg, M.l + (W - M.l - M.r) / 2, H - 4, false, "Year");
+
+        var lineGen = d3.line()
+          .x(function (d, i) { return x(anos[i]); }).y(function (d) { return y(d); })
+          .curve(d3.curveMonotoneX);
+
+        series.forEach(function (s) {
+          svg.append("path").attr("d", lineGen(s.vals)).attr("fill", "none").attr("stroke", s.cor)
+            .attr("stroke-width", s.w).attr("stroke-dasharray", s.dash || "none");
+          s.vals.forEach(function (v, i) {
+            var g = svg.append("g");
+            g.append("circle").attr("cx", x(anos[i])).attr("cy", y(v)).attr("r", 3.2)
+              .attr("fill", s.cor).attr("stroke", "#fff").attr("stroke-width", 1.1);
+            g.append("title").text(s.lbl + ": " + v.toFixed(2) + " Mha (" + anos[i] + ")");
+          });
+        });
+      })();
+
+      // ─── Figure 3: Smooth shape × step (Chapter 6) ─────────────────
+      (function () {
+        var W = 660, H = 340;
+        var M = { t: 16, r: 20, b: 44, l: 58 };
+        var anos = [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024];
+        var soja = [1.82, 0.29, -0.47, 2.60, 5.14, 7.81, 6.87, 10.64, 8.36];
+        var pAgric = [-37.22, 11.47, -22.85, -4.99, -37.87, -52.23, 5.37, -37.89, -24.64];
+
+        var svg = d3.select("#chartFormaDegrau").append("svg").attr("viewBox", "0 0 " + W + " " + H);
+        var x = d3.scaleLinear().domain([2016, 2024]).range([M.l, W - M.r]);
+        var y = d3.scaleLinear().domain([-58, 16]).range([H - M.b, M.t]);
+
+        svg.append("g").selectAll("line").data(y.ticks(6)).join("line")
+          .attr("x1", M.l).attr("x2", W - M.r)
+          .attr("y1", function (d) { return y(d); }).attr("y2", function (d) { return y(d); })
+          .attr("stroke", CR).attr("stroke-width", 0.5).attr("opacity", 0.5);
+
+        svg.append("line").attr("x1", M.l).attr("x2", W - M.r).attr("y1", y(0)).attr("y2", y(0))
+          .attr("stroke", CM).attr("stroke-width", 1).attr("stroke-dasharray", "3,3");
+
+        svg.append("g").attr("transform", "translate(0," + (H - M.b) + ")").call(d3.axisBottom(x).ticks(9).tickFormat(d3.format("d"))).call(axStyle);
+        svg.append("g").attr("transform", "translate(" + M.l + ",0)").call(d3.axisLeft(y).ticks(6).tickFormat(function (d) { return d + "%"; })).call(axStyle);
+
+        axisLabel(svg, -(M.t + (H - M.b - M.t) / 2), 14, true, "Year-on-year change");
+
+        var lineGen = d3.line().x(function (d, i) { return x(anos[i]); }).y(function (d) { return y(d); }).curve(d3.curveMonotoneX);
+
+        [{ vals: soja, cor: "#8b3a1d", lbl: "SIDRA soy (field)" },
+         { vals: pAgric, cor: "#c98a4b", lbl: "Pasture→Agriculture (map)" }].forEach(function (s) {
+          svg.append("path").attr("d", lineGen(s.vals)).attr("fill", "none").attr("stroke", s.cor).attr("stroke-width", 2.5);
+          s.vals.forEach(function (v, i) {
+            var g = svg.append("g");
+            g.append("circle").attr("cx", x(anos[i])).attr("cy", y(v)).attr("r", 3.4)
+              .attr("fill", s.cor).attr("stroke", "#fff").attr("stroke-width", 1.1);
+            g.append("title").text(s.lbl + ": " + (v > 0 ? "+" : "") + v.toFixed(1) + "% (" + anos[i] + ")");
+          });
+        });
+      })();
+
+      // ─── Figure 4: Centre of mass (Chapter 7) ─────────────────────
+      (function () {
+        var W = 660, H = 380;
+        var M = { t: 16, r: 20, b: 44, l: 72 };
+        var anos = [2018, 2019, 2020, 2021, 2022, 2023, 2024];
+        var series = [
+          { vals: [-17.10325, -17.09506, -17.09212, -17.09086, -17.08921, -17.08773, -17.09022], cor: "#d96aa3", dash: "5,5", lbl: "MapBiomas Agriculture" },
+          { vals: [-17.07402, -17.06452, -17.04592, -17.02929, -16.98247, -16.97178, -16.97401], cor: "#8b3a1d", dash: null, lbl: "SIDRA soy" },
+          { vals: [-16.91769, -16.90852, -16.90507, -16.90430, -16.90384, -16.89110, -16.86871], cor: "#c98a4b", dash: null, lbl: "Agriculture ∪ Mosaic" },
+          { vals: [-16.05073, -16.02110, -15.98789, -15.95068, -15.93970, -15.94406, -15.91412], cor: "#d4b65a", dash: null, lbl: "Cattle herd" }
+        ];
+
+        var svg = d3.select("#chartCentroMassa").append("svg").attr("viewBox", "0 0 " + W + " " + H);
+        var x = d3.scaleLinear().domain([2018, 2024]).range([M.l, W - M.r]);
+        var y = d3.scaleLinear().domain([-17.15, -15.85]).range([H - M.b, M.t]);
+
+        svg.append("g").selectAll("line").data(y.ticks(6)).join("line")
+          .attr("x1", M.l).attr("x2", W - M.r)
+          .attr("y1", function (d) { return y(d); }).attr("y2", function (d) { return y(d); })
+          .attr("stroke", CR).attr("stroke-width", 0.5).attr("opacity", 0.5);
+
+        svg.append("g").attr("transform", "translate(0," + (H - M.b) + ")").call(d3.axisBottom(x).ticks(7).tickFormat(d3.format("d"))).call(axStyle);
+        svg.append("g").attr("transform", "translate(" + M.l + ",0)").call(d3.axisLeft(y).ticks(6).tickFormat(function (d) { return Math.abs(d).toFixed(1) + "°S"; })).call(axStyle);
+
+        svg.append("text").attr("x", M.l - 6).attr("y", M.t + 10).attr("text-anchor", "end").attr("fill", CM)
+          .style("font-size", "9px").style("font-family", "var(--font-sans)").text("↑ North");
+        svg.append("text").attr("x", M.l - 6).attr("y", H - M.b - 4).attr("text-anchor", "end").attr("fill", CM)
+          .style("font-size", "9px").style("font-family", "var(--font-sans)").text("↓ South");
+
+        var lineGen = d3.line().x(function (d, i) { return x(anos[i]); }).y(function (d) { return y(d); }).curve(d3.curveMonotoneX);
+
+        series.forEach(function (s) {
+          svg.append("path").attr("d", lineGen(s.vals)).attr("fill", "none").attr("stroke", s.cor)
+            .attr("stroke-width", 2.5).attr("stroke-dasharray", s.dash || "none");
+          s.vals.forEach(function (v, i) {
+            var g = svg.append("g");
+            g.append("circle").attr("cx", x(anos[i])).attr("cy", y(v)).attr("r", 3.4)
+              .attr("fill", s.cor).attr("stroke", "#fff").attr("stroke-width", 1.1);
+            g.append("title").text(s.lbl + ": " + Math.abs(v).toFixed(4) + "°S (" + anos[i] + ")");
+          });
+        });
+      })();
+
+      // ─── Figure 5: Moving edge (Chapter 8) ─────────────────────────
+      (function () {
+        var W = 660, H = 380;
+        var M = { t: 16, r: 20, b: 44, l: 50 };
+
+        var series = [
+          { nome: "col6", lbl: "Collection 6 (up to 2020)", cor: "#c4ad8a", pts: [[2018, 4.662], [2019, 4.059], [2020, 2.590]] },
+          { nome: "col8", lbl: "Collection 8 (up to 2022)", cor: "#c97052", pts: [[2018, 2.160], [2019, 2.768], [2020, 5.417], [2021, 22.886], [2022, 8.739]] },
+          { nome: "col9", lbl: "Collection 9 (up to 2023)", cor: "#c98a4b", pts: [[2018, 1.722], [2019, 2.336], [2020, 4.780], [2021, 21.405], [2022, 13.653], [2023, 32.601]] },
+          { nome: "col10", lbl: "Collection 10.1 (up to 2024)", cor: "#8b3a1d", pts: [[2018, 1.453], [2019, 1.845], [2020, 4.614], [2021, 13.868], [2022, 13.524], [2023, 29.083], [2024, 32.843]] }
+        ];
+
+        var svg = d3.select("#chartBordaMovel").append("svg").attr("viewBox", "0 0 " + W + " " + H);
+        var x = d3.scaleLinear().domain([2018, 2024]).range([M.l, W - M.r]);
+        var y = d3.scaleLog().domain([1, 40]).range([H - M.b, M.t]);
+        var tickVals = [1, 2, 5, 10, 20, 40];
+
+        svg.append("g").selectAll("line").data(tickVals).join("line")
+          .attr("x1", M.l).attr("x2", W - M.r)
+          .attr("y1", function (d) { return y(d); }).attr("y2", function (d) { return y(d); })
+          .attr("stroke", CR).attr("stroke-width", 0.5).attr("opacity", 0.5);
+
+        svg.append("g").attr("transform", "translate(0," + (H - M.b) + ")").call(d3.axisBottom(x).ticks(7).tickFormat(d3.format("d"))).call(axStyle);
+        svg.append("g").attr("transform", "translate(" + M.l + ",0)")
+          .call(d3.axisLeft(y).tickValues(tickVals).tickFormat(function (d) { return d + "×"; })).call(axStyle);
+
+        axisLabel(svg, -(M.t + (H - M.b - M.t) / 2), 14, true, "Mosaic/Agriculture ratio (log scale)");
+
+        var lineGen = d3.line().x(function (d) { return x(d[0]); }).y(function (d) { return y(d[1]); }).curve(d3.curveMonotoneX);
+
+        series.forEach(function (s) {
+          svg.append("path").attr("d", lineGen(s.pts)).attr("fill", "none").attr("stroke", s.cor).attr("stroke-width", 2.4);
+          s.pts.forEach(function (p, i) {
+            var isUltimo = (i === s.pts.length - 1);
+            var g = svg.append("g");
+            g.append("circle").attr("cx", x(p[0])).attr("cy", y(p[1])).attr("r", isUltimo ? 5 : 3.2)
+              .attr("fill", isUltimo ? "#fff" : s.cor).attr("stroke", s.cor).attr("stroke-width", isUltimo ? 2.2 : 1.1);
+            g.append("title").text(s.lbl + (isUltimo ? " — last year of the collection: " : ": ") + p[1].toFixed(2) + "× (" + p[0] + ")");
+          });
+        });
+      })();
+
+    });
+  </script>
+</body>
+
+</html>

@@ -312,7 +312,7 @@
         html += '<div class="metric-grid metric-grid--lulc">' + cardsLULC(dado, prev) + '</div>';
         // A seta em pp e ano-a-ano; o caption do mapa mostra o acumulado desde
         // 1985. Sem esta linha os dois "pp" da tela ficam sem base declarada.
-        if (prev) html += '<p class="metric-grid-base">▲▼ em pp vs. ' + (ano - 1) + '</p>';
+        if (prev) html += '<p class="metric-grid-base">' + TF("▲▼ em pp vs. {0}", ano - 1) + '</p>';
         html += '<div class="metric-acordeoes">'
           + acordeaoAgricultura(dado)
           + acordeaoPecuaria(dado)
@@ -430,12 +430,16 @@
     return PERIODOS_TRANSICAO[PERIODOS_TRANSICAO.length - 1];
   }
 
+  // Os mapas trazem título e legenda desenhados na imagem: a variante inglesa
+  // tem o seu par *.en.webp, gerado pelos mesmos scripts com --lang en.
+  const SUFIXO_MAPA = I18N.lang === "en" ? ".en" : "";
+
   function urlDoMapa(camada, ano) {
     if (camada === "transicoes") {
       const p = periodoTransicao(ano);
-      return `img/mapas_transicoes/transicao_${p.ini}-${p.fim}.webp`;
+      return `img/mapas_transicoes/transicao_${p.ini}-${p.fim}${SUFIXO_MAPA}.webp`;
     }
-    return `img/mapas_gee/cobertura_${ano}.webp`;
+    return `img/mapas_gee/cobertura_${ano}${SUFIXO_MAPA}.webp`;
   }
 
   function altDoMapa(camada, ano) {

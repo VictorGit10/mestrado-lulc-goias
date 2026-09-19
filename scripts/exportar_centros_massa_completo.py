@@ -11,6 +11,15 @@ Reúne:
 
 Uso:
     python scripts/exportar_centros_massa_completo.py
+
+Saída:
+    Visualizacao/assets/data/centros_massa_completo.json     (centros-de-massa.html)
+    Visualizacao/assets/data/centros_massa_completo.en.json  (centros-de-massa.en.html)
+
+A versão inglesa sai da MESMA rodada: trajetórias e números são os mesmos, só os
+textos (TEXTOS_EN) trocam. Quem mudar um `insight` aqui muda o par em TEXTOS_EN,
+senão o site em inglês passa a dizer outra coisa — o assert no fim cobra que
+toda série tenha tradução.
 """
 from __future__ import annotations
 
@@ -24,6 +33,7 @@ DIR_PROCESSED = ROOT / "data" / "processed"
 DIR_VIZ = ROOT / "Visualizacao" / "assets" / "data"
 
 ARQ_SAIDA = DIR_VIZ / "centros_massa_completo.json"
+ARQ_SAIDA_EN = DIR_VIZ / "centros_massa_completo.en.json"
 
 CATEGORIAS = {
     "uso_terra": {
@@ -199,6 +209,96 @@ VAR_CONFIG = {
 }
 
 
+# ---------------------------------------------------------------------------
+# Textos em inglês (centros-de-massa.en.html). Terminologia de index.en.html:
+# Act I/II/III, CI, "anchored", "relabelling" para a deriva do Mosaico.
+# ---------------------------------------------------------------------------
+CATEGORIAS_EN = {
+    "uso_terra": ("Main Trajectory (Land Use)",
+                  "The four main vectors of land use and land cover in Goiás (Pipeline #32)."),
+    "controles": ("Dairy Farming & Spatial Controls",
+                  "Disaggregated activities and vegetation formations that test the march hypothesis (Pipeline #44)."),
+    "fogo": ("Fire & Burning",
+             "Spatial dynamics of wildfires and management burns relative to the frontier (Pipeline #41)."),
+    "economico": ("Economy, Credit & Infrastructure",
+                  "Where the money, the value added and the physical storage capacity sit (Pipelines #50 and #53)."),
+    "validacao": ("Source Validation (Soy: MapBiomas × SIDRA)",
+                  "Cross-check: soy as seen by the MapBiomas raster vs the planted area declared in SIDRA. "
+                  "The sign divergence in Act III exposes the relabelling of the Mosaic (Pipeline #44; D25)."),
+}
+
+TEXTOS_EN = {
+    "agricultura": ("Cropland",
+        "Marched +65.2 km north (1985→2024), keeping a persistent gradient ~120 km south of pasture/herd."),
+    "pastagem": ("Pasture",
+        "Leads the territorial march north (+77.6 km), opening the agricultural frontier."),
+    "bovinos": ("Cattle herd",
+        "Marched +66.9 km north almost due north (azimuth 19°), following the pasture."),
+    "veg_natural": ("Natural vegetation (aggregate)",
+        "Anchored in the north (+7.6 km, CI contains zero) as the natural wall of the frontier."),
+    "leite": ("Dairy farming",
+        "Anchored in the traditional southern dairy basin: +18.2 km in Act I (out of +29.9 km net over 1985–2024); "
+        "then it stalls — Act II +4.9 km and Act III +2.9 km, both with CIs containing zero. It does not follow beef cattle."),
+    "area_urbana": ("Urban area",
+        "Moved -8.4 km SOUTH. The urbanised population anchored on the Goiânia-Anápolis-Rio Verde axis, unlike farming."),
+    "floresta": ("Forest Formation (Gallery Forest)",
+        "Anchored in the north (+8.7 km). It is the real forest wall that holds back agricultural expansion."),
+    "savanica": ("Savanna Formation (Cerrado s.s.)",
+        "Slight shift (+12.4 km, CI contains zero). It suffered the largest loss of absolute area."),
+    "campo_nativo": ("Grassland Formation (Campos)",
+        "Retreated +34.8 km north, revealing that the native grasslands of the South were converted first."),
+    "fogo_total": ("Total Fire (Burning)",
+        "Stays NORTH of conversion in all 39 years (+68.8 km). Co-evolution in space."),
+    "fogo_pasto": ("Fire on Pasture",
+        "A marked shift of +165.6 km north, following pasture management and renewal."),
+    "fogo_veg": ("Fire on Natural Veg.",
+        "Rose +85.8 km north, falling heavily on savanna and grassland Cerrado."),
+    "conv_vp": ("Conversion Veg. → Pasture",
+        "The physical vanguard of deforestation: marches +126.6 km north from 1985 to 2023."),
+    "sicor_total": ("Rural Credit (SICOR)",
+        "Sits ~75 km SOUTH of pasture. Credit consolidates the established productive core; it does not lead the frontier."),
+    "va_agro": ("Agricultural Value Added (Agri GDP)",
+        "Anchored in the South/Southwest. The gap between agricultural value and pasture area widened from 84 to 101 km."),
+    "pib": ("Total GDP",
+        "Anchored in the Goiânia Metropolitan Region and the Southwest axis."),
+    "capacidade": ("CONAB Silos (Storage 2024)",
+        "The SOUTHERNMOST layer of all (lat -17.24°, ~150 km behind the cattle, -83 km behind credit). Infrastructure consolidates."),
+    "soja_raster": ("Soy — MapBiomas (raster)",
+        "Retreats −7.1 km SOUTH in Act III (95% CI −13.2 to −3.4), reversing the +50.3 km march of Act II. "
+        "Soy opened on the northern frontier is relabelled as 'Mosaic of Uses' by MapBiomas, hiding mass in the north "
+        "— the relabelling of the Mosaic (D25)."),
+    "soja_sidra": ("Soy — SIDRA (planted area)",
+        "In the same Act III, declared soy keeps moving +8.2 km NORTH (CI −0.5 to 16.1). The two sources diverge in sign "
+        "in 2020–24: SIDRA sees the frontier that MapBiomas relabels as Mosaic. SIDRA is the immune anchor."),
+}
+
+FONTE_EN = {"IBGE PIB": "IBGE GDP", "MapBiomas Fogo": "MapBiomas Fire",
+            "CONAB Cadastrados": "CONAB registered"}
+
+ATOS_EN = {"I": "Pasture as inheritance", "II": "Expansion and intensification",
+           "III": "Accelerated conversion"}
+
+
+def versao_inglesa(payload: dict) -> dict:
+    """Mesmo payload, textos em inglês. Números e trajetórias não são tocados."""
+    en = json.loads(json.dumps(payload))
+    en["meta"]["titulo"] = "Complete Centres of Mass — Goiás 1985-2024"
+    en["meta"]["fonte"] = "Master's research UFG / LULC Goiás"
+    for c in en["categorias"]:
+        c["titulo"], c["desc"] = CATEGORIAS_EN[c["id"]]
+    for a in en["atos"]:
+        a["titulo"] = ATOS_EN[a["id"]]
+    faltando = [v["id"] for v in en["variaveis"] if v["id"] not in TEXTOS_EN]
+    assert not faltando, f"séries sem tradução em TEXTOS_EN: {faltando}"
+    for v in en["variaveis"]:
+        v["rotulo"], v["insight"] = TEXTOS_EN[v["id"]]
+        for pt, ing in FONTE_EN.items():
+            v["fonte"] = v["fonte"].replace(pt, ing)
+        if "nota" in v["liquido"]:
+            v["liquido"]["nota"] = "2024 snapshot (CONAB - 1,134 warehouses)"
+    return en
+
+
 def _get_val(row, attr, fallback_attr=None):
     if hasattr(row, attr):
         v = getattr(row, attr)
@@ -370,6 +470,10 @@ def main():
 
     kb = ARQ_SAIDA.stat().st_size / 1024
     print(f"[OK] Exportado {ARQ_SAIDA} ({kb:.1f} KB) com {len(variaveis_out)} séries!")
+
+    with open(ARQ_SAIDA_EN, "w", encoding="utf-8") as f:
+        f.write(json.dumps(versao_inglesa(payload), ensure_ascii=False, indent=2))
+    print(f"[OK] Exportado {ARQ_SAIDA_EN}")
 
 if __name__ == "__main__":
     main()

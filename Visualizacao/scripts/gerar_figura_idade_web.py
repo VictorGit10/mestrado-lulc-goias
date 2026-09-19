@@ -24,18 +24,30 @@ aqui, e nada da qualificação é modificado — a função é chamada com o `sa
 módulo de estilo temporariamente redirecionado.
 
 COMO RODAR
-    python Visualizacao/scripts/gerar_figura_idade_web.py
+    python Visualizacao/scripts/gerar_figura_idade_web.py            # pt (index.html)
+    python Visualizacao/scripts/gerar_figura_idade_web.py --lang en  # en (index.en.html)
 
 SAÍDA
     Visualizacao/img/graficos/idade_pastagem_duas_populacoes.png
+    Visualizacao/img/graficos/idade_pastagem_duas_populacoes.en.png
+
+INGLÊS (set/2026)
+    A função da qualificação desenha em português e não deve ganhar um segundo
+    idioma — ela é a figura do texto. A versão inglesa traduz os textos JÁ
+    DESENHADOS, logo antes de salvar: cada rótulo passa por TRADUCOES (troca de
+    trechos, na ordem) e a vírgula decimal vira ponto. Se a função da
+    qualificação ganhar um rótulo novo, ele sai em português e o aviso
+    "[sem tradução]" aponta qual.
 """
 
 from __future__ import annotations
 
+import re
 import sys
 from pathlib import Path
 
 import matplotlib.pyplot as plt
+from matplotlib.ticker import FuncFormatter
 
 ROOT = Path(__file__).resolve().parents[2]
 DIR_QUAL = ROOT / "qualificacao" / "fig"
@@ -55,6 +67,54 @@ DPI_TELA = 200
 # número.
 FIGSIZE_EMPILHADO = (7.6, 8.4)
 
+EN = "--lang" in sys.argv and sys.argv[sys.argv.index("--lang") + 1] == "en"
+
+# Trechos em pt -> en, aplicados em ordem (os mais longos primeiro). A
+# terminologia segue a de index.en.html: young/old pasture, Mosaic of Uses,
+# cropland, "rotation".
+TRADUCOES = [
+    ("idade da pastagem na conversão (anos)", "pasture age at conversion (years)"),
+    ("densidade dos eventos", "event density"),
+    ("origem anterior do pixel (%)", "prior class of the pixel (%)"),
+    ("censo de pixels", "pixel census"),
+    ("se fosse 1 população", "if it were 1 population"),
+    ("2 populações somadas", "2 populations summed"),
+    ("pasto jovem", "young pasture"),
+    ("pasto velho", "old pasture"),
+    ("da massa", "of the mass"),
+    ("mais larga:\nvira ombro, não pico", "wider:\nbecomes a shoulder, not a peak"),
+    ("antes era VEGETAÇÃO NATURAL", "previously NATURAL VEGETATION"),
+    ("antes era MOSAICO DE USOS", "previously MOSAIC OF USES"),
+    ("antes era LAVOURA\n(rotação)", "previously CROPLAND\n(rotation)"),
+    ("mediana", "median"),
+]
+
+
+def traduzir(texto: str) -> str:
+    novo = texto
+    for pt, en in TRADUCOES:
+        novo = novo.replace(pt, en)
+    novo = re.sub(r"(\d),(\d)", r"\1.\2", novo)   # vírgula decimal -> ponto
+    novo = re.sub(r"(\d)a\b", r"\1y", novo)        # "3,9a" (anos) -> "3.9y"
+    if novo == texto and re.search(r"[A-Za-zÀ-ú]{3,}", texto):
+        print(f"    [sem tradução] {texto!r}")
+    return novo
+
+
+def traduzir_figura(fig) -> None:
+    """Passa todo texto desenhado da figura para o inglês."""
+    for txt in fig.findobj(plt.Text):
+        if txt.get_text():
+            txt.set_text(traduzir(txt.get_text()))
+    # Os ticks são gerados na hora do desenho pelo formatador de vírgula da
+    # qualificação: embrulha o formatador em vez de reescrever o rótulo.
+    for ax in fig.axes:
+        for eixo in (ax.xaxis, ax.yaxis):
+            fmt = eixo.get_major_formatter()
+            if isinstance(fmt, FuncFormatter):
+                eixo.set_major_formatter(FuncFormatter(
+                    lambda x, p, f=fmt: f(x, p).replace(",", ".")))
+
 
 def main() -> None:
     sys.path.insert(0, str(DIR_QUAL))
@@ -62,9 +122,11 @@ def main() -> None:
     import gerar_figuras
 
     OUT.mkdir(parents=True, exist_ok=True)
-    destino = OUT / f"{NOME}.png"
+    destino = OUT / f"{NOME}{'.en' if EN else ''}.png"
 
     def salvar_na_viz(fig, nome: str, raster: bool = False) -> Path:
+        if EN:
+            traduzir_figura(fig)
         fig.savefig(destino, dpi=DPI_TELA, facecolor="white",
                     bbox_inches="tight", pad_inches=0.15)
         plt.close(fig)

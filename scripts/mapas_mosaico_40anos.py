@@ -52,6 +52,10 @@ SAÍDAS
 
 COMO RODAR
     python scripts/mapas_mosaico_40anos.py
+    python scripts/mapas_mosaico_40anos.py --lang en
+        Só o confronto 1985 × 2024, com os textos em inglês, direto para
+        Visualizacao/img/graficos/mosaico_1985_vs_2024.en.webp (index.en.html).
+        Os 40 mapas, o GIF e o delta não têm versão inglesa: o site não os usa.
 """
 from __future__ import annotations
 
@@ -266,7 +270,7 @@ def desenhar_delta(delta, gdf, extent, caminho, origem_pct):
     plt.close(fig)
 
 
-def desenhar_confronto(f85, f24, r, gdf, extent, caminho):
+def desenhar_confronto(f85, f24, r, gdf, extent, caminho, en=False):
     """1985 | 2024 lado a lado — mesmo total estadual, geografia diferente."""
     fig, axes = plt.subplots(1, 2, figsize=(15.5, 8.0))
     fig.subplots_adjust(top=0.82, bottom=0.10, left=0.02, right=0.98, wspace=0.02)
@@ -276,15 +280,23 @@ def desenhar_confronto(f85, f24, r, gdf, extent, caminho):
         moldura(ax, gdf, extent)
         ax.set_title(f"{ano} — {mha:.2f} Mha", fontsize=17, fontweight="bold",
                      color="#1a1a1a", pad=8)
-    fig.text(0.02, 0.975, "O Mosaico voltou ao tamanho de 1985 — em outro lugar",
+    if en:
+        titulo = "The Mosaic returned to its 1985 size — somewhere else"
+        sub = ("Same statewide area (10.7% × 10.5% of Goiás), but the two patches barely "
+               f"overlap: spatial correlation r = {r:.2f} between cells.")
+        rodape = ("In the 10% of cells with the most Mosaic in 1985 (mean 51%), the class fell to 11% in 2019 and only returned to 16% in 2024.\n"
+                  "In the other 90%, it went from 6% to 10%. The total is the same; the phenomenon is not. MapBiomas Collection 10.1, cube from #28.")
+    else:
+        titulo = "O Mosaico voltou ao tamanho de 1985 — em outro lugar"
+        sub = ("Mesma área estadual (10,7% × 10,5% de Goiás), mas as duas manchas quase não se "
+               f"sobrepõem: correlação espacial r = {r:.2f}".replace(".", ",") + " entre as células.")
+        rodape = ("Nos 10% de células com mais Mosaico em 1985 (média 51%), a classe caiu para 11% em 2019 e só voltou a 16% em 2024.\n"
+                  "Nos outros 90%, ela foi de 6% para 10%. O total é o mesmo; o fenômeno, não. MapBiomas Coleção 10.1, cubo do #28.")
+    fig.text(0.02, 0.975, titulo,
              ha="left", va="top", fontsize=20, fontweight="bold", color="#1a1a1a")
-    fig.text(0.02, 0.925,
-             "Mesma área estadual (10,7% × 10,5% de Goiás), mas as duas manchas quase não se "
-             f"sobrepõem: correlação espacial r = {r:.2f}".replace(".", ",") + " entre as células.",
+    fig.text(0.02, 0.925, sub,
              ha="left", va="top", fontsize=11.5, color="#4a4a4a")
-    fig.text(0.02, 0.025,
-             "Nos 10% de células com mais Mosaico em 1985 (média 51%), a classe caiu para 11% em 2019 e só voltou a 16% em 2024.\n"
-             "Nos outros 90%, ela foi de 6% para 10%. O total é o mesmo; o fenômeno, não. MapBiomas Coleção 10.1, cubo do #28.",
+    fig.text(0.02, 0.025, rodape,
              ha="left", va="bottom", fontsize=8, color="#6b6b6b", linespacing=1.5)
     fig.savefig(caminho, dpi=DPI, facecolor="white")
     plt.close(fig)
@@ -311,6 +323,21 @@ def main() -> None:
     extent = (left, left + W * FATOR * res, top - H * FATOR * res, top)
     gdf = gpd.read_file(AMC_GPKG).to_crs(4326)
     mha = area_municipal()
+
+    if "--lang" in sys.argv and sys.argv[sys.argv.index("--lang") + 1] == "en":
+        # Versão inglesa do confronto publicado no site. Mesma largura e
+        # compressão do webp em português (1.800 px, WebP q85).
+        a85, a24 = frac[0][mask], frac[-1][mask]
+        r = float(np.corrcoef(a85, a24)[0, 1])
+        png = OUT / "mosaico_1985_vs_2024.en.png"
+        desenhar_confronto(frac[0], frac[-1], r, gdf, extent, png, en=True)
+        webp = ROOT / "Visualizacao" / "img" / "graficos" / "mosaico_1985_vs_2024.en.webp"
+        with Image.open(png) as im:
+            im = im.convert("RGB")
+            im = im.resize((1800, round(im.height * 1800 / im.width)), Image.LANCZOS)
+            im.save(webp, format="WEBP", quality=85, method=6)
+        print(f"[OK] {webp.relative_to(ROOT)} (r = {r:.3f})")
+        return
 
     # série estadual pela própria varredura (para conferência com o CSV)
     serie = pd.DataFrame({

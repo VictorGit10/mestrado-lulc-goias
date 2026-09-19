@@ -37,6 +37,12 @@ Pré-requisitos:
 Saída:
     outputs/mapas_gee/cobertura_{ANO}.png       (40 PNGs compostos, DPI 200)
     outputs/mapas_gee/_raw/raw_{ANO}.png        (raster cru do GEE, 2048 px)
+
+Versão inglesa (index.en.html):
+    python scripts/gerar_mapas_lulc_gee_40anos.py --lang en
+    -> outputs/mapas_gee/cobertura_{ANO}.en.png, recomposta do mesmo raster cru
+       em cache (não chama o GEE se _raw_7c/ estiver completo). Só título e
+       legenda mudam. Depois: python Visualizacao/scripts/otimizar_mapas_webp.py --lang en
 """
 from __future__ import annotations
 
@@ -83,6 +89,18 @@ CLASSES = {
 }
 ORDEM_LEGENDA = list(CLASSES.keys())
 N_CLASSES = len(CLASSES)
+
+EN = "--lang" in sys.argv and sys.argv[sys.argv.index("--lang") + 1] == "en"
+# Nomes da legenda em inglês — os mesmos da legenda HTML de index.en.html.
+NOME_EN = {
+    "Vegetação Natural": "Natural Vegetation",
+    "Pastagem":          "Pasture",
+    "Agricultura":       "Cropland",
+    "Mosaico de Usos":   "Mosaic of Uses",
+    "Água":              "Water",
+    "Área Urbana":       "Urban Area",
+    "Outros":            "Other",
+}
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT_DIR = ROOT / "outputs" / "mapas_gee"
@@ -156,13 +174,15 @@ def compor_mapa(raw_bytes: bytes, ano: int, gdf_go, out_path: Path) -> None:
     fig, ax = plt.subplots(figsize=FIGSIZE)
     ax.imshow(img)
     ax.set_axis_off()
-    ax.set_title(f"Cobertura e Uso da Terra — Goiás {ano}", fontsize=14)
+    ax.set_title(f"Land Use and Land Cover — Goiás {ano}" if EN
+                 else f"Cobertura e Uso da Terra — Goiás {ano}", fontsize=14)
 
-    handles = [Patch(facecolor=info["cor"], edgecolor="black", label=nome)
+    handles = [Patch(facecolor=info["cor"], edgecolor="black",
+                     label=NOME_EN[nome] if EN else nome)
                for nome, info in CLASSES.items()]
     ax.legend(handles=handles, loc="lower right", frameon=True, fontsize=8,
-              title=f"Classe ({N_CLASSES} grupos)", title_fontsize=9,
-              borderaxespad=-1.2)
+              title=f"Class ({N_CLASSES} groups)" if EN else f"Classe ({N_CLASSES} grupos)",
+              title_fontsize=9, borderaxespad=-1.2)
 
     # Barra de escala: pixels do thumbnail mapeiam para extent real de GO em metros
     bbox_5880 = gdf_go.to_crs(5880).total_bounds  # [minx, miny, maxx, maxy] em metros
@@ -191,7 +211,7 @@ def main() -> None:
     print(f"Iniciando 40 anos ({ANO_MIN}–{ANO_MAX}).")
 
     for i, ano in enumerate(range(ANO_MIN, ANO_MAX + 1), start=1):
-        out_path = OUT_DIR / f"cobertura_{ano}.png"
+        out_path = OUT_DIR / f"cobertura_{ano}{'.en' if EN else ''}.png"
         raw_path = RAW_DIR / f"raw_{ano}.png"
 
         if out_path.exists():

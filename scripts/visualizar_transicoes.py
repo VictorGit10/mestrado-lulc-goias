@@ -9,6 +9,10 @@ Gera:
 
 Como rodar:
     python "Scripts e Catalogo/visualizar_transicoes.py"
+    python scripts/visualizar_transicoes.py --lang en
+        Só os 5 mapas de transição dominante publicados no site, com título e
+        legenda em inglês, direto para Visualizacao/img/mapas_transicoes/
+        transicao_{A}-{B}.en.webp (index.en.html). Nada mais é regerado.
 
 Pré-requisitos:
     pip install pandas geopandas geobr matplotlib matplotlib-scalebar plotly kaleido
@@ -43,6 +47,10 @@ CLASSES = {
     7: {"nome": "Mosaico de Usos",   "ids": [21],                                 "cor": "#c98a4b"},
 }
 NOME_CLASSE = {k: v["nome"] for k, v in CLASSES.items()}
+EN = "--lang" in sys.argv and sys.argv[sys.argv.index("--lang") + 1] == "en"
+# Mesmos nomes da legenda HTML de index.en.html.
+NOME_CLASSE_EN = {1: "Natural Vegetation", 2: "Pasture", 3: "Cropland", 4: "Water",
+                  5: "Urban Area", 6: "Other", 7: "Mosaic of Uses"}
 COR_CLASSE = {k: v["cor"] for k, v in CLASSES.items()}
 ORDEM = list(CLASSES.keys())
 N_CLASSES = len(CLASSES)   # 7 desde o #12B; era 6 com a classe 21 mascarada
@@ -235,13 +243,15 @@ def mapa_transicao_dominante(df: pd.DataFrame, gdf: "gpd.GeoDataFrame",
 
     # Legenda manual com cores das classes
     destinos_unicos = sorted(gdf_plot["classe_dest"].dropna().unique())
+    nomes = NOME_CLASSE_EN if EN else NOME_CLASSE
     handles = [Patch(facecolor=COR_CLASSE[int(d)], edgecolor="black",
-                     label=NOME_CLASSE[int(d)]) for d in destinos_unicos]
+                     label=nomes[int(d)]) for d in destinos_unicos]
     if gdf_plot["cor"].isna().any():
         handles.append(Patch(facecolor="#e0e0e0", edgecolor="black",
-                             label="Sem mudança detectada"))
+                             label="No change detected" if EN else "Sem mudança detectada"))
     ax.legend(handles=handles, loc="lower right", fontsize=8,
-              title=f"Classe destino dominante\n(maior mudança {ano_orig}→{ano_dest})",
+              title=(f"Dominant destination class\n(largest change {ano_orig}→{ano_dest})" if EN
+                     else f"Classe destino dominante\n(maior mudança {ano_orig}→{ano_dest})"),
               borderaxespad=-1.2)
 
     # Limites fixos para enquadramento idêntico
@@ -251,15 +261,17 @@ def mapa_transicao_dominante(df: pd.DataFrame, gdf: "gpd.GeoDataFrame",
     ax.set_xlim(bounds[0] - x_margin, bounds[2] + x_margin)
     ax.set_ylim(bounds[1] - y_margin, bounds[3] + y_margin)
 
-    ax.set_title(f"Transição Dominante por Município — Goiás {ano_orig}→{ano_dest}", fontsize=13)
+    ax.set_title(f"Dominant Transition by Municipality — Goiás {ano_orig}→{ano_dest}" if EN
+                 else f"Transição Dominante por Município — Goiás {ano_orig}→{ano_dest}",
+                 fontsize=13)
     ax.set_axis_off()
     adicionar_escala(ax, dx=1, total_km=150)
     adicionar_norte(ax)
 
-    plt.savefig(OUT_DIR / f"mapa_transicao_dominante_{ano_orig}_{ano_dest}.png",
-                dpi=DPI, bbox_inches="tight")
+    nome = f"mapa_transicao_dominante_{ano_orig}_{ano_dest}{'.en' if EN else ''}.png"
+    plt.savefig(OUT_DIR / nome, dpi=DPI, bbox_inches="tight")
     plt.close(fig)
-    print(f"  Salvo: mapa_transicao_dominante_{ano_orig}_{ano_dest}.png")
+    print(f"  Salvo: {nome}")
 
 
 # ──────────────────────────────────────────────────────────────
@@ -420,6 +432,13 @@ def main() -> None:
     print("Carregando dados de transição...")
     df = carregar_dados()
 
+    if EN:
+        gdf = carregar_malha()
+        for ao, ad in PERIODOS_NIVEL1 + [(1985, 2024)]:
+            mapa_transicao_dominante(df, gdf, ao, ad)
+        exportar_webps_transicoes()
+        return
+
     print("\n[1/7] Heatmaps 7×7...")
     for ao, ad in PERIODOS_NIVEL1:
         heatmap_matriz(df, ao, ad)
@@ -467,8 +486,9 @@ def exportar_webps_transicoes() -> None:
     dst_dir.mkdir(parents=True, exist_ok=True)
 
     for ao, ad in pares:
-        src = OUT_DIR / f"mapa_transicao_dominante_{ao}_{ad}.png"
-        dst = dst_dir / f"transicao_{ao}-{ad}.webp"
+        sufixo = ".en" if EN else ""
+        src = OUT_DIR / f"mapa_transicao_dominante_{ao}_{ad}{sufixo}.png"
+        dst = dst_dir / f"transicao_{ao}-{ad}{sufixo}.webp"
         if not src.exists():
             print(f"  AVISO: {src.name} não encontrado, pulando")
             continue
