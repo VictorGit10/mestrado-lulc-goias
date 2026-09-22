@@ -72,6 +72,21 @@ Visualizacao/
 
 Bundle total: ~40 MB (30 MB de imagens + 9,8 MB de dados/assets).
 
+## Paginas a parte
+
+Alem da peca principal, paginas autocontidas no mesmo estilo:
+
+- `centros-de-massa.html` — Atlas dos Centros de Massa (19 series).
+- `dossie-mosaico.html` — O Caso do Mosaico de Usos.
+- `dossie-colecao11.html` — exploratorio da Colecao 11 (a dissertacao para na 10.1).
+- `metodo-centro-de-massa.html` — **Por dentro do metodo**: a conta do centro de
+  massa (#32) refeita no navegador, passo a passo, com os dados reais. CSS em
+  `assets/css/metodo.css` (compartilhado pela serie), JS em
+  `assets/js/metodo-centro-massa.js`, dados em `assets/data/metodo_centro_massa.json`
+  gerados por `scripts/exportar_metodo_centro_massa_viz.py` (confere contra o CSV
+  do #32 e aborta se divergir). Documentacao:
+  `Textos/metodologia/pagina_metodo_centro_massa.md`.
+
 ## Como gerar / atualizar
 
 A peca consome assets de fora da pasta:

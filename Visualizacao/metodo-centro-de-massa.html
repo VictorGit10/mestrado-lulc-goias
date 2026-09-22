@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Por dentro do método: o centro de massa — Goiás 1985–2024</title>
+
+  <meta name="description" content="A conta do centro de massa refeita passo a passo no navegador, com as 166 Áreas Mínimas Comparáveis de Goiás e os pesos reais de 1985 a 2024: posições, pesos, a soma linha por linha, o deslocamento, o mediano, o bootstrap e o teste sem malha.">
+  <meta property="og:title" content="Por dentro do método: o centro de massa · Goiás 1985–2024">
+  <meta property="og:description" content="Como se calcula, com dados reais, o ponto de equilíbrio da pastagem, do rebanho e da agricultura em Goiás, e como se sabe que ele andou para o norte.">
+  <meta property="og:type" content="website">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23fafaf7'/%3E%3Ccircle cx='32' cy='32' r='14' fill='%238b3a1d'/%3E%3C/svg%3E">
+
+  <link rel="stylesheet" href="assets/css/styles.css?v=5">
+  <link rel="stylesheet" href="assets/css/metodo.css?v=1">
+</head>
+
+<body class="metodo-page" id="top">
+
+  <header class="mt-topo">
+    <div class="mt-nav-inner">
+      <a href="index.html" class="mt-back-link">← Voltar à visualização principal</a>
+      <span class="mt-nav-badge">Por dentro do método · Centro de massa</span>
+    </div>
+    <div class="mt-var-bar">
+      <div class="mt-var-inner">
+        <span class="mt-var-rot">A conta está pesando</span>
+        <div class="mt-pills" id="mt-pills" role="group" aria-label="Variável usada como peso"></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="mt-container">
+
+    <header class="mt-header">
+      <div class="mt-tag">Por dentro do método</div>
+      <h1 class="mt-title">O centro de massa, conta por conta</h1>
+      <p class="mt-subtitle">
+        A Perna&nbsp;1 da dissertação diz que o centro de massa da pastagem andou 77,6&nbsp;km para o
+        norte entre 1985 e 2024. Esta página mostra de onde sai esse número. A conta é refeita aqui,
+        no seu navegador, com os mesmos dados do pipeline, e cada passo pode ser mexido.
+      </p>
+      <div class="mt-meta-bar">
+        <strong>Dados:</strong> as 166 Áreas Mínimas Comparáveis (AMC) de Goiás, com a área de
+        pastagem, agricultura e vegetação natural do MapBiomas (Coleção 10.1) e o rebanho bovino da
+        Pesquisa Pecuária Municipal (IBGE), de 1985 a 2024. <strong>Álgebra:</strong> a mesma dos
+        pipelines #32 (centro de massa), #55 (bootstrap de blocos) e #43 (teste pixel a pixel).
+        <strong>Conferência:</strong> ao abrir, a página refaz os 160 centros anuais e compara com o
+        arquivo oficial do pipeline <span id="mt-confere-topo"></span>.
+      </div>
+    </header>
+
+    <div class="kpi-grid" id="mt-kpis"></div>
+
+    <nav class="roteiro" aria-label="Roteiro">
+      <h2>Roteiro</h2>
+      <ol>
+        <li class="roteiro-grupo">A conta</li>
+        <li><a href="#pergunta">1. A pergunta que o centro de massa responde</a></li>
+        <li><a href="#posicoes">2. Cada AMC vira um ponto</a></li>
+        <li><a href="#pesos">3. Cada ponto recebe um peso</a></li>
+        <li><a href="#equilibrio">4. O equilíbrio visto de lado</a></li>
+        <li><a href="#conta">5. A conta, linha por linha</a></li>
+        <li><a href="#tempo">6. Quarenta contas, uma por ano</a></li>
+        <li class="roteiro-grupo">Ler o número</li>
+        <li><a href="#decomposicao">7. De onde vêm os quilômetros</a></li>
+        <li class="roteiro-grupo">Pôr o número à prova</li>
+        <li><a href="#mediano">8. O centro mediano, contra aglomerados</a></li>
+        <li><a href="#incerteza">9. Quanto do deslocamento é ruído</a></li>
+        <li><a href="#pixel">10. A conta sem malha nenhuma</a></li>
+        <li><a href="#limites">11. O que o método não diz</a></li>
+      </ol>
+    </nav>
+
+    <!-- 1 ================================================================= -->
+    <section class="capitulo" id="pergunta">
+      <div class="capitulo-eyebrow">Capítulo 1</div>
+      <h2>A pergunta que o centro de massa responde</h2>
+      <p>
+        Onde está, num dado ano, o ponto de equilíbrio geográfico de uma atividade? E para onde esse
+        ponto se desloca ao longo do tempo? Se a pastagem de Goiás fosse um peso espalhado sobre o
+        mapa, o centro de massa seria o único ponto em que se poderia sustentar o estado inteiro sem
+        que ele pendesse para lado nenhum.
+      </p>
+      <p>
+        A conta é a do centro de gravidade da física, com hectares no lugar de quilos. Para cada ano,
+        faz-se a média das posições das 166 AMC, e cada uma conta tanto quanto pesa:
+      </p>
+      <div class="formula">
+        <i>x̄</i> = <span class="frac"><span>Σ <i>w<sub>i</sub></i> · <i>x<sub>i</sub></i></span><span>Σ <i>w<sub>i</sub></i></span></span>
+        &nbsp;&nbsp;&nbsp;
+        <i>ȳ</i> = <span class="frac"><span>Σ <i>w<sub>i</sub></i> · <i>y<sub>i</sub></i></span><span>Σ <i>w<sub>i</sub></i></span></span>
+      </div>
+      <p>
+        Há três ingredientes: a posição de cada AMC (<i>x<sub>i</sub></i>, <i>y<sub>i</sub></i>), o
+        peso dela (<i>w<sub>i</sub></i>) e duas somas. Os próximos capítulos montam cada ingrediente
+        com os dados reais e depois fazem a conta diante de você. Use a barra do topo para trocar a
+        variável que está sendo pesada. Todas as figuras acompanham a troca.
+      </p>
+      <a class="voltar-topo" href="#top">↑ roteiro</a>
+    </section>
+
+    <!-- 2 ================================================================= -->
+    <section class="capitulo" id="posicoes">
+      <div class="capitulo-eyebrow">Capítulo 2 · o <i>x<sub>i</sub></i> e o <i>y<sub>i</sub></i></div>
+      <h2>Cada AMC vira um ponto</h2>
+      <p>
+        A unidade da conta é a <strong>Área Mínima Comparável</strong>, e não o município. Goiás
+        tinha menos municípios em 1985 do que tem hoje. Quando um município se divide, o território
+        não muda, só a unidade que o descreve. A AMC junta os municípios que em algum momento foram
+        um só, e por isso a malha de 166 unidades é a mesma de 1985 a 2024. Se a malha mudasse com o
+        tempo, o centro poderia andar apenas porque o desenho mudou.
+      </p>
+      <p>
+        Cada AMC é representada por um único ponto, o seu <strong>centroide</strong>, que é o centro
+        de área do polígono. Clique numa AMC para ver as coordenadas do dela, e use o botão para
+        encolher os 166 polígonos até os seus centroides.
+      </p>
+      <div class="mt-fig">
+        <div class="mt-ctl">
+          <button class="mt-btn pri" id="c2-encolhe" type="button">Encolher as AMC até o centroide</button>
+          <span class="mt-dica">clique numa AMC para ver a posição dela</span>
+        </div>
+        <div id="c2-mapa"></div>
+        <div class="mt-leitura" id="c2-leitura"></div>
+      </div>
+      <p>
+        As coordenadas estão em <strong>metros</strong>, na projeção EPSG:5880 (SIRGAS&nbsp;2000,
+        Policônica do Brasil), e não em graus. A ordem importa: primeiro se projeta o polígono,
+        depois se calcula o centroide. Em Goiás, um grau de longitude mede cerca de 107&nbsp;km e um
+        grau de latitude cerca de 111&nbsp;km, então uma média feita em graus distorceria as
+        distâncias. Com metros, o deslocamento sai direto em quilômetros.
+      </p>
+      <p>
+        Para facilitar a leitura, as figuras desta página medem as posições em km a partir de uma
+        origem logo a sudoeste do estado. Somando a origem, chega-se ao número do arquivo do
+        pipeline.
+      </p>
+      <div class="nao-mostra">
+        <h4>O que esta etapa já assume</h4>
+        <p>
+          Toda a pastagem de uma AMC passa a morar no centroide dela. Nas AMC grandes do norte essa
+          aproximação é mais grosseira do que nas pequenas do sul. É o problema da unidade de área
+          modificável (MAUP), e o <a href="#pixel">capítulo 10</a> mede o tamanho dele.
+        </p>
+      </div>
+      <a class="voltar-topo" href="#top">↑ roteiro</a>
+    </section>
+
+    <!-- 3 ================================================================= -->
+    <section class="capitulo" id="pesos">
+      <div class="capitulo-eyebrow">Capítulo 3 · o <i>w<sub>i</sub></i></div>
+      <h2>Cada ponto recebe um peso</h2>
+      <p>
+        O peso é a quantidade que a AMC guarda naquele ano. Para a pastagem, <i>w<sub>i</sub></i> é a
+        área classificada como pastagem pelo MapBiomas dentro da AMC. Para o rebanho, é o efetivo de
+        bovinos da PPM. Para a vegetação natural, é a soma de floresta, savana e campo nativo.
+      </p>
+      <p>
+        No mapa, a área de cada círculo é proporcional ao peso. Alterne entre 1985 e 2024 e compare.
+        Os círculos do norte crescem e os do sudoeste encolhem. O centro de massa, marcado com o
+        símbolo <span aria-hidden="true">⊕</span>, acompanha essa troca.
+      </p>
+      <div class="mt-fig">
+        <div class="mt-ctl">
+          <span class="mt-seg" id="c3-ano" role="group" aria-label="Ano">
+            <button type="button" aria-pressed="true" data-a="1985">1985</button><button type="button" aria-pressed="false" data-a="2024">2024</button>
+          </span>
+          <span class="mt-seg" id="c3-modo" role="group" aria-label="Forma do mapa">
+            <button type="button" aria-pressed="true" data-m="circ">círculos</button><button type="button" aria-pressed="false" data-m="dens">densidade</button>
+          </span>
+        </div>
+        <div id="c3-mapa"></div>
+        <div class="mt-barras" id="c3-top"></div>
+        <div class="mt-leitura" id="c3-leitura"></div>
+      </div>
+      <p>
+        Esse é o <strong>peso de estoque</strong>, que responde à pergunta “onde a atividade está”.
+        A dissertação usa a mesma fórmula com um <strong>peso de fluxo</strong>, que é a área que mudou
+        de uma classe para outra entre dois anos seguidos. Aí a pergunta vira “onde a atividade
+        muda”. A conta é idêntica, só troca o que entra como <i>w</i>.
+      </p>
+      <p>
+        Uma AMC com peso zero ou sem dado sai da conta daquele ano, porque não puxa o equilíbrio para
+        lado nenhum. Nos dados, isso só acontece com a agricultura em 1985, presente em
+        <span id="c3-n85"></span> das 166 AMC.
+      </p>
+      <a class="voltar-topo" href="#top">↑ roteiro</a>
+    </section>
+
+    <!-- 4 ================================================================= -->
+    <section class="capitulo" id="equilibrio">
+      <div class="capitulo-eyebrow">Capítulo 4</div>
+      <h2>O equilíbrio visto de lado</h2>
+      <p>
+        O número que a dissertação reporta é o deslocamento para o <strong>norte</strong>. Para ver só
+        essa direção, imagine olhar o estado de lado, a partir do leste. Todas as AMC que estão na
+        mesma altura norte–sul se empilham no mesmo ponto de uma régua, com o sul à esquerda e o norte
+        à direita. A figura abaixo é essa régua. Cada barra soma o peso das AMC cujo centroide cai
+        naquela faixa de 10&nbsp;km.
+      </p>
+      <p>
+        A régua se apoia no triângulo. Arraste o apoio. A régua pende para o lado em que sobra peso e
+        só fica nivelada quando o apoio está sob o centro de massa.
+      </p>
+      <div class="mt-fig">
+        <div class="mt-ctl">
+          <label for="c4-ano">Ano</label>
+          <input type="range" id="c4-ano" min="1985" max="2024" step="1" value="1985">
+          <span class="mt-ano" id="c4-ano-v">1985</span>
+          <button class="mt-btn pri" id="c4-cm" type="button">Apoio no centro de massa</button>
+          <button class="mt-btn" id="c4-85" type="button">Apoio no centro de 1985</button>
+        </div>
+        <div id="c4-graf" style="touch-action: pan-y"></div>
+        <div class="mt-leitura" id="c4-leitura"></div>
+      </div>
+      <div class="pista">
+        <h4>Experimente</h4>
+        <p>
+          Com o apoio no centro de 1985, arraste o ano até 2024. A régua, que estava nivelada, pende
+          para o norte. As barras em contorno mostram onde estava o peso em 1985. É isso que quer dizer
+          “o centro de massa da pastagem andou 77,6&nbsp;km para o norte”: o ponto de equilíbrio de
+          2024 fica 77,6&nbsp;km à direita do de 1985.
+        </p>
+      </div>
+      <p>
+        A física também explica a fórmula. Cada AMC puxa a régua com uma força igual ao seu peso
+        <i>w<sub>i</sub></i>, a uma distância <i>y<sub>i</sub></i> − <i>p</i> do apoio <i>p</i>. A régua
+        fica parada quando os puxões se anulam:
+      </p>
+      <div class="formula">
+        Σ <i>w<sub>i</sub></i> · (<i>y<sub>i</sub></i> − <i>p</i>) = 0
+        &nbsp;&nbsp;⟺&nbsp;&nbsp;
+        <i>p</i> = <span class="frac"><span>Σ <i>w<sub>i</sub></i> · <i>y<sub>i</sub></i></span><span>Σ <i>w<sub>i</sub></i></span></span>
+      </div>
+      <p>
+        A segunda forma é exatamente o <i>ȳ</i> do capítulo 1. E a soma dos puxões é igual a
+        <i>W</i>·(<i>ȳ</i> − <i>p</i>), em que <i>W</i> é o peso total. A régua se comporta como se as 166
+        AMC fossem um peso só, pendurado no centro de massa. Por isso a inclinação cresce com a
+        distância entre o apoio e o centro, e por isso um único ponto resume a distribuição inteira.
+        A componente leste–oeste é outra régua igual, vista do sul.
+      </p>
+      <a class="voltar-topo" href="#top">↑ roteiro</a>
+    </section>
+
+    <!-- 5 ================================================================= -->
+    <section class="capitulo" id="conta">
+      <div class="capitulo-eyebrow">Capítulo 5</div>
+      <h2>A conta, linha por linha</h2>
+      <p>
+        A tabela abaixo é a conta inteira. Cada linha é uma AMC, com o seu peso <i>w<sub>i</sub></i>,
+        a sua posição norte <i>y<sub>i</sub></i> e o produto dos dois. O centro é a soma da última
+        coluna dividida pela soma da primeira.
+      </p>
+      <p>
+        Aperte <strong>Somar</strong>. As AMC entram uma a uma, e a cada entrada o centro é recalculado
+        só com as que já entraram. No começo o centro parcial salta, porque poucas AMC decidem tudo.
+        Depois se acomoda. Troque a ordem e repita. O caminho muda, mas o ponto de chegada é sempre o
+        mesmo, porque uma soma não depende da ordem das parcelas.
+      </p>
+      <div class="mt-fig">
+        <div class="mt-ctl">
+          <span class="mt-seg" id="c5-ano" role="group" aria-label="Ano">
+            <button type="button" aria-pressed="true" data-a="1985">1985</button><button type="button" aria-pressed="false" data-a="2024">2024</button>
+          </span>
+          <label for="c5-ordem">Ordem</label>
+          <select id="c5-ordem">
+            <option value="sn">do sul para o norte</option>
+            <option value="peso">da mais pesada para a mais leve</option>
+            <option value="cod">pelo código da AMC</option>
+          </select>
+          <button class="mt-btn pri" id="c5-play" type="button">Somar</button>
+          <button class="mt-btn" id="c5-fim" type="button">Ir ao fim</button>
+        </div>
+        <div class="formula" id="c5-formula" style="margin:0;border:0;border-bottom:1px solid var(--color-rule);border-radius:0"></div>
+        <div id="c5-mapa"></div>
+        <div class="mt-razao">
+          <table>
+            <thead><tr><th>AMC</th><th><i>w<sub>i</sub></i> (<span class="c5-un"></span>)</th><th><i>y<sub>i</sub></i> (km)</th><th><i>w<sub>i</sub></i> · <i>y<sub>i</sub></i></th></tr></thead>
+            <tbody id="c5-tb"></tbody>
+          </table>
+        </div>
+        <div class="mt-leitura" id="c5-leitura"></div>
+      </div>
+      <div class="nao-mostra">
+        <h4>Onde é fácil se confundir</h4>
+        <p>
+          O centro de massa não precisa cair num lugar “importante”. Ele pode ficar numa AMC com pouca
+          pastagem, entre dois polos pesados. É um ponto de equilíbrio, e não o lugar onde a atividade
+          é maior.
+        </p>
+      </div>
+      <a class="voltar-topo" href="#top">↑ roteiro</a>
+    </section>
+
+    <!-- 6 ================================================================= -->
+    <section class="capitulo" id="tempo">
+      <div class="capitulo-eyebrow">Capítulo 6</div>
+      <h2>Quarenta contas, uma por ano</h2>
+      <p>
+        Repetindo a mesma conta para cada ano de 1985 a 2024, obtêm-se quarenta centros. O
+        deslocamento é a diferença entre dois deles. A componente norte é
+      </p>
+      <div class="formula">ΔNorte = <i>ȳ</i><sub>2024</sub> − <i>ȳ</i><sub>1985</sub></div>
+      <p>
+        e, como <i>y</i> está em metros, o resultado já sai em quilômetros. O mapa abaixo está ampliado
+        na faixa central do estado, onde os quatro centros estão. Cada rastro liga os centros anuais
+        de uma variável, do círculo vazio (1985) ao símbolo <span aria-hidden="true">⊕</span> (o ano
+        escolhido).
+      </p>
+      <div class="mt-fig">
+        <div class="mt-ctl">
+          <button class="mt-btn pri" id="c6-play" type="button">Tocar 1985 → 2024</button>
+          <input type="range" id="c6-ano" min="1985" max="2024" value="2024" aria-label="Ano">
+          <span class="mt-ano" id="c6-ano-v">2024</span>
+        </div>
+        <div id="c6-mapa"></div>
+        <div class="mt-legenda" id="c6-leg"></div>
+        <div id="c6-graf"></div>
+        <div class="mt-leitura" id="c6-leitura"></div>
+      </div>
+      <p>
+        O gráfico de baixo mostra a mesma coisa como série: a latitude de cada centro, ano a ano, com
+        os três atos da periodização ao fundo. A tabela traz o deslocamento por ato, como reportado
+        pelo pipeline, e a mesma conta refeita nesta página.
+      </p>
+      <div class="mt-fig"><div class="tabela-wrap" id="c6-tab"></div></div>
+      <a class="voltar-topo" href="#top">↑ roteiro</a>
+    </section>
+
+    <!-- 7 ================================================================= -->
+    <section class="capitulo" id="decomposicao">
+      <div class="capitulo-eyebrow">Capítulo 7</div>
+      <h2>De onde vêm os quilômetros</h2>
+      <p>
+        O centro sobe para o norte se o norte ganha peso, mas também se o sul perde. O deslocamento
+        pode ser repartido exatamente entre as 166 AMC para mostrar quanto veio de cada lado. Seja
+        <i>s<sub>i</sub></i> = <i>w<sub>i</sub></i> / Σ<i>w</i> a participação da AMC no total. Então
+      </p>
+      <div class="formula">
+        ΔNorte = Σ ( <i>s<sub>i</sub></i><sup>fim</sup> − <i>s<sub>i</sub></i><sup>início</sup> ) · ( <i>y<sub>i</sub></i> − <i>ȳ</i><sup>início</sup> )
+      </div>
+      <p>
+        Cada parcela multiplica duas coisas: quanto a AMC mudou de participação, e de que lado da linha
+        do centro inicial ela está. Uma AMC ao norte da linha que ganha participação empurra o centro
+        para o norte. Uma AMC ao sul que <em>perde</em> participação também, porque deixa de puxar para
+        baixo. Por isso uma AMC pode mexer muito no centro sem ter perdido nenhum hectare: se o estado
+        todo cresce e ela fica parada, a participação dela cai.
+      </p>
+      <div class="mt-fig">
+        <div class="mt-ctl">
+          <label for="c7-a">de</label><select id="c7-a"></select>
+          <label for="c7-b">até</label><select id="c7-b"></select>
+        </div>
+        <div id="c7-mapa"></div>
+        <div id="c7-cascata" style="border-top:1px solid var(--color-rule)"></div>
+        <div class="mt-barras" id="c7-top"></div>
+        <div class="mt-leitura" id="c7-leitura"></div>
+      </div>
+      <div class="nao-mostra">
+        <h4>O que a decomposição não diz</h4>
+        <p>
+          Que uma AMC “causou” parte do deslocamento. É uma identidade contábil, a mesma conta do
+          capítulo 5 escrita de outro jeito, e as parcelas somam, até o metro, o deslocamento do
+          capítulo 6. Ela mostra onde, no mapa, as participações se redistribuíram. Não diz por quê.
+        </p>
+      </div>
+      <a class="voltar-topo" href="#top">↑ roteiro</a>
+    </section>
+
+    <!-- 8 ================================================================= -->
+    <section class="capitulo" id="mediano">
+      <div class="capitulo-eyebrow">Capítulo 8 · robustez a aglomerados</div>
+      <h2>O centro mediano, contra aglomerados</h2>
+      <p>
+        O centro médio é o ponto que minimiza a soma dos <em>quadrados</em> das distâncias às AMC. O
+        centro mediano minimiza a soma das distâncias sem elevar ao quadrado:
+      </p>
+      <div class="formula">mediano = argmin<sub><i>m</i></sub> Σ <i>w<sub>i</sub></i> · ‖ <i>m</i> − <i>r<sub>i</sub></i> ‖</div>
+      <p>
+        Como o quadrado cresce depressa, uma massa grande e distante pesa muito no centro médio. No
+        mediano ela pesa só na proporção da distância. É a mesma diferença entre a média e a mediana de
+        uma lista de salários. Se os dois centros contam a mesma história, o deslocamento não é efeito
+        de um aglomerado isolado, como o polo agrícola do Sudoeste.
+      </p>
+      <p>
+        O mediano não tem fórmula fechada. É encontrado pelo <strong>algoritmo de Weiszfeld</strong>,
+        uma média ponderada repetida: começa no centro médio e, a cada passo, repesa cada AMC por
+        <i>w<sub>i</sub></i> dividido pela distância até o ponto atual. As AMC próximas ganham
+        importância e as distantes perdem, até o ponto parar.
+      </p>
+      <div class="mt-fig">
+        <div class="mt-ctl">
+          <span class="mt-seg" id="c8-ano" role="group" aria-label="Ano">
+            <button type="button" aria-pressed="true" data-a="1985">1985</button><button type="button" aria-pressed="false" data-a="2024">2024</button>
+          </span>
+          <button class="mt-btn pri" id="c8-passo" type="button">Um passo</button>
+          <button class="mt-btn" id="c8-tudo" type="button">Até convergir</button>
+          <button class="mt-btn" id="c8-zera" type="button">Recomeçar</button>
+        </div>
+        <div id="c8-mapa"></div>
+        <div class="mt-legenda">
+          <span><svg width="13" height="13" viewBox="-1.2 -1.2 2.4 2.4" aria-hidden="true"><circle r="1" fill="#fff" stroke="#1a1a1a" stroke-width=".2"/><path d="M0,0L1,0A1,1 0 0,0 0,-1Z M0,0L-1,0A1,1 0 0,0 0,1Z" fill="#1a1a1a"/></svg> centro médio</span>
+          <span><svg width="12" height="12" viewBox="-1 -1 2 2" aria-hidden="true"><rect x="-.6" y="-.6" width="1.2" height="1.2" transform="rotate(45)" fill="#8b3a1d"/></svg> centro mediano (iterações em linha)</span>
+        </div>
+        <div class="mt-leitura" id="c8-leitura"></div>
+      </div>
+      <div class="pista">
+        <h4>Experimente</h4>
+        <p>
+          Clique numa AMC para multiplicar o peso dela por dez, como se ali surgisse um aglomerado
+          artificial. Compare quanto cada centro se move. Clique de novo para devolver o peso real.
+        </p>
+      </div>
+      <a class="voltar-topo" href="#top">↑ roteiro</a>
+    </section>
+
+    <!-- 9 ================================================================= -->
+    <section class="capitulo" id="incerteza">
+      <div class="capitulo-eyebrow">Capítulo 9 · margem de erro</div>
+      <h2>Quanto do deslocamento é ruído</h2>
+      <p>
+        A fórmula devolve um número, e não uma distribuição. Para ter um intervalo de confiança, o
+        <strong>bootstrap</strong> pergunta: se as AMC que formam o estado tivessem saído um pouco
+        diferentes, quanto o deslocamento mudaria?
+      </p>
+      <p>
+        Cada sorteio pega 166 AMC <em>com reposição</em>. Algumas entram duas ou três vezes, outras
+        nenhuma, e o mapa mostra quantas cópias de cada uma entraram. Com esse Goiás sorteado,
+        refazem-se as contas de 1985 e de 2024 e anota-se o ΔNorte. Depois de 2.000 sorteios, os
+        percentis 2,5 e 97,5 do histograma formam o intervalo de 95%.
+      </p>
+      <div class="mt-fig">
+        <div class="mt-ctl">
+          <label for="c9-k">Sortear</label>
+          <select id="c9-k"></select>
+          <button class="mt-btn pri" id="c9-1" type="button">1 sorteio</button>
+          <button class="mt-btn" id="c9-100" type="button">+100</button>
+          <button class="mt-btn" id="c9-tudo" type="button">até 2.000</button>
+          <button class="mt-btn" id="c9-zera" type="button">Zerar</button>
+        </div>
+        <div id="c9-mapa"></div>
+        <div id="c9-hist" style="border-top:1px solid var(--color-rule)"></div>
+        <div class="mt-numeros dois" id="c9-ic"></div>
+        <div id="c9-grade" style="border-top:1px solid var(--color-rule)"></div>
+        <div class="mt-leitura" id="c9-leitura"></div>
+      </div>
+      <div class="veredito-box">
+        <h4>A regra de leitura</h4>
+        <p>
+          Se o intervalo de 95% inclui o zero, o deslocamento não é reportado em quilômetros, e a
+          variável é descrita como <strong>ancorada</strong>. Selecione “Vegetação natural” na barra do
+          topo para ver esse caso.
+        </p>
+      </div>
+      <h3>Por que o sorteio é feito em blocos</h3>
+      <p>
+        O sorteio AMC a AMC supõe que elas são independentes, e não são. AMC vizinhas se parecem, e o
+        teste de autocorrelação espacial (índice de Moran) é significativo em 125 de 140 testes na
+        malha de AMC. Sortear duas vizinhas que dizem quase a mesma coisa não vale como duas
+        informações, e o intervalo sai estreito demais.
+      </p>
+      <p>
+        A correção sorteia <strong>blocos</strong> de AMC próximas, sempre inteiros, formados por
+        k-médias sobre os centroides. Mude o tamanho do bloco no seletor. O mapa mostra a partição, e o
+        intervalo alarga à medida que os blocos crescem. O tamanho do bloco não é um valor a descobrir:
+        um bloco de uma AMC reproduz o sorteio comum, e blocos enormes dão intervalos largos demais para
+        dizer qualquer coisa. Por isso a dissertação varre a grade inteira e reporta que o veredito não
+        muda em nenhum tamanho.
+      </p>
+      <div class="nao-mostra">
+        <h4>O que o bootstrap não diz</h4>
+        <p>
+          Nada sobre o erro do classificador. Ele mede a incerteza de amostragem sobre as unidades. Se
+          o MapBiomas confunde pastagem com savana numa região, nenhuma reamostragem enxerga isso.
+        </p>
+      </div>
+      <a class="voltar-topo" href="#top">↑ roteiro</a>
+    </section>
+
+    <!-- 10 ================================================================ -->
+    <section class="capitulo" id="pixel">
+      <div class="capitulo-eyebrow">Capítulo 10 · robustez à malha</div>
+      <h2>A conta sem malha nenhuma</h2>
+      <p>
+        O capítulo 2 pôs toda a pastagem de uma AMC no centroide dela. Se a pastagem de uma AMC grande
+        estiver concentrada num canto, essa posição está errada. O teste é refazer a conta sem polígono
+        nenhum no caminho, com <strong>cada pixel de 30&nbsp;m pesando por si</strong>: entre 128 e
+        172 milhões de pixels de pastagem por ano, contados no Google Earth Engine (Pipeline #43).
+      </p>
+      <p>
+        O gráfico sobrepõe as duas medições, contadas a partir da posição de 1985. As linhas quase se
+        confundem, e os deslocamentos diferem em cerca de um quilômetro, contra dezenas de quilômetros
+        medidos.
+      </p>
+      <div class="mt-fig">
+        <div id="c10-graf"></div>
+        <div class="mt-legenda" id="c10-leg"></div>
+        <div class="tabela-wrap" id="c10-tab" style="border-top:1px solid var(--color-rule)"></div>
+      </div>
+      <p style="font-size:0.94rem;color:var(--color-muted)" id="c10-regua"></p>
+      <a class="voltar-topo" href="#top">↑ roteiro</a>
+    </section>
+
+    <!-- 11 ================================================================ -->
+    <section class="capitulo" id="limites">
+      <div class="capitulo-eyebrow">Capítulo 11</div>
+      <h2>O que o método não diz</h2>
+      <div class="veredito-box">
+        <h4>O que ele sustenta</h4>
+        <p>
+          Que o ponto de equilíbrio da pastagem, do rebanho e da agricultura se deslocou para o norte
+          entre 1985 e 2024. O intervalo de 95% exclui o zero em todos os tamanhos de bloco. O centro
+          mediano conta a mesma história, e a conta pixel a pixel, sem malha, chega ao mesmo lugar. A
+          vegetação natural fica ancorada.
+        </p>
+      </div>
+      <div class="nao-mostra">
+        <h4>O que ele não sustenta</h4>
+        <p>
+          Nenhuma causa. O centro de massa descreve onde a massa está e como ela se redistribuiu.
+          Pastagem e rebanho andando juntos para o norte é uma coincidência de posições, e não uma
+          ligação entre eles. Por que a redistribuição aconteceu é assunto das Pernas&nbsp;2 a 4, com
+          outros instrumentos.
+        </p>
+      </div>
+      <p>
+        O centro também não diz que a atividade “saiu” do sul. Ele sobe quando o norte cresce mais
+        depressa que o sul, mesmo que o sul não perca nada, como mostra o capítulo 7. Para saber se o
+        sul perdeu área, é preciso olhar as áreas, e não o centro.
+      </p>
+      <a class="voltar-topo" href="#top">↑ roteiro</a>
+    </section>
+
+    <footer class="mt-footer">
+      <p>
+        <strong>Fontes de dados.</strong> MapBiomas, Coleção 10.1 (Landsat, 30&nbsp;m): pastagem,
+        agricultura e vegetação natural (floresta, savana e campo). IBGE, Pesquisa Pecuária Municipal:
+        efetivo de bovinos. Malha de Áreas Mínimas Comparáveis construída a partir de Ehrl (2017).
+      </p>
+      <p>
+        <strong>Como a página foi feita.</strong> O arquivo <code>assets/data/metodo_centro_massa.json</code>
+        é gerado por <code>scripts/exportar_metodo_centro_massa_viz.py</code> a partir de
+        <code>painel_amc_goias.parquet</code> e <code>amc_goias.gpkg</code> (Pipeline #25), e só é gravado
+        se o centro recalculado bater com o arquivo oficial do Pipeline #32. Toda conta desta página é
+        feita no navegador, com a álgebra de <code>centro_massa.py</code> (#32),
+        <code>robustez_bootstrap_bloco.py</code> (#55) e <code>centro_massa_pixel.py</code> (#43).
+      </p>
+      <p id="mt-confere"></p>
+      <div class="mt-footer-bottom">
+        Página independente, parte de uma dissertação de mestrado em andamento.
+        <a href="index.html">Voltar à visualização principal</a>
+      </div>
+    </footer>
+
+  </div>
+
+  <div class="mt-tip" id="mt-tip" role="tooltip"></div>
+
+  <script src="assets/js/vendor/d3.v7.min.js?v=2"></script>
+  <script src="assets/js/metodo-centro-massa.js?v=1"></script>
+</body>
+</html>
