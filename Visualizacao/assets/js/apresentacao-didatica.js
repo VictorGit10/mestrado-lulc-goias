@@ -81,8 +81,8 @@
 
   // ========================================================================
   // 0. O BALANÇO DE QUARENTA ANOS: as quatro classes em milhões de hectares,
-  //    na mesma escala (painel_goias.json, o mesmo do site). Passo 1 desenha a
-  //    pastagem; passo 2 destaca o pico de 2003 (o saldo esconde um U invertido).
+  //    na mesma escala (painel_goias.json, o mesmo do site). Uma classe por
+  //    passo; o passo 3 destaca o pico de 2003 (o saldo esconde um U invertido).
   // ========================================================================
   const balanco = {
     async init() {
@@ -107,9 +107,9 @@
       [1985, 1995, 2005, 2015, 2024].forEach(a => txt(ge, X(a), A - m.b + 34, a, { "text-anchor": "middle" }));
       txt(ge, m.l - 14, m.t - 16, "Mha", { "text-anchor": "end", class: "gb-tit" });
       const C = [
-        { k: "pct_vegetacao_nativa", nome: "Vegetação natural", cor: "#2d5a3d", g: "base" },
-        { k: "pct_agricultura", nome: "Agricultura", cor: "#d96aa3", g: "base" },
-        { k: "pct_mosaico", nome: "Mosaico de usos", cor: "#c98a4b", g: "base", fraca: true },
+        { k: "pct_vegetacao_nativa", nome: "Vegetação natural", cor: "#2d5a3d", g: "veg" },
+        { k: "pct_agricultura", nome: "Agricultura", cor: "#d96aa3", g: "agric" },
+        { k: "pct_mosaico", nome: "Mosaico de usos", cor: "#c98a4b", g: "agric", fraca: true },
         { k: "pct_pastagem", nome: "Pastagem", cor: "#c79a2e", g: "pasto" },
       ];
       // rótulos na ponta direita, afastados para não se sobreporem
@@ -134,14 +134,24 @@
       txt(gpk, X(anos[iP]), Y(vp[iP]) - 28, `pico: ${fmt(vp[iP])} Mha em ${anos[iP]}`, { "text-anchor": "middle", fill: "#8a6a1c" });
       this.pico = gpk;
     },
+    // uma classe por passo: vegetação → agricultura e mosaico → pastagem → o pico
+    // (as outras esmaecem) → a resposta, com as quatro de volta em contraste pleno
     passo(s, p, ant) {
       if (!this.svg) return;
       const G = this.grupos;
-      if (ant === null && !ESTATICO) { Object.values(G).forEach(g => g.classList.remove("on")); void this.svg.getBoundingClientRect(); }
-      requestAnimationFrame(() => G.base.classList.add("on"));
-      G.pasto.classList.toggle("on", p >= 1);
-      this.pico.classList.toggle("on", p >= 2);
-      this.svg.classList.toggle("f-pico", p >= 2);
+      clearTimeout(this.tVeg);
+      const aplica = () => {
+        G.veg.classList.add("on");
+        G.agric.classList.toggle("on", p >= 1);
+        G.pasto.classList.toggle("on", p >= 2);
+        this.pico.classList.toggle("on", p >= 3);
+        this.svg.classList.toggle("f-pico", p === 3);
+      };
+      if (ant === null && !ESTATICO) {
+        Object.values(G).forEach(g => g.classList.remove("on")); void this.svg.getBoundingClientRect();
+        // chegando de outro slide, as linhas esperam a rolagem do palco terminar
+        this.tVeg = setTimeout(aplica, 850);
+      } else aplica();
     },
   };
 

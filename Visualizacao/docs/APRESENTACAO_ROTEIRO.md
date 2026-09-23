@@ -22,7 +22,7 @@ A navegação é por teclado. O mouse é opcional e só serve para arrastar o ap
 | 6 | **Por que Goiás · objetivos** (antigos 6 e 7 fundidos) | 2 | 1:00 |
 | 7 | Dados e método | 4 | 0:50 |
 | 8 | Três atos | — | 0:50 |
-| 9 | O balanço de quarenta anos (as 4 classes em Mha; pico da pastagem) | 3 | 0:50 |
+| 9 | O balanço de quarenta anos (uma classe por passo; pico da pastagem) | 4 | 0:50 |
 | 10 | Ato III · o rótulo que muda | — | 0:50 |
 | 11 | **A balança** (sorteios visíveis: um Goiás sorteado × a pilha) | 7 | **2:00** |
 | 12 | Os centros de massa | 4 | 1:00 |
@@ -31,11 +31,11 @@ A navegação é por teclado. O mouse é opcional e só serve para arrastar o ap
 | 15 | A idade do pasto (+ mistura de gaussianas) | 5 | 1:05 |
 | 16 | **O que o empurrão deixaria nos dados** (3 momentos) | 2 | **1:30** |
 | 17 | Em nenhuma medida a assinatura aparece (dois painéis, mesmo desenho) | 4 | 0:50 |
-| 18 | O motor comum (cadeia choque → exposição → resposta) | 5 | 1:15 |
+| 18 | Se o empurrão não aparece, o que coordena? (cadeia choque → exposição → resposta) | 5 | 1:15 |
 | 19 | Não faltou demanda (barras Ato III ÷ Ato II) | 3 | 0:50 |
 | 20 | Onde resta menos, converte-se mais devagar | 4 | 1:00 |
-| 21 | O que a marcha custou | — | 0:45 |
-| 22 | Veredito · o placar | — | 0:50 |
+| 21 | O que a marcha custou (carbono por ato; IFDM por região) | 2 | 0:45 |
+| 22 | Veredito · o placar (uma linha por passo) | 5 | 0:50 |
 | 23 | O que isso diz à literatura | — | 0:45 |
 | 24 | O que cada resposta não alcança | — | 0:40 |
 | 25 | Até a defesa | — | 0:40 |

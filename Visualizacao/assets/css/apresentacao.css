@@ -982,3 +982,29 @@ body.estatico .goias-traco .anim { animation: none; stroke-dashoffset: 0; stroke
 .rb-tot { font-size: 24px; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .rb-leg { display: inline-block; width: 18px; height: 18px; margin: 0 6px 0 14px; vertical-align: -2px; }
 .rb-leg.s { background: #8b3a1d; } .rb-leg.c { background: #a8a296; } .rb-leg.n { background: #2d5a3d; }
+
+/* Perna 4 · o IFDM por região, 2013–2023 */
+.graf-ifdm { width: 100%; display: block; margin-top: 6px; overflow: visible; font-family: var(--sans); }
+.graf-ifdm .if-grade { stroke: var(--rule); stroke-width: 1.2; }
+.graf-ifdm .if-esc { font-size: 22px; fill: var(--muted); }
+.graf-ifdm .if-vao { fill: #8b3a1d; opacity: .08; }
+.graf-ifdm .if-linha { fill: none; stroke-width: 6; stroke-linejoin: round; stroke-linecap: round; }
+.graf-ifdm .if-linha.c { stroke-width: 4; }
+.graf-ifdm .if-rot { font-size: 25px; font-weight: 700; }
+.graf-ifdm .if-vao-med { stroke: var(--fg); stroke-width: 2; stroke-dasharray: 4 4; }
+.graf-ifdm .if-vao-rot { font-size: 23px; font-weight: 700; fill: var(--fg); }
+
+/* veredito e literatura enxutos: menos texto, letra maior, linha a linha */
+.placar tr[data-step], .placar thead[data-step] { transition: opacity .55s ease; }
+.placar tr[data-step]:not(.on), .placar thead[data-step]:not(.on) { transform: none; }
+.placar td { padding: 18px 26px 18px 0; }
+.placar .pq { font-size: 28px; }
+.placar .rp { font-size: 33px; }
+.placar .nm { font-size: 40px; }
+.placar .gl { font-size: 25px; }
+.quadro-lit td { font-size: 34px; padding: 24px 30px 24px 0; }
+.quadro-lit td.alc { font-size: 29px; }
+.s-porque .cartao h3 { font-size: 32px; }
+.s-porque .cartao p { font-size: 31px; line-height: 1.35; }
+.s-porque .porque-lacuna { font-size: 31px; line-height: 1.4; max-width: none; margin: 26px 0 0; }
+.s-porque .obj-faixa { margin-top: 48px; padding-top: 32px; }

@@ -6,7 +6,7 @@
 <title>A marcha ao norte · qualificação</title>
 <meta name="description" content="Apresentação da qualificação de mestrado (PPGCIAMB-UFG): uso e cobertura da terra em Goiás, 1985–2024. Navegação só por teclado.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23fafaf7'/%3E%3Ccircle cx='32' cy='32' r='14' fill='%238b3a1d'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="assets/css/apresentacao.css?v=23b">
+<link rel="stylesheet" href="assets/css/apresentacao.css?v=24">
 </head>
 <body>
 <div class="stage">
@@ -118,12 +118,9 @@
   <div class="colunas" style="--n:3; gap:44px">
     <div class="cartao" style="--c:#d96aa3"><h3>Sul consolidado</h3><p>A expansão acontece sobre área já aberta.</p></div>
     <div class="cartao" style="--c:#c79a2e"><h3>Norte em fronteira</h3><p>A expansão avança sobre vegetação natural.</p></div>
-    <div class="cartao" style="--c:#6b6b6b"><h3>Sob o mesmo desenho</h3><p>Mesmo classificador, malha e fonte: a diferença entre Sul e Norte não vem da medida.</p></div>
+    <div class="cartao" style="--c:#2d5a3d"><h3>O que ainda pode ser perdido</h3><p>6,56 Mha de savana e campo expostos à conversão; <strong>44% no Norte</strong>.</p></div>
   </div>
-  <div class="colunas" style="--n:2; gap:56px; margin-top:34px" data-step="1">
-    <div class="cartao" style="--c:#2d5a3d"><h3>O que ainda pode ser perdido</h3><p>Restam 6,56 Mha de savana e campo nativo expostos à conversão, cerca de 60% do que havia em 1985. <strong>44% deles estão no Norte</strong>, para onde a conversão migrou.</p></div>
-    <div class="cartao"><h3>O que o trabalho acrescenta</h3><p>O deslocamento entre regiões de um mesmo estado, de vizinho para vizinho, não aparece nas fontes consultadas. Aqui ele é submetido a teste formal.</p></div>
-  </div>
+  <p class="texto menor porque-lacuna" data-step="1">Mesmo classificador, malha e fonte nas duas regiões. O deslocamento de vizinho para vizinho dentro de um estado não aparece nas fontes consultadas: <strong>aqui ele é testado</strong>.</p>
   <div class="obj-faixa" data-step="2">
     <p class="obj-geral-c"><strong>Objetivo geral:</strong> caracterizar e explicar a reorganização espacial do uso e cobertura da terra em Goiás entre 1985 e 2024, em sua relação com fatores socioeconômicos.</p>
     <div class="obj-4">
@@ -188,11 +185,11 @@
 </section>
 
 <!-- 9b · O BALANÇO DE QUARENTA ANOS — Tabela do balanço e cruzamento 1985×2024 (§4.1) -->
-<section class="slide s-balanco" data-hook="balanco" data-passos="3" data-secao="metodo" data-titulo="O balanço de quarenta anos">
+<section class="slide s-balanco" data-hook="balanco" data-passos="4" data-secao="metodo" data-titulo="O balanço de quarenta anos">
   <p class="kicker">Periodização · o balanço</p>
   <h2 class="titulo">O que os quarenta anos somam</h2>
   <svg class="graf-balanco" role="img" aria-label="Área de cada classe em Goiás, 1985 a 2024, em milhões de hectares: a vegetação natural cai de 17,7 para 11,9; a agricultura sobe de 1,2 para 5,6; a pastagem sobe até 14,8 em 2003 e desce a 12,0; o Mosaico de Usos fica perto de 3,6."></svg>
-  <div class="resposta" data-step="3"><b>O elo intermediário</b>58% da área que entrou em agricultura (2,72 de 4,65 Mha) veio de pastagem. É a parte da hipótese de partida que os dados confirmam.</div>
+  <div class="resposta" data-step="4"><b>O elo intermediário</b>58% da área que entrou em agricultura (2,72 de 4,65 Mha) veio de pastagem. É a parte da hipótese de partida que os dados confirmam.</div>
   <p class="fonte">MapBiomas Coleção 10.1 · área de cada classe em Goiás, ano a ano</p>
 </section>
 
@@ -503,13 +500,9 @@
       <p class="item-custo">Três quartos saíram no Ato I. Depois, a fronteira passou a consumir quase só savana, menos densa em carbono que a floresta.</p>
     </div>
     <div data-step="2">
-      <p class="rotulo-sans">Desenvolvimento municipal (IFDM)</p>
-      <div class="barras custo-barras">
-        <p class="barras-cab">Crescimento da área cultivada, 2013–2021</p>
-        <div class="barra on" style="--c:var(--pasto); --w:100%"><span class="r">Norte</span><span class="trilho"><span class="b"></span></span><span class="v">+93%</span></div>
-        <div class="barra on" style="--c:var(--agric); --w:15.1%"><span class="r">Sul</span><span class="trilho"><span class="b"></span></span><span class="v">+14%</span></div>
-      </div>
-      <p class="item-custo">O IFDM subiu nas duas regiões, e a distância entre elas quase não mudou: 0,092 ponto em 2013, 0,083 em 2023. Quase dobrar a área não veio acompanhado de desenvolvimento adicional no Norte (associação, não causa).</p>
+      <p class="rotulo-sans">Desenvolvimento municipal · IFDM médio por região (0 a 1)</p>
+      <svg class="graf-ifdm" viewBox="0 0 800 390" role="img" aria-label="IFDM médio por região, 2013 a 2023: todas sobem; o Norte fica abaixo do Sul, com vão de −0,092 em 2013 e −0,083 em 2023."><line class="if-grade" x1="72" x2="650" y1="342.0" y2="342.0"></line><text class="if-esc" x="60" y="349.0" text-anchor="end">0,4</text><line class="if-grade" x1="72" x2="650" y1="236.7" y2="236.7"></line><text class="if-esc" x="60" y="243.7" text-anchor="end">0,5</text><line class="if-grade" x1="72" x2="650" y1="131.3" y2="131.3"></line><text class="if-esc" x="60" y="138.3" text-anchor="end">0,6</text><line class="if-grade" x1="72" x2="650" y1="26.0" y2="26.0"></line><text class="if-esc" x="60" y="33.0" text-anchor="end">0,7</text><text class="if-esc" x="72.0" y="378" text-anchor="middle">2013</text><text class="if-esc" x="361.0" y="378" text-anchor="middle">2018</text><text class="if-esc" x="650.0" y="378" text-anchor="middle">2023</text><polygon class="if-vao" points="72.0,201.5 129.8,193.1 187.6,194.2 245.4,191.2 303.2,162.8 361.0,163.2 418.8,151.9 476.6,145.4 534.4,123.0 592.2,98.0 650.0,53.4 650.0,140.8 592.2,168.0 534.4,198.2 476.6,223.3 418.8,227.0 361.0,247.3 303.2,257.2 245.4,278.1 187.6,276.3 129.8,285.4 72.0,298.8"></polygon><polyline class="if-linha c" points="72.0,263.7 129.8,259.5 187.6,252.2 245.4,257.5 303.2,225.2 361.0,220.4 418.8,204.0 476.6,193.1 534.4,168.0 592.2,137.7 650.0,108.8" stroke="#a8a296"></polyline><polyline class="if-linha s" points="72.0,201.5 129.8,193.1 187.6,194.2 245.4,191.2 303.2,162.8 361.0,163.2 418.8,151.9 476.6,145.4 534.4,123.0 592.2,98.0 650.0,53.4" stroke="#8b3a1d"></polyline><polyline class="if-linha n" points="72.0,298.8 129.8,285.4 187.6,276.3 245.4,278.1 303.2,257.2 361.0,247.3 418.8,227.0 476.6,223.3 534.4,198.2 592.2,168.0 650.0,140.8" stroke="#2d5a3d"></polyline><text class="if-rot" x="662.0" y="61.4" fill="#8b3a1d">Sul 0,67</text><text class="if-rot" x="662.0" y="112.8" fill="#77726a">Centro 0,62</text><text class="if-rot" x="662.0" y="156.8" fill="#2d5a3d">Norte 0,59</text><line class="if-vao-med" x1="86.0" x2="86.0" y1="201.5" y2="298.8"></line><text class="if-vao-rot" x="96.0" y="258.1" text-anchor="start">vão −0,092</text><line class="if-vao-med" x1="636.0" x2="636.0" y1="53.4" y2="140.8"></line><text class="if-vao-rot" x="626.0" y="105.1" text-anchor="end">vão −0,083</text></svg>
+      <p class="item-custo">O Norte quase dobrou a área cultivada entre 2013 e 2021 (+93%, contra +14% no Sul), e o vão para o Sul quase não mudou. Dentro de cada município, dobrar a área vale 0,008 ponto de IFDM, diante dos cerca de 0,15 que o índice subiu na década (associação, não causa).</p>
     </div>
   </div>
   <p class="fonte">Densidades de carbono do Quarto Inventário Nacional · IFDM (FIRJAN) · MapBiomas 10.1</p>
@@ -519,32 +512,32 @@
 <section class="slide" data-secao="veredito" data-titulo="Veredito · o placar dos testes">
   <p class="kicker">Veredito</p>
   <p class="texto" style="font-size:30px; max-width:none; margin-bottom:20px">O empurrão local não apareceu. A intensificação no Sul e a fronteira no Norte são compatíveis com <strong>estímulos econômicos comuns</strong> ao longo do gradiente Sul→Norte e com o encolhimento da vegetação ainda exposta.</p>
-  <table class="placar" data-step="1">
-    <thead><tr><th>Pergunta</th><th>Resposta</th><th>O placar dos testes</th></tr></thead>
+  <table class="placar">
+    <thead data-step="1"><tr><th>Pergunta</th><th>Resposta</th><th>O placar dos testes</th></tr></thead>
     <tbody>
-      <tr>
+      <tr data-step="1">
         <td class="pq">1 · O padrão existe?</td>
-        <td class="rp">Sim: o centro de gravidade do pasto, do boi e da lavoura está mais ao norte.</td>
-        <td><span class="nm">+78 · +67 · +65 km</span><span class="gl">intervalo exclui zero nas três camadas; inclui zero na vegetação</span></td>
+        <td class="rp">Sim: pasto, rebanho e lavoura estão mais ao norte.</td>
+        <td><span class="nm">+78 · +67 · +65 km</span><span class="gl">a vegetação, sem deslocamento detectável</span></td>
       </tr>
-      <tr>
+      <tr data-step="2">
         <td class="pq">2 · Qual é o mecanismo?</td>
-        <td class="rp">Pasto→lavoura no Sul, vegetação→pasto no Norte, e duas populações de pasto em todo lugar.</td>
-        <td><span class="nm">5 de 5 regiões · 166 de 166 AMC</span><span class="gl">com as duas populações; a região explica 0,5% da idade</span></td>
+        <td class="rp">Pasto→lavoura no Sul, vegetação→pasto no Norte; dois tipos de pasto em todo lugar.</td>
+        <td><span class="nm">166 de 166 AMC</span><span class="gl">com os dois tipos de pasto</span></td>
       </tr>
-      <tr>
+      <tr data-step="3">
         <td class="pq">3 · O Sul empurrou o Norte?</td>
-        <td class="rp">O empurrão não apareceu. O que aparece é a lavoura tomando o pasto ali mesmo.</td>
-        <td><span class="nm">0 de 12 · 0 de 24 · 5 de 6</span><span class="gl">inclinação positiva · Sul antes do Norte · substituição local</span></td>
+        <td class="rp">O empurrão não apareceu; a lavoura toma o pasto ali mesmo.</td>
+        <td><span class="nm">0 de 36 · 5 de 6</span><span class="gl">com o empurrão · com a substituição local</span></td>
       </tr>
-      <tr>
+      <tr data-step="4">
         <td class="pq">4 · Por que desacelerou?</td>
-        <td class="rp">Não faltou comprador: compatível com atrito de oferta, não com demanda em queda.</td>
-        <td><span class="nm">16 de 16 · 11 de 16</span><span class="gl">a conversão desacelera quando resta menos · com significância a 5%</span></td>
+        <td class="rp">Não faltou comprador: compatível com atrito de oferta.</td>
+        <td><span class="nm">16 de 16</span><span class="gl">a conversão desacelera onde resta menos</span></td>
       </tr>
     </tbody>
   </table>
-  <div class="resposta" data-step="2" style="font-size:30px; line-height:1.3; padding:16px 24px"><b>O que os testes não separam</b>Câmbio, crédito e preços andam juntos; aptidão e latitude também. O teste aponta na direção prevista (p = 0,07–0,13), sem identificar a força nem o canal espacial.</div>
+  <div class="resposta" data-step="5" style="font-size:30px; line-height:1.3; padding:16px 24px"><b>O que os testes não separam</b>Câmbio, crédito e preços andam juntos, e aptidão e latitude também. O teste aponta a direção prevista (p = 0,07–0,13), sem identificar a força.</div>
 </section>
 
 <!-- 19b · O QUE ISSO DIZ À LITERATURA — Discussão §5.1 a §5.3 -->
@@ -556,23 +549,23 @@
     <tbody>
       <tr data-step="1">
         <td class="arc">Renda da terra<small>Angelsen (2007)</small></td>
-        <td>A ordenação dos usos se preserva enquanto as três camadas sobem juntas: a lavoura fica 123–135 km ao sul do pasto nos 40 anos.</td>
-        <td class="alc">Compatível com o arcabouço; não separa qualidade de acesso ou preço da terra.</td>
+        <td>A ordem dos usos se mantém: a lavoura fica 123–135 km ao sul do pasto nos 40 anos.</td>
+        <td class="alc">Não separa qualidade, acesso ou preço da terra.</td>
       </tr>
       <tr data-step="2">
         <td class="arc">Transição florestal<small>Angelsen (2007); Rudel et al. (2005)</small></td>
-        <td>O Sul estabiliza sem regeneração líquida: terceiro estágio de Angelsen, ainda sem transição pela definição de Rudel.</td>
-        <td class="alc">Compatível com restrição de oferta; cinco anos e o Cerrado savânico limitam a analogia.</td>
+        <td>O Sul estabiliza sem regenerar: terceiro estágio de Angelsen, sem transição pela definição de Rudel.</td>
+        <td class="alc">Cinco anos, e o Cerrado savânico limita a analogia.</td>
       </tr>
       <tr data-step="3">
         <td class="arc">Deslocamento indireto<small>Arima et al. (2011)</small></td>
-        <td>O canal por adjacência não aparece em 36 especificações relacionadas; a substituição local aparece em quase todas.</td>
-        <td class="alc">Nulo documentado: nada aqui refuta o iLUC de longo alcance.</td>
+        <td>O canal entre vizinhos não aparece em 36 especificações; a substituição local aparece.</td>
+        <td class="alc">Nada aqui refuta o iLUC de longo alcance.</td>
       </tr>
       <tr data-step="4">
         <td class="arc">Câmbio<small>Richards (2012)</small></td>
-        <td>Richards estima a resposta da área de soja à desvalorização em outra escala e período; Goiás mostra um gradiente compatível com estímulo comum.</td>
-        <td class="alc">p = 0,07–0,13: indício, sem identificar o câmbio nem separar aptidão de latitude.</td>
+        <td>Um gradiente compatível com estímulo comum; Richards mede o efeito do câmbio em outra escala.</td>
+        <td class="alc">p = 0,07–0,13: indício, sem identificar o câmbio.</td>
       </tr>
     </tbody>
   </table>
@@ -687,7 +680,7 @@
 </div>
 </div>
 <script src="assets/js/apresentacao-hooks.js?v=8b"></script>
-<script src="assets/js/apresentacao-didatica.js?v=5b"></script>
+<script src="assets/js/apresentacao-didatica.js?v=6"></script>
 <script src="assets/js/apresentacao.js?v=9b"></script>
 </body>
 </html>
