@@ -7,7 +7,7 @@ window.HOOKS = (() => {
   "use strict";
   const NS = "http://www.w3.org/2000/svg";
   const fmt1 = v => v.toFixed(1).replace(".", ",");
-  const json = u => fetch(u).then(r => r.json());
+  const json = u => fetch(u).then(r => { if (!r.ok) throw new Error(`${u}: HTTP ${r.status}`); return r.json(); });
   const el = (tag, attrs = {}, pai) => {
     const e = document.createElementNS(NS, tag);
     for (const k in attrs) e.setAttribute(k, attrs[k]);
@@ -164,6 +164,7 @@ window.HOOKS = (() => {
       let a = this.ano;
       this.timer = setInterval(() => {
         if (a >= alvo) { clearInterval(this.timer); return; }
+        if (!this.imgs[a + 1]) return;   // espera a imagem do ano: número e mapa andam juntos
         a++; this.desenha(a);
       }, 150);
     },

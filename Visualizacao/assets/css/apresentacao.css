@@ -965,3 +965,20 @@ body.estatico .goias-traco .anim { animation: none; stroke-dashoffset: 0; stroke
 .custo-barras .barra .v { font-size: 40px; }
 .s-custo .item-custo { font-size: 31px; }
 .s-custo .colunas { margin-top: 30px; }
+
+/* Perna 1 · onde está cada camada (barras empilhadas por região, 1985 × 2024) */
+.regbarras { font-family: var(--sans); --sul:#8b3a1d; --cen:#a8a296; --nor:#2d5a3d; }
+.rb-nome { font-size: 25px; font-weight: 700; margin: 14px 0 4px; }
+.rb-nome:first-child { margin-top: 0; }
+.rb { display: grid; grid-template-columns: 78px 1fr 190px; gap: 18px; align-items: center; height: 44px; }
+.rb-ano { font-size: 23px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.rb-barra { display: flex; height: 32px; }
+.rb-barra i { display: block; height: 100%; }
+.rb-barra i + i { border-left: 2px solid var(--bg); }
+.rb-barra i.s { background: var(--sul); position: relative; }
+.rb-barra i.c { background: var(--cen); }
+.rb-barra i.n { background: var(--nor); }
+.rb-barra i.s b { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: #fff; font-size: 21px; font-weight: 700; }
+.rb-tot { font-size: 24px; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.rb-leg { display: inline-block; width: 18px; height: 18px; margin: 0 6px 0 14px; vertical-align: -2px; }
+.rb-leg.s { background: #8b3a1d; } .rb-leg.c { background: #a8a296; } .rb-leg.n { background: #2d5a3d; }

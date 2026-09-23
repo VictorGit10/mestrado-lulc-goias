@@ -133,7 +133,9 @@
     const h = HOOKS[slide.dataset.hook];
     if (h && h.passo) {
       const mesmo = anteriorSlide === i;
-      h.passo(slide, p, mesmo ? anteriorPasso : null, instantaneo || !mesmo || Math.abs(p - anteriorPasso) !== 1);
+      // um gráfico que falhe não pode travar a navegação
+      try { h.passo(slide, p, mesmo ? anteriorPasso : null, instantaneo || !mesmo || Math.abs(p - anteriorPasso) !== 1); }
+      catch (e) { console.error(slide.dataset.hook, e); }
     }
     atualizarSumario(slide, p);
     history.replaceState(null, "", `${location.search}#${i + 1}.${p}`);
@@ -235,7 +237,7 @@
     if (preto.classList.contains("on")) { preto.classList.remove("on"); e.preventDefault(); return; }
     // no slide-hub: a letra do cartão abre a página; Enter abre o cartão em foco (Tab navega)
     if (slides[atual] && slides[atual].classList.contains("s-hub")) {
-      const alvo = k.length === 1 && slides[atual].querySelector(`.hub[data-tecla="${k.toUpperCase()}"]`);
+      const alvo = k.length === 1 && slides[atual].querySelector(`.hub[data-tecla="${CSS.escape(k.toUpperCase())}"]`);
       if (alvo) { abrirJanela(alvo); e.preventDefault(); return; }
       if (k === "Enter" && document.activeElement && document.activeElement.classList.contains("hub")) {
         abrirJanela(document.activeElement); e.preventDefault(); return;
@@ -281,7 +283,7 @@
   addEventListener("mousemove", () => { document.body.classList.add("cursor"); clearTimeout(tCur); tCur = setTimeout(() => { if (!indice.classList.contains("on")) document.body.classList.remove("cursor"); }, 1800); });
 
   // --- início ---------------------------------------------------------------
-  Promise.all(Object.values(HOOKS).map(h => h.init ? h.init() : null)).finally(() => {
+  Promise.all(Object.values(HOOKS).map(h => h.init ? Promise.resolve().then(() => h.init()).catch(e => console.error(e)) : null)).finally(() => {
     const m = location.hash.match(/^#(\d+)(?:\.(\d+))?/);
     ir(m ? +m[1] - 1 : 0, m && m[2] ? +m[2] : 0, true);
   });

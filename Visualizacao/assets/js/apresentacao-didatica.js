@@ -35,7 +35,7 @@
     return e;
   };
   const txt = (pai, x, y, s, attrs = {}) => { const t = el("text", { x, y, ...attrs }, pai); t.textContent = s; return t; };
-  const json = u => fetch(u).then(r => r.json());
+  const json = u => fetch(u).then(r => { if (!r.ok) throw new Error(`${u}: HTTP ${r.status}`); return r.json(); });
   // número à brasileira: milhar com ponto, decimal com vírgula, sinal de menos tipográfico
   const fmt = (v, c = 1) => {
     const neg = v < 0, [i, d] = Math.abs(v).toFixed(c).split(".");
