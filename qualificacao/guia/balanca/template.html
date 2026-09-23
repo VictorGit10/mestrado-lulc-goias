@@ -1,0 +1,1183 @@
+<meta charset="utf-8">
+<title>A balança de Goiás</title>
+<meta name="description" content="O centro de massa do Pipeline #32 refeito passo a passo no navegador, com as 166 AMC e os pesos reais de 1985 a 2024.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --paper:#EDEFEA; --paper-2:#E2E6DF; --card:#F7F8F5; --ink:#17201C; --ink-2:#4B5752; --ink-3:#7A857F;
+  --rule:#C6CCC3; --accent:#1D5A6E; --accent-ink:#FFFFFF; --focus:#1D5A6E;
+  --c-pastagem:#D07A06; --c-bovinos:#8A2A2A; --c-agricultura:#B8175A; --c-veg_natural:#2E7D32;
+  --norte:#245E8C; --sul:#B0522A; --ok:#2E7D32; --warn:#9A6A00;
+  --shadow:0 1px 0 rgba(23,32,28,.06), 0 8px 24px -12px rgba(23,32,28,.25);
+  --f-disp:"Archivo", "Arial Narrow", system-ui, sans-serif;
+  --f-body:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#111513; --paper-2:#181E1B; --card:#1C2320; --ink:#E3E8E2; --ink-2:#A3AEA8; --ink-3:#77837D;
+    --rule:#2F3834; --accent:#7FC3D6; --accent-ink:#0E1A1F; --focus:#7FC3D6;
+    --c-pastagem:#F0A43A; --c-bovinos:#DA7373; --c-agricultura:#E8659A; --c-veg_natural:#63B967;
+    --norte:#6FA8D8; --sul:#E08A5E; --ok:#63B967; --warn:#E0B24A;
+    --shadow:0 1px 0 rgba(0,0,0,.3), 0 10px 30px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#111513; --paper-2:#181E1B; --card:#1C2320; --ink:#E3E8E2; --ink-2:#A3AEA8; --ink-3:#77837D;
+  --rule:#2F3834; --accent:#7FC3D6; --accent-ink:#0E1A1F; --focus:#7FC3D6;
+  --c-pastagem:#F0A43A; --c-bovinos:#DA7373; --c-agricultura:#E8659A; --c-veg_natural:#63B967;
+  --norte:#6FA8D8; --sul:#E08A5E; --ok:#63B967; --warn:#E0B24A;
+  --shadow:0 1px 0 rgba(0,0,0,.3), 0 10px 30px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.6;
+  padding-inline:clamp(16px,4vw,48px);padding-block:0 64px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1220px;margin-inline:auto}
+h1,h2,h3,.disp{font-family:var(--f-disp);font-stretch:88%;letter-spacing:-.01em;text-wrap:balance;line-height:1.08;margin:0}
+p{margin:0 0 .9em}
+em{font-style:italic}
+.mono,.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.num{font-size:.92em}
+button,select,input{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+
+/* ---- barra da variável ---- */
+.barra{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in oklab,var(--paper) 92%,transparent);
+  backdrop-filter:blur(6px);border-bottom:1px solid var(--rule);margin-inline:calc(-1*clamp(16px,4vw,48px));padding:8px clamp(16px,4vw,48px)}
+.barra .wrap{display:flex;gap:10px 18px;align-items:center;flex-wrap:wrap}
+.barra .rot{font-family:var(--f-disp);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1px solid var(--rule);background:var(--card);border-radius:999px;padding:3px 12px 3px 9px;cursor:pointer;
+  font-family:var(--f-disp);font-size:14px;display:inline-flex;gap:7px;align-items:center}
+.chip i{width:10px;height:10px;border-radius:50%;background:var(--c)}
+.chip[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:var(--paper)}
+.barra .nav{margin-left:auto;display:flex;gap:12px;flex-wrap:wrap;font-family:var(--f-disp);font-size:13px}
+.barra .nav a{color:var(--ink-2);text-decoration:none}
+.barra .nav a:hover{color:var(--ink)}
+@media (max-width:900px){.barra .nav{display:none}}
+
+/* ---- abertura ---- */
+.abre{padding-block:56px 28px;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:40px;align-items:end}
+.abre .eyebrow{font-family:var(--f-disp);font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:14px}
+.abre h1{font-size:clamp(44px,7vw,92px);font-weight:750;font-stretch:78%}
+.abre h1 span{display:block;font-weight:400;font-stretch:100%;font-size:.36em;letter-spacing:0;margin-top:14px;color:var(--ink-2);font-family:var(--f-body);line-height:1.3}
+.abre .lead{font-size:19px;max-width:60ch}
+.resposta{border-left:3px solid var(--ink);padding:4px 0 4px 18px}
+.resposta .big{font-family:var(--f-disp);font-size:clamp(40px,5vw,60px);font-weight:700;font-stretch:80%;line-height:1}
+.resposta .big small{font-size:.45em;font-weight:500}
+.resposta .sub{color:var(--ink-2);font-size:15px;margin-top:8px}
+@media (max-width:820px){.abre{grid-template-columns:1fr;padding-top:36px}}
+
+/* ---- estações ---- */
+section.est{padding-block:56px 24px;border-top:1px solid var(--rule)}
+.est-cab{display:grid;grid-template-columns:auto 1fr;gap:4px 18px;align-items:baseline;margin-bottom:26px}
+.est-cab .passo{font-family:var(--f-mono);font-size:13px;color:var(--ink-2);grid-row:span 2;padding-top:10px;min-width:5.5em}
+.est-cab h2{font-size:clamp(28px,3.6vw,42px);font-weight:700}
+.est-cab .q{font-family:var(--f-body);font-style:italic;color:var(--ink-2);font-size:18px}
+.grade{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:36px;align-items:start}
+.grade.inv{grid-template-columns:minmax(0,7fr) minmax(0,5fr)}
+.grade>.texto{max-width:62ch}
+@media (max-width:980px){.grade,.grade.inv{grid-template-columns:1fr}.grade.inv>.fig{order:-1}}
+.fig{min-width:0}
+.painel{background:var(--card);border:1px solid var(--rule);border-radius:6px;box-shadow:var(--shadow);overflow:hidden}
+.ctl{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:10px 12px;border-bottom:1px solid var(--rule);font-family:var(--f-disp);font-size:14px}
+.ctl.base{border-bottom:0;border-top:1px solid var(--rule)}
+.ctl label{color:var(--ink-2)}
+.seg{display:inline-flex;border:1px solid var(--rule);border-radius:5px;overflow:hidden}
+.seg button{border:0;background:transparent;padding:4px 10px;cursor:pointer}
+.seg button+button{border-left:1px solid var(--rule)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.btn{border:1px solid var(--rule);background:var(--paper);border-radius:5px;padding:4px 11px;cursor:pointer}
+.btn:hover{border-color:var(--ink-2)}
+.btn.pri{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+select{border:1px solid var(--rule);background:var(--paper);border-radius:5px;padding:3px 6px}
+input[type=range]{accent-color:var(--accent);width:180px;max-width:100%}
+.lendo{font-family:var(--f-disp);font-size:14px;color:var(--ink-2);padding:10px 12px;border-top:1px solid var(--rule);line-height:1.45}
+.lendo b{color:var(--ink);font-weight:600}
+
+svg.mapa{display:block;width:100%;height:auto;background:var(--card)}
+svg text{font-family:var(--f-disp)}
+.amc{stroke:var(--rule);stroke-width:.6;vector-effect:non-scaling-stroke;fill:var(--paper-2)}
+.contorno{fill:none;stroke:var(--ink-2);stroke-width:1.2;vector-effect:non-scaling-stroke}
+.grat{fill:none;stroke:var(--ink-3);stroke-width:.5;stroke-dasharray:2 3;vector-effect:non-scaling-stroke;opacity:.6}
+.grat-t{fill:var(--ink-3);font-size:11px}
+
+/* fórmula */
+.formula{font-family:var(--f-mono);font-size:15px;background:var(--paper-2);border-radius:6px;padding:14px 16px;margin:14px 0 18px;overflow-x:auto;line-height:1.9}
+.frac{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;margin:0 .3em}
+.frac>span:first-child{border-bottom:1.5px solid currentColor;padding:0 .3em}
+.frac>span{padding:0 .3em}
+.formula .v{color:var(--accent);font-weight:500}
+
+/* caixas do caderno */
+.caixa{border:1px solid var(--rule);border-radius:6px;padding:14px 16px 6px;margin:18px 0;background:var(--card);font-size:16px}
+.caixa>.t{font-family:var(--f-disp);font-size:12px;letter-spacing:.09em;text-transform:uppercase;font-weight:600;margin-bottom:6px;display:flex;gap:8px;align-items:center}
+.caixa.nao>.t{color:var(--sul)}
+.caixa.banca>.t{color:var(--accent)}
+.caixa.cuidado>.t{color:var(--warn)}
+.caixa.banca p{font-style:italic}
+
+/* tabela-razão */
+.razao{max-height:340px;overflow:auto;border-top:1px solid var(--rule)}
+.razao table{width:100%;border-collapse:collapse;font-family:var(--f-mono);font-size:12.5px;font-variant-numeric:tabular-nums}
+.razao th{position:sticky;top:0;background:var(--paper-2);font-family:var(--f-disp);font-weight:600;font-size:12px;text-align:right;padding:5px 8px;border-bottom:1px solid var(--rule)}
+.razao th:first-child,.razao td:first-child{text-align:left}
+.razao td{padding:3px 8px;text-align:right;border-bottom:1px solid color-mix(in oklab,var(--rule) 50%,transparent);white-space:nowrap}
+.razao tr.feita td{color:var(--ink)}
+.razao tr td{color:var(--ink-3)}
+.razao tr.agora td{background:color-mix(in oklab,var(--accent) 18%,transparent);color:var(--ink)}
+.conta-leit{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--rule);border-top:1px solid var(--rule)}
+.conta-leit>div{background:var(--card);padding:10px 12px}
+.conta-leit .k{font-family:var(--f-disp);font-size:12px;color:var(--ink-2);letter-spacing:.04em}
+.conta-leit .v{font-family:var(--f-mono);font-size:16px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+@media (max-width:560px){.conta-leit{grid-template-columns:1fr}}
+
+/* 3D */
+.palco{position:relative;aspect-ratio:16/10;max-height:640px;width:100%;background:var(--card);touch-action:pan-y;cursor:grab}
+.palco:active{cursor:grabbing}
+.palco canvas{display:block;width:100%;height:100%}
+.etq3d{position:absolute;left:0;top:0;pointer-events:none;font-family:var(--f-disp);font-size:12.5px;white-space:nowrap;
+  background:var(--card);border:1px solid var(--ink);border-radius:3px;padding:1px 6px;transform:translate(-50%,-130%)}
+.etq3d.apoio{border-color:var(--accent);color:var(--accent)}
+.dica{position:absolute;right:10px;bottom:8px;font-family:var(--f-disp);font-size:12px;color:var(--ink-3);pointer-events:none}
+.estado-eq{display:inline-block;font-family:var(--f-disp);font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:3px;margin-right:6px}
+.estado-eq.sim{background:color-mix(in oklab,var(--ok) 20%,transparent);color:var(--ok)}
+.estado-eq.nao{background:color-mix(in oklab,var(--sul) 18%,transparent);color:var(--sul)}
+
+/* gráficos */
+svg.graf{display:block;width:100%;height:auto}
+.eixo text{fill:var(--ink-2);font-size:11px;font-family:var(--f-mono)}
+.eixo line,.eixo path{stroke:var(--rule)}
+.graf .ato{fill:var(--paper-2)}
+.graf .ato-t{fill:var(--ink-3);font-size:11px;font-family:var(--f-disp)}
+.leg{display:flex;flex-wrap:wrap;gap:6px 16px;padding:8px 12px;font-family:var(--f-disp);font-size:13px;color:var(--ink-2)}
+.leg i{display:inline-block;width:18px;height:3px;vertical-align:middle;margin-right:6px;background:var(--c)}
+.leg i.tr{background:repeating-linear-gradient(90deg,var(--c) 0 4px,transparent 4px 7px)}
+
+.pill{display:inline-block;font-family:var(--f-disp);font-size:13px;font-weight:600;padding:2px 10px;border-radius:999px}
+.pill.rob{background:color-mix(in oklab,var(--ok) 18%,transparent);color:var(--ok)}
+.pill.anc{background:color-mix(in oklab,var(--warn) 20%,transparent);color:var(--warn)}
+.duas{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule)}
+.duas>div{background:var(--card);padding:10px 12px}
+@media (max-width:560px){.duas{grid-template-columns:1fr}}
+.tabela{width:100%;border-collapse:collapse;font-size:14px;font-family:var(--f-disp)}
+.tabela td,.tabela th{padding:6px 8px;border-bottom:1px solid var(--rule);text-align:right}
+.tabela th{font-weight:600;color:var(--ink-2);font-size:12.5px}
+.tabela td:first-child,.tabela th:first-child{text-align:left}
+.tabela td.num{font-family:var(--f-mono)}
+.rolar{overflow-x:auto}
+.barras .linha{display:grid;grid-template-columns:minmax(0,10em) 1fr 4.2em;gap:8px;align-items:center;font-family:var(--f-disp);font-size:13px;padding:2px 12px}
+.barras .linha .b{height:10px;background:var(--c);border-radius:1px}
+.barras .linha .n{font-family:var(--f-mono);font-size:12px;text-align:right;color:var(--ink-2)}
+.barras .linha .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tip{position:fixed;z-index:50;pointer-events:none;background:var(--ink);color:var(--paper);font-family:var(--f-disp);font-size:13px;padding:6px 9px;border-radius:4px;max-width:260px;line-height:1.35;opacity:0;transition:opacity .1s}
+.tip.on{opacity:1}
+.nota{font-size:14.5px;color:var(--ink-2)}
+.fecho{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+@media (max-width:900px){.fecho{grid-template-columns:1fr}}
+footer{border-top:1px solid var(--rule);margin-top:48px;padding-top:18px;font-size:14px;color:var(--ink-2)}
+code{font-family:var(--f-mono);font-size:.88em;background:var(--paper-2);padding:1px 4px;border-radius:3px}
+</style>
+
+<div class="barra"><div class="wrap">
+  <span class="rot">A conta está pesando</span>
+  <div class="chips" id="chips" role="group" aria-label="Variável"></div>
+  <nav class="nav" aria-label="Estações">
+    <a href="#ideia">A ideia</a><a href="#onde">Posições</a><a href="#pesos">Pesos</a><a href="#conta">A conta</a>
+    <a href="#tempo">No tempo</a><a href="#porque">Por que andou</a><a href="#mediano">Mediano</a><a href="#ruido">Incerteza</a><a href="#pixel">Pixel</a>
+  </nav>
+</div></div>
+
+<main class="wrap">
+
+<header class="abre">
+  <div>
+    <div class="eyebrow">Caderno de preparação · Pipeline #32, refeito à vista</div>
+    <h1>A balança de Goiás<span>Onde fica o ponto de equilíbrio de uma atividade no território, e como se descobre que ele andou.</span></h1>
+  </div>
+  <div>
+    <p class="lead">Esta página refaz, no seu navegador, a conta do centro de massa com os mesmos arquivos do pipeline: as 166 AMC, os hectares do MapBiomas e as cabeças da PPM, de 1985 a 2024. Cada número abaixo sai da conta feita aqui, e é conferido contra o CSV oficial.</p>
+    <div class="resposta" id="resposta"></div>
+  </div>
+</header>
+
+<!-- 1 ─────────────────────────────── A IDEIA -->
+<section class="est" id="ideia">
+  <div class="est-cab"><div class="passo">ideia</div><h2>Goiás equilibrado na ponta de um lápis</h2>
+    <div class="q">Se cada AMC tivesse o peso da sua pastagem, onde seria preciso apoiar o estado para que ele não tombasse?</div></div>
+  <div class="grade inv">
+    <div class="fig"><div class="painel">
+      <div class="ctl">
+        <span class="seg" id="p3-modo" role="group" aria-label="Como a massa está distribuída">
+          <button aria-pressed="true" data-m="esp">Massa espalhada na AMC</button><button aria-pressed="false" data-m="pin">Massa no centroide</button></span>
+        <label for="p3-ano">Ano</label><input type="range" id="p3-ano" min="1985" max="2024" step="1" value="1985"><b class="num" id="p3-ano-v">1985</b>
+      </div>
+      <div class="palco" id="palco"><div class="dica">arraste para girar · clique na placa para mover o apoio</div></div>
+      <div class="ctl base">
+        <button class="btn pri" id="p3-cm">Apoiar no centro de massa</button>
+        <button class="btn" id="p3-85">Apoiar no centro de 1985</button>
+        <button class="btn" id="p3-gyn">Apoiar em Goiânia</button>
+      </div>
+      <div class="lendo" id="p3-lendo"></div>
+    </div></div>
+    <div class="texto">
+      <p>Imagine o mapa de Goiás recortado numa chapa fina e sem peso. Sobre cada uma das 166 AMC empilha-se uma quantidade de massa proporcional à pastagem que ela tem naquele ano. Depois procura-se, por baixo, o único ponto em que um lápis sustenta tudo sem que a chapa penda para lado nenhum.</p>
+      <p>Esse ponto é o <strong>centro de massa</strong>. Na figura, clique em qualquer lugar da placa para pôr o apoio ali. A placa inclina na direção em que sobra peso, e só fica nivelada num único lugar.</p>
+      <p>A física diz exatamente onde é esse lugar. Cada AMC puxa a placa com uma força igual ao seu peso <i>w<sub>i</sub></i>, a uma distância <i>r<sub>i</sub> − p</i> do apoio <i>p</i>. A placa fica parada quando os puxões se anulam:</p>
+      <div class="formula">Σ w<sub>i</sub> · (r<sub>i</sub> − p) = 0 &nbsp;⟺&nbsp; p = <span class="frac"><span>Σ w<sub>i</sub> · r<sub>i</sub></span><span>Σ w<sub>i</sub></span></span></div>
+      <p>A segunda forma é a fórmula do pipeline, escrita uma vez para a coordenada leste (<i>x</i>) e outra para a norte (<i>y</i>). Não há nada de estatístico nela. É a média das posições, em que cada AMC conta tanto quanto pesa.</p>
+      <p>Um detalhe que a figura deixa ver: a soma de todos os puxões é igual a <i>W · (c − p)</i>, em que <i>W</i> é o peso total e <i>c</i> o centro de massa. A placa se comporta como se os 166 pesos fossem um só, pendurado em <i>c</i>. Por isso a inclinação cresce com a distância entre o apoio e o centro, e por isso basta um ponto para resumir a distribuição inteira.</p>
+      <div class="caixa cuidado"><div class="t">Experimente</div>
+        <p>Aperte <b>Apoiar no centro de 1985</b> e arraste o ano até 2024. A placa, antes nivelada, tomba para o norte. É isso, e só isso, que a frase “o centro de massa da pastagem andou 77,6 km para o norte” quer dizer.</p></div>
+      <p class="nota">Troque para <b>Massa no centroide</b>. As colunas espalhadas sobre cada AMC viram uma agulha só, no centroide, com o mesmo peso. O ponto de equilíbrio não se move. Isso vale porque uma massa espalhada por igual sobre um polígono equilibra exatamente no centroide dele, e é essa a suposição que a conta faz. Ela é testada na última estação, contra os pixels.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 2 ─────────────────────────────── POSIÇÕES -->
+<section class="est" id="onde">
+  <div class="est-cab"><div class="passo">passo 1 de 4</div><h2>Onde fica cada AMC: o <i>r<sub>i</sub></i></h2>
+    <div class="q">Antes de pesar qualquer coisa, cada pedaço do estado vira um ponto com coordenadas em quilômetros.</div></div>
+  <div class="grade">
+    <div class="texto">
+      <p>A unidade da conta é a <strong>Área Mínima Comparável</strong>, não o município. Goiás tinha menos municípios em 1985 do que tem hoje, e quando um município se divide o seu pedaço de território não muda, só o nome da unidade. A AMC junta os municípios que em algum momento foram um só, e por isso a malha de 166 unidades fica idêntica de 1985 a 2024 (Decisão D11). Se a malha mudasse com o tempo, o centro poderia andar só porque o desenho mudou.</p>
+      <p>Cada AMC vira um único ponto, o seu <strong>centroide</strong>, o centro de área do polígono. Clique em uma AMC no mapa para ver o dela.</p>
+      <p>As coordenadas estão em <strong>metros</strong>, na projeção EPSG:5880 (SIRGAS 2000, Policônica do Brasil), e não em graus. A ordem importa. Primeiro se projeta, depois se calcula o centroide. Um grau de longitude não mede o mesmo que um grau de latitude, e a média feita em graus não dá o centro feito em metros.</p>
+      <p class="nota">Para ler as coordenadas com mais facilidade, a página mede tudo em km a partir de uma origem logo a sudoeste do estado. Somando a origem (x = <span class="num" id="orig-x"></span> km, y = <span class="num" id="orig-y"></span> km), chega-se ao número do CSV do pipeline.</p>
+      <div class="caixa nao"><div class="t">O que esta etapa já assume</div>
+        <p>Toda a pastagem de uma AMC passa a morar no centroide dela. Nas AMC grandes do norte isso é uma aproximação mais grosseira do que nas pequenas do sul. Esse é o problema de unidade de área modificável (MAUP), e a última estação mede o tamanho dele.</p></div>
+    </div>
+    <div class="fig"><div class="painel">
+      <div class="ctl"><button class="btn" id="p1-colapsa">Encolher cada AMC até o centroide</button><span class="nota" style="font-size:13px">166 polígonos → 166 pontos</span></div>
+      <div id="p1-mapa"></div>
+      <div class="lendo" id="p1-lendo"></div>
+    </div></div>
+  </div>
+</section>
+
+<!-- 3 ─────────────────────────────── PESOS -->
+<section class="est" id="pesos">
+  <div class="est-cab"><div class="passo">passo 2 de 4</div><h2>Quanto pesa cada AMC: o <i>w<sub>i</sub></i></h2>
+    <div class="q">O peso é a quantidade que a AMC guarda naquele ano, em hectares ou em cabeças.</div></div>
+  <div class="grade inv">
+    <div class="fig"><div class="painel">
+      <div class="ctl"><span class="seg" id="p2-ano" role="group" aria-label="Ano"><button aria-pressed="true" data-a="1985">1985</button><button aria-pressed="false" data-a="2024">2024</button></span>
+        <span class="seg" id="p2-modo" role="group" aria-label="Forma"><button aria-pressed="true" data-m="circ">círculos</button><button aria-pressed="false" data-m="dens">densidade</button></span></div>
+      <div id="p2-mapa"></div>
+      <div class="lendo" id="p2-lendo"></div>
+    </div></div>
+    <div class="texto">
+      <p>Com as posições prontas, falta o peso. Para a pastagem, <i>w<sub>i</sub></i> é a área de pastagem que o MapBiomas classifica dentro da AMC <i>i</i> no ano <i>t</i>. Para o rebanho, é o efetivo de bovinos da PPM. Para a vegetação natural, é a soma de floresta, savana e campo nativo.</p>
+      <p>Os círculos do mapa têm área proporcional ao peso. Alterne entre 1985 e 2024 e procure o que muda. Os círculos do norte engordam, e os do sudoeste emagrecem. O centro vai acompanhar essa troca.</p>
+      <p>Esse é o <strong>peso de estoque</strong>, a quantidade que a AMC guarda. Ele responde a “onde a atividade está”. O pipeline também usa a mesma fórmula com <strong>peso de fluxo</strong>, a área que mudou de uma classe para outra entre dois anos, e aí a pergunta vira “onde a atividade muda”. A conta é idêntica, só troca o que entra como <i>w</i>.</p>
+      <div class="barras" id="p2-top" aria-label="As AMC mais pesadas"></div>
+      <p class="nota">Uma AMC com peso zero ou sem dado sai da conta daquele ano, porque não puxa a placa para lado nenhum. Isso só acontece com a agricultura em 1985, que estava presente em <span id="p2-n85"></span> das 166 AMC.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 4 ─────────────────────────────── A CONTA -->
+<section class="est" id="conta">
+  <div class="est-cab"><div class="passo">passo 3 de 4</div><h2>A conta, linha por linha</h2>
+    <div class="q">Duas somas e uma divisão. Veja o centro nascer à medida que cada AMC entra.</div></div>
+  <div class="grade">
+    <div class="texto">
+      <p>A tabela ao lado é a conta inteira. Cada linha é uma AMC, com o seu peso <i>w<sub>i</sub></i>, a sua posição norte <i>y<sub>i</sub></i> e o produto dos dois. O centro é a soma da última coluna dividida pela soma da primeira.</p>
+      <div class="formula" id="p4-formula"></div>
+      <p>Aperte <b>Somar</b>. As AMC entram uma a uma, e a cada entrada o centro é recalculado só com as que já entraram. O marcador ⊕ no mapa é esse centro parcial. No começo ele salta, porque poucas AMC mandam em tudo. Depois se acomoda.</p>
+      <p>Troque a <b>ordem</b> e repita. Do sul para o norte, o centro parcial começa no sul e sobe. Da mais pesada para a mais leve, começa em cima da AMC mais pesada. O caminho muda, e o ponto de chegada é sempre o mesmo, porque uma soma não depende da ordem das parcelas.</p>
+      <div class="caixa cuidado"><div class="t">Onde as pessoas se confundem</div>
+        <p>O centro de massa não precisa cair em lugar nenhum “importante”. Ele pode ficar numa AMC com pouca pastagem, entre dois polos pesados. É um ponto de equilíbrio, não o lugar onde a atividade é maior.</p></div>
+    </div>
+    <div class="fig"><div class="painel">
+      <div class="ctl">
+        <span class="seg" id="p4-ano" role="group" aria-label="Ano"><button aria-pressed="true" data-a="1985">1985</button><button aria-pressed="false" data-a="2024">2024</button></span>
+        <label for="p4-ordem">Ordem</label>
+        <select id="p4-ordem"><option value="sn">do sul para o norte</option><option value="peso">da mais pesada para a mais leve</option><option value="cod">pelo código da AMC</option></select>
+        <button class="btn pri" id="p4-play">Somar</button><button class="btn" id="p4-fim">Ir ao fim</button>
+      </div>
+      <div id="p4-mapa"></div>
+      <div class="conta-leit">
+        <div><div class="k">Σ w<sub>i</sub> (<span class="p4-un"></span>)</div><div class="v" id="p4-sw">0</div></div>
+        <div><div class="k">Σ w<sub>i</sub>·y<sub>i</sub></div><div class="v" id="p4-swy">0</div></div>
+        <div><div class="k">ȳ = razão (km)</div><div class="v" id="p4-y">—</div></div>
+      </div>
+      <div class="razao"><table><thead><tr><th>AMC</th><th>w<sub>i</sub></th><th>y<sub>i</sub> (km)</th><th>w<sub>i</sub>·y<sub>i</sub></th></tr></thead><tbody id="p4-tb"></tbody></table></div>
+      <div class="lendo" id="p4-lendo"></div>
+    </div></div>
+  </div>
+</section>
+
+<!-- 5 ─────────────────────────────── NO TEMPO -->
+<section class="est" id="tempo">
+  <div class="est-cab"><div class="passo">passo 4 de 4</div><h2>Repetir para cada ano e medir a distância</h2>
+    <div class="q">Quarenta contas iguais à anterior, uma por ano, e o deslocamento é a diferença entre a primeira e a última.</div></div>
+  <div class="grade inv">
+    <div class="fig"><div class="painel">
+      <div class="ctl"><button class="btn pri" id="p5-play">Tocar 1985→2024</button><input type="range" id="p5-ano" min="1985" max="2024" value="2024" aria-label="Ano"><b class="num" id="p5-ano-v">2024</b></div>
+      <div id="p5-mapa"></div>
+      <div class="leg" id="p5-leg"></div>
+      <div id="p5-graf"></div>
+      <div class="lendo" id="p5-lendo"></div>
+    </div></div>
+    <div class="texto">
+      <p>O mapa está ampliado. Mostra só a região do meio do estado, onde os quatro centros moram. Cada rastro liga os 40 centros anuais de uma variável, de 1985 (ponto vazio) até o ano escolhido (⊕).</p>
+      <p>O deslocamento é a diferença entre dois centros. A componente norte é</p>
+      <div class="formula">ΔNorte = ȳ<sub>2024</sub> − ȳ<sub>1985</sub></div>
+      <p>e, como <i>y</i> está em metros, o resultado já sai em quilômetros sem conversão nenhuma. A latitude aparece só como rótulo, reprojetando o ponto de volta para graus.</p>
+      <p>O gráfico de baixo mostra a mesma coisa como série: a posição norte de cada centro ano a ano, com os três atos da periodização ao fundo. É dele que sai a tabela por ato.</p>
+      <div id="p5-tab" class="rolar"></div>
+      <div class="caixa nao"><div class="t">O que o centro de massa não diz</div>
+        <p>Ele não diz <em>por que</em> a atividade se moveu, nem que uma região tenha causado o movimento da outra. Pastagem e rebanho andando juntos para o norte é uma coincidência de posições, não uma ligação. A explicação vem depois, com outros instrumentos.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 ─────────────────────────────── POR QUE ANDOU -->
+<section class="est" id="porque">
+  <div class="est-cab"><div class="passo">abrir o número</div><h2>De onde vêm os quilômetros</h2>
+    <div class="q">O centro sobe se o norte ganha peso <em>ou</em> se o sul perde. Quanto veio de cada lado?</div></div>
+  <div class="grade">
+    <div class="texto">
+      <p>O deslocamento pode ser repartido, exatamente, entre as 166 AMC. Seja <i>s<sub>i</sub></i> = <i>w<sub>i</sub></i> / Σ<i>w</i> a <strong>participação</strong> da AMC no total. Então</p>
+      <div class="formula">ΔNorte = Σ (s<sub>i,fim</sub> − s<sub>i,início</sub>) · (y<sub>i</sub> − ȳ<sub>início</sub>)</div>
+      <p>Cada parcela é o produto de duas coisas: quanto a AMC mudou de participação, e de que lado da linha do centro inicial ela está. Uma AMC ao norte da linha que ganha participação empurra o centro para o norte. Uma AMC ao sul que <em>perde</em> participação também empurra para o norte, porque deixa de puxar para baixo.</p>
+      <p>Por isso uma AMC pode mexer muito no centro sem ter crescido em hectares. Se o estado todo cresce e ela fica parada, a participação dela cai.</p>
+      <p class="nota">Isto não é um resultado novo do trabalho. É uma identidade contábil, a mesma conta do passo 3 escrita de outro jeito, e serve para ler o número. As parcelas somam, até o metro, o deslocamento da estação anterior.</p>
+      <div class="caixa nao"><div class="t">O que a decomposição não diz</div>
+        <p>Que uma AMC “causou” parte do deslocamento. Ela diz apenas onde, no mapa, a redistribuição de participações aconteceu.</p></div>
+    </div>
+    <div class="fig"><div class="painel">
+      <div class="ctl"><label for="p6-a">de</label><select id="p6-a"></select><label for="p6-b">até</label><select id="p6-b"></select></div>
+      <div id="p6-mapa"></div>
+      <div id="p6-cascata"></div>
+      <div class="barras" id="p6-top"></div>
+      <div class="lendo" id="p6-lendo"></div>
+    </div></div>
+  </div>
+</section>
+
+<!-- 7 ─────────────────────────────── MEDIANO -->
+<section class="est" id="mediano">
+  <div class="est-cab"><div class="passo">acompanhante</div><h2>O centro mediano, e por que ele existe</h2>
+    <div class="q">Um aglomerado muito pesado puxa a média. O mediano resiste. Se os dois contam a mesma história, o resultado não é efeito de um aglomerado.</div></div>
+  <div class="grade inv">
+    <div class="fig"><div class="painel">
+      <div class="ctl"><span class="seg" id="p7-ano" role="group" aria-label="Ano"><button aria-pressed="true" data-a="1985">1985</button><button aria-pressed="false" data-a="2024">2024</button></span>
+        <button class="btn pri" id="p7-passo">Um passo de Weiszfeld</button><button class="btn" id="p7-tudo">Até convergir</button><button class="btn" id="p7-zera">Recomeçar</button></div>
+      <div id="p7-mapa"></div>
+      <div class="lendo" id="p7-lendo"></div>
+    </div></div>
+    <div class="texto">
+      <p>O centro médio minimiza a soma dos <em>quadrados</em> das distâncias às AMC. O centro mediano minimiza a soma das distâncias sem elevar ao quadrado:</p>
+      <div class="formula">mediano = argmin<sub>m</sub> Σ w<sub>i</sub> · ‖m − r<sub>i</sub>‖</div>
+      <p>Como o quadrado cresce depressa, uma massa grande e distante pesa muito no centro médio. No mediano ela pesa só na proporção da distância. É a mesma diferença entre a média e a mediana de uma lista de salários.</p>
+      <p>Não há fórmula fechada para o mediano. Ele é encontrado pelo <strong>algoritmo de Weiszfeld</strong>, que é uma média ponderada repetida: começa no centro médio e, a cada passo, repesa cada AMC por <i>w<sub>i</sub></i> / distância até o ponto atual. As AMC próximas ganham importância e as distantes perdem. Aperte <b>Um passo</b> e veja o ponto caminhar até parar.</p>
+      <div class="caixa cuidado"><div class="t">Experimente</div>
+        <p>Clique numa AMC do mapa para multiplicar o peso dela por dez. Compare quanto cada centro se move. O médio corre atrás do aglomerado artificial, e o mediano mal se mexe.</p></div>
+      <p class="nota">No trabalho, o mediano é reportado ao lado do médio, sem intervalo de confiança. Ele serve de teste de robustez contra o peso de um aglomerado, como o polo agrícola do Sudoeste, e não contra a amostra.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 8 ─────────────────────────────── INCERTEZA -->
+<section class="est" id="ruido">
+  <div class="est-cab"><div class="passo">a margem de erro</div><h2>Quanto desses quilômetros é ruído?</h2>
+    <div class="q">O centro é um número só. Para ter um intervalo, sorteia-se um Goiás um pouco diferente, duas mil vezes.</div></div>
+  <div class="grade">
+    <div class="texto">
+      <p>A fórmula devolve um ponto, não uma distribuição. De onde sai então o intervalo de confiança? O <strong>bootstrap</strong> responde com uma pergunta: se as AMC que formam o estado tivessem saído um pouco diferentes, quanto o deslocamento mudaria?</p>
+      <p>Cada sorteio pega 166 AMC <em>com reposição</em>. Algumas entram duas ou três vezes, outras nenhuma. O mapa mostra quantas cópias de cada uma entraram. Com esse Goiás sorteado refaz-se a conta de 1985 e a de 2024, e anota-se o ΔNorte. Depois de 2000 sorteios, os percentis 2,5 e 97,5 do histograma são o intervalo de 95%.</p>
+      <p><strong>A regra D19:</strong> se o intervalo inclui o zero, o deslocamento não é reportado em quilômetros. A variável é descrita como <em>ancorada</em>. Selecione Vegetação natural na barra do topo para ver o caso.</p>
+      <h3 style="font-size:21px;margin:26px 0 10px">Por que virou bootstrap de blocos</h3>
+      <p>O sorteio AMC a AMC supõe que elas são independentes. Não são. AMC vizinhas se parecem (o índice de Moran nos resíduos é significativo em 125 de 140 testes na malha de AMC). Sortear duas vizinhas que dizem quase a mesma coisa não vale como duas informações, e o intervalo sai estreito demais.</p>
+      <p>A correção sorteia <strong>blocos</strong> de AMC próximas, formados por k-médias sobre os centroides, sempre inteiros. Mude o tamanho do bloco no controle e veja os blocos no mapa. O intervalo alarga à medida que os blocos crescem, como deveria.</p>
+      <p>O tamanho do bloco não é um valor a descobrir. Um bloco de uma AMC reproduz o bootstrap comum, e blocos enormes dão intervalos inúteis de tão largos. Por isso o trabalho varre a grade inteira e reporta que <strong>o veredito não muda em nenhum tamanho</strong>.</p>
+      <div class="caixa nao"><div class="t">O que o bootstrap não diz</div>
+        <p>Nada sobre o erro do classificador. Ele mede a incerteza de amostragem sobre as unidades. Se o MapBiomas confunde pastagem com savana numa região, nenhuma reamostragem enxerga isso.</p></div>
+    </div>
+    <div class="fig"><div class="painel">
+      <div class="ctl">
+        <label for="p8-k">Sortear</label>
+        <select id="p8-k"></select>
+        <button class="btn pri" id="p8-1">1 sorteio</button><button class="btn" id="p8-100">+100</button><button class="btn" id="p8-tudo">até 2000</button><button class="btn" id="p8-zera">Zerar</button>
+      </div>
+      <div id="p8-mapa"></div>
+      <div id="p8-hist"></div>
+      <div class="duas" id="p8-ic"></div>
+      <div id="p8-grade"></div>
+      <div class="lendo" id="p8-lendo"></div>
+    </div></div>
+  </div>
+</section>
+
+<!-- 9 ─────────────────────────────── PIXEL -->
+<section class="est" id="pixel">
+  <div class="est-cab"><div class="passo">o teste da malha</div><h2>E se a malha estivesse enganando?</h2>
+    <div class="q">A conta supõe que toda a pastagem de uma AMC mora no centroide. O teste é refazer tudo sem malha nenhuma.</div></div>
+  <div class="grade inv">
+    <div class="fig"><div class="painel">
+      <div id="p9-graf"></div>
+      <div class="leg" id="p9-leg"></div>
+      <div id="p9-tab" class="rolar"></div>
+    </div></div>
+    <div class="texto">
+      <p>As AMC do norte são maiores e mais irregulares que as do sul. Se a pastagem de uma AMC grande estiver toda num canto dela, pôr tudo no centroide erra a posição. Resultados que mudam quando muda o recorte das unidades são o problema da unidade de área modificável, o MAUP.</p>
+      <p>O Pipeline #43 mediu esse efeito em vez de supor que fosse pequeno. Calculou o mesmo centro com <strong>cada pixel de 30 m pesando por si</strong>, entre 128 e 172 milhões de pixels de pastagem por ano, no Google Earth Engine. Sem polígono nenhum no caminho.</p>
+      <p>O gráfico sobrepõe as duas medições, contadas a partir de 1985. As linhas quase se confundem. Os deslocamentos diferem em um ou dois quilômetros, contra dezenas de quilômetros medidos.</p>
+      <div class="caixa banca"><div class="t">Como dizer isto na banca</div>
+        <p>“O MAUP existe no desenho, e eu o medi em vez de supor que fosse pequeno. Refiz o cálculo sem malha nenhuma, pixel a pixel, e a diferença é de um a dois quilômetros contra um deslocamento de quase oitenta.”</p></div>
+      <p class="nota" id="p9-regua"></p>
+    </div>
+  </div>
+</section>
+
+<!-- fecho -->
+<section class="est" id="fecho">
+  <div class="est-cab"><div class="passo">resumo</div><h2>A conta inteira em três frases</h2></div>
+  <div class="fecho">
+    <div><h3 style="font-size:20px;margin-bottom:8px">O que é</h3><p>O ponto de equilíbrio de uma distribuição no mapa: a média das posições das 166 AMC, cada uma contando tanto quanto pesa. É a fórmula do centro de gravidade, com hectares no lugar de quilos.</p></div>
+    <div><h3 style="font-size:20px;margin-bottom:8px">O que sustenta o número</h3><p>O intervalo de 95% do bootstrap de blocos, que exclui o zero em qualquer tamanho de bloco para pastagem, rebanho e agricultura. O mediano, que conta a mesma história. E o pixel, que tira a malha do caminho e chega ao mesmo lugar.</p></div>
+    <div><h3 style="font-size:20px;margin-bottom:8px">O que não sustenta</h3><p>Nenhuma causa. O centro descreve onde a massa está e para onde se redistribuiu. Por que ela se redistribuiu é assunto das Pernas 2 a 4, com outros instrumentos.</p></div>
+  </div>
+  <footer>
+    Arquivos: <code>data/processed/painel_amc_goias.parquet</code>, <code>amc_goias.gpkg</code> (Pipeline #25); álgebra de <code>scripts/centro_massa.py</code> (#32), <code>robustez_bootstrap_bloco.py</code> (#55) e <code>centro_massa_pixel.py</code> (#43). Gerado por <code>qualificacao/guia/balanca/gerar_balanca.py</code>, que confere o centro exportado contra <code>centro_massa_anual.csv</code> antes de gravar. Material de estudo, fora da entrega.
+    <div id="conferencia" style="margin-top:8px"></div>
+  </footer>
+</section>
+</main>
+<div class="tip" id="tip"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script>
+/*__DADOS__*/
+</script>
+<script>
+"use strict";
+// ═════════════════════════════════════════ base
+const $ = (s, r = document) => r.querySelector(s);
+const NS = "http://www.w3.org/2000/svg";
+const reduz = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const AMC = D.amc, N = AMC.length;
+const CX = AMC.map(a => a.cx), CY = AMC.map(a => a.cy), AREA = AMC.map(a => a.area);
+const ANOS = D.anos, iA = a => a - 1985;
+const VARS = ["pastagem", "bovinos", "agricultura", "veg_natural"];
+const S = { v: "pastagem" };
+const ouvintes = [];
+const aoMudarVar = fn => { ouvintes.push(fn); };
+const TOPO = 800;               // y do SVG = TOPO − y (km)
+const sy = y => TOPO - y;
+
+const fmt = (v, d = 1) => Number.isFinite(v) ? v.toLocaleString("pt-BR", { minimumFractionDigits: d, maximumFractionDigits: d }) : "—";
+const fmtS = (v, d = 1) => (v > 0 ? "+" : v < 0 ? "−" : "") + fmt(Math.abs(v), d);
+const fmtI = v => Math.round(v).toLocaleString("pt-BR");
+const nomeVar = v => D.vars[v].rotulo;
+const un = v => D.vars[v].unidade;
+const cor = v => `var(--c-${v})`;
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const el = (tag, at = {}, pai) => { const e = document.createElementNS(NS, tag); for (const k in at) e.setAttribute(k, at[k]); if (pai) pai.appendChild(e); return e; };
+const pesos = (v, ano) => D.pesos[v][iA(ano)];
+
+function latlon(x, y) {
+  const u = x / D.latfit.esc, w = y / D.latfit.esc; let la = 0, lo = 0;
+  D.latfit.expo.forEach(([i, j], k) => { const t = u ** i * w ** j; la += D.latfit.lat[k] * t; lo += D.latfit.lon[k] * t; });
+  return [lo, la];
+}
+function fmtLat(la) { const a = Math.abs(la), g = Math.floor(a), m = (a - g) * 60; return `${g}°${fmt(m, 1)}′ S`; }
+function fmtLon(lo) { const a = Math.abs(lo), g = Math.floor(a), m = (a - g) * 60; return `${g}°${fmt(m, 1)}′ O`; }
+
+function centro(w, c) {
+  let sw = 0, sx = 0, s_y = 0;
+  for (let i = 0; i < N; i++) { const wi = c ? c[i] * w[i] : w[i]; if (!(wi > 0)) continue; sw += wi; sx += wi * CX[i]; s_y += wi * CY[i]; }
+  return { x: sx / sw, y: s_y / sw, W: sw };
+}
+function weiszfeld(w, traco = false, tol = 1e-7, max = 1000) {
+  let { x, y } = centro(w); const pts = [[x, y]];
+  for (let k = 0; k < max; k++) {
+    let a = 0, bx = 0, by = 0;
+    for (let i = 0; i < N; i++) { if (!(w[i] > 0)) continue; const d = Math.max(Math.hypot(CX[i] - x, CY[i] - y), 1e-9) ; const q = w[i] / d; a += q; bx += q * CX[i]; by += q * CY[i]; }
+    const nx = bx / a, ny = by / a; pts.push([nx, ny]);
+    if (Math.hypot(nx - x, ny - y) < tol) { x = nx; y = ny; break; }
+    x = nx; y = ny;
+  }
+  return traco ? pts : [x, y];
+}
+function mulberry(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function rumo(dx, dy) { const az = (Math.atan2(dx, dy) * 180 / Math.PI + 360) % 360; return ["norte", "nordeste", "leste", "sudeste", "sul", "sudoeste", "oeste", "noroeste"][Math.round(az / 45) % 8]; }
+
+// tooltip
+const tip = $("#tip");
+function mostraTip(ev, html) { tip.innerHTML = html; tip.classList.add("on"); const x = Math.min(ev.clientX + 14, innerWidth - 270); tip.style.left = x + "px"; tip.style.top = (ev.clientY + 14) + "px"; }
+function escondeTip() { tip.classList.remove("on"); }
+
+// ═════════════════════════════════════════ mapa-base (SVG em km)
+const POLY_D = D.poly.map(aneis => aneis.map(r => "M" + r.map(([x, y]) => `${x},${sy(y)}`).join("L") + "Z").join(""));
+const CONT_D = D.contorno.map(r => "M" + r.map(([x, y]) => `${x},${sy(y)}`).join("L") + "Z").join("");
+let uid = 0;
+function novoMapa(host, { vb = [-18, -8, 830, 822], grat = true } = {}) {
+  const id = "m" + (++uid);
+  const svg = el("svg", { viewBox: vb.join(" "), class: "mapa", role: "img" });
+  const clip = el("clipPath", { id: id + "c" }, el("defs", {}, svg));
+  el("rect", { x: vb[0], y: vb[1], width: vb[2], height: vb[3] }, clip);
+  const gG = el("g", { "clip-path": `url(#${id}c)` }, svg);
+  const gP = el("g", {}, svg), gC = el("g", {}, svg), gO = el("g", {}, svg), gT = el("g", {}, svg);
+  const polys = POLY_D.map((d, i) => { const p = el("path", { d, class: "amc" }, gP); p.dataset.i = i; return p; });
+  el("path", { d: CONT_D, class: "contorno" }, gC);
+  const m = { svg, vb, gG, gP, gO, gT, polys, id };
+  m.kpx = () => vb[2] / Math.max(svg.clientWidth || 600, 1);   // km por pixel de tela
+  if (grat) desenhaGrat(m);
+  host.appendChild(svg);
+  return m;
+}
+function desenhaGrat(m) {
+  const [x0, y0, w, h] = m.vb;
+  for (const g of D.grat) {
+    el("path", { d: "M" + g.pts.map(([x, y]) => `${x},${sy(y)}`).join("L"), class: "grat" }, m.gG);
+  }
+  m.gratT = [];
+  for (const g of D.grat) {
+    let p;
+    if (g.tipo === "lat") p = g.pts.find(([x, y]) => x >= x0 + 4);
+    else p = g.pts.find(([x, y]) => sy(y) <= y0 + h - 4);
+    if (!p) continue;
+    const [px, py] = [p[0], sy(p[1])];
+    if (px < x0 || px > x0 + w || py < y0 || py > y0 + h) continue;
+    const t = el("text", { class: "grat-t", x: g.tipo === "lat" ? px + 3 : px + 3, y: g.tipo === "lat" ? py - 3 : py - 3 }, m.gG);
+    t.textContent = g.tipo === "lat" ? `${Math.abs(g.v)}°S` : `${Math.abs(g.v)}°O`;
+    m.gratT.push(t);
+  }
+  const ajusta = () => { const k = m.kpx(); m.gratT.forEach(t => t.setAttribute("font-size", 11 * k)); };
+  new ResizeObserver(ajusta).observe(m.svg); ajusta();
+}
+// símbolo ⊕ de centro de gravidade (quadrantes alternados)
+function marcaCG(pai, r = 9) {
+  const g = el("g", { class: "cg" }, pai);
+  el("circle", { r: 1, style: "fill:var(--card);stroke:var(--ink);stroke-width:.16" }, g);
+  el("path", { d: "M0,0L1,0A1,1 0 0,0 0,-1Z M0,0L-1,0A1,1 0 0,0 0,1Z", style: "fill:var(--ink)" }, g);
+  g._r = r; g._x = 0; g._y = 0;
+  return g;
+}
+function poeCG(g, m, x, y, r) { g._x = x; g._y = y; if (r) g._r = r; g.setAttribute("transform", `translate(${x},${sy(y)}) scale(${g._r * m.kpx()})`); }
+function reescala(m, lista) { new ResizeObserver(() => lista().forEach(f => f())).observe(m.svg); }
+
+// ═════════════════════════════════════════ barra de variáveis
+(function chips() {
+  const box = $("#chips");
+  for (const v of VARS) {
+    const b = document.createElement("button");
+    b.className = "chip"; b.style.setProperty("--c", cor(v)); b.innerHTML = `<i></i>${nomeVar(v)}`;
+    b.setAttribute("aria-pressed", v === S.v); b.onclick = () => { S.v = v; box.querySelectorAll("button").forEach((x, k) => x.setAttribute("aria-pressed", VARS[k] === v)); ouvintes.forEach(f => f()); };
+    box.appendChild(b);
+  }
+})();
+function segmento(sel, cb) {
+  const box = $(sel); box.querySelectorAll("button").forEach(b => b.onclick = () => { box.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b)); cb(b.dataset); });
+}
+
+// ═════════════════════════════════════════ abertura
+function abertura() {
+  const v = S.v, a = centro(pesos(v, 1985)), b = centro(pesos(v, 2024));
+  const dn = b.y - a.y, la = latlon(a.x, a.y)[1], lb = latlon(b.x, b.y)[1];
+  const bl = D.oficial.bloco.filter(r => r.variavel === v), amplo = bl.every(r => r.exclui_zero), nenhum = bl.every(r => !r.exclui_zero);
+  $("#resposta").innerHTML = `<div class="big">${fmtS(dn)} <small>km ao norte</small></div>
+    <div class="sub">O centro de massa da <b>${nomeVar(v).toLowerCase()}</b> estava em ${fmtLat(la)} em 1985 e em ${fmtLat(lb)} em 2024.
+    ${amplo ? "O intervalo de 95% exclui o zero em todos os tamanhos de bloco testados." : nenhum ? "O intervalo de 95% inclui o zero: a variável é descrita como <b>ancorada</b>, e o número acima não é reportado no texto." : ""}</div>`;
+}
+aoMudarVar(abertura); abertura();
+$("#orig-x").textContent = fmtI(D.origem_m[0] / 1000); $("#orig-y").textContent = fmtI(D.origem_m[1] / 1000);
+
+// ═════════════════════════════════════════ 1 · placa 3D
+(function placa() {
+  const host = $("#palco");
+  if (!window.THREE) { host.insertAdjacentHTML("afterbegin", '<p style="padding:20px">A figura 3D precisa do three.js, que não carregou.</p>'); return; }
+  const T = THREE;
+  const rnd = new T.WebGLRenderer({ antialias: true });
+  rnd.setPixelRatio(Math.min(devicePixelRatio, 2)); rnd.shadowMap.enabled = true; rnd.shadowMap.type = T.PCFSoftShadowMap;
+  host.prepend(rnd.domElement);
+  const cena = new T.Scene();
+  const cam = new T.PerspectiveCamera(32, 1.6, 10, 6000);
+  cena.add(new T.HemisphereLight(0xffffff, 0x8a9088, 0.75));
+  const sol = new T.DirectionalLight(0xffffff, 0.75); sol.position.set(-380, 900, 520); sol.castShadow = true;
+  Object.assign(sol.shadow.camera, { left: -620, right: 620, top: 620, bottom: -620, near: 100, far: 2500 }); sol.shadow.mapSize.set(2048, 2048);
+  cena.add(sol);
+
+  const C0 = 400;   // centro da cena em km locais
+  const P = (x, y) => [x - C0, y - C0];   // forma 2D; após rotateX(-90°): (x, h, −y)
+  const pivo = new T.Group(), chapa = new T.Group(); pivo.add(chapa); cena.add(pivo);
+
+  const forma = (anel, enc = 1, cx = 0, cy = 0) => { const s = new T.Shape(); anel.forEach(([x, y], k) => { const [a, b] = P(cx + (x - cx) * enc, cy + (y - cy) * enc); k ? s.lineTo(a, b) : s.moveTo(a, b); }); return s; };
+  const matChapa = new T.MeshLambertMaterial({ color: 0xffffff });
+  const gCh = new T.ExtrudeGeometry(D.contorno.map(r => forma(r)), { depth: 5, bevelEnabled: false }); gCh.rotateX(-Math.PI / 2); gCh.translate(0, -5, 0);
+  const mCh = new T.Mesh(gCh, matChapa); mCh.receiveShadow = true; chapa.add(mCh);
+
+  const matCol = new T.MeshLambertMaterial({ color: 0xd07a06 });
+  const cols = D.poly.map((aneis, i) => {
+    const g = new T.ExtrudeGeometry(aneis.map(r => forma(r, 0.94, CX[i], CY[i])), { depth: 1, bevelEnabled: false }); g.rotateX(-Math.PI / 2);
+    const m = new T.Mesh(g, matCol); m.castShadow = true; m.receiveShadow = true; m.scale.y = 0.001; chapa.add(m); return m;
+  });
+  const gAg = new T.CylinderGeometry(3.2, 3.2, 1, 14); gAg.translate(0, 0.5, 0);
+  const agulhas = AMC.map((a, i) => { const m = new T.Mesh(gAg, matCol); const [x, z] = P(CX[i], CY[i]); m.position.set(x, 0, -z); m.castShadow = true; m.scale.y = 0.001; m.visible = false; chapa.add(m); return m; });
+
+  // marcador do centro de massa: haste + disco ⊕
+  const cvs = document.createElement("canvas"); cvs.width = cvs.height = 128;
+  const texCG = new T.CanvasTexture(cvs);
+  function pintaCG() { const c = cvs.getContext("2d"), ink = css("--ink"), pap = css("--card"); c.clearRect(0, 0, 128, 128); c.fillStyle = pap; c.strokeStyle = ink; c.lineWidth = 8; c.beginPath(); c.arc(64, 64, 58, 0, 7); c.fill(); c.stroke(); c.fillStyle = ink; c.beginPath(); c.moveTo(64, 64); c.arc(64, 64, 58, -Math.PI / 2, 0); c.fill(); c.beginPath(); c.moveTo(64, 64); c.arc(64, 64, 58, Math.PI / 2, Math.PI); c.fill(); texCG.needsUpdate = true; }
+  const cg = new T.Group(); chapa.add(cg);
+  const discoCG = new T.Sprite(new T.SpriteMaterial({ map: texCG, depthTest: false })); discoCG.scale.set(26, 26, 1); cg.add(discoCG);
+  const matHaste = new T.LineBasicMaterial({ color: 0x17201c });
+  const haste = new T.Line(new T.BufferGeometry().setFromPoints([new T.Vector3(0, 0, 0), new T.Vector3(0, 1, 0)]), matHaste); cg.add(haste);
+  const anelCG = new T.Mesh(new T.RingGeometry(7, 10, 32), new T.MeshBasicMaterial({ color: 0x17201c, side: T.DoubleSide })); anelCG.rotation.x = -Math.PI / 2; anelCG.position.y = 0.4; cg.add(anelCG);
+
+  // lápis-apoio (fica na cena, não inclina)
+  const matLapis = new T.MeshLambertMaterial({ color: 0x1d5a6e });
+  const lapis = new T.Group(); cena.add(lapis);
+  const ponta = new T.Mesh(new T.ConeGeometry(9, 34, 28), matLapis); ponta.position.y = -5 - 17; ponta.castShadow = true; lapis.add(ponta);
+  const corpo = new T.Mesh(new T.CylinderGeometry(9, 9, 150, 6), matLapis); corpo.position.y = -5 - 34 - 75; corpo.castShadow = true; lapis.add(corpo);
+  const chao = new T.Mesh(new T.CircleGeometry(900, 64), new T.MeshLambertMaterial({ color: 0xe2e6df })); chao.rotation.x = -Math.PI / 2; chao.position.y = -190; chao.receiveShadow = true; cena.add(chao);
+
+  function cores() {
+    const bg = new T.Color(css("--card")); cena.background = bg;
+    chao.material.color.set(css("--paper-2")); matChapa.color.set(css("--rule")); matCol.color.set(css("--c-" + S.v));
+    matHaste.color.set(css("--ink")); anelCG.material.color.set(css("--ink")); matLapis.color.set(css("--accent")); pintaCG(); pedir();
+  }
+
+  // estado
+  const st = { ano: 1985, modo: "esp", ap: null, alvoAp: null, alpha: 0, eixo: new T.Vector3(1, 0, 0), h: new Float32Array(N), hAlvo: new Float32Array(N), az: -0.45, el: 0.62, raio: 1500 };
+  const escala = {};
+  for (const v of VARS) {
+    let dmax = 0, wmax = 0;
+    for (const a of [1985, 2024]) pesos(v, a).forEach((w, i) => { dmax = Math.max(dmax, w / AREA[i]); wmax = Math.max(wmax, w); });
+    escala[v] = { d: 120 / dmax, w: 170 / wmax };
+  }
+  const cm = () => centro(pesos(S.v, st.ano));
+  function alvos() {
+    const w = pesos(S.v, st.ano), e = escala[S.v];
+    for (let i = 0; i < N; i++) st.hAlvo[i] = st.modo === "esp" ? w[i] / AREA[i] * e.d : w[i] * e.w;
+    cols.forEach(m => m.visible = st.modo === "esp"); agulhas.forEach(m => m.visible = st.modo === "pin"); pedir();
+  }
+  const gyn = AMC.findIndex(a => a.code === 16039);
+  function apoio(x, y) { st.alvoAp = [x, y]; if (!st.ap || reduz) st.ap = [x, y]; pedir(); }
+
+  // rótulos HTML
+  const eCM = document.createElement("div"); eCM.className = "etq3d"; eCM.textContent = "centro de massa"; host.appendChild(eCM);
+  const eAp = document.createElement("div"); eAp.className = "etq3d apoio"; eAp.textContent = "apoio"; host.appendChild(eAp);
+
+  function tamanho() { const w = host.clientWidth, h = host.clientHeight; rnd.setSize(w, h, false); cam.aspect = w / h; cam.updateProjectionMatrix(); pedir(); }
+  new ResizeObserver(tamanho).observe(host);
+  function camera() { const r = st.raio; cam.position.set(r * Math.cos(st.el) * Math.sin(st.az), r * Math.sin(st.el) - 60, r * Math.cos(st.el) * Math.cos(st.az)); cam.lookAt(0, -20, 0); }
+
+  // interação: arrastar gira, clicar move o apoio
+  let arr = null;
+  host.addEventListener("pointerdown", e => { arr = { x: e.clientX, y: e.clientY, az: st.az, el: st.el, mov: false }; host.setPointerCapture(e.pointerId); });
+  host.addEventListener("pointermove", e => { if (!arr) return; pedir(); const dx = e.clientX - arr.x, dy = e.clientY - arr.y; if (Math.hypot(dx, dy) > 4) arr.mov = true; if (arr.mov) { st.az = arr.az - dx * 0.006; if (e.pointerType === "mouse") st.el = Math.min(1.35, Math.max(0.15, arr.el + dy * 0.004)); } });
+  host.addEventListener("pointerup", e => {
+    if (arr && !arr.mov) {
+      const r = host.getBoundingClientRect(), v = new T.Vector2((e.clientX - r.left) / r.width * 2 - 1, -(e.clientY - r.top) / r.height * 2 + 1);
+      const ray = new T.Raycaster(); ray.setFromCamera(v, cam);
+      const pt = new T.Vector3(); if (ray.ray.intersectPlane(new T.Plane(new T.Vector3(0, 1, 0), 0), pt)) {
+        const x = Math.max(0, Math.min(800, pt.x + C0)), y = Math.max(0, Math.min(800, -pt.z + C0)); apoio(x, y);
+      }
+    }
+    arr = null;
+  });
+
+  const ano = $("#p3-ano");
+  ano.oninput = () => { st.ano = +ano.value; $("#p3-ano-v").textContent = st.ano; alvos(); };
+  segmento("#p3-modo", d => { st.modo = d.m; alvos(); });
+  $("#p3-cm").onclick = () => { const c = cm(); apoio(c.x, c.y); };
+  $("#p3-85").onclick = () => { const c = centro(pesos(S.v, 1985)); apoio(c.x, c.y); };
+  $("#p3-gyn").onclick = () => apoio(CX[gyn], CY[gyn]);
+  aoMudarVar(() => { cores(); alvos(); const c = cm(); apoio(c.x, c.y); });
+
+  const GANHO = 0.0021, MAXA = 0.24;   // rad por km; teto
+  const vtmp = new T.Vector3();
+  function projeta(v3, eDiv) { v3.project(cam); const r = host.getBoundingClientRect(); eDiv.style.left = ((v3.x + 1) / 2 * r.width) + "px"; eDiv.style.top = ((1 - v3.y) / 2 * r.height) + "px"; eDiv.style.display = v3.z < 1 ? "" : "none"; }
+  // desenha só enquanto algo se move (a placa em repouso não consome quadro)
+  let visivel = true, lendoT = 0, agendado = false;
+  const pedir = () => { if (!agendado && visivel) { agendado = true; requestAnimationFrame(() => { agendado = false; if (quadro()) pedir(); }); } };
+  new IntersectionObserver(es => { visivel = es[0].isIntersecting; pedir(); }).observe(host);
+  function quadro() {
+    const k = reduz ? 1 : 0.12; let mexe = !!arr;
+    for (let i = 0; i < N; i++) { if (Math.abs(st.hAlvo[i] - st.h[i]) > 0.05) mexe = true; st.h[i] += (st.hAlvo[i] - st.h[i]) * k; const s = Math.max(st.h[i], 0.001); cols[i].scale.y = s; agulhas[i].scale.y = s; }
+    if (Math.hypot(st.alvoAp[0] - st.ap[0], st.alvoAp[1] - st.ap[1]) > 0.02) mexe = true;
+    st.ap[0] += (st.alvoAp[0] - st.ap[0]) * k * 1.3; st.ap[1] += (st.alvoAp[1] - st.ap[1]) * k * 1.3;
+    const [px, pz] = P(st.ap[0], st.ap[1]);
+    pivo.position.set(px, 0, -pz); chapa.position.set(-px, 0, pz); lapis.position.set(px, 0, -pz);
+    // centro de massa das alturas mostradas (o que a placa "sente" agora)
+    let sw = 0, sx = 0, syy = 0; const e = escala[S.v];
+    for (let i = 0; i < N; i++) { const w = st.modo === "esp" ? st.h[i] * AREA[i] / e.d : st.h[i] / e.w; sw += w; sx += w * CX[i]; syy += w * CY[i]; }
+    const c = { x: sx / sw, y: syy / sw };
+    const [cxs, czs] = P(c.x, c.y); const hmax = 190;
+    cg.position.set(cxs, 0, -czs); discoCG.position.y = hmax; haste.scale.y = hmax;
+    const dx = c.x - st.ap[0], dy = c.y - st.ap[1], dist = Math.hypot(dx, dy);
+    const alvoA = Math.min(dist * GANHO, MAXA);
+    if (dist > 1e-6) { const e2 = new T.Vector3(-dy, 0, -dx).normalize(); if (e2.distanceTo(st.eixo) > 1e-3) mexe = true; st.eixo.lerp(e2, 0.2).normalize(); }
+    if (Math.abs(alvoA - st.alpha) > 1e-4) mexe = true;
+    st.alpha += (alvoA - st.alpha) * (reduz ? 1 : 0.08);
+    pivo.quaternion.setFromAxisAngle(st.eixo, st.alpha);
+    camera(); rnd.render(cena, cam);
+    vtmp.set(0, hmax, 0); cg.localToWorld(vtmp); projeta(vtmp, eCM);
+    vtmp.set(px, -5 - 34 - 150, -pz); projeta(vtmp, eAp);
+    if (++lendoT % 6 === 0 || !mexe) leitura(c, dist, dx, dy);
+    return mexe;
+  }
+  function leitura(c, dist, dx, dy) {
+    const cOf = cm(), [lo, la] = latlon(cOf.x, cOf.y);
+    const eq = dist < 1.5;
+    $("#p3-lendo").innerHTML = `<span class="estado-eq ${eq ? "sim" : "nao"}">${eq ? "em equilíbrio" : "tombando"}</span>
+      ${eq ? "O apoio está sobre o centro de massa." : `O apoio está a <b>${fmt(dist)} km</b> do centro de massa, e a placa pende para o <b>${rumo(dx, dy)}</b>.`}
+      Centro de massa da ${nomeVar(S.v).toLowerCase()} em ${st.ano}: <b>${fmtLat(la)}, ${fmtLon(lo)}</b>, com peso total W = ${fmtI(cOf.W)} ${un(S.v)}.`;
+  }
+  cores(); alvos(); const c = cm(); st.ap = [c.x, c.y]; st.alvoAp = [c.x, c.y];
+  tamanho(); pedir();
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", cores);
+  new MutationObserver(cores).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+})();
+
+// ═════════════════════════════════════════ 2 · posições
+(function posicoes() {
+  const m = novoMapa($("#p1-mapa"));
+  const dots = AMC.map((a, i) => el("circle", { cx: CX[i], cy: sy(CY[i]), r: 2.4, style: "fill:var(--ink)" }, m.gO));
+  const guia = el("g", {}, m.gT);
+  let sel = AMC.findIndex(a => a.code === 16039), colapsado = false;
+  function mostra(i) {
+    sel = i; m.polys.forEach((p, k) => p.style.fill = k === i ? "color-mix(in oklab, var(--accent) 30%, var(--paper-2))" : "");
+    guia.innerHTML = "";
+    const k = m.kpx(), x = CX[i], y = CY[i];
+    el("line", { x1: -18, x2: x, y1: sy(y), y2: sy(y), style: "stroke:var(--accent);stroke-dasharray:4 3;vector-effect:non-scaling-stroke" }, guia);
+    el("line", { x1: x, x2: x, y1: sy(y), y2: 814, style: "stroke:var(--accent);stroke-dasharray:4 3;vector-effect:non-scaling-stroke" }, guia);
+    el("circle", { cx: x, cy: sy(y), r: 5 * k, style: "fill:var(--accent);stroke:var(--card);stroke-width:" + 1.5 * k }, guia);
+    const t1 = el("text", { x: -14, y: sy(y) - 4 * k, "font-size": 12 * k, style: "fill:var(--accent);font-family:var(--f-mono)" }, guia); t1.textContent = `y = ${fmt(y)} km`;
+    const t2 = el("text", { x: x + 4 * k, y: 812, "font-size": 12 * k, style: "fill:var(--accent);font-family:var(--f-mono)" }, guia); t2.textContent = `x = ${fmt(x)} km`;
+    const a = AMC[i], [lo, la] = latlon(x, y);
+    $("#p1-lendo").innerHTML = `<b>${a.nome}</b> · AMC ${a.code} · ${a.nmun} município${a.nmun > 1 ? "s" : ""}${a.nmun > 1 ? ` (${a.munis.join(", ")})` : ""} · ${fmtI(a.area)} km²<br>
+      Centroide: x = <b class="num">${fmt(x, 2)}</b> km, y = <b class="num">${fmt(y, 2)}</b> km na página, ou
+      <span class="num">(${fmtI((x * 1000 + D.origem_m[0]))} m; ${fmtI(y * 1000 + D.origem_m[1])} m)</span> em EPSG:5880, que corresponde a ${fmtLat(la)}, ${fmtLon(lo)}.`;
+  }
+  m.polys.forEach((p, i) => { p.style.cursor = "pointer"; p.onclick = () => mostra(i); p.onmousemove = ev => mostraTip(ev, `<b>${AMC[i].nome}</b><br>${AMC[i].nmun} município(s)`); p.onmouseleave = escondeTip; });
+  function escalaPoly(s) { m.polys.forEach((p, i) => p.setAttribute("transform", s === 1 ? "" : `translate(${CX[i]},${sy(CY[i])}) scale(${s}) translate(${-CX[i]},${-sy(CY[i])})`)); }
+  $("#p1-colapsa").onclick = () => {
+    const de = colapsado ? 0.02 : 1, ate = colapsado ? 1 : 0.02; colapsado = !colapsado;
+    $("#p1-colapsa").textContent = colapsado ? "Devolver os polígonos" : "Encolher cada AMC até o centroide";
+    if (reduz) { escalaPoly(ate); return; }
+    const t0 = performance.now(), dur = 1400;
+    (function f(t) { const u = Math.min(1, (t - t0) / dur), e = u < .5 ? 2 * u * u : 1 - (-2 * u + 2) ** 2 / 2; escalaPoly(de + (ate - de) * e); if (u < 1) requestAnimationFrame(f); })(t0);
+  };
+  const ajusta = () => { const k = m.kpx(); dots.forEach(d => d.setAttribute("r", 2.2 * k)); mostra(sel); };
+  new ResizeObserver(ajusta).observe(m.svg); ajusta();
+})();
+
+// ═════════════════════════════════════════ 3 · pesos
+(function pesosEst() {
+  const m = novoMapa($("#p2-mapa"));
+  const circ = AMC.map((a, i) => el("circle", { cx: CX[i], cy: sy(CY[i]), r: 0, style: "fill-opacity:.55;stroke-width:1;vector-effect:non-scaling-stroke" }, m.gO));
+  const g = el("g", {}, m.gT); const mk = marcaCG(g, 9);
+  let ano = 1985, modo = "circ";
+  segmento("#p2-ano", d => { ano = +d.a; desenha(); });
+  segmento("#p2-modo", d => { modo = d.m; desenha(); });
+  const rmax = () => { let mx = 0; for (const a of [1985, 2024]) mx = Math.max(mx, ...pesos(S.v, a)); return mx; };
+  function desenha() {
+    const v = S.v, w = pesos(v, ano), mx = rmax();
+    let dmx = 0; for (const a of [1985, 2024]) pesos(v, a).forEach((x, i) => dmx = Math.max(dmx, x / AREA[i]));
+    m.polys.forEach((p, i) => { p.style.fill = modo === "dens" ? `color-mix(in oklab, ${cor(v)} ${Math.round(100 * Math.sqrt(w[i] / AREA[i] / dmx))}%, var(--paper-2))` : ""; });
+    circ.forEach((c, i) => { c.setAttribute("r", modo === "circ" ? 26 * Math.sqrt(w[i] / mx) : 0); c.style.fill = cor(v); c.style.stroke = cor(v); });
+    const c = centro(w); poeCG(mk, m, c.x, c.y);
+    const tot = c.W, ord = w.map((x, i) => [x, i]).sort((a, b) => b[0] - a[0]).slice(0, 8);
+    $("#p2-top").innerHTML = `<div class="linha" style="color:var(--ink-2)"><span>As 8 mais pesadas em ${ano}</span><span></span><span class="n">% do total</span></div>` +
+      ord.map(([x, i]) => `<div class="linha" style="--c:${cor(v)}"><span class="nm">${AMC[i].nome}</span><div class="b" style="width:${100 * x / ord[0][0]}%"></div><span class="n">${fmt(100 * x / tot)}%</span></div>`).join("");
+    const nz = w.filter(x => x > 0).length;
+    $("#p2-lendo").innerHTML = `${nomeVar(v)} em ${ano}: <b>${fmtI(tot)} ${un(v)}</b> distribuídos em ${nz} AMC. As 8 mais pesadas somam ${fmt(100 * ord.reduce((s, [x]) => s + x, 0) / tot)}% do total. O ⊕ é o centro de massa que essa distribuição produz.`;
+  }
+  m.polys.forEach((p, i) => { p.onmousemove = ev => { const w = pesos(S.v, ano)[i]; mostraTip(ev, `<b>${AMC[i].nome}</b><br>${fmtI(w)} ${un(S.v)}<br>${fmt(w / AREA[i])} por km²`); }; p.onmouseleave = escondeTip; });
+  circ.forEach((c, i) => { c.onmousemove = m.polys[i].onmousemove; c.onmouseleave = escondeTip; });
+  $("#p2-n85").textContent = pesos("agricultura", 1985).filter(x => x > 0).length;
+  reescala(m, () => [desenha]); aoMudarVar(desenha); desenha();
+})();
+
+// ═════════════════════════════════════════ 4 · a conta
+(function conta() {
+  const m = novoMapa($("#p4-mapa"));
+  const linhaY = el("line", { x1: -18, x2: 812, style: "stroke:var(--accent);stroke-width:1.2;stroke-dasharray:6 4;vector-effect:non-scaling-stroke" }, m.gO);
+  const trilha = el("polyline", { style: "fill:none;stroke:var(--ink);stroke-width:1.2;opacity:.55;vector-effect:non-scaling-stroke" }, m.gO);
+  const mk = marcaCG(m.gT, 10), tb = $("#p4-tb");
+  let ano = 1985, ordem = [], k = 0, rodando = null, linhas = [];
+  segmento("#p4-ano", d => { ano = +d.a; monta(); });
+  $("#p4-ordem").onchange = monta;
+  function monta() {
+    parar(); const v = S.v, w = pesos(v, ano);
+    const idx = [...Array(N).keys()].filter(i => w[i] > 0);
+    const o = $("#p4-ordem").value;
+    ordem = o === "sn" ? idx.sort((a, b) => CY[a] - CY[b]) : o === "peso" ? idx.sort((a, b) => w[b] - w[a]) : idx.sort((a, b) => AMC[a].code - AMC[b].code);
+    tb.innerHTML = ordem.map(i => `<tr><td>${AMC[i].nome}</td><td>${fmtI(w[i])}</td><td>${fmt(CY[i], 2)}</td><td>${fmtI(w[i] * CY[i])}</td></tr>`).join("");
+    linhas = [...tb.rows]; k = 0; document.querySelectorAll(".p4-un").forEach(e => e.textContent = un(v));
+    m.polys.forEach(p => p.style.fill = "");
+    mk.style.display = "none"; linhaY.style.display = "none"; trilha.setAttribute("points", "");
+    leitura(); $("#p4-play").textContent = "Somar";
+  }
+  let sw, swy, swx, pts;
+  function leitura() {
+    const v = S.v, w = pesos(v, ano);
+    sw = 0; swy = 0; swx = 0; pts = [];
+    for (let j = 0; j < k; j++) { const i = ordem[j]; sw += w[i]; swy += w[i] * CY[i]; swx += w[i] * CX[i]; }
+    const y = sw ? swy / sw : NaN, x = sw ? swx / sw : NaN;
+    $("#p4-sw").textContent = fmtI(sw); $("#p4-swy").textContent = fmtI(swy); $("#p4-y").textContent = k ? fmt(y, 3) : "—";
+    $("#p4-formula").innerHTML = `ȳ<sub>${ano}</sub> = <span class="frac"><span>Σ w<sub>i</sub>·y<sub>i</sub></span><span>Σ w<sub>i</sub></span></span> = <span class="frac"><span class="v">${fmtI(swy)}</span><span class="v">${fmtI(sw)}</span></span> = <span class="v">${k ? fmt(y, 3) : "…"}</span> km`;
+    const fim = k === ordem.length;
+    if (k) {
+      mk.style.display = ""; poeCG(mk, m, x, y); linhaY.style.display = ""; linhaY.setAttribute("y1", sy(y)); linhaY.setAttribute("y2", sy(y));
+      const ofi = D.oficial.anual[v], [lo, la] = latlon(x, y);
+      $("#p4-lendo").innerHTML = fim
+        ? `Conta completa com <b>${k}</b> AMC: ȳ = <b class="num">${fmt(y, 3)}</b> km na página, ou <b class="num">${fmt(y + D.origem_m[1] / 1000, 3)}</b> km em EPSG:5880, que é ${fmtLat(la)}. O CSV do pipeline (<code>centro_massa_anual.csv</code>) diz <b class="num">${fmt(ofi.y[iA(ano)] + D.origem_m[1] / 1000, 3)}</b> km. A mesma conta, feita para x, dá x̄ = ${fmt(x, 3)} km.`
+        : `${k} de ${ordem.length} AMC somadas. Última a entrar: <b>${AMC[ordem[k - 1]].nome}</b>. O centro parcial está em y = ${fmt(y, 2)} km.`;
+    } else $("#p4-lendo").innerHTML = `Nenhuma AMC somada ainda. ${ordem.length} AMC têm ${nomeVar(v).toLowerCase()} em ${ano}.`;
+    linhas.forEach((r, j) => r.className = j < k - 1 ? "feita" : j === k - 1 ? "agora" : "");
+  }
+  function passo() {
+    k++; const i = ordem[k - 1];
+    m.polys[i].style.fill = `color-mix(in oklab, ${cor(S.v)} 45%, var(--paper-2))`;
+    leitura();
+    const p = trilha.getAttribute("points") || ""; trilha.setAttribute("points", p + ` ${swx / sw},${sy(swy / sw)}`);
+    const r = linhas[k - 1]; if (r) { const box = r.closest(".razao"); box.scrollTop = r.offsetTop - box.clientHeight / 2; }
+  }
+  function parar() { if (rodando) cancelAnimationFrame(rodando); rodando = null; $("#p4-play").textContent = k && k < ordem.length ? "Continuar" : "Somar"; }
+  $("#p4-play").onclick = () => {
+    if (rodando) return parar();
+    if (k >= ordem.length) monta();
+    $("#p4-play").textContent = "Pausar";
+    let t0 = 0; const f = t => { if (t - t0 > 55) { t0 = t; passo(); } if (k < ordem.length) rodando = requestAnimationFrame(f); else { rodando = null; $("#p4-play").textContent = "Somar de novo"; } };
+    rodando = requestAnimationFrame(f);
+  };
+  $("#p4-fim").onclick = () => { parar(); while (k < ordem.length) passo(); $("#p4-play").textContent = "Somar de novo"; };
+  reescala(m, () => [() => { if (k) poeCG(mk, m, mk._x, mk._y); }]);
+  aoMudarVar(monta); monta();
+})();
+
+// ═════════════════════════════════════════ 5 · no tempo
+(function tempo() {
+  // janela ampliada em torno de todos os centros
+  let xs = [], ys = [];
+  for (const v of VARS) ANOS.forEach(a => { const c = centro(pesos(v, a)); xs.push(c.x); ys.push(c.y); });
+  const x0 = Math.min(...xs) - 60, x1 = Math.max(...xs) + 60, y0 = Math.min(...ys) - 45, y1 = Math.max(...ys) + 45;
+  const m = novoMapa($("#p5-mapa"), { vb: [x0, sy(y1), x1 - x0, y1 - y0] });
+  m.polys.forEach(p => p.style.fill = "var(--card)");
+  AMC.forEach((a, i) => { if (CX[i] > x0 && CX[i] < x1 && CY[i] > y0 && CY[i] < y1) { /* nomes de referência */ } });
+  const traj = {}, cent = {};
+  for (const v of VARS) cent[v] = ANOS.map(a => centro(pesos(v, a)));
+  const gT = el("g", {}, m.gO), gM = el("g", {}, m.gT);
+  const barra = el("g", {}, m.gT);
+  for (const v of VARS) {
+    traj[v] = { lin: el("polyline", { style: `fill:none;stroke:${cor(v)};stroke-linejoin:round;vector-effect:non-scaling-stroke` }, gT),
+      ini: el("circle", { style: `fill:var(--card);stroke:${cor(v)};stroke-width:2;vector-effect:non-scaling-stroke` }, gT), cg: marcaCG(gM, 8),
+      rot: el("text", { style: `fill:${cor(v)};font-weight:600` }, gM) };
+    traj[v].rot.textContent = nomeVar(v);
+  }
+  let ano = 2024, anim = null;
+  const slider = $("#p5-ano");
+  slider.oninput = () => { ano = +slider.value; desenha(); };
+  $("#p5-play").onclick = () => {
+    if (anim) { cancelAnimationFrame(anim); anim = null; $("#p5-play").textContent = "Tocar 1985→2024"; return; }
+    ano = 1985; $("#p5-play").textContent = "Pausar"; let t0 = 0;
+    const f = t => { if (t - t0 > 160) { t0 = t; ano++; slider.value = ano; desenha(); } if (ano < 2024) anim = requestAnimationFrame(f); else { anim = null; $("#p5-play").textContent = "Tocar 1985→2024"; } };
+    slider.value = ano; desenha(); anim = requestAnimationFrame(f);
+  };
+  function desenha() {
+    $("#p5-ano-v").textContent = ano;
+    const k = m.kpx();
+    for (const v of VARS) {
+      const t = traj[v], c = cent[v], on = v === S.v, n = iA(ano) + 1;
+      t.lin.setAttribute("points", c.slice(0, n).map(p => `${p.x},${sy(p.y)}`).join(" "));
+      t.lin.style.strokeWidth = on ? 2.6 : 1.3; t.lin.style.opacity = on ? 1 : .45;
+      t.ini.setAttribute("cx", c[0].x); t.ini.setAttribute("cy", sy(c[0].y)); t.ini.setAttribute("r", 4 * k);
+      const p = c[n - 1]; poeCG(t.cg, m, p.x, p.y, on ? 9 : 6); t.cg.style.opacity = on ? 1 : .6;
+      t.rot.setAttribute("x", p.x + 11 * k); t.rot.setAttribute("y", sy(p.y) + 4 * k); t.rot.setAttribute("font-size", (on ? 13 : 11) * k); t.rot.style.opacity = on ? 1 : .7;
+    }
+    // barra de escala 20 km
+    barra.innerHTML = ""; const bx = x0 + 14 * k, by = m.vb[1] + m.vb[3] - 14 * k;
+    el("line", { x1: bx, x2: bx + 20, y1: by, y2: by, style: "stroke:var(--ink);stroke-width:2;vector-effect:non-scaling-stroke" }, barra);
+    const tt = el("text", { x: bx, y: by - 5 * k, "font-size": 11 * k, style: "fill:var(--ink-2)" }, barra); tt.textContent = "20 km";
+    const v = S.v, c0 = cent[v][0], c1 = cent[v][iA(ano)];
+    $("#p5-lendo").innerHTML = `${nomeVar(v)}, 1985→${ano}: o centro andou <b>${fmtS(c1.y - c0.y)} km</b> para o norte e <b>${fmtS(c1.x - c0.x)} km</b> para o leste.`;
+    grafico.marca(ano);
+  }
+  // legenda
+  $("#p5-leg").innerHTML = VARS.map(v => `<span style="--c:${cor(v)}"><i></i>${nomeVar(v)}</span>`).join("");
+  // gráfico latitude × ano
+  const grafico = (function () {
+    const W = 640, H = 230, mg = { l: 54, r: 14, t: 16, b: 26 };
+    const svg = d3.select("#p5-graf").append("svg").attr("class", "graf").attr("viewBox", `0 0 ${W} ${H}`);
+    const x = d3.scaleLinear().domain([1985, 2024]).range([mg.l, W - mg.r]);
+    const y = d3.scaleLinear().domain([Math.min(...ys) - 8, Math.max(...ys) + 8]).range([H - mg.b, mg.t]);
+    for (const a of D.atos) {
+      svg.append("rect").attr("class", "ato").attr("x", x(a.ini - .5)).attr("width", x(a.fim + .5) - x(a.ini - .5)).attr("y", mg.t).attr("height", H - mg.t - mg.b).attr("opacity", a.id === "II" ? .0 : 1);
+      svg.append("text").attr("class", "ato-t").attr("x", x((a.ini + a.fim) / 2)).attr("y", mg.t + 11).attr("text-anchor", "middle").text("Ato " + a.id);
+    }
+    svg.append("g").attr("class", "eixo").attr("transform", `translate(0,${H - mg.b})`).call(d3.axisBottom(x).tickFormat(d3.format("d")).ticks(8));
+    svg.append("g").attr("class", "eixo").attr("transform", `translate(${mg.l},0)`).call(d3.axisLeft(y).ticks(5).tickFormat(d => fmtLat(latlon(400, d)[1]).replace(/,\d′/, "′")));
+    const lin = {};
+    for (const v of VARS) lin[v] = svg.append("path").attr("fill", "none").style("stroke", cor(v)).attr("d", d3.line().x((_, i) => x(ANOS[i])).y(c => y(c.y))(cent[v]));
+    const reg = svg.append("line").style("stroke", "var(--ink)").attr("y1", mg.t).attr("y2", H - mg.b).attr("stroke-dasharray", "2 3");
+    return { marca(a) { reg.attr("x1", x(a)).attr("x2", x(a)); for (const v of VARS) lin[v].style("stroke-width", v === S.v ? 2.6 : 1.2).style("opacity", v === S.v ? 1 : .45); } };
+  })();
+  function tabela() {
+    const v = S.v, rows = D.oficial.desloc.filter(r => r.variavel === v);
+    const boot = D.oficial.boot.filter(r => r.variavel === v);
+    const ic = nome => { const b = boot.find(r => r.janela === nome); return b ? `[${fmtS(b.dN_lo)}; ${fmtS(b.dN_hi)}]` : ""; };
+    const nomeJ = r => r.ato === "LÍQUIDO" ? "LÍQUIDO" : "Ato " + r.ato.split(" ")[0];
+    $("#p5-tab").innerHTML = `<table class="tabela"><thead><tr><th>Janela</th><th>anos</th><th>ΔNorte (km)</th><th>IC 95% (bootstrap AMC)</th><th>refeito aqui</th></tr></thead><tbody>` +
+      rows.map(r => { const j = nomeJ(r); const aq = cent[v][iA(r.ano_fim)].y - cent[v][iA(r.ano_ini)].y; return `<tr${j === "LÍQUIDO" ? ' style="font-weight:600"' : ""}><td>${j}</td><td class="num">${r.ano_ini}–${r.ano_fim}</td><td class="num">${fmtS(r.dnorte_km)}</td><td class="num">${ic(j)}</td><td class="num">${fmtS(aq)}</td></tr>`; }).join("") +
+      `</tbody></table><p class="nota" style="margin-top:6px">A coluna do pipeline vem de <code>centro_massa_deslocamento.csv</code> e o IC de <code>centro_massa_bootstrap.csv</code>. A última coluna é a conta refeita nesta página.</p>`;
+  }
+  reescala(m, () => [desenha]);
+  aoMudarVar(() => { desenha(); tabela(); }); desenha(); tabela();
+})();
+
+// ═════════════════════════════════════════ 6 · decomposição
+(function decomp() {
+  const sa = $("#p6-a"), sb = $("#p6-b");
+  ANOS.forEach(a => { sa.add(new Option(a, a)); sb.add(new Option(a, a)); }); sa.value = 1985; sb.value = 2024;
+  const m = novoMapa($("#p6-mapa"));
+  const linha = el("line", { x1: -18, x2: 812, style: "stroke:var(--ink);stroke-width:1.2;stroke-dasharray:6 4;vector-effect:non-scaling-stroke" }, m.gO);
+  const tl = el("text", { x: 790, "text-anchor": "end", style: "fill:var(--ink);font-family:var(--f-disp)" }, m.gO);
+  const mk0 = marcaCG(m.gT, 7), mk1 = marcaCG(m.gT, 9);
+  let contrib = [];
+  function calcula() {
+    const v = S.v, a = +sa.value, b = +sb.value, wa = pesos(v, a), wb = pesos(v, b), ca = centro(wa), cb = centro(wb);
+    const Wa = ca.W, Wb = cb.W;
+    contrib = AMC.map((_, i) => ((wb[i] / Wb) - (wa[i] / Wa)) * (CY[i] - ca.y));
+    const mx = Math.max(...contrib.map(Math.abs));
+    m.polys.forEach((p, i) => { const c = contrib[i], t = Math.round(100 * Math.sqrt(Math.abs(c) / mx)); p.style.fill = `color-mix(in oklab, ${c >= 0 ? "var(--norte)" : "var(--sul)"} ${t}%, var(--card))`; });
+    linha.setAttribute("y1", sy(ca.y)); linha.setAttribute("y2", sy(ca.y));
+    const k = m.kpx(); tl.setAttribute("y", sy(ca.y) - 5 * k); tl.setAttribute("font-size", 12 * k); tl.textContent = `linha do centro de ${a}`;
+    poeCG(mk0, m, ca.x, ca.y); poeCG(mk1, m, cb.x, cb.y); mk0.style.opacity = .55;
+    // quatro baldes
+    const bal = { ng: 0, sp: 0, np: 0, sg: 0 };
+    contrib.forEach((c, i) => { const norte = CY[i] > ca.y, ganhou = wb[i] / Wb > wa[i] / Wa; bal[norte ? (ganhou ? "ng" : "np") : (ganhou ? "sg" : "sp")] += c; });
+    const tot = contrib.reduce((s, c) => s + c, 0);
+    cascata(bal, tot, cb.y - ca.y, a, b);
+    const top = contrib.map((c, i) => [c, i]).sort((x, y) => Math.abs(y[0]) - Math.abs(x[0])).slice(0, 8), mt = Math.abs(top[0][0]);
+    $("#p6-top").innerHTML = `<div class="linha" style="color:var(--ink-2)"><span>As 8 maiores parcelas</span><span></span><span class="n">km</span></div>` + top.map(([c, i]) =>
+      `<div class="linha" style="--c:${c >= 0 ? "var(--norte)" : "var(--sul)"}"><span class="nm">${AMC[i].nome}</span><div class="b" style="width:${100 * Math.abs(c) / mt}%"></div><span class="n">${fmtS(c, 1)}</span></div>`).join("");
+    $("#p6-lendo").innerHTML = `As 166 parcelas somam <b>${fmtS(tot, 3)} km</b>, e o deslocamento calculado direto é <b>${fmtS(cb.y - ca.y, 3)} km</b>. Azul empurra o centro para o norte e laranja para o sul, com a intensidade proporcional ao tamanho da parcela.`;
+  }
+  function cascata(bal, tot, dir, a, b) {
+    const itens = [["Norte ganhou participação", bal.ng, "var(--norte)"], ["Sul perdeu participação", bal.sp, "var(--norte)"], ["Norte perdeu participação", bal.np, "var(--sul)"], ["Sul ganhou participação", bal.sg, "var(--sul)"]];
+    const W = 640, H = 176, mg = { l: 190, r: 64, t: 10, b: 22 }, rowH = (H - mg.t - mg.b) / 5;
+    let acc = 0; const segs = itens.map(([n, v, c]) => { const s = { n, v, c, a: acc, b: acc + v }; acc += v; return s; });
+    const lo = Math.min(0, ...segs.map(s => Math.min(s.a, s.b))), hi = Math.max(0, ...segs.map(s => Math.max(s.a, s.b)));
+    const x = d3.scaleLinear().domain([lo - 2, hi + 2]).range([mg.l, W - mg.r]);
+    const box = d3.select("#p6-cascata").html("").append("svg").attr("class", "graf").attr("viewBox", `0 0 ${W} ${H}`);
+    box.append("line").attr("x1", x(0)).attr("x2", x(0)).attr("y1", mg.t).attr("y2", H - mg.b).style("stroke", "var(--ink-3)");
+    segs.forEach((s, j) => {
+      const yy = mg.t + j * rowH;
+      box.append("rect").attr("x", x(Math.min(s.a, s.b))).attr("width", Math.max(1, Math.abs(x(s.b) - x(s.a)))).attr("y", yy + 4).attr("height", rowH - 8).style("fill", s.c);
+      box.append("text").attr("x", mg.l - 8).attr("y", yy + rowH / 2 + 4).attr("text-anchor", "end").style("fill", "var(--ink)").style("font-size", "13px").text(s.n);
+      box.append("text").attr("x", x(Math.max(s.a, s.b)) + 5).attr("y", yy + rowH / 2 + 4).style("fill", "var(--ink-2)").style("font-size", "12px").style("font-family", "var(--f-mono)").text(fmtS(s.v) + " km");
+    });
+    const yy = mg.t + 4 * rowH;
+    box.append("rect").attr("x", x(Math.min(0, tot))).attr("width", Math.abs(x(tot) - x(0))).attr("y", yy + 4).attr("height", rowH - 8).style("fill", "var(--ink)");
+    box.append("text").attr("x", mg.l - 8).attr("y", yy + rowH / 2 + 4).attr("text-anchor", "end").style("fill", "var(--ink)").style("font-size", "13px").style("font-weight", 600).text(`ΔNorte ${a}→${b}`);
+    box.append("text").attr("x", x(Math.max(0, tot)) + 5).attr("y", yy + rowH / 2 + 4).style("fill", "var(--ink)").style("font-size", "12px").style("font-family", "var(--f-mono)").text(fmtS(tot) + " km");
+    box.append("g").attr("class", "eixo").attr("transform", `translate(0,${H - mg.b})`).call(d3.axisBottom(x).ticks(6).tickFormat(d => fmt(d, 0)));
+  }
+  m.polys.forEach((p, i) => { p.onmousemove = ev => mostraTip(ev, `<b>${AMC[i].nome}</b><br>parcela: ${fmtS(contrib[i], 2)} km`); p.onmouseleave = escondeTip; });
+  sa.onchange = sb.onchange = calcula;
+  reescala(m, () => [calcula]); aoMudarVar(calcula); calcula();
+})();
+
+// ═════════════════════════════════════════ 7 · mediano
+(function mediano() {
+  const box = $("#p7-mapa");
+  let m = null, ano = 1985, mult = new Float64Array(N).fill(1), passos = [], k = 0;
+  const pesosM = () => pesos(S.v, ano).map((w, i) => w * mult[i]);
+  let gD, gC, dots, trilha, mkMed, mkMean, mkMean0, mkMed0, base;
+  function monta() {
+    box.innerHTML = ""; mult.fill(1);
+    const w = pesos(S.v, ano), c = centro(w), med = weiszfeld(w);
+    const cxm = (c.x + med[0]) / 2, cym = (c.y + med[1]) / 2, R = 190;
+    m = novoMapa(box, { vb: [cxm - R, sy(cym + R * 0.8), 2 * R, 1.6 * R] });
+    m.polys.forEach(p => p.style.fill = "var(--card)");
+    gD = el("g", {}, m.gO); gC = el("g", {}, m.gT);
+    dots = AMC.map((a, i) => { const d = el("circle", { cx: CX[i], cy: sy(CY[i]), style: `fill:${cor(S.v)};fill-opacity:.45;stroke:${cor(S.v)};vector-effect:non-scaling-stroke;cursor:pointer` }, gD);
+      d.onclick = () => infla(i); d.onmousemove = ev => mostraTip(ev, `<b>${AMC[i].nome}</b><br>${fmtI(pesos(S.v, ano)[i] * mult[i])} ${un(S.v)}${mult[i] > 1 ? " (×10)" : ""}<br>clique para ${mult[i] > 1 ? "voltar ao peso real" : "multiplicar por 10"}`); d.onmouseleave = escondeTip; return d; });
+    m.polys.forEach((p, i) => { p.style.cursor = "pointer"; p.onclick = () => infla(i); });
+    trilha = el("polyline", { style: "fill:none;stroke:var(--accent);stroke-width:1.5;vector-effect:non-scaling-stroke" }, gC);
+    const tp = el("g", {}, gC); trilha._pts = tp;
+    mkMean0 = marcaCG(gC, 7); mkMean0.style.opacity = .35; mkMed0 = el("rect", { style: "fill:none;stroke:var(--accent);stroke-width:1.5;opacity:.45;vector-effect:non-scaling-stroke" }, gC);
+    mkMean = marcaCG(gC, 10);
+    mkMed = el("rect", { style: "fill:var(--accent);stroke:var(--card);stroke-width:1.5;vector-effect:non-scaling-stroke" }, gC);
+    base = { mean: c, med };
+    zera(); reescala(m, () => [desenha]);
+  }
+  function zera() { passos = weiszfeld(pesosM(), true); k = 0; desenha(); }
+  function infla(i) { mult[i] = mult[i] > 1 ? 1 : 10; zera(); $("#p7-tudo").click(); }
+  function quad(r, x, y, s) { r.setAttribute("x", x - s); r.setAttribute("y", sy(y) - s); r.setAttribute("width", 2 * s); r.setAttribute("height", 2 * s); r.setAttribute("transform", `rotate(45 ${x} ${sy(y)})`); }
+  function desenha() {
+    const kk = m.kpx(), w = pesosM(), mx = Math.max(...pesos(S.v, ano));
+    dots.forEach((d, i) => { d.setAttribute("r", Math.max(1.2 * kk, 16 * kk * Math.sqrt(w[i] / mx))); d.style.strokeWidth = mult[i] > 1 ? 2.5 : .8; d.style.stroke = mult[i] > 1 ? "var(--ink)" : cor(S.v); });
+    const vis = passos.slice(0, k + 1);
+    trilha.setAttribute("points", vis.map(([x, y]) => `${x},${sy(y)}`).join(" "));
+    trilha._pts.innerHTML = ""; vis.forEach(([x, y]) => el("circle", { cx: x, cy: sy(y), r: 1.8 * kk, style: "fill:var(--accent)" }, trilha._pts));
+    const c = centro(w); poeCG(mkMean, m, c.x, c.y);
+    poeCG(mkMean0, m, base.mean.x, base.mean.y); quad(mkMed0, base.med[0], base.med[1], 5 * kk);
+    const [qx, qy] = passos[k]; quad(mkMed, qx, qy, 6 * kk);
+    const alterado = mult.some(x => x > 1), conv = k === passos.length - 1;
+    const dm = Math.hypot(c.x - base.mean.x, c.y - base.mean.y), dd = Math.hypot(passos.at(-1)[0] - base.med[0], passos.at(-1)[1] - base.med[1]);
+    const mov = k ? Math.hypot(passos[k][0] - passos[k - 1][0], passos[k][1] - passos[k - 1][1]) : 0;
+    $("#p7-lendo").innerHTML = `⊕ centro médio · ◆ centro mediano. Passo <b>${k}</b> de ${passos.length - 1}${k ? `, o último moveu ${mov < 0.001 ? "menos de um metro" : mov < 0.01 ? fmt(mov * 1000, 0) + " m" : fmt(mov, 2) + " km"}` : " (o ponto de partida é o próprio centro médio)"}.
+      ${conv ? `Convergiu: o mediano está a <b>${fmt(Math.hypot(qx - c.x, qy - c.y))} km</b> do médio.` : ""}
+      ${alterado && conv ? `<br>Com o peso inflado, o <b>médio andou ${fmt(dm)} km</b> e o <b>mediano andou ${fmt(dd)} km</b>.` : ""}`;
+  }
+  segmento("#p7-ano", d => { ano = +d.a; monta(); });
+  $("#p7-passo").onclick = () => { if (k < passos.length - 1) { k++; desenha(); } };
+  $("#p7-tudo").onclick = () => { if (reduz) { k = passos.length - 1; return desenha(); } const f = () => { if (k < passos.length - 1) { k++; desenha(); setTimeout(f, 70); } }; f(); };
+  $("#p7-zera").onclick = () => { mult.fill(1); zera(); };
+  aoMudarVar(monta); monta();
+})();
+
+// ═════════════════════════════════════════ 8 · bootstrap
+(function bootstrap() {
+  const selK = $("#p8-k");
+  const KS = Object.keys(D.blocos).map(Number).sort((a, b) => b - a);
+  KS.forEach(k => selK.add(new Option(k === 166 ? "AMC a AMC (166)" : `${k} blocos (~${fmt(166 / k, 1)} AMC cada)`, k)));
+  const m = novoMapa($("#p8-mapa"));
+  const rot = el("g", {}, m.gT);
+  let K = 166, lab = D.blocos["166"], rng = mulberry(42), amostra = [], ultimo = null, cores8 = [];
+  const wa = () => pesos(S.v, 1985), wb = () => pesos(S.v, 2024);
+  function dN(c) { return centro(wb(), c).y - centro(wa(), c).y; }
+  function sorteia() {
+    const cb = new Float64Array(K); for (let t = 0; t < K; t++) cb[Math.floor(rng() * K)]++;
+    const c = new Float64Array(N); for (let i = 0; i < N; i++) c[i] = cb[lab[i]];
+    return c;
+  }
+  function pinta(c) {
+    m.polys.forEach((p, i) => {
+      const n = c ? c[i] : 1;
+      p.style.fill = n === 0 ? "var(--card)" : `color-mix(in oklab, ${cor(S.v)} ${Math.min(90, 22 * n + 8)}%, var(--card))`;
+      p.style.stroke = "";
+    });
+    rot.innerHTML = "";
+    if (c) { const k = m.kpx(); for (let i = 0; i < N; i++) if (c[i] >= 2) { const t = el("text", { x: CX[i], y: sy(CY[i]) + 4 * k, "text-anchor": "middle", "font-size": 11 * k, style: "fill:var(--ink);font-family:var(--f-mono);font-weight:500" }, rot); t.textContent = "×" + c[i]; } }
+  }
+  const hist = (function () {
+    const W = 640, H = 200, mg = { l: 40, r: 14, t: 14, b: 28 };
+    const svg = d3.select("#p8-hist").append("svg").attr("class", "graf").attr("viewBox", `0 0 ${W} ${H}`);
+    const gB = svg.append("g"), gE = svg.append("g").attr("class", "eixo").attr("transform", `translate(0,${H - mg.b})`), gL = svg.append("g");
+    return {
+      desenha() {
+        const v = S.v, bl = D.oficial.bloco.filter(r => r.variavel === v);
+        const lo = Math.min(-10, ...bl.map(r => r.dN_lo)) - 6, hi = Math.max(10, ...bl.map(r => r.dN_hi)) + 6;
+        const x = d3.scaleLinear().domain([lo, hi]).range([mg.l, W - mg.r]);
+        const bins = d3.bin().domain(x.domain()).thresholds(x.ticks(60))(amostra);
+        const y = d3.scaleLinear().domain([0, Math.max(5, d3.max(bins, b => b.length))]).range([H - mg.b, mg.t]);
+        gB.selectAll("rect").data(bins).join("rect").attr("x", b => x(b.x0) + .5).attr("width", b => Math.max(0, x(b.x1) - x(b.x0) - 1)).attr("y", b => y(b.length)).attr("height", b => y(0) - y(b.length)).style("fill", cor(v)).style("opacity", .8);
+        gE.call(d3.axisBottom(x).ticks(8).tickFormat(d => fmt(d, 0)));
+        gL.html("");
+        const pt = dN(null);
+        const lin = (val, st, txt, yy) => { gL.append("line").attr("x1", x(val)).attr("x2", x(val)).attr("y1", mg.t).attr("y2", H - mg.b).style("stroke", st.c).style("stroke-width", st.w || 1.5).attr("stroke-dasharray", st.d || null); if (txt) gL.append("text").attr("x", x(val) + 4).attr("y", yy).style("fill", st.c).style("font-size", "11px").style("font-family", "var(--f-disp)").text(txt); };
+        lin(0, { c: "var(--ink-3)", w: 1 }, "zero", mg.t + 10);
+        lin(pt, { c: "var(--ink)", w: 2 }, `ΔN = ${fmtS(pt)} km`, mg.t + 24);
+        if (ultimo !== null) gL.append("circle").attr("cx", x(ultimo)).attr("cy", H - mg.b - 6).attr("r", 5).style("fill", "var(--accent)");
+        if (amostra.length >= 40) { const [a, b] = ic(); lin(a, { c: "var(--accent)", d: "4 3" }); lin(b, { c: "var(--accent)", d: "4 3" }); gL.append("text").attr("x", (x(a) + x(b)) / 2).attr("y", H - mg.b - 14).attr("text-anchor", "middle").style("fill", "var(--accent)").style("font-size", "11px").style("font-family", "var(--f-disp)").text("95% do meio"); }
+      }
+    };
+  })();
+  function ic() { const s = [...amostra].sort((a, b) => a - b); return [d3.quantileSorted(s, .025), d3.quantileSorted(s, .975)]; }
+  function placar() {
+    const v = S.v, of = D.oficial.bloco.find(r => r.variavel === v && r.k_blocos === K);
+    const ofB = D.oficial.boot.find(r => r.variavel === v && r.janela === "LÍQUIDO");
+    const [a, b] = amostra.length >= 40 ? ic() : [NaN, NaN];
+    const exc = (lo, hi) => (lo > 0 || hi < 0) ? '<span class="pill rob">exclui zero · robusto</span>' : '<span class="pill anc">inclui zero · ancorada</span>';
+    $("#p8-ic").innerHTML = `<div><div class="k" style="font-family:var(--f-disp);font-size:12px;color:var(--ink-2)">Esta página · ${amostra.length} sorteios</div>
+      <div class="num" style="font-size:17px">${amostra.length >= 40 ? `[${fmtS(a)}; ${fmtS(b)}] km` : "sorteie ao menos 40"}</div>${amostra.length >= 40 ? exc(a, b) : ""}</div>
+      <div><div class="k" style="font-family:var(--f-disp);font-size:12px;color:var(--ink-2)">Pipeline #55 · 2000 sorteios, semente 42</div>
+      <div class="num" style="font-size:17px">[${fmtS(of.dN_lo)}; ${fmtS(of.dN_hi)}] km</div>${exc(of.dN_lo, of.dN_hi)}
+      ${K === 166 ? `<div class="nota" style="font-size:13px;margin-top:4px">A tabela do #32 traz [${fmtS(ofB.dN_lo)}; ${fmtS(ofB.dN_hi)}], de outro sorteio. A diferença entre sorteios é o ruído de Monte Carlo, e é pequena.</div>` : ""}</div>`;
+    const tam = amostra.length ? amostra.length : 0;
+    $("#p8-lendo").innerHTML = ultimo === null ? `Cada sorteio monta um Goiás novo e refaz a conta de 1985 e de 2024. Comece com <b>1 sorteio</b> para ver o mapa das cópias.`
+      : `Último sorteio: ΔNorte = <b>${fmtS(ultimo)} km</b>. No mapa, AMC em branco ficaram de fora, e ×2, ×3 marcam as que entraram repetidas${K < 166 ? " (sempre com o bloco inteiro)" : ""}.`;
+  }
+  function grade() {
+    const v = S.v, bl = D.oficial.bloco.filter(r => r.variavel === v).sort((a, b) => b.k_blocos - a.k_blocos);
+    const W = 640, H = 150, mg = { l: 118, r: 20, t: 22, b: 26 };
+    const lo = Math.min(-10, ...bl.map(r => r.dN_lo)) - 4, hi = Math.max(10, ...bl.map(r => r.dN_hi)) + 4;
+    const x = d3.scaleLinear().domain([lo, hi]).range([mg.l, W - mg.r]);
+    const y = d3.scalePoint().domain(bl.map(r => r.k_blocos)).range([mg.t + 6, H - mg.b - 4]);
+    const svg = d3.select("#p8-grade").html("").append("svg").attr("class", "graf").attr("viewBox", `0 0 ${W} ${H}`);
+    svg.append("text").attr("x", 12).attr("y", 14).style("fill", "var(--ink-2)").style("font-size", "12px").style("font-family", "var(--f-disp)").text("Intervalo de 95% do #55 em cada tamanho de bloco");
+    svg.append("line").attr("x1", x(0)).attr("x2", x(0)).attr("y1", mg.t).attr("y2", H - mg.b).style("stroke", "var(--ink-3)").attr("stroke-dasharray", "2 3");
+    bl.forEach(r => {
+      const yy = y(r.k_blocos), on = r.k_blocos === K;
+      svg.append("line").attr("x1", x(r.dN_lo)).attr("x2", x(r.dN_hi)).attr("y1", yy).attr("y2", yy).style("stroke", cor(v)).style("stroke-width", on ? 5 : 3).style("opacity", on ? 1 : .55);
+      svg.append("circle").attr("cx", x(r.dN_km)).attr("cy", yy).attr("r", 3.5).style("fill", "var(--ink)");
+      svg.append("text").attr("x", mg.l - 8).attr("y", yy + 4).attr("text-anchor", "end").style("fill", on ? "var(--ink)" : "var(--ink-2)").style("font-size", "11.5px").style("font-family", "var(--f-disp)").style("font-weight", on ? 600 : 400).text(r.k_blocos === 166 ? "1 AMC por bloco" : `~${fmt(r.amc_por_bloco, 1)} AMC por bloco`);
+    });
+    svg.append("g").attr("class", "eixo").attr("transform", `translate(0,${H - mg.b})`).call(d3.axisBottom(x).ticks(7).tickFormat(d => fmt(d, 0)));
+  }
+  function mostraBlocos() {
+    // cor por bloco em tons do neutro para ver a partição, antes de qualquer sorteio
+    const pal = ["var(--paper-2)", "color-mix(in oklab, var(--ink) 16%, var(--card))", "color-mix(in oklab, var(--ink) 7%, var(--card))", "color-mix(in oklab, var(--ink) 26%, var(--card))"];
+    // coloração gulosa: vizinho = centroides a < 70 km
+    const cb = new Array(K).fill(-1), cent = [];
+    for (let b = 0; b < K; b++) { let sx = 0, syy = 0, n = 0; lab.forEach((l, i) => { if (l === b) { sx += CX[i]; syy += CY[i]; n++; } }); cent.push([sx / n, syy / n]); }
+    const ordem = [...Array(K).keys()].sort((a, b) => cent[a][1] - cent[b][1]);
+    for (const b of ordem) { const usadas = new Set(); for (let o = 0; o < K; o++) if (cb[o] >= 0 && Math.hypot(cent[o][0] - cent[b][0], cent[o][1] - cent[b][1]) < 2.2 * Math.sqrt(340000 / K / Math.PI)) usadas.add(cb[o]); let c = 0; while (usadas.has(c) && c < 3) c++; cb[b] = c; }
+    m.polys.forEach((p, i) => { p.style.fill = K === 166 ? "" : pal[cb[lab[i]]]; p.style.stroke = ""; });
+    rot.innerHTML = "";
+  }
+  function zera() { rng = mulberry(42); amostra = []; ultimo = null; mostraBlocos(); hist.desenha(); placar(); grade(); }
+  selK.onchange = () => { K = +selK.value; lab = D.blocos[String(K)]; zera(); };
+  $("#p8-1").onclick = () => { const c = sorteia(); ultimo = dN(c); amostra.push(ultimo); pinta(c); hist.desenha(); placar(); };
+  const lote = n => { let c; for (let j = 0; j < n && amostra.length < 2000; j++) { c = sorteia(); ultimo = dN(c); amostra.push(ultimo); } if (c) pinta(c); hist.desenha(); placar(); };
+  $("#p8-100").onclick = () => lote(100);
+  $("#p8-tudo").onclick = () => {
+    if (reduz) return lote(2000 - amostra.length);
+    const f = () => { lote(60); if (amostra.length < 2000) requestAnimationFrame(f); }; f();
+  };
+  $("#p8-zera").onclick = zera;
+  reescala(m, () => []);
+  aoMudarVar(zera); zera();
+})();
+
+// ═════════════════════════════════════════ 9 · pixel
+(function pixel() {
+  const vs = ["pastagem", "agricultura", "veg_natural"];
+  const W = 640, H = 300, mg = { l: 48, r: 16, t: 14, b: 28 };
+  const svg = d3.select("#p9-graf").append("svg").attr("class", "graf").attr("viewBox", `0 0 ${W} ${H}`);
+  const ser = {};
+  let lo = 0, hi = 0;
+  for (const v of vs) {
+    const amc = ANOS.map(a => centro(pesos(v, a)).y), px = D.oficial.pixel[v];
+    ser[v] = { amc: amc.map(y => y - amc[0]), px: px.y.map(y => y - px.y[0]), anosPx: px.ano };
+    lo = Math.min(lo, ...ser[v].amc, ...ser[v].px); hi = Math.max(hi, ...ser[v].amc, ...ser[v].px);
+  }
+  const x = d3.scaleLinear().domain([1985, 2024]).range([mg.l, W - mg.r]);
+  const y = d3.scaleLinear().domain([lo - 4, hi + 4]).range([H - mg.b, mg.t]);
+  for (const a of D.atos) if (a.id !== "II") svg.append("rect").attr("class", "ato").attr("x", x(a.ini - .5)).attr("width", x(a.fim + .5) - x(a.ini - .5)).attr("y", mg.t).attr("height", H - mg.t - mg.b);
+  svg.append("line").attr("x1", mg.l).attr("x2", W - mg.r).attr("y1", y(0)).attr("y2", y(0)).style("stroke", "var(--ink-3)");
+  svg.append("g").attr("class", "eixo").attr("transform", `translate(0,${H - mg.b})`).call(d3.axisBottom(x).tickFormat(d3.format("d")).ticks(8));
+  svg.append("g").attr("class", "eixo").attr("transform", `translate(${mg.l},0)`).call(d3.axisLeft(y).ticks(6).tickFormat(d => fmt(d, 0)));
+  svg.append("text").attr("x", mg.l + 6).attr("y", mg.t + 10).style("fill", "var(--ink-2)").style("font-size", "11px").style("font-family", "var(--f-disp)").text("km ao norte da posição de 1985");
+  const L = {};
+  for (const v of vs) {
+    L[v] = [svg.append("path").attr("fill", "none").style("stroke", cor(v)).style("stroke-width", 2.2).attr("d", d3.line().x((_, i) => x(ANOS[i])).y(d => y(d))(ser[v].amc)),
+      svg.append("path").attr("fill", "none").style("stroke", cor(v)).style("stroke-width", 2.2).attr("stroke-dasharray", "5 4").attr("d", d3.line().x((_, i) => x(ser[v].anosPx[i])).y(d => y(d))(ser[v].px))];
+  }
+  $("#p9-leg").innerHTML = vs.map(v => `<span style="--c:${cor(v)}"><i></i>${nomeVar(v)} · AMC</span><span style="--c:${cor(v)}"><i class="tr"></i>pixel</span>`).join("");
+  $("#p9-tab").innerHTML = `<table class="tabela"><thead><tr><th>Variável</th><th>ΔNorte AMC</th><th>ΔNorte pixel</th><th>diferença</th></tr></thead><tbody>` +
+    vs.map(v => { const a = ser[v].amc.at(-1), p = ser[v].px.at(-1); return `<tr><td>${nomeVar(v)}</td><td class="num">${fmtS(a)}</td><td class="num">${fmtS(p)}</td><td class="num">${fmtS(p - a)} km</td></tr>`; }).join("") + `</tbody></table>`;
+  $("#p9-regua").innerHTML = `Uma nota de régua. Aqui as duas colunas estão na mesma métrica (a posição norte em EPSG:5880). O caderno cita o pixel como +79,2 km para a pastagem e +66,9 km para a agricultura, que é o que o #43 imprime convertendo a latitude a 111 km por grau. Medido na mesma régua do AMC, o pixel dá ${fmtS(ser.pastagem.px.at(-1))} e ${fmtS(ser.agricultura.px.at(-1))} km. A conclusão não muda, e a distância entre as duas medições fica ainda menor.`;
+  aoMudarVar(() => { for (const v of vs) L[v].forEach(p => p.style("opacity", S.v === v || !vs.includes(S.v) ? 1 : .3)); });
+})();
+
+// ═════════════════════════════════════════ conferência final
+(function confere() {
+  let pior = 0;
+  for (const v of VARS) ANOS.forEach((a, j) => { const c = centro(pesos(v, a)); pior = Math.max(pior, Math.abs(c.y - D.oficial.anual[v].y[j]), Math.abs(c.x - D.oficial.anual[v].x[j])); });
+  $("#conferencia").innerHTML = `Conferência feita ao abrir a página: nos 160 centros (4 variáveis × 40 anos), a maior diferença entre a conta refeita aqui e o CSV do pipeline é de <b>${fmt(pior * 1000, 2)} m</b>.`;
+})();
+</script>

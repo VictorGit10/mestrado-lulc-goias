@@ -1,0 +1,136 @@
+% =====================================================================
+% Caderno de preparação para a qualificação — preâmbulo
+% =====================================================================
+\documentclass[11pt,a4paper,oneside]{report}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage{newtxtext,newtxmath}
+\renewcommand*\ttdefault{lmtt}
+\usepackage{microtype}
+\usepackage[a4paper,top=2.6cm,bottom=2.6cm,left=2.7cm,right=2.7cm,headsep=14pt]{geometry}
+\usepackage{amsmath}
+\let\Bbbk\relax          % newtxmath já define \Bbbk; evita o choque com amssymb
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+\usepackage{needspace}
+
+% As caixas são \emph{breakable} porque algumas passam de meia página. O preço
+% é a viúva de título: o cabeçalho colorido cabe no pé da página e o corpo
+% escorre para a seguinte, que é justamente o defeito que uma caixa de
+% destaque não pode ter (o leitor procura o rótulo, não o parágrafo). O
+% \Needspace exige quatro linhas antes de abrir a caixa; não cabendo, ela
+% inteira desce. O `before` substitui o espaçamento padrão do tcolorbox, e por
+% isso repõe o \medskip e o \noindent que ele emitiria.
+\tcbset{before={\par\Needspace*{4\baselineskip}\medskip\noindent}}
+\usepackage[hidelinks,colorlinks=true,linkcolor=corlink,citecolor=corlink,urlcolor=corlink]{hyperref}
+
+% ---------------------------------------------------------------------
+% Paleta
+% ---------------------------------------------------------------------
+\definecolor{cortinta}{HTML}{1B2A38}   % tinta dos títulos
+\definecolor{corlink}{HTML}{1F4E79}
+\definecolor{corcerrado}{HTML}{8A6D2F} % ocre — caixas de método
+\definecolor{corlimite}{HTML}{9B3A2E}  % terracota — o que o método não diz
+\definecolor{corbanca}{HTML}{1F4E79}   % azul — como dizer na banca
+\definecolor{corancora}{HTML}{2F5D3A}  % verde — números-âncora
+\definecolor{corfundoclaro}{HTML}{F6F4EF}
+\definecolor{corregra}{HTML}{C9C3B6}
+
+% ---------------------------------------------------------------------
+% Títulos
+% ---------------------------------------------------------------------
+\titleformat{\part}[display]
+  {\normalfont\centering}
+  {\color{corcerrado}\scshape\large PARTE \thepart}
+  {10pt}
+  {\color{cortinta}\Huge\bfseries}
+  [\vspace{6pt}{\color{corregra}\rule{\textwidth}{1.2pt}}]
+
+\titleformat{\chapter}[display]
+  {\normalfont}
+  {\color{corcerrado}\bfseries\large\thechapter}
+  {2pt}
+  {\color{cortinta}\LARGE\bfseries}
+  [\vspace{2pt}{\color{corregra}\rule{\textwidth}{0.8pt}}]
+\titlespacing*{\chapter}{0pt}{-14pt}{22pt}
+
+\titleformat{\section}
+  {\color{cortinta}\normalfont\large\bfseries}{\thesection}{0.7em}{}
+\titleformat{\subsection}
+  {\color{cortinta}\normalfont\normalsize\bfseries}{\thesubsection}{0.6em}{}
+\titlespacing*{\section}{0pt}{16pt}{6pt}
+\titlespacing*{\subsection}{0pt}{12pt}{4pt}
+
+% ---------------------------------------------------------------------
+% Cabeçalho e rodapé
+% ---------------------------------------------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{corregra}\leaders\hrule height \headrulewidth\hfill}}
+\fancyhead[L]{\footnotesize\color{cortinta}\nouppercase{\leftmark}}
+\fancyhead[R]{\footnotesize\color{cortinta}\thepage}
+\renewcommand{\chaptermark}[1]{\markboth{\thechapter.\ #1}{}}
+\fancypagestyle{plain}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}\fancyfoot[C]{\footnotesize\color{cortinta}\thepage}}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\linespread{1.06}
+
+% ---------------------------------------------------------------------
+% Caixas
+% ---------------------------------------------------------------------
+\newtcolorbox{naodiz}[1][O que o método NÃO diz]{
+  breakable, enhanced, colback=white, colframe=corlimite,
+  boxrule=0pt, leftrule=2.2pt, arc=0pt, outer arc=0pt,
+  left=10pt, right=8pt, top=7pt, bottom=7pt,
+  fonttitle=\bfseries\footnotesize\color{corlimite},
+  coltitle=corlimite, colbacktitle=white,
+  title={#1}, attach title to upper=\par\vspace{3pt}}
+
+\newtcolorbox{nabanca}[1][Como dizer isto na banca]{
+  breakable, enhanced, colback=corfundoclaro, colframe=corbanca,
+  boxrule=0pt, leftrule=2.2pt, arc=0pt, outer arc=0pt,
+  left=10pt, right=8pt, top=7pt, bottom=7pt,
+  fonttitle=\bfseries\footnotesize\color{corbanca},
+  coltitle=corbanca, colbacktitle=corfundoclaro,
+  title={#1}, attach title to upper=\par\vspace{3pt}}
+
+\newtcolorbox{ancora}[1][Números-âncora]{
+  breakable, enhanced, colback=white, colframe=corancora,
+  boxrule=0pt, leftrule=2.2pt, arc=0pt, outer arc=0pt,
+  left=10pt, right=8pt, top=7pt, bottom=7pt,
+  fonttitle=\bfseries\footnotesize\color{corancora},
+  coltitle=corancora, colbacktitle=white,
+  title={#1}, attach title to upper=\par\vspace{3pt}}
+
+\newtcolorbox{armadilha}[1][Armadilha]{
+  breakable, enhanced, colback=white, colframe=corcerrado,
+  boxrule=0pt, leftrule=2.2pt, arc=0pt, outer arc=0pt,
+  left=10pt, right=8pt, top=7pt, bottom=7pt,
+  fonttitle=\bfseries\footnotesize\color{corcerrado},
+  coltitle=corcerrado, colbacktitle=white,
+  title={#1}, attach title to upper=\par\vspace{3pt}}
+
+% Pergunta de banca
+\newcommand{\pergunta}[1]{\vspace{9pt}\par{\color{cortinta}\bfseries #1}\par\vspace{2pt}}
+\newcommand{\resposta}[1]{\par #1\par}
+
+% Marcador de seção do texto de qualificação
+\newcommand{\onde}[1]{{\footnotesize\color{corcerrado}[#1]}}
+
+\setlist[itemize]{leftmargin=1.2em,itemsep=2pt,topsep=4pt}
+\setlist[enumerate]{leftmargin=1.4em,itemsep=2pt,topsep=4pt}
+
+\begin{document}

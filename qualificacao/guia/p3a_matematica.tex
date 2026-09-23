@@ -1,0 +1,632 @@
+% =====================================================================
+\part{A matemática, método a método}
+% =====================================================================
+
+Esta parte é o coração do caderno. Cada capítulo segue a mesma estrutura: a
+pergunta que o método responde, a fórmula, a tradução em português corrente, a
+fronteira do que ele autoriza afirmar, e a formulação pronta para a banca.
+
+Um princípio atravessa tudo o que vem a seguir. \textbf{Nenhum destes métodos
+estabelece causalidade.} O que muda de um para outro é o que cada um consegue
+descartar. Saber exatamente o que cada instrumento descarta --- e o que ele
+deixa de pé --- é o que dá autoridade para responder sem hesitar e sem
+prometer demais.
+
+\chapter{O centro de massa ponderado}
+\label{cap:centro}
+
+\section{A pergunta}
+
+Onde está o ``ponto de equilíbrio geográfico'' de uma atividade num dado ano, e
+para onde esse ponto se desloca ao longo do tempo?
+
+\section{A fórmula}
+
+Seja $i = 1, \dots, 166$ o índice das AMCs, $(x_i, y_i)$ o centroide da unidade
+$i$ em coordenadas projetadas métricas (EPSG:5880), e $w_{it}$ o peso da
+unidade $i$ no ano $t$. O centro médio ponderado é
+
+\begin{equation}
+\bar{x}_t = \frac{\sum_{i=1}^{n} w_{it}\, x_i}{\sum_{i=1}^{n} w_{it}},
+\qquad
+\bar{y}_t = \frac{\sum_{i=1}^{n} w_{it}\, y_i}{\sum_{i=1}^{n} w_{it}}.
+\label{eq:centro}
+\end{equation}
+
+É, literalmente, a fórmula do centro de gravidade da física, com a massa
+substituída pela quantidade de interesse. O deslocamento entre dois anos é o
+vetor $(\bar{x}_T - \bar{x}_0,\ \bar{y}_T - \bar{y}_0)$, cuja componente $y$ é o
+$\Delta$Norte reportado em quilômetros.
+
+\section{Os dois tipos de peso, que respondem a perguntas diferentes}
+
+A mesma fórmula recebe dois pesos, e confundi-los seria um erro grave de
+leitura.
+
+\textbf{Peso de estoque:} $w_{it}$ é a quantidade que a unidade \emph{guarda}
+no ano --- a área da classe de cobertura, o efetivo do rebanho. Responde a
+``onde a atividade está''. É de onde saem os números da tabela dos centros de
+massa.
+
+\textbf{Peso de fluxo:} $w_{it}$ é a área que, naquela unidade, \emph{mudou} de
+uma classe para outra entre dois anos consecutivos, tomada da matriz de
+transição e rotulada pelo ano de origem do par. Responde a ``onde a atividade
+muda''. É de onde sai o centro da conversão.
+
+\begin{armadilha}[A pergunta sobre originalidade]
+A versão de \emph{estoque} é procedimento clássico --- é o centro de gravidade
+de sempre, aplicado a outra variável, e nada tem de novo. É para a versão de
+\emph{fluxo}, aplicada a matrizes de transição de uso da terra, que o
+levantamento não localizou precedente. Se a banca perguntar o que há de
+original no método, essa é a resposta honesta, e ela vem com a ressalva de que
+a busca segue registrada como item em aberto. Enquanto estiver em aberto, a
+métrica é defendida pela verificação interna, e não por filiação.
+\end{armadilha}
+
+\section{Os dois acompanhantes}
+
+O \textbf{centro mediano} minimiza a soma das distâncias euclidianas aos
+pontos, em vez da soma dos quadrados:
+\begin{equation}
+(\hat{x}, \hat{y}) = \arg\min_{(x,y)} \sum_{i} w_i \sqrt{(x - x_i)^2 + (y - y_i)^2}.
+\end{equation}
+Não tem solução fechada, e é obtido pelo algoritmo iterativo de Weiszfeld. A
+razão de usá-lo é que ele é \textbf{robusto a um aglomerado dominante}: se uma
+única região concentrasse massa desproporcional, ela puxaria o centro médio
+mais do que puxa o mediano. Concordância entre os dois é evidência de que o
+resultado não é artefato de concentração.
+
+A \textbf{elipse de desvio-padrão} descreve dispersão e orientação da mancha, e
+entra como procedimento de uso corrente.
+
+\section{O que a decisão D19 impõe}
+
+Um centro de massa é uma estatística pontual. Sem margem de erro, não há como
+distinguir deslocamento real de ruído. Daí a regra:
+
+\begin{quote}\itshape
+Todo deslocamento vem com intervalo de confiança de 95\%, e \textbf{um
+deslocamento cujo intervalo inclui zero nunca é reportado em quilômetros}. A
+variável é descrita, nesse caso, como \emph{ancorada}.
+\end{quote}
+
+É por isso que a vegetação natural aparece como ``ancorada'' e não como ``andou
+7,6 km''. Essa é uma autocorreção, e vale apresentá-la como tal.
+
+\begin{ancora}[A tabela dos centros de massa]
+Pastagem $+77{,}6$ km, IC $[+54{,}7;\ +98{,}2]$ --- robusto \\
+Rebanho bovino $+66{,}9$ km, IC $[+47{,}2;\ +84{,}5]$ --- robusto \\
+Agricultura $+65{,}2$ km, IC $[+43{,}5;\ +94{,}6]$ --- robusto \\
+Vegetação natural $+7{,}6$ km, IC $[-0{,}5;\ +15{,}6]$ --- \textbf{ancorada}
+\end{ancora}
+
+\begin{naodiz}
+O centro de massa não diz \emph{por que} a atividade se moveu, nem que uma
+região tenha causado o movimento da outra. Ele é descrição. Toda a Parte da
+explicação vem depois, e com outros instrumentos.
+\end{naodiz}
+
+\section{A régua de escala: o teste do MAUP}
+
+O centro calculado sobre centroides de AMC supõe distribuição uniforme da
+classe dentro de cada unidade --- suposição não neutra, porque as unidades do
+Norte são maiores e mais irregulares que as do Sul. É o problema da unidade de
+área modificável (MAUP): resultados calculados sobre unidades espaciais mudam
+quando muda o recorte dessas unidades.
+
+O teste foi direto: recalcular o mesmo centro \textbf{sem malha administrativa
+nenhuma}, com cada pixel de 30 m pesando por si.
+
+\begin{ancora}[Pixel contra AMC]
+Pastagem: $+79{,}2$ km (pixel) contra $+77{,}6$ km (AMC). \\
+Agricultura: $+66{,}9$ km (pixel) contra $+65{,}2$ km (AMC). \\
+As duas medições concordam dentro de dois quilômetros, contra deslocamentos
+medidos em dezenas.
+\end{ancora}
+
+\begin{nabanca}
+``O MAUP existe no desenho, e eu o medi em vez de supor que fosse pequeno.
+Refiz o cálculo sem malha nenhuma, pixel a pixel, e a diferença é de um a dois
+quilômetros contra um deslocamento de setenta e oito. Não é material para esta
+métrica.''
+\end{nabanca}
+
+\chapter{Bootstrap, e por que ele precisou virar bootstrap de blocos}
+\label{cap:bootstrap}
+
+\section{O bootstrap comum}
+
+O problema: a fórmula \ref{eq:centro} devolve um número, não uma distribuição.
+De onde sai o intervalo de confiança?
+
+A resposta é reamostragem. O procedimento é o seguinte:
+
+\begin{enumerate}
+\item Sorteie, \emph{com reposição}, 166 AMCs do conjunto das 166. Algumas
+aparecerão duas vezes, outras nenhuma.
+\item Recalcule o centro de massa e o $\Delta$Norte sobre essa amostra.
+\item Repita $B = 2000$ vezes.
+\item O intervalo de 95\% são os percentis 2,5 e 97,5 da distribuição dos 2000
+valores.
+\end{enumerate}
+
+A intuição é a seguinte: o bootstrap pergunta \emph{``se eu tivesse sorteado um
+Goiás ligeiramente diferente, quanto o resultado mudaria?''}. Se ele muda pouco,
+o número é estável; se muda muito, a estatística pontual estava escondendo
+incerteza.
+
+\section{Por que ele estava errado, e como foi corrigido}
+
+O bootstrap comum supõe que as unidades são \textbf{trocáveis e
+independentes}. O diagnóstico espacial do próprio trabalho mostra que não são:
+o índice de Moran nos resíduos é significativo em 115 de 140 testes na malha
+municipal e em 125 de 140 na malha de AMC.
+
+Onde há dependência entre vizinhas, o número \emph{efetivo} de unidades
+independentes é menor que 166, e o intervalo sai estreito demais. Sortear duas
+AMCs vizinhas que dizem quase a mesma coisa não é o mesmo que sortear duas
+informações.
+
+A correção é o \textbf{bootstrap de blocos espaciais}: em vez de sortear AMC a
+AMC, o estado é particionado em blocos espacialmente coerentes (agrupamento por
+$k$-médias sobre os centroides, o que os torna compactos sem impor
+contiguidade), e sorteiam-se os \emph{blocos inteiros}, com todos os seus
+vizinhos juntos.
+
+\section{O ponto sutil: o tamanho do bloco não é um valor a descobrir}
+
+Este é o detalhe que separa uma resposta boa de uma ótima. O tamanho do bloco
+não é um parâmetro a estimar, e sim um parâmetro que \emph{se varre}, porque
+os dois extremos são conhecidos de antemão: um bloco de uma AMC reproduz
+exatamente o bootstrap original, e blocos grandes dão intervalos cada vez mais
+conservadores e menos precisos.
+
+O que se reporta, portanto, não é um tamanho eleito, e sim a
+\textbf{concordância do veredito} ao longo da grade de tamanhos.
+
+\begin{ancora}[O resultado da varredura]
+Tamanho de bloco varrido de \textbf{1 a 14} AMCs. No caso da pastagem, o
+intervalo alarga de \textbf{45 para 80 km} de largura, como esperado. \\
+\textbf{O veredito não muda em nenhum tamanho:} pastagem, rebanho e agricultura
+excluem zero nas seis partições testadas; a vegetação natural inclui zero nas
+seis. \\
+Ponto sensível: \textbf{nenhuma} componente \emph{leste} atravessa a varredura
+inteira --- a da pastagem inclui zero já em blocos de três AMCs, a da
+agricultura em oito, a do rebanho em catorze.
+\end{ancora}
+
+\begin{nabanca}
+``Meu primeiro intervalo tratava as AMCs como independentes, e o meu próprio
+diagnóstico espacial mostra que elas não são. Refiz com bootstrap de blocos
+espaciais e o intervalo quase dobrou de largura, como tinha de acontecer. O
+veredito não muda em nenhum tamanho de bloco, então a leitura da tabela não
+depende de tratar as unidades como independentes.''
+\end{nabanca}
+
+\begin{naodiz}
+O bootstrap não corrige viés do estimador nem erro do classificador. Ele mede
+apenas a incerteza de amostragem sobre as unidades. A acurácia do MapBiomas
+está fora do alcance de qualquer reamostragem, e isso é declarado.
+\end{naodiz}
+
+\chapter{Quebras estruturais: de onde vêm os três atos}
+\label{cap:quebras}
+
+\section{A pergunta, e por que ela é metodológica antes de ser narrativa}
+
+Narrar quarenta anos exige dividi-los, e onde cai cada divisa muda o que a
+narrativa mostra. Ancorar as divisas em marcos institucionais escolhidos de
+antemão deixaria sem resposta a pergunta ``por que 2005 e não 2006?''. A lógica
+adotada é a inversa: as fronteiras saem dos dados, e os marcos institucionais
+são classificados \emph{depois}, pela força da evidência que os sustenta.
+
+\section{O método primário: a estatística sup-F de Quandt-Andrews}
+
+A ideia é simples e vale ser dita em português antes da fórmula. Suponha que
+você queira testar se houve uma quebra no ano $\tau$. Você estima dois modelos
+--- um só, para a série inteira, e dois, um antes e um depois de $\tau$ --- e
+compara o quanto o segundo arranjo melhora o ajuste. Isso é um teste F comum.
+
+O problema é que você não sabe $\tau$ de antemão. A solução de Quandt e Andrews
+é: calcule o F para \emph{todos} os anos-candidatos e fique com o maior.
+
+\begin{equation}
+\text{sup-}F = \max_{\tau \in [\tau_{\min},\, \tau_{\max}]} F(\tau).
+\end{equation}
+
+Aqui a estatística é \textbf{multivariada}, isto é, aplicada conjuntamente às
+variações anuais de vegetação natural, pastagem e agricultura, com segmentação
+binária.
+
+\subsection{Os três parâmetros que precisam ser declarados}
+
+Eles determinam quais anos-candidatos o método chega a devolver, e foram
+fixados \emph{antes} de rodar os testes:
+
+\begin{itemize}
+\item \textbf{Segmento mínimo de cinco anos} --- o \emph{trimming} que o sup-F
+exige. Sem ele, a estatística explode nas bordas da série, onde um dos dois
+segmentos tem pouquíssimas observações.
+\item \textbf{Máximo de três quebras} procuradas.
+\item \textbf{Limiar de $F \geq 4$} para aceitar uma quebra nova --- mais
+frouxo que o usual no caso univariado, porque a estatística aqui é conjunta a
+três séries.
+\end{itemize}
+
+\section{Os dois métodos de sensibilidade}
+
+\textbf{O detector sequencial de Rodionov (STARS)} percorre a série testando,
+a cada ponto, se a média mudou o suficiente para declarar um novo regime.
+Entra aqui porque ele alcança regimes \emph{curtos} que o \emph{trimming} de
+cinco anos do sup-F descarta por construção.
+
+\begin{armadilha}[A honestidade que vale ouro na banca]
+A implementação usada \textbf{não reproduz o algoritmo publicado em todos os
+pontos}: mantém o teste sequencial de médias, mas dispensa a etapa de
+confirmação pelo índice de mudança de regime, estima a dispersão de forma
+robusta sobre a série inteira e adota limiar mais exigente que o do artigo. As
+três escolhas puxam em direções que não se somam de modo previsível, e o efeito
+líquido não foi medido. \textbf{É por isso que o detector entra apenas como
+sensibilidade}, com poder de corroborar ou de deixar de corroborar uma
+fronteira que o primário já apontou, nunca de estabelecer fronteira por conta
+própria. Dizer isso antes de a banca perguntar transforma uma vulnerabilidade
+em demonstração de rigor.
+\end{armadilha}
+
+\textbf{A divergência entre matrizes de transição} compara a matriz média
+anterior a cada ano-candidato com a posterior a ele. Duas medidas, de alcance
+desigual:
+
+\begin{itemize}
+\item a divergência de \textbf{Kullback-Leibler} entre as duas matrizes,
+ponderada pela distribuição estacionária, com significância por permutação. Ela
+cresce ao longo de quase toda a série, e por isso informa mais sobre
+\emph{direção} do que sobre a \emph{localização} de uma fronteira;
+\item a distância de \textbf{variação total} entre as distribuições
+estacionárias que essas matrizes implicam, que localiza melhor, mas não recebe
+teste de significância e entra como leitura auxiliar.
+\end{itemize}
+
+Para duas distribuições $P$ e $Q$ sobre as mesmas classes:
+\begin{equation}
+D_{\mathrm{KL}}(P \| Q) = \sum_{k} P_k \log \frac{P_k}{Q_k},
+\qquad
+d_{\mathrm{TV}}(P, Q) = \tfrac{1}{2}\sum_{k} |P_k - Q_k|.
+\end{equation}
+
+\section{A regra de decisão, fixada antes dos testes}
+
+Uma fronteira só é confirmada quando o método primário \emph{e ao menos um}
+método de sensibilidade convergem. Divergência entre os três seria documentada
+como sensibilidade ao método, nunca resolvida por escolha.
+
+\begin{ancora}[O que o procedimento devolveu]
+\textbf{2001} --- $F = 62{,}2$ (adotada) \\
+\textbf{2020} --- $F = 21{,}5$ (adotada) \\
+\textbf{1991} --- $F = 10{,}3$ (suporte bem mais fraco; \textbf{não adotada}) \\[4pt]
+Daí os três atos: \textbf{1985--2000}, \textbf{2001--2019}, \textbf{2020--2024}.
+\end{ancora}
+
+\section{As duas validações independentes, que são o ponto forte}
+
+\textbf{Primeira: a âncora externa.} O p-valor do sup-F é bruto, porque muitos
+anos-candidatos são testados. A fronteira de 2020 é sustentada, decisivamente,
+por uma fonte que \emph{não passa por classificador algum}: a área de soja
+plantada que o IBGE recolhe em campo quebra em 2020 sozinha.
+
+\textbf{Segunda: a verificação de falso positivo.} O mesmo procedimento foi
+aplicado a séries de \emph{ruído}, para medir quantas quebras aparecem por
+acaso.
+
+\begin{naodiz}
+O teste de Kruskal-Wallis que mostra que os três atos diferem em taxa de mudança
+($H = 20{,}3$; $p < 0{,}001$) \textbf{descreve} o contraste; ele não o valida,
+porque as fronteiras foram estimadas dos mesmos dados. Essa circularidade é
+declarada no texto, e a validação vem de fora.
+\end{naodiz}
+
+\section{A ausência de quebra também é resultado}
+
+O Código Florestal de 2012 não produz quebra empírica em nenhuma das três
+séries. Isso rebaixa o seu estatuto de marco \emph{periodizador}, e não diz
+nada sobre seus efeitos por outras vias. A distinção é fina e vale ser dita com
+essas palavras.
+
+\section{O quarto ato que não foi adotado}
+
+Uma candidata em torno de 2005--2006 foi examinada e recusada, por três razões
+que vale ter prontas:
+
+\begin{enumerate}
+\item o método primário não a detecta, porque o sup-F multivariado lê o
+intervalo entre as duas fronteiras confirmadas como platô contínuo, e a regra
+exige convergência;
+\item a taxa total de mudança não separa as duas sub-fases: comparadas
+2001--2005 e 2006--2019, o teste devolve $p = 0{,}060$, com poder de
+\textbf{0,63} para as quatro observações disponíveis;
+\item a fronteira é sensível ao ponto de corte: significativa em 2005
+($p = 0{,}046$), marginal em 2004 ($p = 0{,}10$) e nula em 2006 ($p = 0{,}12$).
+\end{enumerate}
+
+O que a sub-fase tem de real é \emph{composicional}, e fica registrado como nota
+dentro do Ato~II: nela a vegetação natural se perde em ritmo bem mais alto do
+que em 2006--2019 ($p = 0{,}0008$), e a conversão de pastagem em agricultura é
+cerca de quatro vezes mais intensa. É diferença de composição, não de
+intensidade total.
+
+\section{A convenção de contagem entre atos, e o teste que a acompanha}
+
+Sempre que uma grandeza é medida \emph{entre} dois anos --- fluxos, emissão,
+taxas por ato ---, cada ato é medido entre o seu primeiro e o seu último ano.
+As duas transições de virada, 2000--2001 e 2019--2020, não pertencem a ato
+nenhum. A alternativa faria a conta do ato depender de uma escolha sem
+critério, e justamente no ponto em que o regime muda.
+
+O custo é que a soma dos atos fica abaixo do período inteiro --- 3\% na conta de
+carbono. E o efeito dessa escolha \textbf{foi medido, e não suposto}:
+
+\begin{ancora}[A sensibilidade da convenção]
+Parcela do Ato~I no estoque removido: \textbf{76,4\%} na convenção adotada,
+76,6\% se a virada vai para o ato anterior, 74,1\% se vai para o seguinte. \\
+Parcela do Ato~II: 18,6\%, 18,6\% e 20,5\%. \\
+A repartição se move até 2,3 pontos, e a afirmação de ``três quartos no Ato~I''
+sobrevive às três convenções.
+\end{ancora}
+
+\chapter{Matrizes de transição e o que é uma cadeia de Markov aqui}
+\label{cap:markov}
+
+\section{A construção}
+
+Para um par de anos $(t, t+1)$, a matriz de transição $M$ tem entradas
+$M_{jk} = $ número de pixels que estavam na classe $j$ em $t$ e estão na classe
+$k$ em $t+1$. Normalizada por linha, ela vira uma matriz de probabilidades de
+transição:
+\begin{equation}
+P_{jk} = \frac{M_{jk}}{\sum_{k'} M_{jk'}},
+\qquad \sum_k P_{jk} = 1.
+\end{equation}
+
+A matriz primária deste trabalho opera sobre \textbf{sete grupos de classes},
+incluindo o Mosaico de Usos como grupo próprio.
+
+\section{A distribuição estacionária, e para que ela serve aqui}
+
+Se as probabilidades $P$ permanecessem constantes indefinidamente, a paisagem
+convergiria para uma distribuição $\pi$ que satisfaz
+\begin{equation}
+\pi = \pi P, \qquad \sum_k \pi_k = 1,
+\end{equation}
+isto é, o autovetor à esquerda de $P$ associado ao autovalor 1.
+
+\begin{naodiz}
+Esta $\pi$ \textbf{não é uma previsão} do que Goiás será. Ela é o resumo do
+regime que aquela matriz descreve --- ``para onde esta dinâmica levaria se ela
+não mudasse''. Como a dinâmica muda (é justamente o que a periodização detecta),
+$\pi$ entra aqui apenas como \emph{descritor comparável entre períodos}, para
+alimentar a distância de variação total do capítulo anterior. Nenhuma projeção
+do trabalho se apoia nela.
+\end{naodiz}
+
+\section{Por que a matriz não pode ser inferida da diferença entre estoques}
+
+Ponto conceitual que vale dizer devagar. Se a pastagem perdeu 1 Mha e a lavoura
+ganhou 1 Mha, é tentador concluir que 1 Mha de pasto virou lavoura. Mas o mesmo
+saldo é compatível com 3 Mha de pasto virando lavoura enquanto 2 Mha de Cerrado
+viram pasto. Só a contagem pixel a pixel decompõe cada hectare que mudou em um
+fluxo \emph{orientado}, e é ela que autoriza a afirmação de origem.
+
+\section{O que o cruzamento entre as duas pontas não vê}
+
+A figura que cruza 1985 com 2024 registra o estado \emph{inicial} e o
+\emph{final} de cada pixel, e não as passagens intermediárias. Um pixel que foi
+pasto, virou lavoura e voltou a pasto entra como pasto. Por isso os fluxos do
+cruzamento de pontas são \emph{menores} que a contagem de eventos anuais.
+
+\begin{ancora}[Os quatro fluxos que desenham a marcha, 1985$\to$2024]
+Vegetação natural $\to$ pastagem: \textbf{4,10 Mha} (o maior da série) \\
+Pastagem $\to$ agricultura: \textbf{2,72 Mha} (a maior entre classes já manejadas) \\
+Vegetação natural $\to$ agricultura: \textbf{1,29 Mha} \\
+Vegetação natural $\to$ Mosaico de Usos: \textbf{1,00 Mha} (mantido \emph{fora}
+da conta de conversão antrópica) \\[4pt]
+A pastagem é o elo intermediário de \textbf{58\%} da entrada em agricultura
+(2,72 de 4,65 Mha). Entre as duas rotas vindas de fora do sistema já manejado,
+a proporção sobe a \textbf{68\%}.
+\end{ancora}
+
+\begin{nabanca}[Por que o quarto fluxo ficou de fora]
+``Incluir a conversão de vegetação natural em Mosaico faria a minha medida de
+desmatamento saltar 35\% acima do PRODES. E como essa classe tem transição de
+ida e de volta, tratá-la como perda definitiva superestima. Mantê-la fora é a
+escolha conservadora, e ela está declarada.''
+\end{nabanca}
+
+\section{As duas convenções de classe que precisam ser sabidas de cor}
+
+Há dois pontos em que a tabela do balanço e a figura do cruzamento usam
+agrupamentos diferentes. A diferença é de \emph{agrupamento}, não de dado, e a
+banca pode cobrar a reconciliação:
+
+\begin{itemize}
+\item \textbf{Vegetação natural.} A tabela do balanço soma formação florestal,
+savânica, campo nativo \emph{e campo alagado}, e dá 17,65 Mha em 1985. O
+agrupamento em sete classes do censo de pixels põe o campo alagado em
+``Outros'', e dá 16,96 Mha. A diferença é exatamente o campo alagado,
+\textbf{0,70 Mha}.
+\item \textbf{Agricultura.} Na tabela do balanço ela é a lavoura \emph{sem}
+silvicultura, e dá 5,58 Mha em 2024. No agrupamento em sete classes ela a
+inclui, e dá 5,73 Mha. A diferença é a silvicultura, \textbf{0,16 Mha}.
+\end{itemize}
+
+\begin{nabanca}
+``Não reagrupei o cubo de propósito, porque mover a classe do campo alagado
+mexeria nos fluxos-manchete de 4,10, 2,72 e 1,29 Mha, que são auditados e
+citados. Em vez disso, declarei a composição em nota de rodapé e as duas
+legendas apontam uma para a outra.''
+\end{nabanca}
+
+\chapter{Mistura de gaussianas: duas populações de pastagem}
+\label{cap:mistura}
+
+\section{A pergunta}
+
+Quando um pixel de pastagem é convertido em lavoura, quantos anos ele tinha de
+pastagem? E a distribuição dessas idades é composta por um só tipo de pastagem
+ou por mais de um?
+
+A pergunta importa porque a idade da pastagem no instante da conversão é a
+aproximação mais próxima da \emph{intenção do produtor} que a série permite
+observar. Um pasto de três anos que vira lavoura é etapa planejada de um
+sistema; um pasto de trinta anos que vira lavoura é reserva de terra sendo
+ativada. São duas economias diferentes com o mesmo nome no mapa.
+
+\section{A fórmula}
+
+O modelo de mistura de duas gaussianas supõe que a densidade das idades $a$ é
+\begin{equation}
+f(a) = \pi_1 \, \mathcal{N}(a \mid \mu_1, \sigma_1^2)
+     + \pi_2 \, \mathcal{N}(a \mid \mu_2, \sigma_2^2),
+\qquad \pi_1 + \pi_2 = 1,
+\end{equation}
+com cinco parâmetros livres ($\mu_1, \sigma_1, \mu_2, \sigma_2, \pi_1$),
+estimados por máxima verossimilhança via algoritmo EM. Contra ele se ajusta o
+modelo de uma componente só, com dois parâmetros.
+
+\begin{ancora}[O resultado]
+População jovem: $\mu \approx 4$ anos, $\sigma \approx 1{,}6$ ano,
+\textbf{33\%} da massa. \\
+População velha: $\mu \approx 16$ anos, $\sigma \approx 7{,}5$ anos,
+\textbf{67\%} da massa, com cauda que alcança os quarenta anos da série. \\
+Uma componente sozinha devolve $\mu \approx 12$ anos e \textbf{erra as duas
+pontas}, subestimando o pico jovem e a cauda velha.
+\end{ancora}
+
+\section{Por que a curva não tem dois picos, e por que isso não é problema}
+
+Detalhe que a banca pode levantar olhando a figura. A forma não tem dois picos
+visíveis, e sim um pico jovem e um \textbf{ombro} longo. A razão é aritmética:
+sendo cerca de cinco vezes mais dispersa que a primeira ($7{,}5$ contra
+$1{,}6$), a segunda população espalha a mesma massa por uma faixa muito maior e
+produz platô, e não segunda espiga.
+
+\begin{nabanca}
+``A separação não se lê por inspeção visual, e eu não a estabeleço assim. O que
+a estabelece é que uma população única não dá conta da forma: ajustada sozinha
+ela erra as duas pontas.''
+\end{nabanca}
+
+\section{O problema do censo, e por que o BIC foi rebaixado (decisão D23)}
+
+Este é um dos pontos mais sofisticados do trabalho, e um que impressiona quando
+bem explicado.
+
+O critério de informação bayesiano é
+\begin{equation}
+\mathrm{BIC} = -2 \ln \hat{L} + k \ln n,
+\end{equation}
+onde $\hat{L}$ é a verossimilhança maximizada, $k$ o número de parâmetros e $n$
+o número de observações. Compara-se o BIC dos dois modelos, e o menor vence.
+
+O problema é o seguinte. A análise roda sobre o \textbf{censo} de eventos, e não
+sobre uma amostra: $n$ é a população inteira, e são \textbf{16,0 milhões} de
+eventos com idade conhecida. Com $n$ dessa ordem, qualquer afastamento ínfimo do
+modelo de uma componente, e nenhum dado real é exatamente gaussiano ---
+produz diferença de BIC astronômica.
+
+\begin{quote}\itshape\color{cortinta}
+A magnitude do $\Delta$BIC mede o tamanho de $n$, e não a força da evidência.
+\end{quote}
+
+Por isso o $\Delta$BIC \textbf{não} é usado como critério probatório aqui. E o
+que sustenta a leitura de duas populações são evidências que \emph{não dependem
+de ajuste algum}.
+
+\section{A evidência que não depende do modelo}
+
+Separados apenas pela origem anterior do pixel, os eventos se ordenam sozinhos:
+
+\begin{ancora}[As duas pontas, sem ajustar nada]
+Pasto que veio de \textbf{lavoura} volta a ser lavoura com mediana de
+\textbf{5 anos}. \\
+Pasto que veio de \textbf{vegetação natural} dura o dobro: mediana de
+\textbf{13 anos}. \\[4pt]
+Nas conversões de pasto com até \textbf{três anos}, \textbf{45\%} já tinham sido
+lavoura antes --- lavoura, pasto, lavoura: rotação. \\
+Nas de pasto com \textbf{trinta anos ou mais}, a lavoura anterior praticamente
+desaparece: \textbf{1\%} --- Cerrado, pasto, lavoura: reserva ativada.
+\end{ancora}
+
+O contraste de 45\% contra 1\% é o que o dado estabelece com firmeza. A
+atribuição de cada pixel individual, não.
+
+\section{O critério triplo de separação}
+
+Onde o ajuste é usado --- para verificar se as duas populações aparecem em cada
+recorte ---, o critério é declarado e é triplo:
+
+\begin{enumerate}
+\item o ajuste de duas componentes é preferido pelo critério de informação;
+\item os modos estão afastados em \textbf{pelo menos cinco anos};
+\item a componente menor responde por \textbf{ao menos 15\%} da massa.
+\end{enumerate}
+
+Sob censo, quem decide são as \emph{duas últimas} exigências, pela razão acima.
+E nenhuma delas é a presença de um vale na densidade, que a curva agregada não
+tem.
+
+\begin{naodiz}
+A mistura não prova que a população jovem seja integração lavoura-pecuária. Ela
+é \emph{compatível} com isso e não a comprova, porque o satélite vê o capim e
+não vê se havia gado nele. \\[4pt]
+E o Mosaico de Usos é a classe em que o classificador não separou usos: metade
+da origem do pasto velho fica, por construção, indeterminada entre vegetação
+natural e uso misto anterior.
+\end{naodiz}
+
+\begin{naodiz}[E nada se afirma quanto a tendência]
+O eixo do tempo está comprometido nas duas pontas. Antes, pela idade truncada no
+início da série; depois, pela mudança de rótulo. Que o Ato~I apareça com uma
+população só \textbf{não} significa que a reserva antiga tenha surgido depois:
+uma conversão em 1995 ocorre sobre um pasto que tem, no máximo, dez anos, porque
+a série começa em 1985. Para observar a conversão de um pasto de dezesseis anos
+--- o modo da população velha --- é preciso chegar a 2001. No primeiro período,
+a população velha é \textbf{invisível, não ausente}.
+\end{naodiz}
+
+\section{As duas objeções testadas, e por que o achado saiu mais forte}
+
+A curva soma quarenta anos de conversões em todo o estado. Talvez não haja duas
+populações convivendo em lugar algum, e sim regiões ou épocas diferentes
+somadas. As duas objeções foram testadas isolando cada recorte.
+
+\textbf{Não são regiões somadas.} As cinco mesorregiões separam-se em duas
+populações, e também o fazem todas as 166 AMCs na régua imune à mudança de
+rótulo (na régua estrita, 162 das 164 que registram conversão suficiente, e as
+duas exceções falham pelo mesmo lado). A mesorregião explica \textbf{0,5\%} da
+variação da idade.
+
+\textbf{Não são épocas somadas.} Isoladas por período, as duas populações
+permanecem: no Ato~II sozinho (32,5 milhões de conversões pela régua da união, o
+maior bloco da série) e no Ato~III sozinho, nas cinco mesorregiões de cada um,
+em \textbf{10 de 10} células de período por região (9 de 10 pela régua estrita).
+
+\begin{armadilha}[Dois números que parecem contraditórios e não são]
+Os 32,5 milhões do Ato~II \textbf{não} se somam aos 16,0 milhões de eventos com
+idade conhecida. Aqueles são eventos na régua da união; estes são eventos com
+idade conhecida na régua estrita. As duas contagens medem populações
+diferentes. Se a banca cruzar os números, essa é a resposta.
+\end{armadilha}
+
+\begin{nabanca}[Como apresentar a autocorreção mais extensa do trabalho]
+``A versão que eu teria publicado dizia que o Sul convertia pasto jovem, com
+mediana de nove anos, e o Norte pasto velho, com dezesseis. O defeito não estava
+na conta, e sim no que entrava nela: a idade só é medida quando o destino do
+pixel recebe o rótulo de agricultura, e no fim da série parte da conversão passa
+a ser rotulada como Mosaico. Esses eventos saíam da amostra sem aviso, e não
+saíam por igual no território --- concentravam-se mais ao norte. O gradiente
+era, em boa parte, essa seleção. Refeita a análise com a pergunta grossa, a
+amplitude Sul--Norte cai de sete anos para dois, a ordem das regiões se
+embaralha e a parcela de variação atribuível à mesorregião despenca de 3,7\%
+para 0,5\%. E o que sobrevive é mais forte do que o que caiu: quanto menos a
+região explica, mais universal se mostra a convivência dos dois mecanismos.''
+\end{nabanca}

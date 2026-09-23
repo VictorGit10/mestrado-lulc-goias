@@ -1,0 +1,320 @@
+% =====================================================================
+\part{Os alicerces}
+% =====================================================================
+
+\chapter{O dado: o que é, exatamente, um pixel do MapBiomas}
+
+A espinha dorsal do trabalho é a Coleção 10.1 do MapBiomas, série anual de uso
+e cobertura da terra com resolução de 30 metros, de 1985 a 2024. Entender o que
+essa frase significa é a base de tudo o mais, porque três propriedades do dado
+governam o que se pode e o que não se pode medir com ele.
+
+\section{Anual, e não instantâneo}
+
+Cada ano da série é uma classificação, e não uma fotografia. O produto atribui
+a cada célula de 30 por 30 metros uma classe (formação florestal, formação
+savânica, pastagem, agricultura, área urbana e assim por diante) a partir de um
+conjunto de imagens do ano inteiro, processado por algoritmo. Duas
+consequências decorrem daí.
+
+A primeira é que a série permite construir a \textbf{matriz de transição}: para
+cada par de anos, a contagem de quantos pixels saíram da classe $i$ e chegaram
+à classe $j$. É isso que autoriza dizer que um hectare de lavoura \emph{veio}
+de pastagem, e não apenas que a lavoura cresceu enquanto a pastagem encolheu.
+Nenhuma diferença entre estoques permite essa afirmação.
+
+A segunda é que o classificador tem erro, e o erro dele não é aleatório no
+tempo nem no espaço. Duas manifestações desse erro condicionam o trabalho
+inteiro, e são tratadas explicitamente no texto.
+
+\section{A oscilação entre pastagem e savana}
+
+Nas matrizes de transição aparece um fluxo reverso volumoso, de pastagem para
+vegetação natural, que seria a evidência natural de regeneração. Examinado, ele
+se revela outra coisa: de 75\% a 98\% dele, conforme o par de anos, dirige-se à
+formação \emph{savânica} --- ou seja, à classe mais parecida com pasto sujo aos
+olhos do classificador. E a razão entre o fluxo de ida e o de volta colapsa de
+8,4 vezes, no primeiro par decenal, para 1,22 vez no par anual mais recente.
+
+O diagnóstico é o seguinte: regeneração real é lenta e unidirecional; oscilação
+de classificador é bidirecional e aproximadamente balanceada. O que se observa
+tem a segunda assinatura.
+
+\begin{naodiz}
+Isso \emph{não} significa que não haja regeneração alguma em Goiás. Há um
+componente real, minoritário, restrito à formação florestal, que só se acumula
+em horizontes longos. O que a constatação proíbe é narrar o fluxo bruto de
+pastagem para vegetação natural como recuperação.
+\end{naodiz}
+
+\begin{nabanca}
+``Esse fluxo reverso é grande e eu não o leio como regeneração. Ele é quase
+todo dirigido à formação savânica e é aproximadamente simétrico ao fluxo de
+ida, o que é assinatura de oscilação de classificador na borda entre pasto e
+cerrado, e não de recuperação. As conclusões centrais descansam no fluxo direto
+de conversão e em saldos líquidos, que são robustos a uma oscilação simétrica
+porque ela se cancela no líquido.''
+\end{nabanca}
+
+\section{A migração de rótulo do Mosaico de Usos}
+
+Esta é a peça mais importante do trabalho inteiro, e vale entendê-la a fundo.
+
+No trecho final da série, parte da conversão de pastagem em lavoura passa a
+receber o rótulo da classe 21, ``Mosaico de Usos'', em vez de ``Agricultura''.
+O efeito na leitura é dramático: pela classe ``Agricultura'' isolada, a
+conversão de pasto em lavoura no Sul goiano \emph{cai 88\%} entre o Ato~II e o
+Ato~III. Pela mesma janela, a área de soja que o IBGE levanta em campo
+\textbf{cresce 38\%} no estado. As duas medidas não podem estar certas ao mesmo
+tempo sobre o mesmo território.
+
+A resolução é a decisão D26, e ela é uma decisão de honestidade e não de
+conveniência. Toda medida de agricultura em janela que alcance 2020--2024 é
+reportada como um \textbf{intervalo} entre duas réguas:
+
+\begin{itemize}
+\item o \textbf{piso}, que é a classe ``Agricultura'' isolada, e que
+\emph{subconta}, porque perde a lavoura reetiquetada;
+\item o \textbf{teto}, que é a união de ``Agricultura'' com ``Mosaico de
+Usos'', e que \emph{superconta}, porque o Mosaico contém também sistemas
+integrados de lavoura e pecuária reais, mosaicos finos demais para separar a
+30 metros, e mosaico antigo e estável, anterior ao fenômeno.
+\end{itemize}
+
+Considera-se robusta apenas a conclusão que sobrevive nos dois extremos.
+
+\begin{armadilha}[A tentação de tratar a união como ``a medida certa'']
+A união não é correção: somá-las suporia que todo o Mosaico é agricultura mal
+rotulada, o que é falso. Ela responde a uma pergunta \emph{diferente e mais
+grossa}: ``quanta terra saiu de pastagem para lavoura ou uso misto?''. Se a
+banca sugerir que você adote a união e siga em frente, essa é a resposta.
+\end{armadilha}
+
+Três evidências mostram que o erro de medida aponta \emph{contra} a tese, e não
+a favor dela --- ponto que vale ter na ponta da língua, porque é o que converte
+uma fragilidade aparente em argumento.
+
+\begin{enumerate}
+\item Entre 2019 e 2024, quatro medidas indicam deslocamento ao norte (três
+delas entre 10 e 13 km, a quarta de 4,4 km) e a quinta indica que nada se moveu
+--- justamente a única cujo rótulo mudou no período. Rebanho e soja plantada,
+medidos em campo, marcham.
+\item Localizada no mapa, a área que mudou de rótulo não está espalhada: o
+centro dessa massa fica \textbf{46 km ao norte} do centro da agricultura
+visível. A conversão que o satélite deixou de nomear está acontecendo na
+fronteira.
+\item O crescimento por região dessa massa acompanha o da soja do IBGE quase
+ponto a ponto: correlação de 0,84, e 1,52 contra 1,53 milhão de hectares.
+\end{enumerate}
+
+\begin{nabanca}
+``A régua crua faz a marcha parecer \emph{mais fraca} do que foi. Se eu quisesse
+inflar o resultado, bastaria adotar a união e não declarar nada. O que fiz foi o
+contrário: reportei o intervalo e ancorei numa fonte que não passa pelo
+classificador.''
+\end{nabanca}
+
+\section{Onde a União vale e onde ela não vale}
+
+Uma distinção fina, e que a banca pode testar. A régua da união serve para uma
+janela curta (2019--2024), onde a migração de rótulo de fato ocorre. Aplicada
+aos quarenta anos, ela devolve $-60$ km, isto é, a agricultura andando para o
+\emph{sul}, e esse número não significa o que parece.
+
+A razão é que em 1985 a classe Mosaico já existia e era extensa (3,63 Mha,
+10,7\% do estado), situada bem ao norte, e não era lavoura sob outro nome: era
+terra de uso misto indiferenciado. Ao longo da série ela encolhe enquanto a
+lavoura cresce ao sul, de modo que somar as duas classes nas duas pontas é
+comparar objetos diferentes. A confirmação é espacial: o Mosaico ocupa
+praticamente a mesma área nas duas pontas da série, mas as manchas quase não se
+sobrepõem, e a correlação espacial entre as células é de apenas \textbf{0,15}.
+O de 1985 se dissolveu; o de 2024 surgiu em outro lugar.
+
+\chapter{As unidades: 246 municípios e 166 AMCs}
+
+Esta é a decisão de rigor mais consequente do trabalho, e a que um economista
+na banca vai reconhecer imediatamente.
+
+\section{O problema}
+
+A malha municipal brasileira não é constante no tempo, e Goiás é um caso
+severo: o estado tinha 184 municípios com estatística municipal em 1985 e tem
+246 hoje. Dos 246, \textbf{62 (25\%)} só aparecem na estatística depois de
+1985, em ondas de emancipação concentradas em 1989 (27), 1993 (21), 1997 (10) e
+2001 (4).
+
+O que torna isso fatal é que as duas fontes se comportam de maneiras
+\emph{opostas} diante de uma emancipação:
+
+\begin{itemize}
+\item o \textbf{raster} é recortado pelo polígono \emph{atual} em todos os
+anos, de modo que a série de cobertura do município-pai já vem no território
+reduzido de hoje, inclusive para 1985;
+\item a \textbf{estatística do IBGE} é tabulada pelo município \emph{como ele
+existia naquele ano}, de modo que a produção do pai em 1985 inclui o território
+que depois virou o filho.
+\end{itemize}
+
+Ao juntar as duas pelo código municipal, compara-se a cobertura do território de
+hoje contra a produção de um território historicamente maior. E o efeito não é
+sutil: municípios-pai individuais registram quedas de 50\% a 80\% no rebanho
+\emph{no ano da emancipação}, enquanto o total estadual atravessa esses anos
+sem descontinuidade. Ler essas quedas como dinâmica pecuária seria atribuir a
+um fenômeno econômico o que é perda de território, e como as ondas de 1993 e
+1997 caem dentro das janelas das análises longitudinais, elas dominariam
+qualquer estimador de variação no período.
+
+\section{A solução e o seu preço}
+
+A agregação em \textbf{Áreas Mínimas Comparáveis} reúne cada município-pai aos
+seus desmembramentos numa unidade de território constante ao longo de toda a
+janela. Aplicada a Goiás com a concordância de 1980--2010, janela que antecede
+todas as emancipações do período analisado, ela reduz os 246 municípios a
+\textbf{166 AMCs}: 53 grupos de pai e filhos e 113 unidades que permanecem
+idênticas ao município.
+
+A validação é direta: o total estadual é idêntico ao da malha municipal, e
+nenhuma das 166 AMCs estreia depois de 1985.
+
+\begin{ancora}[A aritmética da AMC, dita com precisão]
+246 municípios $\to$ 166 AMCs. Os 53 grupos reúnem \textbf{133 municípios}, que
+deixam de ser analisáveis isoladamente nas séries longas. A malha perde
+\textbf{80 unidades} em relação às 246.
+\end{ancora}
+
+\begin{naodiz}
+A AMC não recupera informação: ela impede uma comparação inválida. A informação
+histórica do município-filho \emph{não existe} separada, porque estava no pai. O
+preço é inevitável quando o dado vem de pesquisa.
+\end{naodiz}
+
+\section{A regra de agregação, que é onde os erros nascem}
+
+Ao agregar, grandezas \textbf{extensivas} (hectares, cabeças, reais) são
+somadas. Grandezas \textbf{derivadas} (razões, densidades, lotação) são
+\emph{recalculadas} a partir das extensivas já somadas, e nunca somadas nem
+promediadas diretamente, o que produziria média de razões em lugar de razão
+de totais. Formalmente, para uma lotação $L$:
+
+\begin{equation}
+L_{\text{AMC}} = \frac{\sum_{m \in \text{AMC}} \text{cabeças}_m}{\sum_{m \in \text{AMC}} \text{hectares}_m}
+\qquad\text{e nunca}\qquad
+L_{\text{AMC}} \neq \frac{1}{n}\sum_{m \in \text{AMC}} \frac{\text{cabeças}_m}{\text{hectares}_m}.
+\end{equation}
+
+\section{A estratégia de dois trilhos}
+
+Usar o trilho errado é erro metodológico, e o trabalho declara qual é qual:
+
+\begin{itemize}
+\item \textbf{166 AMCs} para toda análise \emph{longitudinal}: primeiras
+diferenças, painel com efeitos fixos, periodização, tendências, deslocamento de
+centros de massa.
+\item \textbf{246 municípios} para análises \emph{transversais} e para o
+período recente: o Censo Agropecuário de 2017, os mapas de um único ano, a
+conta de desenvolvimento com o IFDM.
+\end{itemize}
+
+\section{A lotação em cabeças por hectare, e não em Unidade Animal}
+
+Detalhe pequeno com resposta pronta, porque um zootecnista na banca vai
+estranhar. A conversão para Unidade Animal aplica um fator constante ao efetivo
+do rebanho. Por ser \emph{constante}, ele se cancela em qualquer análise de
+tendência ou de variação, que é onde a lotação entra neste trabalho. Por ser
+\emph{fixo no tempo}, ele produziria um nível não comparável entre 1985 e 2024,
+já que o peso médio do animal mudou ao longo do período. A medida reportada é,
+portanto, a diretamente observada.
+
+\chapter{O painel e a primeira diferença}
+
+\section{A tabela}
+
+As fontes convergem para uma tabela única, organizada por município e ano:
+$246 \times 40 = 9.840$ linhas e 195 colunas. É desse painel, e de sua versão
+agregada em AMCs, que sai toda a estimação do trabalho.
+
+\section{Por que nada é estimado em nível (decisão D7)}
+
+Esta é a decisão estruturante, e há duas razões independentes para ela.
+
+\textbf{Razão 1: tendência comum.} Quase toda série do painel cresce ao longo de
+quatro décadas --- área, produção, produto, população. Correlacionar
+\emph{níveis} entre séries com tendência comum produz associações altas e
+vazias: elas medem o fato de que ambas cresceram, e nada mais.
+
+\textbf{Razão 2: identidade contábil disfarçada.} Muitas variáveis do painel são
+internamente relacionadas por construção. Área plantada e produção, ou área e
+valor adicionado, medem facetas do mesmo fato e apresentam correlação em nível
+da ordem de \textbf{0,9}. Estimar uma sobre a outra em nível mede uma
+identidade, e não uma relação.
+
+A solução é diferenciar:
+\begin{equation}
+\Delta x_t = x_t - x_{t-1}.
+\end{equation}
+
+E a reformulação da pergunta é o ponto que vale dizer em voz alta. Em vez de
+\emph{``municípios com mais crédito têm menos pasto?''}, que é uma comparação
+entre lugares diferentes e confunde tudo o que difere entre eles, o modelo
+passa a responder \emph{``quando o crédito de um município subiu, o pasto dele
+recuou?''}.
+
+\begin{ancora}[A auditoria que sustenta a decisão]
+As mesmas duplas que têm correlação em nível da ordem de 0,9 apresentam
+correlação próxima de \textbf{zero} em variação \emph{within}. A primeira
+diferença, combinada com os efeitos fixos, desarma o vazamento.
+\end{ancora}
+
+\section{As três exceções declaradas}
+
+A regra governa o painel de associação. Três leituras do texto correm fora
+dela, cada uma por exigência do próprio método, e saber nomeá-las evita a
+acusação de inconsistência.
+
+\begin{enumerate}
+\item A \textbf{correlação em nível estadual} do quadro das camadas é
+descritiva, e vem com os seus limites declarados na mesma linha em que aparece.
+\item O procedimento de \textbf{Toda-Yamamoto} ajusta o vetor autorregressivo em
+níveis \emph{por construção}, e é justamente isso que torna a sua inferência
+válida sob integração (Capítulo~\ref{cap:granger}).
+\item As equações do \textbf{teto de oferta} retiram a tendência por efeitos
+fixos de unidade e de ano em vez de por diferença, porque o que elas medem é o
+que acontece a uma unidade \emph{enquanto ela se esgota}, e diferenciar
+apagaria justamente esse nível.
+\end{enumerate}
+
+\section{Por que 38, e não 40}
+
+Convenção de contagem que aparece em toda parte e que a banca pode cobrar. A
+série de cobertura tem 40 observações anuais (1985--2024). A primeira diferença
+consome a primeira observação; a defasagem de um ano consome a segunda. Daí as
+\textbf{38 diferenças anuais} que aparecem nas regressões, no cálculo de erros
+robustos a autocorrelação e na contagem de realizações independentes do choque
+macroeconômico.
+
+\begin{nabanca}
+``Quando eu digo 40, o objeto é a série descritiva. Quando digo 38, é o painel
+estimado.''
+\end{nabanca}
+
+\chapter{Duas convenções geodésicas, e por que são duas}
+
+Ponto técnico curto, com resposta que impressiona pela precisão.
+
+Toda operação \textbf{geométrica} --- centroides, distâncias, deslocamentos,
+recortes zonais --- é feita em \textbf{EPSG:5880}, que é o SIRGAS 2000 em
+projeção Policônica do Brasil, padrão cartográfico brasileiro e a projeção dos
+mapas do texto.
+
+Mas a policônica é projeção de \emph{compromisso}: não é conforme nem
+equivalente. Por isso ela \textbf{não é usada para medir área}. As áreas vêm de
+outro caminho: o censo de pixels conta células de 30 m na grade nativa do
+produto e converte a contagem em hectares pelo cosseno da latitude média
+observada de cada município, sem passar por projeção nenhuma.
+
+\begin{nabanca}
+``Uso duas convenções porque elas respondem a perguntas diferentes. A policônica
+me dá geometria comparável e é o padrão cartográfico do país; ela não preserva
+área, e por isso área nenhuma é medida nela. A contagem de área é feita na grade
+nativa do raster, com correção pelo cosseno da latitude.''
+\end{nabanca}

@@ -1,0 +1,526 @@
+% =====================================================================
+\part{A banca}
+% =====================================================================
+
+Cinquenta perguntas, agrupadas por origem provável. Responda cada uma em voz
+alta antes de ler a resposta sugerida --- o valor deste capítulo está no
+exercício, e não na leitura.
+
+As respostas estão escritas em primeira pessoa e no registro em que devem ser
+ditas: direto, sem hedge desnecessário, e com o limite declarado \emph{dentro}
+da resposta e não como uma desculpa no fim.
+
+\chapter{Sobre o dado e a medida}
+
+\pergunta{1. O MapBiomas é confiável? Qual é a acurácia da Coleção 10.1 em
+Goiás?}
+\resposta{Reconheça o limite sem se defender: a acurácia do classificador é a
+única fonte de erro que \emph{nenhum} recorte deste trabalho alcança --- está
+declarado no quadro de graus de estabelecimento como o resíduo da Frente 1.
+Diga em seguida o que você fez a respeito: toda afirmação-manchete que passa
+por classe do satélite é conferida contra uma fonte que não passa pelo
+classificador (área plantada da PAM, rebanho da PPM, crédito do SICOR), e a
+supressão de vegetação foi validada externamente contra o PRODES. Foi
+justamente essa disciplina que revelou a migração de rótulo do Mosaico.}
+
+\pergunta{2. Por que a Coleção 10.1, e não a mais recente?}
+\resposta{A dissertação está fechada na 10.1, que é a coleção sobre a qual todo
+o encadeamento de auditorias foi construído. Trocar de coleção no meio implica
+refazer o censo de pixels, a matriz de transição, as decisões D25--D26 e todas
+as verificações que dependem delas. É trabalho de outra rodada, e não um ajuste.}
+
+\pergunta{3. O que exatamente é a classe ``Mosaico de Usos'', e por que ela
+virou o problema central?}
+\resposta{É a classe em que o classificador não separou usos --- ela contém
+sistemas integrados de lavoura e pecuária, mosaicos finos demais para separar a
+30 metros, e mosaico antigo e estável. Ela virou central porque, no fim da
+série, parte da conversão de pastagem em lavoura passou a ser rotulada como
+Mosaico em vez de Agricultura. Isso faz a conversão parecer cair 88\% no Sul
+enquanto a soja que o IBGE mede em campo cresce 38\%.}
+
+\pergunta{4. Por que você não simplesmente somou Agricultura e Mosaico?}
+\resposta{Porque somá-las suporia que todo o Mosaico é agricultura mal
+rotulada, o que é falso. A união superconta tanto quanto a classe isolada
+subconta, e responde a uma pergunta diferente e mais grossa: ``quanta terra saiu
+de pastagem para lavoura ou uso misto?''. Por isso reporto o intervalo entre as
+duas réguas e considero robusta apenas a conclusão que sobrevive nos dois
+extremos.}
+
+\pergunta{5. Como você sabe que a migração de rótulo não está inflando os seus
+resultados?}
+\resposta{Porque ela aponta na direção contrária. Entre 2019 e 2024, quatro
+medidas indicam deslocamento ao norte e a quinta indica que nada se moveu ---
+justamente a única cujo rótulo mudou. E o centro da massa reetiquetada fica 46
+km ao \emph{norte} do centro da agricultura visível, com crescimento por região
+correlacionado 0,84 com a soja do IBGE. A régua crua faz a marcha parecer mais
+fraca do que foi.}
+
+\pergunta{6. E o fluxo reverso, de pastagem para vegetação natural? Não é
+regeneração?}
+\resposta{Não, e testei. De 75\% a 98\% dele, conforme o par de anos, dirige-se
+à formação savânica, e ele é aproximadamente simétrico ao fluxo de ida --- a
+razão entre ida e volta colapsa de 8,4 vezes no primeiro par decenal para 1,22
+no par anual mais recente. Regeneração real é lenta e unidirecional; oscilação
+de classificador é bidirecional e balanceada. Há um componente real,
+minoritário, restrito à formação florestal, que só se acumula em horizontes
+longos.}
+
+\pergunta{7. Qual é a resolução da camada de aptidão da Embrapa, e ela é
+adequada?}
+\resposta{É 1:500.000, com 8.284 polígonos em Goiás, cobrindo 33,0 Mha ou 97\%
+do estado. É escala grosseira diante dos 30 metros da cobertura, e por isso ela
+resolve \emph{gradiente regional} e não contraste local, e é exatamente como
+ela é usada, como exposição por AMC num desenho de interação. Há ainda uma
+suposição de medida que declaro: converter o grupo de aptidão em escore por
+$7 - \text{grupo}$ trata como cardinal o que na origem é ordinal.}
+
+\pergunta{8. Por que a lotação está em cabeças por hectare e não em Unidade
+Animal?}
+\resposta{Porque o fator de conversão é constante, e portanto se cancela em
+qualquer análise de tendência ou de variação, que é onde a lotação entra aqui.
+E por ser fixo no tempo, ele produziria um nível não comparável entre 1985 e
+2024, já que o peso médio do animal mudou no período. Reporto a medida
+diretamente observada.}
+
+\pergunta{9. Por que as variáveis monetárias anteriores ao Plano Real foram
+excluídas em vez de convertidas?}
+\resposta{A conversão entre Cruzeiro, Cruzado, Cruzado Novo e Cruzeiro Real
+introduziria erro de medida em séries usadas como regressores. Por isso o valor
+da produção da PAM e a série de leite em valor não entram no painel, embora as
+quantidades físicas correspondentes entrem. Todo valor em reais é deflacionado
+para reais de dezembro de 2024 pelo IPCA acumulado.}
+
+\pergunta{10. Como você mede área, se a projeção que usa não é equivalente?}
+\resposta{Não meço área na projeção. A policônica (EPSG:5880) é de compromisso e
+serve à geometria: centroides, distâncias, deslocamentos, recortes. As áreas vêm
+da contagem de células de 30 m na grade nativa do produto, convertida em
+hectares pelo cosseno da latitude média observada de cada município, sem passar
+por projeção nenhuma.}
+
+\chapter{Sobre as unidades e o desenho}
+
+\pergunta{11. Por que 166 AMCs e não os 246 municípios?}
+\resposta{Porque 62 dos 246 municípios só aparecem na estatística depois de
+1985, e as duas fontes se comportam de maneiras opostas diante de uma
+emancipação: o raster já vem no polígono de hoje em todos os anos, e a
+estatística do IBGE vem no município de então. Municípios-pai registram quedas
+de 50\% a 80\% no rebanho no ano da emancipação, enquanto o total estadual
+atravessa esses anos sem descontinuidade. As ondas de 1993 e 1997 caem dentro
+das janelas longitudinais e dominariam qualquer estimador de variação.}
+
+\pergunta{12. Qual é o custo dessa agregação?}
+\resposta{Os 133 municípios reunidos nos 53 grupos deixam de ser analisáveis
+isoladamente nas séries longas, e a malha perde 80 unidades. É um preço
+inevitável quando o dado vem de pesquisa: a informação histórica do
+município-filho não existe separada, porque estava no pai.}
+
+\pergunta{13. Você usa 166 e 246 em lugares diferentes. Isso não é
+inconsistente?}
+\resposta{É uma estratégia declarada de dois trilhos, e usar o trilho errado
+seria erro metodológico. As 166 AMCs são a malha de toda análise longitudinal;
+a malha municipal atual fica reservada às análises transversais e ao período
+recente --- o Censo de 2017, os mapas de um único ano, a conta do IFDM. Cada
+resultado declara em qual malha foi medido.}
+
+\pergunta{14. Por que cinco mesorregiões em alguns lugares e três regiões em
+outros?}
+\resposta{A malha de cinco serve à leitura grossa do eixo Sul--Norte, ordenada
+pela latitude média dos pixels de conversão. A de três é usada onde o número de
+unidades por bloco precisa ser grande o bastante para sustentar comparação: a
+decomposição da fronteira, o desenho de \emph{drive} comum e a conta de carbono.
+Como ``Sul'' nomeia a mesma coisa nas duas partições mas ``Centro'' e ``Norte''
+não, cada resultado declara a malha em que foi medido, e é por isso que os
+49\% e os 37\% de queda não são o mesmo número.}
+
+\pergunta{15. Por que não usar as Regiões Geográficas Imediatas, que são 22?}
+\resposta{Porque elas não acrescentariam leitura a nenhuma das duas escalas que
+já uso. O recorte regional serve à leitura grossa do eixo, para a qual cinco
+unidades ordenadas em latitude bastam, e toda a análise fina roda sobre as 166
+AMCs, que são mais numerosas que as Imediatas e têm a vantagem de território
+constante.}
+
+\pergunta{16. Por que primeira diferença em tudo?}
+\resposta{Por duas razões independentes. A primeira é que quase toda série do
+painel tem tendência, e correlacionar níveis entre séries com tendência comum
+produz associações altas e vazias. A segunda é que muitas variáveis são
+relacionadas por construção --- área plantada e produção, ou área e valor
+adicionado, com correlação em nível da ordem de 0,9. Auditei isso: as mesmas
+duplas têm correlação próxima de zero em variação \emph{within}.}
+
+\pergunta{17. Há exceções à primeira diferença?}
+\resposta{Três, cada uma por exigência do método. A correlação em nível estadual
+é descritiva e vem com os limites declarados. O Toda-Yamamoto ajusta em níveis
+por construção, e é isso que torna a inferência válida sob integração. E as
+equações do teto de oferta usam efeitos fixos em vez de diferença, porque o que
+elas medem é o que acontece a uma unidade \emph{enquanto ela se esgota} ---
+diferenciar apagaria justamente esse nível.}
+
+\chapter{Sobre a estatística e a inferência}
+
+\pergunta{18. O que exatamente os efeitos fixos controlam aqui?}
+\resposta{Como a equação está em primeira diferença, eles absorvem coisa
+distinta da que absorveriam em nível. A diferenciação já retirou o patamar de
+cada município, então o efeito fixo de unidade passa a retirar a
+\emph{tendência própria} da unidade. O de ano absorve o choque comum às
+variações daquele ano. O que resta para o coeficiente estimar é o quanto a
+variação de um município num ano se afasta do que a tendência dele e o ano em
+curso já explicavam.}
+
+\pergunta{19. Então os seus coeficientes são causais?}
+\resposta{Não, e os chamo de associações bem controladas. O painel controla o
+que é fixo no lugar e o que é comum ao ano, mas não um determinante que varie
+\emph{dentro} do município ao longo do tempo e tenha ficado fora do modelo.}
+
+\pergunta{20. Por que não um desenho de diferenças em diferenças para os marcos
+de política?}
+\resposta{Eu rodei, e ele passa nos testes de robustez usuais: tendências
+paralelas, estudo de evento, placebo temporal. Mesmo assim eu o rebaixei, porque
+robustez não conserta um problema de desenho: os quatro marcos testados são
+federais ou de alcance nacional, e alcançaram no mesmo momento o estado tratado
+e os controles do mesmo bioma. Sem grupo não tratado, o coeficiente mede
+exposição diferencial ao mesmo choque. Separar as hipóteses exigiria variação
+dentro do estado, e esse desenho eu não tenho.}
+
+\pergunta{21. As unidades vizinhas não são independentes. Como isso afeta a sua
+inferência?}
+\resposta{Afeta em dois lugares, e tratei os dois. No painel, o erro-padrão
+agrupado por unidade corrige a correlação dentro da unidade, mas não entre
+vizinhas no mesmo ano --- então reestimei em SAR e SEM: os parâmetros espaciais
+ficam entre $+0{,}35$ e $+0{,}56$, sete das oito estimativas se atenuam no
+máximo 14,6\% e uma cresce 0,6\%, nenhuma troca de sinal nem perde
+significância. Nos centros de massa, refiz o \emph{bootstrap} por blocos
+espaciais, varrendo o tamanho de 1 a 14 AMCs: o intervalo alarga como esperado e
+o veredito não muda em nenhum tamanho.}
+
+\pergunta{22. Por que reportar $p$ de permutação em vez do $p$ agrupado?}
+\resposta{Porque num desenho \emph{shift-share} com um único \emph{shifter} o
+erro-padrão agrupado trata cada ano como realização independente do choque,
+quando há um só choque observado 38 vezes e serialmente correlacionado. Isso o
+torna otimista. A permutação circular rotaciona a série preservando a
+autocorrelação e é a régua defensável. E eu reporto as duas lado a lado, porque
+mostrá-las juntas é o que impede a régua de ser trocada em silêncio.}
+
+\pergunta{23. Você diz que o menor $p$ possível é 0,026. Explique.}
+\resposta{Uso todas as $T-1$ rotações possíveis, e o $p$ inclui a estatística
+observada entre as realizações: é o número de rotações ao menos tão extremas
+quanto a observada, mais um, dividido por $T$. Com 38 anos, o menor valor
+atingível é $1/38 \approx 0{,}026$. Quando a latitude devolve exatamente isso,
+significa que \emph{nenhuma} rotação superou o observado --- é o melhor desfecho
+possível do teste, e não uma margem folgada. A resolução do teste é parte do que
+se pode afirmar.}
+
+\pergunta{24. Um $R^2$ \emph{within} de 0,001 não é irrelevante?}
+\resposta{Ele é pequeno, e eu o reporto. Mas o desenho não se propõe a explicar
+a variação do rebanho: com efeito fixo de ano, o nível do choque é absorvido por
+construção, e o que resta identificado é apenas o \emph{gradiente} do efeito.
+Um termo de interação puro sobre uma variação anual ruidosa não teria como
+explicar muito. É também parte da razão de eu classificar essa frente como
+corroborante e não estabelecida.}
+
+\pergunta{25. Por que Toda-Yamamoto e não Granger direto?}
+\resposta{Porque um teste de Granger aplicado a séries integradas fabrica
+precedência inexistente. A pastagem do Norte não é estacionária nem em nível nem
+em primeira diferença pelo ADF; só na segunda diferença os dois testes voltam a
+concordar, e é essa linha que fixa $d_{\max} = 2$. A agricultura do Sul é
+estacionária já em nível. Séries de ordens diferentes não podem ser
+cointegradas, e qualquer precedência achada nessa configuração é artefato.}
+
+\pergunta{26. E o que Toda-Yamamoto faz de diferente?}
+\resposta{Ajusta o vetor autorregressivo em \emph{níveis} com $p + d_{\max}$
+defasagens e aplica o teste de Wald apenas às $p$ primeiras. As defasagens
+extras absorvem a não estacionariedade, e ao restringir o teste às primeiras a
+estatística recupera a distribuição usual mesmo sob integração.}
+
+\pergunta{27. O seu apêndice mostra um $p < 0{,}001$ no sentido Norte para Sul.
+Isso não contradiz a sua tese?}
+\resposta{Aquele bloco está na tabela de propósito: foi ele que originou a
+decisão D16, e o reporto para que se veja o que o diagnóstico teve de descartar.
+As três colunas de $p$ não são a mesma régua. O $p$ de Granger e o de Wald HAC
+mantêm o achado, porque o segundo corrige o erro-padrão, não a integração. O
+de Toda-Yamamoto o apaga, e é ele o veredito. E o apaga nas \emph{duas}
+direções: 0,45 no sentido Norte--Sul e 0,25 no sentido Sul--Norte.}
+
+\pergunta{28. Como você sabe que aquela precedência era espúria e não real?}
+\resposta{Por três passos, e nenhum deles foi ``a amostra é pequena''. A régua
+estava errada para o material, o método robusto à integração apaga o resultado
+nas duas direções, e --- o mais limpo --- a precedência reaparece onde não há
+mecanismo que a explique: em três dos quatro placebos direcionais, incluindo o
+pasto do Norte ``antecedendo'' o pasto do \emph{próprio Sul}, com o mesmo
+p-valor do resultado original. Uma precedência que aparece em qualquer par de
+séries suaves não é mecanismo, é defeito de instrumento.}
+
+\pergunta{29. Como você controla multiplicidade?}
+\resposta{Grades exploratórias são reportadas sob controle da taxa de falsas
+descobertas, declarando quantos testes compõem a família, e o tamanho da
+família altera o veredito, coisa que eu registro explicitamente: a célula
+principal da Frente 3b sobrevive numa família de 96 e não sobrevive numa de 144.
+Já a grade de dezesseis do teto de oferta \emph{não} recebe correção, porque são
+dezesseis leituras da mesma hipótese pré-declarada, e não uma família de
+hipóteses distintas. Aplicar FDR ali puniria a checagem em vez da pescaria.}
+
+\pergunta{30. Você usa censo em vez de amostra. Como fica o teste de hipótese?}
+\resposta{Perde o sentido usual, e essa é a decisão D23. Com $n$ igual à
+população, qualquer desvio ínfimo do modelo nulo gera estatística
+arbitrariamente grande --- a magnitude do $\Delta$BIC mede o tamanho de $n$, e
+não a força da evidência. Nos módulos que rodam sobre o censo eu busco robustez
+na \emph{estabilidade entre recortes}, com o mesmo padrão reaparecendo em
+mesorregiões, AMCs e no pixel.}
+
+\pergunta{31. Se o $\Delta$BIC não vale, o que sustenta as duas populações de
+pastagem?}
+\resposta{Evidências que não dependem de ajuste algum. Separados apenas pela
+origem anterior do pixel, os eventos se ordenam sozinhos: pasto vindo de lavoura
+volta a ser lavoura com mediana de 5 anos, e pasto vindo de vegetação natural
+dura 13. Nas conversões de pasto com até três anos, 45\% já tinham sido lavoura
+antes; nas de trinta anos ou mais, 1\%. O contraste de 45\% contra 1\% é o que o
+dado estabelece com firmeza.}
+
+\pergunta{32. A distribuição de idades não tem dois picos. Como você fala em
+duas populações?}
+\resposta{Porque a segunda é cerca de cinco vezes mais dispersa que a primeira,
+com desvio de 7,5 anos contra 1,6, e espalha a mesma massa por uma faixa muito
+maior --- ela produz um ombro, não uma segunda espiga. E eu não a estabeleço por
+inspeção visual: o que a estabelece é que uma população única, ajustada sozinha,
+devolve média de 12 anos e erra as duas pontas.}
+
+\pergunta{33. A sua variável de esgotamento chegava a $-84{,}9$ numa fração que
+deveria viver entre 0 e 1. Como isso passou?}
+\resposta{Passou porque a variável entrava padronizada, e um z-score não é
+robusto a nada: um único valor oitenta vezes fora de escala redefine a unidade
+de medida da coluna inteira. Eram 14\% do painel, vindos de unidades cujo
+estoque inicial era próximo de zero e que \emph{ganharam} estoque por oscilação
+do classificador. O resultado foi o coeficiente achatado contra zero, e o nulo
+que eu teria publicado. A D29 fixa a regra: toda variável com domínio declarado
+é verificada contra ele antes de entrar padronizada.}
+
+\pergunta{34. E como sei que a correção não foi escolhida por conveniência?}
+\resposta{Porque não adotei um tratamento: rodei dezesseis combinações --- quatro
+tratamentos, com e sem ponderação, em duas amostras --- e o coeficiente é
+negativo nas dezesseis. Os dois tratamentos principais têm defeitos
+\emph{diferentes} e chegam ao mesmo lugar: o de domínio descarta 46 unidades, e
+o de piso em zero cria um acúmulo artificial em zero. É a concordância entre
+defeitos independentes que carrega a leitura, não qualquer um deles.}
+
+\pergunta{35. Um coeficiente de $-1{,}14$ na substituição local significa
+substituição mais que completa. Isso não é suspeito?}
+\resposta{É, e eu o digo assim. Ele não descreve substituição mais completa:
+descreve mais de um hectare de pasto perdido por hectare de lavoura ganho, o que
+por definição excede a substituição e inclui algum fluxo adicional não
+identificado neste desenho. E ele vem da régua da união, que é o \emph{teto} do
+intervalo da D26, não a medida certa. O coeficiente da régua estrita é
+$-0{,}52$.}
+
+\pergunta{36. O seu $\beta = +2{,}76$ do fluxo contra estoque tem $R^2$ de 0,43.
+Não é o seu resultado mais forte?}
+\resposta{Não é resultado nenhum. Fluxo é, por construção, taxa vezes estoque, e
+segue daí sem nenhum dado que, se a taxa for aproximadamente constante, o fluxo
+acompanha o estoque. Aquele número é a identidade se reapresentando, e eu o
+reporto justamente para que ele não passe por achado. O conteúdo empírico está
+na outra equação, a do comportamento da taxa.}
+
+\pergunta{37. Acrescentar um termo quadrático não testaria não linearidade?}
+\resposta{Testei, e ele sai nulo ($p = 0{,}92$). Isso diz que a relação entre
+fluxo e estoque é a linha reta que a identidade prevê, sem curvatura própria ---
+é uma afirmação sobre o estoque, e não sobre o comportamento da taxa.}
+
+\pergunta{38. A sua variável de esgotamento e a sua taxa compartilham o mesmo
+estoque. Isso não é circular?}
+\resposta{Elas compartilham, sim --- no denominador de uma e no numerador com
+sinal trocado da outra --- e vale registrar de que lado corre essa aritmética: o
+acoplamento empurra o coeficiente para \emph{cima}. Achar sinal negativo é achar
+contra a montagem, e não a favor dela. Ainda assim, o que eu afirmo é uma
+regularidade compatível com atrito de oferta, e não que a dificuldade do
+remanescente seja a causa da queda.}
+
+\chapter{Sobre a interpretação e o alcance}
+
+\pergunta{39. Então você refutou o iLUC?}
+\resposta{Não, e isso é o que mais se perde na citação de terceiros. O canal que
+testei é estreito: deslocamento intraestadual por adjacência, com defasagem
+curta. O que posso dizer é que a assinatura testada não aparece nos dados
+examinados, com o poder disponível. Ficam expressamente fora do alcance um
+deslocamento de longo alcance que pule os vizinhos, um de defasagem longa, um
+efeito temporal moderado, e qualquer canal que atravesse a divisa do estado.}
+
+\pergunta{40. Se o Sul não empurra o Norte, o que explica eles marcharem
+juntos?}
+\resposta{A hipótese que testo é a de que ambos respondam ao mesmo estímulo
+externo, com o câmbio como candidato mais forte. Mas ela não decorre de o
+empurrão não ter aparecido --- descartar uma explicação não instala a seguinte.
+Ela foi testada por conta própria, e o veredito é corroborante e não
+estabelecido: o coeficiente tem a direção prevista e toda a bateria de
+especificidade sai como deveria, mas o $p$ apropriado ao desenho não cruza os
+5\%.}
+
+\pergunta{41. E por que a aptidão deixou de ser a explicação?}
+\resposta{Porque exógena não é o mesmo que isolada. A aptidão correlaciona-se
+$-0{,}44$ com a latitude, e a latitude organiza em Goiás quase tudo o que varia
+de sul para norte. Posta a latitude na mesma regressão, a aptidão perde 62\% da
+magnitude e o seu $p$ de permutação vai de 0,13 para 0,47, e mesmo na régua
+otimista sai de 0,026 para 0,30. A latitude quase não se move. Por isso o
+resultado passou a ser enunciado como gradiente Sul--Norte, e a aptidão é a
+régua com que ele foi medido, não o canal identificado.}
+
+\pergunta{42. Na especificação com as três exposições, a latitude também deixa
+de ser significativa. Isso não desfaz a sua decisão?}
+\resposta{Não, porque a decisão se apoia em a aptidão \emph{perder}
+significância diante do confundidor puro, e não em a latitude \emph{ganhá-la}. A
+especificação com as três mostra a mesma coisa por outro lado: três gradientes
+correlacionados e cerca de 38 realizações do choque não se separam entre si. E é
+esse o veredito que eu reporto.}
+
+\pergunta{43. O que impediria de dizer que o Sul goiano já fez a transição
+florestal?}
+\resposta{A definição. Numa das formulações, há transição quando a queda da
+cobertura cessa \emph{e} a recuperação começa; noutra, a sequência tem quatro
+estágios e o terceiro é a estabilização, separado do quarto, que é o
+reflorestamento. O Sul goiano tem estoque reduzido, taxa cadente e estabilização
+a partir de 2019, e \emph{não tem} regeneração líquida. Ele exibe o terceiro
+estágio e não o quarto. A estabilização é esgotamento: perde-se pouco porque
+restou pouco a perder.}
+
+\pergunta{44. Cinco anos de estabilização não é pouco para essa leitura?}
+\resposta{É, e eu o digo. Nenhuma das duas formulações fixa quanto tempo separa
+a estabilização do reflorestamento, e sequência apenas inacabada e sequência
+truncada produzem, nesse prazo, a mesma série. O que eu afirmo é a observação, e
+não o desfecho: a estabilização registrada é esgotamento, e não autoriza, por
+si, a leitura otimista que a fase tardia costuma sugerir.}
+
+\pergunta{45. Você fala em ``teto de oferta'', mas 83\% da freada está numa
+parcela residual. Isso não enfraquece o argumento?}
+\resposta{Enfraqueceria se o argumento dependesse do tamanho da parcela de
+estoque, e ele não depende. A parcela residual reúne tudo o que não é o tamanho
+do estoque --- propensão a converter, atrito de acesso, proteção, troca de fonte
+de terra --- e explicitamente \emph{não é uma medida de demanda}. O argumento se
+monta por eliminação e por regularidade: a taxa do Sul caiu com a demanda no
+pico, não foi a proteção integral, a demanda de terra continuou existindo e foi
+atendida por pasto já aberto, e a taxa cai medidamente à medida que a unidade se
+esgota.}
+
+\pergunta{46. E se o que barrou a fronteira do Sul foi a lei, e não a falta de
+terra?}
+\resposta{Essa é a alternativa mais séria, e eu a separo em duas. A
+\emph{proteção integral} eu elimino com dado: ela cobre menos de 3\% em qualquer
+região, 76\% da que existe hoje já existia em 1985, e dos 6,56 Mha ainda
+expostos 6,35 estão fora dela. Uma variável praticamente constante não data uma
+inflexão, e ela não está à frente da fronteira. Já a Reserva Legal e a APP são
+outra coisa: incidem dentro de cada propriedade, ganharam fiscalização com o CAR
+a partir de 2012, e tendem a morder mais onde o remanescente já é escasso. No
+Sul esgotado, ``acabou a terra convertível'' e ``o que restou é legalmente
+inconversível'' produzem a mesma série. Separá-las exige cadastro ambiental
+integrado pixel a pixel, que é a primeira aresta do meu cronograma.}
+
+\pergunta{47. Os 6,56 Mha são terra disponível para a agricultura?}
+\resposta{Não, e o vocabulário aqui é deliberado. O termo ``convertível'' mede
+\emph{exposição}, e não disponibilidade: é o Cerrado que ainda pode ser perdido.
+E é um teto, porque sem cadastro pixel a pixel o estoque inclui Reserva Legal e
+APP que na prática não podem ser convertidas. A terra realmente exposta é menor,
+nunca maior.}
+
+\chapter{Sobre a literatura e a contribuição}
+
+\pergunta{48. Qual é a contribuição original do trabalho?}
+\resposta{Três coisas, em ordem de segurança. A primeira é submeter a teste
+formal um canal que a literatura consultada não examinou: o deslocamento
+intraestadual por adjacência --- a literatura de iLUC liga municípios distantes
+centenas de quilômetros, e o canal de vizinhança dentro do mesmo estado não
+aparece nas fontes lidas. A segunda é o desenho comparativo: Goiás reúne os dois
+regimes de fronteira do Cerrado sob o mesmo classificador, a mesma malha de
+território constante e as mesmas decisões metodológicas, o que separa Sul e
+Norte não pode ser atribuído à régua, porque a régua é uma só. A terceira, mais
+modesta e de método, é o centro de massa pesado por \emph{fluxo} de transição,
+para o qual não localizei precedente.}
+
+\pergunta{49. Só 38 referências não é pouco para uma dissertação?}
+\resposta{É uma escolha declarada. A regra que adotei é que só entra nas
+referências obra lida integralmente; o que o levantamento localizou e ainda não
+foi lido está na §2.10, com forma bibliográfica completa e o que se espera de
+cada uma. Uma bibliografia curta e conferida é mais defensável que uma longa e
+citada de segunda mão. A revisão de literatura é, aliás, a frente mais extensa
+do meu cronograma até a defesa, e ela parte exatamente dessa lista.}
+
+\pergunta{50. Você diverge de Arima e colegas, que encontram o efeito na
+Amazônia. Como explica?}
+\resposta{A divergência delimita o que resta comparar, e não estabelece
+contradição. Diferem a região, o desfecho medido e, sobretudo, a forma da
+ligação espacial: o modelo deles liga municípios distantes centenas de
+quilômetros, e o canal que eu testo é o de adjacência. E vale registrar que o
+meu nulo \emph{não} é previsão cumprida: havia razão teórica para esperar o
+efeito, e o precedente mais próximo o encontrou. Verificar se alguma literatura
+já isolou esse canal é a frente prioritária da minha revisão --- dela depende a
+leitura do resultado, não a sua obtenção.}
+
+\chapter{As perguntas que podem doer}
+
+Três perguntas exigem preparo específico, porque a resposta errada custa caro e
+a resposta certa vale muito.
+
+\section{``Então o seu trabalho não achou nada?''}
+
+\begin{nabanca}
+``Ele achou quatro coisas, e duas delas são nulos. O padrão está estabelecido e
+sobrevive a pixel, malha, classe e barra de erro. O mecanismo local está
+estabelecido: duas lógicas convivem em todo o estado e a região explica 0,5\% da
+idade da pastagem. O empurrão entre regiões foi procurado em trinta e seis
+recortes e não apareceu, e isso muda a política recomendada, porque se a
+conversão no Norte fosse efeito dominó da lavoura do Sul, conter a lavoura
+conteria a fronteira. E a freada do Sul não é mercado fraco: é compatível com
+esgotamento, e eu tenho o mecanismo medido. Um nulo com poder declarado e
+alternativa medida é resultado; o que não seria resultado é um silêncio.''
+\end{nabanca}
+
+\section{``Você usou inteligência artificial. O trabalho é seu?''}
+
+Esta pergunta vai aparecer, porque o próprio texto a convida ao declarar o uso.
+A resposta tem três partes e vale ensaiá-la inteira.
+
+\begin{nabanca}[Primeiro, o escopo, com precisão]
+``O escopo do uso foi a \emph{implementação}: escrita e depuração de código de
+coleta e análise, execução de análises exploratórias, produção de figuras e
+visualizações, e auditorias de consistência entre o que os dados dizem e o que
+os documentos afirmam. A formulação das perguntas de pesquisa, as decisões
+metodológicas e a interpretação dos resultados permanecem minhas. E essa
+distinção não é retórica: as trinta e uma decisões numeradas são escolhas de
+desenho, tomadas diante de alternativas com custos diferentes, e é sobre elas
+que recai a responsabilidade autoral.''
+\end{nabanca}
+
+\begin{nabanca}[Segundo, a contrapartida de verificação]
+``Um instrumento dessa natureza cobra contrapartida, e eu a organizei em quatro
+práticas: o registro numerado das decisões, que permite reconstruir por que cada
+escolha foi feita e o que ela substituiu; a rastreabilidade obrigatória de todo
+número exibido até o arquivo que o produziu; a revisão cruzada entre assistentes
+de fornecedores distintos, com verificação manual dos números por mim; e o
+registro das autocorreções.''
+\end{nabanca}
+
+\begin{nabanca}[Terceiro, e é o que fecha: a limitação que eu mesmo medi]
+``A revisão cruzada mostrou-se necessária porque essas revisões acertam
+diagnósticos estruturais e ao mesmo tempo produzem números que \emph{parecem}
+verificados e não são. Eu encontrei casos concretos disso e eles estão
+documentados. É a razão de toda auditoria aqui ter escopo declarado, e de
+nenhuma verificação automática do repositório conferir número contra fonte ---
+isso é trabalho de leitura humana.''
+\end{nabanca}
+
+\begin{armadilha}[O que não dizer]
+Não minimize (``usei só um pouco'') nem se desculpe. E não deixe a resposta
+terminar na defesa: termine no que o arranjo \emph{produziu} --- 58 rotinas
+reprodutíveis sobre dados públicos, um registro de decisões, sete autocorreções
+documentadas e uma visualização navegável. Poucos trabalhos de mestrado chegam à
+banca podendo mostrar o filtro, e não só o que passou por ele.
+\end{armadilha}
+
+\section{``Por que a sua hipótese inicial estava errada?''}
+
+\begin{nabanca}
+``Ela não estava errada; ela foi testada. A investigação partiu da hipótese
+clássica da pastagem como estágio intermediário da ocupação, com a lavoura do
+Sul empurrando a pecuária para o Norte. Parte dela se confirmou --- a pastagem
+\emph{é} o elo intermediário de 58\% da entrada em agricultura. A parte mais
+tentadora, o deslocamento causal de uma região sobre a outra, não se sustentou
+quando submetida a um teste que podia falhar. O que emergiu no lugar organiza o
+texto: duas dinâmicas paralelas, movidas pelo mesmo motor ao longo do gradiente
+Sul--Norte e limitadas por um teto de oferta. A trajetória da pesquisa foi o
+teste dessa hipótese, e é isso que eu apresento.''
+\end{nabanca}

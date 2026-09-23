@@ -1,0 +1,1230 @@
+\chapter{O painel com efeitos fixos de dois sentidos}
+\label{cap:painel}
+
+Este é o principal instrumento de inferência do trabalho (decisão D8), e o que
+mais provavelmente será cobrado em detalhe.
+
+\section{A equação}
+
+\begin{equation}
+\Delta \mathrm{lulc}_{it} = \alpha_i + \gamma_t + \beta \, \Delta x_{it} + \varepsilon_{it}
+\label{eq:2fe}
+\end{equation}
+
+onde:
+\begin{itemize}
+\item $\Delta \mathrm{lulc}_{it}$ é a \emph{variação anual} do uso da terra na
+unidade $i$ no ano $t$;
+\item $\alpha_i$ é o \textbf{efeito fixo de unidade};
+\item $\gamma_t$ é o \textbf{efeito fixo de ano};
+\item $\Delta x_{it}$ é a variação da explicativa de interesse;
+\item $\varepsilon_{it}$ é o erro, com erros-padrão agrupados por unidade.
+\end{itemize}
+
+\section{O que cada efeito fixo faz, em português}
+
+\textbf{$\alpha_i$, o efeito de unidade}, absorve tudo o que \emph{não muda no
+tempo} naquele lugar: solo, relevo, distância a mercados, tradição produtiva.
+E o ponto que dá poder ao estimador é que ele absorve isso \textbf{mesmo que
+tais atributos não estejam observados no painel}. Você não precisa medir a
+qualidade do solo de cada município para controlá-la; basta que ela seja
+constante no tempo.
+
+\textbf{$\gamma_t$, o efeito de ano}, absorve os choques comuns a todas as
+unidades naquele ano: preços internacionais, câmbio, crises macroeconômicas.
+
+Combinados, eles fazem o estimador \textbf{comparar cada unidade consigo mesma
+ao longo do tempo}, líquida do que aconteceu com todo mundo naquele ano.
+Tecnicamente, isso equivale a subtrair de cada observação a média da unidade e a
+média do ano (a transformação \emph{within} de dois sentidos), e estimar sobre o
+que sobra.
+
+\section{O ponto fino: o que eles absorvem \emph{numa equação em diferenças}}
+
+Aqui está a sutileza que separa quem entende de quem repete. Como as duas
+pontas da equação entram em primeira diferença (D7), os efeitos fixos absorvem
+coisa \textbf{distinta} da que absorveriam num modelo escrito em nível.
+
+A diferenciação já retirou o \emph{patamar} de cada município. Então $\alpha_i$,
+que num modelo em nível seria esse patamar, passa a retirar a
+\textbf{tendência própria da unidade} --- o ritmo médio a que ela vinha mudando
+ao longo da série. E $\gamma_t$ absorve o choque comum às \emph{variações}
+daquele ano, e não ao estoque acumulado até ele.
+
+\begin{quote}\itshape\color{cortinta}
+O que resta para $\beta$ estimar é o quanto a variação de um município num ano
+se afasta do que a tendência dele e o ano em curso já explicavam.
+\end{quote}
+
+\begin{nabanca}
+``Como estou em primeira diferença, o efeito fixo de unidade não me tira o nível
+--- a diferença já tirou. Ele me tira a tendência própria daquele município. O
+que o $\beta$ mede é o desvio em relação ao que a tendência local e o ano em
+curso já previam.''
+\end{nabanca}
+
+\section{O que o painel controla e o que ele não controla}
+
+\begin{naodiz}
+O painel com efeitos fixos \textbf{não} controla um determinante que
+\emph{varie dentro da unidade ao longo do tempo} e que tenha ficado fora do
+modelo. É exatamente por isso que os coeficientes deste trabalho são descritos
+como \textbf{associações bem controladas}, e não como efeitos causais. \\[4pt]
+Ele também não isola marcos específicos: o efeito fixo de ano absorve
+\emph{todos} os choques comuns daquele ano, sem distingui-los entre si.
+\end{naodiz}
+
+\section{As três camadas de exigência}
+
+Os instrumentos não respondem à mesma pergunta e obedecem a uma hierarquia
+declarada. Tratá-los como equivalentes seria a origem mais provável de um
+excesso de afirmação.
+
+\vspace{6pt}
+\begin{tabular}{@{}p{2.9cm}p{5.2cm}p{6.4cm}@{}}
+\toprule
+\textbf{Camada} & \textbf{O que responde} & \textbf{Limite} \\
+\midrule
+Correlação em nível estadual & Houve coincidência temporal entre as duas séries no estado? & De 11 a 39 observações e nenhum controle por confundidores \\
+\addlinespace
+Painel com efeitos fixos & Dentro de cada unidade, a variação de $X$ acompanha a de $Y$ depois de removidos os choques comuns do ano? & Não isola marco específico; não controla determinante que varie dentro da unidade no tempo \\
+\addlinespace
+Diferenças em diferenças & Este marco regulatório teve efeito diferencial em Goiás frente a estados de controle? & \textbf{Não identifica neste caso} \\
+\bottomrule
+\end{tabular}
+
+\vspace{10pt}
+\subsection{Por que a terceira camada foi rebaixada}
+
+Este é um ponto que precisa ser dito com firmeza, porque é onde uma banca de
+ciências ambientais mais provavelmente vai querer que você fale sobre política.
+
+Os quatro marcos submetidos ao teste são a estabilização monetária do Plano
+Real (tomada em 1995), o \emph{boom} de \emph{commodities} de 2003, o Código
+Florestal de 2012 e a reorganização de mercado de 2018. \textbf{Nenhum deles é
+goiano.} Dois são federais e dois são de alcance nacional ou internacional, e em
+qualquer dos casos eles alcançaram no mesmo momento o estado tratado e os
+controles do mesmo bioma.
+
+Sem grupo não tratado, nem o par que sobrevive a todos os testes de robustez
+--- tendências paralelas, estudo de evento e placebo temporal --- identifica
+efeito causal.
+
+\begin{quote}\itshape\color{cortinta}
+O problema está no \emph{desenho}, não na estimação, e nenhum teste adicional o
+corrige.
+\end{quote}
+
+\begin{nabanca}
+``Rodei o desenho de diferenças em diferenças e ele passa em todos os testes de
+robustez que se costuma exigir. Mesmo assim eu o rebaixei, porque a robustez não
+resolve um problema de desenho: os marcos são federais e não deixam grupo não
+tratado. O que aquele coeficiente mede é exposição diferencial ao mesmo choque,
+e é assim que ele é reportado. Separar as hipóteses exigiria variação
+\emph{dentro} do estado, entre municípios mais e menos expostos a cada marco, e
+esse desenho eu não tenho.''
+\end{nabanca}
+
+\chapter{Erros-padrão: três réguas que não são intercambiáveis}
+\label{cap:erros}
+
+Um coeficiente sem erro-padrão não diz nada, e um erro-padrão calculado com a
+régua errada diz coisa falsa com aparência de precisão. O trabalho usa três, e
+declara qual está em uso em cada tabela.
+
+\section{Agrupamento por unidade (\emph{cluster})}
+
+Corrige a correlação \emph{dentro} de cada unidade ao longo do tempo. A
+intuição: se um município tem um choque próprio que dura vários anos, suas 40
+observações não são 40 informações independentes.
+
+\section{Agrupamento nas duas dimensões}
+
+Corrige também a correlação \emph{entre} unidades no mesmo ano. É a régua
+adotada nas especificações que trazem efeito fixo de ano.
+
+\begin{armadilha}[Um detalhe que a auditoria do próprio trabalho corrigiu]
+Dispensar o efeito fixo de ano \textbf{não} obriga a abrir mão do agrupamento
+por ano --- são escolhas independentes. Uma tabela do apêndice publicava um
+bloco só na régua de unidade e descrevia isso como imposição do desenho; era
+acoplamento de código. E recaía justamente onde mais custa, porque um regressor
+constante dentro do ano tem o erro-padrão subestimado pelo agrupamento por
+unidade. Corrigido, o coeficiente do estoque segue com $p<0{,}001$ e os três
+sinais de demanda deixam de cruzar 5\%.
+\end{armadilha}
+
+\section{HAC de Newey-West, para séries agregadas}
+
+Nas séries agregadas no nível estadual, em que o painel não se aplica, a
+inferência usa erros robustos a heterocedasticidade \emph{e} autocorrelação, na
+receita de Newey-West com duas defasagens. A matriz de covariância é
+
+\begin{equation}
+\hat{\Omega} = \hat{\Gamma}_0 + \sum_{\ell=1}^{L} w_\ell \left(\hat{\Gamma}_\ell + \hat{\Gamma}_\ell'\right),
+\qquad w_\ell = 1 - \frac{\ell}{L+1},
+\end{equation}
+
+com $L = 2$: em vez de supor erros independentes, ela soma as autocovariâncias
+das duas primeiras defasagens, com peso decrescente.
+
+\begin{naodiz}
+Com cerca de 38 observações anuais, o erro-padrão ingênuo subestima a incerteza
+--- e o próprio teste corrigido tem \textbf{pouco poder} nesse tamanho de
+amostra. Isso protege contra falso positivo e \emph{esconde efeitos reais
+fracos}. As duas metades dessa frase precisam ser ditas juntas.
+\end{naodiz}
+
+\begin{nabanca}[A regra de ouro deste trabalho sobre réguas]
+``Duas réguas de inferência não são comparáveis entre si. Onde eu tenho as duas,
+reporto as duas lado a lado, e digo qual decide. Trocar de régua no meio de uma
+conferência produziria uma robustez que é da régua, e não do dado.''
+\end{nabanca}
+
+\chapter{Estacionariedade, integração e regressão espúria}
+\label{cap:integracao}
+
+Este capítulo e o seguinte sustentam a decisão D16, que nasceu de um erro
+próprio. Entendê-los bem é o que permite apresentar esse episódio como
+credibilidade em vez de falha.
+
+\section{O que é uma série integrada}
+
+Uma série é \textbf{estacionária}, ou I(0), quando sua média e sua variância não
+mudam ao longo do tempo e os choques se dissipam. Ela é \textbf{integrada de
+ordem 1}, ou I(1), quando precisa ser diferenciada uma vez para ficar
+estacionária --- o caso clássico é o passeio aleatório, $y_t = y_{t-1} +
+\epsilon_t$, em que cada choque fica incorporado para sempre. Ela é I(2) quando
+nem a primeira diferença é estacionária.
+
+\section{Por que isso é fatal para uma regressão entre séries}
+
+Duas séries I(1) independentes, geradas por processos que nada têm a ver um com
+o outro, produzem regressões com $R^2$ alto e $t$ enorme com frequência muito
+maior que os 5\% nominais. Isso é a \textbf{regressão espúria}: a estatística
+não está medindo relação, está medindo o fato de que as duas séries vagam.
+
+O mesmo vale para o teste de precedência: aplicado a séries integradas, ele
+\textbf{fabrica precedência inexistente}.
+
+\section{ADF contra KPSS: duas hipóteses nulas opostas}
+
+Este é o ponto que a banca pode cobrar, e a resposta precisa ser exata.
+
+\begin{itemize}
+\item O \textbf{ADF} (Dickey-Fuller aumentado) tem por hipótese nula a
+\emph{presença de raiz unitária}. Portanto $p$ \textbf{baixo} indica série
+\textbf{estacionária}.
+\item O \textbf{KPSS} tem por hipótese nula a \emph{estacionariedade}. Portanto
+$p$ \textbf{baixo} indica o \textbf{contrário}.
+\end{itemize}
+
+Rodar os dois é confrontá-los. Quando concordam, o veredito é firme; quando
+divergem, a divergência é registrada e não escondida.
+
+\vspace{6pt}
+\begin{tabular}{@{}lccl@{}}
+\toprule
+\textbf{Série} & \textbf{$p$ ADF} & \textbf{$p$ KPSS} & \textbf{Veredito (ADF)} \\
+\midrule
+Agricultura do Sul, em nível & $0{,}011$ & $0{,}010$ & estacionária \\
+Pastagem do Norte, em nível & $0{,}960$ & $0{,}010$ & não estacionária \\
+Agricultura do Sul, em 1\textsuperscript{a} dif. & $0{,}001$ & $0{,}050$ & estacionária \\
+Pastagem do Norte, em 1\textsuperscript{a} dif. & $0{,}922$ & $0{,}010$ & não estacionária \\
+Agricultura do Sul, em 2\textsuperscript{a} dif. & $<0{,}001$ & $0{,}100$ & estacionária \\
+Pastagem do Norte, em 2\textsuperscript{a} dif. & $0{,}001$ & $0{,}100$ & estacionária \\
+\bottomrule
+\end{tabular}
+
+\vspace{10pt}
+\textbf{Como ler esta tabela em voz alta.} Os dois testes \emph{concordam} nas
+duas linhas da pastagem do Norte --- ambos a dão não estacionária em nível e em
+primeira diferença ---, e é dela que vem o diagnóstico. Eles \emph{divergem}
+nas duas linhas da agricultura do Sul, que o ADF dá estacionária e o KPSS não.
+E \emph{voltam a concordar} nas duas segundas diferenças. São estas as linhas
+que fixam $d_{\max} = 2$: sem elas, a ordem de integração da pastagem ficaria
+afirmada e não mostrada.
+
+\begin{armadilha}[Não chame acordo de discordância]
+Nas linhas da pastagem do Norte, ADF e KPSS \textbf{concordam}. É nas linhas da
+agricultura do Sul que eles divergem. Trocar isso na fala inverte o sentido do
+diagnóstico.
+\end{armadilha}
+
+\begin{naodiz}
+O $p$ do KPSS é truncado na tabela de valores críticos da rotina: $0{,}010$ e
+$0{,}100$ são \emph{limites}, e se leem como ``$\leq$'' e ``$\geq$''. \\[4pt]
+E com 40 observações e duas quebras estimadas nessas mesmas séries, nenhum dos
+dois testes é decisivo sozinho. A classificação vale como \emph{a resposta do
+teste nesta amostra}, e não como propriedade estabelecida do processo. O que a
+tabela estabelece com segurança é o \textbf{descasamento} entre as duas séries,
+que é o que invalida o teste clássico.
+\end{naodiz}
+
+\section{A consequência lógica: séries de ordens diferentes não cointegram}
+
+Se a agricultura do Sul é I(0) e a pastagem do Norte é I(2), não existe relação
+de longo prazo entre os níveis para um teste detectar. Qualquer ``precedência''
+encontrada nessa configuração é \textbf{artefato}, por construção.
+
+\chapter{Granger e Toda-Yamamoto}
+\label{cap:granger}
+
+\section{O que o teste de Granger mede, e o que o nome sugere}
+
+O teste de Granger mede \textbf{precedência preditiva}: se o passado de uma
+série ajuda a prever a outra, além do que o passado da própria já previa. Ele
+\textbf{não} mede causalidade, apesar do nome consagrado de ``causalidade de
+Granger''.
+
+A forma da regressão é
+\begin{equation}
+y_t = c + \sum_{j=1}^{p} a_j\, y_{t-j} + \sum_{j=1}^{p} b_j\, x_{t-j} + u_t,
+\end{equation}
+e testa-se, por teste F ou Wald, a hipótese conjunta $b_1 = \dots = b_p = 0$.
+Rejeitá-la é dizer que o passado de $x$ acrescenta poder preditivo sobre $y$.
+
+\begin{nabanca}
+``Uso o nome com rigor: o que ele mede é precedência preditiva. Um teste de
+Granger nunca autoriza a palavra `causa' no meu texto.''
+\end{nabanca}
+
+\section{Toda-Yamamoto: a correção que torna a inferência válida}
+
+O procedimento resolve o problema da integração com um truque elegante. Ajusta
+um modelo vetorial autorregressivo \textbf{em níveis} com $p + d_{\max}$
+defasagens --- as $p$ defasagens que se quer testar, mais $d_{\max}$ defasagens
+extras, iguais à ordem máxima de integração das séries envolvidas --- e aplica
+o teste de Wald \textbf{apenas às $p$ primeiras}.
+
+As defasagens extras existem para absorver a não estacionariedade; ao restringir
+o teste às primeiras, a estatística de Wald recupera a distribuição
+qui-quadrado usual mesmo sob integração.
+
+\begin{ancora}[Aqui, $d_{\max} = 2$]
+Fixado pela linha da pastagem do Norte, que só perde a raiz unitária na segunda
+diferença. Não é uma suposição: é o que a tabela de integração mostra.
+\end{ancora}
+
+\section{As três colunas de $p$, que não são a mesma régua}
+
+O apêndice reporta três, e a distinção é o próprio argumento:
+
+\begin{itemize}
+\item \textbf{$p$ Granger} --- o teste F clássico, em primeira diferença;
+\item \textbf{$p$ Wald HAC} --- o mesmo teste com covariância de Newey-West.
+Corrige o \emph{erro-padrão}, e \textbf{não} a integração;
+\item \textbf{$p$ Toda-Yamamoto} --- o único válido sob integração, e o que o
+Capítulo 4 usa para o veredito.
+\end{itemize}
+
+\section{O episódio que gerou a decisão D16}
+
+Rodado no sentido inverso, o teste produzia um resultado forte: o Norte
+anteciparia o Sul, com $p < 0{,}001$. Se real, ele não salvaria a hipótese do
+empurrão --- inverteria a tese inteira.
+
+O diagnóstico veio em três passos, e nenhum deles foi ``a amostra é pequena''.
+
+\vspace{4pt}
+\textbf{Primeiro:} a régua estava errada para o material. O teste comparava uma
+série já estabilizada com outra que permanece instável mesmo depois de
+convertida em variações anuais --- a montagem clássica que fabrica precedência.
+
+\textbf{Segundo:} o método adequado a séries integradas apaga o resultado
+\emph{nas duas direções}: $p = 0{,}45$ no sentido Norte--Sul e $p = 0{,}25$ no
+sentido Sul--Norte.
+
+\textbf{Terceiro, e mais limpo:} a precedência reaparece onde \emph{não há
+mecanismo que a explique}. Em três dos quatro placebos direcionais ela acende, e
+o mais eloquente deles é o pasto do Norte ``antecedendo'' o pasto do
+\textbf{próprio Sul}, com o mesmo p-valor do resultado original --- o que
+nenhuma economia explicaria. O quarto placebo fica em $p = 0{,}056$, e portanto
+não acende nem socorre a hipótese.
+
+\begin{quote}\itshape\color{cortinta}
+Uma precedência que aparece em qualquer par de séries suaves não é mecanismo, é
+defeito de instrumento.
+\end{quote}
+
+\begin{nabanca}[O ponto que mais importa neste episódio]
+``O veredito é \textbf{sem líder}, e não `o outro lado venceu'. Dizer as duas
+direções importa, porque a mesma correção que derruba a precedência do Norte
+retira qualquer autorização para eu afirmar que o Sul lidera. A simetria do
+veredito é parte do resultado.''
+\end{nabanca}
+
+\begin{armadilha}
+A tabela do apêndice reporta o bloco reverso \textbf{de propósito}, porque foi
+ele que originou a decisão D16, e não porque sustente afirmação. Se a banca
+apontar aquele $p < 0{,}001$ na tabela, a resposta é que ele está ali para que
+se veja o que o diagnóstico teve de descartar, e que a coluna de Toda-Yamamoto
+ao lado é a que decide.
+\end{armadilha}
+
+\chapter{Econometria espacial: W, Moran, SLX, SAR e SEM}
+\label{cap:espacial}
+
+\section{A matriz de pesos $W$, que é onde tudo começa}
+
+Toda econometria espacial depende de uma definição prévia de ``vizinho'',
+codificada numa matriz $W$ de dimensão $n \times n$, com $W_{ij} > 0$ se $j$ é
+vizinho de $i$ e $W_{ii} = 0$. Padronizada por linha (cada linha soma 1), o
+produto $(W z)_i$ é simplesmente a \textbf{média da variável $z$ nos vizinhos de
+$i$}.
+
+O trabalho usa duas construções, e a escolha entre elas é substantiva:
+
+\begin{itemize}
+\item \textbf{Contiguidade \emph{queen}} --- vizinhos são as unidades que
+compartilham fronteira ou vértice. Usada onde o objeto é a dependência
+\emph{genérica}.
+\item \textbf{Oito vizinhos mais próximos}, por distância euclidiana entre
+centroides em EPSG:5880, com \textbf{filtro direcional}. Em
+$W_{\mathrm{sul}}$ só permanecem, entre os oito, os vizinhos de centroide mais
+ao \emph{sul}; em $W_{\mathrm{norte}}$, os mais ao \emph{norte}. Usada no teste
+do empurrão, onde a direção é a hipótese.
+\end{itemize}
+
+\begin{armadilha}[Um detalhe honesto do desenho]
+O filtro direcional deixa sem vizinho um punhado de unidades nas bordas: três
+linhas inteiramente nulas em $W_{\mathrm{sul}}$ e duas em $W_{\mathrm{norte}}$,
+de 166. Elas entram na estimação com termo de vizinhança igual a zero. Está
+declarado no apêndice.
+\end{armadilha}
+
+\section{O I de Moran: existe organização geográfica no que sobrou?}
+
+\begin{equation}
+I = \frac{n}{\sum_i \sum_j W_{ij}} \cdot
+\frac{\sum_i \sum_j W_{ij} (z_i - \bar{z})(z_j - \bar{z})}{\sum_i (z_i - \bar{z})^2}.
+\end{equation}
+
+Em português: é uma correlação entre o valor de cada unidade e a média dos seus
+vizinhos. Positivo significa que vizinhos se parecem; próximo de zero significa
+distribuição aleatória no espaço. A significância é obtida por permutação
+(embaralha-se aleatoriamente os valores sobre o mapa muitas vezes e compara-se).
+
+Aplicado \textbf{aos resíduos} do painel, ele responde a: ``o que o meu modelo
+não explicou ainda tem organização geográfica?''.
+
+\begin{ancora}[A resposta foi sim, e nas duas malhas]
+Moran significativo em \textbf{115 de 140} testes na malha municipal e em
+\textbf{125 de 140} na malha de AMC. A dependência espacial não é, portanto,
+artefato da unidade escolhida.
+\end{ancora}
+
+Foi essa constatação que levou a dimensão espacial ao desenho, e que também
+obrigou o bootstrap de blocos do Capítulo~\ref{cap:bootstrap}.
+
+\section{As três formas espaciais}
+
+Partindo dos mínimos quadrados com os dois efeitos fixos,
+\begin{equation}
+\Delta y_{it} = \Delta \mathbf{x}_{it}' \boldsymbol{\beta} + \alpha_i + \lambda_t + \varepsilon_{it},
+\end{equation}
+cada forma acrescenta um termo em lugar diferente:
+
+\vspace{6pt}
+\textbf{SLX --- defasagem espacial dos regressores.} É a do teste do empurrão:
+\begin{equation}
+\Delta y_{it} = \beta\, \Delta x_{it} + \theta\, (W\Delta x)_{it} + \alpha_i + \lambda_t + \varepsilon_{it}.
+\label{eq:slx}
+\end{equation}
+O parâmetro de interesse é $\theta$, e \textbf{não} $\beta$: $\theta$ mede o
+efeito da lavoura \emph{dos vizinhos} sobre o pasto local, ao passo que $\beta$
+mede substituição \emph{dentro} da unidade, que não é deslocamento.
+
+\textbf{SAR --- defasagem espacial da variável dependente:}
+\begin{equation}
+\Delta y_{it} = \rho\, (W\Delta y)_{it} + \Delta \mathbf{x}_{it}' \boldsymbol{\beta} + \alpha_i + \lambda_t + \varepsilon_{it}.
+\end{equation}
+
+\textbf{SEM --- dependência no termo de erro:}
+\begin{equation}
+\Delta y_{it} = \Delta \mathbf{x}_{it}' \boldsymbol{\beta} + \alpha_i + \lambda_t + u_{it},
+\qquad u_{it} = \lambda\, (Wu)_{it} + \varepsilon_{it}.
+\end{equation}
+
+\subsection{Por que a distinção entre SAR e SEM importa para a leitura}
+
+Sob o \textbf{SAR}, o efeito de um choque numa unidade transborda para as
+vizinhas e \emph{volta}, de modo que $\boldsymbol{\beta}$ deixa de ser o efeito
+total. Sob o \textbf{SEM}, $\boldsymbol{\beta}$ continua interpretável e o que
+muda é a eficiência da estimativa.
+
+Por isso os coeficientes das colunas espaciais \textbf{não são diretamente
+comparáveis} ao de mínimos quadrados, e a pergunta que a tabela faz não é se
+eles coincidem, e sim se o \emph{sinal} e a \emph{significância} resistem.
+
+\begin{ancora}[O que a modelagem da dependência mudou]
+Parâmetros de defasagem e de erro espacial entre $+0{,}35$ e $+0{,}56$
+--- a dependência é real e mensurada. \\
+Das oito estimativas espaciais, \textbf{sete atenuam-se} em relação aos mínimos
+quadrados, no máximo \textbf{14,6\%}, e \textbf{uma cresce 0,6\%}. \\
+\textbf{Nenhuma troca de sinal, nenhuma perde significância}: o maior $p$ entre
+as oito é da ordem de $10^{-10}$.
+\end{ancora}
+
+\begin{nabanca}
+``A dependência espacial existe, eu a medi e ela não muda veredito nenhum. O
+que a modelagem corrige, no que interessa à leitura, é a barra de erro, e é
+por isso que o bootstrap de blocos entrou também nos centros de massa.''
+\end{nabanca}
+
+\begin{armadilha}
+Não diga ``todas as estimativas espaciais se atenuam''. Sete atenuam; uma cresce
+0,6\%. É pequeno e não muda nada, e dizer o número exato é mais forte do que
+arredondar para a versão conveniente.
+\end{armadilha}
+
+\section{O LISA, e por que ele é exploratório}
+
+Os indicadores locais de associação espacial decompõem o I de Moran unidade a
+unidade, mostrando onde estão os aglomerados. Aqui eles são tratados como
+\textbf{exploratórios}, por não incorporarem correção para testes múltiplos ---
+e são $n$ testes simultâneos, um por unidade.
+
+\section{O resultado do teste do empurrão}
+
+A grade é o produto de três réguas de lavoura (classe Agricultura, união com o
+Mosaico, e área de soja do SIDRA) por duas janelas (série plena e truncada em
+2019) por três modelos, um deles o placebo com $W_{\mathrm{norte}}$: dezoito
+especificações e trinta e seis coeficientes. Das dezoito, as \textbf{doze} não
+placebo são as que o Capítulo 4 lê.
+
+\begin{ancora}[O que as doze mostram]
+\textbf{Com oito vizinhos, as doze estimativas de $\theta$ são negativas.}
+Nenhuma cai na região que a hipótese exige --- ela exigia $\theta > 0$. Com
+quatro e com doze vizinhos, algumas do rebanho mudam de lado, sempre com
+$p > 0{,}70$: nenhum $\theta$ positivo é significativo nas três matrizes. \\
+Quando a lavoura dos vizinhos ao sul cresce, o pasto local \emph{diminui}, em
+vez de aumentar. \\
+Onze das doze não são significativas; a décima segunda tem $p = 0{,}02$, é
+negativa e deixa de ser significativa com quatro ($p = 0{,}29$) e com doze
+vizinhos ($p = 0{,}41$).
+\end{ancora}
+
+\begin{naodiz}
+As doze células \textbf{não trazem cálculo de poder próprio}. O que elas
+estabelecem é o \emph{sinal} do coeficiente, e não a exclusão de um empurrão
+pequeno. O poder declarado é o do teste temporal. \\[4pt]
+E o placebo direcional não é uniformemente nulo: numa das seis células (régua
+da soja do IBGE, janela plena) o termo de vizinhança \emph{ao norte} é
+significativo a 5\% ($\beta = -0{,}054$; $p = 0{,}032$), onde o termo ao sul
+correspondente é nulo. Como o argumento é que um empurrão teria direção, esse
+acendimento \textbf{enfraquece a premissa}, e é mais um motivo para não ler
+as doze estimativas como um achado.
+\end{naodiz}
+
+\section{O que ocupa o lugar do empurrão: a substituição local}
+
+O mesmo desenho revela o maior efeito de toda a frente. É preciso ser exato no
+vocabulário: $\theta$ mede o efeito \emph{dos vizinhos}; $\beta$ mede o que
+ocorre \emph{dentro do próprio município}. É a diferença entre empurrão, à
+distância, e substituição, no mesmo lugar.
+
+\begin{ancora}[A substituição local]
+Nas quatro células medidas em área de satélite, o coeficiente vai de
+$\mathbf{-0{,}52}$ a $\mathbf{-1{,}14}$, com $p < 0{,}001$ em cinco das seis
+células da grade (a exceção é a régua da soja do IBGE na janela curta, com
+poucos anos). \\
+As duas células que regridem sobre a área de soja declarada ao IBGE ficam em
+torno de $-0{,}03$ a $-0{,}07$.
+\end{ancora}
+
+\begin{armadilha}[Duas comparações que não se podem fazer]
+\textbf{Primeira:} os $-0{,}03$ da soja \emph{não} são comparáveis em magnitude
+aos $-0{,}52$ da agricultura, porque o regressor é outro --- um hectare de soja
+é subconjunto de um hectare de agricultura. O que se compara entre réguas é o
+sinal e a significância, não o tamanho. \\[4pt]
+\textbf{Segunda:} o coeficiente dobrar de $-0{,}52$ para $-1{,}14$ na régua da
+união \textbf{não é correção}. A união é o teto do intervalo previsto na D26,
+não a medida certa. E um coeficiente de $-1{,}14$ não descreve substituição
+``mais completa'': descreve mais de um hectare de pasto perdido por hectare de
+lavoura ganho, o que por definição \emph{excede} a substituição e inclui algum
+fluxo adicional não identificado neste desenho.
+\end{armadilha}
+
+\chapter{O desenho \emph{shift-share} e a inferência por permutação}
+\label{cap:shiftshare}
+
+\section{A ideia}
+
+A hipótese é que um mesmo motor macroeconômico atinja de modo diferente lugares
+com exposição diferente. O desenho de interação do tipo \emph{shift-share} (ou
+Bartik) tem dois ingredientes:
+
+\begin{itemize}
+\item o \textbf{\emph{shift}} --- o choque nacional, comum a todas as unidades
+em cada ano. Aqui, a variação padronizada do índice de taxa de câmbio efetiva
+real, defasada um ano;
+\item a \textbf{\emph{share}} --- a exposição local, fixa no tempo. Aqui, o
+gradiente de aptidão edafoclimática da Embrapa, padronizado em escore $z$.
+\end{itemize}
+
+\section{A equação, e as três propriedades que a governam}
+
+\begin{equation}
+\Delta y_{it} = \gamma \left( \tilde{s}_{t-1} \times \tilde{E}_i \right)
+              + \alpha_i + \lambda_t + \varepsilon_{it}
+\label{eq:shiftshare}
+\end{equation}
+
+com $\Delta y_{it}$ = variação anual do efetivo bovino da unidade $i$, em
+milhões de cabeças.
+
+\vspace{6pt}
+\textbf{Propriedade 1: não há termos principais.} O \emph{shifter} é comum a
+todas as unidades num dado ano e é absorvido por $\lambda_t$; a exposição é fixa
+no tempo e é absorvida por $\alpha_i$. O que resta identificado é apenas o
+\textbf{gradiente} do efeito --- se o choque morde mais onde a exposição é maior
+--- e \emph{nunca o seu nível}.
+
+\textbf{Propriedade 2:} por isso mesmo, $\gamma$ \textbf{não mede o efeito do
+câmbio sobre o rebanho}, e nenhum número do apêndice autoriza essa leitura.
+
+\textbf{Propriedade 3:} o número de realizações \emph{independentes} do choque é
+o número de \emph{anos}, cerca de 38, e não o número de células do painel.
+Nenhuma quantidade adicional de unidades espaciais o aumenta.
+
+\begin{nabanca}
+``Este desenho não estima o efeito do câmbio. Ele estima a geografia desse
+efeito dentro do estado. O nível causal do canal cambial vem da literatura, em
+escala nacional e continental; a minha contribuição possível é onde ele bate
+mais forte.''
+\end{nabanca}
+
+\section{A previsão, que é contraintuitiva e vale explicar}
+
+Sob depreciação cambial, a previsão é que o rebanho cresça \textbf{mais onde a
+aptidão edafoclimática é baixa} --- a fronteira do Norte --- e menos no núcleo
+apto do Sul, onde a mesma terra tem uso alternativo mais rentável em lavoura. O
+coeficiente esperado da interação é, portanto, \textbf{negativo}.
+
+\section{A camada de aptidão, e as três propriedades declaradas}
+
+A camada é o mapa de aptidão agrícola das terras do Brasil, da Embrapa,
+cartografia vetorial na escala 1:500.000, com 8.284 polígonos recortados em
+Goiás. O dígito líder do símbolo é o grupo de aptidão, de 1 (a melhor para
+lavouras) a 6 (indicada para preservação), convertido em escore por
+$7 - \text{grupo}$, de modo que o valor cresce com a aptidão. A cobertura
+efetiva é de 33,0 Mha, ou 97\% do estado.
+
+\begin{ancora}[O gradiente aparece sozinho]
+Sul \textbf{4,69}, Centro \textbf{4,47}, Norte \textbf{4,17} na escala ordinal
+da fonte, com as três regiões diferindo a $p = 0{,}0002$. \\
+Correlação com a latitude: $\mathbf{-0{,}44}$ (Pearson), $-0{,}40$ (Spearman).
+\end{ancora}
+
+\textbf{Primeira propriedade --- é o que a torna útil.} Ela é construída de
+solo, clima e relevo, e não do uso observado. Isso resolve a
+\textbf{circularidade}: a ordenação Sul--Centro--Norte reaparece sem que a
+variável a explicar entre na conta.
+
+\textbf{Segunda --- ela é estática.} Um valor por unidade, sem variação no
+tempo. Toda a identificação vem da interação com o choque, e não de mudança na
+exposição.
+
+\textbf{Terceira --- uma suposição de medida que convém declarar.} O escore
+$7 - \text{grupo}$ trata como \emph{cardinal}, com espaçamento igual entre
+grupos, o que na origem é uma classificação \emph{ordinal}. Uma construção
+alternativa que não faz essa suposição --- a fração da unidade em grupos aptos
+à lavoura --- é calculada da mesma camada e acompanha a média do escore na
+medida de qualidade do remanescente.
+
+\begin{naodiz}
+A escala 1:500.000 é grosseira diante dos 30 m da série de cobertura: a camada
+resolve \textbf{gradiente regional}, e não contraste local.
+\end{naodiz}
+
+\section{Por que o erro-padrão agrupado é otimista aqui}
+
+Num desenho \emph{shift-share} com um \textbf{único} \emph{shifter}, o
+erro-padrão agrupado trata cada ano como uma realização independente do choque.
+Mas há um só choque, observado 38 vezes, e ele é serialmente correlacionado. O
+resultado é um erro-padrão pequeno demais e um $p$ otimista.
+
+\section{A inferência por permutação, passo a passo}
+
+A decisão D20 substitui a régua. O procedimento:
+
+\begin{enumerate}
+\item Mantenha fixas as \emph{shares} $\tilde{E}_i$, o painel e os efeitos
+fixos.
+\item Reembaralhe a série anual do câmbio entre os anos.
+\item Recalcule a interação e o coeficiente $\hat{\gamma}$.
+\item Repita, e conte quantas realizações nulas igualam ou superam o observado
+em módulo. Essa fração é o $p$.
+\end{enumerate}
+
+\textbf{Duas variantes, e a distinção é relevante.} A permutação \emph{livre}
+sorteia qualquer ordem e assim \textbf{quebra a autocorrelação} do câmbio,
+tendendo a ser otimista. A permutação \textbf{circular} apenas
+\emph{rotaciona} a série sobre suas posições, o que \textbf{preserva} a
+autocorrelação do choque, e é a versão defensável para uma série serialmente
+correlacionada.
+
+\section{O piso de $1/38$, que é o detalhe mais elegante do trabalho}
+
+São usadas \emph{todas} as $T-1$ rotações possíveis, e não uma amostra delas. E
+o $p$ reportado \textbf{inclui a estatística observada entre as realizações}:
+é o número de rotações ao menos tão extremas quanto a observada, \emph{mais
+um}, dividido por $T$.
+
+Essa convenção --- e não a proporção simples, que teria piso zero --- faz o
+menor $p$ atingível ser
+\begin{equation}
+p_{\min} = \frac{1}{38} \approx 0{,}026 .
+\end{equation}
+
+\begin{quote}\itshape\color{cortinta}
+A resolução do teste, e não apenas o seu resultado, é parte do que se pode
+afirmar.
+\end{quote}
+
+Por isso, quando a latitude devolve $p = 0{,}026$, isso significa que
+\textbf{nenhuma rotação superou o observado} --- o melhor desfecho possível do
+teste --- e não uma margem folgada. E o $0{,}053$ da especificação seguinte é
+decidido por \emph{uma única rotação}.
+
+\begin{nabanca}
+``Esse 0,026 é o piso da minha régua, e não uma folga. Com 38 realizações do
+choque, o menor p-valor que a permutação circular pode devolver é 1 sobre 38. O
+que ele me diz é que nenhuma rotação superou o observado; ele não me dá margem
+para tratar isso como significância robusta.''
+\end{nabanca}
+
+\section{O resultado, e as duas camadas de qualificação}
+
+\begin{ancora}[A especificação confirmatória]
+$\beta = \mathbf{-0{,}033}$, com $R^2$ \emph{within} de $0{,}001$. \\
+$p$ agrupado $= 0{,}026$; $p$ de permutação entre \textbf{0,07 e 0,13}. \\
+\textbf{Veredito: corroborante, não estabelecido.}
+\end{ancora}
+
+O que sustenta a leitura não é a significância, e sim a \textbf{especificidade}:
+cada teste que deveria sair vazio sai vazio.
+
+\begin{itemize}
+\item Placebos de desfecho: área urbana $p = 0{,}34$; água $p = 0{,}33$.
+\item Placebos no tempo, que adiantam o \emph{shifter} de modo que o efeito
+precederia a causa: $p = 0{,}105$ para a liderança de um ano, $p = 0{,}77$ para
+a de dois.
+\item \emph{Jackknife} por ano: o sinal é estável em \textbf{38 dos 38} anos.
+\end{itemize}
+
+\begin{armadilha}[Não cite só os placebos mais vazios]
+Os oito placebos não são igualmente vazios. Os dois que chegam mais perto de
+rejeitar são os de tempo da \emph{outra} exposição, a de fronteira, com $p$ de
+$0{,}062$ e $0{,}070$. Eles não socorrem a hipótese, porque o \textbf{sinal
+deles é o oposto} do que ela prevê --- um placebo que quase acende na direção
+contrária não é evidência a favor. Mas citar apenas os dois mais nulos seria
+escolher a régua depois de ver o resultado.
+\end{armadilha}
+
+\begin{armadilha}[E não compare réguas diferentes]
+O $p$ do achado é o de \emph{permutação}, o conservador; os dos placebos são os
+\emph{agrupados}, que se sabe otimistas. A permutação não foi computada para as
+linhas de placebo. Comparar $0{,}105$ com $0{,}07$--$0{,}13$ seria tomar por
+igual o que foi medido de dois modos.
+\end{armadilha}
+
+\section{A corrida entre exposições, e a decisão D28}
+
+Aqui está a autocorreção mais consequente da frente, e ela precisa ser
+apresentada por você antes de a banca chegar nela.
+
+Toda a bateria acima é de placebos de \textbf{desfecho}: ela mostra que o sinal
+aparece na variável que deveria responder e não nas outras. Ela não faz a
+pergunta decisiva para uma \emph{share} espacial: \emph{a exposição certa é
+mesmo a aptidão?}
+
+\begin{quote}\itshape\color{cortinta}
+Exógena não é o mesmo que isolada.
+\end{quote}
+
+A aptidão correlaciona-se $-0{,}44$ com a latitude, e a latitude organiza, em
+Goiás, quase tudo o que varia de sul para norte: idade da ocupação,
+infraestrutura, distância aos mercados, especialização produtiva, preço da
+terra. Se o choque comum interage com \emph{qualquer} gradiente Sul--Norte, o
+coeficiente da aptidão acende sem que a aptidão seja o mecanismo.
+
+O teste é pôr as candidatas na \textbf{mesma regressão}. Além da aptidão,
+entram a \textbf{latitude} do centroide (o confundidor puro, que mede ``quão ao
+norte'' sem nenhum conteúdo agronômico) e a \textbf{distância ao núcleo de
+lavoura de 1985} (aproximação de acesso, construída de dado anterior a toda a
+janela estimada).
+
+O fator de inflação de variância entre aptidão e latitude é \textbf{1,24}: a
+correlação é moderada e não colinearidade, de modo que as duas são separáveis em
+princípio e a corrida é informativa.
+
+\vspace{6pt}
+\begin{tabular}{@{}llrrr@{}}
+\toprule
+\textbf{Esp.} & \textbf{Exposição} & \textbf{$\hat{\gamma}$} & \textbf{$p_{\mathrm{agr}}$} & \textbf{$p_{\mathrm{perm}}$} \\
+\midrule
+S1 & Aptidão sozinha & $-0{,}033$ & $0{,}026$ & $0{,}132$ \\
+S2 & Latitude sozinha & $+0{,}051$ & $0{,}015$ & $\mathbf{0{,}026}$ \\
+S3 & Acesso sozinho & $+0{,}028$ & $0{,}118$ & $0{,}184$ \\
+\addlinespace
+S4 & Aptidão (com latitude) & $-0{,}012$ & $0{,}302$ & $0{,}474$ \\
+S4 & Latitude (com aptidão) & $+0{,}046$ & $0{,}028$ & $0{,}053$ \\
+\addlinespace
+S5 & Aptidão (com acesso) & $-0{,}024$ & $0{,}139$ & $0{,}132$ \\
+S5 & Acesso (com aptidão) & $+0{,}015$ & $0{,}482$ & $0{,}395$ \\
+\addlinespace
+S6 & Aptidão (com as duas) & $-0{,}026$ & $0{,}111$ & $0{,}132$ \\
+S6 & Latitude (com as duas) & $+0{,}081$ & $0{,}052$ & $0{,}079$ \\
+S6 & Acesso (com as duas) & $-0{,}051$ & $0{,}236$ & $0{,}237$ \\
+\bottomrule
+\end{tabular}
+
+\vspace{10pt}
+\textbf{A leitura.} Sozinha, a latitude entrega um gradiente \emph{mais forte}
+que o da aptidão, e é a única das três exposições que cruza o corte de 5\% sob a
+régua conservadora. Postas juntas (S4), a aptidão perde \textbf{62\% da
+magnitude} ($-0{,}033 \to -0{,}012$) e o seu $p$ de permutação sobe de $0{,}13$
+para $0{,}47$; na régua agrupada, sai de $0{,}026$ para $0{,}30$, isto é, deixa
+de ser significativa \emph{mesmo sob a inferência otimista}. Enquanto isso a
+latitude quase não se move.
+
+\subsection{A especificação S6, que é a que menos favorece a leitura adotada}
+
+Vale conhecê-la bem, porque uma banca atenta vai encontrá-la. Com as três
+exposições disputando o mesmo choque, a aptidão \emph{recupera} parte da
+magnitude ($-0{,}026$) e a latitude \emph{deixa} de cruzar os 5\%
+($p_{\mathrm{perm}} = 0{,}079$).
+
+\begin{nabanca}[A resposta exata para a S6]
+``Ela não desfaz a D28, porque a decisão se apoia em a aptidão \textbf{perder}
+significância diante do confundidor puro, e não em a latitude \textbf{ganhá-la}.
+O que a especificação com as três mostra é a mesma coisa por outro lado: três
+gradientes correlacionados e cerca de 38 realizações do choque não se separam
+entre si. E é esse o veredito que eu reporto.''
+\end{nabanca}
+
+\section{O que a decisão D28 fixa para a redação}
+
+\begin{quote}\itshape\color{cortinta}
+Onde o texto disser ``gradiente de aptidão'', leia-se a exposição
+\emph{medida} por aptidão --- útil porque é exógena ao uso da terra,
+insuficiente para nomear o canal. Nenhuma afirmação do texto atribui o efeito a
+solo e clima em particular.
+\end{quote}
+
+Os dois sinais dizem a mesma coisa em vocabulários diferentes, porque ao norte
+a aptidão é baixa. O que a corrida decide é qual rótulo o dado sustenta, e ele
+sustenta o do \textbf{eixo}, não o do solo.
+
+\section{As três qualificações que puxam o peso do achado para baixo}
+
+Diga-as você mesmo, na ordem:
+
+\begin{enumerate}
+\item \textbf{Os desfechos de área da mesma grade são nulos.} A interação entre
+câmbio e aptidão não move a variação de área de pastagem ($p = 0{,}92$ sem
+defasagem, $0{,}83$ com um ano), e a interação entre preço da soja e aptidão não
+move a variação de área de agricultura ($p = 0{,}77$ e $0{,}60$). Como a
+narrativa é sobre procura por terra, é preciso registrar que o único gradiente
+com sinal aparece numa \emph{contagem de cabeças}, e não na terra.
+\item \textbf{Multiplicidade.} A célula vem de uma grade de \textbf{192} testes
+(quatro exposições, quatro \emph{drivers}, quatro desfechos, três defasagens), e
+o exame de sensibilidade mostrou que ela sobrevive ao controle de falsas
+descobertas numa família de \textbf{96} testes e \emph{não} sobrevive numa de
+\textbf{144}. É sensível ao recorte da família.
+\item \textbf{O desenho não poderia estimar o nível.} Com efeito fixo de ano, só
+o gradiente é estimável, e é sobre o gradiente, não sobre o câmbio como
+causa, que a evidência é corroborante.
+\end{enumerate}
+
+\section{O teto estrutural desta frente}
+
+\begin{naodiz}
+O poder é limitado pela dimensão \textbf{temporal}, e não aumenta com o número
+de unidades espaciais. Levantar o teto exigiria: um \emph{shifter} com variação
+transversal própria (exposição diferencial a preços por produto, por exemplo,
+em vez de uma única série nacional), \emph{ou} uma janela temporal maior,
+\emph{ou} um painel de vários estados que multiplicasse as realizações do
+choque. São \textbf{desenhos distintos}, e não robustez adicional sobre este.
+\end{naodiz}
+
+\chapter{Fluxo, taxa e estoque: a matemática do teto de oferta}
+\label{cap:oferta}
+
+\section{A identidade, e por que ela precisa ser declarada}
+
+O fluxo de conversão é, \emph{por construção}, o produto entre o estoque ainda
+exposto e a taxa com que ele é convertido:
+\begin{equation}
+\text{fluxo}_{it} \equiv \text{taxa}_{it} \times \text{estoque}_{i,t-1},
+\qquad \text{com}\quad \text{taxa}_{it} = \frac{\text{fluxo}_{it}}{\text{estoque}_{i,t-1}}.
+\end{equation}
+
+Segue daí, \textbf{sem nenhum dado}, que se a taxa for aproximadamente constante
+o fluxo acompanha o estoque.
+
+\section{As duas equações, e qual delas tem conteúdo}
+
+\begin{equation}
+\text{fluxo}_{it} = \beta\, \text{estoque}_{i,t-1} + \alpha_i + \lambda_t + \varepsilon_{it}
+\label{eq:b1}
+\end{equation}
+\begin{equation}
+\text{taxa}_{it} = \beta\, \text{esgotamento}_{i,t-1} + \alpha_i + \lambda_t + \varepsilon_{it}
+\label{eq:b2b}
+\end{equation}
+
+com $\text{esgotamento}_{it} = 1 - \dfrac{\text{estoque}_{it}}{\text{estoque}_{i,1985}}$.
+
+\vspace{6pt}
+A Equação~\ref{eq:b1} carrega a identidade e \textbf{não pode surpreender}. A
+regressão devolve exatamente o esperado ($\beta = +2{,}76$, com $R^2$
+\emph{within} de $0{,}43$), e esse número \textbf{não é evidência de coisa
+alguma}: é a identidade se reapresentando.
+
+Acrescentar um termo quadrático no estoque não muda nada --- ele sai nulo
+($p = 0{,}92$) ---, o que diz que a relação é a linha reta que a identidade
+prevê, sem curvatura própria. É uma afirmação sobre o \emph{estoque}, e não
+sobre o comportamento da taxa.
+
+\begin{nabanca}[Dizer isto antes de a banca dizer]
+``A primeira regressão não é um resultado meu. Ela é uma identidade contábil se
+reapresentando, e eu a reporto justamente para não deixar que ela passe por
+achado. O conteúdo empírico está na segunda.''
+\end{nabanca}
+
+\section{O conteúdo empírico: a taxa cai com o esgotamento}
+
+Aqui as equações \emph{não} entram em primeira diferença, e essa é uma das
+três exceções à D7. A razão é que o que se mede é o que acontece a uma unidade
+\textbf{enquanto ela se esgota}, e diferenciar apagaria justamente esse nível. A
+tendência é retirada por efeitos fixos de unidade e de ano.
+
+\begin{ancora}[O resultado, e o que o sustenta]
+Numa grade de \textbf{dezesseis} combinações (quatro tratamentos da variável de
+esgotamento, com e sem ponderação pelo tamanho do estoque, em duas amostras), o
+coeficiente é \textbf{negativo nas dezesseis} e cruza o corte de 5\% em
+\textbf{onze}. \\[4pt]
+Nas combinações que põem a variável dentro do domínio, os tratamentos convergem
+para \textbf{0,5 a 0,8 ponto percentual de taxa anual a menos a cada dez pontos
+de esgotamento}. \\[4pt]
+A fração da variação explicada dentro das unidades, nula na especificação
+original, passa a situar-se entre \textbf{4\% e 20\%}.
+\end{ancora}
+
+\section{A decisão D29, e por que o nulo anterior era artefato}
+
+O nulo publicado antes dizia que a taxa \emph{não} cairia com o esgotamento.
+Ele era artefato, e a causa é instrutiva.
+
+A variável de esgotamento é uma fração do estoque de 1985 e deveria viver entre
+zero e um. No painel ela alcançava $\mathbf{-84{,}9}$, em \textbf{14\%} dos
+pares unidade-ano --- vindos de unidades cujo estoque inicial era próximo de
+zero e cujo estoque \emph{cresceu} ao longo da série por oscilação de
+classificador.
+
+Padronizada, a variável passou a ser dominada por esses poucos valores, e o
+coeficiente foi achatado contra zero. A razão é aritmética: o escore $z$ divide
+pelo desvio-padrão, e um único valor oitenta vezes fora de escala redefine a
+unidade de medida de toda a coluna.
+
+\begin{quote}\itshape\color{cortinta}
+Um z-score não é robusto a nada.
+\end{quote}
+
+\subsection{As três regras que a D29 fixa, e que valem além deste caso}
+
+\begin{enumerate}
+\item \textbf{Toda variável com domínio declarado é verificada contra ele antes
+de entrar padronizada.}
+\item \textbf{Onde há tratamento possível, o resultado reportado é o que
+concorda entre os tratamentos}, e não o de um deles. A correção foi aceita
+porque as dezesseis combinações devolvem o mesmo sinal, e não porque a régua
+nova fosse mais conveniente que a antiga.
+\item \textbf{A verificação de um resultado herda a régua de inferência do teste
+verificado.} Trocá-la por uma régua mais frouxa no meio da conferência
+produziria uma robustez que é da régua, e não do dado.
+\end{enumerate}
+
+\begin{armadilha}[A comparação entre tratamentos exige unidade natural]
+O desvio-padrão da variável tratada varia \textbf{dezessete vezes} de um
+tratamento a outro (de $0{,}21$ no domínio a $3{,}54$ sem tratamento). Portanto
+os coeficientes \emph{padronizados} \textbf{não são comparáveis entre si}. É o
+coeficiente em unidade natural --- pontos percentuais de taxa por décimo de
+esgotamento --- que autoriza dizer que concordam.
+\end{armadilha}
+
+\section{As três ressalvas que a concordância não dissolve}
+
+\begin{enumerate}
+\item O tratamento por \textbf{domínio}, o mais limpo conceitualmente, descarta
+\textbf{46 unidades}, e elas detêm \textbf{17,3\% do estoque convertível de
+2024}. Para a regressão a exclusão é correta, porque nessas unidades o
+esgotamento é \emph{indefinido}, e não extremo; para quem for somar hectares,
+não é inócua.
+\item O tratamento alternativo, o \textbf{piso em zero}, evita o descarte ao
+custo de criar um acúmulo artificial de observações exatamente em zero. Os dois
+têm defeitos \emph{diferentes} e chegam ao mesmo lugar, e é essa a razão de a
+leitura descansar na concordância.
+\item Nenhum dos quatro conserta a \emph{causa} de as 46 existirem, que é a
+oscilação do classificador entre pastagem e savana.
+\end{enumerate}
+
+\section{Multiplicidade: por que as dezesseis não recebem correção}
+
+\begin{nabanca}
+``As dezesseis células são dezesseis leituras da \emph{mesma} hipótese,
+pré-declarada antes da estimação, e não uma família de hipóteses distintas. O
+controle de falsas descobertas incide sobre grades exploratórias, que perguntam
+coisas diferentes; aplicá-lo a uma grade de robustez, que pergunta a mesma coisa
+de quatro maneiras, puniria a checagem em vez da pescaria.''
+\end{nabanca}
+
+\section{A decomposição entre estoque e taxa, e a leitura que a inverte}
+
+A mudança do fluxo entre dois atos separa-se aritmeticamente em duas parcelas:
+quanto vem de \emph{haver menos Cerrado a converter} e quanto vem de
+\emph{converter a uma taxa diferente} o Cerrado que ainda há.
+
+\begin{ancora}[O resultado, e a armadilha embutida]
+A parcela de estoque é negativa nas três regiões. \\
+No Sul, apenas \textbf{17\%} da freada é, mecanicamente, ter menos Cerrado. Os
+outros \textbf{83\%} estão na \emph{parcela residual}.
+\end{ancora}
+
+\begin{armadilha}[A leitura descuidada diz o contrário do que a evidência sustenta]
+A parcela residual \textbf{não é demanda}. Ela reúne tudo o que não é o tamanho
+do estoque: propensão a converter, atrito de acesso, proteção, e a troca de
+fonte de terra. Se o argumento de oferta dependesse do tamanho da parcela de
+estoque, ele seria fraco, e ele não depende.
+\end{armadilha}
+
+\section{Por que o argumento se monta por eliminação, e não pela decomposição}
+
+O argumento tem três pernas, e nenhuma delas é o tamanho da parcela de estoque:
+
+\begin{enumerate}
+\item \textbf{Não é falta de comprador.} A taxa do Sul caiu enquanto a demanda
+estava no pico.
+\item \textbf{Não é a lei.} A proteção integral não estava no caminho (ver
+adiante).
+\item \textbf{A demanda de terra do Sul continuou existindo e foi atendida por
+pasto já aberto.}
+\end{enumerate}
+
+A isso se soma a regularidade medida --- a taxa caindo com o esgotamento --- e
+uma segunda medida independente, a de que o remanescente do Sul é hoje, em três
+quintos, a fisionomia que a fronteira não consome.
+
+\section{O sinal do viés, que corre a favor da leitura}
+
+Detalhe fino e forte. Taxa e esgotamento compartilham o estoque anterior --- no
+denominador de uma, no numerador com sinal trocado da outra --- e esse
+acoplamento empurra o coeficiente para \textbf{cima}.
+
+\begin{quote}\itshape\color{cortinta}
+Achar sinal negativo é achar \emph{contra} a montagem, e não a favor dela.
+\end{quote}
+
+\begin{naodiz}
+O que a grade mede é que, quando uma unidade se esgota, \textbf{caem as duas
+coisas ao mesmo tempo}: o estoque que resta e a taxa com que ele é convertido.
+Isso é uma \emph{regularidade compatível com atrito de oferta}, e não a
+demonstração de que a dificuldade do remanescente seja a \emph{causa} da queda
+--- esgotamento e taxa são construídas a partir do mesmo estoque, e os efeitos
+fixos reduzem o confundimento sem transformar uma relação dinâmica em mecanismo
+identificado.
+\end{naodiz}
+
+\chapter{Multiplicidade e poder}
+\label{cap:multiplicidade}
+
+\section{O problema, em uma frase}
+
+Com corte de 5\%, cerca de cinco em cada cem testes aparecem significativos por
+acaso. Algumas grades deste trabalho passam de uma centena de testes.
+
+\section{Benjamini-Hochberg: controle da taxa de falsas descobertas}
+
+O procedimento ordena os $m$ p-valores em ordem crescente,
+$p_{(1)} \leq \dots \leq p_{(m)}$, e encontra o maior $k$ tal que
+\begin{equation}
+p_{(k)} \leq \frac{k}{m}\, q ,
+\end{equation}
+rejeitando as $k$ hipóteses correspondentes. O parâmetro $q$ é a fração de
+falsos positivos que se aceita \emph{entre as descobertas}.
+
+A diferença em relação a Bonferroni vale ser dita: Bonferroni controla a
+probabilidade de \emph{qualquer} falso positivo e é muito conservador; o FDR
+controla a \emph{proporção} de falsos entre os rejeitados, e é o adequado para
+grades exploratórias.
+
+\begin{quote}\itshape\color{cortinta}
+O tamanho da família altera o veredito. Um resultado que sobrevive numa grade
+pequena pode não sobreviver quando ela é ampliada, e por isso o trabalho
+declara explicitamente quantos testes compõem a família em cada caso.
+\end{quote}
+
+É exatamente o que acontece com o \emph{drive} comum: sobrevive numa família de
+96, não sobrevive numa de 144.
+
+\section{Poder estatístico, e por que declará-lo é obrigatório num nulo}
+
+O poder é a probabilidade de detectar um efeito \emph{que existe}, dado o
+tamanho da amostra e o tamanho do efeito. Um teste com poder baixo que não
+rejeita não informou quase nada.
+
+\begin{ancora}[Os poderes declarados neste trabalho]
+Teste temporal do empurrão, com 38 diferenças anuais: descarta um empurrão
+\textbf{forte} com poder aproximado de \textbf{93\%}; não descarta um
+\textbf{moderado}, com poder aproximado de \textbf{48\%}. \\[4pt]
+Quarto período candidato (2001--2005 contra 2006--2019): $p = 0{,}060$, com
+poder de \textbf{0,63} para as quatro observações disponíveis.
+\end{ancora}
+
+\begin{nabanca}
+``Sozinho, o teste temporal não fecharia a questão --- ele tem poder de 48\%
+contra um empurrão moderado. Somado às doze especificações espaciais, que dão
+todas o sinal contrário ao exigido, ele completa o quadro. É a convergência de
+duas assinaturas independentes que sustenta o nulo, e não o p-valor de nenhuma
+delas.''
+\end{nabanca}
+
+\chapter{A conta de carbono}
+\label{cap:carbono}
+
+\section{A aritmética}
+
+A conta inteira é área medida multiplicada por densidade de tabela:
+\begin{equation}
+\text{estoque removido} = \sum_{f} A_f \times \rho_f ,
+\end{equation}
+onde $A_f$ é a área convertida da formação $f$ e $\rho_f$ a densidade de carbono
+daquela formação. A conversão para CO\textsubscript{2} equivalente usa o fator
+estequiométrico $44/12$ (a razão entre as massas moleculares do CO$_2$ e do
+carbono).
+
+\section{As duas grandezas, que a decisão D31 obriga a distinguir}
+
+\textbf{Estoque removido} é a soma acima: o carbono que estava na cobertura de
+origem.
+
+\textbf{Emissão líquida} é o método de diferença de estoque do IPCC em seu nível
+mais simples: a diferença entre o estoque \emph{antes} e o estoque
+\emph{depois}, porque a pastagem e a lavoura que entram no lugar não estocam
+carbono nenhum apenas em teoria.
+\begin{equation}
+\text{emissão líquida} = \sum_f A_f \times (\rho_f - \rho_{\text{destino}}).
+\end{equation}
+
+\begin{ancora}[Os números]
+Estoque removido: \textbf{973 Mt} de CO\textsubscript{2}e. \\
+Emissão líquida: \textbf{833 Mt} --- o desconto retira \textbf{14,4\%}. \\
+Densidade de destino: \textbf{6,63 tC/ha}, vinda da composição observada do
+fluxo (64,1\% pastagem, 32,9\% Mosaico, 2,7\% agricultura, 0,3\% urbana). \\
+Convenção alternativa (todo o Mosaico como pastagem): densidade 7,48, desconto
+16,2\%, total 815 Mt --- \emph{sensibilidade a uma convenção declarada}, e não
+incerteza da fonte.
+\end{ancora}
+
+\section{As densidades, e por que a procedência importa (decisão D30)}
+
+Os estoques vêm do \textbf{Quarto Inventário Nacional}, que é a régua com que o
+país reporta à Convenção do Clima. Três propriedades justificam a escolha: são
+publicados por \emph{fitofisionomia}, e não por categoria genérica; no Cerrado
+são \emph{diferenciados por estado}, e Goiás tem valor próprio; e a agregação
+nas classes de cobertura usadas aqui já está feita e publicada, de modo que
+nenhuma correspondência precisou ser arbitrada.
+
+\vspace{6pt}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+\textbf{Formação} & \textbf{tC/ha} & \textbf{Área perdida (Mha)} \\
+\midrule
+Formação florestal (galeria e cerradão) & 64,72 & 1,43 \\
+Formação savânica (Cerrado \emph{sensu stricto}) & 41,32 & 3,79 \\
+Formação campestre & 24,94 & 0,33 \\
+Campo alagado e área pantanosa & 36,21 & 0,22 \\
+\bottomrule
+\end{tabular}
+
+\vspace{10pt}
+\subsection{A lição de método que veio junto, e que vale para toda a dissertação}
+
+Este é um dos pontos mais elegantes do trabalho, e ele generaliza.
+
+Sob a régua anterior, a afirmação era que a formação florestal emitia mais que a
+savânica, apesar de perder menos área. Essa afirmação \textbf{não dependia das
+seis densidades}: dependia de \emph{uma razão} entre duas delas superar
+\textbf{2,64} --- a razão entre as áreas perdidas. A régua antiga entregava
+2,88, com nove por cento de folga. E os três cenários de sensibilidade moviam as
+duas densidades \emph{juntas}, mantendo a razão entre 2,88 e 3,00.
+
+\begin{quote}\itshape\color{cortinta}
+Eles testavam o nível e eram, por construção, incapazes de testar a composição.
+\end{quote}
+
+Sob a régua oficial a razão é \textbf{1,57}, e a afirmação cai.
+
+\begin{nabanca}[A regra geral]
+``Quando uma conclusão depende de uma razão entre parâmetros, é a \emph{razão}
+que precisa entrar na análise de sensibilidade, e não cada parâmetro
+isoladamente. Uma sensibilidade que move os parâmetros na mesma direção não é
+sensibilidade nenhuma para a afirmação que depende do contraste entre eles.''
+\end{nabanca}
+
+\section{A corroboração externa que a troca revelou}
+
+Vale notar que o \textbf{total praticamente não se moveu}: 973 Mt sob as duas
+réguas. Isso é corroboração externa da magnitude por uma fonte independente. O
+que se inverteu foi a \emph{composição}.
+
+\section{O escopo, e os dois limites que vão em direções opostas}
+
+\textbf{Mais completo que o usual:} o Inventário soma quatro compartimentos ---
+biomassa acima do solo, biomassa subterrânea, madeira morta e serrapilheira. No
+Cerrado a razão raiz/parte aérea é alta, e a fração subterrânea responde por
+quase três quintos do estoque da savana.
+
+\textbf{Menos completo:} o \textbf{carbono do solo continua de fora}, e no
+Cerrado ele é parcela grande do total.
+
+\begin{naodiz}
+Contada só a biomassa, a conta cairia para algo entre \textbf{82 e 92\%} do
+valor, conforme a formação. É uma faixa de \textbf{escopo, não de incerteza}:
+ela diz o que foi contado, e não com que precisão. \\[4pt]
+Fora da conta ficam também a dinâmica temporal da liberação, os gases que não
+são CO\textsubscript{2}, a queima, os produtos madeireiros e a heterogeneidade
+de manejo. \textbf{Nenhuma dessas omissões tem sinal garantido}: no Cerrado o
+solo sob pastagem bem conduzida pode perder, manter ou ganhar carbono em relação
+à vegetação que havia ali. \\[4pt]
+Por isso o número \textbf{não é declarado piso nem teto} do passivo. É o que foi
+contado, nos compartimentos nomeados.
+\end{naodiz}
+
+\section{As duas aproximações declaradas}
+
+\begin{enumerate}
+\item A composição do destino é \textbf{estadual e média}: ela não pareia cada
+hectare de floresta, savana ou campo ao destino \emph{daquele} hectare, e sim
+aplica a mesma densidade média às três formações e aos três atos. Fazer o
+pareamento exigiria a matriz de transição resolvida por formação de origem, que
+o cubo de sete grupos não separa.
+\item O desconto incide sobre o saldo \textbf{líquido} entre as pontas da série,
+e não sobre cada conversão datada.
+\end{enumerate}
+
+\section{As três verificações que acompanham o desconto}
+
+Porque um desconto quase uniforme por hectare poderia deslocar comparações:
+
+\begin{itemize}
+\item a repartição entre os atos \textbf{não se move} (o Ato~I passa de 76,4\%
+para 77,0\%);
+\item o ordenamento entre formações \textbf{não se inverte} (a razão savânica
+sobre florestal vai de 1,69 para 1,58);
+\item a comparação por hectare, que é a afirmação substantiva,
+\textbf{fortalece-se}: descontar um mesmo valor de dois estoques desiguais
+aumenta a razão entre eles, de 1,57 para 1,69.
+\end{itemize}
