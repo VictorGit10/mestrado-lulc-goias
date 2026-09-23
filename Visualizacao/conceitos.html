@@ -1,0 +1,2207 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Caderno de conceitos — Goiás 1985–2024</title>
+
+  <meta name="description" content="Cada conceito, método, ferramenta e referência teórica da dissertação sobre uso da terra em Goiás (1985–2024), explicado com um exemplo simples, um exemplo com os dados do próprio trabalho e uma peça interativa para mexer.">
+  <meta property="og:title" content="Caderno de conceitos · Goiás 1985–2024">
+  <meta property="og:description" content="Do pixel do MapBiomas ao Toda-Yamamoto, de von Thünen a Richards: o ferramental da dissertação explicado por dentro, com os dados reais.">
+  <meta property="og:type" content="website">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23fafaf7'/%3E%3Crect x='14' y='14' width='16' height='16' fill='%232d5a3d'/%3E%3Crect x='34' y='14' width='16' height='16' fill='%23d4b65a'/%3E%3Crect x='14' y='34' width='16' height='16' fill='%23d96aa3'/%3E%3Crect x='34' y='34' width='16' height='16' fill='%238b3a1d'/%3E%3C/svg%3E">
+
+  <link rel="stylesheet" href="assets/css/styles.css?v=5">
+  <link rel="stylesheet" href="assets/css/conceitos.css?v=5">
+</head>
+
+<body class="cx-page" id="top">
+
+<header class="cx-topo">
+  <div class="cx-topo-in">
+    <a href="index.html">← Voltar à visualização principal</a>
+    <span class="cx-badge">Caderno de conceitos</span>
+  </div>
+  <div class="cx-progresso" aria-hidden="true"></div>
+</header>
+
+<div class="cx-casca">
+
+  <nav class="cx-sumario" aria-label="Sumário do caderno">
+    <details open id="cx-sum-det">
+      <summary>Sumário</summary>
+      <ol>
+        <li><a class="cx-sum-parte" href="#parte-1">1 · O dado</a>
+          <ol>
+            <li><a href="#sr">1.1 Sensoriamento remoto e classificação</a></li>
+            <li><a href="#cubo">1.2 Pixel e cubo de dados</a></li>
+            <li><a href="#mosaico">1.3 Classe, grupo e o Mosaico</a></li>
+            <li><a href="#fluxo">1.4 Estoque × fluxo</a></li>
+            <li><a href="#censura">1.5 Censura</a></li>
+            <li><a href="#censo">1.6 Censo, amostra e peso</a></li>
+            <li><a href="#amc">1.7 Áreas Mínimas Comparáveis</a></li>
+            <li><a href="#proj">1.8 Projeção cartográfica</a></li>
+            <li><a href="#fontes">1.9 Fontes e janelas</a></li>
+            <li><a href="#defl">1.10 Deflação e moeda</a></li>
+            <li><a href="#pipe">1.11 Rotinas reprodutíveis</a></li>
+          </ol></li>
+        <li><a class="cx-sum-parte" href="#parte-2">2 · Descrever</a>
+          <ol>
+            <li><a href="#cm">2.1 Centro de massa</a></li>
+            <li><a href="#gmm">2.2 Idade do pasto e mistura</a></li>
+            <li><a href="#hazard">2.3 Hazard e decomposição</a></li>
+            <li><a href="#reguas">2.4 Réguas de tempo</a></li>
+            <li><a href="#quebra">2.5 Quebra estrutural</a></li>
+          </ol></li>
+        <li><a class="cx-sum-parte" href="#parte-3">3 · Gramática estatística</a>
+          <ol>
+            <li><a href="#corr">3.1 Correlação e confundidor</a></li>
+            <li><a href="#dif">3.2 Primeira diferença</a></li>
+            <li><a href="#beta">3.3 Regressão e β</a></li>
+            <li><a href="#r2">3.4 R²</a></li>
+            <li><a href="#fe">3.5 Efeitos fixos</a></li>
+            <li><a href="#hac">3.6 Erro-padrão HAC</a></li>
+            <li><a href="#moran">3.7 Autocorrelação espacial</a></li>
+          </ol></li>
+        <li><a class="cx-sum-parte" href="#parte-4">4 · Inferência</a>
+          <ol>
+            <li><a href="#pval">4.1 p-valor e poder</a></li>
+            <li><a href="#granger">4.2 Granger</a></li>
+            <li><a href="#ty">4.3 Estacionariedade e Toda-Yamamoto</a></li>
+            <li><a href="#did">4.4 Diferença-em-diferenças</a></li>
+            <li><a href="#fdr">4.5 Multiplicidade e FDR</a></li>
+            <li><a href="#boot">4.6 Bootstrap</a></li>
+            <li><a href="#perm">4.7 Permutação e placebo</a></li>
+            <li><a href="#jack">4.8 Jackknife</a></li>
+            <li><a href="#bic">4.9 BIC com n gigante</a></li>
+            <li><a href="#ss">4.10 Shift-share</a></li>
+          </ol></li>
+        <li><a class="cx-sum-parte" href="#parte-5">5 · Réguas de honestidade</a>
+          <ol>
+            <li><a href="#bracket">5.1 Bracket e âncora</a></li>
+            <li><a href="#dominio">5.2 Domínio da variável</a></li>
+            <li><a href="#horse">5.3 Horse race</a></li>
+            <li><a href="#maup">5.4 MAUP</a></li>
+            <li><a href="#iv">5.5 Instrumento × placebo</a></li>
+            <li><a href="#osc">5.6 Oscilação do classificador</a></li>
+          </ol></li>
+        <li><a class="cx-sum-parte" href="#parte-6">6 · Literatura</a>
+          <ol>
+            <li><a href="#renda">6.1 Renda da terra</a></li>
+            <li><a href="#transicao">6.2 Transição florestal</a></li>
+            <li><a href="#iluc">6.3 Deslocamento indireto</a></li>
+            <li><a href="#cambio">6.4 Câmbio</a></li>
+            <li><a href="#cohn">6.5 Intensificação e disputa por terra</a></li>
+            <li><a href="#cerrado">6.6 A fronteira do Cerrado</a></li>
+            <li><a href="#martins">6.7 Frente de expansão e frente pioneira</a></li>
+          </ol></li>
+        <li><a class="cx-sum-parte" href="#parte-7">7 · Os conceitos do argumento</a>
+          <ol>
+            <li><a href="#drive">7.1 Motor comum × empurrão</a></li>
+            <li><a href="#gradiente">7.2 Gradiente Sul→Norte</a></li>
+            <li><a href="#teto">7.3 Teto de oferta</a></li>
+            <li><a href="#carbono">7.4 Carbono removido e emitido</a></li>
+          </ol></li>
+      </ol>
+    </details>
+  </nav>
+
+  <main class="cx-conteudo">
+
+    <header class="cx-hero">
+      <div class="cx-kicker">Anexo da visualização · caderno de conceitos</div>
+      <h1>O ferramental do trabalho, por dentro</h1>
+      <p>
+        Esta página percorre cada conceito, método, ferramenta e referência teórica que a dissertação
+        usa para ler quarenta anos de uso da terra em Goiás. São 50 verbetes, na ordem em que o
+        trabalho precisa deles: primeiro o dado, depois a descrição, a gramática estatística, a
+        inferência, as réguas que separam achado de artefato, a literatura e, por fim, os conceitos
+        com que o argumento é montado.
+      </p>
+      <p>
+        Cada verbete tem cinco partes, sempre na mesma ordem.
+      </p>
+      <div class="cx-como">
+        <div><b>A ideia</b>O que o conceito faz, em linguagem comum.</div>
+        <div><b>Exemplo simples</b>Uma miniatura com números redondos, sem jargão.</div>
+        <div><b>Com os seus dados</b>O mesmo mecanismo no trabalho, com o número que saiu do pipeline.</div>
+        <div><b>Laboratório</b>Uma peça para mexer. Quase todas alternam a miniatura e o dado real.</div>
+        <div><b>O que não diz</b>O limite do conceito, que é onde nasce o erro de leitura.</div>
+      </div>
+      <p class="cx-ref" style="margin-top:1rem">
+        Nas peças marcadas com <em>dado real</em>, os números vêm dos arquivos que os pipelines gravaram
+        (MapBiomas Coleção 10.1, IBGE/SIDRA, Ipeadata, Embrapa), e as contas didáticas são refeitas no
+        navegador. Quando uma conta refeita aqui é mais simples que a do trabalho, a peça diz isso e
+        mostra o valor oficial ao lado.
+      </p>
+    </header>
+
+<!-- =====================================================================
+     PARTE 1 — O DADO
+     ===================================================================== -->
+    <section class="cx-parte" id="parte-1">
+      <div class="cx-parte-num">Parte 1</div>
+      <h2>O dado: da imagem de satélite à tabela</h2>
+      <p>
+        Antes de qualquer método há uma cadeia de decisões sobre o que se mede, em que unidade e com
+        que régua. Quase todos os erros que o trabalho encontrou e corrigiu nasceram aqui, e não na
+        estatística.
+      </p>
+    </section>
+
+    <article class="cx-verbete" id="sr">
+      <div class="cx-vcab"><span class="cx-cod">1.1</span><h3>Sensoriamento remoto e classificação</h3><span class="cx-fonte-tag">MapBiomas, Coleção 10.1</span></div>
+      <p class="cx-umafrase">O satélite não vê "pasto" nem "soja". Vê quanta luz cada pedaço do chão reflete, e um classificador transforma essa luz num rótulo.</p>
+      <div class="cx-ideia">
+        <p>
+          Um sensor como o do Landsat registra, para cada quadrado de 30 × 30 metros, a quantidade de
+          luz refletida em várias faixas do espectro: azul, verde, vermelho, infravermelho próximo e
+          outras. Planta viva absorve vermelho e reflete muito infravermelho; solo exposto reflete os
+          dois de modo parecido; água absorve quase tudo. Essas diferenças são a matéria-prima.
+          Um algoritmo treinado com exemplos rotulados (no MapBiomas, florestas de decisão aplicadas
+          a mosaicos anuais) aprende a separar essas "assinaturas" e devolve, para cada pixel e cada
+          ano, uma classe.
+        </p>
+        <p>
+          O ponto decisivo é que a classe é uma <em>inferência</em>. Onde duas coberturas refletem
+          luz parecida, como pasto sujo e savana rala, o classificador erra, hesita ou alterna de um
+          ano para o outro. Quem usa o mapa herda essa hesitação.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            Separar maçãs verdes de limões numa foto tirada de longe, olhando só para a cor. A maioria
+            sai certa. As maçãs amareladas e os limões muito verdes ficam na fronteira, e ali qualquer
+            regra erra. Um classificador honesto cria uma terceira caixa, "não sei dizer", em vez de
+            forçar a decisão.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            O MapBiomas 10.1 classifica Goiás inteiro, todo ano, de 1985 a 2024. Em 1985 a vegetação
+            natural cobria cerca de 17,0 milhões de hectares e a pastagem 11,0; em 2024, 11,4 e 12,0,
+            com a agricultura saindo de 1,2 para 5,7 milhões. A "terceira caixa" existe: é o
+            <em>Mosaico de Usos</em>, onde o classificador admite não separar lavoura de pasto
+            (verbete 1.3). O PRODES/INPE entra como aferição externa das séries de supressão, e não
+            como insumo.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="sr" data-titulo="Um classificador de brinquedo e o mapa de verdade" data-origem="modo dados: dado real">
+        <figcaption class="cx-lab-dica">No modo simples, mova o limiar e a largura da zona de dúvida: veja quais pixels mudam de classe e quais caem em "não sei". No modo dados, passe o mouse sobre a área empilhada para ler a composição de Goiás em cada ano.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>Um pixel classificado como pastagem não informa lotação, manejo, dono nem intenção. E a exatidão do mapa varia por classe e por região: é mais alta nas coberturas que refletem luz muito diferente das vizinhas, mais baixa nas bordas entre classes parecidas.</aside>
+    </article>
+
+    <article class="cx-verbete" id="cubo">
+      <div class="cx-vcab"><span class="cx-cod">1.2</span><h3>Pixel e cubo de dados</h3><span class="cx-fonte-tag">#28 · #12B</span></div>
+      <p class="cx-umafrase">Empilhe o mapa de cada ano, um sobre o outro: o resultado é um cubo, e toda pergunta do trabalho é uma conta feita sobre ele.</p>
+      <div class="cx-ideia">
+        <p>
+          Um mapa anual é uma grade de pixels. Quarenta mapas empilhados formam um cubo com duas
+          dimensões de espaço (linha e coluna) e uma de tempo (o ano). Cada tipo de pergunta corta o
+          cubo de um jeito. Uma <em>fatia horizontal</em> é o mapa de um ano, e serve para medir
+          estoques ("quanta pastagem havia em 2010"). Uma <em>coluna vertical</em> é a história de um
+          único pixel, e serve para medir trajetórias ("quando este pixel virou pasto e por quanto
+          tempo ficou pasto"). Comparar duas fatias pixel a pixel dá a matriz de transição (verbete
+          1.4).
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            Um tabuleiro de 3 × 3 casas, fotografado todo ano durante cinco anos. As cinco fotos
+            empilhadas são o cubo. "Quantas casas eram pasto no ano 3" é uma fatia. "Em que ano a
+            casa do meio deixou de ser mata" é uma coluna.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            Pixels de 30 m (0,09 ha) cobrindo Goiás, da ordem de 380 milhões de células, cada uma
+            fotografada 40 vezes. O cubo de transições do estado cabe comprimido em 0,8 GB e roda num
+            computador pessoal. Só a idade da pastagem (#28) registra <strong>44.639.028</strong>
+            eventos de conversão, lidos coluna a coluna.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="cubo" data-titulo="O cubo em três dimensões" data-origem="cubo ilustrativo">
+        <figcaption class="cx-lab-dica">Arraste para girar o cubo. O controle de ano sobe a fatia; clique numa coluna do mapa plano à direita para ver a trajetória daquele pixel ao longo dos anos. O cubo é ilustrativo (16 × 16 pixels), construído com um gradiente Sul→Norte parecido com o de Goiás.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>Um pixel não é um lote, um produtor ou uma decisão. A menor decisão de uso da terra cobre muitos pixels, e o cubo registra o resultado das decisões, não quem as tomou nem por quê.</aside>
+    </article>
+
+    <article class="cx-verbete" id="mosaico">
+      <div class="cx-vcab"><span class="cx-cod">1.3</span><h3>Classe, grupo e o Mosaico de Usos</h3><span class="cx-fonte-tag">#12B · #28D · D22 · D25–D26</span></div>
+      <p class="cx-umafrase">Dezenas de classes viram poucos grupos de trabalho. A classe que registra a dúvida do classificador não pode ser somada a nenhum deles sem cuidado.</p>
+      <div class="cx-ideia">
+        <p>
+          O MapBiomas tem dezenas de classes (formação florestal, formação savânica, campo, pastagem,
+          soja, cana, outras lavouras temporárias, e assim por diante). Para responder perguntas de
+          uso da terra, o trabalho as dobra em grupos: vegetação natural (com as formações florestal,
+          savânica e campestre), pastagem, agricultura, água, área urbana, outros. A dobra é uma
+          decisão, e cada decisão tem um contrato.
+        </p>
+        <p>
+          A classe 21, <em>Mosaico de Usos</em>, é o caso delicado. Ela existe para os pixels em que o
+          classificador vê uso agropecuário mas não consegue dizer se é lavoura ou pasto. Não é um uso
+          da terra: é uma incerteza com nome de classe.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            Numa festa, cada convidado ganha uma etiqueta: "dança", "bar" ou "mesa". De longe, o
+            observador às vezes não enxerga e escreve "não sei". Somar os "não sei" ao "bar" seria
+            importar a dúvida do observador para dentro da estatística da festa. Jogá-los fora seria
+            pior: a festa encolheria.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            O pipeline original de transições nem mapeava a classe 21: em torno de um décimo do estado
+            sumia do numerador e do denominador todo ano. Corrigido no #12B, o Mosaico virou o sétimo
+            grupo. Depois o #28D mostrou que o destino da pastagem convertida migra para o Mosaico no
+            fim da série: a razão Mosaico/agricultura entre os destinos vai de 0,6 em 2015 a
+            <strong>32,5</strong> em 2024, enquanto a soja do IBGE cresce 38%. Daí a régua dupla da
+            D26 (verbete 5.1).
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="mosaico" data-titulo="Onde colocar o Mosaico?" data-origem="dado real">
+        <figcaption class="cx-lab-dica">Escolha uma convenção para o Mosaico e veja como mudam as parcelas de pastagem e de lavoura no estado. "Esquecer a classe" reproduz o defeito do pipeline original: a área classificada encolhe.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>A etiqueta não é o chão. Uma classe pode mudar de significado ao longo da série sem que o território mude, e ler qualquer série de classe sem conferir o contrato do grupo é o caminho mais curto para o erro.</aside>
+    </article>
+
+    <article class="cx-verbete" id="fluxo">
+      <div class="cx-vcab"><span class="cx-cod">1.4</span><h3>Estoque × fluxo: a matriz de transição</h3><span class="cx-fonte-tag">#12 · #12B · #19 · #33</span></div>
+      <p class="cx-umafrase">Estoque é a fotografia; fluxo é o filme. Só o filme diz quem virou o quê.</p>
+      <div class="cx-ideia">
+        <p>
+          O <em>estoque</em> é quanto existe de cada classe num instante. O <em>fluxo</em> é quanto
+          passou de uma classe para outra entre dois instantes. A diferença de estoques mostra só o
+          saldo, e saldos escondem movimentos opostos que se cancelam. A matriz de transição, montada
+          comparando pixel a pixel duas fatias do cubo, mostra o fluxo bruto em cada direção.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            Uma caixa-d'água. O nível é o estoque; torneira e ralo, por ano, são os fluxos. Duas caixas
+            com o mesmo nível podem estar em situações opostas: uma com a torneira aberta e o ralo
+            fechado, outra perdendo água por um ralo largo que a torneira mal compensa.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            A matriz mostra a transição dominante do trabalho, vegetação natural → pastagem, e
+            mostra também que parte do fluxo reverso é oscilação (verbete 5.6). No Ato I, a
+            vegetação natural perde <strong>3,47 Mha</strong> brutos para pastagem, mas o saldo
+            líquido dessa troca é <strong>2,77 Mha</strong>: a diferença é o fluxo no sentido
+            contrário, que o saldo apaga.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="fluxo" data-titulo="Duas caixas-d'água e os fluxos de verdade" data-origem="modo dados: dado real">
+        <figcaption class="cx-lab-dica">No modo simples, abra a torneira e o ralo de cada caixa e veja o nível. No modo dados, escolha um ato e uma transição para comparar o fluxo bruto com o saldo líquido.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>A matriz diz quem virou o quê e quando, nunca por quê. E fluxo bruto não é mudança líquida: entradas e saídas que oscilam se cancelam no saldo.</aside>
+    </article>
+
+    <article class="cx-verbete" id="censura">
+      <div class="cx-vcab"><span class="cx-cod">1.5</span><h3>Censura: o horizonte de observação</h3><span class="cx-fonte-tag">#28 · D21–D22</span></div>
+      <p class="cx-umafrase">Quando a série começa depois do fenômeno, parte das idades é incognoscível, e essa parte é maior onde o fenômeno é mais antigo.</p>
+      <div class="cx-ideia">
+        <p>
+          A idade de uma pastagem é o tempo desde a conversão que a criou. Mas a série começa em
+          1985: uma pastagem que já existia nesse ano tem idade desconhecida, só se sabe que é
+          <em>pelo menos</em> a distância até 1985. Isso é censura à esquerda. O dado censurado não é
+          falta de dado; é um limite inferior. Tratá-lo como se fosse a idade verdadeira puxa tudo
+          para baixo.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            Você quer a idade média ao casar, mas os registros começam em 2000. Todo casamento
+            anterior fica sem data. Se numa cidade as pessoas casaram mais cedo, sobram menos
+            casamentos observáveis lá. Comparar as médias das duas cidades sem comparar as censuras é
+            comparar o que o registro não sabe.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            No censo do #28, <strong>63,7%</strong> dos eventos de conversão são censurados. A
+            censura é maior no Sul (70,9%) que no Norte (41,9%), porque o Sul converteu antes de
+            1985. Com os censurados dentro, o Centro aparece como a terceira região mais velha
+            (mediana de 19 anos); sem eles, empata com a mais jovem (9 anos).
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="censura" data-titulo="Uma janela de observação que corta a história" data-origem="miniatura">
+        <figcaption class="cx-lab-dica">Cada barra é uma pastagem, do ano em que nasceu até 2024. Mova o início da série e veja quantas ficam censuradas em cada região, e como a mediana "com censurados" se afasta da verdadeira.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>Censurado não é inexistente. E quando dois grupos têm censuras diferentes, qualquer comparação de média ou mediana entre eles pode estar medindo o horizonte, não o fenômeno.</aside>
+    </article>
+
+    <article class="cx-verbete" id="censo">
+      <div class="cx-vcab"><span class="cx-cod">1.6</span><h3>Censo, amostra e o peso de cada ano</h3><span class="cx-fonte-tag">#28 · D21–D24</span></div>
+      <p class="cx-umafrase">O censo acaba com o erro de sorteio, não com o erro de peso.</p>
+      <div class="cx-ideia">
+        <p>
+          Uma amostra sorteia parte da população e aceita um erro de sorteio, que diminui com o
+          tamanho da amostra. Um censo mede todos. Mas há um terceiro erro, independente dos dois:
+          quando se juntam subamostras de grupos de tamanhos diferentes, cada grupo precisa pesar na
+          proporção do seu tamanho. Sortear o mesmo número por grupo e depois somar faz um grupo
+          pequeno pesar tanto quanto um grande.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            Duas turmas: uma de 60 alunos, outra de 10. Você mede 3 alunos de cada e tira a média
+            dos 6. A turma de 10 passou a valer metade da escola. O sorteio pode ter sido perfeito;
+            o erro estava no peso.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            O #28 era uma amostra de 2.000 pixels por ano e virou censo (44,6 milhões de eventos).
+            Ano a ano a amostra era sadia (a mediana diferia 0,09 ano em média). No agregado, não: 2020
+            valia <strong>22,2%</strong> da amostra e <strong>43,2%</strong> da realidade; 2024
+            valia 24,5% contra 11,2%. Por isso caiu a frase de que a rotação estava se tornando
+            dominante: no censo, o componente jovem do Ato III (51,5%) alcança o antigo, não o supera.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="censo" data-titulo="Duas turmas, dois anos" data-origem="modo dados: dado real">
+        <figcaption class="cx-lab-dica">No modo simples, mude o tamanho das turmas e ligue ou desligue a ponderação. No modo dados, compare o peso de 2020 e de 2024 na amostra e no censo.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>Censo não é "mais verdade" para inferência. Com dezenas de milhões de observações, os testes paramétricos degeneram (verbete 4.9), e o que sustenta um padrão passa a ser a estabilidade entre fontes, não um p-valor.</aside>
+    </article>
+
+    <article class="cx-verbete" id="amc">
+      <div class="cx-vcab"><span class="cx-cod">1.7</span><h3>Áreas Mínimas Comparáveis (AMC)</h3><span class="cx-fonte-tag">#25 · D11 · Ehrl (2017)</span></div>
+      <p class="cx-umafrase">Para comparar um território consigo mesmo em quarenta anos, a unidade tem de ter o mesmo contorno nos quarenta anos.</p>
+      <div class="cx-ideia">
+        <p>
+          Municípios nascem, se desmembram e se fundem. O IBGE tabula cada município como ele
+          existia no ano da pesquisa. Numa série longa, isso cria quedas e saltos que não aconteceram
+          no chão: quando um distrito se emancipa, a produção dele sai da conta do município-pai. A
+          Área Mínima Comparável junta o pai e todos os filhos numa unidade que não muda de contorno
+          no período. É a menor agregação que torna a série comparável.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            Comparar a nota da Escola X em 2000 e em 2024, quando ela se fundiu com a vizinha em 2010.
+            O "X" de hoje é outro prédio com outros alunos. A AMC é seguir a turma, não a placa.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            Goiás tinha cerca de 199 municípios em 1985 e tem 246; o #25 os reúne em
+            <strong>166 AMCs</strong>. Nas ondas de emancipação, Mambaí registra queda de
+            <strong>81%</strong> do rebanho em 1993, sem que uma vaca saia do lugar; na AMC, a pior
+            queda daquele ano é de 31%. Todo painel longitudinal do trabalho mora na AMC.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="amc" data-titulo="As 166 AMCs de Goiás" data-origem="dado real">
+        <figcaption class="cx-lab-dica">Passe o mouse ou toque numa AMC para ver quais municípios de hoje ela reúne. O gráfico ao lado compara a pior queda municipal de rebanho com a pior queda em AMC em cada onda de emancipação.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>A AMC conserta o território, não a coleta. Se o questionário de uma pesquisa mudou entre rodadas, a AMC não desfaz a mudança. E ela não torna as unidades comparáveis em tamanho, só em contorno.</aside>
+    </article>
+
+    <article class="cx-verbete" id="proj">
+      <div class="cx-vcab"><span class="cx-cod">1.8</span><h3>Projeção cartográfica: grau não é quilômetro</h3><span class="cx-fonte-tag">EPSG:5880 · #32</span></div>
+      <p class="cx-umafrase">A Terra é redonda e o mapa é plano; para medir distância em quilômetros, é preciso escolher como achatar.</p>
+      <div class="cx-ideia">
+        <p>
+          Latitude e longitude são ângulos, não distâncias. Um grau de latitude tem sempre cerca de
+          111 km, mas um grau de longitude encolhe à medida que se afasta do equador, porque os
+          meridianos convergem nos polos. Fazer médias e distâncias diretamente em graus mistura
+          duas réguas diferentes. Uma projeção cartográfica transforma a superfície curva num plano
+          com coordenadas em metros, controlando a distorção na região de interesse.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            Descascar uma laranja e tentar achatar a casca na mesa: ela rasga ou estica. Toda
+            projeção escolhe onde esticar. Para medir distâncias num estado, escolhe-se uma que estique
+            pouco ali.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            Goiás vai de cerca de 12,4° a 19,5° de latitude sul. Ali, um grau de longitude vale de
+            108 a 105 km, não 111. Os centros de massa do trabalho são calculados em metros, na
+            projeção policônica do Brasil (EPSG:5880, SIRGAS 2000), e só reprojetados para graus na
+            hora de desenhar o mapa.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="proj" data-titulo="Quanto vale um grau" data-origem="geometria">
+        <figcaption class="cx-lab-dica">Mova a latitude e compare o quadrado de 1° × 1° com um quadrado de verdade. A faixa sombreada é a latitude de Goiás.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>Nenhuma projeção é correta em tudo: cada uma preserva uma propriedade (área, forma ou distância) à custa das outras. O que importa é declarar qual se usou e que a conta foi feita nela, não no mapa desenhado.</aside>
+    </article>
+
+    <article class="cx-verbete" id="fontes">
+      <div class="cx-vcab"><span class="cx-cod">1.9</span><h3>Fontes tabulares e janelas de tempo</h3><span class="cx-fonte-tag">SIDRA · Ipeadata · SICOR · FIRJAN · Trase · PRODES · Embrapa</span></div>
+      <p class="cx-umafrase">Cada fonte cobre um pedaço do tempo, e uma análise que cruza duas fontes só enxerga o pedaço que elas têm em comum.</p>
+      <div class="cx-ideia">
+        <p>
+          Além do satélite, o trabalho usa pesquisas e registros administrativos: a Produção Agrícola
+          Municipal (PAM) e a Pesquisa da Pecuária Municipal (PPM) do IBGE, as Contas Regionais, o
+          câmbio e as cotações do Ipeadata, o crédito rural do SICOR/BACEN, o índice FIRJAN de
+          desenvolvimento, a cadeia de comercialização da Trase, o PRODES/INPE, a aptidão agrícola da
+          Embrapa, as malhas do <em>geobr</em>. Cada uma começa e termina num ano diferente. A
+          interseção das janelas decide quantos anos uma análise tem, e quantos anos ela tem decide
+          quanto ela pode dizer.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            Um diário de gastos que você mantém desde 2010 e um extrato bancário que o banco só guarda
+            desde 2019. Para conferir um contra o outro, você tem cinco anos, não quinze.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            O MapBiomas cobre 1985–2024; o crédito do SICOR começa em 2013; o IFDM revisto, de 2013
+            a 2023, não emenda com a série anterior. Por isso o crédito entra no painel com cerca de
+            oito anos, e a conta do desenvolvimento municipal não atravessa o corte da FIRJAN. A Trase
+            mostrou outro tipo de armadilha: 44,6% do volume de soja rastreado vai para esmagamento
+            doméstico, e tomar o total por exportação inflou um coeficiente (verbete 3.1).
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="fontes" data-titulo="A janela comum" data-origem="cobertura das fontes (Quadro de fontes)">
+        <figcaption class="cx-lab-dica">Clique nas fontes para incluí-las numa análise. A faixa escura mostra os anos que todas têm em comum; clique no nome de uma fonte para ler o papel dela no trabalho.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>Uma janela comum mais longa não garante comparabilidade: dentro dela, uma fonte pode ter mudado de método (a série revista da FIRJAN, as coleções do MapBiomas). A cobertura é condição necessária, não suficiente.</aside>
+    </article>
+
+    <article class="cx-verbete" id="defl">
+      <div class="cx-vcab"><span class="cx-cod">1.10</span><h3>Deflação e troca de moeda</h3><span class="cx-fonte-tag">IPCA · Plano Real</span></div>
+      <p class="cx-umafrase">Um real de 1995 e um real de 2024 são unidades diferentes; somá-los sem converter é somar metros com polegadas.</p>
+      <div class="cx-ideia">
+        <p>
+          Valores em dinheiro perdem poder de compra com a inflação. Deflacionar é converter todos
+          para a moeda de um mesmo momento, usando um índice de preços. O trabalho leva PIB, valor
+          adicionado e crédito para reais de dezembro de 2024 pelo IPCA acumulado. Antes do Plano
+          Real (1994) houve cinco moedas; converter entre elas introduziria erro de medida, e por isso
+          as variáveis monetárias anteriores a 1994 foram excluídas em vez de convertidas. As
+          quantidades físicas (toneladas, hectares, cabeças) entram na série inteira.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            Um pão custava R$ 0,20 em 1995 e custa R$ 1,00 hoje. Se o seu salário foi de R$ 200 para
+            R$ 1.000, você não ficou mais rico: continua comprando mil pães. Deflacionar é contar em
+            pães.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            O crédito rural de Goiás, em reais de dezembro de 2024, vai de uma média de 14,3 bilhões
+            no Ato II (a partir de 2013) para 24,1 bilhões no Ato III, com pico em 2022 (34,2) e
+            queda para 15,8 em 2024. Sem deflacionar, parte dessa subida seria só inflação.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="defl" data-titulo="Nominal × real" data-origem="modo dados: dado real (crédito já deflacionado)">
+        <figcaption class="cx-lab-dica">No modo simples, mude a inflação anual e veja o valor nominal se afastar do real. No modo dados, veja o crédito rural de Goiás em reais de dezembro de 2024.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>O IPCA mede a inflação do consumidor, não os preços da terra ou dos insumos agrícolas. Deflacionar por ele diz quanto aquele valor compraria na cesta do consumidor, não quanto de terra ou de adubo.</aside>
+    </article>
+
+    <article class="cx-verbete" id="pipe">
+      <div class="cx-vcab"><span class="cx-cod">1.11</span><h3>Rotinas reprodutíveis e verificação</h3><span class="cx-fonte-tag">Python · Earth Engine · repositório público</span></div>
+      <p class="cx-umafrase">Todo número do trabalho deve poder ser refeito a partir do dado público, por quem clonar o repositório.</p>
+      <div class="cx-ideia">
+        <p>
+          A análise é um conjunto de 58 rotinas em Python, uma por arquivo, encadeadas por
+          dependências explícitas. Tabelas e geometrias passam por pandas e GeoPandas; os painéis,
+          por linearmodels e statsmodels; a estatística espacial, pela família PySAL (libpysal,
+          esda, spreg). O processamento de imagem roda no Google Earth Engine onde a escala exige, e
+          o cubo de transições roda localmente. Cada rotina tem ficha própria, e o número dela é
+          permanente: nunca se renumera, porque o número é a referência cruzada e o registro datado
+          das correções.
+        </p>
+        <p>
+          Duas verificações automáticas acompanham o repositório: uma sobe a visualização num
+          navegador sem interface e falha se um número-âncora sumir ou um número derrubado reaparecer;
+          a outra confere invariantes do texto (ponteiros, citações, siglas, decisões citadas).
+          Nenhuma das duas confere número contra fonte, e isso é declarado.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            Uma receita escrita passo a passo, com as quantidades, é reprodutível; um bolo que só a avó
+            sabe fazer não é. Se alguém refaz a receita e o bolo sai diferente, o defeito aparece e
+            tem endereço.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            Foi rodando de novo que o trabalho achou os próprios erros: a classe 21 ausente do #12, o
+            envelope que levava 43,7% de linhas de fora de Goiás para o #28, a coluna de depleção fora
+            do domínio no #39B. Cada correção ficou registrada como resultado superado, com data.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="pipe" data-titulo="O caminho de um número" data-origem="arquitetura do repositório">
+        <figcaption class="cx-lab-dica">Clique em uma etapa para ver o que ela faz e onde mora no repositório. As etapas em terracota são verificações.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>Reprodutível não quer dizer correto. Uma rotina errada reproduz o erro com perfeição; o que a reprodutibilidade garante é que o erro pode ser encontrado.</aside>
+    </article>
+
+<!-- =====================================================================
+     PARTE 2 — DESCREVER
+     ===================================================================== -->
+    <section class="cx-parte" id="parte-2">
+      <div class="cx-parte-num">Parte 2</div>
+      <h2>Descrever antes de explicar</h2>
+      <p>
+        Medidas descritivas não testam hipótese nenhuma: dizem o que aconteceu, onde e quando, e
+        delimitam o que as partes seguintes precisam explicar. Uma descrição bem feita já exclui
+        muitas explicações.
+      </p>
+    </section>
+
+    <article class="cx-verbete" id="cm">
+      <div class="cx-vcab"><span class="cx-cod">2.1</span><h3>Centro de massa (centro médio ponderado)</h3><span class="cx-fonte-tag">#32 · #34 · #43 · #44 · Weiszfeld (1937)</span></div>
+      <p class="cx-umafrase">O ponto de equilíbrio do mapa. Ele se move quando a fatia de cada lugar no total muda, sem que nada precise "andar".</p>
+      <div class="cx-ideia">
+        <p>
+          O centro de massa é a média das coordenadas das unidades territoriais, cada uma pesada pela
+          quantidade de interesse (hectares de pastagem, cabeças de gado). Acompanhado ano a ano, ele
+          resume em um ponto onde a atividade se concentra e para onde esse ponto se desloca. É o
+          centro de gravidade clássico da geografia da população e da produção.
+        </p>
+        <p>
+          O ponto se desloca por composição: se o Norte cresce mais que o Sul, o equilíbrio vai para o
+          norte, mesmo que o Sul também cresça. Dois auxiliares acompanham o centro: o <em>centro
+          mediano</em> (algoritmo de Weiszfeld), que minimiza a soma das distâncias e resiste a um
+          aglomerado dominante, e a elipse de desvio-padrão, que descreve a dispersão.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            Uma régua com 1 kg no ponto 0 e 1 kg no ponto 100 equilibra em 50. Agora metade do peso do
+            ponto 100 vai para o ponto 150: (1·0 + 0,5·100 + 0,5·150) / 2 = <strong>62,5</strong>. O
+            equilíbrio andou 12,5 para o lado onde a massa ficou mais longe, sem que o peso do ponto 0
+            tenha se mexido.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            Sobre as 166 AMCs, o centro de gravidade da pastagem está <strong>77,6 km</strong> mais ao
+            norte em 2024 do que em 1985; o do rebanho, 66,9 km; o da agricultura, 65,2 km. O da
+            vegetação natural, 7,6 km, com intervalo que inclui zero: ficou ancorado. A lavoura
+            permanece 123 a 135 km ao sul do pasto em todos os anos. A leitura correta é "o centro de
+            gravidade está 78 km mais ao norte", nunca "o pasto subiu".
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="cm" data-titulo="O equilíbrio, na régua e em Goiás" data-origem="modo dados: dado real, conta refeita no navegador">
+        <figcaption class="cx-lab-dica">No modo simples, arraste os pesos pela régua e mude as massas. No modo dados, escolha a variável e o ano: o mapa pinta o peso de cada AMC, o traço mostra o caminho do centro e as barras mostram a fatia de cada região no total.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>Nada sobre mecanismo: é descrição, e é uma média. Quando o #44 abriu a vegetação por formação, a "muralha parada" era só a floresta (+9 km); o campo natural recuou 35 km. Média esconde pedaços.</aside>
+    </article>
+
+    <article class="cx-verbete" id="gmm">
+      <div class="cx-vcab"><span class="cx-cod">2.2</span><h3>Idade do pasto e mistura de gaussianas</h3><span class="cx-fonte-tag">#28 · #28C · D23</span></div>
+      <p class="cx-umafrase">Dois montes num histograma são duas histórias no mesmo lugar; a média entre eles não descreve ninguém.</p>
+      <div class="cx-ideia">
+        <p>
+          A idade de uma pastagem no momento em que ela é convertida diz algo sobre a lógica da
+          conversão. Pasto jovem convertido sugere rotação (o pasto era uma etapa); pasto velho
+          convertido sugere substituição de um uso antigo. Quando o histograma das idades tem dois
+          picos, um modelo de <em>mistura de gaussianas</em> tenta descrevê-lo como a soma de duas
+          curvas em sino, cada uma com sua média (μ), sua dispersão (σ) e seu peso (w).
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            As idades dos carros de um estacionamento: um monte perto de 3 anos (frota de locadora,
+            renovada rápido) e outro perto de 15 (táxis que rodam até o fim). A "média de 9 anos" cai
+            no vale entre os montes, onde quase não há carro.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            Na curva inteira do censo (16 milhões de eventos não censurados), uma população jovem
+            (μ ≈ 3,9 anos, σ ≈ 1,6, 33% da massa) e uma velha (μ ≈ 16,3, σ ≈ 7,5, 67%). A coexistência
+            aparece em 5 de 5 mesorregiões e 10 de 10 células sob a régua da união. Onde a mistura
+            mora não é a região: a mesorregião explica 1,3% da separação e três quartos ficam dentro
+            das próprias células (#28C).
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="gmm" data-titulo="Um monte ou dois?" data-origem="modo dados: dado real (#28)">
+        <figcaption class="cx-lab-dica">No modo simples, mude o peso da locadora e a idade dos táxis: a média se afasta de todo mundo. No modo dados, sobreponha à curva real o ajuste de uma e de duas componentes, e troque de ato.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>O ajuste descreve a forma; não prova que existam exatamente dois mecanismos. Com o censo, o critério BIC deixa de discriminar (verbete 4.9), e o que sustenta a leitura de duas populações é o que não depende de ajuste: as medianas por origem e a estabilidade entre censo e amostra.</aside>
+    </article>
+
+    <article class="cx-verbete" id="hazard">
+      <div class="cx-vcab"><span class="cx-cod">2.3</span><h3>Hazard e a decomposição do fluxo</h3><span class="cx-fonte-tag">#39 · #39B</span></div>
+      <p class="cx-umafrase">Uma conta que separa "acabou a terra" de "a terra que resta passou a ser convertida mais devagar".</p>
+      <div class="cx-ideia">
+        <p>
+          O fluxo de conversão (hectares convertidos por ano) é o produto de duas coisas: o estoque
+          ainda convertível e a taxa com que ele é convertido, chamada <em>hazard</em> (o que caiu
+          dividido pelo que estava de pé). Se o fluxo cai, pode ser porque sobrou menos estoque, porque
+          o hazard caiu, ou pelos dois. A decomposição simétrica divide a variação do fluxo entre os
+          dois fatores:
+        </p>
+        <p style="font-family:var(--font-sans);font-size:.95rem;text-align:center">
+          Δfluxo = (hazard médio) · Δestoque + (estoque médio) · Δhazard
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            Uma fazenda com 100 ha de mata em que, todo ano, cai 10% do que está de pé: 10 ha, depois 9,
+            depois 8,1. O fluxo cai todo ano sem que o comportamento mude: é só a mata acabando. Se no
+            ano 16 a taxa cai para 5%, aí sim o comportamento mudou. Olhando só o fluxo, os dois
+            casos se confundem.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            No Sul, entre o Ato II e o Ato III, o fluxo de conversão cai de 15,2 para 9,6 mil hectares
+            por ano. Só <strong>17%</strong> dessa queda é "ter menos Cerrado"; <strong>83%</strong>
+            está na parcela da taxa. No estado como um todo, a fronteira não fechou: resta cerca de 60%
+            do estoque convertível, e ela migrou para o norte.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="hazard" data-titulo="A fazenda de 100 ha e as três regiões" data-origem="modo dados: dado real (#39)">
+        <figcaption class="cx-lab-dica">No modo simples, escolha o hazard e o ano em que ele muda. No modo dados, escolha a região e veja a variação do fluxo dividida entre estoque e taxa.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>A decomposição é uma identidade aritmética, não uma explicação. A parcela da taxa não é "demanda": ela reúne propensão a converter, atrito de acesso, proteção e troca de fonte de terra.</aside>
+    </article>
+
+    <article class="cx-verbete" id="reguas">
+      <div class="cx-vcab"><span class="cx-cod">2.4</span><h3>Réguas de tempo</h3><span class="cx-fonte-tag">D12 · #35</span></div>
+      <p class="cx-umafrase">Onde se corta a série muda o que ela parece dizer; por isso o trabalho corta de quatro jeitos e compara.</p>
+      <div class="cx-ideia">
+        <p>
+          Toda medida "por período" depende de onde os períodos começam e terminam. Um corte escolhido
+          depois de olhar o dado pode produzir quase qualquer história. A defesa é usar várias réguas
+          independentes, definidas antes, e ver se a conclusão sobrevive a todas. O trabalho usa
+          quatro: a série completa, os três atos, uma grade de cinco anos e as décadas.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            A "temperatura média do dia" depende de quando o dia começa. Medido da meia-noite à
+            meia-noite, um dia de frente fria parece diferente do mesmo dia medido das seis às seis.
+            Nenhum corte está errado; errado é esconder qual se usou.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            O #35 testa cada manchete nas quatro réguas. É esse teste que permite dizer, por exemplo,
+            que o centro da pastagem sobe em todos os atos, e que o da vegetação natural só se move de
+            modo distinguível de zero no Ato I.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="reguas" data-titulo="A mesma série, quatro réguas" data-origem="modo dados: dado real (MapBiomas 10.1)">
+        <figcaption class="cx-lab-dica">No modo simples, mova a hora em que o "dia" começa. No modo dados, escolha a variável e a régua: as barras mostram a variação média anual em cada janela.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>Sobreviver às quatro réguas não torna um resultado causal; mostra só que ele não é artefato do corte. E um resultado que muda de régua para régua não é necessariamente falso: pode ser um fenômeno de um período só, desde que isso seja dito.</aside>
+    </article>
+
+    <article class="cx-verbete" id="quebra">
+      <div class="cx-vcab"><span class="cx-cod">2.5</span><h3>Quebra estrutural e periodização</h3><span class="cx-fonte-tag">#26 · #29 · sup-F (Quandt-Andrews)</span></div>
+      <p class="cx-umafrase">Deixe a série escolher onde quebra, com a regra fixada antes de olhar.</p>
+      <div class="cx-ideia">
+        <p>
+          Uma quebra estrutural é um ponto em que a série muda de comportamento (a média, a
+          tendência). O teste sup-F experimenta cada data candidata: divide a série em "antes" e
+          "depois", ajusta uma média para cada lado e mede o quanto o erro caiu em relação a uma média
+          única. A estatística F dessa melhora, calculada em todas as datas, forma uma curva; o pico
+          é a quebra mais provável. Datas muito perto das bordas ficam de fora (janela mínima).
+        </p>
+        <p>
+          A periodização do trabalho (#29) combina o sup-F multivariado com dois métodos de
+          sensibilidade (STARS e divergência KL/TV), com a regra de aceitação definida antes de rodar.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            Uma torneira que pinga 10 gotas por minuto e, num certo dia, passa a pingar 16. Olhando a
+            contagem diária, com a variação natural de um dia para o outro, o teste pergunta: em que dia
+            trocar de média mais reduz o erro? E um detector honesto, alimentado com puro ruído, quase
+            não dispara.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            Sobre as variações anuais de vegetação, pastagem e agricultura, as quebras confirmadas são
+            <strong>2001</strong> (F = 62,2) e <strong>2020</strong> (F = 21,5); 1991 (F = 10,3) é
+            instável. Daí os três atos: I 1985–2000, "pastagem como herança"; II 2001–2019, "expansão e
+            intensificação"; III 2020–2024, "conversão acelerada sob rótulo ambíguo". O detector tem 11%
+            de falso positivo em ruído branco, declarado; o Código Florestal de 2012 não produz quebra.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="quebra" data-titulo="Procurando o dia em que a torneira mudou" data-origem="modo dados: dado real, varredura univariada refeita aqui">
+        <figcaption class="cx-lab-dica">No modo simples, escolha onde está a quebra verdadeira, o tamanho dela e o ruído; a curva F varre todas as datas. No modo dados, a mesma varredura roda sobre a série real de cada classe, uma de cada vez (mais simples que o teste multivariado do trabalho).</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>Quebra na série não é causa institucional. 2001 e 2020 são datas do comportamento do uso da terra; a de 2001 é a pastagem quebrando, não a Lei Kandir. E quebras a menos de cinco anos da borda não são detectáveis por construção.</aside>
+    </article>
+
+<!-- =====================================================================
+     PARTE 3 — GRAMÁTICA ESTATÍSTICA
+     ===================================================================== -->
+    <section class="cx-parte" id="parte-3">
+      <div class="cx-parte-num">Parte 3</div>
+      <h2>A gramática estatística</h2>
+      <p>
+        Correlação, regressão, efeitos fixos, erro-padrão: são as palavras com que o trabalho
+        pergunta se duas coisas andam juntas. Cada uma tem uma armadilha própria, e cada armadilha já
+        apareceu nos dados de Goiás.
+      </p>
+    </section>
+
+    <article class="cx-verbete" id="corr">
+      <div class="cx-vcab"><span class="cx-cod">3.1</span><h3>Correlação e o confundidor</h3><span class="cx-fonte-tag">#44 · #45 · auditoria Trase</span></div>
+      <p class="cx-umafrase">O coeficiente r mede o quanto duas coisas sobem e descem juntas, e só isso.</p>
+      <div class="cx-ideia">
+        <p>
+          A correlação de Pearson (r) vai de −1 a +1. Perto de +1, quando uma sobe a outra sobe; perto
+          de −1, quando uma sobe a outra desce; perto de 0, não há padrão linear. Duas coisas podem
+          andar juntas porque uma afeta a outra, porque uma terceira (o <em>confundidor</em>) move as
+          duas, ou porque são quase a mesma medida com dois nomes.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            Venda de sorvete e afogamentos sobem juntos todo verão. Ninguém se afoga por tomar
+            sorvete: o calor move os dois. Olhando só os dias de mesma temperatura, a correlação
+            desaparece.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            O mesmo número alto pede leituras opostas. r = 0,89 entre o raster do MapBiomas e a soja do
+            IBGE é <strong>validação</strong>: duas fontes independentes medindo o mesmo fenômeno. Já
+            r = 0,986 entre o "volume exportado" da Trase e a área plantada foi um
+            <strong>alarme</strong>: o volume era a produção disfarçada, e o coeficiente-manchete do #45
+            caiu de +0,335 para +0,037 quando se usou o volume exportado de fato.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="corr" data-titulo="O calor por trás do sorvete" data-origem="modo dados: dado real">
+        <figcaption class="cx-lab-dica">No modo simples, ligue "olhar só dias de mesma temperatura" e veja o r cair. No modo dados, compare as duas leituras de um r alto com séries reais do trabalho.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>Causa, direção e mecanismo não estão em r. E a regra que o trabalho adotou depois da Trase vale para qualquer regressão: conferir a correlação entre regressor e variável explicada antes de ler o coeficiente.</aside>
+    </article>
+
+    <article class="cx-verbete" id="dif">
+      <div class="cx-vcab"><span class="cx-cod">3.2</span><h3>Primeira diferença</h3><span class="cx-fonte-tag">D7 · #21 · #22B</span></div>
+      <p class="cx-umafrase">Em nível, tudo em Goiás correlaciona com tudo, porque tudo cresce junto. Em diferença, sobra só quem se move junto de verdade.</p>
+      <div class="cx-ideia">
+        <p>
+          Duas séries com tendência (as duas crescem com o tempo) têm correlação alta mesmo sem
+          relação nenhuma: o tempo é o confundidor. A primeira diferença troca o nível pela variação
+          de um ano para o outro, Δx<sub>t</sub> = x<sub>t</sub> − x<sub>t−1</sub>. A tendência comum
+          some, e o que resta é o co-movimento ano a ano. A regra D7 do trabalho: correlação sempre em
+          primeira diferença, nunca em nível.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            A altura e o vocabulário de uma criança têm correlação perto de 1 dos 2 aos 12 anos. Não é
+            que crescer ensine palavras: as duas coisas aumentam com a idade. Comparando "quanto cresceu
+            este ano" com "quantas palavras novas aprendeu este ano", a correlação quase some.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            A auditoria de circularidade mediu o tamanho do risco: pares de séries com correlação de
+            nível perto de 0,9 caem para perto de 0 em diferença dentro de cada unidade. No painel, o
+            #22B foi além e fechou a composição por grupo e ano: o coeficiente se move só de +2,4% a
+            +14,1% e segue negativo em 24 de 24 subamostras.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="dif" data-titulo="Nível × diferença" data-origem="modo dados: dado real">
+        <figcaption class="cx-lab-dica">No modo simples, aumente a tendência comum de duas séries sem relação nenhuma entre si. No modo dados, escolha um par de séries de Goiás e compare o r em nível com o r em diferença.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>A diferença remove a tendência comum, mas joga fora a informação de longo prazo. Duas séries podem co-mover no curto prazo e divergir no longo; para isso existe a cointegração, e para séries que vagueiam, o verbete 4.3.</aside>
+    </article>
+
+    <article class="cx-verbete" id="beta">
+      <div class="cx-vcab"><span class="cx-cod">3.3</span><h3>Regressão e o coeficiente β</h3><span class="cx-fonte-tag">#22 · #34 · #49</span></div>
+      <p class="cx-umafrase">O β é a inclinação da reta: quanto y muda, em média, quando x muda uma unidade, com o resto constante.</p>
+      <div class="cx-ideia">
+        <p>
+          A regressão por mínimos quadrados encontra a reta que minimiza a soma dos quadrados das
+          distâncias verticais entre os pontos e a reta. O β é a inclinação; o "com o resto constante"
+          é uma hipótese sobre o que entrou no modelo, não um fato. Pontos extremos puxam a reta, e
+          dois regressores que andam de braços dados (multicolinearidade) deixam cada inclinação
+          instável.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            "Cada R$ 1 de crédito está associado a R$ 0,30 de venda a mais." O 0,30 é o β. Um único
+            cliente enorme que tomou muito crédito e vendeu pouco pode mudar esse número sozinho.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            O maior coeficiente da frente de deslocamento é o da substituição local: dentro da AMC,
+            quando a lavoura cresce, o pasto recua, com β ≈ <strong>−0,51</strong> hectare de pasto
+            por hectare de lavoura. A magnitude depende da régua (−1,14 sob a união agricultura ∪
+            mosaico, −0,07 sob a âncora do IBGE), mas o sinal se mantém nas três. O coeficiente de
+            vizinhança, que mediria o empurrão, é θ = −0,16.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="beta" data-titulo="A reta que minimiza os quadrados" data-origem="modo dados: dado real (6.474 observações AMC-ano)">
+        <figcaption class="cx-lab-dica">No modo simples, arraste os pontos (ou clique no fundo para criar um) e veja a reta, o β e os quadrados dos resíduos. No modo dados, veja a nuvem real da substituição local e a da vizinhança.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>β diz "associado a"; a distância até "causa" é o desenho. E β padronizado (em desvios-padrão) não se compara entre tratamentos com desvios diferentes: no #39B o desvio do regressor varia 17 vezes entre tratamentos.</aside>
+    </article>
+
+    <article class="cx-verbete" id="r2">
+      <div class="cx-vcab"><span class="cx-cod">3.4</span><h3>R²</h3><span class="cx-fonte-tag">#51 · #39B</span></div>
+      <p class="cx-umafrase">A fração da variação de y que a reta acompanha. Não sabe a diferença entre explicar e coincidir.</p>
+      <div class="cx-ideia">
+        <p>
+          R² = 1 − (variação que sobra depois da reta) ÷ (variação total). Vai de 0 (a reta não
+          acompanha nada) a 1 (acompanha tudo). O mesmo β pode vir com R² alto ou baixo, conforme o
+          ruído em volta da reta. R² alto não valida um modelo, e R² baixo não invalida um
+          coeficiente nítido.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            Com dois pontos, qualquer reta passa pelos dois e dá R² = 1: perfeito e inútil. Com mil
+            pontos espalhados em volta de uma inclinação verdadeira, o R² pode ser 0,05 e a inclinação
+            ser real.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            O R² mais informativo do trabalho é um zero. No #51, a expansão de área e o índice de
+            desenvolvimento (IFDM) têm R² dentro da unidade perto de zero: o Norte quase dobra a área
+            agropecuária (+93% contra +14% no Sul) e ganha desenvolvimento igual ao Sul. "Crescimento
+            sem desenvolvimento" é um R² nulo transformado em achado.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="r2" data-titulo="Mesmo β, R² diferente" data-origem="modo dados: dado real">
+        <figcaption class="cx-lab-dica">No modo simples, aumente o ruído mantendo a inclinação verdadeira. No modo dados, veja um β nítido com R² baixo, na nuvem real da substituição local.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>R² baixo pode ser a resposta, quando a pergunta era "existe ligação?". E R² alto em séries com tendência é quase garantido (verbete 3.2), sem dizer nada.</aside>
+    </article>
+
+    <article class="cx-verbete" id="fe">
+      <div class="cx-vcab"><span class="cx-cod">3.5</span><h3>Painel com efeitos fixos (duas vias)</h3><span class="cx-fonte-tag">#22 · #22B · #49 · D8</span></div>
+      <p class="cx-umafrase">Cada unidade comparada consigo mesma; cada ano descontado do que aconteceu em todas.</p>
+      <div class="cx-ideia">
+        <p>
+          Um painel observa muitas unidades (AMCs, municípios) em muitos anos. O efeito fixo de
+          unidade tira de cada unidade a sua própria média: o que é permanente nela (solo, tamanho,
+          história) sai da conta. O efeito fixo de ano tira de cada ano a média de todas as unidades
+          naquele ano: choques comuns (câmbio, seca, crise) saem da conta. O que sobra é a variação
+          <em>dentro</em> da unidade, descontado o ano.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            A merenda melhora as notas? Comparar a escola com a vizinha confunde (a vizinha é outra
+            desde sempre). Compare a escola consigo mesma nos anos com e sem merenda, e tire o que
+            aconteceu em todas as escolas naquele ano (greve, pandemia). O que sobra é a associação
+            dentro da escola.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            O #22 estima painéis com efeito de entidade e de ano e erro-padrão agrupado por município;
+            o #49 acrescenta o termo espacial e os canais sobrevivem. Nas séries das três regiões dá para
+            ver o porquê: entre regiões, a que tem mais lavoura (o Sul) tem também mais pasto, e a
+            inclinação é positiva; dentro de cada região, descontado o ano, o sinal se inverte, e
+            onde a lavoura cresce o pasto recua.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="fe" data-titulo="Entre as unidades × dentro delas" data-origem="modo dados: dado real (3 regiões × 40 anos)">
+        <figcaption class="cx-lab-dica">Ligue os efeitos fixos um de cada vez e veja os pontos se reorganizarem e a inclinação mudar de sinal.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>Efeito fixo controla o que é fixo na unidade e o que é comum no ano. Não controla o que varia dentro da unidade ao longo do tempo (uma política local, um preço local), e não transforma associação em causa.</aside>
+    </article>
+
+    <article class="cx-verbete" id="hac">
+      <div class="cx-vcab"><span class="cx-cod">3.6</span><h3>Erro-padrão HAC (Newey-West)</h3><span class="cx-fonte-tag">#17 · #21</span></div>
+      <p class="cx-umafrase">Ano não é bola de bingo: o ano puxa o ano, e o erro-padrão precisa admitir essa memória.</p>
+      <div class="cx-ideia">
+        <p>
+          O erro-padrão comum de uma regressão supõe que cada observação é um sorteio independente. Em
+          série temporal, os resíduos de anos vizinhos costumam se parecer (autocorrelação), e então
+          há menos informação independente do que o número de anos sugere. O erro-padrão comum fica
+          estreito demais, e o teste acusa "significância" com frequência maior que a prometida. O
+          erro-padrão HAC (robusto a heterocedasticidade e autocorrelação) soma as covariâncias entre
+          resíduos próximos, com peso decrescente até uma defasagem máxima.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            Perguntar a opinião de 30 pessoas independentes é diferente de perguntar a 30 pessoas da
+            mesma família, que conversam entre si. As 30 respostas da família valem menos que 30
+            opiniões.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            Todas as inclinações do #17, o motor de taxas mais reutilizado do projeto, saem com HAC
+            (defasagem máxima 2), assim como as correlações do #21. A convenção: não usar o
+            erro-padrão comum para inferência em série temporal.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="hac" data-titulo="Quantas vezes o teste mente?" data-origem="modo dados: dado real">
+        <figcaption class="cx-lab-dica">No modo simples, aumente a memória da série (φ) e rode 400 simulações sem efeito nenhum: veja a taxa de falsos positivos de cada erro-padrão. No modo dados, compare os dois erros-padrão na tendência real da pastagem.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>O HAC conserta a medida da incerteza, não o tamanho da amostra. Com cerca de 38 anos, o poder continua baixo (verbete 4.1), e nenhum erro-padrão inventa informação.</aside>
+    </article>
+
+    <article class="cx-verbete" id="moran">
+      <div class="cx-vcab"><span class="cx-cod">3.7</span><h3>Autocorrelação espacial: I de Moran, SAR e SEM</h3><span class="cx-fonte-tag">#24 · #49 · #55 · PySAL</span></div>
+      <p class="cx-umafrase">Vizinhos se parecem. Ignorar isso faz a significância sair emprestada da geografia.</p>
+      <div class="cx-ideia">
+        <p>
+          O I de Moran mede o quanto o valor de uma unidade se parece com a média dos seus vizinhos.
+          Primeiro define-se quem é vizinho de quem (uma matriz de pesos espaciais W); depois
+          compara-se cada valor com a média ponderada dos vizinhos. I perto de 0 é um mapa sem padrão;
+          I positivo, manchas de valores parecidos. A significância vem de embaralhar os valores
+          entre as unidades muitas vezes e ver se o I observado se destaca. Os modelos SAR (defasagem
+          espacial, ρ) e SEM (erro espacial, λ) incorporam essa dependência na regressão.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            Numa sala de aula, quem senta perto ri junto. Se você trata cada aluno como uma opinião
+            independente, conta a mesma risada várias vezes.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            No #24, 115 de 140 regressões têm resíduos com I de Moran significativo: o espaço é
+            estrutural. O #49 estima ρ e λ entre 0,35 e 0,56, e os canais do painel sobrevivem. O #55
+            tira a consequência: reamostrar AMCs uma a uma era incoerente com esse diagnóstico, e em
+            blocos espaciais o intervalo da pastagem alarga de 45 para 80 km (verbete 4.6).
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="moran" data-titulo="Manchas ou sal e pimenta?" data-origem="modo dados: dado real, I de Moran refeito aqui">
+        <figcaption class="cx-lab-dica">No modo simples, aumente o agrupamento de um mapa quadriculado. No modo dados, escolha uma variável das 166 AMCs: o I de Moran é calculado com os 6 vizinhos mais próximos e comparado com 499 embaralhamentos.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>Moran alto não significa que o vizinho causa algo: pode ser uma variável omitida que também tem padrão espacial. E ρ diferente de zero num SAR não é efeito causal do vizinho sem um desenho que o sustente.</aside>
+    </article>
+
+<!-- =====================================================================
+     PARTE 4 — INFERÊNCIA
+     ===================================================================== -->
+    <section class="cx-parte" id="parte-4">
+      <div class="cx-parte-num">Parte 4</div>
+      <h2>Inferência: testar sem se enganar</h2>
+      <p>
+        Inferir é perguntar se o padrão observado se distingue do que o acaso produziria. Cada teste
+        tem uma pergunta própria, uma suposição sobre como o acaso funciona e um tamanho de efeito
+        que consegue enxergar. O trabalho reporta o placar de cada teste (0 de 36, 16 de 16), e não
+        adjetivos.
+      </p>
+    </section>
+
+    <article class="cx-verbete" id="pval">
+      <div class="cx-vcab"><span class="cx-cod">4.1</span><h3>p-valor e poder</h3><span class="cx-fonte-tag">#34 · simulação de Monte Carlo</span></div>
+      <p class="cx-umafrase">O p-valor diz quão raro seria o resultado se nada estivesse acontecendo. O poder diz se o teste conseguiria ver algo, caso algo estivesse.</p>
+      <div class="cx-ideia">
+        <p>
+          O p-valor parte da hipótese de que não há efeito (a hipótese nula) e calcula a probabilidade
+          de observar um resultado ao menos tão extremo quanto o obtido. p pequeno: o resultado seria
+          raro sob a nula. p grande: o resultado é compatível com a nula, o que não é o mesmo que
+          provar a nula. É aí que entra o <em>poder</em>, a probabilidade de o teste acusar um efeito
+          que existe de fato. Com amostra pequena, o poder é baixo, e um p grande quer dizer
+          "não sei", não "não há".
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            Uma moeda honesta dar 10 caras seguidas tem probabilidade de 1 em 1.024 (p ≈ 0,001): se a
+            moeda fosse honesta, isso seria raríssimo. Mas jogar a moeda 3 vezes e obter 2 caras
+            (p = 0,5) não prova que ela é honesta: com 3 jogadas, quase nenhuma moeda viciada seria
+            desmascarada.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            O teste de precedência da lavoura do Sul sobre o pasto do Norte dá p = 0,97, com 38
+            diferenças anuais. A simulação de Monte Carlo do próprio trabalho mede o poder: cerca de
+            93% para um empurrão forte, cerca de 48% para um moderado. O teste descarta o empurrão
+            forte; o moderado, ele não alcança, e isso vai escrito junto com o p.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="pval" data-titulo="A moeda e o poder" data-origem="simulação">
+        <figcaption class="cx-lab-dica">No modo simples, escolha quantas vezes jogar e quantas caras saíram. No modo dados, mova o número de anos e o tamanho do efeito para ver o poder de um teste de precedência mudar.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>p não é a probabilidade de a hipótese ser verdadeira, e 5% não é a fronteira entre verdade e mentira. E um p grande com amostra pequena é "não sei", nunca "não".</aside>
+    </article>
+
+    <article class="cx-verbete" id="granger">
+      <div class="cx-vcab"><span class="cx-cod">4.2</span><h3>Granger: precedência preditiva</h3><span class="cx-fonte-tag">#34 · #37 · #42</span></div>
+      <p class="cx-umafrase">X "Granger-causa" Y se o passado de X melhora a previsão de Y além do que o passado de Y já prevê. Isso é previsão, não causa.</p>
+      <div class="cx-ideia">
+        <p>
+          O teste compara duas previsões de Y: uma que usa só o passado de Y, outra que usa também o
+          passado de X. Se a segunda erra significativamente menos (teste F sobre a soma dos quadrados
+          dos erros), diz-se que X precede Y. O nome engana: é precedência preditiva. E o teste no
+          sentido inverso funciona como detector de mentira: para uma força exógena, como um preço
+          internacional, o inverso deve dar nulo.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            O cachorro sempre late antes de o dono chegar. O latido ajuda a prever a chegada, mas o
+            cachorro não traz o dono para casa: os dois respondem ao carro virando a esquina.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            A variação da lavoura do Sul não ajuda a prever a variação do pasto do Norte: as duas
+            previsões são praticamente iguais e p = 0,97. Nas 24 combinações de régua, desfecho,
+            defasagem e janela, nenhuma fica abaixo de 5%. O câmbio, por outro lado, passa no placebo de
+            exogeneidade do #37: o teste inverso dá nulo, como uma força externa deve dar.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="granger" data-titulo="Duas previsões do pasto do Norte" data-origem="modo dados: dado real (#34)">
+        <figcaption class="cx-lab-dica">No modo simples, mude o quanto o latido antecede a chegada. No modo dados, compare a previsão que usa só o passado do Norte com a que acrescenta o passado do Sul, e veja o placar das 24 combinações.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>Precedência preditiva não é causalidade, e ausência de precedência não é ausência de relação. Em séries que vagueiam, quase tudo parece preceder quase tudo: é o verbete seguinte.</aside>
+    </article>
+
+    <article class="cx-verbete" id="ty">
+      <div class="cx-vcab"><span class="cx-cod">4.3</span><h3>Estacionariedade, regressão espúria e Toda-Yamamoto</h3><span class="cx-fonte-tag">#42 · D16 · ADF, KPSS</span></div>
+      <p class="cx-umafrase">Antes de perguntar se o passo de um segue o do outro, confira como cada um anda.</p>
+      <div class="cx-ideia">
+        <p>
+          Uma série é <em>estacionária</em> (I(0)) quando oscila em torno de um nível estável. É
+          integrada de ordem 1, I(1), quando vagueia sem voltar (um passeio aleatório), e só a sua
+          diferença é estacionária; de ordem 2, I(2), quando nem a diferença para quieta. Regredir uma
+          série integrada em outra produz correlações e "precedências" que não existem: é a
+          regressão espúria. Os testes ADF (nula: a série tem raiz unitária) e KPSS (nula: a série é
+          estacionária) diagnosticam a ordem. O procedimento de Toda-Yamamoto ajusta o modelo em nível
+          com defasagens extras (tantas quanto a ordem máxima de integração) e testa só as primeiras,
+          o que mantém a inferência válida mesmo com séries integradas.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            Dois bêbados saindo de bares diferentes, cada um cambaleando por conta própria. Em muitas
+            noites, os caminhos parecem ir "juntos" por um bom trecho, só porque os dois vagueiam. Nada
+            liga um ao outro.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            O pasto do Norte é I(2); a agricultura do Sul, I(0) já em nível (veredito do ADF). Séries de
+            ordens diferentes nem podem cointegrar. O Granger inverso dava p = 0,0007, como se o Norte
+            antecipasse o Sul, e era espúrio: sob Toda-Yamamoto, p = 0,45 no sentido Norte→Sul e
+            p = 0,25 no Sul→Norte. O veredito é <strong>sem líder</strong>. Nos placebos, o pasto do
+            Norte "antecedia" até o pasto do próprio Sul.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="ty" data-titulo="Bêbados que parecem andar juntos" data-origem="modo dados: dado real (#42)">
+        <figcaption class="cx-lab-dica">No modo simples, sorteie 200 pares de passeios aleatórios independentes e conte quantos "passam" num teste de correlação comum. No modo dados, diferencie as duas séries reais uma, duas vezes, e veja quando cada uma para de vaguear.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>Toda-Yamamoto não é um Granger melhorado que acha o efeito; é o teste que só fala depois de admitir como cada série anda. Um nulo dele não prova independência. E a ordem de integração, com 40 anos e quebras na série, é a resposta do teste, não uma propriedade estabelecida do processo.</aside>
+    </article>
+
+    <article class="cx-verbete" id="did">
+      <div class="cx-vcab"><span class="cx-cod">4.4</span><h3>Diferença-em-diferenças (DiD)</h3><span class="cx-fonte-tag">#23</span></div>
+      <p class="cx-umafrase">O efeito é o antes-e-depois de quem foi tratado menos o antes-e-depois de quem não foi.</p>
+      <div class="cx-ideia">
+        <p>
+          Comparar só o antes e o depois de quem recebeu uma política mistura o efeito da política com
+          tudo o que mudou no período. O DiD usa um grupo de comparação que não recebeu a política:
+          a diferença de antes para depois no grupo de comparação estima o que teria acontecido sem
+          ela, e o efeito é a diferença entre as duas diferenças. A suposição central é a de
+          <em>tendências paralelas</em>: sem a política, os dois grupos teriam andado juntos. O
+          event-study olha ano a ano, antes e depois, e o placebo finge que a política veio antes.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            Uma farmácia abre na Rua A e não na Rua B. As vendas de remédio subiram 30 na Rua A e 10 na
+            Rua B no mesmo período. O efeito estimado da farmácia é 30 − 10 = 20, desde que as duas ruas
+            andassem juntas antes.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            O #23 compara Goiás com Mato Grosso e Tocantins em quatro marcos (1995, 2003, 2012, 2018),
+            com event-study e placebo. Só "vegetação × 1995 contra Tocantins" sobrevive às tendências
+            paralelas e ao placebo. Mas os marcos são federais: não existe grupo não tratado. Por isso o
+            resultado foi rebaixado a <strong>sensibilidade de co-movimento</strong>, e não a efeito.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="did" data-titulo="Duas ruas, uma farmácia" data-origem="miniatura">
+        <figcaption class="cx-lab-dica">Mude o efeito verdadeiro, a diferença de tendência antes da abertura e o quanto a política também atinge o grupo de comparação. Veja o DiD estimado se afastar do efeito verdadeiro.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>Tendências paralelas não são testáveis depois do tratamento; só se vê o período anterior. E com uma política federal, o "controle" também foi tratado: o que se mede é diferença de intensidade, não de existência.</aside>
+    </article>
+
+    <article class="cx-verbete" id="fdr">
+      <div class="cx-vcab"><span class="cx-cod">4.5</span><h3>Multiplicidade e FDR (Benjamini-Hochberg)</h3><span class="cx-fonte-tag">#21 · #37 · #38 · #52</span></div>
+      <p class="cx-umafrase">Faça 135 testes a 5% e cerca de 7 darão "significativo" por puro acaso.</p>
+      <div class="cx-ideia">
+        <p>
+          Cada teste a 5% tem 5% de chance de um falso positivo. Numa grade de muitos testes, os falsos
+          positivos se acumulam. O procedimento de Benjamini-Hochberg controla a taxa de falsas
+          descobertas (FDR): ordena os p-valores do menor ao maior e compara o k-ésimo com
+          k × 5% ÷ (número de testes). Só passam os que ficam abaixo dessa linha crescente. O tamanho da
+          família muda o veredito: um resultado que sobrevive numa grade pequena pode não sobreviver
+          numa grande.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            Jogar 20 moedas honestas 10 vezes cada: é provável que alguma dê 8 caras. Anunciar essa
+            moeda como "viciada" é esquecer as outras 19.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            O placar do trabalho: 0 de 36 correlações estaduais sobrevivem ao FDR no #21; cerca de 7
+            acertos em cerca de 135 testes no #37, o que o acaso entregaria; nenhum sobrevivente na grade
+            exploratória de 144 testes do #38; 2 de 192 no #52. Por isso só a hipótese confirmatória,
+            definida fora da grade, é lida como resultado.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="fdr" data-titulo="A linha de Benjamini-Hochberg" data-origem="simulação · placar real">
+        <figcaption class="cx-lab-dica">Escolha o tamanho da grade e quantos efeitos verdadeiros há nela. Os p-valores ordenados são comparados com a linha do BH; compare "significativos a 5%" com "sobreviventes".</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>O FDR não diz que os acertos brutos são falsos; diz que não se pode garimpar numa grade. E sobreviver ao FDR não é "verdade": é não ter morrido na peneira.</aside>
+    </article>
+
+    <article class="cx-verbete" id="boot">
+      <div class="cx-vcab"><span class="cx-cod">4.6</span><h3>Bootstrap e intervalo de confiança</h3><span class="cx-fonte-tag">#32 · #55 · D19</span></div>
+      <p class="cx-umafrase">Não são 2.000 testes: é o mesmo número medido em 2.000 Goiases alternativos, para ver o quanto ele treme.</p>
+      <div class="cx-ideia">
+        <p>
+          O bootstrap estima a incerteza de um número sem fórmula. Os nomes das unidades (aqui, as 166
+          AMCs) vão para uma sacola; sorteia-se um nome, anota-se e devolve-se à sacola, 166 vezes.
+          Cada sorteio com reposição é um "Goiás alternativo", em que cerca de 37% das AMCs ficam de fora
+          e outras entram duas ou três vezes. Recalcula-se o número em cada um. A nuvem das 2.000
+          réplicas é a barra de erro; o intervalo de 95% vai do percentil 2,5 ao 97,5. Se as unidades
+          vizinhas se parecem (verbete 3.7), sorteá-las uma a uma inventa independência, e o sorteio
+          precisa ser por blocos de vizinhas.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            Três AMCs numa estrada: A no km 0, B no km 100, C no km 200, cada uma com 10 ha de pasto em
+            1985; em 2024, 2, 10 e 18 ha. O centro vai do km 100 ao km 153: +53 km. Sorteando três
+            papéis com reposição, as réplicas dão +14, +38, +56… A marcha treme, mas nenhuma réplica
+            a zera.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            Pastagem +77,6 km, IC95% [+54,7; +98,2]; rebanho +66,9 [+47,2; +84,5]; agricultura +65,2
+            [+43,5; +94,6]; vegetação +7,6 [−0,5; +15,6], que cruza o zero e por isso se lê
+            "ancorada". Em blocos espaciais (#55), o intervalo da pastagem alarga de 45 para 80 km e o
+            veredito não muda em nenhum dos 6 tamanhos de bloco. Nenhuma componente leste sobrevive.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="boot" data-titulo="A sacola de papéis" data-origem="modo dados: dado real, bootstrap refeito no navegador">
+        <figcaption class="cx-lab-dica">No modo simples, sorteie réplicas das três AMCs uma a uma. No modo dados, rode o bootstrap das 166 AMCs de verdade, escolhendo a variável e o tamanho do bloco espacial.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>O intervalo não é "a verdade está aqui com 95% de chance". E o bootstrap herda a suposição do sorteio: sortear unidade a unidade mente quando as unidades estão espacialmente correlacionadas. As réplicas não aumentam a informação; só a revelam.</aside>
+    </article>
+
+    <article class="cx-verbete" id="perm">
+      <div class="cx-vcab"><span class="cx-cod">4.7</span><h3>Permutação e placebo</h3><span class="cx-fonte-tag">#54 · #38</span></div>
+      <p class="cx-umafrase">Embaralhe o que deveria importar e veja se o padrão volta por acaso. Troque o remédio por farinha e veja se o paciente melhora igual.</p>
+      <div class="cx-ideia">
+        <p>
+          Um teste de permutação constrói a distribuição do acaso a partir dos próprios dados: quebra-se
+          a ligação que se quer testar (embaralhando ou girando uma variável), recalcula-se a
+          estatística muitas vezes e vê-se em que posição o valor observado fica. O p-valor é a fração
+          de rearranjos que chegam ao observado. Com 38 realizações possíveis, o menor p possível é
+          1/38 ≈ 0,026. Um placebo repete o teste onde o efeito não deveria existir; se aparecer, o
+          efeito não era específico.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            Suspeita de baralho marcado: embaralhe-o mil vezes e conte em quantas o resultado
+            "impossível" aparece por acaso. Se aparece em 300, não era impossível.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            No #54, girar a série do câmbio (mantendo a exposição das AMCs) mostrou que o erro-padrão
+            agrupado era otimista: o p do resultado sai de cerca de 0,03 para <strong>0,07 a 0,13</strong>,
+            acima do corte de 5%. O que sustenta o padrão é a especificidade: placebos de desfecho nulos
+            (urbano, água: p > 0,24), placebo no tempo limpo (p = 0,11), sinal estável no jackknife.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="perm" data-titulo="Girar o câmbio" data-origem="modo dados: série real do câmbio">
+        <figcaption class="cx-lab-dica">No modo simples, embaralhe os rótulos de dois grupos e construa a distribuição do acaso. No modo dados, gire a série do câmbio ano a ano: cada giro é uma das 38 realizações com que o teste compara o observado.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>Permutação não converte associação em causa, e placebo nulo não prova o mecanismo: prova que o padrão é específico do par testado. E p = 0,026 num teste de 38 rotações significa "nenhuma rotação superou o observado", o melhor desfecho possível, não uma margem folgada.</aside>
+    </article>
+
+    <article class="cx-verbete" id="jack">
+      <div class="cx-vcab"><span class="cx-cod">4.8</span><h3>Jackknife</h3><span class="cx-fonte-tag">#54 · #39B</span></div>
+      <p class="cx-umafrase">Refaça a conta tirando um dado de cada vez. Se o resultado muda quando um só sai, ele estava nas mãos de um só.</p>
+      <div class="cx-ideia">
+        <p>
+          O jackknife remove cada observação (ou cada ano, ou cada unidade) uma vez e recalcula a
+          estimativa. A dispersão dessas re-estimativas mostra a sensibilidade do resultado a pontos
+          individuais, e a maior mudança aponta quem mais influencia.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            A média salarial de uma sala com dez pessoas e um bilionário. Tirando cada pessoa uma vez, a
+            média quase não muda, exceto quando sai o bilionário: aí ela despenca. A média "era" dele.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            No #54, tirar cada um dos 38 anos da conta do motor comum mantém o sinal em 38 de 38
+            re-estimativas, nas duas versões da exposição. No #39B, a grade de 16 tratamentos dá β &lt; 0
+            em 16 de 16, e a única célula que não cruzava em nenhuma amostra era a publicada antes, que
+            não tratava nem o regressor nem o desfecho.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="jack" data-titulo="Tirar um de cada vez" data-origem="modo dados: dado real">
+        <figcaption class="cx-lab-dica">No modo simples, clique num ponto para tirá-lo da conta. No modo dados, veja o β re-estimado sem cada ano (#54) e o centro de massa recalculado sem cada AMC.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>O jackknife cobre "um de cada vez". Dois pontos influentes juntos podem se esconder um atrás do outro, e robustez a vários pede outro desenho.</aside>
+    </article>
+
+    <article class="cx-verbete" id="bic">
+      <div class="cx-vcab"><span class="cx-cod">4.9</span><h3>BIC com n gigante</h3><span class="cx-fonte-tag">#28C · D23</span></div>
+      <p class="cx-umafrase">O BIC multa a complexidade; com dezenas de milhões de observações, a multa vira troco e qualquer diferença passa.</p>
+      <div class="cx-ideia">
+        <p>
+          Todo parâmetro extra melhora o ajuste. O critério de informação bayesiano (BIC) cobra uma
+          multa por parâmetro, proporcional ao logaritmo de n, e prefere o modelo com menor BIC. O ganho
+          de ajuste, porém, cresce proporcionalmente a n. Com n enorme, o ganho de qualquer afastamento
+          minúsculo supera a multa: a diferença de BIC passa a medir o tamanho da amostra, não a força
+          da evidência.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            Duas balanças que diferem 1 grama. Pesando uma vez, ninguém nota. Pesando um milhão de vezes
+            e somando, a diferença vira uma tonelada, e fica "decisiva". Mas continua sendo 1 grama.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            Sobre 16 milhões de eventos não censurados, o BIC do modelo de duas componentes é cerca de
+            6 milhões de unidades menor que o de uma. Pela D23, esse número não é usado como prova: o que
+            sustenta as duas populações são as medianas por origem, as frações de pasto jovem e velho e a
+            estabilidade entre censo e amostra.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="bic" data-titulo="A multa que vira troco" data-origem="cálculo · BIC real do #28">
+        <figcaption class="cx-lab-dica">Mova o tamanho da amostra (em escala logarítmica) mantendo fixa uma diferença minúscula entre os modelos. O ganho de ajuste cresce com n; a multa, só com log n.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>BIC não mede verdade: mede o equilíbrio entre ajuste e parcimônia. Com n enorme ele deixa de responder "quão diferentes" e passa a responder "quão certo estou de que diferem", que é outra pergunta.</aside>
+    </article>
+
+    <article class="cx-verbete" id="ss">
+      <div class="cx-vcab"><span class="cx-cod">4.10</span><h3>Shift-share (Bartik): choque comum × exposição</h3><span class="cx-fonte-tag">#38 · #52 · #54</span></div>
+      <p class="cx-umafrase">Um choque nacional que chega a todos, multiplicado por quanto cada lugar estava exposto a ele antes.</p>
+      <div class="cx-ideia">
+        <p>
+          O desenho shift-share combina um <em>shifter</em> que varia no tempo e é comum a todos (aqui,
+          a variação anual do câmbio real) com uma <em>share</em> que varia entre as unidades e é
+          medida antes (a exposição de cada AMC). O produto dá a cada AMC, em cada ano, uma "dose" do
+          choque. Com efeitos fixos de ano, o nível do choque sai da conta e só se estima o
+          gradiente: se o mesmo choque produz respostas diferentes onde a exposição é diferente.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            O boom do comércio eletrônico chega a todo o país. Uma cidade onde 40% dos empregos eram de
+            lojas de rua recebe uma dose maior que outra onde eram 5%. Nada do que a cidade fez depois
+            entra na previsão da dose.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            Câmbio × exposição da AMC → rebanho, em cerca de 6.600 observações. A exposição foi trocada
+            por uma aptidão agrícola exógena (Embrapa, #52), que reproduz o gradiente (Sul 4,69 &gt; Centro
+            4,47 &gt; Norte 4,17). O limite está quantificado: com um único shifter nacional, o N efetivo é
+            de 38 anos, e nenhuma AMC a mais levanta esse teto. Daí a permutação do shifter (verbete 4.7).
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="ss" data-titulo="A dose de cada AMC" data-origem="modo dados: câmbio real × aptidão real">
+        <figcaption class="cx-lab-dica">No modo simples, mude o choque nacional e a exposição das cidades. No modo dados, escolha um ano na série do câmbio: o mapa mostra a dose (variação do câmbio × aptidão padronizada) de cada AMC naquele ano.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>Shift-share não é causal por natureza: a validade vem de o shifter ser quase aleatório para as unidades. Com um shifter só, é o desenho mais fraco da família, e o resultado é reportado como padrão específico, não como efeito identificado. E a exposição medida pode estar no lugar de outra coisa (verbete 5.3).</aside>
+    </article>
+
+<!-- =====================================================================
+     PARTE 5 — RÉGUAS DE HONESTIDADE
+     ===================================================================== -->
+    <section class="cx-parte" id="parte-5">
+      <div class="cx-parte-num">Parte 5</div>
+      <h2>As réguas de honestidade</h2>
+      <p>
+        Estes verbetes não são métodos de estimação; são perguntas feitas a cada resultado antes de
+        acreditar nele. O achado é da terra ou da régua? Da variável ou da escala dela? Do canal
+        proposto ou de outro que anda junto? Cada uma dessas perguntas já derrubou ou reescreveu um
+        resultado do trabalho.
+      </p>
+    </section>
+
+    <article class="cx-verbete" id="bracket">
+      <div class="cx-vcab"><span class="cx-cod">5.1</span><h3>Bracket e âncora externa</h3><span class="cx-fonte-tag">#28D · #33 · #49 · D26</span></div>
+      <p class="cx-umafrase">Quando a régua muda no meio da série, meça com duas réguas e confira com uma trena de outra marca.</p>
+      <div class="cx-ideia">
+        <p>
+          Se a classificação muda de significado ao longo do tempo, nenhuma leitura isolada é segura.
+          O bracket (colchete) reporta um intervalo entre duas medidas extremas e razoáveis: aqui, a
+          agricultura como o MapBiomas a rotula e a agricultura somada ao Mosaico de Usos. A âncora é
+          uma fonte que nunca passou pelo classificador, a área de soja do IBGE. O que tem o mesmo sinal
+          nas duas pontas é achado; o que muda de sinal depende da régua, e isso é dito.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            Medir uma mesa com uma fita esticada e com a fita frouxa, anotar as duas medidas e conferir
+            com uma trena de outra marca. Se as duas fitas discordam até sobre a mesa ter crescido ou
+            encolhido, o resultado não era da mesa.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            A saída da pastagem migra do rótulo "agricultura" para o Mosaico no fim da série (razão
+            de 0,6 em 2015 para 32,5 em 2024; pasto → agricultura cai 92%) enquanto a soja do IBGE
+            cresce 38%. A D26 manda reportar sempre [agricultura, agricultura ∪ mosaico], com a união
+            como teto e não como correção. Sob esse colchete, a substituição local se mantém; a
+            intensificação fica frágil; e a queda de 88% do fluxo pasto → agricultura no Ato III vira
+            alta de 51% sob a união.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="bracket" data-origem="modo dados: dado real (MapBiomas 10.1 e IBGE/PAM)" data-titulo="Duas réguas e uma trena">
+        <figcaption class="cx-lab-dica">No modo simples, afrouxe uma das réguas ao longo do tempo. No modo dados, veja a faixa entre as duas réguas da agricultura e a âncora da soja do IBGE, e compare o crescimento de cada uma numa janela à sua escolha.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>O bracket não diz qual régua está certa; separa o que é estável do que depende da régua. E a âncora cobre o que ela cobre: a soja do IBGE não valida a pastagem.</aside>
+    </article>
+
+    <article class="cx-verbete" id="dominio">
+      <div class="cx-vcab"><span class="cx-cod">5.2</span><h3>Domínio da variável</h3><span class="cx-fonte-tag">#39B · D29</span></div>
+      <p class="cx-umafrase">Um valor fora da escala que define a variável não é um valor extremo: é outra coisa, e contamina toda conta em que entra.</p>
+      <div class="cx-ideia">
+        <p>
+          Toda variável tem um domínio: uma fração vai de 0 a 1, uma área não é negativa. Quando parte
+          das observações cai fora desse domínio, dois estragos acontecem. Primeiro, elas não medem o
+          que a variável diz medir. Segundo, se a variável é padronizada (subtrai-se a média e divide-se
+          pelo desvio-padrão, o z-score), os valores fora da escala inflam o desvio-padrão e espremem
+          todos os valores legítimos num intervalo minúsculo. O coeficiente estimado passa a ser
+          decidido pela minoria fora do domínio.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            Um termômetro de forno que marca −50 °C em alguns dias por defeito. Calculando a relação
+            entre temperatura e tempo de cozimento com esses dias dentro, a relação some: os −50
+            fazem papel de "forno frio" sem que forno nenhum estivesse frio.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            A depleção (fração do estoque de 1985 já convertida) deveria ir de 0 a 1 e chegava a
+            <strong>−84,9</strong>: em 920 pares AMC-ano (14% do painel), de AMCs com estoque de 1985
+            mínimo que depois cresceu por oscilação pasto ↔ savana. Padronizada assim, ela fazia o
+            teste B2b publicar um nulo (β = −0,015; p = 0,48). Tratado o domínio, β &lt; 0 em 16 de 16
+            células, p &lt; 0,05 em 11 de 16: onde se esgota o estoque, cai também a taxa.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="dominio" data-origem="modo dados: dado real (#39)" data-titulo="O termômetro que marca −50">
+        <figcaption class="cx-lab-dica">No modo simples, ligue e desligue os valores fora do domínio e veja a inclinação. No modo dados, veja a distribuição real da depleção, dentro e fora de 0..1, e o que o z-score faz com os valores legítimos.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>Tratar o domínio não é arrumar o número até ele concordar: é impedir que a escala decida o resultado, com a regra declarada antes. E coeficientes em z-score não se comparam entre tratamentos cujos desvios-padrão diferem.</aside>
+    </article>
+
+    <article class="cx-verbete" id="horse">
+      <div class="cx-vcab"><span class="cx-cod">5.3</span><h3>Horse race: o confundidor da latitude</h3><span class="cx-fonte-tag">#56 · D28</span></div>
+      <p class="cx-umafrase">Ponha as duas explicações candidatas na mesma regressão; a que sobrevive é a que carrega o resultado.</p>
+      <div class="cx-ideia">
+        <p>
+          Quando duas variáveis andam juntas no espaço, um resultado atribuído a uma pode ser da outra.
+          A "corrida de cavalos" estima as duas ao mesmo tempo: cada coeficiente passa a medir o efeito
+          de uma variável mantida a outra constante. Se uma perde a magnitude e a significância quando a
+          outra entra, não era ela que carregava o padrão.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            A venda de chapéus correlaciona com a insolação, até entrar a latitude na conta: chapéu vende
+            mais ao sul, onde por acaso também é mais ensolarado. Com a latitude fixada, a insolação não
+            explica nada.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            Aptidão agrícola e latitude têm r = −0,44 entre as 166 AMCs. Com a latitude na mesma
+            regressão, a aptidão perde <strong>62%</strong> da magnitude (β −0,033 → −0,012) e a
+            significância nas duas réguas (p agrupado 0,026 → 0,30; p por rotação 0,13 → 0,47); a
+            latitude quase não se move. D28: o gradiente medido é o do eixo Sul→Norte; a aptidão é a
+            régua com que o eixo foi medido, não o canal identificado.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="horse" data-origem="modo dados: dado real (#52, #56)" data-titulo="Aptidão ou latitude?">
+        <figcaption class="cx-lab-dica">No modo simples, fixe a latitude e veja a relação sumir. No modo dados, veja as 166 AMCs no plano aptidão × latitude e os coeficientes de cada especificação.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>O horse race não diz que a latitude é o canal. Latitude não tem conteúdo agronômico; ela resume tudo o que muda de sul para norte (acesso, idade da ocupação, preço da terra, solo), e o desenho não separa essas coisas.</aside>
+    </article>
+
+    <article class="cx-verbete" id="maup">
+      <div class="cx-vcab"><span class="cx-cod">5.4</span><h3>MAUP: o problema da unidade de área</h3><span class="cx-fonte-tag">#43</span></div>
+      <p class="cx-umafrase">Mudar a malha de agregação pode mudar a medida. A pergunta é se o achado é da terra ou da malha.</p>
+      <div class="cx-ideia">
+        <p>
+          O MAUP (<em>modifiable areal unit problem</em>) é a sensibilidade de uma estatística espacial à
+          forma e ao tamanho das unidades em que os dados foram agregados. Correlações, médias e
+          centros podem mudar só porque as fronteiras foram desenhadas de outro jeito. Não há solução
+          geral; há o teste caso a caso: refazer a conta em outra malha e ver se o resultado se move.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            Contar árvores em quadrados de 10 m ou de 1 km dá mapas diferentes, e a correlação entre
+            árvores e chuva medida em quadrados grandes costuma sair mais forte que em quadrados
+            pequenos, só pela agregação.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            O #43 refez a manchete do centro de massa pixel a pixel, sem nenhuma malha administrativa:
+            pastagem +79,2 km (contra +77,6 nas AMCs), agricultura +66,9 (contra +65,2). A diferença de
+            1 a 2 km mostra que, para esta manchete, o MAUP não é problema prático.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="maup" data-origem="modo dados: resultado real (#32, #43)" data-titulo="A mesma terra, malhas diferentes">
+        <figcaption class="cx-lab-dica">No modo simples, mude o tamanho das células e veja a correlação entre duas variáveis mudar sem que nenhum ponto tenha mudado. No modo dados, compare a manchete medida nas AMCs e no pixel.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>O MAUP não se resolve em abstrato; mostra-se estável ou não em cada caso. A estabilidade do centro de massa não garante a de outra estatística, e cada uma precisa do seu teste.</aside>
+    </article>
+
+    <article class="cx-verbete" id="iv">
+      <div class="cx-vcab"><span class="cx-cod">5.5</span><h3>Instrumento × placebo</h3><span class="cx-fonte-tag">#46 · malha fundiária LAPIG</span></div>
+      <p class="cx-umafrase">Um instrumento é uma loteria que distribui o tratamento ao acaso. Se a "loteria" premia quem já ia ser tratado, ela é placebo, não instrumento.</p>
+      <div class="cx-ideia">
+        <p>
+          Quando o tratamento e o desfecho se influenciam mutuamente ou dependem de algo não observado,
+          uma variável instrumental pode isolar a parte do tratamento que veio "de fora". Ela precisa
+          de três propriedades: <em>relevância</em> (move o tratamento), <em>exclusão</em> (só afeta o
+          desfecho através do tratamento) e <em>exogeneidade</em> (não é afetada pelo desfecho nem pelo
+          que o confunde). Num painel com efeitos fixos, precisa ainda variar no tempo.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            Estudo aumenta renda, ou renda compra estudo? Uma loteria de bolsas resolve: quem ganhou não
+            escolheu. Se as bolsas forem para quem já tinha as melhores notas, o sorteio não é sorteio.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            A malha fundiária do LAPIG foi avaliada como instrumento para a frente de oferta e rejeitada:
+            é estática (um só retrato, de 2026), endógena (a proteção responde à própria conversão) e
+            posterior ao desfecho. Serve como placebo. O que ela mostra é que Goiás é 90,6% terra
+            privada, e que 97% do estoque convertível remanescente (6,35 de 6,56 Mha) não está sob
+            proteção integral: o teto que resta é físico, não institucional.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="iv" data-origem="diagrama causal" data-titulo="O que faz um instrumento">
+        <figcaption class="cx-lab-dica">Escolha um candidato a instrumento e veja, no diagrama, quais setas ele tem e quais das quatro condições falham.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>Achar um placebo em vez de um instrumento é um resultado negativo, não um consolo. E "convertível" e "protegido" são medidas com limite declarado: MapBiomas e malha vetorial, sem o cadastro ambiental pixel a pixel.</aside>
+    </article>
+
+    <article class="cx-verbete" id="osc">
+      <div class="cx-vcab"><span class="cx-cod">5.6</span><h3>Oscilação do classificador × regeneração</h3><span class="cx-fonte-tag">#12B · #57 · checagem por classe bruta</span></div>
+      <p class="cx-umafrase">Pasto que vira savana num ano e volta no seguinte não é natureza voltando: é o classificador balançando.</p>
+      <div class="cx-ideia">
+        <p>
+          Na borda entre duas classes parecidas, o classificador troca o rótulo de um ano para outro sem
+          que nada mude no chão. Isso gera fluxos brutos nos dois sentidos, de tamanhos parecidos. A
+          regeneração verdadeira é lenta, de mão única e se acumula ao longo de muitos anos. A
+          assinatura que separa as duas é a razão entre os fluxos de ida e de volta e a persistência no
+          horizonte longo.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            Um juiz que relê as mesmas fotos e troca "campo" por "pasto", e no ano seguinte volta atrás.
+            A contagem de mudanças sobe, mas nada mudou nas fotos: mudou o juiz.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            O fluxo reverso pasto → natural é quase todo pasto → savana (75% a 98%), e a razão entre
+            savana → pasto e pasto → savana cai de <strong>8,4 vezes</strong> (1985–1995) para
+            <strong>1,22</strong> (2023–2024: 61.792 ha de um lado, 50.770 do outro). O componente real,
+            pasto → floresta, só aparece no horizonte de 40 anos (184 mil ha, 38% do reverso). Nunca se
+            narra pasto → natural como recuperação.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="osc" data-origem="modo dados: dado real (classes brutas do MapBiomas)" data-titulo="Juiz que balança">
+        <figcaption class="cx-lab-dica">No modo simples, ajuste a conversão verdadeira e o ruído do classificador e compare os fluxos nos dois sentidos. No modo dados, veja a razão entre os sentidos em cada janela e quanto do reverso é floresta.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>Oscilação não quer dizer que o mapa esteja errado em geral: a oscilação se cancela nos saldos líquidos, em que o argumento se apoia. E a troca savana ↔ floresta não foi medida, um resíduo declarado.</aside>
+    </article>
+
+<!-- =====================================================================
+     PARTE 6 — LITERATURA
+     ===================================================================== -->
+    <section class="cx-parte" id="parte-6">
+      <div class="cx-parte-num">Parte 6</div>
+      <h2>As lentes teóricas</h2>
+      <p>
+        Cada termo da frase-síntese do trabalho mobiliza uma literatura: o <em>gradiente</em> e a
+        ordenação dos usos remetem à renda da terra; o <em>empurrão</em> de uma região sobre a outra,
+        ao deslocamento indireto; as <em>forças de mercado</em>, ao câmbio; o <em>limite de oferta</em>,
+        à transição florestal; e a <em>fronteira</em> tem vocabulário próprio na tradição brasileira.
+        Os verbetes seguem o que cada fonte diz, na leitura que o texto da qualificação faz dela, e o
+        que o caso goiano faz com isso.
+      </p>
+    </section>
+
+    <article class="cx-verbete" id="renda">
+      <div class="cx-vcab"><span class="cx-cod">6.1</span><h3>Renda da terra: von Thünen e Ricardo</h3><span class="cx-fonte-tag">Angelsen (2007) · #32 · #52 · #56</span></div>
+      <p class="cx-umafrase">A terra vai para o uso que paga mais por ela; o que muda de lugar para lugar é quanto cada uso consegue pagar.</p>
+      <div class="cx-ideia">
+        <p>
+          No modelo de localização de von Thünen, na formulação que Angelsen (2007) retoma, cada uso
+          da terra gera uma renda por hectare: o valor da produção menos o custo de produzir e de
+          transportar até o mercado. Como o transporte encarece com a distância, a renda de cada uso
+          cai à medida que se afasta do mercado, e cai mais depressa para os produtos caros de
+          transportar por hectare. O resultado são anéis: perto do mercado, o uso intensivo; longe, o
+          extensivo; além, a floresta. Angelsen assume explicitamente, "como von Thünen", a planície
+          homogênea.
+        </p>
+        <p>
+          Ordenar os usos pela <em>qualidade</em> da terra pertence a outra tradição, a ricardiana: a
+          terra melhor rende mais e é ocupada primeiro. É o próprio Angelsen quem faz a ponte,
+          registrando que a qualidade do solo afeta o rendimento e, por essa via, a renda. A versão
+          estendida (localização <em>e</em> qualidade) prevê que os usos se ordenem ao longo do
+          gradiente de aptidão.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            Em volta de uma cidade, a horta fica colada ao mercado (verdura estraga e o frete pesa), a
+            lavoura de grão vem depois, o gado mais longe (ele anda até o frigorífico). Se o preço da
+            verdura sobe, o anel da horta se alarga e empurra os outros para fora, coordenado pelo
+            preço, não por um deslocamento físico.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            A lavoura fica entre 123 e 135 km ao sul do centro da pastagem em todos os quarenta anos,
+            enquanto as três camadas sobem juntas: não uma linha que avança, mas um arranjo que se
+            translada. A aptidão da Embrapa, medida por fora do uso observado, reproduz sozinha a
+            ordenação Sul (4,69) &gt; Centro (4,47) &gt; Norte (4,17). Mas com a latitude na conta a
+            aptidão perde o papel de canal (verbete 5.3): acesso, idade da ocupação e preço da terra se
+            ordenam do mesmo modo em Goiás, e o dado não escolhe entre von Thünen e Ricardo.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="renda" data-titulo="Os cones de renda, em 3D" data-origem="modelo · modo dados: dado real (#32)">
+        <figcaption class="cx-lab-dica">No modo simples, mude preços e custos de transporte e veja os cones de renda de cada uso (arraste para girar); ligue a qualidade ricardiana para inclinar o terreno. No modo dados, veja o vão entre a lavoura e a pastagem ano a ano.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>O modelo prevê a geometria, não o empurrão: a expansão de um anel não é deslocamento causal de uma região sobre a outra. E a ordenação observada é compatível com renda governada por qualidade e igualmente com renda governada por acesso; romper a circularidade (medir o gradiente por fora do uso) não é o mesmo que isolar o canal.</aside>
+    </article>
+
+    <article class="cx-verbete" id="transicao">
+      <div class="cx-vcab"><span class="cx-cod">6.2</span><h3>Transição florestal</h3><span class="cx-fonte-tag">Rudel et al. (2005) · Angelsen (2007) · #39 · #57</span></div>
+      <p class="cx-umafrase">O momento em que uma região deixa de perder cobertura vegetal. As duas formulações discordam sobre o que precisa acontecer depois.</p>
+      <div class="cx-ideia">
+        <p>
+          Rudel et al. (2005, p. 23) definem a transição pelo par: há transição florestal quando a
+          queda da cobertura cessa <em>e</em> a recuperação começa. O artigo identifica dois caminhos até
+          lá: o do desenvolvimento econômico (a mão de obra sai do campo) e o da escassez de produtos
+          florestais (a madeira fica cara e se replanta). Angelsen (2007, p. 3) descreve uma sequência
+          de quatro estágios e separa o terceiro (desaceleração do desmatamento e estabilização da
+          cobertura) do quarto (reflorestamento). Angelsen também amarra espaço e tempo: gradiente
+          espacial e pico temporal seriam faces do mesmo processo de renda da terra.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            Uma poupança que foi sendo gasta: primeiro devagar, depois rápido, depois o saldo para de
+            cair. Parar de cair é o terceiro estágio. Voltar a subir, com depósitos novos, é o quarto.
+            Um saldo que parou de cair porque sobrou pouco para gastar ainda não é recuperação.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            O Sul goiano tem estoque reduzido, taxa de conversão caindo e estabilização a partir de
+            2019, e não tem regeneração líquida: exibe o terceiro estágio de Angelsen e não o quarto, o
+            que, na definição de Rudel, significa que a transição não ocorreu. A estabilização é
+            esgotamento: perde-se pouco porque restou pouco, e o que restou é mais difícil de converter
+            (60% dele é formação florestal, de galeria e cerradão). O arcabouço foi construído sobre
+            florestas; o remanescente goiano é Cerrado.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="transicao" data-titulo="Em que estágio está cada região?" data-origem="modo dados: dado real (MapBiomas, por região)">
+        <figcaption class="cx-lab-dica">No modo simples, mova o tempo ao longo da curva teórica e troque a definição (Angelsen ou Rudel) para ver o veredito mudar. No modo dados, veja a vegetação natural de cada região, em índice 1985 = 100, e a perda anual.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>Cinco anos de estabilização não separam uma sequência inacabada de uma truncada: nenhuma das duas formulações diz quanto tempo separa o terceiro estágio do quarto. O que se afirma é a observação (esgotamento, sem recuperação), não o desfecho.</aside>
+    </article>
+
+    <article class="cx-verbete" id="iluc">
+      <div class="cx-vcab"><span class="cx-cod">6.3</span><h3>Deslocamento indireto (iLUC), <em>leakage</em> e teleacoplamento</h3><span class="cx-fonte-tag">Lapola et al. (2010) · Arima et al. (2011) · Meyfroidt et al. (2010) · Liu et al. (2013) · #34 · #42</span></div>
+      <p class="cx-umafrase">A lavoura que ocupa o pasto aqui pode empurrar o pasto, e a derrubada, para outro lugar.</p>
+      <div class="cx-ideia">
+        <p>
+          A literatura de mudança indireta de uso da terra estabelece que a expansão da lavoura
+          desloca a pecuária e, com ela, a fronteira. Lapola et al. (2010) mostram que esse efeito pode
+          anular a economia de carbono dos biocombustíveis brasileiros. Arima et al. (2011) oferecem a
+          confirmação estatística na Amazônia: sobre 761 municípios, de 2003 a 2008, uma redução de
+          10% da soja em áreas de pasto consolidado teria reduzido o desmatamento em até 40% nos
+          municípios mais florestados. A novidade que declaram é a matriz que liga unidades
+          <em>distais</em>, a centenas de quilômetros. Meyfroidt et al. (2010) definem <em>leakage</em>
+          incluindo o deslocamento para localidades vizinhas; o teleacoplamento (Liu et al., 2013) trata
+          das interações a distância e mantém o acoplamento local como categoria distinta.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            Um condomínio proíbe estacionar na rua; os carros não somem, vão para a rua de trás. Mas
+            podem ir também para o outro lado da cidade, se o motorista mudar de rota. Procurar os
+            carros só na rua de trás testa um dos caminhos, não todos.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            O canal testado aqui é o de adjacência dentro do estado: a lavoura do Sul empurrando o pasto
+            do Norte, com defasagem curta. Em 36 recortes a assinatura exigida não aparece: o Granger é
+            nulo (p = 0,97), o Toda-Yamamoto zera as duas direções, e as 12 estimativas do termo de
+            vizinhança são todas negativas, o sinal oposto ao que o empurrão exigiria. O que ocupa o lugar
+            do empurrão é a substituição local.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="iluc" data-titulo="Vizinho ou distante?" data-origem="dado real (vizinhança do #34)">
+        <figcaption class="cx-lab-dica">Clique numa AMC. No modo "adjacência", destacam-se os vizinhos ao sul que entram no teste do trabalho; no modo "distal", as AMCs a mais de 300 km, o tipo de ligação da matriz de Arima et al.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>Nunca "iLUC refutado". A ausência da assinatura testada não é ausência do fenômeno: ficam fora do alcance um deslocamento de longo alcance que pule os vizinhos, um de defasagem longa, um efeito moderado que o poder do teste não alcança e qualquer canal que atravesse a divisa do estado. E o veredito temporal é "sem líder", não "o Norte lidera".</aside>
+    </article>
+
+    <article class="cx-verbete" id="cambio">
+      <div class="cx-vcab"><span class="cx-cod">6.4</span><h3>O câmbio como <em>driver</em></h3><span class="cx-fonte-tag">Richards (2012) · #37 · #38 · #54</span></div>
+      <p class="cx-umafrase">O produtor vende em dólar e paga em real: desvalorizar o real aumenta o que ele recebe pela mesma saca.</p>
+      <div class="cx-ideia">
+        <p>
+          Richards (2012) é a referência-âncora do driver cambial. A desvalorização das moedas locais no
+          fim dos anos 1990 elevou o retorno esperado da soja e disparou uma resposta de oferta em área:
+          da ordem de 80 mil km², 31% da extensão então cultivada no Brasil, na Bolívia e no Paraguai,
+          surgiram como resposta às desvalorizações; só no Brasil, 63 mil km², 29% da área nacional de
+          2009. Daí a divisão de trabalho do texto: a literatura carrega o nível causal
+          câmbio → soja → fronteira; com efeito fixo de ano, o painel goiano só pode estimar a
+          <em>geografia</em> desse efeito dentro do estado. O texto reserva <em>driver</em> para a força
+          (o câmbio) e <em>drive</em> comum para a hipótese de uma força única incidindo desigualmente
+          ao longo do gradiente.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            Uma saca vale US$ 20 lá fora. Com o dólar a R$ 2, rende R$ 40; com o dólar a R$ 3, R$ 60,
+            sem que o preço internacional tenha mudado. O custo, em reais, ficou onde estava.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            O "preço recebido" do trabalho é a cotação internacional vezes o índice de câmbio real,
+            normalizado. Comparados os Atos II e III, o câmbio real vai de 134,5 para 169,0 e o preço
+            recebido pela soja de 104,4 para 186,4. O câmbio é o único driver com estrutura na grade do
+            #37 e passa no placebo de exogeneidade; no painel das AMCs, câmbio × exposição → rebanho
+            tem a direção prevista, com p por permutação de 0,07 a 0,13.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="cambio" data-titulo="O que o produtor recebe" data-origem="modo dados: dado real (Ipeadata)">
+        <figcaption class="cx-lab-dica">No modo simples, mexa no preço em dólar e no câmbio. No modo dados, veja as séries reais do câmbio, da cotação da soja e do preço recebido, e as médias dos atos.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>Preço recebido e câmbio não são sinais independentes: o câmbio está dentro do índice. Câmbio, preço internacional, crédito e expectativa de renda se movem juntos e caem no mesmo efeito fixo de ano. O câmbio é o candidato mais forte, e continua candidato.</aside>
+    </article>
+
+    <article class="cx-verbete" id="cohn">
+      <div class="cx-vcab"><span class="cx-cod">6.5</span><h3>Intensificação e disputa por terra</h3><span class="cx-fonte-tag">Cohn et al. (2014) · #22 · #34</span></div>
+      <p class="cx-umafrase">Produzir mais carne por hectare poupa terra, mas menos do que a conta simples promete, e a pecuária intensiva disputa com a lavoura as melhores terras.</p>
+      <div class="cx-ideia">
+        <p>
+          Cohn et al. (2014) examinam, com um modelo econômico de uso global da terra, se políticas de
+          intensificação da pecuária brasileira poupariam floresta e reduziriam emissões. Dois
+          resultados interessam aqui. A terra poupada fica bem aquém do proporcional ao ganho de
+          produtividade: a poupança existe, mas é parcial. E, sob as políticas simuladas, a pastagem
+          intensiva tem cerca do dobro da chance da convencional de se instalar nas terras de melhor
+          aptidão e menor custo logístico para soja: a intensificação da pecuária pode competir com a
+          lavoura pela mesma terra.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            Um restaurante dobra o número de pratos por fogão. Deveria precisar de metade da cozinha,
+            mas, com o prato mais barato, vende mais, e acaba usando três quartos. E, se a cozinha nova
+            fica no melhor ponto da rua, disputa o ponto com a padaria.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            A disputa que Cohn projeta em modelo aparece em Goiás como desfecho medido: dentro da AMC,
+            quando a lavoura cresce o pasto recua (β ≈ −0,51), e no Sul a disputa aparece resolvida a
+            favor da lavoura. As séries por região mostram a lotação (cabeças por hectare de pasto)
+            subindo onde o pasto encolhe.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="cohn" data-titulo="Quanto a intensificação poupa" data-origem="modo dados: dado real (MapBiomas e PPM, por região)">
+        <figcaption class="cx-lab-dica">No modo simples, aumente a produtividade e a resposta da demanda ao preço e veja a terra poupada encolher. No modo dados, compare pasto, rebanho e lotação nas três regiões.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>O resultado de Cohn é condicional a políticas simuladas que não vigoraram em Goiás; compara-se o mecanismo, não o cenário. E a lotação é cabeças por hectare de pasto medida, sem conversão em unidade animal: sobe com intensificação, mas também com pasto que encolhe sob o mesmo rebanho.</aside>
+    </article>
+
+    <article class="cx-verbete" id="cerrado">
+      <div class="cx-vcab"><span class="cx-cod">6.6</span><h3>A fronteira do Cerrado e os "dois Goiáses"</h3><span class="cx-fonte-tag">Carneiro Filho e Costa (2016) · Rausch et al. (2019) · Soterroni et al. (2019)</span></div>
+      <p class="cx-umafrase">No Cerrado consolidado, a lavoura avança sobre terra já aberta; na fronteira, sobre vegetação natural. Goiás tem as duas coisas no mesmo estado.</p>
+      <div class="cx-ideia">
+        <p>
+          Três fontes fazem trabalhos distintos. A <strong>composição</strong>: de 2000 a 2014 a área
+          agrícola do Cerrado cresceu 87%, essencialmente sobre áreas já antropizadas (em torno de 70%,
+          chegando a 74% nos dez anos finais), mais da metade sobre pastagem; a exceção é o MATOPIBA,
+          que, sem áreas antropizadas aptas, teve a maior parte da expansão sobre vegetação natural
+          (Carneiro Filho; Costa, 2016). A <strong>magnitude</strong>: a conversão direta para soja
+          respondeu por 16% a 32% do desmatamento anual do Cerrado entre 2003 e 2014 (Rausch et al.,
+          2019). A <strong>projeção</strong>: o MATOPIBA absorveria 86% da expansão da soja no Cerrado
+          entre 2021 e 2050 no cenário de referência (Soterroni et al., 2019).
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            Uma cidade antiga cresce reformando prédios velhos; um bairro novo cresce derrubando o mato.
+            Os dois somam "área construída nova", mas de fontes diferentes.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            Um estado que atravessa o bioma no eixo Sul–Norte deveria mostrar o contraste por dentro,
+            sob um único desenho, na mesma malha e com o mesmo classificador. As matrizes de transição
+            por mesorregião mostram de onde vem a terra que vira agricultura ou mosaico: pastagem no Sul,
+            parcela maior de vegetação natural no Norte.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="cerrado" data-titulo="De onde vem a terra da lavoura" data-origem="dado real (matrizes de transição por mesorregião)">
+        <figcaption class="cx-lab-dica">Escolha o ato. Cada barra mostra, para uma mesorregião, a origem da área que passou a agricultura ou mosaico no período.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>A comparação com o MATOPIBA é de padrão, não de números: as fontes usam períodos, recortes e classificações diferentes. E "dois Goiáses" é leitura descritiva, não fronteira política nem tipologia fundiária.</aside>
+    </article>
+
+    <article class="cx-verbete" id="martins">
+      <div class="cx-vcab"><span class="cx-cod">6.7</span><h3>Frente de expansão e frente pioneira</h3><span class="cx-fonte-tag">Martins (1996) · #39 · #41 · #51</span></div>
+      <p class="cx-umafrase">Duas temporalidades da ocupação que coexistem no mesmo território. No trabalho, vocabulário, e não hipótese a testar.</p>
+      <div class="cx-ideia">
+        <p>
+          Martins (1996), ao retomar a controvérsia sobre o tempo histórico da ocupação, distingue a
+          <em>frente de expansão</em> da <em>frente pioneira</em>, que se diferenciam pelas relações de
+          trabalho, pelas formas de propriedade e pelo grau de mediação capitalista da ocupação. Na
+          frente de expansão, as relações de produção são predominantemente não capitalistas, embora
+          mediadoras da reprodução do capital, porque a distância dos mercados e a precariedade das
+          vias comprometem o lucro. A frente pioneira se define pela presença do capital na produção:
+          o capital se torna proprietário da terra e traz consigo o mercado de produtos e de força de
+          trabalho. O próprio autor adverte que a distinção é, "na melhor das hipóteses, um
+          instrumento auxiliar". As categorias são sociológicas.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            Numa mesma estrada, num trecho há sitiantes que chegaram antes do asfalto; em outro, uma
+            empresa agrícola com crédito e máquina. As duas ocupações existem ao mesmo tempo e são de
+            naturezas diferentes.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            A correspondência com os "dois Goiáses" é analógica e serve para nomear o contraste: o Norte
+            quase dobra a área agropecuária (+93% contra +14% no Sul, #51), o fogo segue à frente da
+            conversão em 39 de 39 anos (#41) e resta ali boa parte do estoque convertível do estado (#39).
+            O Sul reorganiza o que já produzia.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="martins" data-titulo="Dois Goiáses, lado a lado" data-origem="dado real (MapBiomas, por região)">
+        <figcaption class="cx-lab-dica">Escolha a medida para comparar o Sul e o Norte ao longo dos 40 anos.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>Os dados medem cobertura do solo e agregados municipais, não relações de trabalho, propriedade ou agentes. A tipologia de Martins nomeia o contraste; nada nestes dados poderia testá-la.</aside>
+    </article>
+
+<!-- =====================================================================
+     PARTE 7 — OS CONCEITOS DO ARGUMENTO
+     ===================================================================== -->
+    <section class="cx-parte" id="parte-7">
+      <div class="cx-parte-num">Parte 7</div>
+      <h2>Os conceitos com que o argumento é montado</h2>
+      <p>
+        A frase-síntese do trabalho diz que houve uma reorganização espacial da produção entre 1985 e
+        2024, com intensificação no Sul e fronteira no Norte, compatível com forças de mercado comuns
+        atuando ao longo de um gradiente espacial e limitada pelo encolhimento da terra ainda exposta
+        à conversão. Os quatro verbetes finais desmontam essa frase nas suas peças.
+      </p>
+    </section>
+
+    <article class="cx-verbete" id="drive">
+      <div class="cx-vcab"><span class="cx-cod">7.1</span><h3>Motor comum × empurrão</h3><span class="cx-fonte-tag">#34 · #37 · #38 · #42 · #54</span></div>
+      <p class="cx-umafrase">Duas metades do estado que marcham juntas podem estar se empurrando, ou respondendo à mesma força. As duas hipóteses deixam assinaturas diferentes.</p>
+      <div class="cx-ideia">
+        <p>
+          Na hipótese do <em>empurrão</em>, a lavoura do Sul desloca o pasto para o Norte: o passado do
+          Sul deveria prever o Norte, e o crescimento da lavoura nos vizinhos ao sul deveria vir com
+          aumento do pasto local. Na hipótese do <em>drive comum</em>, uma força externa (o câmbio é o
+          candidato mais forte) atinge o estado inteiro e se distribui de modo desigual ao longo do
+          gradiente: as duas metades co-movem sem que uma comande a outra; o teste inverso com a força
+          externa dá nulo; e a resposta ao mesmo choque muda de forma com a posição no eixo.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            Dois barcos que sobem e descem juntos no porto. Pode ser que um esteja amarrado ao outro e o
+            puxe; pode ser a maré levantando os dois. Se é a maré, cortar a corda não muda nada, e o
+            barco mais perto da barra sobe mais.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            O empurrão não deixa a assinatura exigida em nenhum dos 36 recortes. O drive comum aparece
+            na direção prevista e sobrevive à bateria de especificidade (placebos de desfecho e de tempo
+            vazios, sinal estável no jackknife), mas o p apropriado ao desenho fica entre 0,07 e 0,13.
+            É evidência compatível com reorganização coordenada sob força comum, não demonstração dela,
+            e ficam em aberto as duas identidades: qual é a força e qual característica do eixo importa.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="drive" data-titulo="Corda ou maré?" data-origem="simulação · placar real">
+        <figcaption class="cx-lab-dica">No modo simples, gere dados sob cada hipótese e veja qual assinatura cada uma deixa. No modo dados, percorra o placar do trabalho, assinatura por assinatura.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>O empurrão não ter aparecido reduz o espaço das explicações, mas não elege a que sobra. Preço internacional, câmbio, crédito e expectativa de renda se movem juntos e caem no mesmo efeito fixo de ano: o câmbio é candidato, não força identificada.</aside>
+    </article>
+
+    <article class="cx-verbete" id="gradiente">
+      <div class="cx-vcab"><span class="cx-cod">7.2</span><h3>O gradiente Sul→Norte</h3><span class="cx-fonte-tag">#32 · #52 · #56 · #57 · D28</span></div>
+      <p class="cx-umafrase">O eixo em que o mesmo motor encontra terras diferentes. A posição no eixo é a exposição; não é uma causa que viaja pelo corredor.</p>
+      <div class="cx-ideia">
+        <p>
+          Goiás atravessa o Cerrado de sul a norte, e quase tudo o que importa para o uso da terra muda
+          na mesma direção: a idade da ocupação, o acesso a mercado e a infraestrutura, a aptidão
+          agrícola, o preço da terra, o estoque de vegetação que resta. O gradiente é o fio que costura
+          o trabalho: a marcha dos centros de massa, a ordenação dos usos, a resposta desigual ao
+          choque comum, a frente ativa no Norte e o esgotamento no Sul.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            Um corredor de 600 km com a mesma chuva caindo em todo ele, mas com solo encharcado numa
+            ponta e seco na outra. A mesma chuva produz enchente numa ponta e nada na outra. A chuva é
+            comum; a resposta depende da posição.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            A aptidão da Embrapa decresce de sul para norte (Sul 4,69, Centro 4,47, Norte 4,17), e a
+            fronteira ativa degrada o próprio estoque no Norte (a aptidão média do que resta cai 0,12 em
+            40 anos, enquanto no Sul fica em 4,60 → 4,61, #57). Mas, pela D28, o gradiente medido é o do
+            <strong>eixo</strong>: com a latitude na conta, a aptidão perde o papel de canal e fica
+            como a régua com que o eixo foi medido.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="gradiente" data-titulo="Goiás de sul a norte, em faixas" data-origem="dado real (166 AMCs)">
+        <figcaption class="cx-lab-dica">Escolha a medida e o ano. As AMCs são agrupadas em faixas de latitude, de sul a norte, e cada barra é a média da faixa.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>O gradiente não é o canal. É o eixo onde um choque comum encontra exposições diferentes, e as candidatas a explicar por que a posição importa (solo, acesso, idade, preço da terra) se ordenam todas do mesmo jeito.</aside>
+    </article>
+
+    <article class="cx-verbete" id="teto">
+      <div class="cx-vcab"><span class="cx-cod">7.3</span><h3>Teto de oferta de terra</h3><span class="cx-fonte-tag">#39 · #39B · #46 · #57</span></div>
+      <p class="cx-umafrase">Quando a conversão cai com a demanda no pico, a explicação mais provável é do lado da oferta.</p>
+      <div class="cx-ideia">
+        <p>
+          Se uma região converte menos terra, pode ser porque perdeu apetite (demanda) ou porque ficou
+          sem terra que valha a pena converter (oferta). A leitura de oferta se monta por eliminação:
+          a taxa caiu enquanto os sinais de demanda estavam no pico; o que a derrubou não foi a lei
+          (a terra que resta está quase toda desprotegida); a demanda foi atendida por outra fonte
+          (pasto já aberto); e a terra que sobrou não é pior em aptidão, é de outro tipo (mais floresta
+          de galeria e cerradão, relevo mais quebrado).
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            A fila do pão para de crescer, mas continua chegando gente. Se a padaria parou de vender
+            porque ninguém quer pão, a fila some; se parou porque o forno não dá conta, a fila fica. E se
+            a padaria passa a vender o pão de ontem, o freguês é atendido de outra fonte.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            No Ato III, câmbio, preço recebido e soja plantada sobem. No Sul, a taxa de conversão de
+            pastagem em lavoura ou uso misto sobe 51%, o acréscimo anual de soja plantada acelera 244%, e
+            a abertura de Cerrado novo cai pela metade. No estado, a fronteira não fechou (resta cerca de
+            60% do estoque exposto de 1985), migrou para o norte. E 97% do que resta está fora da
+            proteção integral: o teto é físico, não institucional.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="teto" data-titulo="A fila do pão e o Sul do Ato III" data-origem="modo dados: números do texto e do #39">
+        <figcaption class="cx-lab-dica">No modo simples, mude a chegada de fregueses e a capacidade do forno, e ligue a "fornada de ontem". No modo dados, compare os sinais de demanda com o que aconteceu com cada fonte de terra no Sul.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>"Convertível" e "protegido" são medidas com teto declarado, sem cadastro ambiental pixel a pixel. A decomposição não diz por que a taxa cai; a parcela residual reúne propensão, atrito, proteção e troca de fonte. Restrição de oferta é leitura por eliminação, não medida direta.</aside>
+    </article>
+
+    <article class="cx-verbete" id="carbono">
+      <div class="cx-vcab"><span class="cx-cod">7.4</span><h3>Carbono: estoque removido e emissão líquida</h3><span class="cx-fonte-tag">#47 · D30 · D31 · 4º Inventário Nacional (MCTI) · SEEG</span></div>
+      <p class="cx-umafrase">Derrubar a vegetação tira o carbono dela; o uso que entra no lugar devolve uma parte. E hectares de formações diferentes não valem o mesmo.</p>
+      <div class="cx-ideia">
+        <p>
+          O carbono de uma conversão é a área convertida vezes a densidade de carbono da formação
+          (toneladas por hectare), convertida em CO₂ pelo fator 44/12. As densidades vêm do Quarto
+          Inventário Nacional, agregadas às classes do MapBiomas pela nota metodológica do SEEG (D30),
+          somando biomassa acima e abaixo do solo, madeira morta e serrapilheira, sem o carbono do solo.
+          O <em>estoque removido</em> é o que saiu da vegetação; a <em>emissão líquida</em> desconta o
+          estoque do uso que entrou no lugar (D31). São duas grandezas, e cada frase usa a sua.
+        </p>
+      </div>
+      <div class="cx-duplo">
+        <section class="cx-ex cx-ex--simples">
+          <h4>Exemplo simples</h4>
+          <p>
+            Esvaziar uma caixa com 60 livros e outra com 40: saíram 100. Se no lugar entram 15 livros
+            novos, o saldo é 85. E perder uma caixa grande pode custar mais que perder duas pequenas.
+          </p>
+        </section>
+        <section class="cx-ex cx-ex--dados">
+          <h4>Com os seus dados</h4>
+          <p>
+            A conversão removeu cerca de <strong>973 Mt de CO₂e</strong> de estoque; descontado o uso
+            entrante, a emissão líquida é de <strong>833 Mt</strong> (−14,4%). A formação savânica
+            responde por 573 Mt, contra 340 da florestal, não por valer mais por hectare, mas por ter
+            perdido 2,6 vezes mais área. Um hectare de floresta vale 1,6 de savana. Três quartos saíram no
+            Ato I (48,1 Mt por ano); o ritmo cai para 9,7 no Ato II e é de 11,8 no Ato III.
+          </p>
+        </section>
+      </div>
+      <figure class="cx-lab" data-w="carbono" data-titulo="Área × densidade" data-origem="dado real (#47, densidades D30)">
+        <figcaption class="cx-lab-dica">Mova a área perdida de cada formação e veja o carbono mudar; ligue o desconto do uso entrante e a convenção do Mosaico. Abaixo, o ritmo por ato.</figcaption>
+      </figure>
+      <aside class="cx-nao"><strong>O que isso não diz</strong>"Removido" não é "emitido", e nada aqui é desmatamento evitado: não há contrafactual. O carbono do solo não entra. E a soma por atos (944 Mt) não fecha os 973 do período inteiro porque as viradas de período não pertencem a ato nenhum; a diferença, de 3%, é declarada.</aside>
+    </article>
+
+
+
+    <footer class="cx-rodape">
+      <p>
+        Caderno de conceitos da dissertação CIAMB-UFG · Goiás 1985–2024. Os números reais vêm de
+        <code>assets/data/conceitos.json</code>, gerado por <code>scripts/gerar_dados_conceitos.py</code> a partir
+        das saídas dos pipelines, e de dois arquivos que a visualização já publica. Miniaturas e simulações usam
+        números inventados de propósito, e cada peça diz qual é o caso.
+        Anexo digital de uma dissertação — não a substitui.
+      </p>
+      <p><a href="index.html">← Voltar à visualização principal</a> · <a href="#top">↑ Topo</a></p>
+    </footer>
+  </main>
+</div>
+
+<script src="assets/js/vendor/d3.v7.min.js"></script>
+<script src="assets/js/conceitos/nucleo.js?v=5"></script>
+<script src="assets/js/conceitos/parte1.js?v=5"></script>
+<script src="assets/js/conceitos/parte2.js?v=5"></script>
+<script src="assets/js/conceitos/parte3.js?v=5"></script>
+<script src="assets/js/conceitos/parte4.js?v=5"></script>
+<script src="assets/js/conceitos/parte5.js?v=5"></script>
+<script src="assets/js/conceitos/parte6.js?v=5"></script>
+<script src="assets/js/conceitos/parte7.js?v=5"></script>
+</body>
+</html>
