@@ -133,12 +133,22 @@ com o produto interno bruto (PIB) e o valor adicionado por setor, e o
 
 O painel macroeconômico vem do Ipeadata, base de séries do Instituto de
 Pesquisa Econômica Aplicada (IPEA, \citeyear{IPEA_Ipeadata}): a taxa de câmbio
-real efetiva e os preços recebidos pelo produtor de soja e de boi. Convém
+real efetiva e as cotações internacionais da soja e da carne bovina, em dólares
+correntes. Convém
 nomear a série cambial com precisão, porque é ela que faz o papel de choque
 comum em toda a Seção~\ref{sec:res-perna3}; trata-se do índice de taxa de
 câmbio efetiva real, deflacionado pelo Índice Nacional de Preços ao Consumidor
 e ponderado pela pauta de exportações, em que a \emph{alta} do índice significa
 moeda \emph{depreciada}.
+
+Dessas séries deriva o que este texto chama de \emph{preço recebido}, e o nome
+precisa ser lido como o de uma construção, e não o de uma pesquisa de preços
+junto ao produtor. Ele é o produto da cotação internacional pelo índice de
+câmbio real, normalizado para média igual a 100 entre 1985 e 2024, e aproxima o
+valor em reais de uma tonelada exportada. Duas consequências acompanham a
+construção. A cotação em dólar não é deflacionada, e o ajuste real fica a cargo
+do câmbio; e, como o câmbio está dentro do índice, preço recebido e câmbio não
+são sinais independentes, o que pesa sempre que os dois aparecem lado a lado.
 
 Somam-se ainda o crédito rural do Sistema de Operações do Crédito Rural e do
 Proagro (SICOR) \cite{BACEN_SICOR}, o índice de desenvolvimento municipal
@@ -208,8 +218,8 @@ como as demais \\
 \addlinespace
 Ipeadata --- séries macroeconômicas & 1985--2024, anual &
 Taxa de câmbio real efetiva (série GAC12, deflacionada pelo Índice Nacional de
-Preços ao Consumidor, ponderação de exportações) e preços recebidos pelo
-produtor de soja e de boi. É a fonte do \emph{shifter} do desenho de interação
+Preços ao Consumidor, ponderação de exportações) e cotações internacionais da
+soja e do boi. É a fonte do \emph{shifter} do desenho de interação
 (Seção~\ref{sec:met-instrumental}) e dos sinais de demanda do
 Capítulo~\ref{cap:resultados} \\
 \addlinespace
@@ -738,9 +748,10 @@ vetorial na escala 1:500.000, e cada polígono traz o símbolo do sistema de
 avaliação da aptidão agrícola das terras, cujo dígito líder é o grupo de
 aptidão, de 1, a melhor para lavouras, a 6, indicada para preservação. O grupo
 é convertido em escore por $7 - \text{grupo}$, de modo que o valor cresce com a
-aptidão. A camada é recortada em Goiás, sobreposta às 166 AMCs em projeção
-equivalente --- Albers de áreas iguais para a América do Sul, a mesma dos
-demais cálculos de área ---, e a aptidão da unidade é a média do escore
+aptidão. A camada é recortada em Goiás e sobreposta às 166 AMCs em projeção
+equivalente, a Albers de áreas iguais para a América do Sul, empregada apenas
+nesta sobreposição vetorial, pois as áreas do raster vêm da contagem de pixels
+descrita na Seção~\ref{sec:met-amc}. A aptidão da unidade é a média do escore
 ponderada pela área dos polígonos que a cobrem. A cobertura efetiva é de
 33,0 milhões de hectares, ou 97\% do estado. A exposição que entra na
 interação é essa média
@@ -1316,15 +1327,16 @@ Capítulo~\ref{cap:resultados}.
 \textbf{Não há identificação causal forte para o papel do câmbio.} O desenho
 de interação estima o gradiente do efeito, não seu nível, e a inferência
 apropriada ao caso (permutação do \emph{shifter}) não sustenta significância
-aos níveis convencionais. O resultado é corroborante e não estabelecido. O
+aos níveis convencionais. O resultado aponta na direção prevista, e a sua força
+não é medida por este desenho. O
 teto é estrutural, pois um choque macroeconômico nacional oferece cerca de 38
 realizações independentes, e nenhuma quantidade adicional de unidades
 espaciais aumenta esse número.
 
 \textbf{E o gradiente estimado não é atribuível à aptidão em particular.} A
 corrida entre exposições mostrou que a latitude, posta na mesma regressão,
-absorve o coeficiente da aptidão (Seção~\ref{sec:res-perna3}). O que fica
-corroborado (aquém do corte de significância, na régua de permutação) é
+absorve o coeficiente da aptidão (Seção~\ref{sec:res-perna3}). O que o dado
+sustenta (aquém do corte de significância, na régua de permutação) é
 que o choque comum bate mais forte no eixo Sul--Norte; \emph{qual}
 característica desse eixo faz a diferença (solo e clima, acesso, preço da
 terra, estrutura fundiária, idade da ocupação), este desenho não separa,
@@ -1339,8 +1351,9 @@ testada não aparece nos dados examinados, com o poder disponível, e não que o
 fenômeno de deslocamento indireto de uso da terra tenha sido refutado, o que
 exigiria desenho e escala distintos. A distinção entre ``não encontrei'' e
 ``não há'' vale, em particular, quando a variável dependente é medida com
-ruído, pois erro de medida no desfecho atenua qualquer associação em direção a
-zero. Esta pesquisa encontrou um caso concreto disso, em que um resultado nulo
+ruído, pois erro de medida no desfecho reduz a precisão da estimativa e o
+poder do teste, e, quando não é puramente aleatório, pode também atenuar a
+associação. Esta pesquisa encontrou um caso concreto disso, em que um resultado nulo
 aparentemente limpo inverteu-se ao ser recalculado nos mesmos municípios com
 desfecho medido por censo em lugar de amostra.
 

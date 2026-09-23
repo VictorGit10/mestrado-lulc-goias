@@ -141,24 +141,29 @@ sustentasse as duas; aqui elas se separam empiricamente. O mecanismo local
 aparece em quase toda especificação, ao passo que o mecanismo à distância não
 aparece em nenhuma.
 
-Um detalhe do resultado espacial pede prudência interpretativa. As doze
-estimativas são todas negativas (quando a lavoura dos vizinhos ao sul cresce,
-o pasto local diminui), e onze delas não são significativas; a décima segunda
-é significativa ($p = 0{,}02$), no sentido \emph{oposto} ao que a hipótese de
-empurrão exigia. A leitura tentadora seria transformar isso num achado sobre
-transbordamento invertido.
+Um detalhe do resultado espacial pede prudência interpretativa. Com a matriz
+dos oito vizinhos mais próximos, as doze estimativas são todas negativas
+(quando a lavoura dos vizinhos ao sul cresce, o pasto local diminui), e onze
+delas não são significativas; a décima segunda é significativa ($p = 0{,}02$),
+no sentido \emph{oposto} ao que a hipótese de empurrão exigia. A leitura
+tentadora seria transformar isso num achado sobre transbordamento invertido.
 
-Ela não se sustenta, e por dois motivos que o Capítulo~\ref{cap:resultados}
+Ela não se sustenta, e por três motivos que o Capítulo~\ref{cap:resultados}
 registra. O primeiro é o lugar dessa única célula significativa, que está na
 régua da classe ``Agricultura'' do satélite, a que a mudança de rótulo
 contamina no fim da série, e por isso não pode carregar conclusão. O segundo é
+a própria matriz de vizinhança. Com quatro ou com doze vizinhos a célula deixa
+de ser significativa, e no desfecho rebanho algumas estimativas passam a
+positivas, ainda que indistinguíveis de zero, de modo que o sinal negativo
+universal é próprio da matriz de oito e não resiste à troca. O terceiro é
 o placebo direcional: numa das seis células o termo dos vizinhos \emph{ao
 norte} também acende, onde o termo ao sul correspondente é nulo --- e um
 empurrão que acende nas duas direções não tem a direção que a hipótese lhe
 atribuía. O mais que se pode dizer é que a substituição local tem alguma
 expressão espacial, com municípios vizinhos compartilhando a mesma dinâmica de
-troca de pasto por lavoura. O sinal é informativo por excluir a hipótese
-testada, não por estabelecer outra em seu lugar.
+troca de pasto por lavoura. O que é informativo, nas três matrizes, é a
+ausência de um termo positivo distinguível de zero, que exclui a hipótese
+testada sem estabelecer outra em seu lugar.
 
 \section{O motor comum e a divisão de trabalho com a literatura}
 \label{sec:disc-drive}
@@ -174,7 +179,8 @@ canal cambial vem de \citeonline{Richards2012}, em escala nacional e
 continental, enquanto o que se estima aqui é apenas a geografia desse efeito
 dentro do estado.
 
-Sobre esse gradiente, o veredito é corroborante e não estabelecido. O
+Sobre esse gradiente, o resultado aponta na direção prevista sem alcançar
+significância. O
 coeficiente tem a direção prevista, mas o p-valor apropriado ao desenho
 (permutação do \emph{shifter}, que substitui um erro-padrão agrupado
 reconhecidamente otimista para desenhos com um único choque) fica entre
@@ -220,9 +226,9 @@ vários estados que multiplicasse as realizações do choque. São desenhos
 distintos, não robustez adicional sobre este.
 
 Uma delimitação acompanha qualquer citação deste resultado, e ela tem agora
-duas metades simétricas. O que fica \emph{corroborado} é o
-mecanismo (\emph{corroborado} porque a inferência apropriada ao desenho não
-cruza o corte de 5\%): reorganização sob força comum, não empurrão entre regiões. Ficam em
+duas metades simétricas. O que o dado sustenta é o
+mecanismo, com a ressalva de que a inferência apropriada ao desenho não
+cruza o corte de 5\%: reorganização sob força comum, não empurrão entre regiões. Ficam em
 aberto as duas identidades. A da força: o câmbio é o candidato mais forte e permanece
 candidato, porque preço internacional, câmbio, crédito e expectativa de renda
 movem-se juntos e são absorvidos pelo mesmo efeito fixo de ano. E a do
@@ -329,7 +335,8 @@ A distinção entre empurrão e motor comum tem consequência prática, pois mud
 alavanca. Se a conversão no Norte fosse efeito dominó da lavoura do Sul,
 conter a lavoura do Sul conteria a fronteira, e a política eficaz seria de
 realocação. Na medida em que as duas dinâmicas respondam a um estímulo comum
-ao longo do gradiente Sul--Norte (leitura corroborante, não estabelecida), uma
+ao longo do gradiente Sul--Norte (leitura apoiada na especificidade dos testes,
+e não em significância estatística), uma
 política que apenas desloque atividade entre regiões tende a não reduzir a
 conversão total. O que muda o resultado agregado é o que altera o retorno de
 converter, e isso age sobre o estado inteiro.
@@ -376,48 +383,55 @@ com outro desenho (Quadro~\ref{quadro:alcance}).
 
 \begin{quadro}[htb]
 \centering
-\caption[Grau de estabelecimento por frente]{Grau de estabelecimento por frente e o que elevaria cada um.}
+\caption[O que cada frente mostra e o que não separa]{O que cada frente mostra, o que ela não separa e o que elevaria o alcance.}
 \label{quadro:alcance}
 \small
-\begin{tabular}{p{2.3cm}p{4.0cm}p{2.3cm}p{5.0cm}}
+\begin{tabular}{p{1.9cm}p{4.2cm}p{4.0cm}p{4.0cm}}
 \toprule
-\textbf{Frente} & \textbf{Afirmação} & \textbf{Grau} & \textbf{O que elevaria} \\
+\textbf{Frente} & \textbf{O que o teste mostra} & \textbf{O que ele não separa} & \textbf{O que elevaria} \\
 \midrule
 1. O padrão &
-A conversão e o rebanho deslocam-se ao norte; o gradiente latitudinal
-persiste &
-estabelecido &
+O centro de massa da pastagem, do rebanho e da lavoura está 65--78~km mais ao
+norte, com intervalo que exclui zero, e o gradiente latitudinal persiste nos
+quarenta anos &
+Se a classe mudou de lugar, pois o centro se desloca por ganho no Norte, por
+perda no Sul ou por crescimento desigual, e na lavoura é o terceiro caso &
 sobrevive a pixel, malha, classe e barra de erro; o que resta é a acurácia do
 próprio classificador, que nenhum recorte alcança \\
 \addlinespace
 2. Mecanismo &
-Duas lógicas coexistem em todo o estado; a região explica pouco da idade da
-pastagem &
-estabelecido &
+As duas lógicas coexistem em todo o estado, e as duas populações de pastagem
+aparecem nas cinco mesorregiões e nas 166 AMC &
+O que decide entre elas, pois a mesorregião explica 0,5\% da idade e o
+sistema produtivo não decide &
 o que a região não explica pede dado por imóvel rural, não agregado
 municipal \\
 \addlinespace
 3a. Deslocamento &
-O canal local e contemporâneo não apresenta a assinatura exigida &
-nulo; poder declarado no eixo temporal &
+O canal local e contemporâneo não apresenta a assinatura exigida, em nenhuma
+das doze especificações espaciais nem das vinte e quatro temporais &
+Um empurrão de longo alcance, de defasagem longa ou que cruze a divisa
+estadual, e o teste temporal só descarta efeito forte (poder de 93\%, contra
+48\% para moderado) &
 desenho de maior alcance espacial e defasagem longa; travessia da divisa
 estadual \\
 \addlinespace
 3b. \emph{Drive} comum &
 A resposta ao choque comum distribui-se ao longo do eixo Sul--Norte, no
-sentido previsto e aquém do corte de significância; nem a força nem a
-característica do eixo são identificadas pelo desenho &
-corroborante &
+sentido previsto, com $p$ de permutação entre 0,07 e 0,13 e todos os placebos
+saindo vazios &
+Qual força, pois câmbio, crédito e preço movem-se juntos, e qual característica
+do eixo, pois aptidão e latitude ordenam-se do mesmo modo &
 \emph{shifter} com variação transversal, janela maior ou painel
 multiestadual; exposições que não se ordenem com a latitude \\
 \addlinespace
 4. Teto de oferta &
-A freada do Sul é compatível com atrito de oferta de terra, e não com
-esfriamento da demanda, pois à medida que a região se esgota caem juntos o
-estoque e a taxa de conversão, e o que resta é majoritariamente a fisionomia
-que a fronteira não consome. Elimina-se a \emph{proteção integral}; Reserva
-Legal e APP não são separadas do esgotamento &
-eliminação \emph{e} mecanismo medido &
+A freada do Sul é compatível com atrito de oferta, e não com esfriamento da
+demanda, pois à medida que a região se esgota caem juntos o estoque e a taxa de
+conversão, e o que resta é majoritariamente a fisionomia que a fronteira não
+consome. Elimina-se a proteção integral &
+Quanto do remanescente é Reserva Legal e APP, que o dado não separa do
+esgotamento &
 cadastro ambiental pixel a pixel; e o Ato~III é curto \\
 \bottomrule
 \end{tabular}

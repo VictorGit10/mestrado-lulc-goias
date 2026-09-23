@@ -1300,9 +1300,16 @@ conflito de interesse anotado no `.bib`: o orientador é coautor); e a produçã
 regional sobre Goiás, com as duas perguntas que orientam a busca.
 
 **Cronograma**: depósito e defesa separados pelo **prazo de leitura da banca**
-(era a mesma célula), e o **produto do mestrado profissional** nomeado como
-requisito formal a alinhar com o programa — pendência que o README registrava
-desde 13/ago e o texto não enunciava.
+(era a mesma célula), e os **produtos de uso direto** nomeados como entrega do
+trabalho — pendência que o README registrava desde 13/ago e o texto não
+enunciava.
+
+> ⚠️ **Corrigido em 22/set/2026, pelo autor.** A frase original desta linha dizia
+> "o **produto do mestrado profissional** nomeado como requisito formal a
+> alinhar com o programa" — erro de registro, não do documento: o PPGCIAMB é
+> mestrado **acadêmico**, e não há requisito formal de produto técnico. O cap. 6
+> nunca disse isso: fala em "produtos de uso direto" (repositório e
+> visualização), que são entregas do trabalho, não exigência do programa.
 
 **Contagens atualizadas**: 54 → **57 pipelines**, 27 → **28 decisões**, quatro
 → **cinco** decisões críticas na §3.7, cinco → **seis** réguas, quatro →

@@ -216,11 +216,15 @@ PROIBIDAS = [
     (r"0,026|0,031", "p-valores agrupados não devem ser citados como significância"),
     (r"vegeta[çc][ãa]o\s+nativa", "usar 'vegetação natural' (classe 3 'floresta nativa' é exceção legítima)"),
 ]
+# 22/set/2026: as âncoras de 2.5 e 5.3 citavam "corroborante e não estabelecid*".
+# O rótulo saiu do texto (ele nomeava um grau sem explicar o que o teste mostrou);
+# a invariante continua sendo a mesma, isto é, os dois pontos precisam declarar que
+# o achado aponta na direção prevista sem alcançar significância.
 ANCORAS = [
     (CAP2, r"não equivale a demonstrar que o fenômeno não exista", "ressalva do nulo do iLUC (§2.3)"),
-    (CAP2, r"corroborante e não estabelecida", "grau do drive comum no cap. 2 (§2.5)"),
+    (CAP2, r"sem cruzar o corte usual de\s+significância", "calibragem do drive comum no cap. 2 (§2.5)"),
     (CAP2, r"não constitui teste", "Martins entra como vocabulário (§2.7)"),
-    (CAP5, r"corroborante e não estabelecido", "grau do drive comum (§5.3)"),
+    (CAP5, r"aponta na direção prevista sem alcançar\s+significância", "calibragem do drive comum (§5.3)"),
     (CAP5, r"não descreve uma reserva de terra aproveitável", "voz da exposição (§5.5)"),
 ]
 

@@ -286,8 +286,8 @@ convenções, campo alagado e silvicultura, detalhadas na nota daquela tabela.}
 A primeira frente responde à pergunta mais básica: a fronteira agropecuária
 de Goiás se moveu, e para onde? A medida é o centro de massa de cada uso da
 terra, o ponto de equilíbrio geográfico ponderado pela quantidade da
-variável, acompanhado ano a ano sobre as 166 AMCs. O resultado é
-uniforme, e tudo marchou ao norte (Tabela~\ref{tab:centros}).
+variável, acompanhado ano a ano sobre as 166 AMCs. O resultado é uniforme, e
+todos os centros subiram (Tabela~\ref{tab:centros}).
 
 \begin{table}[htb]
 \centering
@@ -313,6 +313,21 @@ Da tabela saem leituras complementares. O deslocamento da pastagem, do rebanho
 e da agricultura é grande e está longe de zero. A vegetação natural, por outro
 lado, não acompanhou, e seu intervalo inclui zero. Ela é descrita como ancorada,
 e não como tendo andado oito quilômetros, o que seria ler ruído como sinal.
+
+Antes de seguir, convém dizer o que faz um centro de massa se deslocar, porque a
+palavra ``marcha'' sugere mais do que a medida entrega. O centro é o ponto de
+equilíbrio de uma distribuição, e ele se move quando a quantidade se redistribui
+no território, sem que nenhum hectare mude de lugar. Ele sobe tanto quando o
+Norte ganha quanto quando o Sul perde, e as três camadas não contam a mesma
+história a esse respeito. Na pastagem, as duas pontas se movem, pois o Sul perde
+1,72~Mha entre 1985 e 2024 e o Norte ganha 2,24~Mha, e a parcela do Sul cai de
+50,5\% para 31,9\%. No rebanho, quem move o centro é o Norte, que mais que dobra
+(\mbox{$+127$\%}), enquanto o Sul fica praticamente parado (\mbox{$-1$\%}). Na
+agricultura, o centro sobe sem que a lavoura deixe o Sul, pois a área cresce nas
+três regiões e cresce mais no Sul em hectares (\mbox{$+2{,}89$~Mha}, contra
+\mbox{$+1{,}02$} no Centro e \mbox{$+0{,}49$} no Norte); o que muda é a parcela do
+Sul, de 92,3\% para 71,3\%. A afirmação que a série sustenta, portanto, é de
+reorganização da distribuição, e não de deslocamento de um objeto.
 
 O deslocamento líquido esconde o ritmo, e o ritmo diz mais do que o total. Nos
 três atos, a pastagem anda a $+2{,}5$, $+1{,}4$ e $+2{,}8$~km por ano, e o
@@ -442,9 +457,12 @@ bloco de uma a catorze AMCs, o intervalo alarga como esperado (no caso da
 pastagem, de 45 para 80~km de largura), e \textbf{o veredito não muda em
 nenhum tamanho de bloco}. Pastagem, rebanho e agricultura excluem zero nas seis
 partições testadas; a vegetação natural inclui zero nas seis. A leitura da
-tabela, portanto, não depende de tratar as unidades como independentes. O
-único ponto em que a régua importa é a componente leste da agricultura, que
-passa a incluir zero quando os blocos chegam a oito AMCs.
+tabela, portanto, não depende de tratar as unidades como independentes. Onde a
+régua importa é no eixo leste-oeste, e ali ela importa para todas as variáveis,
+pois nenhuma componente leste atravessa a varredura inteira. A da pastagem é a
+primeira a incluir zero, em blocos de três AMCs, a da agricultura em blocos de
+oito e a do rebanho em blocos de catorze. Nenhuma conclusão se apoia nessa
+componente, e é por isso que a marcha é descrita pelo eixo meridional.
 
 E a quinta mostra que não é deslocamento genérico, por dois controles. A área urbana
 não acompanha e anda 8~km para o sul (IC $[-19; -1{,}5]$), no sentido oposto
@@ -614,9 +632,9 @@ Nenhuma das duas explica a idade da pastagem. Para o plantio direto, a
 correlação simples confirma a previsão, mas o indicador também se concentra no
 Sul; segurando o gradiente espacial (decisão D14), a associação encolhe cerca
 de um terço, fica na fronteira da significância sem cruzá-la e não sobrevive à
-correção para testes múltiplos. O veredito é \emph{não estabelecido}, e a
+correção para testes múltiplos. A evidência disponível não decide, e a
 distinção importa, porque um nulo limpo encerraria a pergunta, ao passo que um
-indeterminado não encerra.
+resultado indeterminado não encerra.
 
 Para o crédito rural, a associação é a única que resiste ao controle espacial,
 à correção para testes múltiplos e à troca de régua; na régua imune ela se
@@ -660,22 +678,32 @@ pasto local deve crescer, um coeficiente $\theta$ que a hipótese exige seja
 positivo, com os vizinhos ao norte entrando como placebo.
 
 O teste espacial foi executado em três réguas de medida, cruzadas com duas
-janelas e dois desfechos, totalizando doze especificações. \textbf{As doze
-estimativas são negativas.} Nenhuma cai na região que a hipótese exige; todas
-vão na direção oposta. Quando a lavoura dos vizinhos ao sul cresce, o pasto
-local diminui, em vez de aumentar. Não se trata de um p-valor rejeitando uma
-tese, e sim da ausência de um sinal que a hipótese exigia, procurado em doze
-recortes e não encontrado em nenhum. Cabe declarar o que essa contagem não é:
-as doze células não trazem cálculo de poder próprio, de modo que o que elas
-estabelecem é o \emph{sinal} do coeficiente, e não a exclusão de um empurrão
-pequeno. O poder declarado adiante é o do teste temporal.
+janelas e dois desfechos, totalizando doze especificações, sobre uma matriz de
+vizinhança formada pelos oito vizinhos mais próximos de cada unidade. Com essa
+matriz, as doze estimativas são negativas, e quando a lavoura dos vizinhos ao
+sul cresce, o pasto local diminui, em vez de aumentar. A contagem, porém,
+depende da matriz. Repetido o teste com quatro e com doze vizinhos
+(Seção~\ref{ap:slx}), o sinal se mantém negativo nas seis células que têm o
+pasto como desfecho, mas no desfecho rebanho duas estimativas passam a positivas
+com quatro vizinhos e quatro com doze, todas com p-valor acima de 0,70 e
+portanto indistinguíveis de zero. O que as três matrizes sustentam juntas é a
+ausência de uma estimativa positiva e significativa, a região que a hipótese
+exige, entre as trinta e seis estimativas ao sul. Não se trata de um p-valor
+rejeitando uma tese, e sim da ausência de um sinal que a hipótese exigia,
+procurado em doze recortes e três vizinhanças e não encontrado em nenhum. Cabe
+declarar também o que essa contagem não é. As células não trazem cálculo de
+poder próprio, de modo que o que elas estabelecem é a falta de um efeito
+positivo detectável, e não a exclusão de um empurrão pequeno. O poder declarado
+adiante é o do teste temporal.
 
-Onze das doze estimativas não são significativas. A décima segunda tem $p =
-0{,}02$, e o lugar em que ela aparece decide o peso que pode ter, já que é a régua da
-classe ``Agricultura'' do satélite, justamente a que o rótulo do Mosaico
-contamina no fim da série. Ela não carrega conclusão, e não é citada como se
-carregasse. O que ela mede é um coeficiente \emph{negativo}, no sentido oposto
-ao que a hipótese do empurrão exigia.
+Com oito vizinhos, onze das doze estimativas não são significativas. A décima
+segunda tem $p = 0{,}02$, e o lugar em que ela aparece decide o peso que pode
+ter, já que é a régua da classe ``Agricultura'' do satélite, justamente a que o
+rótulo do Mosaico contamina no fim da série. Ela tampouco resiste à troca de
+matriz, com $p = 0{,}29$ para quatro vizinhos e $p = 0{,}41$ para doze. Não
+carrega conclusão, e não é citada como se carregasse. O que ela mede é um
+coeficiente \emph{negativo}, no sentido oposto ao que a hipótese do empurrão
+exigia.
 
 O teste temporal foi executado em vinte e quatro combinações de régua, janela,
 desfecho e defasagem. O menor p-valor é 0,078; nenhuma combinação é
@@ -719,17 +747,20 @@ intervalo de confiança de cada uma e a zona que a hipótese exigiria.}
 \includegraphics[width=\textwidth]{cap4_teste_espacial.pdf}
 \fontefig{elaboração própria (Pipeline~\#49), a partir do MapBiomas Coleção
 10.1 e da Produção Agrícola Municipal do IBGE.}
-\notafig{$\theta$ é o coeficiente do termo de vizinhança ao sul; as
-especificações de placebo (vizinhos ao norte) não estão representadas. Sobre
+\notafig{$\theta$ é o coeficiente do termo de vizinhança ao sul, estimado com
+a matriz dos oito vizinhos mais próximos (a sensibilidade a quatro e a doze
+vizinhos está na Seção~\ref{ap:slx}); as especificações de placebo (vizinhos ao norte) não estão representadas. Sobre
 elas cabe um registro, porque não são uniformemente nulas: numa das seis
 células (régua da soja do IBGE, janela plena) o termo de vizinhança ao norte é
 significativo a 5\% ($\beta = -0{,}054$; $p = 0{,}032$), onde o termo ao sul
-correspondente é nulo. Como o argumento da frente é que um empurrão teria
+correspondente é nulo, e com doze vizinhos o mesmo placebo acende nas duas
+janelas. Como o argumento da frente é que um empurrão teria
 direção, esse acendimento do placebo direcional enfraquece a premissa e é
 mais um motivo para não ler as doze estimativas como um achado. A faixa
 sombreada é desenhada porque o resultado é a \emph{ausência de um sinal que a
-hipótese exigia}, e não um p-valor rejeitando uma tese, já que as doze estimativas
-caem do lado oposto ao exigido.}
+hipótese exigia}, e não um p-valor rejeitando uma tese, já que com esta
+matriz as doze estimativas caem do lado oposto ao exigido e, com as outras
+duas, nenhuma cai significativamente dentro dele.}
 \end{figure}
 
 O mesmo desenho revela o que ocupa o lugar do empurrão, e o termo precisa ser
@@ -747,7 +778,10 @@ que regridem sobre a área de soja declarada ao IBGE, ficam em torno de
 $-0{,}03$ a $-0{,}07$, números que \emph{não} são comparáveis em
 magnitude aos primeiros, porque o regressor é outro, já que um hectare de soja é
 subconjunto de um hectare de agricultura. O que se compara entre réguas é o
-sinal e a significância, não o tamanho.
+sinal e a significância, não o tamanho. Ao contrário do termo de vizinhança, o
+efeito local praticamente não se move com a matriz, e com quatro e com doze
+vizinhos o coeficiente e o padrão de significância das seis células repetem os
+da matriz de oito.
 
 O coeficiente dobra quando se amplia a medida, de $-0{,}52$ na régua estrita a
 $-1{,}14$ na que soma agricultura e uso misto. Esse salto não é correção, pois a
@@ -791,8 +825,8 @@ lavoura. O coeficiente esperado da interação é, portanto, negativo.
 
 Cabe destacar a ressalva que determina o peso do resultado. Sob a inferência
 apropriada ao desenho (permutação do \emph{shifter}, conforme a Seção~\ref{sec:met-instrumental}), o achado é
-\textbf{corroborante, não estabelecido}. O coeficiente tem a direção prevista ($\beta = -0{,}033$, com $R^2$ \emph{within}
-de 0,001), mas o p-valor honesto fica entre 0,07 e 0,13, sem cruzar o corte de
+\textbf{aponta na direção prevista sem cruzar o corte de 5\%}. O coeficiente tem a direção prevista ($\beta = -0{,}033$, com $R^2$ \emph{within}
+de 0,001), mas o p-valor de permutação fica entre 0,07 e 0,13, sem cruzar o corte de
 5\%. O que sustenta a leitura é a especificidade, já que cada teste que deveria sair
 vazio sai vazio. Os placebos de desfecho são nulos (área urbana, $p = 0{,}34$;
 água, $p = 0{,}33$); os placebos no tempo, que adiantam o \emph{shifter} de modo
@@ -878,7 +912,7 @@ As duas réguas não são comparáveis entre si.}
 \end{figure}
 
 A consequência é uma redução de alcance, não a perda do achado. \textbf{O que fica
-corroborado é que a resposta ao choque comum se distribui ao longo do eixo
+sustentado é que a resposta ao choque comum se distribui ao longo do eixo
 Sul--Norte}, no sentido previsto e com todos os testes de especificidade
 saindo como deveriam --- mas sem cruzar o corte de significância, e por isso
 compatível com a leitura de reorganização coordenada sob força comum, não
@@ -906,7 +940,7 @@ de 144, sendo, portanto, sensível ao recorte da família, além de assentar
 sobre um p agrupado que já se sabe otimista. A terceira é que o desenho, com
 efeito fixo de ano, não poderia mesmo estimar o nível do efeito cambial, e sim
 apenas o gradiente, e é sobre o gradiente, não sobre o câmbio como causa, que
-a evidência aqui é corroborante.
+a evidência aqui se pronuncia.
 
 Uma precisão sobre esses p-valores, sob pena de se comparar réguas diferentes.
 O p do achado é o de permutação, o conservador; os dos placebos são os
@@ -961,7 +995,10 @@ Os três sinais de demanda acompanhados desde a frente anterior sobem todos no
 Ato~III, e não pouco. Comparadas as médias dos dois períodos, o índice de
 câmbio real efetivo vai de 134,5 a 169,0, o de preço recebido pela soja de
 104,4 a 186,4 e o crédito rural de Goiás de 14,3 para 24,1 bilhões de reais de
-dezembro de 2024. A soja efetivamente plantada cresce 38\% na mesma janela.
+dezembro de 2024. Os dois primeiros não se somam como evidências
+independentes, porque o preço recebido é a cotação internacional multiplicada
+pelo próprio câmbio (Seção~\ref{sec:met-fontes}); o que o segundo acrescenta ao
+primeiro é a alta da cotação em dólar. A soja efetivamente plantada cresce 38\% na mesma janela.
 
 A média do crédito, porém, esconde o formato da série, que dispara em
 2021--2022 (29,6 e 34,2 bilhões) e desaba em 2023--2024, terminando em
