@@ -1,5 +1,5 @@
 {
-  "_nota": "Institutional reference points that give context to the LULC transitions across the 3 data-driven acts. Revised on 07/Aug/2026 (Textos/metodologia/revisao_parte1_40anos.md): all values recalculated against painel_goias.json after the pixel census; the causal attribution of the 1996 card was aligned with the decision that the milestones tested are federal and measure differential exposure, not the effect of a law; the 2012 card was rewritten around the 22/07/2008 cut-off and the CAR.",
+  "_nota": "Institutional reference points that give context to the LULC transitions across the 3 data-driven acts. Revised on 07/Aug/2026 (Textos/metodologia/revisao_parte1_40anos.md): all values recalculated against painel_goias.json after the pixel census; the causal attribution of the 1996 card was aligned with the decision that the milestones tested are federal and measure differential exposure, not the effect of a law; the 2012 card was rewritten around the 22/07/2008 cut-off and the CAR. Revised 22/Sep/2026: the 1996 card said Goiás diverges from the controls from 1996, but the Kandir law is not among the four DiD milestones (piecewise_did.py: 1995, 2003, 2012, 2018); the 2002 card asserted Chinese demand as a cause, against the Act II text itself; the 1994 card now says the test uses 1995.",
   "marcos": [
     {
       "ano": 1985,
@@ -18,7 +18,7 @@
       "ano": 1994,
       "titulo": "Plano Real",
       "subtitulo": "Monetary stabilisation",
-      "descricao": "The new currency, in July 1994, brings inflation down and makes it possible to plan agricultural investment over a long horizon. The loss of natural vegetation in Goiás decelerates from 0.86 pp/yr (1991-93) to 0.62 pp/yr (1996-98). The sharpest inflection, however, only appears in 1998, closer to the Lei Kandir than to the Real.",
+      "descricao": "The new currency, in July 1994, brings inflation down and makes it possible to plan agricultural investment over a long horizon. The loss of natural vegetation in Goiás decelerates from 0.86 pp/yr (1991-93) to 0.62 pp/yr (1996-98). The sharpest inflection, however, only appears in 1998, closer to the Lei Kandir than to the Real. In the difference-in-differences test, the milestone enters in 1995, the first full year of the new currency.",
       "evidencia": "B",
       "escopo_empirico": "cerrado_amplo",
       "categoria": "macroeconomia",
@@ -31,25 +31,23 @@
       "ano": 1996,
       "titulo": "Lei Kandir",
       "subtitulo": "ICMS exemption on exports",
-      "descricao": "Complementary Law 87, of 13 September 1996, exempts primary and semi-processed products destined for export from ICMS (the state value-added tax). Between 1994-98 and 1999-2003, the loss of natural vegetation in Goiás falls from 0.66 to 0.44 pp/yr, while agriculture advances in the southwest (Rio Verde, Jataí, Mineiros). Goiás diverges from the control states from 1996 onwards, but the Kandir law is federal and bears on them too: the test measures differential exposure to a common shock, not the isolated effect of the law.",
+      "descricao": "Complementary Law 87, of 13 September 1996, exempts primary and semi-processed products destined for export from ICMS (the state value-added tax). Between 1994-98 and 1999-2003, the loss of natural vegetation in Goiás falls from 0.66 to 0.44 pp/yr, while agriculture advances in the southwest (Rio Verde, Jataí, Mineiros). The law is not among the four milestones tested in the difference-in-differences design: it enters here as context, and the coincidence in time is not read as an effect.",
       "evidencia": "B",
       "escopo_empirico": "cerrado_amplo",
       "categoria": "tributação",
       "referencias": [
-        "BRASIL. Lei Complementar n. 87, de 13 de setembro de 1996.",
-        "REZENDE, G. C. Políticas trabalhista, fundiária e de crédito agrícola e seus impactos adversos sobre a pobreza no Brasil. Texto para Discussão IPEA n. 1180, 2006."
+        "BRASIL. Lei Complementar n. 87, de 13 de setembro de 1996."
       ]
     },
     {
       "ano": 2002,
       "titulo": "Credit and Chinese demand",
       "subtitulo": "Convergence of credit and exports",
-      "descricao": "The Agricultural and Livestock Plan begins announcing each year the volume and terms of federal rural credit, from the 2002/03 harvest onwards, while China enters the WTO (Dec/2001) and pulls commodity demand. Agriculture in Goiás jumps from 9.3% to 10.8% of the territory in three years (2001-04), and pasture begins to give way. In 2004 alone, soy-maize advances 0.94 pp.",
+      "descricao": "From the 2002/03 harvest, the Agricultural and Livestock Plan begins announcing each year the volume and terms of federal rural credit; at the end of 2001, China enters the WTO. Neither is supported here by a checked source, and the milestone enters as backdrop, not as explanation. What the data show is that agriculture in Goiás jumps from 9.3% to 10.8% of the territory in three years (2001-04) and pasture begins to give way; in 2004 alone, soy-maize advances 0.94 pp.",
       "evidencia": "B",
       "escopo_empirico": "cerrado_amplo",
       "categoria": "credito_publico",
       "referencias": [
-        "BACEN/SICOR. Sistema de Operações do Crédito Rural e do Proagro (SICOR), 2013-2024.",
         "MAPA. Plano Agrícola e Pecuário, edições anuais a partir de 2002/03."
       ]
     },

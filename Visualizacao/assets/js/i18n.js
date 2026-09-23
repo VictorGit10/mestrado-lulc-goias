@@ -30,7 +30,7 @@
     "Ato III":                               "Act III",
     "Pastagem como herança":                 "Pasture as inheritance",
     "Expansão e intensificação":             "Expansion and intensification",
-    "Conversão acelerada (mascarada)":       "Accelerated conversion (masked)",
+    "Conversão acelerada sob rótulo ambíguo": "Accelerated conversion under an ambiguous label",
     "pastagem domina e a soja ainda é pontual":
       "pasture dominates and soy is still patchy",
     "soja avança sobre pastagem; intensificação sem fronteira":
@@ -121,7 +121,7 @@
     "Fonte: MapBiomas Coleção 10.1 &middot; pixel-a-pixel (30&nbsp;m) &middot; o mapa é reduzido para caber na tela, então classes fragmentadas encolhem no desenho: a medida está na barra acima":
       "Source: MapBiomas Collection 10.1 &middot; pixel-by-pixel (30&nbsp;m) &middot; the map is scaled down to fit the screen, so fragmented classes shrink in the drawing: the measurement is in the bar above",
     "Fonte: MapBiomas Coleção 10.1 &middot; agregado <strong>por município</strong>, não por pixel &middot; a partir de 2015 o destino dominante na maior parte do estado é o <em>Mosaico de usos</em>, o que é mudança de rótulo tanto quanto de uso (<a href=\"dossie-mosaico.html\">a investigação</a>)":
-      "Source: MapBiomas Collection 10.1 &middot; aggregated <strong>by municipality</strong>, not by pixel &middot; from 2015 onwards the dominant destination across most of the state is the <em>Mosaic of uses</em>, which is a change of label as much as of use (<a href=\"dossie-mosaico.html\">the investigation</a>)",
+      "Source: MapBiomas Collection 10.1 &middot; aggregated <strong>by municipality</strong>, not by pixel &middot; from 2015 onwards the dominant destination across most of the state is the <em>Mosaic of uses</em>, which is a change of label as much as of use (<a href=\"dossie-mosaico.en.html\">the investigation</a>)",
 
     /* ---------------- timeline.js: mini-sankeys por ato ---------------- */
     "Para onde foram os hectares entre 1985 e 2000: cruzamento pixel-a-pixel das transições deste período.":

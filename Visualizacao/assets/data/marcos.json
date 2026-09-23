@@ -1,5 +1,5 @@
 {
-  "_nota": "Referências institucionais que contextualizam as transições LULC nos 3 atos data-driven. Revisado em 07/ago/2026 (Textos/metodologia/revisao_parte1_40anos.md): todos os valores recalculados contra painel_goias.json pós-censo de pixels; a atribuição causal do card de 1996 foi alinhada à decisão de que os marcos testados são federais e medem exposição diferencial, não efeito de lei; o card de 2012 foi reescrito em torno do corte de 22/07/2008 e do CAR.",
+  "_nota": "Referências institucionais que contextualizam as transições LULC nos 3 atos data-driven. Revisado em 07/ago/2026 (Textos/metodologia/revisao_parte1_40anos.md): todos os valores recalculados contra painel_goias.json pós-censo de pixels; a atribuição causal do card de 1996 foi alinhada à decisão de que os marcos testados são federais e medem exposição diferencial, não efeito de lei; o card de 2012 foi reescrito em torno do corte de 22/07/2008 e do CAR. Revisado em 22/set/2026: o card de 1996 dizia que Goiás diverge dos controles a partir de 1996, mas a Lei Kandir não está entre os quatro marcos do DiD (piecewise_did.py: 1995, 2003, 2012, 2018); o card de 2002 afirmava a demanda chinesa como causa, contra o próprio texto do Ato II; o de 1994 passa a dizer que o teste usa 1995.",
   "marcos": [
     {
       "ano": 1985,
@@ -18,7 +18,7 @@
       "ano": 1994,
       "titulo": "Plano Real",
       "subtitulo": "Estabilização monetária",
-      "descricao": "A nova moeda, em julho de 1994, derruba a inflação e torna possível planejar investimento agrícola em prazo longo. A perda de vegetação natural em Goiás desacelera de 0,86 pp/a (1991-93) para 0,62 pp/a (1996-98). A inflexão mais nítida, porém, só aparece em 1998, mais perto da Lei Kandir do que do Real.",
+      "descricao": "A nova moeda, em julho de 1994, derruba a inflação e torna possível planejar investimento agrícola em prazo longo. A perda de vegetação natural em Goiás desacelera de 0,86 pp/a (1991-93) para 0,62 pp/a (1996-98). A inflexão mais nítida, porém, só aparece em 1998, mais perto da Lei Kandir do que do Real. No teste de diferenças em diferenças, o marco entra em 1995, primeiro ano inteiro da nova moeda.",
       "evidencia": "B",
       "escopo_empirico": "cerrado_amplo",
       "categoria": "macroeconomia",
@@ -31,25 +31,23 @@
       "ano": 1996,
       "titulo": "Lei Kandir",
       "subtitulo": "Isenção de ICMS sobre exportação",
-      "descricao": "A Lei Complementar 87, de 13 de setembro de 1996, desonera o ICMS de produtos primários e semielaborados destinados à exportação. Entre 1994-98 e 1999-2003, a perda de vegetação natural em Goiás cai de 0,66 para 0,44 pp/a, enquanto a agricultura avança no sudoeste (Rio Verde, Jataí, Mineiros). Goiás diverge dos estados de controle a partir de 1996, mas a Kandir é federal e incide sobre eles também: o teste mede exposição diferencial a um choque comum, não o efeito isolado da lei.",
+      "descricao": "A Lei Complementar 87, de 13 de setembro de 1996, desonera o ICMS de produtos primários e semielaborados destinados à exportação. Entre 1994-98 e 1999-2003, a perda de vegetação natural em Goiás cai de 0,66 para 0,44 pp/a, enquanto a agricultura avança no sudoeste (Rio Verde, Jataí, Mineiros). A lei não está entre os quatro marcos testados no desenho de diferenças em diferenças: entra aqui como contexto, e a coincidência no tempo não é lida como efeito.",
       "evidencia": "B",
       "escopo_empirico": "cerrado_amplo",
       "categoria": "tributação",
       "referencias": [
-        "BRASIL. Lei Complementar n. 87, de 13 de setembro de 1996.",
-        "REZENDE, G. C. Políticas trabalhista, fundiária e de crédito agrícola e seus impactos adversos sobre a pobreza no Brasil. Texto para Discussão IPEA n. 1180, 2006."
+        "BRASIL. Lei Complementar n. 87, de 13 de setembro de 1996."
       ]
     },
     {
       "ano": 2002,
       "titulo": "Crédito e demanda chinesa",
       "subtitulo": "Confluência crédito + exportações",
-      "descricao": "O Plano Agrícola e Pecuário passa a anunciar todo ano o volume e as condições do crédito rural federal, a partir da safra 2002/03, enquanto a China entra na OMC (dez/2001) e puxa a demanda por commodities. A agricultura goiana salta de 9,3% para 10,8% do território em três anos (2001-04), e a pastagem começa a ceder lugar. Só em 2004, a soja-milho avança 0,94 pp.",
+      "descricao": "A partir da safra 2002/03, o Plano Agrícola e Pecuário passa a anunciar todo ano o volume e as condições do crédito rural federal; no fim de 2001, a China entra na OMC. Nenhum dos dois é sustentado aqui por fonte conferida, e o marco entra como cenário, não como explicação. O que os dados mostram é que a agricultura goiana salta de 9,3% para 10,8% do território em três anos (2001-04) e a pastagem começa a ceder lugar; só em 2004, a soja-milho avança 0,94 pp.",
       "evidencia": "B",
       "escopo_empirico": "cerrado_amplo",
       "categoria": "credito_publico",
       "referencias": [
-        "BACEN/SICOR. Sistema de Operações do Crédito Rural e do Proagro (SICOR), 2013-2024.",
         "MAPA. Plano Agrícola e Pecuário, edições anuais a partir de 2002/03."
       ]
     },

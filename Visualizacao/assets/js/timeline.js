@@ -61,7 +61,7 @@
       ato: T("Ato III"),
       start: 2020,
       end: 2024,
-      titulo: T("Conversão acelerada (mascarada)"),
+      titulo: T("Conversão acelerada sob rótulo ambíguo"),
       resumo: T("a pastagem cede três vezes mais rápido; a conversão acelera — e a medida crua esconde")
     }
   ];

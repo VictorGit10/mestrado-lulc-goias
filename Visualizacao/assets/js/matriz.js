@@ -56,8 +56,8 @@
   function fmtMha(v) {
     var mha = v / 1e6;
     if (mha === 0) return "0";
-    if (mha < 0.005) return "< 0,01";
-    return mha.toFixed(2).replace(".", ",");
+    if (mha < 0.005) return "< " + dec("0.01");
+    return dec(mha.toFixed(2));
   }
 
   // ---------- renderização ----------

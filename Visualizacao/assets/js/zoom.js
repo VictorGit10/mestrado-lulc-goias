@@ -52,7 +52,7 @@
     overlay.className = "zoom-overlay";
     overlay.setAttribute("role", "dialog");
     overlay.setAttribute("aria-modal", "true");
-    overlay.setAttribute("aria-label", "Gráfico ampliado");
+    overlay.setAttribute("aria-label", document.documentElement.getAttribute("lang") === "en" ? "Enlarged chart" : "Gráfico ampliado");
 
     const figura = doc.createElement("figure");
     figura.className = "zoom-figure";
