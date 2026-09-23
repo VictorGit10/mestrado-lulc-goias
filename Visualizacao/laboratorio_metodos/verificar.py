@@ -19,6 +19,18 @@ with sync_playwright() as p:
    assert page.locator(f'#{key}-art').inner_text().strip()
    page.screenshot(path=str(OUT/f'{topic}-{step+1}.png'),full_page=True)
   if topic=='motor':
+   assert page.locator('#motor .answer').count()==3
+   for answer in page.locator('#motor .answer').all():
+    answer.locator('summary').click()
+    assert answer.locator('.answer-body').is_visible()
+   assert '62% menor' in page.locator('#motor .answer').first.inner_text()
+   page.screenshot(path=str(OUT/'motor-duvidas.png'),full_page=True)
+  if topic=='estoque':
+   page.locator('#estoque .answer summary').click()
+   assert page.locator('#estoque .qa-step').count()==4
+   assert '0,97 + 4,68 = 5,65' in page.locator('#estoque .answer').inner_text()
+   page.screenshot(path=str(OUT/'estoque-conta-aberta.png'),full_page=True)
+  if topic=='motor':
    page.locator('[data-mequal]').click()
    assert len(set(page.locator('.effect b').all_text_contents()))==1
    page.locator('[data-myear="2023"]').click()
@@ -45,10 +57,14 @@ with sync_playwright() as p:
     page.locator(f'[data-{key}step="{step}"]').click()
     assert page.evaluate('document.documentElement.scrollWidth <= innerWidth + 1'),(width,topic,step)
     if width==390:page.screenshot(path=str(OUT/f'{topic}-{step+1}-mobile.png'),full_page=True)
+   if topic in ['motor','estoque']:
+    page.locator(f'#{topic} .answer summary').first.click()
+    assert page.evaluate('document.documentElement.scrollWidth <= innerWidth + 1'),(width,topic,'answer')
+    if width==390:page.screenshot(path=str(OUT/f'{topic}-explicacao-mobile.png'),full_page=True)
  for name,topic in [('motor-comum','motor'),('granger-toda-yamamoto','granger'),('estoque-taxa','estoque')]:
   page.goto((HERE/f'{name}.html').as_uri())
   assert page.locator(f'#{topic}').is_visible()
  assert not errors,errors
  browser.close()
-(OUT/'verificacao.json').write_text(json.dumps({'status':'ok','js_errors':errors,'widths':[1366,768,390,320],'steps':9,'standalone_files':3},ensure_ascii=False,indent=2),encoding='utf-8')
-print('OK: 9 etapas, interações essenciais, 4 larguras, 3 arquivos independentes e nenhum erro JS.')
+(OUT/'verificacao.json').write_text(json.dumps({'status':'ok','js_errors':errors,'widths':[1366,768,390,320],'steps':9,'extra_answers':4,'standalone_files':3},ensure_ascii=False,indent=2),encoding='utf-8')
+print('OK: 9 etapas, 4 respostas extras, 4 larguras, 3 arquivos independentes e nenhum erro JS.')

@@ -10,6 +10,8 @@ Se preferir um percurso, comece por **Estoque × taxa**: a conta de 100 ha e 10%
 
 Cada conceito começa pela intuição e termina nos dados da pesquisa. Contas inventadas são marcadas como ilustração. Os dados reais vêm dos arquivos locais do projeto. Os detalhes da estimação e os limites estão em uma seção expansível depois dos três passos. A versão anterior, mais carregada de informações, foi preservada em `versao-detalhada.html` apenas como referência.
 
+Após uma conversa de estudo, foram acrescentadas quatro respostas didáticas no próprio HTML. Em **Motor comum**: por que a latitude enfraquece a interpretação da aptidão; por que o resultado do rebanho não determina qual transição de uso da terra ocorreu; e o que a defasagem de um ano testa e deixa em aberto. Em **Estoque × taxa**: a conta, em quatro passos, das parcelas de 17% e 83% da queda do fluxo anual no Sul. Essas respostas ficam fechadas até o leitor abrir a pergunta, preservando o percurso simples das três etapas.
+
 ## Fontes e cuidados
 
 - Motor: índice cambial anual real, aptidão de 166 AMCs e coeficientes do painel. O gráfico final mostra apenas a parcela estimada da interação. Ela não é a mudança observada do rebanho nem demonstra causa. A diferença entre p agrupado (0,026) e p de permutação circular (0,132), assim como a sensibilidade à latitude, é mantida no texto.
