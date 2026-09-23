@@ -7,38 +7,53 @@
   CX.def("cm", (host) => {
     CX.modos(host, {
       simples(c) {
-        const pesos = [{ x: 0, m: 1 }, { x: 100, m: 0.5 }, { x: 150, m: 0.5 }];
+        const grupos = [{ nome: "na frente", fil: 2, n: 10, cor: C.azul }, { nome: "no meio", fil: 5, n: 0, cor: C.pasto }, { nome: "no fundo", fil: 8, n: 10, cor: C.acento }];
         const ctl = CX.ctrl(c);
-        const sl = pesos.map((p, i) => CX.slider(ctl, { rot: `massa ${"ABC"[i]}`, min: 0, max: 3, passo: 0.1, val: p.m, fmt: (v) => f(v, 1) + " kg", aoMudar: (v) => { p.m = v; des(); } }));
+        const sl = grupos.map((g) => CX.slider(ctl, { rot: `passageiros ${g.nome} (fileira ${g.fil})`, min: 0, max: 30, val: g.n, fmt: String, aoMudar: (v) => { g.n = v; des(); } }));
         const ctl2 = CX.ctrl(c);
-        CX.btn(ctl2, "1 kg em 0 e 1 kg em 100", () => { pesos[0].x = 0; pesos[1].x = 100; pesos[2].x = 150; sl[0].set(1, 1); sl[1].set(1, 1); sl[2].set(0, 1); pesos[0].m = 1; pesos[1].m = 1; pesos[2].m = 0; des(); });
-        CX.btn(ctl2, "metade do peso de 100 vai para 150", () => { pesos[0].x = 0; pesos[1].x = 100; pesos[2].x = 150; sl[0].set(1, 1); sl[1].set(0.5, 1); sl[2].set(0.5, 1); pesos[0].m = 1; pesos[1].m = 0.5; pesos[2].m = 0.5; des(); });
-        const q = CX.quadro(c, { h: 220, m: { l: 30, r: 30, t: 30, b: 40 } });
-        const x = d3.scaleLinear().domain([0, 200]).range([0, q.iw]);
-        CX.eixos(q, x, null, { xl: "posição na régua (km, se quiser)" });
-        const yR = 110;
-        q.g.append("rect").attr("x", 0).attr("y", yR).attr("width", q.iw).attr("height", 6).attr("fill", "#8a8579").attr("rx", 3);
-        const piv = q.g.append("path").attr("fill", C.acento);
-        const pivT = q.g.append("text").attr("class", "rot-f").attr("text-anchor", "middle");
-        const gp = q.g.selectAll("g.peso").data(pesos).join("g").attr("class", "peso").style("cursor", "ew-resize");
-        gp.append("rect").attr("x", -14).attr("width", 28).attr("rx", 4).attr("fill", (_, i) => [C.azul, C.pasto, C.veg][i]);
-        gp.append("text").attr("class", "rot-f").attr("text-anchor", "middle").style("fill", "#fff");
-        gp.call(d3.drag().on("drag", (ev, p) => { p.x = Math.max(0, Math.min(200, Math.round(x.invert(ev.x)))); des(); }));
+        const poe = (a, b, cc) => { [a, b, cc].forEach((v, i) => { grupos[i].n = v; sl[i].set(v, true); }); des(); };
+        CX.btn(ctl2, "situação inicial: 10 na frente, 10 no fundo", () => poe(10, 0, 10));
+        CX.btn(ctl2, "entram mais 10 pelo fundo", () => poe(grupos[0].n, grupos[1].n, Math.min(30, grupos[2].n + 10)));
+        const q = CX.quadro(c, { h: 250, m: { l: 20, r: 20, t: 12, b: 40 } });
+        const x = d3.scaleLinear().domain([0.5, 10.5]).range([0, q.iw]);
+        const yB = 150; // linha do assoalho
+        // o ônibus: carroceria, bancos e a porta
+        q.g.append("rect").attr("x", x(0.5) - 6).attr("y", 8).attr("width", x(10.5) - x(0.5) + 12).attr("height", yB - 2).attr("rx", 16).attr("fill", "#f7f5ef").attr("stroke", "#bbb");
+        d3.range(1, 11).forEach((k) => {
+          q.g.append("rect").attr("x", x(k) - 14).attr("y", yB - 18).attr("width", 28).attr("height", 12).attr("rx", 3).attr("fill", "#e4dfd2");
+          q.g.append("text").attr("class", "rot-m").attr("x", x(k)).attr("y", yB + 20).attr("text-anchor", "middle").text(k);
+        });
+        q.g.append("text").attr("class", "rot-m").attr("x", x(0.5)).attr("y", yB + 36).text("← frente do ônibus");
+        q.g.append("text").attr("class", "rot-m").attr("x", x(10.5)).attr("y", yB + 36).attr("text-anchor", "end").text("fundo →");
+        q.g.append("text").attr("class", "rot-m").attr("x", x(5.5)).attr("y", yB + 36).attr("text-anchor", "middle").text("fileira");
+        const gP = q.g.append("g"), gM = q.g.append("g");
         const lei = CX.leitura(c);
-        const nC = CX.num(lei, "ponto de equilíbrio", true), nF = CX.num(lei, "conta");
+        const nC = CX.num(lei, "fileira do passageiro médio", true), nF = CX.num(lei, "a conta");
+        const txt = CX.frase(c);
         function des() {
-          const M = d3.sum(pesos, (p) => p.m), cm = M ? d3.sum(pesos, (p) => p.m * p.x) / M : 100;
-          gp.attr("transform", (p) => `translate(${x(p.x)},0)`);
-          gp.select("rect").attr("y", (p) => yR - 8 - p.m * 30).attr("height", (p) => Math.max(0.5, p.m * 30)).attr("opacity", (p) => (p.m ? 1 : 0.15));
-          gp.select("text").attr("y", (p) => yR - 12 - p.m * 15 + 8).text((_, i) => "ABC"[i]);
-          piv.attr("d", `M${x(cm)},${yR + 6}l-12,26h24z`);
-          pivT.attr("x", x(cm) + 18).attr("y", yR + 30).attr("text-anchor", "start").text("equilíbrio: " + f(cm, 1));
-          nC.set(f(cm, 1));
-          nF.set(pesos.filter((p) => p.m).map((p) => `${f(p.m, 1)}·${p.x}`).join(" + ") + ` ÷ ${f(M, 1)}`);
+          const M = d3.sum(grupos, (g) => g.n), cm = M ? d3.sum(grupos, (g) => g.n * g.fil) / M : null;
+          gP.selectAll("*").remove();
+          grupos.forEach((g) => {
+            for (let i = 0; i < g.n; i++) {
+              const col = i % 5, lin = Math.floor(i / 5);
+              gP.append("circle").attr("cx", x(g.fil) - 22 + col * 11).attr("cy", yB - 28 - lin * 11).attr("r", 4.3).attr("fill", g.cor);
+            }
+          });
+          gM.selectAll("*").remove();
+          if (cm != null) {
+            gM.append("path").attr("d", `M${x(cm)},${yB + 2}l-9,14h18z`).attr("fill", "#111");
+            gM.append("line").attr("x1", x(cm)).attr("x2", x(cm)).attr("y1", 16).attr("y2", yB).attr("stroke", "#111").attr("stroke-dasharray", "3 3");
+            gM.append("text").attr("class", "rot-f").attr("x", x(cm) + 6).attr("y", 26).text("passageiro médio: " + f(cm, 1));
+          }
+          nC.set(cm == null ? "—" : f(cm, 1));
+          const partes = grupos.filter((g) => g.n).map((g) => `${g.n}·${g.fil}`);
+          nF.set(M ? `(${partes.join(" + ")}) ÷ ${M}` : "—");
+          txt.innerHTML = cm == null ? "Sem passageiros, não há centro." :
+            `Ninguém trocou de banco para o ponto se mover: basta mudar quantos estão em cada lugar. Com ${M} passageiros, o passageiro médio está na fileira ${f(cm, 1)}. Repare que não existe necessariamente alguém sentado nessa fileira; o centro é uma conta, não uma pessoa.`;
         }
         des();
-        CX.frase(c, "Arraste um peso para longe e veja o equilíbrio ir atrás; zere uma massa e ele pula para o outro lado. O ponto se move sem que nenhum peso tenha de atravessar a régua.");
       },
+
       async dados(c) {
         const [m, base] = await Promise.all([CX.dado("metodo_centro_massa.json"), CX.base()]);
         const reg = base.amc_reg;
@@ -130,34 +145,40 @@
     CX.modos(host, {
       simples(c) {
         const ctl = CX.ctrl(c);
-        const sW = CX.slider(ctl, { rot: "peso da locadora", min: 0, max: 1, passo: 0.05, val: 0.4, fmt: (v) => CX.pct(v), aoMudar: des });
-        const sM = CX.slider(ctl, { rot: "idade média dos táxis", min: 6, max: 22, passo: 0.5, val: 15, fmt: (v) => f(v, 1) + " a", aoMudar: des });
+        const sW = CX.slider(ctl, { rot: "fatia de crianças no parquinho", min: 0, max: 1, passo: 0.05, val: 0.45, fmt: (v) => CX.pct(v), aoMudar: des });
+        const sM = CX.slider(ctl, { rot: "idade média dos adultos", min: 22, max: 65, passo: 1, val: 40, fmt: (v) => v + " anos", aoMudar: des });
         const q = CX.quadro(c, { h: 260, m: { l: 40, r: 16 } });
-        const x = d3.scaleLinear().domain([0, 30]).range([0, q.iw]);
+        const x = d3.scaleLinear().domain([0, 80]).range([0, q.iw]);
         const lei = CX.leitura(c);
-        const nM = CX.num(lei, "média geral", true), nD = CX.num(lei, "carros a ±1 ano da média");
+        const nM = CX.num(lei, "idade média de todos", true), nD = CX.num(lei, "pessoas a ±2 anos da média");
+        const txt = CX.frase(c);
+        const MU1 = 6, SD1 = 1.8, SD2 = 10;
         function des() {
           const w = sW.valor(), mu2 = sM.valor();
-          const xs = d3.range(0, 30.01, 0.25);
-          const d1 = xs.map((t) => w * S.gauss(t, 3, 1.3)), d2 = xs.map((t) => (1 - w) * S.gauss(t, mu2, 3.5));
+          const xs = d3.range(0, 80.01, 0.25);
+          const d1 = xs.map((t) => w * S.gauss(t, MU1, SD1)), d2 = xs.map((t) => (1 - w) * S.gauss(t, mu2, SD2));
           const tot = xs.map((_, i) => d1[i] + d2[i]);
           const y = d3.scaleLinear().domain([0, d3.max(tot) * 1.1]).range([q.ih, 0]);
-          CX.eixos(q, x, y, { xl: "idade do carro (anos)", yf: () => "" });
+          CX.eixos(q, x, y, { xl: "idade (anos)", yf: () => "" });
           q.g.selectAll(".c").remove();
           const ar = d3.area().x((_, i) => x(xs[i])).y0(q.ih);
           q.g.append("path").attr("class", "c").attr("fill", "#e9e4d6").attr("d", ar.y1((d) => y(d))(tot));
-          [[d1, C.azul, "locadora"], [d2, C.acento, "táxi"]].forEach(([d, cc]) => q.g.append("path").attr("class", "c").attr("fill", "none").attr("stroke", cc).attr("stroke-width", 2).attr("d", d3.line().x((_, i) => x(xs[i])).y((v) => y(v))(d)));
-          const media = w * 3 + (1 - w) * mu2;
+          [[d1, C.azul], [d2, C.acento]].forEach(([d, cc]) => q.g.append("path").attr("class", "c").attr("fill", "none").attr("stroke", cc).attr("stroke-width", 2).attr("d", d3.line().x((_, i) => x(xs[i])).y((v) => y(v))(d)));
+          const media = w * MU1 + (1 - w) * mu2;
           q.g.append("line").attr("class", "c").attr("x1", x(media)).attr("x2", x(media)).attr("y1", 0).attr("y2", q.ih).attr("stroke", "#111").attr("stroke-dasharray", "4 3");
-          q.g.append("text").attr("class", "c rot-f").attr("x", x(media) + 4).attr("y", 12).text("média = " + f(media, 1));
+          q.g.append("text").attr("class", "c rot-f").attr("x", x(media) + 4).attr("y", 12).text("média = " + f(media, 1) + " anos");
           nM.set(f(media, 1) + " anos");
-          const dm = (t) => w * S.gauss(t, 3, 1.3) + (1 - w) * S.gauss(t, mu2, 3.5);
-          let p = 0; for (let t = media - 1; t < media + 1; t += 0.01) p += dm(t) * 0.01;
+          const dm = (t) => w * S.gauss(t, MU1, SD1) + (1 - w) * S.gauss(t, mu2, SD2);
+          let p = 0; for (let t = media - 2; t < media + 2; t += 0.01) p += dm(t) * 0.01;
           nD.set(CX.pct(p));
+          txt.innerHTML = w > 0.05 && w < 0.95
+            ? `Só ${CX.pct(p)} das pessoas no parquinho têm idade a até dois anos da média de ${f(media, 0)}. A média é uma conta correta, mas não descreve ninguém; as duas curvas, cada uma com seu centro (${MU1} e ${mu2} anos), descrevem.`
+            : "Com quase só crianças, ou quase só adultos, sobra um monte só, e aí a média volta a descrever bem o grupo.";
         }
         des();
-        c.appendChild(h("div", { class: "cx-leg", html: `<span><i style="background:${C.azul}"></i>locadora (μ = 3)</span><span><i style="background:${C.acento}"></i>táxi</span><span><i style="background:#e9e4d6"></i>o que o histograma mostra (a soma)</span>` }));
+        c.appendChild(h("div", { class: "cx-leg", html: `<span><i style="background:${C.azul}"></i>crianças (média de 6 anos)</span><span><i style="background:${C.acento}"></i>adultos</span><span><i style="background:#e9e4d6"></i>o que o histograma mostra (a soma)</span>` }));
       },
+
       async dados(c) {
         const b = await CX.base();
         const I = b.idade;
@@ -206,92 +227,154 @@
     });
   });
 
-  /* ---------------- 2.3 Hazard e decomposição ---------------- */
+  /* ---------------- 2.3 Hazard e decomposição (aula em passos, do laboratório de métodos) ---------------- */
   CX.def("hazard", (host) => {
-    CX.modos(host, {
-      simples(c) {
-        const ctl = CX.ctrl(c);
-        const sH = CX.slider(ctl, { rot: "hazard inicial", min: 2, max: 20, val: 10, fmt: (v) => v + "%", aoMudar: des });
-        const sA = CX.slider(ctl, { rot: "ano em que muda", min: 2, max: 25, val: 16, fmt: String, aoMudar: des });
-        const sN = CX.slider(ctl, { rot: "hazard depois", min: 0, max: 20, val: 5, fmt: (v) => v + "%", aoMudar: des });
-        const q = CX.quadro(c, { h: 280, m: { l: 44, r: 50 } });
-        const x = d3.scaleLinear().domain([1, 25]).range([0, q.iw]);
-        const txt = CX.frase(c);
-        function des() {
-          let estq = 100; const lin = [];
-          for (let t = 1; t <= 25; t++) { const hz = (t < sA.valor() ? sH.valor() : sN.valor()) / 100; const fl = estq * hz; lin.push({ t, estq, fl, hz }); estq -= fl; }
-          const y = d3.scaleLinear().domain([0, 100]).range([q.ih, 0]), yF = d3.scaleLinear().domain([0, Math.max(10, d3.max(lin, (l) => l.fl) * 1.2)]).range([q.ih, 0]);
-          CX.eixos(q, x, y, { xl: "ano", yl: "hectares de pé (barras) · derrubados por ano (linha, eixo à direita)" });
-          q.g.selectAll(".d").remove();
-          q.g.append("g").attr("class", "d eixo").attr("transform", `translate(${q.iw},0)`).call(d3.axisRight(yF).ticks(4));
-          q.g.selectAll("rect.d").data(lin).join("rect").attr("class", "d").attr("x", (l) => x(l.t) - 7).attr("width", 14).attr("y", (l) => y(l.estq)).attr("height", (l) => q.ih - y(l.estq)).attr("fill", C.veg).attr("opacity", 0.35);
-          q.g.append("path").attr("class", "d").attr("fill", "none").attr("stroke", C.acento).attr("stroke-width", 2.4).attr("d", d3.line().x((l) => x(l.t)).y((l) => yF(l.fl))(lin));
-          q.g.append("line").attr("class", "d").attr("x1", x(sA.valor()) - 9).attr("x2", x(sA.valor()) - 9).attr("y1", 0).attr("y2", q.ih).attr("stroke", "#111").attr("stroke-dasharray", "4 3");
-          const a = lin[sA.valor() - 3] || lin[0], b = lin[sA.valor() - 2] || lin[0], cc = lin[sA.valor() - 1] || lin[0];
-          txt.innerHTML = `Antes da mudança, o fluxo cai de ${f(a.fl, 1)} para ${f(b.fl, 1)} ha sem que o hazard se mexa (${sH.valor()}%): é só a mata acabando. No ano ${sA.valor()} o hazard passa a ${sN.valor()}% e o fluxo vai a ${f(cc.fl, 1)} ha — aqui o comportamento mudou. A linha do fluxo, sozinha, não separa os dois motivos.`;
-        }
-        des();
+    const eq = (itens) => `<div class="cx-eq">${itens.map((it) => (typeof it === "string" ? `<span>${it}</span>` : `<div class="${it.res ? "cx-eq-res" : ""}"><small>${it.rot}</small><strong class="${it.mudou ? "mudou" : ""}">${it.val}</strong></div>`)).join("")}</div>`;
+    const pote = (total, saem) => `<div class="cx-cem">${d3.range(100).map((i) => `<i class="${i >= total ? "vazio" : i < saem ? "sai" : ""}"></i>`).join("")}</div>`;
+    CX.passos(host, [
+      {
+        tit: "Uma conta com 100 balas",
+        sub: "Num dia, as pessoas pegam 10% das balas que encontram no pote. Quantas saem?",
+        marca: "Exemplo inventado, só para aprender a conta",
+        desenha(c) {
+          c.innerHTML = eq([{ rot: "estoque", val: "100 balas" }, "×", { rot: "taxa do dia", val: "10%" }, "=", { rot: "fluxo do dia", val: "10 balas", res: true }]) +
+            pote(100, 10) + `<div class="cx-cem-leg"><span>em terracota, as 10 balas que saem</span><span>90 ficam no pote</span></div>`;
+          CX.frase(c, "<b>Primeira ideia:</b> fluxo = estoque × taxa. A taxa (o <i>hazard</i>) é a fração do estoque que sai naquele dia, e não um número fixo de balas.");
+        },
       },
-      async dados(c) {
-        const D = (await CX.base()).decomp;
-        const ctl = CX.ctrl(c);
-        const ordem = ["Sul", "Centro", "Norte", "Goiás (total)"];
-        let rg = "Sul";
-        CX.seg(ctl, { opcoes: ordem.map((r) => [r, r]), val: rg, aoMudar: (k) => { rg = k; des(); } });
-        const q = CX.quadro(c, { h: 250, m: { l: 150, r: 70, t: 14, b: 34 } });
-        const tab = h("table", { class: "cx-tab" }); c.appendChild(tab);
-        const txt = CX.frase(c);
-        function des() {
-          const d = D.find((k) => k.regiao === rg);
-          const lin = [["Δfluxo (Ato III − II)", d.d_fluxo * 1000, "#444"], ["parte do estoque", d.efeito_estoque * 1000, C.veg], ["parte da taxa (hazard)", d.efeito_hazard * 1000, C.acento]];
-          const ext = d3.max(lin, (l) => Math.abs(l[1])) * 1.15;
-          const x = d3.scaleLinear().domain([-ext, ext]).range([0, q.iw]), y = d3.scaleBand().domain(lin.map((l) => l[0])).range([0, q.ih]).padding(0.3);
-          CX.eixos(q, x, null, { xl: "mil hectares por ano", xf: (v) => f(v, 1) });
-          q.g.selectAll(".b").remove();
-          q.g.append("line").attr("class", "b zero").attr("x1", x(0)).attr("x2", x(0)).attr("y1", 0).attr("y2", q.ih);
-          lin.forEach(([n, v, cc]) => {
-            q.g.append("rect").attr("class", "b").attr("x", x(Math.min(0, v))).attr("y", y(n)).attr("width", Math.abs(x(v) - x(0))).attr("height", y.bandwidth()).attr("fill", cc).attr("rx", 3);
-            q.g.append("text").attr("class", "b rot").attr("x", -8).attr("y", y(n) + y.bandwidth() / 2 + 4).attr("text-anchor", "end").text(n);
-            q.g.append("text").attr("class", "b rot-f").attr("x", v >= 0 ? x(v) + 5 : x(v) - 5).attr("text-anchor", v >= 0 ? "start" : "end").attr("y", y(n) + y.bandwidth() / 2 + 4).text(fs(v, 1));
-          });
-          tab.innerHTML = `<tr><th></th><th>estoque convertível (Mha)</th><th>hazard (% ao ano)</th><th>fluxo (mil ha/ano)</th></tr>
-            <tr><td>Ato II (2001–2019)</td><td>${f(d.estoque_II, 2)}</td><td>${f(d.hazard_II * 100, 2)}</td><td>${f(d.fluxo_II * 1000, 1)}</td></tr>
-            <tr><td>Ato III (2020–2024)</td><td>${f(d.estoque_III, 2)}</td><td>${f(d.hazard_III * 100, 2)}</td><td>${f(d.fluxo_III * 1000, 1)}</td></tr>`;
-          txt.innerHTML = rg === "Sul"
-            ? `No Sul o fluxo cai. A menor parte da queda (${CX.pct(d.share_estoque)}) vem de haver menos estoque; a maior (${CX.pct(d.share_hazard)}) vem da taxa com que o estoque restante é convertido.`
-            : `Aqui o fluxo <b>sobe</b> do Ato II para o III: o estoque encolhe (parcela negativa), mas a taxa sobe mais. É a fronteira ativa — o contrário do Sul. As parcelas percentuais perdem o sentido quando os dois efeitos têm sinais opostos.`;
-        }
-        des();
+      {
+        tit: "Mude uma peça de cada vez",
+        sub: "Parta das mesmas 100 balas e 10%. Há mais de um jeito de chegar a um fluxo menor.",
+        marca: "Ainda é um exemplo inventado",
+        desenha(c) {
+          const ctl = CX.ctrl(c);
+          const alvo = h("div"); c.appendChild(alvo);
+          const fr = CX.frase(c);
+          const mostra = (k) => {
+            const E = k === "taxa" ? 100 : 50, T = k === "estoque" ? 10 : 5, F = (E * T) / 100;
+            alvo.innerHTML = `<p class="rot-ctrl" style="text-align:center;margin:.2rem 0">antes</p>` +
+              eq([{ rot: "estoque", val: "100" }, "×", { rot: "taxa", val: "10%" }, "=", { rot: "fluxo", val: "10", res: true }]) +
+              `<p class="rot-ctrl" style="text-align:center;margin:.2rem 0">depois</p>` +
+              eq([{ rot: "estoque", val: String(E), mudou: E < 100 }, "×", { rot: "taxa", val: T + "%", mudou: T < 10 }, "=", { rot: "fluxo", val: f(F, F % 1 ? 1 : 0), res: true }]) + pote(E, Math.round(F));
+            fr.innerHTML = k === "ambos"
+              ? "<b>As duas peças diminuíram e se multiplicam:</b> metade do estoque vezes metade da taxa dá um quarto do fluxo inicial."
+              : `<b>O fluxo caiu de 10 para 5.</b> ${k === "estoque" ? "A taxa não mudou; só havia menos balas." : "O pote continua cheio; as pessoas é que passaram a pegar menos."} Olhando só o fluxo, as duas situações são idênticas.`;
+          };
+          CX.seg(ctl, { opcoes: [["estoque", "metade das balas"], ["taxa", "metade da taxa"], ["ambos", "as duas coisas"]], val: "estoque", aoMudar: mostra });
+          mostra("estoque");
+        },
       },
-    });
+      {
+        tit: "O mesmo pote ao longo dos dias",
+        sub: "Com a taxa constante, o fluxo cai todo dia sozinho. Escolha um dia em que o hábito muda e compare.",
+        marca: "Exemplo inventado",
+        desenha(c) {
+          const ctl = CX.ctrl(c);
+          const sH = CX.slider(ctl, { rot: "taxa no início", min: 2, max: 20, val: 10, fmt: (v) => v + "% ao dia", aoMudar: des });
+          const sA = CX.slider(ctl, { rot: "dia em que o bilhete aparece", min: 2, max: 25, val: 16, fmt: (v) => "dia " + v, aoMudar: des });
+          const sN = CX.slider(ctl, { rot: "taxa depois do bilhete", min: 0, max: 20, val: 5, fmt: (v) => v + "% ao dia", aoMudar: des });
+          const q = CX.quadro(c, { h: 270, m: { l: 44, r: 50 } });
+          const x = d3.scaleLinear().domain([1, 25]).range([0, q.iw]);
+          const txt = CX.frase(c);
+          function des() {
+            let estq = 100; const lin = [];
+            for (let t = 1; t <= 25; t++) { const hz = (t < sA.valor() ? sH.valor() : sN.valor()) / 100; const fl = estq * hz; lin.push({ t, estq, fl, hz }); estq -= fl; }
+            const y = d3.scaleLinear().domain([0, 100]).range([q.ih, 0]), yF = d3.scaleLinear().domain([0, Math.max(10, d3.max(lin, (l) => l.fl) * 1.2)]).range([q.ih, 0]);
+            CX.eixos(q, x, y, { xl: "dia", yl: "balas no pote (barras) · balas pegas no dia (linha, eixo à direita)" });
+            q.g.selectAll(".d").remove();
+            q.g.append("g").attr("class", "d eixo").attr("transform", `translate(${q.iw},0)`).call(d3.axisRight(yF).ticks(4));
+            q.g.selectAll("rect.d").data(lin).join("rect").attr("class", "d").attr("x", (l) => x(l.t) - 7).attr("width", 14).attr("y", (l) => y(l.estq)).attr("height", (l) => q.ih - y(l.estq)).attr("fill", C.veg).attr("opacity", 0.35);
+            q.g.append("path").attr("class", "d").attr("fill", "none").attr("stroke", C.acento).attr("stroke-width", 2.4).attr("d", d3.line().x((l) => x(l.t)).y((l) => yF(l.fl))(lin));
+            q.g.append("line").attr("class", "d").attr("x1", x(sA.valor()) - 9).attr("x2", x(sA.valor()) - 9).attr("y1", 0).attr("y2", q.ih).attr("stroke", "#111").attr("stroke-dasharray", "4 3");
+            const d = sA.valor(), antes = lin[d - 2], depois = lin[d - 1];
+            txt.innerHTML = `Do dia 1 ao dia ${d - 1}, as balas pegas caem de ${f(lin[0].fl, 1)} para ${f(antes.fl, 1)} sem que o hábito mude (${sH.valor()}% ao dia): é só o pote esvaziando. No dia ${d}, o bilhete muda a taxa para ${sN.valor()}% e o fluxo vai a ${f(depois.fl, 1)}. A linha do fluxo, sozinha, não separa os dois motivos; a conta estoque × taxa separa.`;
+          }
+          des();
+        },
+      },
+      {
+        tit: "O que aconteceu em Goiás",
+        sub: "Agora com os dados: médias anuais do Ato II (2001–2019) e do Ato III (2020–2024). Escolha a região.",
+        marca: "Dados reais da pesquisa (#39): estoque = savana + campo",
+        real: true,
+        async desenha(c) {
+          const D = (await CX.base()).decomp;
+          const ctl = CX.ctrl(c);
+          const ordem = ["Sul", "Centro", "Norte", "Goiás (total)"];
+          const alvo = h("div"); c.appendChild(alvo);
+          const qd = h("div"); c.appendChild(qd);
+          const txt = CX.frase(c);
+          function des(rg) {
+            const d = D.find((k) => k.regiao === rg);
+            const cart = (rot, a, b, un) => `<div class="cx-cartao"><small>${rot}</small><b>${a} → ${b}</b><small>${un}</small></div>`;
+            alvo.innerHTML = `<div class="cx-cartoes3">${cart("estoque de savana e campo", f(d.estoque_II, 2), f(d.estoque_III, 2), "milhões de hectares")}${cart("taxa anual de conversão", f(d.hazard_II * 100, 2) + "%", f(d.hazard_III * 100, 2) + "%", "do estoque, por ano")}${cart("fluxo anual", f(d.fluxo_II * 1000, 1), f(d.fluxo_III * 1000, 1), "mil hectares por ano")}</div>`;
+            qd.replaceChildren();
+            const q = CX.quadro(qd, { h: 200, m: { l: 170, r: 70, t: 24, b: 34 } });
+            const lin = [["mudança do fluxo", d.d_fluxo * 1000, "#444"], ["parcela do estoque", d.efeito_estoque * 1000, C.veg], ["parcela da taxa", d.efeito_hazard * 1000, C.acento]];
+            const ext = d3.max(lin, (l) => Math.abs(l[1])) * 1.15;
+            const x = d3.scaleLinear().domain([-ext, ext]).range([0, q.iw]), y = d3.scaleBand().domain(lin.map((l) => l[0])).range([0, q.ih]).padding(0.3);
+            CX.eixos(q, x, null, { xl: "mil hectares por ano (Ato III − Ato II)", xf: (v) => f(v, 1) });
+            q.g.append("text").attr("class", "rot-f").attr("y", -10).text("a decomposição");
+            q.g.append("line").attr("class", "zero").attr("x1", x(0)).attr("x2", x(0)).attr("y1", 0).attr("y2", q.ih);
+            lin.forEach(([n, v, cc]) => {
+              q.g.append("rect").attr("x", x(Math.min(0, v))).attr("y", y(n)).attr("width", Math.abs(x(v) - x(0))).attr("height", y.bandwidth()).attr("fill", cc).attr("rx", 3);
+              q.g.append("text").attr("class", "rot").attr("x", -8).attr("y", y(n) + y.bandwidth() / 2 + 4).attr("text-anchor", "end").text(n);
+              q.g.append("text").attr("class", "rot-f").attr("x", v >= 0 ? x(v) + 5 : x(v) - 5).attr("text-anchor", v >= 0 ? "start" : "end").attr("y", y(n) + y.bandwidth() / 2 + 4).text(fs(v, 2));
+            });
+            txt.innerHTML = rg === "Sul"
+              ? `<b>No Sul</b>, o estoque diminuiu e a taxa também. Da queda do fluxo, cerca de ${CX.pct(d.share_estoque)} acompanha o estoque menor e ${CX.pct(d.share_hazard)} a taxa menor. A conta passo a passo está logo abaixo da peça.`
+              : `<b>${rg === "Goiás (total)" ? "No estado" : "No " + rg}</b>, o estoque diminuiu, mas a taxa cresceu mais, e o fluxo aumentou. As duas parcelas têm sinais opostos; por isso aqui não faz sentido dizer "quantos por cento" de cada uma.`;
+          }
+          CX.seg(ctl, { opcoes: ordem.map((r) => [r, r]), val: "Sul", aoMudar: des });
+          des("Sul");
+        },
+      },
+    ]);
   });
 
   /* ---------------- 2.4 Réguas de tempo ---------------- */
   CX.def("reguas", (host) => {
     CX.modos(host, {
       simples(c) {
+        const MES = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
+        const r = CX.rng(4);
+        // dois anos de vendas mensais de uma sorveteria: pico em janeiro, vale em julho
+        const vendas = d3.range(24).map((m) => 40 + 70 * Math.pow(0.5 + 0.5 * Math.cos((2 * Math.PI * m) / 12), 2) + (r() - 0.5) * 8);
         const ctl = CX.ctrl(c);
-        const s = CX.slider(ctl, { rot: "o dia começa às", min: 0, max: 23, val: 0, fmt: (v) => v + "h", aoMudar: des });
-        const q = CX.quadro(c, { h: 250, m: { l: 40, r: 16 } });
-        const temp = (t) => 22 + 6 * Math.sin(((t - 9) / 24) * 2 * Math.PI) - (t > 30 ? 6 : 0); // frente fria no 2º dia, 6h
-        const x = d3.scaleLinear().domain([0, 72]).range([0, q.iw]), y = d3.scaleLinear().domain([8, 32]).range([q.ih, 0]);
-        CX.eixos(q, x, y, { xl: "horas (3 dias)", yl: "°C", xf: (v) => v + "h" });
-        q.g.append("path").attr("fill", "none").attr("stroke", "#555").attr("stroke-width", 1.8).attr("d", d3.line().x((t) => x(t)).y((t) => y(temp(t)))(d3.range(0, 72.01, 0.5)));
-        const g = q.g.append("g");
+        let ini = 0;
+        CX.seg(ctl, { opcoes: [[0, "trimestres do calendário (jan–mar…)"], [11, "trimestres das estações (dez–fev…)"], [1, "começando em fevereiro (fev–abr…)"]], val: ini, aoMudar: (k) => { ini = k; des(); } });
+        const q = CX.quadro(c, { h: 270, m: { l: 44, r: 16, t: 20 } });
+        const x = d3.scaleBand().domain(d3.range(24)).range([0, q.iw]).padding(0.15);
+        const y = d3.scaleLinear().domain([0, 125]).range([q.ih, 0]);
+        CX.eixos(q, x, y, { xf: (m) => (m % 3 === 0 ? MES[m % 12] + (m % 12 === 0 ? (m < 12 ? " (ano 1)" : " (ano 2)") : "") : ""), yl: "sorvetes vendidos por dia, média do mês" });
+        q.g.selectAll("rect.m").data(vendas).join("rect").attr("class", "m").attr("x", (_, m) => x(m)).attr("width", x.bandwidth()).attr("y", (v) => y(v)).attr("height", (v) => q.ih - y(v)).attr("fill", "#dcd6c6").attr("rx", 2);
+        const gT = q.g.append("g");
+        const lei = CX.leitura(c);
+        const nM = CX.num(lei, "melhor trimestre (média)", true), nP = CX.num(lei, "pior trimestre (média)"), nR = CX.num(lei, "razão melhor ÷ pior");
+        const txt = CX.frase(c);
         function des() {
-          g.selectAll("*").remove();
-          const h0 = s.valor();
-          for (let k = -1; k < 3; k++) {
-            const a = Math.max(0, h0 + 24 * k), b = Math.min(72, h0 + 24 * (k + 1)); if (b - a < 23) continue;
-            const m = S.media(d3.range(a, b, 0.5).map(temp));
-            g.append("rect").attr("x", x(a)).attr("width", x(b) - x(a)).attr("y", y(m) - 2).attr("height", 4).attr("fill", C.acento);
-            g.append("text").attr("class", "rot-f").attr("x", (x(a) + x(b)) / 2).attr("y", y(m) - 8).attr("text-anchor", "middle").text(f(m, 1) + " °C");
-            g.append("line").attr("x1", x(a)).attr("x2", x(a)).attr("y1", 0).attr("y2", q.ih).attr("stroke", "#bbb").attr("stroke-dasharray", "3 3");
-          }
+          gT.selectAll("*").remove();
+          const tri = [];
+          for (let a = ini; a + 3 <= 24; a += 3) tri.push({ a, b: a + 3, m: S.media(vendas.slice(a, a + 3)) });
+          const best = tri.reduce((p, q2) => (q2.m > p.m ? q2 : p)), worst = tri.reduce((p, q2) => (q2.m < p.m ? q2 : p));
+          tri.forEach((t) => {
+            const x0 = x(t.a), x1 = x(t.b - 1) + x.bandwidth();
+            gT.append("line").attr("x1", x0).attr("x2", x1).attr("y1", y(t.m)).attr("y2", y(t.m)).attr("stroke", t === best ? C.acento : "#555").attr("stroke-width", t === best ? 3.5 : 2);
+            gT.append("line").attr("x1", x0 - 1).attr("x2", x0 - 1).attr("y1", 0).attr("y2", q.ih).attr("stroke", "#bbb").attr("stroke-dasharray", "3 3");
+            gT.append("text").attr("class", t === best ? "rot-f" : "rot-m").attr("x", (x0 + x1) / 2).attr("y", y(t.m) - 6).attr("text-anchor", "middle").text(f(t.m, 0));
+          });
+          nM.set(`${MES[best.a % 12]}–${MES[(best.b - 1) % 12]}: ${f(best.m, 0)}`);
+          nP.set(`${MES[worst.a % 12]}–${MES[(worst.b - 1) % 12]}: ${f(worst.m, 0)}`);
+          nR.set(f(best.m / worst.m, 2) + "×");
+          txt.innerHTML = ini === 11
+            ? "Com o verão inteiro num trimestre só, ele se destaca: é o recorte que mostra o pico com mais nitidez. Nada nas vendas mudou; mudou só onde cada trimestre começa."
+            : ini === 0
+              ? "No calendário, dezembro fica num trimestre e janeiro e fevereiro no outro. O verão se divide, e o melhor trimestre parece menos excepcional do que é."
+              : "Começando em fevereiro, o recorte parte o verão de outro jeito. A pergunta honesta não é qual recorte está certo, e sim se a conclusão sobrevive a todos eles.";
         }
         des();
-        CX.frase(c, "A curva é a mesma; só muda onde cada \"dia\" começa. As médias diárias (barras terracota) mudam com o corte, e a queda da frente fria aparece num dia ou se divide entre dois.");
       },
+
       async dados(c) {
         const g = (await CX.base()).go;
         const ctl = CX.ctrl(c);
@@ -339,20 +422,21 @@
   }
   function desenhaQuebra(c, anos, y, o) {
     c.replaceChildren();
+    const rotT = o.rotT || String;
     const q1 = CX.quadro(c, { h: 200, m: { l: 50, r: 16, t: 14, b: 26 } });
     const x = d3.scaleLinear().domain([anos[0], anos[anos.length - 1]]).range([0, q1.iw]);
     const yy = d3.scaleLinear().domain(d3.extent(y)).nice().range([q1.ih, 0]);
-    CX.eixos(q1, x, yy, { xf: CX.anoF, yl: o.yl, yf: o.yf });
+    CX.eixos(q1, x, yy, { xf: o.xf || CX.anoF, yl: o.yl, yf: o.yf, xl: o.xl });
     q1.g.selectAll("circle").data(y).join("circle").attr("cx", (_, i) => x(anos[i])).attr("cy", (v) => yy(v)).attr("r", 3.2).attr("fill", C.cinza);
     const sc = varredura(y, o.minT || 5), best = sc.reduce((a, b) => (b.F > a.F ? b : a));
     q1.g.append("line").attr("x1", 0).attr("x2", x(anos[best.k] - 0.5)).attr("y1", yy(best.ma)).attr("y2", yy(best.ma)).attr("stroke", C.acento).attr("stroke-width", 2.5);
     q1.g.append("line").attr("x1", x(anos[best.k] - 0.5)).attr("x2", q1.iw).attr("y1", yy(best.mb)).attr("y2", yy(best.mb)).attr("stroke", C.acento).attr("stroke-width", 2.5);
     const q2 = CX.quadro(c, { h: 170, m: { l: 50, r: 16, t: 14, b: 26 } });
     const yF = d3.scaleLinear().domain([0, Math.max(12, best.F * 1.15)]).range([q2.ih, 0]);
-    CX.eixos(q2, x, yF, { xf: CX.anoF, yl: "estatística F se a quebra fosse aqui", yt: 4 });
+    CX.eixos(q2, x, yF, { xf: o.xf || CX.anoF, yl: "estatística F se a quebra fosse aqui", yt: 4 });
     q2.g.append("path").attr("fill", "none").attr("stroke", "#111").attr("stroke-width", 2).attr("d", d3.line().x((s) => x(anos[s.k])).y((s) => yF(s.F))(sc));
     q2.g.append("circle").attr("cx", x(anos[best.k])).attr("cy", yF(best.F)).attr("r", 5).attr("fill", C.acento);
-    q2.g.append("text").attr("class", "rot-f").attr("x", x(anos[best.k]) + 8).attr("y", yF(best.F) + 4).text(`pico: ${anos[best.k]} (F = ${f(best.F, 1)})`);
+    q2.g.append("text").attr("class", "rot-f").attr("x", x(anos[best.k]) + 8).attr("y", yF(best.F) + 4).text(`pico: ${rotT(anos[best.k])} (F = ${f(best.F, 1)})`);
     (o.marcas || []).forEach(([a, t]) => {
       q2.g.append("line").attr("x1", x(a)).attr("x2", x(a)).attr("y1", 0).attr("y2", q2.ih).attr("stroke", C.azul).attr("stroke-dasharray", "4 3");
       q2.g.append("text").attr("class", "rot-m").attr("x", x(a) + 3).attr("y", q2.ih - 5).style("fill", C.azul).text(t);
@@ -364,21 +448,21 @@
       simples(c) {
         const ctl = CX.ctrl(c);
         let semente = 3;
-        const sQ = CX.slider(ctl, { rot: "quebra verdadeira em", min: 1990, max: 2019, val: 2001, fmt: String, aoMudar: des });
-        const sT = CX.slider(ctl, { rot: "tamanho do salto", min: 0, max: 3, passo: 0.1, val: 1.5, fmt: (v) => f(v, 1), aoMudar: des });
-        const sR = CX.slider(ctl, { rot: "ruído", min: 0.2, max: 2, passo: 0.1, val: 1, fmt: (v) => f(v, 1), aoMudar: des });
+        const sQ = CX.slider(ctl, { rot: "dia em que o viaduto abriu", min: 8, max: 52, val: 34, fmt: (v) => "dia " + v, aoMudar: des });
+        const sT = CX.slider(ctl, { rot: "quanto o viaduto encurta", min: 0, max: 10, passo: 0.5, val: 6, fmt: (v) => f(v, 1) + " min", aoMudar: des });
+        const sR = CX.slider(ctl, { rot: "variação do trânsito de um dia para outro", min: 0.5, max: 8, passo: 0.5, val: 3, fmt: (v) => "± " + f(v, 1) + " min", aoMudar: des });
         const ctl2 = CX.ctrl(c);
-        CX.btn(ctl2, "novo sorteio do ruído", () => { semente++; des(); });
+        CX.btn(ctl2, "sortear outros dias", () => { semente++; des(); });
         const alvo = h("div"); c.appendChild(alvo);
         const txt = CX.frase(c);
-        const anos = d3.range(1985, 2025);
+        const dias = d3.range(1, 61);
         function des() {
           const r = CX.rng(semente);
-          const y = anos.map((a) => 10 + (a >= sQ.valor() ? sT.valor() : 0) + CX.normal(r) * sR.valor());
-          const b = desenhaQuebra(alvo, anos, y, { yl: "gotas por minuto", yf: (v) => f(v, 0), marcas: sT.valor() > 0 ? [[sQ.valor(), "verdadeira"]] : [] });
+          const y = dias.map((d) => 40 - (d >= sQ.valor() ? sT.valor() : 0) + CX.normal(r) * sR.valor());
+          const b = desenhaQuebra(alvo, dias, y, { yl: "minutos de casa ao trabalho", yf: (v) => f(v, 0), xf: (d) => "dia " + d, rotT: (d) => "dia " + d, marcas: sT.valor() > 0 ? [[sQ.valor(), "viaduto"]] : [] });
           txt.innerHTML = sT.valor() === 0
-            ? `Sem salto nenhum, a curva ainda tem um pico (F = ${f(b.F, 1)}): a varredura sempre acha um "melhor" ponto. Por isso se compara o pico com o que o ruído puro produz — no detector do trabalho, 11% de falso positivo.`
-            : `O pico caiu em ${anos[b.k]}; a quebra verdadeira está em ${sQ.valor()}. Aumente o ruído ou diminua o salto e veja o pico se perder.`;
+            ? `Sem viaduto nenhum, a curva ainda tem um pico (F = ${f(b.F, 1)}): a varredura sempre acha um "melhor" dia. Por isso se compara o pico com o que dias sem mudança produzem. No detector do trabalho, esse falso alarme acontece em 11% das séries de puro ruído.`
+            : `O pico caiu no dia ${dias[b.k]}; o viaduto abriu no dia ${sQ.valor()}. Aumente a variação do trânsito ou diminua o ganho do viaduto e veja o pico se perder no meio do ruído.`;
         }
         des();
       },
@@ -393,10 +477,11 @@
           const ser = v === "uniao" ? g.agric.map((a, i) => a + g.mosaico[i]) : g[v];
           const y = S.diff(ser), anos = g.anos.slice(1);
           const b = desenhaQuebra(alvo, anos, y, { yl: "variação anual (Mha)", yf: (k) => f(k, 1), marcas: [[2001, "2001 (#29)"], [2020, "2020 (#29)"]] });
-          txt.innerHTML = `Varredura de uma quebra de média, uma série por vez: pico em ${anos[b.k]} (F = ${f(b.F, 1)}). O trabalho usa o sup-F <i>multivariado</i> (as três séries juntas) com segmentação binária, que acha 2001 (F = 62,2) e depois 2020 (F = 21,5); os valores de F aqui não são comparáveis aos dele. Veja que a série da união agricultura ∪ mosaico deixa a quebra de 2020 mais nítida — no trabalho, F sobe de 21,5 para 34,1 sob essa correção.`;
+          txt.innerHTML = `Varredura de uma quebra de média, uma série por vez: pico em ${anos[b.k]} (F = ${f(b.F, 1)}). O trabalho usa o sup-F <i>multivariado</i> (as três séries juntas) com segmentação binária, que acha 2001 (F = 62,2) e depois 2020 (F = 21,5); os valores de F aqui não são comparáveis aos dele. Veja que a série da união agricultura ∪ mosaico deixa a quebra de 2020 mais nítida; no trabalho, F sobe de 21,5 para 34,1 sob essa correção.`;
         }
         des();
       },
     });
   });
+
 })();

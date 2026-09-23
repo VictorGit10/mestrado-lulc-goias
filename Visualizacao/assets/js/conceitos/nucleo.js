@@ -127,11 +127,11 @@
 
   /* Alterna "Exemplo simples" × "Com os seus dados" dentro da mesma peça.
      Cada modo recebe um contêiner limpo e pode devolver uma função de limpeza. */
-  CX.modos = function (host, modos, inicial) {
+  CX.modos = function (host, modos, inicial, rot = {}) {
     const topo = host.appendChild(h("div", { class: "cx-modos" }));
     const palco = host.appendChild(h("div"));
     let limpa = null;
-    const rotulos = { simples: "Exemplo simples", dados: "Com os seus dados" };
+    const rotulos = Object.assign({ simples: "Exemplo simples", dados: "Com os seus dados", passos: "Passo a passo com os dados", placar: "O placar do trabalho" }, rot);
     const ops = Object.keys(modos).map((k) => [k, rotulos[k] || k]);
     const ir = async (k) => {
       if (typeof limpa === "function") limpa();
@@ -148,6 +148,49 @@
     };
     CX.seg(topo, { opcoes: ops, val: inicial || ops[0][0], aoMudar: ir, rot: "modo do exemplo" });
     ir(inicial || ops[0][0]);
+  };
+
+  /* Aula em passos (trazida do laboratório de métodos): uma ideia por vez, com
+     "Próximo passo →". Cada passo = {tit, sub, marca, desenha(c)}; "marca" diz se o
+     passo usa número inventado ou dado da pesquisa. */
+  CX.passos = function (host, passos, o = {}) {
+    const box = host.appendChild(h("div", { class: "cx-aula" }));
+    const topo = box.appendChild(h("div", { class: "cx-aula-topo" }));
+    const rot = topo.appendChild(h("span", { class: "cx-aula-rot" }));
+    const dots = topo.appendChild(h("div", { class: "cx-aula-dots", role: "group", "aria-label": "etapas" }));
+    const tit = box.appendChild(h("h5", { class: "cx-aula-tit" }));
+    const sub = box.appendChild(h("p", { class: "cx-aula-sub" }));
+    const palco = box.appendChild(h("div", { class: "cx-aula-palco" }));
+    const pe = box.appendChild(h("div", { class: "cx-aula-pe" }));
+    const marca = pe.appendChild(h("span", { class: "cx-aula-marca" }));
+    const prox = pe.appendChild(h("button", { type: "button", class: "cx-btn cx-btn--forte" }));
+    let atual = 0, limpa = null;
+    const bts = passos.map((p, i) => {
+      const b = h("button", { type: "button", text: String(i + 1), "aria-label": `passo ${i + 1}: ${p.tit}` });
+      b.addEventListener("click", () => ir(i));
+      dots.appendChild(b);
+      return b;
+    });
+    async function ir(i) {
+      if (typeof limpa === "function") limpa();
+      limpa = null;
+      atual = i;
+      const p = passos[i];
+      rot.textContent = `Passo ${i + 1} de ${passos.length}`;
+      tit.textContent = p.tit;
+      sub.innerHTML = p.sub || "";
+      marca.textContent = p.marca || "";
+      marca.className = "cx-aula-marca" + (p.real ? " cx-aula-marca--real" : "");
+      bts.forEach((b, k) => b.setAttribute("aria-pressed", String(k === i)));
+      prox.textContent = i < passos.length - 1 ? "Próximo passo →" : "Recomeçar ↺";
+      const c = h("div");
+      palco.replaceChildren(c);
+      try { limpa = await p.desenha(c); }
+      catch (e) { console.error(e); palco.replaceChildren(h("div", { class: "cx-erro", text: "Não foi possível montar este passo: " + e.message })); }
+    }
+    prox.addEventListener("click", () => ir(atual < passos.length - 1 ? atual + 1 : 0));
+    ir(o.inicial || 0);
+    return { ir };
   };
 
   /* ---------- números ---------- */
@@ -251,12 +294,18 @@
   S.pF = (F, d1, d2) => (F <= 0 ? 1 : S.ibeta(d2 / (d2 + d1 * F), d2 / 2, d1 / 2));
   S.pBinom = (k, n) => { // P(X >= k) sob moeda honesta
     let s = 0; for (let i = k; i <= n; i++) s += Math.exp(S.lgamma(n + 1) - S.lgamma(i + 1) - S.lgamma(n - i + 1) - n * Math.LN2); return Math.min(1, s); };
+  /* binomial com probabilidade q: P(X = k) e P(X >= k) */
+  S.binom = (k, n, q) => Math.exp(S.lgamma(n + 1) - S.lgamma(k + 1) - S.lgamma(n - k + 1) + k * Math.log(q) + (n - k) * Math.log(1 - q));
+  S.binomCauda = (k, n, q) => { let s = 0; for (let i = Math.max(0, k); i <= n; i++) s += S.binom(i, n, q); return Math.min(1, s); };
   S.gauss = (x, mu, sd) => Math.exp(-0.5 * ((x - mu) / sd) ** 2) / (sd * Math.sqrt(2 * Math.PI));
 
   /* ---------- gráficos (d3) ---------- */
   CX.quadro = function (pai, o = {}) {
     const w = o.w || 680, hh = o.h || 300, m = Object.assign({ t: 26, r: 18, b: 34, l: 50 }, o.m || {});
-    m.t = Math.max(m.t, 24); // espaço para o rótulo do eixo y, que mora acima do gráfico
+    // espaço para o rótulo do eixo y, que mora acima do gráfico. Margens pequenas (< 10)
+    // pedem desenho sem eixo (mapas, grades): ali a margem é respeitada, senão o desenho
+    // escorrega para fora da caixa e cobre o que vem embaixo.
+    if (m.t >= 10) m.t = Math.max(m.t, 24);
     if (m.b >= 20 && m.b < 38) m.b = 38; // e para o rótulo do eixo x, abaixo dos números
     const svg = d3.select(pai).append("svg").attr("viewBox", `0 0 ${w} ${hh}`).attr("role", "img");
     if (o.rot) svg.attr("aria-label", o.rot);

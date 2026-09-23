@@ -94,8 +94,8 @@
     });
   });
 
-  /* ---------------- 1.2 Cubo de dados (three.js) ---------------- */
-  CX.def("cubo", async (host) => {
+  /* ---------------- 1.2 Cubo de dados (desenho isométrico, sem biblioteca 3D) ---------------- */
+  CX.def("cubo", (host) => {
     const N = 16, ANOS = 40;
     const r = CX.rng(5);
     // trajetória de cada pixel: j=0 é o Sul. O Sul abriu antes e recebe lavoura depois.
@@ -117,115 +117,91 @@
       }
       traj.push({ i, j, seq });
     }
+    const px = (i, j) => traj[j * N + i];
+    const ctl = CX.ctrl(host);
+    let ano = 2024, sel = null, tocando = null;
+    const sAno = CX.slider(ctl, { rot: "fatia do ano (topo do cubo)", min: 1985, max: 2024, val: 2024, fmt: String, aoMudar: (v) => { ano = v; atualiza(); } });
+    const bPlay = CX.btn(ctl, "▶ passar os anos", () => {
+      if (tocando) { tocando(); tocando = null; bPlay.textContent = "▶ passar os anos"; return; }
+      let t0 = null; bPlay.textContent = "❚❚ parar";
+      tocando = CX.loop((t) => { if (t0 == null) t0 = t; const a = 1985 + Math.floor((t - t0) / 220) % 40; if (a !== ano) sAno.set(a); });
+    });
     const topo = h("div", { class: "cx-grade2" });
     host.appendChild(topo);
     const esq = h("div"), dir = h("div");
     topo.append(esq, dir);
-    const box3 = h("div", { class: "cx-3d" }, h("div", { class: "cx-carregando", text: "carregando a biblioteca 3D…" }));
-    esq.appendChild(box3);
-    const ctl = CX.ctrl(host);
-    let ano = 2024, sel = null;
-    const sAno = CX.slider(ctl, { rot: "fatia do ano", min: 1985, max: 2024, val: 2024, fmt: String, aoMudar: (v) => { ano = v; atualiza(); } });
-    const bPlay = CX.btn(ctl, "▶ passar os anos", () => {
-      if (tocando) { tocando(); tocando = null; bPlay.textContent = "▶ passar os anos"; return; }
-      let t0 = null; bPlay.textContent = "❚❚ parar";
-      tocando = CX.loop((t) => { if (t0 == null) t0 = t; const a = 1985 + Math.floor((t - t0) / 180) % 40; if (a !== ano) sAno.set(a); });
-    });
-    let tocando = null;
+
+    // cubo isométrico: u = coluna (oeste→leste), v = linha contada do norte (0) para o sul (N)
+    const qi = CX.quadro(esq, { w: 380, h: 440, m: { t: 4, r: 4, b: 4, l: 4 } });
+    const s = 10.5, a = s * Math.cos(Math.PI / 6), b = s * Math.sin(Math.PI / 6), hz = 5.2;
+    const ox = qi.iw / 2, oy = 14 + ANOS * hz;
+    const P = (u, v, z) => [ox + (u - v) * a, oy + (u + v) * b - z * hz];
+    const poli = (pts) => "M" + pts.map((p) => p[0].toFixed(1) + "," + p[1].toFixed(1)).join("L") + "Z";
+    const gTopo = qi.g.append("g"), gEsq = qi.g.append("g"), gDir = qi.g.append("g"), gMarca = qi.g.append("g");
+    const escurece = (cc, k) => d3.color(cc).darker(k).formatHex();
 
     // mapa plano (a fatia) + trajetória da coluna escolhida
-    const qm = CX.quadro(dir, { w: 330, h: 330, m: { t: 18, r: 4, b: 4, l: 4 } });
+    const qm = CX.quadro(dir, { w: 330, h: 350, m: { t: 24, r: 4, b: 4, l: 4 } });
     const cs = 322 / N;
-    qm.g.append("text").attr("class", "rot-m").attr("y", -6).text("a fatia vista de cima (Norte no alto)");
+    qm.g.append("text").attr("class", "rot-m").attr("y", -8).text("a fatia vista de cima (Norte no alto) · clique numa célula");
     const celas = qm.g.selectAll("rect").data(traj).join("rect")
       .attr("x", (d) => d.i * cs).attr("y", (d) => (N - 1 - d.j) * cs).attr("width", cs - 1).attr("height", cs - 1).style("cursor", "pointer")
       .on("click", (_, d) => { sel = d; atualiza(); });
-    const qt = CX.quadro(dir, { w: 330, h: 70, m: { t: 18, r: 4, b: 16, l: 4 } });
-    const tt = qt.g.append("text").attr("class", "rot-m").attr("y", -6).text("clique numa célula para ver a coluna dela");
+    const qt = CX.quadro(dir, { w: 330, h: 80, m: { t: 24, r: 4, b: 18, l: 4 } });
+    const tt = qt.g.append("text").attr("class", "rot-m").attr("y", -8);
     const gT = qt.g.append("g");
     const lei = CX.leitura(host);
-    const nums = { veg: CX.num(lei, "vegetação na fatia"), pasto: CX.num(lei, "pastagem"), agric: CX.num(lei, "lavoura") };
-
-    // three.js
-    let THREE = null, inst = null, cena, cam, ren, grupo, destaque, rodar = null;
-    try {
-      THREE = await import("https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js");
-    } catch (e) {
-      box3.replaceChildren(h("div", { class: "cx-erro", text: "A biblioteca 3D não carregou (sem internet?). O mapa plano ao lado continua funcionando." }));
-    }
-    if (THREE) {
-      box3.replaceChildren();
-      cena = new THREE.Scene();
-      cena.background = new THREE.Color(0xf6f5f0);
-      cam = new THREE.PerspectiveCamera(38, 1.6, 0.1, 200);
-      cam.position.set(22, 20, 26); cam.lookAt(0, 4, 0);
-      ren = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true }); // permite capturar a imagem (impressão, miniatura)
-      ren.setPixelRatio(Math.min(2, window.devicePixelRatio));
-      box3.appendChild(ren.domElement);
-      box3.appendChild(h("div", { class: "cx-3d-leg", text: "↕ tempo (1985 embaixo, 2024 em cima) · arraste para girar" }));
-      cena.add(new THREE.AmbientLight(0xffffff, 0.75));
-      const luz = new THREE.DirectionalLight(0xffffff, 0.9); luz.position.set(10, 30, 15); cena.add(luz);
-      grupo = new THREE.Group(); cena.add(grupo);
-      grupo.rotation.y = -0.5;
-      const H = 0.26;
-      const geo = new THREE.BoxGeometry(0.94, H * 0.9, 0.94);
-      const mat = new THREE.MeshLambertMaterial();
-      inst = new THREE.InstancedMesh(geo, mat, N * N * ANOS);
-      const m4 = new THREE.Matrix4(), col = new THREE.Color();
-      let k = 0;
-      traj.forEach((p) => p.seq.forEach((cl, t) => {
-        m4.makeTranslation(p.i - N / 2 + 0.5, t * H, -(p.j - N / 2 + 0.5));
-        inst.setMatrixAt(k, m4); inst.setColorAt(k, col.set(C[cl])); k++;
-      }));
-      grupo.add(inst);
-      destaque = new THREE.Mesh(new THREE.BoxGeometry(1.08, ANOS * H + 0.3, 1.08),
-        new THREE.MeshBasicMaterial({ color: 0x111111, wireframe: true }));
-      destaque.visible = false; grupo.add(destaque);
-      const seta = new THREE.ArrowHelper(new THREE.Vector3(0, 0, -1), new THREE.Vector3(-N / 2 - 1.5, 0, N / 2), 5, 0x8b3a1d);
-      grupo.add(seta);
-      grupo.userData.H = H;
-      const redim = () => { const w = box3.clientWidth, hh = box3.clientHeight; ren.setSize(w, hh, false); cam.aspect = w / hh; cam.updateProjectionMatrix(); };
-      redim();
-      new ResizeObserver(redim).observe(box3);
-      let arr = null, rotY = -0.5, rotX = 0;
-      box3.addEventListener("pointerdown", (e) => { arr = [e.clientX, e.clientY, rotY, rotX]; box3.setPointerCapture(e.pointerId); });
-      box3.addEventListener("pointermove", (e) => { if (!arr) return; rotY = arr[2] + (e.clientX - arr[0]) * 0.01; rotX = Math.max(-0.5, Math.min(0.6, arr[3] + (e.clientY - arr[1]) * 0.006)); });
-      box3.addEventListener("pointerup", () => { arr = null; });
-      // renderiza só enquanto a peça está visível
-      let visivel = true;
-      new IntersectionObserver((es) => { visivel = es[0].isIntersecting; }).observe(box3);
-      rodar = CX.loop(() => { if (!visivel) return; grupo.rotation.y = rotY; grupo.rotation.x = rotX; ren.render(cena, cam); });
-    }
+    const nums = { veg: CX.num(lei, "vegetação na fatia"), pasto: CX.num(lei, "pastagem"), agric: CX.num(lei, "lavoura e mosaico") };
 
     function atualiza() {
-      const t = ano - 1985;
+      const t = ano - 1985, T = t + 1;
+      // topo: a fatia do ano escolhido
+      gTopo.selectAll("path").data(traj).join("path")
+        .attr("d", (p) => { const u = p.i, v = N - 1 - p.j; return poli([P(u, v, T), P(u + 1, v, T), P(u + 1, v + 1, T), P(u, v + 1, T)]); })
+        .attr("fill", (p) => C[p.seq[t]]).attr("stroke", "#fff").attr("stroke-width", 0.4);
+      // face da frente à esquerda: a história da linha mais ao sul (v = N)
+      const esqD = [], dirD = [];
+      for (let u = 0; u < N; u++) for (let k = 0; k <= t; k++) esqD.push({ u, k, cl: px(u, 0).seq[k] });
+      for (let v = 0; v < N; v++) for (let k = 0; k <= t; k++) dirD.push({ v, k, cl: px(N - 1, N - 1 - v).seq[k] });
+      gEsq.selectAll("path").data(esqD).join("path")
+        .attr("d", (d) => poli([P(d.u, N, d.k), P(d.u + 1, N, d.k), P(d.u + 1, N, d.k + 1), P(d.u, N, d.k + 1)]))
+        .attr("fill", (d) => escurece(C[d.cl], 0.25)).attr("stroke", "#fff").attr("stroke-width", 0.25);
+      gDir.selectAll("path").data(dirD).join("path")
+        .attr("d", (d) => poli([P(N, d.v, d.k), P(N, d.v + 1, d.k), P(N, d.v + 1, d.k + 1), P(N, d.v, d.k + 1)]))
+        .attr("fill", (d) => escurece(C[d.cl], 0.55)).attr("stroke", "#fff").attr("stroke-width", 0.25);
+      gMarca.selectAll("*").remove();
+      // régua do tempo na aresta da frente
+      const [x0, y0] = P(0, N, 0), [x1, y1] = P(0, N, T);
+      gMarca.append("line").attr("x1", x0 - 8).attr("x2", x1 - 8).attr("y1", y0).attr("y2", y1).attr("stroke", "#777");
+      gMarca.append("text").attr("class", "rot-m").attr("x", x0 - 12).attr("y", y0 + 4).attr("text-anchor", "end").text("1985");
+      gMarca.append("text").attr("class", "rot-f").attr("x", x1 - 12).attr("y", y1 + 4).attr("text-anchor", "end").text(ano);
+      // seta do Norte sobre o topo
+      const [nx0, ny0] = P(N / 2, N / 2 + 2, T), [nx1, ny1] = P(N / 2, 2, T);
+      gMarca.append("line").attr("x1", nx0).attr("y1", ny0).attr("x2", nx1).attr("y2", ny1).attr("stroke", C.acento).attr("stroke-width", 2.5).attr("marker-end", "url(#cx-cubo-seta)");
+      gMarca.append("text").attr("class", "rot-f").attr("x", nx1 + 6).attr("y", ny1 - 4).style("fill", C.acento).text("N");
+      if (sel) {
+        const u = sel.i, v = N - 1 - sel.j;
+        gMarca.append("path").attr("d", poli([P(u, v, T), P(u + 1, v, T), P(u + 1, v + 1, T), P(u, v + 1, T)])).attr("fill", "none").attr("stroke", "#111").attr("stroke-width", 2);
+      }
+      // mapa plano e contagem
       celas.attr("fill", (d) => C[d.seq[t]]).attr("stroke", (d) => (d === sel ? "#111" : "none")).attr("stroke-width", 2);
       const cont = { veg: 0, pasto: 0, agric: 0 };
       traj.forEach((p) => { const k = p.seq[t]; if (k in cont) cont[k]++; else if (k === "mosaico") cont.agric++; });
       Object.entries(nums).forEach(([k, n]) => n.set(CX.pct(cont[k] / (N * N))));
       if (sel) {
-        tt.text(`coluna do pixel (${sel.i + 1}, ${sel.j + 1}): 1985 → 2024`);
-        gT.selectAll("rect").data(sel.seq).join("rect").attr("x", (_, i) => i * 7.9).attr("width", 7.4).attr("height", 22)
-          .attr("fill", (k) => C[k]).attr("opacity", (_, i) => (i <= t ? 1 : 0.25));
-        gT.selectAll("text").data([1985, 2024]).join("text").attr("class", "rot-m").attr("x", (a) => (a - 1985) * 7.9).attr("y", 36).attr("text-anchor", (a) => (a > 2000 ? "end" : "start")).text(String);
-      }
-      if (inst) {
-        const m4 = new THREE.Matrix4(), H = grupo.userData.H;
-        let k = 0;
-        traj.forEach((p) => p.seq.forEach((_, tt2) => {
-          const vis = tt2 <= t;
-          m4.makeScale(vis ? 1 : 0.0001, vis ? 1 : 0.0001, vis ? 1 : 0.0001);
-          m4.setPosition(p.i - N / 2 + 0.5, tt2 * H, -(p.j - N / 2 + 0.5));
-          inst.setMatrixAt(k++, m4);
-        }));
-        inst.instanceMatrix.needsUpdate = true;
-        if (sel) { destaque.visible = true; destaque.position.set(sel.i - N / 2 + 0.5, (ANOS * H) / 2 - H / 2, -(sel.j - N / 2 + 0.5)); }
-        ren.render(cena, cam); // um quadro já, sem depender da animação (aba oculta, impressão)
+        tt.text("a coluna do pixel marcado, de 1985 a 2024");
+        gT.selectAll("rect").data(sel.seq).join("rect").attr("x", (_, i) => i * 8.1).attr("width", 7.5).attr("height", 24)
+          .attr("fill", (k) => C[k]).attr("opacity", (_, i) => (i <= t ? 1 : 0.25)).attr("stroke", (_, i) => (i === t ? "#111" : "none"));
+        gT.selectAll("text").data([1985, 2024]).join("text").attr("class", "rot-m").attr("x", (a2) => (a2 - 1985) * 8.1 + (a2 > 2000 ? 7.5 : 0)).attr("y", 38).attr("text-anchor", (a2) => (a2 > 2000 ? "end" : "start")).text(String);
       }
     }
+    qi.svg.append("defs").append("marker").attr("id", "cx-cubo-seta").attr("viewBox", "0 0 10 10").attr("refX", 8).attr("refY", 5).attr("markerWidth", 6).attr("markerHeight", 6).attr("orient", "auto")
+      .append("path").attr("d", "M0,0L10,5L0,10z").attr("fill", C.acento);
     sel = traj[3 * N + 4];
     atualiza();
-    host.appendChild(h("div", { class: "cx-leg", html: `<span><i style="background:${C.veg}"></i>vegetação</span><span><i style="background:${C.pasto}"></i>pastagem</span><span><i style="background:${C.agric}"></i>lavoura</span><span><i style="background:${C.mosaico}"></i>mosaico</span><span><i style="background:${C.agua}"></i>água</span><span>seta terracota = Norte</span>` }));
+    host.appendChild(h("div", { class: "cx-leg", html: `<span><i style="background:${C.veg}"></i>vegetação</span><span><i style="background:${C.pasto}"></i>pastagem</span><span><i style="background:${C.agric}"></i>lavoura</span><span><i style="background:${C.mosaico}"></i>mosaico</span><span><i style="background:${C.agua}"></i>água</span><span>faces laterais: a mesma legenda, mais escura</span>` }));
+    CX.frase(host, "O topo do cubo é uma fatia: o mapa de um ano, que serve para medir estoques. As faces laterais são colunas vistas de lado: a história dos pixels da borda, ano a ano, que serve para medir trajetórias. Recue o ano e veja o cubo baixar; olhe a face da frente e repare que, no sul, o verde vira pasto antes de 1985 e a lavoura chega depois.");
+    return () => tocando && tocando();
   });
 
   /* ---------------- 1.3 Onde colocar o Mosaico ---------------- */
@@ -280,42 +256,42 @@
   CX.def("fluxo", (host) => {
     CX.modos(host, {
       simples(c) {
-        const ctl = CX.ctrl(c), ctl2 = CX.ctrl(c);
-        const cx = [
-          { nome: "Caixa A", t: CX.slider(ctl, { rot: "A torneira", min: 0, max: 10, val: 6, fmt: String }), r: CX.slider(ctl, { rot: "A ralo", min: 0, max: 10, val: 2, fmt: String }), n: 50, hist: [] },
-          { nome: "Caixa B", t: CX.slider(ctl2, { rot: "B torneira", min: 0, max: 10, val: 3, fmt: String }), r: CX.slider(ctl2, { rot: "B ralo", min: 0, max: 10, val: 7, fmt: String }), n: 50, hist: [] },
-        ];
-        CX.btn(ctl2, "recomeçar no mesmo nível", () => cx.forEach((k) => { k.n = 50; k.hist = []; }));
-        const q = CX.quadro(c, { h: 250, m: { t: 10, r: 10, b: 24, l: 10 } });
-        const gx = [60, 250];
-        const gs = cx.map((k, i) => {
-          const g = q.g.append("g").attr("transform", `translate(${gx[i]},20)`);
-          g.append("rect").attr("width", 110).attr("height", 180).attr("fill", "#fff").attr("stroke", "#555").attr("stroke-width", 2);
-          const agua = g.append("rect").attr("x", 2).attr("width", 106).attr("fill", C.agua).attr("opacity", 0.75);
-          const jT = g.append("rect").attr("x", 20).attr("y", -20).attr("width", 6).attr("fill", C.agua);
-          const jR = g.append("rect").attr("x", 84).attr("y", 180).attr("width", 6).attr("fill", C.agua);
-          const txt = g.append("text").attr("class", "rot-f").attr("x", 55).attr("y", 205).attr("text-anchor", "middle");
-          return { agua, jT, jR, txt };
-        });
-        const x = d3.scaleLinear().domain([0, 120]).range([420, 660]), y = d3.scaleLinear().domain([0, 100]).range([200, 20]);
-        q.g.append("text").attr("class", "rot-m").attr("x", 420).attr("y", 12).text("nível ao longo do tempo");
-        q.g.append("line").attr("x1", 420).attr("x2", 660).attr("y1", 200).attr("y2", 200).attr("stroke", "#bbb");
-        const lns = cx.map((_, i) => q.g.append("path").attr("fill", "none").attr("stroke", i ? C.acento : C.azul).attr("stroke-width", 2));
-        let tAnt = null;
-        return CX.loop((t) => {
-          const dt = tAnt == null ? 0 : Math.min(0.05, (t - tAnt) / 1000); tAnt = t;
-          cx.forEach((k, i) => {
-            const vt = k.t.valor(), vr = k.r.valor();
-            k.n = Math.max(0, Math.min(100, k.n + (vt - vr) * dt * 3));
-            if (!k.hist.length || t - k.hist[k.hist.length - 1][0] > 200) { k.hist.push([t, k.n]); if (k.hist.length > 120) k.hist.shift(); }
-            const g = gs[i];
-            g.agua.attr("y", 180 - 1.78 * k.n).attr("height", 1.78 * k.n);
-            g.jT.attr("height", vt > 0 ? 20 + 180 - 1.78 * k.n : 0).attr("width", 2 + vt * 0.9);
-            g.jR.attr("height", vr > 0 && k.n > 0 ? 14 : 0).attr("width", 2 + vr * 0.9);
-            g.txt.text(`${k.nome}: nível ${f(k.n, 0)} · fluxo ${fs(vt - vr, 0)}`);
-            lns[i].attr("d", d3.line().x((_, j) => x(j)).y((p) => y(p[1]))(k.hist));
+        const ctl = CX.ctrl(c);
+        const sA = CX.slider(ctl, { rot: "alunos que passam da manhã para a tarde", min: 0, max: 60, val: 30, fmt: String, aoMudar: des });
+        const sB = CX.slider(ctl, { rot: "alunos que passam da tarde para a manhã", min: 0, max: 60, val: 30, fmt: String, aoMudar: des });
+        const grid = h("div", { class: "cx-grade2" }); c.appendChild(grid);
+        const a1 = h("div"), a2 = h("div"); grid.append(a1, a2);
+        const lei = CX.leitura(c);
+        const nS = CX.num(lei, "mudança na contagem da manhã"), nF = CX.num(lei, "alunos que trocaram de turno", true);
+        const txt = CX.frase(c);
+        function des() {
+          const a = sA.valor(), b = sB.valor();
+          const man = 100 - a + b, tar = 100 - b + a;
+          a1.innerHTML = `<p class="rot-ctrl" style="margin:0 0 .3rem;text-align:center"><b>A matriz de transição</b> (o filme)</p>
+            <table class="cx-matriz"><tr><th></th><th>este ano: manhã</th><th>este ano: tarde</th></tr>
+            <tr><th>ano passado: manhã</th><td class="fica">${100 - a}</td><td class="muda">${a}</td></tr>
+            <tr><th>ano passado: tarde</th><td class="muda">${b}</td><td class="fica">${100 - b}</td></tr></table>
+            <p class="cx-leg" style="justify-content:center">azul: ficou no turno · terracota: trocou de turno</p>`;
+          a2.replaceChildren();
+          const q = CX.quadro(a2, { w: 330, h: 210, m: { l: 90, r: 50, t: 28, b: 30 } });
+          const lin = [["manhã", 100, man], ["tarde", 100, tar]];
+          const x = d3.scaleLinear().domain([0, 170]).range([0, q.iw]), y = d3.scaleBand().domain(["manhã", "tarde"]).range([0, q.ih]).padding(0.3);
+          CX.eixos(q, x, null, { xl: "alunos", xt: 4 });
+          q.g.append("text").attr("class", "rot-f").attr("y", -12).text("A contagem (a fotografia)");
+          lin.forEach(([n, antes, agora]) => {
+            const yy = y(n), bw = y.bandwidth() / 2 - 1;
+            q.g.append("rect").attr("y", yy).attr("height", bw).attr("width", x(antes)).attr("fill", C.cinza).attr("rx", 2);
+            q.g.append("rect").attr("y", yy + bw + 2).attr("height", bw).attr("width", x(agora)).attr("fill", C.azul).attr("rx", 2);
+            q.g.append("text").attr("class", "rot").attr("x", -8).attr("y", yy + y.bandwidth() / 2 + 4).attr("text-anchor", "end").text(n);
+            q.g.append("text").attr("class", "rot-m").attr("x", x(antes) + 4).attr("y", yy + bw - 2).text(`${antes} (ano passado)`);
+            q.g.append("text").attr("class", "rot-f").attr("x", x(agora) + 4).attr("y", yy + 2 * bw).text(`${agora} (este ano)`);
           });
-        });
+          nS.set(CX.fs(man - 100, 0)); nF.set(String(a + b));
+          txt.innerHTML = a === b
+            ? `A contagem não se mexe: manhã e tarde continuam com 100. A matriz, porém, registra ${a + b} trocas. É o caso em que o saldo esconde tudo.`
+            : `A contagem da manhã muda ${CX.fs(man - 100, 0)}, que é só o saldo das duas direções. A matriz mostra o movimento inteiro: ${a} num sentido e ${b} no outro, ${a + b} trocas ao todo.`;
+        }
+        des();
       },
       async dados(c) {
         const fb = (await CX.base()).fluxo_bl;
@@ -345,60 +321,67 @@
             q.g.append("text").attr("class", "b rot-f").attr("x", x(Math.max(0, l[1])) + 6).attr("y", y(l[0]) + y.bandwidth() / 2 + 4).text(f(l[1], 2));
           });
           const esc = ida.bruto_mha > 0 ? 1 - ida.liquido_mha / ida.bruto_mha : 0;
-          txt.innerHTML = `No Ato ${ato}, ${f(ida.bruto_mha, 2)} Mha passaram de ${nomes[a]} para ${nomes[b]} e ${f(volta.bruto_mha, 2)} Mha fizeram o caminho contrário. Quem olha só o saldo (${f(ida.liquido_mha, 2)} Mha) não vê ${CX.pct(Math.max(0, esc))} do movimento de ida.`;
+          txt.innerHTML = `No Ato ${ato}, ${f(ida.bruto_mha, 2)} Mha passaram de ${nomes[a]} para ${nomes[b]} e ${f(volta.bruto_mha, 2)} Mha fizeram o caminho contrário. Quem olha só o saldo (${f(ida.liquido_mha, 2)} Mha) não vê ${CX.pct(Math.max(0, esc))} do movimento de ida. É a mesma situação da troca de turno, em milhões de hectares.`;
         }
         desenha();
       },
     });
   });
 
-  /* ---------------- 1.5 Censura ---------------- */
+  /* ---------------- 1.5 Censura (as árvores de duas praças) ---------------- */
   CX.def("censura", (host) => {
     const r = CX.rng(21);
-    const past = [];
-    for (let k = 0; k < 22; k++) past.push({ reg: "Sul", n: Math.round(Math.min(2020, 1971 + CX.normal(r) * 11)) });
-    for (let k = 0; k < 22; k++) past.push({ reg: "Norte", n: Math.round(Math.min(2021, 1995 + CX.normal(r) * 9)) });
-    past.sort((a, b) => (a.reg === b.reg ? a.n - b.n : a.reg < b.reg ? 1 : -1));
+    const arv = [];
+    // praça antiga: plantada sobretudo nos anos 1960 e 1970; praça nova: criada em 1995
+    for (let k = 0; k < 19; k++) arv.push({ reg: "antiga", n: Math.round(Math.min(1986, 1968 + CX.normal(r) * 9)) });
+    [1996, 2004, 2013].forEach((n) => arv.push({ reg: "antiga", n })); // as poucas replantadas
+    for (let k = 0; k < 22; k++) arv.push({ reg: "nova", n: Math.round(Math.min(2021, 1995 + Math.abs(CX.normal(r)) * 9)) });
+    arv.sort((a, b) => (a.reg === b.reg ? a.n - b.n : a.reg === "antiga" ? -1 : 1));
+    const nomeP = { antiga: "Praça antiga", nova: "Praça nova" };
     const ctl = CX.ctrl(host);
-    const s = CX.slider(ctl, { rot: "a série começa em", min: 1950, max: 2005, val: 1985, fmt: String, aoMudar: desenha });
-    const q = CX.quadro(host, { h: 360, m: { l: 52, r: 16, t: 8, b: 26 } });
+    const s = CX.slider(ctl, { rot: "o cadastro de plantio começa em", min: 1950, max: 2005, val: 1990, fmt: String, aoMudar: desenha });
+    const q = CX.quadro(host, { h: 360, m: { l: 92, r: 16, t: 14, b: 26 } });
     const x = d3.scaleLinear().domain([1940, 2024]).range([0, q.iw]);
-    const y = d3.scaleBand().domain(past.map((_, i) => i)).range([0, q.ih]).padding(0.25);
+    const y = d3.scaleBand().domain(arv.map((_, i) => i)).range([0, q.ih]).padding(0.25);
     CX.eixos(q, x, null, { xf: CX.anoF });
-    q.g.append("text").attr("class", "rot-f").attr("x", -48).attr("y", y(5)).text("Sul");
-    q.g.append("text").attr("class", "rot-f").attr("x", -48).attr("y", y(27)).text("Norte");
+    q.g.append("text").attr("class", "rot-f").attr("x", -88).attr("y", y(5)).text("Praça antiga");
+    q.g.append("text").attr("class", "rot-f").attr("x", -88).attr("y", y(27)).text("Praça nova");
     const janela = q.g.append("rect").attr("y", -4).attr("height", q.ih + 4).attr("fill", "#f3efe3");
-    const bar = q.g.selectAll("g.p").data(past).join("g").attr("class", "p");
-    const bOculto = bar.append("rect").attr("height", y.bandwidth()).attr("fill", "url(#cx-hach)");
-    const bVisto = bar.append("rect").attr("height", y.bandwidth()).attr("rx", 2);
     const defs = q.svg.append("defs");
     const pat = defs.append("pattern").attr("id", "cx-hach").attr("width", 6).attr("height", 6).attr("patternUnits", "userSpaceOnUse").attr("patternTransform", "rotate(45)");
     pat.append("rect").attr("width", 6).attr("height", 6).attr("fill", "#eee");
     pat.append("line").attr("x1", 0).attr("y1", 0).attr("x2", 0).attr("y2", 6).attr("stroke", "#aaa").attr("stroke-width", 2);
+    const bar = q.g.selectAll("g.p").data(arv).join("g").attr("class", "p");
+    const bOculto = bar.append("rect").attr("height", y.bandwidth()).attr("fill", "url(#cx-hach)");
+    const bVisto = bar.append("rect").attr("height", y.bandwidth()).attr("rx", 2);
     const inicio = q.g.append("line").attr("y1", -4).attr("y2", q.ih).attr("stroke", C.acento).attr("stroke-width", 2);
     const inicioT = q.g.append("text").attr("class", "rot-f").attr("y", -8).attr("text-anchor", "middle").style("fill", C.acento);
     const tab = h("table", { class: "cx-tab" });
     host.appendChild(tab);
+    host.appendChild(h("div", { class: "cx-leg", html: `<span><i style="background:${C.veg}"></i>idade conhecida</span><span><i style="background:${C.cinza}"></i>já existia quando o cadastro começou (censurada)</span><span><i style="background:repeating-linear-gradient(45deg,#eee 0 3px,#aaa 3px 5px)"></i>parte da história que o cadastro não vê</span>` }));
+    const txt = CX.frase(host);
     function desenha() {
       const t0 = s.valor();
       janela.attr("x", x(t0)).attr("width", x(2024) - x(t0));
-      inicio.attr("x1", x(t0)).attr("x2", x(t0)); inicioT.attr("x", x(t0)).text("início da série");
+      inicio.attr("x1", x(t0)).attr("x2", x(t0)); inicioT.attr("x", x(t0)).text("início do cadastro");
       bar.attr("transform", (_, i) => `translate(0,${y(i)})`);
       bOculto.attr("x", (d) => x(d.n)).attr("width", (d) => Math.max(0, x(Math.max(d.n, Math.min(t0, 2024))) - x(d.n)));
       bVisto.attr("x", (d) => x(Math.max(d.n, t0))).attr("width", (d) => x(2024) - x(Math.max(d.n, t0)))
-        .attr("fill", (d) => (d.n < t0 ? C.cinza : C.pasto));
-      const linhas = ["Sul", "Norte"].map((rg) => {
-        const p = past.filter((d) => d.reg === rg);
+        .attr("fill", (d) => (d.n < t0 ? C.cinza : C.veg));
+      const linhas = ["antiga", "nova"].map((rg) => {
+        const p = arv.filter((d) => d.reg === rg);
         const cens = p.filter((d) => d.n < t0).length;
-        return [rg, cens / p.length, S.mediana(p.map((d) => 2024 - d.n)), S.mediana(p.map((d) => 2024 - Math.max(d.n, t0))),
+        return [nomeP[rg], cens / p.length, S.mediana(p.map((d) => 2024 - d.n)), S.mediana(p.map((d) => 2024 - Math.max(d.n, t0))),
           p.some((d) => d.n >= t0) ? S.mediana(p.filter((d) => d.n >= t0).map((d) => 2024 - d.n)) : null];
       });
-      tab.innerHTML = `<tr><th>região</th><th>censuradas</th><th>idade verdadeira (mediana)</th><th>mediana com censuradas</th><th>mediana sem censuradas</th></tr>` +
+      tab.innerHTML = `<tr><th>praça</th><th>censuradas</th><th>idade verdadeira (mediana)</th><th>tratando "pelo menos" como exata</th><th>sem as censuradas</th></tr>` +
         linhas.map((l) => `<tr><td>${l[0]}</td><td>${CX.pct(l[1])}</td><td>${l[2]} anos</td><td>${l[3]} anos</td><td>${l[4] == null ? "—" : l[4] + " anos"}</td></tr>`).join("");
+      const [ant, nov] = linhas;
+      txt.innerHTML = `Com o cadastro começando em ${t0}, ${CX.pct(ant[1])} das árvores da praça antiga ficam censuradas. A idade verdadeira dela tem mediana de ${ant[2]} anos, mas a conta que trata o "pelo menos" como exato dá ${ant[3]}` +
+        (ant[4] == null ? ", e sem as censuradas não sobra árvore nenhuma para contar." : `, e a que joga as censuradas fora dá ${ant[4]}.`) +
+        ` Na praça nova, quase nada muda. Qualquer comparação entre as duas precisa declarar a censura de cada lado. Recue o início do cadastro e veja a distorção sumir.`;
     }
     desenha();
-    host.appendChild(h("div", { class: "cx-leg", html: `<span><i style="background:${C.pasto}"></i>idade observável</span><span><i style="background:${C.cinza}"></i>pastagem já existente no início (censurada)</span><span><i style="background:repeating-linear-gradient(45deg,#eee 0 3px,#aaa 3px 5px)"></i>parte da história que a série não vê</span>` }));
-    CX.frase(host, "Com a série começando em 1985, quase todo o Sul fica censurado e sua mediana \"com censuradas\" encolhe muito abaixo da verdadeira. Tirar as censuradas também não resolve: sobram só as pastagens novas. Qualquer comparação Sul × Norte precisa declarar a censura de cada lado.");
   });
 
   /* ---------------- 1.6 Censo, amostra e peso ---------------- */
@@ -406,32 +389,36 @@
     CX.modos(host, {
       simples(c) {
         const ctl = CX.ctrl(c);
-        const sA = CX.slider(ctl, { rot: "alunos na turma A", min: 10, max: 120, val: 60, fmt: String, aoMudar: des });
-        const sB = CX.slider(ctl, { rot: "alunos na turma B", min: 10, max: 120, val: 10, fmt: String, aoMudar: des });
+        const sS = CX.slider(ctl, { rot: "clientes no sábado", min: 60, max: 900, passo: 10, val: 600, fmt: String, aoMudar: des });
+        const sT = CX.slider(ctl, { rot: "clientes na terça", min: 20, max: 300, passo: 10, val: 60, fmt: String, aoMudar: des });
         const ctl2 = CX.ctrl(c);
-        const pond = CX.check(ctl2, " pesar cada turma pelo seu tamanho", false, des);
-        const q = CX.quadro(c, { h: 220, m: { l: 10, r: 10, t: 14, b: 30 } });
+        const pond = CX.check(ctl2, " pesar cada dia pelo número de clientes", false, des);
+        const q = CX.quadro(c, { h: 230, m: { l: 10, r: 10, t: 14, b: 10 } });
         const lei = CX.leitura(c);
-        const nV = CX.num(lei, "média verdadeira da escola"), nE = CX.num(lei, "estimativa pelas 3 + 3 medidas", true), nP = CX.num(lei, "peso da turma B na estimativa");
+        const nV = CX.num(lei, "nota média verdadeira dos clientes"), nE = CX.num(lei, "estimativa pelas 10 + 10 entrevistas", true), nP = CX.num(lei, "peso da terça na estimativa");
+        const txt = CX.frase(c);
+        const NS = 6.4, NT = 8.6;
         function des() {
-          const nA = sA.valor(), nB = sB.valor();
-          const verd = (nA * 150 + nB * 170) / (nA + nB);
-          const wB = pond.valor() ? nB / (nA + nB) : 0.5;
-          const est = 150 * (1 - wB) + 170 * wB;
-          nV.set(f(verd, 1) + " cm"); nE.set(f(est, 1) + " cm"); nP.set(CX.pct(wB));
+          const cS = sS.valor(), cT = sT.valor();
+          const verd = (cS * NS + cT * NT) / (cS + cT);
+          const wT = pond.valor() ? cT / (cS + cT) : 0.5;
+          const est = NS * (1 - wT) + NT * wT;
+          nV.set(f(verd, 2)); nE.set(f(est, 2)); nP.set(CX.pct(wT));
           q.g.selectAll("*").remove();
-          [["A", nA, 150, C.azul, 20], ["B", nB, 170, C.acento, 350]].forEach(([n, k, alt, cc, x0]) => {
-            const cols = 20;
-            for (let i = 0; i < k; i++) {
-              const sorteado = i < 3;
-              q.g.append("circle").attr("cx", x0 + (i % cols) * 15).attr("cy", 20 + Math.floor(i / cols) * 15).attr("r", 5.5)
-                .attr("fill", sorteado ? cc : "#fff").attr("stroke", cc);
+          [["Sábado", cS, NS, C.acento, 20], ["Terça", cT, NT, C.azul, 130]].forEach(([n, k, nota, cc, y0]) => {
+            const cols = 45, pessoas = Math.round(k / 10);
+            q.g.append("text").attr("class", "rot-f").attr("x", 0).attr("y", y0 - 6).text(`${n}: ${k} clientes · nota média ${f(nota, 1)}`);
+            for (let i = 0; i < pessoas; i++) {
+              q.g.append("circle").attr("cx", 8 + (i % cols) * 14.6).attr("cy", y0 + 8 + Math.floor(i / cols) * 14).attr("r", 5.2)
+                .attr("fill", i === 0 ? cc : "#fff").attr("stroke", cc);
             }
-            q.g.append("text").attr("class", "rot-f").attr("x", x0).attr("y", 8).text(`Turma ${n}: ${k} alunos · média ${alt} cm`);
           });
+          q.g.append("text").attr("class", "rot-m").attr("x", 0).attr("y", q.ih - 2).text("cada círculo = 10 clientes · o círculo cheio são os 10 entrevistados do dia");
+          txt.innerHTML = pond.valor()
+            ? `Com os pesos pelo movimento, a terça vale ${CX.pct(wT)} da conta e a estimativa encosta na nota verdadeira. As 20 entrevistas são as mesmas de antes; mudou só o peso na hora de juntar.`
+            : `As mesmas 10 entrevistas por dia dão à terça metade do peso da semana, embora ela tenha ${CX.pct(cT / (cS + cT))} dos clientes. Como a terça é o dia bom, a média sai ${verd < est ? "otimista" : "pessimista"} em ${f(Math.abs(est - verd), 2)} ponto.`;
         }
         des();
-        CX.frase(c, "O sorteio é o mesmo nos dois casos: 3 alunos por turma. O que muda a resposta é o peso na hora de juntar. Sem ponderar, uma turma de 10 vale tanto quanto uma de 60.");
       },
       dados(c) {
         const q = CX.quadro(c, { h: 250, m: { l: 50, r: 20, t: 20, b: 34 } });
@@ -447,7 +434,7 @@
             q.g.append("text").attr("class", "rot-m").attr("x", x0(a) + x1(k) + x1.bandwidth() / 2).attr("y", q.ih - 6).attr("text-anchor", "middle").style("fill", "#fff").text(k);
           });
         });
-        CX.frase(c, "A amostra de 2.000 pixels por ano dava a todo ano o mesmo peso. No censo, 2020 (um ano de conversão intensa) pesa quase o dobro, e 2024 menos da metade. Por ano, a amostra acertava a mediana; no agregado, o erro era de ponderação.");
+        CX.frase(c, "A amostra de 2.000 pixels por ano dava a todo ano o mesmo peso, como as 10 entrevistas por dia do restaurante. No censo, 2020 (um ano de conversão intensa, o sábado lotado) pesa quase o dobro, e 2024 menos da metade. Ano a ano, a amostra acertava a mediana; no agregado, o erro era de ponderação.");
       },
     });
   });
@@ -492,37 +479,54 @@
   /* ---------------- 1.8 Projeção ---------------- */
   CX.def("proj", (host) => {
     const ctl = CX.ctrl(host);
-    const s = CX.slider(ctl, { rot: "latitude", min: -80, max: 0, val: -16, fmt: (v) => f(Math.abs(v), 0) + "° S", aoMudar: des });
+    const s = CX.slider(ctl, { rot: "latitude", min: 0, max: 80, val: 16, fmt: (v) => v + "° S", aoMudar: des });
     const grid = h("div", { class: "cx-grade2" });
     host.appendChild(grid);
     const esq = h("div"), dir = h("div"); grid.append(esq, dir);
-    const qg = CX.quadro(esq, { w: 320, h: 320, m: { t: 10, r: 10, b: 10, l: 10 } });
-    const proj = d3.geoOrthographic().scale(145).translate([150, 150]).rotate([50, 20]);
+    // d3-geo quer anéis no sentido horário; se a área passar de meia esfera, o anel está invertido
+    const poligono = (anel) => { let g = { type: "Polygon", coordinates: [anel] }; if (d3.geoArea(g) > 2 * Math.PI) g = { type: "Polygon", coordinates: [[...anel].reverse()] }; return g; };
+    const qg = CX.quadro(esq, { w: 320, h: 320, m: { t: 6, r: 6, b: 6, l: 6 } });
+    const proj = d3.geoOrthographic().scale(148).translate([154, 154]).rotate([55, 20]).clipAngle(90);
     const path = d3.geoPath(proj);
     qg.g.append("path").datum({ type: "Sphere" }).attr("d", path).attr("fill", "#eef3f6").attr("stroke", "#9bb");
-    qg.g.append("path").datum(d3.geoGraticule().step([10, 10])()).attr("d", path).attr("fill", "none").attr("stroke", "#b9c6cc").attr("stroke-width", 0.7);
-    const faixa = qg.g.append("path").attr("fill", C.pasto).attr("opacity", 0.35);
-    faixa.datum({ type: "Polygon", coordinates: [[[-53.2, -19.5], [-45.9, -19.5], [-45.9, -12.4], [-53.2, -12.4], [-53.2, -19.5]]] }).attr("d", path);
-    const cel = qg.g.append("path").attr("fill", C.acento).attr("opacity", 0.8);
-    const qr = CX.quadro(dir, { w: 340, h: 320, m: { t: 30, r: 10, b: 30, l: 10 } });
-    const k = 1.9;
-    const rLat = qr.g.append("rect").attr("fill", "none").attr("stroke", "#999").attr("stroke-dasharray", "4 3");
-    const rLon = qr.g.append("rect").attr("fill", C.acento).attr("opacity", 0.2).attr("stroke", C.acento);
-    const t1 = qr.g.append("text").attr("class", "rot-f"), t2 = qr.g.append("text").attr("class", "rot");
-    qr.g.append("text").attr("class", "rot-m").attr("y", -12).text("tracejado: 1° × 1° no equador · cheio: na latitude escolhida");
+    qg.g.append("path").datum(d3.geoGraticule().step([10, 10])()).attr("d", path).attr("fill", "none").attr("stroke", "#c5d0d5").attr("stroke-width", 0.7);
+    // um "gomo" de 10° de longitude, de polo a polo: largo no equador, fino nas pontas
+    const gomo = [];
+    for (let la = -89; la <= 89; la += 2) gomo.push([-70, la]);
+    for (let la = 89; la >= -89; la -= 2) gomo.push([-60, la]);
+    gomo.push(gomo[0]);
+    qg.g.append("path").datum(poligono(gomo)).attr("d", path).attr("fill", C.azul).attr("opacity", 0.22).attr("stroke", C.azul).attr("stroke-width", 0.8);
+    qg.g.append("path").datum(poligono([[-53.2, -19.5], [-45.9, -19.5], [-45.9, -12.4], [-53.2, -12.4], [-53.2, -19.5]])).attr("d", path).attr("fill", C.pasto).attr("opacity", 0.85);
+    const paralelo = qg.g.append("path").attr("fill", "none").attr("stroke", C.acento).attr("stroke-width", 2.2);
+    qg.g.append("text").attr("class", "rot-m").attr("x", 4).attr("y", 312).text("azul: um gomo de 10° de longitude");
+    // gráfico: km em 1° de longitude e de latitude, por latitude
+    const qr = CX.quadro(dir, { w: 340, h: 320, m: { t: 30, r: 16, b: 40, l: 48 } });
+    const x = d3.scaleLinear().domain([0, 80]).range([0, qr.iw]), y = d3.scaleLinear().domain([0, 120]).range([qr.ih, 0]);
+    CX.eixos(qr, x, y, { xl: "latitude (graus ao sul do equador)", yl: "quilômetros em 1 grau", xf: (v) => v + "°", xt: 8 });
+    const kLon = (la) => 111.32 * Math.cos((la * Math.PI) / 180);
+    const kLat = (la) => (111132.92 - 559.82 * Math.cos((2 * la * Math.PI) / 180) + 1.175 * Math.cos((4 * la * Math.PI) / 180)) / 1000;
+    qr.g.append("rect").attr("x", x(12.4)).attr("width", x(19.5) - x(12.4)).attr("y", 0).attr("height", qr.ih).attr("fill", C.pasto).attr("opacity", 0.18);
+    qr.g.append("text").attr("class", "rot-m").attr("x", x(16)).attr("y", qr.ih - 6).attr("text-anchor", "middle").text("Goiás");
+    const ls = d3.range(0, 80.5, 0.5);
+    qr.g.append("path").attr("fill", "none").attr("stroke", "#777").attr("stroke-width", 2).attr("stroke-dasharray", "5 3").attr("d", d3.line().x((la) => x(la)).y((la) => y(kLat(la)))(ls));
+    qr.g.append("path").attr("fill", "none").attr("stroke", C.acento).attr("stroke-width", 2.4).attr("d", d3.line().x((la) => x(la)).y((la) => y(kLon(la)))(ls));
+    qr.g.append("text").attr("class", "rot").attr("x", x(80)).attr("y", y(kLat(80)) - 6).attr("text-anchor", "end").text("1° de latitude (a altura do gomo)");
+    qr.g.append("text").attr("class", "rot").attr("x", x(80)).attr("y", y(kLon(80)) + 18).attr("text-anchor", "end").style("fill", C.acento).text("1° de longitude (a largura)");
+    const mk = qr.g.append("g");
     const lei = CX.leitura(host);
-    const nL = CX.num(lei, "1° de longitude", true), nA = CX.num(lei, "1° de latitude"), nE = CX.num(lei, "erro ao tratar grau como igual");
+    const nL = CX.num(lei, "1° de longitude nesta latitude", true), nA = CX.num(lei, "1° de latitude"), nE = CX.num(lei, "quanto o grau de longitude é mais curto");
     function des() {
-      const lat = s.valor(), klon = 111.32 * Math.cos((lat * Math.PI) / 180), klat = 110.6;
-      cel.datum({ type: "Polygon", coordinates: [[[-50, lat], [-40, lat], [-40, Math.min(0, lat + 10)], [-50, Math.min(0, lat + 10)], [-50, lat]]] }).attr("d", path);
-      rLat.attr("x", 20).attr("y", 20).attr("width", 111.32 * k).attr("height", klat * k);
-      rLon.attr("x", 20).attr("y", 20).attr("width", klon * k).attr("height", klat * k);
-      t1.attr("x", 20).attr("y", 20 + klat * k + 20).text(`${f(klon, 1)} km de largura × ${f(klat, 1)} km de altura`);
-      t2.attr("x", 20).attr("y", 20 + klat * k + 38).text(lat <= -12.4 && lat >= -19.5 ? "dentro da faixa de latitude de Goiás" : "");
-      nL.set(f(klon, 1) + " km"); nA.set(f(klat, 1) + " km"); nE.set(CX.pct(1 - klon / klat, 1));
+      const la = s.valor(), kl = kLon(la), ka = kLat(la);
+      const lin = []; for (let lo = -180; lo <= 180; lo += 2) lin.push([lo, -la]);
+      paralelo.datum({ type: "LineString", coordinates: lin }).attr("d", path);
+      mk.selectAll("*").remove();
+      mk.append("line").attr("x1", x(la)).attr("x2", x(la)).attr("y1", 0).attr("y2", qr.ih).attr("stroke", "#111").attr("stroke-dasharray", "3 3");
+      mk.append("circle").attr("cx", x(la)).attr("cy", y(kl)).attr("r", 5).attr("fill", C.acento);
+      mk.append("circle").attr("cx", x(la)).attr("cy", y(ka)).attr("r", 4).attr("fill", "#777");
+      nL.set(f(kl, 1) + " km"); nA.set(f(ka, 1) + " km"); nE.set(CX.pct(1 - kl / ka, 1));
     }
     des();
-    CX.frase(host, "Em Goiás, um grau de longitude é 3% a 5% mais curto que um de latitude. Uma média de coordenadas feita em graus mistura as duas réguas; por isso a conta dos centros de massa é feita em metros, na projeção EPSG:5880.");
+    CX.frase(host, "Em Goiás, entre 12,4° e 19,5° de latitude sul, um grau de longitude mede de 108 a 105 km, de 3% a 5% menos que um grau de latitude. Uma média de coordenadas feita em graus mistura as duas réguas; por isso a conta dos centros de massa é feita em metros, na projeção policônica do Brasil (EPSG:5880), e só depois volta a graus para desenhar o mapa.");
   });
 
   /* ---------------- 1.9 Fontes e janelas ---------------- */
@@ -612,33 +616,37 @@
 
   /* ---------------- 1.11 Rotinas reprodutíveis ---------------- */
   CX.def("pipe", (host) => {
+    const W = 108, H = 36;
     const N = [
-      ["fontes", "Fontes públicas", 20, 60, "MapBiomas, IBGE/SIDRA, Ipeadata, BACEN, FIRJAN, Embrapa, INPE, Trase. Nada é recebido pronto de terceiros: tudo é buscado na origem."],
-      ["coleta", "Coleta automatizada", 150, 60, "scripts/coleta_*.py (SIDRA, SICOR, drivers macro, IFDM…) e rotinas no Google Earth Engine para os rasters. Buscam a série na origem, com cache local."],
-      ["raw", "data/raw (cache)", 280, 20, "Arquivos brutos como vieram da fonte. Fora do controle de versão por tamanho; a data de acesso de cada fonte é a data do arquivo."],
-      ["proc", "data/processed", 280, 100, "Tabelas limpas e padronizadas (painel municipal, painel por AMC, séries regionais). Reconstruível a partir do raw, offline."],
-      ["rotinas", "58 rotinas (#1…#58)", 410, 60, "scripts/*.py, uma pergunta por rotina, com ficha em Textos/pipelines/ (pergunta, dependências, comando, saídas, limitações). O número nunca é renumerado."],
-      ["outputs", "outputs/", 540, 60, "Tabelas e figuras gravadas pelas rotinas. Todo número exibido deve ser rastreável até um desses arquivos."],
-      ["viz", "Visualização", 670, 20, "Visualizacao/: o site. Consome um recorte leve, versionado junto com ele."],
-      ["texto", "Texto (qualificação)", 670, 100, "qualificacao/: abnTeX2. O apêndice de especificações é gerado a partir dos arquivos das rotinas, nenhum coeficiente digitado à mão."],
-      ["ci", "CI: verificar-viz", 670, 180, "A cada envio que toca a visualização: sobe o site num navegador sem interface e falha se um número-âncora sumiu, se o console acusou erro ou se um número derrubado reapareceu.", true],
-      ["ver", "verificar.py", 540, 180, "Seis invariantes do texto: ponteiro sem destino, citação sem entrada, obra ausente da lista de leitura, sigla antes de definida, calibragem perdida, decisão citada sem registro.", true],
+      ["fontes", "Fontes públicas", 6, 100, "MapBiomas, IBGE/SIDRA, Ipeadata, BACEN, FIRJAN, Embrapa, INPE, Trase. Nada é recebido pronto de terceiros: tudo é buscado na origem."],
+      ["coleta", "Coleta automatizada", 130, 100, "scripts/coleta_*.py (SIDRA, SICOR, drivers macro, IFDM…) e rotinas no Google Earth Engine para os rasters. Buscam a série na origem, com cache local."],
+      ["raw", "data/raw (cache)", 254, 40, "Arquivos brutos como vieram da fonte. Fora do controle de versão por tamanho; a data de acesso de cada fonte é a data do arquivo."],
+      ["proc", "data/processed", 254, 160, "Tabelas limpas e padronizadas (painel municipal, painel por AMC, séries regionais). Reconstruível a partir do raw, offline."],
+      ["rotinas", "58 rotinas (#1…#58)", 378, 100, "scripts/*.py, uma pergunta por rotina, com ficha em Textos/pipelines/ (pergunta, dependências, comando, saídas, limitações). O número nunca é renumerado."],
+      ["outputs", "outputs/", 502, 100, "Tabelas e figuras gravadas pelas rotinas. Todo número exibido deve ser rastreável até um desses arquivos."],
+      ["viz", "Visualização", 640, 20, "Visualizacao/: o site. Consome um recorte leve, versionado junto com ele."],
+      ["ci", "CI: verificar-viz", 640, 88, "A cada envio que toca a visualização: sobe o site num navegador sem interface e falha se um número-âncora sumiu, se o console acusou erro ou se um número derrubado reapareceu.", true],
+      ["texto", "Texto (qualificação)", 640, 176, "qualificacao/: abnTeX2. O apêndice de especificações é gerado a partir dos arquivos das rotinas, nenhum coeficiente digitado à mão."],
+      ["ver", "verificar.py", 640, 244, "Seis invariantes do texto: ponteiro sem destino, citação sem entrada, obra ausente da lista de leitura, sigla antes de definida, calibragem perdida, decisão citada sem registro.", true],
     ];
     const A = [["fontes", "coleta"], ["coleta", "raw"], ["raw", "proc"], ["proc", "rotinas"], ["rotinas", "outputs"], ["outputs", "viz"], ["outputs", "texto"], ["viz", "ci"], ["texto", "ver"]];
-    const q = CX.quadro(host, { w: 800, h: 240, m: { t: 10, r: 10, b: 10, l: 10 } });
+    const q = CX.quadro(host, { w: 760, h: 292, m: { t: 4, r: 4, b: 4, l: 4 } });
     const pos = Object.fromEntries(N.map((n) => [n[0], n]));
-    const defs = q.svg.append("defs");
-    defs.append("marker").attr("id", "cx-seta").attr("viewBox", "0 0 10 10").attr("refX", 9).attr("refY", 5).attr("markerWidth", 7).attr("markerHeight", 7).attr("orient", "auto")
+    q.svg.append("defs").append("marker").attr("id", "cx-seta").attr("viewBox", "0 0 10 10").attr("refX", 9).attr("refY", 5).attr("markerWidth", 7).attr("markerHeight", 7).attr("orient", "auto")
       .append("path").attr("d", "M0,0L10,5L0,10z").attr("fill", "#888");
     A.forEach(([a, b]) => {
       const p = pos[a], r = pos[b];
-      q.g.append("line").attr("x1", p[2] + 110).attr("y1", p[3] + 18).attr("x2", r[2] + (r[2] > p[2] ? 0 : 55)).attr("y2", r[3] + (r[3] > p[3] + 40 ? 0 : 18))
+      let x1, y1, x2, y2;
+      if (p[2] === r[2]) { x1 = x2 = p[2] + W / 2; y1 = p[3] + H; y2 = r[3]; }          // mesma coluna: desce
+      else { x1 = p[2] + W; y1 = p[3] + H / 2; x2 = r[2]; y2 = r[3] + H / 2; }             // coluna seguinte: avança
+      q.g.append("line").attr("x1", x1).attr("y1", y1).attr("x2", x2 - (p[2] === r[2] ? 0 : 2)).attr("y2", y2 - (p[2] === r[2] ? 2 : 0))
         .attr("stroke", "#aaa").attr("stroke-width", 1.5).attr("marker-end", "url(#cx-seta)");
     });
     const info = CX.frase(host, "Clique numa etapa.");
     const g = q.g.selectAll("g.n").data(N).join("g").attr("class", "n").attr("transform", (n) => `translate(${n[2]},${n[3]})`).style("cursor", "pointer");
-    const r = g.append("rect").attr("width", 110).attr("height", 36).attr("rx", 8).attr("fill", (n) => (n[5] ? "#f6e3da" : "#fff")).attr("stroke", (n) => (n[5] ? C.acento : "#999"));
-    g.append("text").attr("class", "rot").attr("x", 55).attr("y", 22).attr("text-anchor", "middle").style("font-size", "11px").text((n) => n[1]);
+    const r = g.append("rect").attr("width", W).attr("height", H).attr("rx", 8).attr("fill", (n) => (n[5] ? "#f6e3da" : "#fff")).attr("stroke", (n) => (n[5] ? C.acento : "#999"));
+    g.append("text").attr("class", "rot").attr("x", W / 2).attr("y", 22).attr("text-anchor", "middle").style("font-size", "11px").text((n) => n[1]);
     g.on("click", function (_, n) { r.attr("stroke-width", 1); d3.select(this).select("rect").attr("stroke-width", 3); info.innerHTML = `<b>${n[1]}</b>: ${n[4]}`; });
   });
+
 })();

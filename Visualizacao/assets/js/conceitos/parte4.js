@@ -22,24 +22,38 @@
     CX.modos(host, {
       simples(c) {
         const ctl = CX.ctrl(c);
-        const sN = CX.slider(ctl, { rot: "jogadas", min: 1, max: 30, val: 10, fmt: String, aoMudar: () => { if (sK.valor() > sN.valor()) sK.set(sN.valor(), 1); des(); } });
-        const sK = CX.slider(ctl, { rot: "caras obtidas", min: 0, max: 30, val: 10, fmt: String, aoMudar: () => { if (sK.valor() > sN.valor()) sK.set(sN.valor(), 1); des(); } });
-        const q = CX.quadro(c, { h: 240, m: { l: 44, r: 10, t: 14, b: 34 } });
+        const sN = CX.slider(ctl, { rot: "questões na prova (4 alternativas)", min: 2, max: 40, val: 20, fmt: String, aoMudar: () => { if (sK.valor() > sN.valor()) sK.set(sN.valor(), true); des(); } });
+        const sK = CX.slider(ctl, { rot: "acertos do aluno", min: 0, max: 40, val: 12, fmt: String, aoMudar: () => { if (sK.valor() > sN.valor()) sK.set(sN.valor(), true); des(); } });
+        const sS = CX.slider(ctl, { rot: "se não chutou: quanto da matéria ele sabe", min: 0, max: 1, passo: 0.05, val: 0.5, fmt: (v) => CX.pct(v), aoMudar: des });
+        const q = CX.quadro(c, { h: 250, m: { l: 44, r: 10, t: 14, b: 34 } });
         const lei = CX.leitura(c);
-        const nP = CX.num(lei, "p (chance de ≥ essas caras com moeda honesta)", true);
+        const nP = CX.num(lei, "p: chance de acertar isso ou mais só chutando", true), nC = CX.num(lei, "acertos a partir dos quais o teste acusa"), nW = CX.num(lei, "poder: chance de perceber quem sabe");
         const txt = CX.frase(c);
+        c.appendChild(h("div", { class: "cx-leg", html: `<span><i style="background:#d9d5ca"></i>quem chuta tudo</span><span><i style="background:${C.acento}"></i>a cauda do p (os acertos do aluno ou mais)</span><span><i style="background:none;border:2px solid ${C.azul}"></i>quem sabe a fração escolhida</span>` }));
         function des() {
-          const n = sN.valor(), k = Math.min(sK.valor(), n);
-          const pr = d3.range(n + 1).map((i) => Math.exp(S.lgamma(n + 1) - S.lgamma(i + 1) - S.lgamma(n - i + 1) - n * Math.LN2));
-          const x = d3.scaleBand().domain(d3.range(n + 1)).range([0, q.iw]).padding(0.15), y = d3.scaleLinear().domain([0, d3.max(pr) * 1.1]).range([q.ih, 0]);
-          CX.eixos(q, x, y, { xl: "número de caras", yl: "probabilidade", yf: (v) => CX.pct(v), xt: Math.min(n + 1, 16) });
-          q.g.selectAll("rect.b").data(pr).join("rect").attr("class", "b").attr("x", (_, i) => x(i)).attr("width", x.bandwidth()).attr("y", (p) => y(p)).attr("height", (p) => q.ih - y(p)).attr("fill", (_, i) => (i >= k ? C.acento : "#d9d5ca")).attr("rx", 2);
-          const p = S.pBinom(k, n);
-          nP.set(CX.p(p));
-          txt.innerHTML = `A área terracota é o p: a chance de uma moeda honesta dar ${k} ou mais caras em ${n} jogadas. ` + (n <= 4 ? "Com tão poucas jogadas, nem o resultado mais extremo possível seria raro: o teste não tem como desmascarar a moeda. Isso é poder baixo." : p < 0.05 ? "Resultado raro sob a moeda honesta." : "Resultado compatível com uma moeda honesta, o que não prova que ela seja.");
+          const n = sN.valor(), k = Math.min(sK.valor(), n), sabe = sS.valor(), q1 = sabe + (1 - sabe) / 4;
+          const p0 = d3.range(n + 1).map((i) => S.binom(i, n, 0.25)), p1 = d3.range(n + 1).map((i) => S.binom(i, n, Math.min(0.9999, q1)));
+          let crit = n + 1; for (let i = 0; i <= n; i++) if (S.binomCauda(i, n, 0.25) <= 0.05) { crit = i; break; }
+          const poder = crit <= n ? S.binomCauda(crit, n, Math.min(0.9999, q1)) : 0;
+          const x = d3.scaleBand().domain(d3.range(n + 1)).range([0, q.iw]).padding(0.15), y = d3.scaleLinear().domain([0, Math.max(d3.max(p0), d3.max(p1)) * 1.1]).range([q.ih, 0]);
+          CX.eixos(q, x, y, { xl: "número de acertos", yl: "probabilidade", yf: (v) => CX.pct(v), xf: (i) => (n > 24 && i % 2 ? "" : i) });
+          q.g.selectAll(".b").remove();
+          q.g.selectAll("rect.b").data(p0).join("rect").attr("class", "b").attr("x", (_, i) => x(i)).attr("width", x.bandwidth()).attr("y", (p) => y(p)).attr("height", (p) => q.ih - y(p)).attr("fill", (_, i) => (i >= k ? C.acento : "#d9d5ca")).attr("rx", 2);
+          q.g.append("path").attr("class", "b").attr("fill", "none").attr("stroke", C.azul).attr("stroke-width", 2).attr("d", d3.line().x((_, i) => x(i) + x.bandwidth() / 2).y((p) => y(p))(p1));
+          if (crit <= n) {
+            const xc = x(crit) - (x.step() * x.padding()) / 2;
+            q.g.append("line").attr("class", "b").attr("x1", xc).attr("x2", xc).attr("y1", 0).attr("y2", q.ih).attr("stroke", "#111").attr("stroke-dasharray", "4 3");
+            q.g.append("text").attr("class", "b rot-m").attr("x", xc + 4).attr("y", 10).text("daqui em diante, o teste acusa");
+          }
+          const p = S.binomCauda(k, n, 0.25);
+          nP.set(CX.p(p)); nC.set(crit <= n ? `${crit} ou mais` : "nenhum número basta"); nW.set(CX.pct(poder));
+          const pt = p < 0.001 ? "p < 0,001" : "p = " + CX.p(p);
+          txt.innerHTML = (p < 0.05 ? `Acertar ${k} de ${n} só chutando seria raro (${pt}): o resultado não combina bem com o chute. ` : `Acertar ${k} de ${n} chutando não é raro (${pt}). Isso não prova que ele chutou. `) +
+            (crit > n ? `Com ${n} questões, nem acertar todas seria raro o bastante: o teste não consegue acusar ninguém.` : `E se ele soubesse ${CX.pct(sabe)} da matéria, o teste perceberia em ${CX.pct(poder)} das vezes${poder < 0.5 ? ": na maioria das provas, um aluno assim passaria por chutador, e o p grande significaria \"não sei\"" : ""}.`);
         }
         des();
       },
+
       dados(c) {
         const ctl = CX.ctrl(c);
         const sE = CX.slider(ctl, { rot: "tamanho do efeito", min: 0, max: 0.8, passo: 0.05, val: 0.3, fmt: (v) => f(v, 2) });
@@ -86,69 +100,124 @@
     const d2 = yy.length - Xf[0].length, F = ((a.ssr - b.ssr) / lag) / (b.ssr / d2);
     return { F, p: S.pF(F, lag, d2), ssrR: a.ssr, ssrF: b.ssr, fitR: a.fit, fitF: b.fit };
   }
+  // duas barras de erro lado a lado: "só o passado de Y" × "Y + passado de X"
+  function barrasErro(pai, a, b, rotA, rotB) {
+    const mx = Math.max(a, b) || 1;
+    pai.innerHTML = `<div class="cx-cartoes3" style="grid-template-columns:1fr 1fr">
+      <div class="cx-cartao"><small>${rotA}</small><div class="cx-medidor azul"><i style="width:${(100 * a) / mx}%"></i></div><b>${f(a, 1)}</b><small>soma dos erros ao quadrado</small></div>
+      <div class="cx-cartao"><small>${rotB}</small><div class="cx-medidor"><i style="width:${(100 * b) / mx}%"></i></div><b>${f(b, 1)}</b><small>soma dos erros ao quadrado</small></div></div>`;
+  }
   CX.def("granger", (host) => {
     CX.modos(host, {
       simples(c) {
         const ctl = CX.ctrl(c);
         let sem = 5;
-        const sA = CX.slider(ctl, { rot: "quanto o latido antecede", min: 0, max: 1, passo: 0.05, val: 0.7, fmt: (v) => f(v, 2), aoMudar: des });
-        CX.btn(ctl, "sortear outra semana", () => { sem++; des(); });
-        const q = CX.quadro(c, { h: 250, m: { l: 44, r: 118 } });
+        const sA = CX.slider(ctl, { rot: "quanto o protetor da sexta antecipa a praia de domingo", min: 0, max: 1, passo: 0.05, val: 0.7, fmt: (v) => f(v, 2), aoMudar: des });
+        CX.btn(ctl, "sortear outros fins de semana", () => { sem++; des(); });
+        const q = CX.quadro(c, { h: 240, m: { l: 44, r: 16, t: 20 } });
+        const erros = h("div"); c.appendChild(erros);
         const lei = CX.leitura(c);
-        const nS1 = CX.num(lei, "erro da previsão só com o dono"), nS2 = CX.num(lei, "erro com o latido de ontem"), nP = CX.num(lei, "p do teste F", true);
+        const nP = CX.num(lei, "p do teste F (a melhora é maior que o acaso?)", true);
+        const txt = CX.frase(c);
+        c.appendChild(h("div", { class: "cx-leg", html: `<span><i style="background:#111"></i>praia no domingo (observado)</span><span><i style="background:${C.azul}"></i>previsão só com os domingos anteriores</span><span><i style="background:${C.acento}"></i>previsão com o protetor da sexta</span>` }));
         function des() {
           const r = CX.rng(sem), n = 40, a = sA.valor();
-          const lat = d3.range(n).map(() => CX.normal(r)), dono = [0];
-          for (let t = 1; t < n; t++) dono.push(0.3 * dono[t - 1] + a * lat[t - 1] + CX.normal(r) * 0.7);
-          const g = grangerF(dono, lat, 1);
-          const x = d3.scaleLinear().domain([0, n - 1]).range([0, q.iw]), y = d3.scaleLinear().domain(d3.extent([...dono, ...lat])).nice().range([q.ih, 0]);
-          CX.eixos(q, x, y, { xl: "dia", yl: "desvio do horário habitual" });
+          const prot = d3.range(n).map(() => CX.normal(r)), praia = [0];
+          for (let t = 1; t < n; t++) praia.push(0.4 * praia[t - 1] + a * prot[t - 1] + CX.normal(r) * 0.7);
+          const g = grangerF(praia, prot, 1);
+          const x = d3.scaleLinear().domain([0, n - 1]).range([0, q.iw]), y = d3.scaleLinear().domain(d3.extent(praia)).nice().range([q.ih, 0]);
+          CX.eixos(q, x, y, { xl: "fim de semana", yl: "praia no domingo (acima ou abaixo do comum)", yf: (v) => f(v, 0) });
           q.g.selectAll(".l").remove();
-          const rots = [];
-          [[lat, C.cinza, "latido", 1.4, "3 3"], [dono, "#111", "chegada do dono", 2], [[null, ...g.fitR], C.azul, "prev. sem latido", 2, "5 3"], [[null, ...g.fitF], C.acento, "prev. com latido", 2]].forEach(([v, cc, nome, lw, tr]) => {
-            q.g.append("path").attr("class", "l").attr("fill", "none").attr("stroke", cc).attr("stroke-width", lw).attr("stroke-dasharray", tr || null).attr("d", d3.line().defined((d) => d != null).x((_, i) => x(i)).y((d) => y(d))(v));
-            const t = q.g.append("text").attr("class", "l rot").attr("x", q.iw + 4); t.append("tspan").style("fill", cc).text("■ "); t.append("tspan").text(nome);
-            rots.push({ sel: t, y: y(v[v.length - 1]) + 4 });
-          });
-          CX.desempilha(rots, 8, q.ih);
-          nS1.set(f(g.ssrR, 1)); nS2.set(f(g.ssrF, 1)); nP.set(CX.p(g.p));
+          q.g.append("g").attr("class", "l").selectAll("circle").data(praia).join("circle").attr("cx", (_, i) => x(i)).attr("cy", (v) => y(v)).attr("r", 3).attr("fill", "#111");
+          [[g.fitR, C.azul, "5 3"], [g.fitF, C.acento, null]].forEach(([v, cc, tr]) => q.g.append("path").attr("class", "l").attr("fill", "none").attr("stroke", cc).attr("stroke-width", 2).attr("stroke-dasharray", tr).attr("d", d3.line().x((_, i) => x(i + 1)).y((d) => y(d))(v)));
+          barrasErro(erros, g.ssrR, g.ssrF, "previsão só com os domingos anteriores", "previsão acrescentando o protetor da sexta");
+          nP.set(CX.p(g.p));
+          txt.innerHTML = a < 0.15
+            ? "Quando o protetor não antecipa nada, as duas previsões quase coincidem e o p fica grande: a informação extra não ajuda."
+            : `Com o protetor na conta, o erro total cai de ${f(g.ssrR, 1)} para ${f(g.ssrF, 1)}, e o p é ${CX.p(g.p)}: o protetor da sexta ajuda a prever o domingo. Isso é precedência preditiva. Continua verdade que o protetor não leva ninguém à praia.`;
         }
         des();
       },
-      async dados(c) {
+      async passos(c) {
         const G = (await CX.base()).granger;
-        const q = CX.quadro(c, { h: 270, m: { l: 54, r: 120, t: 14 } });
-        const x = d3.scaleLinear().domain([1986, 2024]).range([0, q.iw]);
-        const y = d3.scaleLinear().domain(d3.extent([...G.norte, ...G.sul])).nice().range([q.ih, 0]);
-        CX.eixos(q, x, y, { xf: CX.anoF, yl: "variação anual (mil ha)" });
-        q.g.append("line").attr("class", "zero").attr("x1", 0).attr("x2", q.iw).attr("y1", y(0)).attr("y2", y(0));
-        const rots = [];
-        const ln = (anos, v, cc, lw, tr, nome) => {
-          q.g.append("path").attr("fill", "none").attr("stroke", cc).attr("stroke-width", lw).attr("stroke-dasharray", tr || null).attr("d", d3.line().x((_, i) => x(anos[i])).y((d) => y(d))(v));
-          const t = q.g.append("text").attr("class", "rot").attr("x", q.iw + 4); t.append("tspan").style("fill", cc).text("■ "); t.append("tspan").text(nome);
-          rots.push({ sel: t, y: y(v[v.length - 1]) + 4 });
-        };
-        ln(G.anos, G.sul, C.agric, 1.3, "3 3", "Δ lavoura Sul");
-        ln(G.anos, G.norte, "#111", 2.2, null, "Δ pasto Norte");
-        ln(G.anos_fit, G.prev_so_norte, C.azul, 2, "6 3", "prev. só Norte");
-        ln(G.anos_fit, G.prev_com_sul, C.acento, 1.6, null, "prev. + Sul");
-        CX.desempilha(rots, 8, q.ih);
-        const lei = CX.leitura(c);
-        CX.num(lei, "soma dos erros², só com o Norte").set(f(G.ssr_so_norte, 1));
-        CX.num(lei, "soma dos erros², com o Sul").set(f(G.ssr_com_sul, 1));
-        CX.num(lei, "p (defasagem de 1 ano)", true).set(f(G.p, 2));
-        CX.frase(c, "As duas previsões do pasto do Norte (tracejada azul e terracota) praticamente se sobrepõem: acrescentar o passado da lavoura do Sul não reduz o erro. Abaixo, as 24 combinações testadas.");
-        // placar das 24 células
-        const cel = G.celulas;
-        const reguas = [...new Set(cel.map((k) => k.regua_rotulo))], cols = [...new Set(cel.map((k) => `${k.janela === "plena" ? "1985–2024" : "1985–2019"} · ${k.desfecho.replace("Δ", "Δ ").replace("_", " ")} · lag ${k.granger_lag}`))];
-        const tb = h("table", { class: "cx-tab" });
-        tb.innerHTML = `<tr><th>régua da lavoura do Sul</th>${["plena", "truncada 1985–2019"].map((j) => `<th colspan="4">${j === "plena" ? "1985–2024" : "1985–2019"}</th>`).join("")}</tr>
-          <tr><th></th>${["plena", "t"].map(() => ["Δ pasto N, 1", "Δ pasto N, 2", "Δ boi N, 1", "Δ boi N, 2"].map((t) => `<th>${t}</th>`).join("")).join("")}</tr>` +
-          reguas.map((rg) => `<tr><td>${rg}</td>${cel.filter((k) => k.regua_rotulo === rg).map((k) => `<td style="background:${k.granger_p < 0.05 ? "#f6d5c8" : k.granger_p < 0.1 ? "#fbeede" : "transparent"}">${f(k.granger_p, 2)}</td>`).join("")}</tr>`).join("");
-        const wrap = h("div", { style: { overflowX: "auto", marginTop: ".6rem" } }, tb);
-        c.appendChild(wrap);
-        CX.frase(c, `Placar: <b>0 de 24</b> abaixo de 5% (o menor é ${f(d3.min(cel, (k) => k.granger_p), 3)}, sombreado claro por ficar abaixo de 10%).`);
-        return cols;
+        const idx = (a) => G.anos_fit.indexOf(a);
+        const obsFit = G.anos_fit.map((a) => G.norte[G.anos.indexOf(a)]);
+        let ano = 2005;
+        function grafico(pai, comSul) {
+          const q = CX.quadro(pai, { h: 250, m: { l: 54, r: 16, t: 20 } });
+          const x = d3.scaleLinear().domain([G.anos_fit[0], 2024]).range([0, q.iw]);
+          const y = d3.scaleLinear().domain(d3.extent([...obsFit, ...G.prev_so_norte, ...G.prev_com_sul])).nice().range([q.ih, 0]);
+          CX.eixos(q, x, y, { xf: CX.anoF, yl: "variação anual do pasto do Norte (mil ha)", yf: (v) => f(v, 0) });
+          q.g.append("line").attr("class", "zero").attr("x1", 0).attr("x2", q.iw).attr("y1", y(0)).attr("y2", y(0));
+          q.g.append("rect").attr("x", x(ano) - 7).attr("width", 14).attr("y", 0).attr("height", q.ih).attr("fill", "#f3e7df");
+          q.g.selectAll("circle.o").data(obsFit).join("circle").attr("class", "o").attr("cx", (_, i) => x(G.anos_fit[i])).attr("cy", (v) => y(v)).attr("r", 3).attr("fill", "#111");
+          if (comSul) q.g.append("path").attr("fill", "none").attr("stroke", C.acento).attr("stroke-width", 4).attr("opacity", 0.55).attr("d", d3.line().x((_, i) => x(G.anos_fit[i])).y((v) => y(v))(G.prev_com_sul));
+          q.g.append("path").attr("fill", "none").attr("stroke", C.azul).attr("stroke-width", 2).attr("stroke-dasharray", "5 3").attr("d", d3.line().x((_, i) => x(G.anos_fit[i])).y((v) => y(v))(G.prev_so_norte));
+          pai.appendChild(h("div", { class: "cx-leg", html: `<span><i style="background:#111"></i>observado</span><span><i style="background:${C.azul}"></i>previsão só com o passado do Norte</span>` + (comSul ? `<span><i style="background:${C.acento}"></i>previsão com o passado da lavoura do Sul</span>` : "") + `<span><i style="background:#f3e7df"></i>ano escolhido</span>` }));
+        }
+        function escolheAno(pai, redesenha) {
+          const ctl = CX.ctrl(pai);
+          CX.slider(ctl, { rot: "ano a prever", min: G.anos_fit[0], max: 2024, val: ano, fmt: String, aoMudar: (v) => { ano = v; redesenha(); } });
+        }
+        CX.passos(c, [
+          {
+            tit: "Prever o pasto do Norte só com o passado dele",
+            sub: "Antes de perguntar pelo Sul, considere a memória do próprio Norte: quanto o ano anterior já diz sobre o próximo?",
+            marca: "Série regional real (#34), variações anuais",
+            real: true,
+            desenha(p) {
+              const alvo = h("div");
+              escolheAno(p, des);
+              p.appendChild(alvo);
+              const fr = CX.frase(p);
+              function des() {
+                alvo.replaceChildren(); grafico(alvo, false);
+                const i = idx(ano), o = obsFit[i], a = G.prev_so_norte[i];
+                fr.innerHTML = `Em ${ano}, o pasto do Norte variou <b>${f(o, 1)} mil ha</b>; a previsão feita só com o passado do Norte dizia ${f(a, 1)}. Errou por ${f(Math.abs(o - a), 1)} mil ha. É a régua de comparação: o quanto se consegue prever sem olhar para o Sul.`;
+              }
+              des();
+            },
+          },
+          {
+            tit: "Agora entregue uma informação a mais",
+            sub: "A segunda previsão também vê o passado da lavoura do Sul. Compare os erros no ano escolhido e na série inteira.",
+            marca: "Ajustes calculados com a série real",
+            real: true,
+            desenha(p) {
+              const alvo = h("div"), erros = h("div");
+              escolheAno(p, des);
+              p.append(alvo, erros);
+              const fr = CX.frase(p);
+              function des() {
+                alvo.replaceChildren(); grafico(alvo, true);
+                barrasErro(erros, G.ssr_so_norte, G.ssr_com_sul, "só com o passado do Norte (todos os anos)", "acrescentando o passado do Sul (todos os anos)");
+                const i = idx(ano), o = obsFit[i], a = G.prev_so_norte[i], b = G.prev_com_sul[i];
+                fr.innerHTML = `Em ${ano}: erro de ${f(Math.abs(o - a), 1)} mil ha sem o Sul e de ${f(Math.abs(o - b), 1)} com o Sul. As duas linhas quase coincidem em todos os anos. Um ano isolado não responde nada; o que conta é a soma dos erros ao longo da série inteira, e ali as duas previsões ficam praticamente empatadas.`;
+              }
+              des();
+            },
+          },
+          {
+            tit: "O teste e o placar",
+            sub: "A pergunta de Granger: a queda do erro é maior do que o acaso produziria? E o resultado se repete em outras escolhas razoáveis?",
+            marca: "Placar do trabalho (#34): 24 combinações",
+            real: true,
+            desenha(p) {
+              const lei = CX.leitura(p);
+              CX.num(lei, "erro total sem o Sul").set(f(G.ssr_so_norte, 1));
+              CX.num(lei, "erro total com o Sul").set(f(G.ssr_com_sul, 1));
+              CX.num(lei, "p (defasagem de 1 ano)", true).set(f(G.p, 2));
+              const cel = G.celulas;
+              const reguas = [...new Set(cel.map((k) => k.regua_rotulo))];
+              const tb = h("table", { class: "cx-tab" });
+              tb.innerHTML = `<tr><th>régua da lavoura do Sul</th>${["1985–2024", "1985–2019"].map((j) => `<th colspan="4">${j}</th>`).join("")}</tr>
+                <tr><th></th>${[0, 1].map(() => ["Δ pasto N, 1", "Δ pasto N, 2", "Δ boi N, 1", "Δ boi N, 2"].map((t) => `<th>${t}</th>`).join("")).join("")}</tr>` +
+                reguas.map((rg) => `<tr><td>${rg}</td>${cel.filter((k) => k.regua_rotulo === rg).map((k) => `<td style="background:${k.granger_p < 0.05 ? "#f6d5c8" : k.granger_p < 0.1 ? "#fbeede" : "transparent"}">${f(k.granger_p, 2)}</td>`).join("")}</tr>`).join("");
+              p.appendChild(h("div", { style: { overflowX: "auto", marginTop: ".6rem" } }, tb));
+              CX.frase(p, `<b>0 de 24</b> combinações abaixo de 5% (a menor é ${f(d3.min(cel, (k) => k.granger_p), 3)}, sombreada por ficar abaixo de 10%). Nestes dados, o teste não detecta conteúdo preditivo do Sul sobre o Norte. Isso não prova efeito zero: com 38 anos, um empurrão moderado passaria despercebido (verbete 4.1). E, mesmo que o teste acusasse, prever não demonstraria causa.`);
+            },
+          },
+        ]);
       },
     });
   });
@@ -159,34 +228,37 @@
       simples(c) {
         const ctl = CX.ctrl(c);
         let tipo = "passeio";
-        CX.seg(ctl, { opcoes: [["passeio", "passeios aleatórios (I(1))"], ["ruido", "ruído estacionário (I(0))"]], val: tipo, aoMudar: (k) => { tipo = k; } });
-        CX.btn(ctl, "sortear 200 pares independentes", roda, true);
+        CX.seg(ctl, { opcoes: [["passeio", "saldos acumulados (vagueiam)"], ["ruido", "resultado de cada jogada (não vagueia)"]], val: tipo, aoMudar: (k) => { tipo = k; roda(); } });
+        CX.btn(ctl, "sortear 200 duplas independentes", roda, true);
         const grid = h("div", { class: "cx-grade2" }); c.appendChild(grid);
         const a1 = h("div"), a2 = h("div"); grid.append(a1, a2);
         const lei = CX.leitura(c);
-        const nR = CX.num(lei, "pares com correlação \"significativa\" a 5%", true);
+        const nR = CX.num(lei, "duplas com correlação \"significativa\" a 5%", true);
+        const txt = CX.frase(c);
         function roda() {
           const r = CX.rng(Math.floor(Math.random() * 1e6)), n = 40;
           let sig = 0, ex = null;
           for (let s = 0; s < 200; s++) {
             let A = [0], B = [0];
-            for (let t = 1; t < n; t++) { const ea = CX.normal(r), eb = CX.normal(r); A.push(tipo === "passeio" ? A[t - 1] + ea : ea); B.push(tipo === "passeio" ? B[t - 1] + eb : eb); }
+            for (let t = 1; t < n; t++) { const ea = r() < 0.5 ? 1 : -1, eb = r() < 0.5 ? 1 : -1; A.push(tipo === "passeio" ? A[t - 1] + ea : ea); B.push(tipo === "passeio" ? B[t - 1] + eb : eb); }
             const fit = S.ols1(A, B);
-            const p = S.pT(fit.b / fit.se, n - 2);
+            const p = fit.se > 0 ? S.pT(fit.b / fit.se, n - 2) : 1;
             if (p < 0.05) { sig++; if (!ex) ex = [A, B]; }
             if (!ex && s === 199) ex = [A, B];
           }
           a1.replaceChildren(); a2.replaceChildren();
           const q = CX.quadro(a1, { w: 340, h: 240, m: { l: 36, r: 10, t: 22, b: 26 } });
-          const x = d3.scaleLinear().domain([0, n - 1]).range([0, q.iw]), y = d3.scaleLinear().domain(d3.extent([...ex[0], ...ex[1]])).nice().range([q.ih, 0]);
-          CX.eixos(q, x, y, { xl: "tempo" });
-          q.g.append("text").attr("class", "rot-f").attr("y", -8).text("um par \"significativo\"");
+          const x = d3.scaleLinear().domain([0, n - 1]).range([0, q.iw]), y = d3.scaleLinear().domain(d3.extent([...ex[0], ...ex[1], -1, 1])).nice().range([q.ih, 0]);
+          CX.eixos(q, x, y, { xl: "jogada" });
+          q.g.append("text").attr("class", "rot-f").attr("y", -8).text(tipo === "passeio" ? "uma dupla \"significativa\": saldo de cada pessoa (R$)" : "uma dupla: resultado de cada jogada");
           [[ex[0], C.azul], [ex[1], C.acento]].forEach(([v, cc]) => q.g.append("path").attr("fill", "none").attr("stroke", cc).attr("stroke-width", 2).attr("d", d3.line().x((_, i) => x(i)).y((d) => y(d))(v)));
-          barrasH(a2, [["significativos", sig / 200, C.acento], ["esperado sem relação", 0.05, C.cinza]], { w: 340, l: 140, max: 1, vf: (v) => CX.pct(v), xf: (v) => CX.pct(v) });
+          barrasH(a2, [["passam no teste", sig / 200, C.acento], ["esperado sem relação", 0.05, C.cinza]], { w: 340, l: 140, max: 1, vf: (v) => CX.pct(v), xf: (v) => CX.pct(v) });
           nR.set(`${sig} de 200 (${CX.pct(sig / 200)})`);
+          txt.innerHTML = tipo === "passeio"
+            ? "Nenhuma dupla tem relação: cada pessoa joga a sua moeda. Mesmo assim, uma fração enorme passa num teste de correlação comum, porque os saldos vagueiam e duas séries que vagueiam parecem andar juntas."
+            : "Olhando o resultado de cada jogada (+1 ou −1), que não acumula, a fração que passa no teste volta para perto dos 5% prometidos. A diferença entre os dois casos é só se a série vagueia ou não.";
         }
         roda();
-        CX.frase(c, "Nenhum par tem relação: cada série é sorteada por conta própria. Com passeios aleatórios, uma fração enorme passa no teste de correlação comum; com ruído estacionário, perto dos 5% prometidos.");
       },
       async dados(c) {
         const b = await CX.base();
@@ -196,9 +268,9 @@
         CX.seg(ctl, { opcoes: [[0, "nível"], [1, "1ª diferença"], [2, "2ª diferença"]], val: d, aoMudar: (k) => { d = k; des(); } });
         const grid = h("div", { class: "cx-grade2" }); c.appendChild(grid);
         const a1 = h("div"), a2 = h("div"); grid.append(a1, a2);
-        const tab = h("table", { class: "cx-tab" }); c.appendChild(tab);
         const serie = (v, k) => { let s = v; for (let i = 0; i < k; i++) s = S.diff(s); return s; };
         const est = Object.fromEntries(b.estac.map((e) => [e.serie, e]));
+        const txt = CX.frase(c);
         function mini(pai, v, anos, cc, tit, e) {
           const q = CX.quadro(pai, { w: 340, h: 220, m: { l: 44, r: 10, t: 24, b: 26 } });
           const x = d3.scaleLinear().domain(d3.extent(anos)).range([0, q.iw]), y = d3.scaleLinear().domain(d3.extent(v)).nice().range([q.ih, 0]);
@@ -212,25 +284,52 @@
           const anos = R.anos.slice(d);
           mini(a1, serie(R.agric_mha_Sul, d), anos, C.agric, pre + "agric. Sul", est[pre + "agric_Sul" + suf]);
           mini(a2, serie(R.pasto_mha_Norte, d), anos, C.pasto, pre + "pasto Norte", est[pre + "pasto_Norte" + suf]);
-          tab.innerHTML = `<tr><th>Toda-Yamamoto (d<sub>max</sub> = 2)</th><th>p = 1</th><th>p = 2</th></tr>` +
-            ["Sul→Norte", "REVERSO"].map((rel) => `<tr><td>${rel === "REVERSO" ? "Norte → Sul (o inverso)" : "Sul → Norte"}</td>${b.ty.filter((t) => t.relacao === rel).map((t) => `<td>${f(t.ty_p, 3)}</td>`).join("")}</tr>`).join("");
+          txt.innerHTML = ["Em nível: a agricultura do Sul já é estacionária pelo ADF (p pequeno); o pasto do Norte vagueia (ADF p grande).",
+            "Na 1ª diferença, o pasto do Norte ainda vagueia pelo ADF: a variação anual dele também não para quieta.",
+            "Na 2ª diferença, os dois testes concordam que o pasto do Norte é estável. Por isso ele é classificado como I(2), e a agricultura do Sul como I(0)."][d] +
+            " Lembrete: no ADF a hipótese nula é \"a série vagueia\" (p pequeno = estável); no KPSS é o contrário (p pequeno = vagueia). Séries de ordens diferentes não podem cointegrar, e o Granger comum sobre elas fabrica precedência.";
         }
         des();
-        CX.frase(c, "ADF: a nula é \"a série vagueia\" (p pequeno = estacionária). KPSS: a nula é \"a série é estacionária\" (p pequeno = vagueia). A agricultura do Sul já é estacionária em nível pelo ADF; o pasto do Norte continua vagueando na 1ª diferença e só estabiliza na 2ª, onde os dois testes concordam: I(2). Com ordens diferentes, o Granger comum fabrica precedência, e o Toda-Yamamoto zera as duas direções (tabela).");
       },
-    });
+      gavetas(c) {
+        (async () => {
+          const b = await CX.base();
+          const ctl = CX.ctrl(c);
+          let dir = "Sul→Norte", p = 1;
+          CX.seg(ctl, { opcoes: [["Sul→Norte", "a lavoura do Sul prevê o pasto do Norte?"], ["REVERSO", "o pasto do Norte prevê a lavoura do Sul?"]], val: dir, aoMudar: (k) => { dir = k; des(); } });
+          CX.seg(ctl, { opcoes: [[1, "p = 1"], [2, "p = 2"]], val: p, aoMudar: (k) => { p = k; des(); } });
+          const alvo = h("div"); c.appendChild(alvo);
+          const lei = CX.leitura(c);
+          const nP = CX.num(lei, "p do teste (só as defasagens testadas)", true);
+          const txt = CX.frase(c);
+          function des() {
+            const destino = dir === "Sul→Norte" ? "o pasto do Norte" : "a lavoura do Sul", origem = dir === "Sul→Norte" ? "lavoura do Sul" : "pasto do Norte";
+            const L = p + 2, col = `--n:${L}`;
+            const cx = (k, cls, rot) => `<div class="${cls}">${k} ano${k > 1 ? "s" : ""} atrás<b>${rot}</b></div>`;
+            alvo.innerHTML = `<p class="rot-ctrl" style="margin:.2rem 0 .5rem"><b>Para prever ${destino}, o modelo em nível usa:</b></p>
+              <div class="cx-gavetas" style="${col}"><span>o passado do próprio destino</span>${d3.range(1, L + 1).map((k) => cx(k, "", "no modelo")).join("")}</div>
+              <div class="cx-gavetas" style="${col};margin-top:.4rem"><span>o passado da origem (${origem})</span>${d3.range(1, L + 1).map((k) => (k <= p ? cx(k, "testada", "TESTADA") : cx(k, "extra", "EXTRA"))).join("")}</div>
+              <p style="font-size:.78rem;color:var(--color-muted);margin:.4rem 0 0">${p} defasage${p > 1 ? "ns" : "m"} que interessa${p > 1 ? "m" : ""} + d<sub>max</sub> = 2 extras, porque o pasto do Norte é I(2)</p>`;
+            const t = b.ty.find((k) => k.relacao === dir && k.p === p);
+            nP.set(f(t.ty_p, 4));
+            txt.innerHTML = `As gavetas extras continuam no modelo e absorvem a memória longa das séries, mas não entram na pergunta: ${p === 1 ? "só a primeira defasagem da origem é testada" : "só as duas primeiras defasagens da origem são testadas"}. Resultado: p = ${f(t.ty_p, 4)}, sem conteúdo preditivo detectável a 5%. Nas duas direções o teste zera: o veredito é <b>sem líder</b>, e não "o outro lado lidera".`;
+          }
+          des();
+        })();
+      },
+    }, "simples", { dados: "Como cada série anda", gavetas: "O teste com gavetas extras" });
   });
 
   /* ---------------- 4.4 DiD ---------------- */
   CX.def("did", (host) => {
     const ctl = CX.ctrl(host);
-    const sE = CX.slider(ctl, { rot: "efeito verdadeiro", min: 0, max: 30, val: 20, fmt: String, aoMudar: des });
-    const sT = CX.slider(ctl, { rot: "tendências antes (A − B por período)", min: -4, max: 4, passo: 0.5, val: 0, fmt: (v) => fs(v, 1), aoMudar: des });
-    const sC = CX.slider(ctl, { rot: "política atinge também B", min: 0, max: 1, passo: 0.05, val: 0, fmt: (v) => CX.pct(v), aoMudar: des });
-    const q = CX.quadro(host, { h: 280, m: { l: 44, r: 150 } });
+    const sE = CX.slider(ctl, { rot: "efeito verdadeiro da ciclovia", min: 0, max: 30, val: 20, fmt: (v) => v + " ciclistas", aoMudar: des });
+    const sT = CX.slider(ctl, { rot: "diferença de ritmo antes da obra (Flores − Palmeiras)", min: -4, max: 4, passo: 0.5, val: 0, fmt: (v) => fs(v, 1) + " por período", aoMudar: des });
+    const sC = CX.slider(ctl, { rot: "a ciclovia também atrai ciclistas para a Palmeiras", min: 0, max: 1, passo: 0.05, val: 0, fmt: (v) => CX.pct(v), aoMudar: des });
+    const q = CX.quadro(host, { h: 280, m: { l: 44, r: 190 } });
     const x = d3.scaleLinear().domain([0, 9]).range([0, q.iw]);
     const lei = CX.leitura(host);
-    const nV = CX.num(lei, "efeito verdadeiro em A"), nD = CX.num(lei, "DiD estimado", true), nA = CX.num(lei, "só antes × depois em A");
+    const nV = CX.num(lei, "efeito verdadeiro na Flores"), nD = CX.num(lei, "DiD estimado", true), nA = CX.num(lei, "só antes × depois na Flores");
     const txt = CX.frase(host);
     function des() {
       const E = sE.valor(), dt = sT.valor(), cont = sC.valor();
@@ -238,17 +337,17 @@
       const A = d3.range(10).map((t) => 60 + (2 + dt) * t + (t >= 5 ? E : 0));
       const Acf = d3.range(10).map((t) => 60 + (2 + dt) * t);
       const y = d3.scaleLinear().domain([40, 130]).range([q.ih, 0]);
-      CX.eixos(q, x, y, { xl: "período (a farmácia abre no 5)", yl: "vendas" });
+      CX.eixos(q, x, y, { xl: "período (a ciclovia abre no 5)", yl: "ciclistas por dia" });
       q.g.selectAll(".l").remove();
       q.g.append("rect").attr("class", "l").attr("x", x(4.5)).attr("width", x(9) - x(4.5)).attr("height", q.ih).attr("fill", "#f3efe3");
-      [[A, C.acento, "Rua A (tratada)", 2.4], [Acf, C.acento, "A sem a farmácia", 1.5, "5 4"], [B, C.azul, "Rua B (comparação)", 2.4]].forEach(([v, cc, n, lw, tr]) => {
+      [[A, C.acento, "Rua das Flores (ciclovia)", 2.4], [Acf, C.acento, "Flores sem a ciclovia", 1.5, "5 4"], [B, C.azul, "Rua das Palmeiras", 2.4]].forEach(([v, cc, n, lw, tr]) => {
         q.g.append("path").attr("class", "l").attr("fill", "none").attr("stroke", cc).attr("stroke-width", lw).attr("stroke-dasharray", tr || null).attr("d", d3.line().x((_, i) => x(i)).y((d) => y(d))(v));
         q.g.append("text").attr("class", "l rot").attr("x", q.iw + 4).attr("y", y(v[9]) + 4).style("fill", cc).text(n);
       });
       const m = (v, a, b) => S.media(v.slice(a, b));
       const did = (m(A, 5, 10) - m(A, 0, 5)) - (m(B, 5, 10) - m(B, 0, 5));
       nV.set(f(E, 1)); nD.set(f(did, 1)); nA.set(f(m(A, 5, 10) - m(A, 0, 5), 1));
-      txt.innerHTML = dt !== 0 ? "As ruas já andavam em ritmos diferentes antes da farmácia: a diferença de tendência entra no DiD como se fosse efeito. É por isso que o event-study olha os períodos anteriores." : cont > 0 ? "A política também chegou à rua de comparação: o DiD mede só a diferença de intensidade. Com um marco federal, não há rua B intocada — foi o caso do #23." : "Com tendências paralelas e comparação intocada, o DiD recupera o efeito verdadeiro; o antes × depois de A sozinho inclui a tendência que as duas ruas compartilham.";
+      txt.innerHTML = dt !== 0 ? "As ruas já ganhavam ciclistas em ritmos diferentes antes da obra: essa diferença de ritmo entra no DiD como se fosse efeito da ciclovia. É por isso que o event-study olha os períodos anteriores antes de acreditar no resultado." : cont > 0 ? "A ciclovia também levou ciclistas para a rua de comparação: o DiD passa a medir só a diferença de intensidade entre as ruas. Com um marco federal, que atinge todos os estados, não há rua intocada; foi o caso do #23." : "Com ritmos iguais antes da obra e a rua de comparação intocada, o DiD recupera o efeito verdadeiro. O antes × depois da Flores sozinho mistura o efeito com a moda da bicicleta, que atingiu as duas ruas.";
     }
     des();
   });
@@ -256,8 +355,8 @@
   /* ---------------- 4.5 FDR ---------------- */
   CX.def("fdr", (host) => {
     const ctl = CX.ctrl(host);
-    let m = 135;
-    CX.seg(ctl, { opcoes: [[36, "36 (#21)"], [135, "135 (#37)"], [144, "144 (#38)"], [192, "192 (#52)"]], val: m, aoMudar: (k) => { m = k; des(); } });
+    let m = 120;
+    CX.seg(ctl, { opcoes: [[120, "120 (os signos)"], [36, "36 (#21)"], [135, "135 (#37)"], [144, "144 (#38)"], [192, "192 (#52)"]], val: m, aoMudar: (k) => { m = k; des(); } });
     const sK = CX.slider(ctl, { rot: "efeitos verdadeiros na grade", min: 0, max: 20, val: 0, fmt: String, aoMudar: des });
     CX.btn(ctl, "sortear", () => { sem++; des(); });
     let sem = 1;
@@ -273,60 +372,66 @@
       const r = CX.rng(sem * 31 + m), k = sK.valor();
       const ps = d3.range(m).map((i) => ({ v: i < k ? Math.pow(r(), 6) * 0.02 : r(), real: i < k })).sort((a, b) => a.v - b.v);
       let corte = -1; ps.forEach((p, i) => { if (p.v <= ((i + 1) * 0.05) / m) corte = i; });
-      const x = d3.scaleLinear().domain([1, Math.min(m, 40)]).range([0, q.iw]), y = d3.scaleLinear().domain([0, 0.12]).range([q.ih, 0]);
+      const TOPO = 0.2, x = d3.scaleLinear().domain([1, Math.min(m, 40)]).range([0, q.iw]), y = d3.scaleLinear().domain([0, TOPO]).range([q.ih, 0]);
       CX.eixos(q, x, y, { xl: "posição do p-valor, do menor ao maior (primeiros 40)", yl: "p-valor", yf: (v) => f(v, 2) });
       q.g.selectAll(".l").remove();
       q.g.append("line").attr("class", "l").attr("x1", 0).attr("x2", q.iw).attr("y1", y(0.05)).attr("y2", y(0.05)).attr("stroke", "#999").attr("stroke-dasharray", "4 3");
       q.g.append("text").attr("class", "l rot-m").attr("x", q.iw).attr("y", y(0.05) - 4).attr("text-anchor", "end").text("0,05 sem correção");
       q.g.append("line").attr("class", "l").attr("x1", x(1)).attr("x2", x(40)).attr("y1", y(0.05 / m)).attr("y2", y((40 * 0.05) / m)).attr("stroke", C.acento).attr("stroke-width", 2);
       q.g.append("text").attr("class", "l rot").attr("x", x(40)).attr("y", y((40 * 0.05) / m) - 6).attr("text-anchor", "end").style("fill", C.acento).text("linha do BH: k × 0,05 ÷ " + m);
-      q.g.selectAll("circle.l").data(ps.slice(0, 40)).join("circle").attr("class", "l").attr("cx", (_, i) => x(i + 1)).attr("cy", (p) => y(Math.min(0.12, p.v))).attr("r", 4.5)
-        .attr("fill", (p, i) => (i <= corte ? C.acento : "#fff")).attr("stroke", (p) => (p.real ? C.veg : "#777")).attr("stroke-width", (p) => (p.real ? 2.5 : 1.2));
+      const vis = ps.slice(0, 40);
+      q.g.selectAll("circle.l").data(vis.filter((p) => p.v <= TOPO)).join("circle").attr("class", "l").attr("cx", (p) => x(vis.indexOf(p) + 1)).attr("cy", (p) => y(p.v)).attr("r", 4.5)
+        .attr("fill", (p) => (vis.indexOf(p) <= corte ? C.acento : "#fff")).attr("stroke", (p) => (p.real ? C.veg : "#777")).attr("stroke-width", (p) => (p.real ? 2.5 : 1.2));
+      const acima = vis.filter((p) => p.v > TOPO);
+      q.g.selectAll("path.acima").data(acima).join("path").attr("class", "l acima").attr("d", (p) => `M${x(vis.indexOf(p) + 1)},${y(TOPO) - 2}l-4,7h8z`).attr("fill", "#bbb");
+      if (acima.length) q.g.append("text").attr("class", "l rot-m").attr("x", x(vis.indexOf(acima[0]) + 1)).attr("y", y(TOPO) + 20).text("▲ p acima de 0,2");
       const brutos = ps.filter((p) => p.v < 0.05);
       nB.set(String(brutos.length)); nS.set(String(corte + 1)); nF.set(String(brutos.filter((p) => !p.real).length));
     }
     des();
-    CX.frase(host, "Contorno verde: efeito verdadeiro; cinza: acaso. Preenchido: sobrevive ao BH. Com zero efeitos verdadeiros e 135 testes, alguns p ficam abaixo de 0,05 por puro acaso, e nenhum sobrevive à linha do BH.");
+    CX.frase(host, "Contorno verde: efeito verdadeiro; cinza: acaso. Preenchido: sobrevive ao BH. Com zero efeitos verdadeiros e 120 comparações, como nos signos, alguns p ficam abaixo de 0,05 por puro acaso, e nenhum sobrevive à linha do BH. Ponha efeitos verdadeiros na grade: os fortes sobrevivem, e a linha do BH segura os alarmes falsos.");
   });
 
   /* ---------------- 4.6 Bootstrap ---------------- */
   CX.def("boot", (host) => {
     CX.modos(host, {
       simples(c) {
-        const A = [{ n: "A", km: 0, p0: 10, p1: 2 }, { n: "B", km: 100, p0: 10, p1: 10 }, { n: "C", km: 200, p0: 10, p1: 18 }];
+        const NOTAS = [5, 4, 5, 2, 4, 5, 3, 5], obs = S.media(NOTAS);
         const reps = [];
         const ctl = CX.ctrl(c);
         const r = CX.rng(12);
+        c.appendChild(h("div", { class: "cx-leg", html: "<span>as 8 avaliações na sacola:</span>" + NOTAS.map((n) => `<span style="font-weight:700;border:1px solid #ddd;border-radius:6px;padding:0 .45rem;background:#fff">${"★".repeat(n)}<span style="color:#ccc">${"★".repeat(5 - n)}</span></span>`).join("") }));
         CX.btn(ctl, "sortear uma réplica", () => { reps.push(sorteia()); des(); }, true);
         CX.btn(ctl, "sortear mais 500", () => { for (let i = 0; i < 500; i++) reps.push(sorteia()); des(); });
         CX.btn(ctl, "zerar", () => { reps.length = 0; des(); });
-        function sorteia() {
-          const s = [0, 1, 2].map(() => A[Math.floor(r() * 3)]);
-          const c0 = d3.sum(s, (a) => a.km * a.p0) / d3.sum(s, (a) => a.p0), c1 = d3.sum(s, (a) => a.km * a.p1) / d3.sum(s, (a) => a.p1);
-          return { s: s.map((a) => a.n).join(", "), d: c1 - c0 };
-        }
+        function sorteia() { const s = NOTAS.map(() => NOTAS[Math.floor(r() * NOTAS.length)]); return { s: s.join(" "), m: S.media(s) }; }
         const grid = h("div", { class: "cx-grade2" }); c.appendChild(grid);
         const a1 = h("div"), a2 = h("div"); grid.append(a1, a2);
         const lei = CX.leitura(c);
-        const nO = CX.num(lei, "ΔNorte original"), nR = CX.num(lei, "réplicas"), nI = CX.num(lei, "faixa de 95% das réplicas", true);
-        nO.set("+53 km");
+        const nO = CX.num(lei, "média das 8 avaliações"), nR = CX.num(lei, "réplicas"), nI = CX.num(lei, "faixa onde caem 95% das médias", true);
+        nO.set(f(obs, 2));
+        const txt = CX.frase(c);
+        reps.push(sorteia());
         function des() {
-          a1.innerHTML = "<table class='cx-tab'><tr><th>réplica</th><th>papéis sorteados</th><th>ΔNorte</th></tr>" + reps.slice(-8).map((p, i) => `<tr><td>${reps.length - Math.min(8, reps.length) + i + 1}</td><td>${p.s}</td><td>${fs(p.d, 0)} km</td></tr>`).join("") + "</table>";
+          a1.innerHTML = "<table class='cx-tab'><tr><th>réplica</th><th>notas sorteadas (com repetição)</th><th>média</th></tr>" + reps.slice(-8).map((p, i) => `<tr><td>${reps.length - Math.min(8, reps.length) + i + 1}</td><td>${p.s}</td><td>${f(p.m, 2)}</td></tr>`).join("") + "</table>";
           a2.replaceChildren();
           const q = CX.quadro(a2, { w: 340, h: 220, m: { l: 30, r: 10, t: 14, b: 34 } });
-          const x = d3.scaleLinear().domain([-10, 110]).range([0, q.iw]);
-          CX.eixos(q, x, null, { xl: "ΔNorte das réplicas (km)" });
+          const x = d3.scaleLinear().domain([2, 5]).range([0, q.iw]);
+          CX.eixos(q, x, null, { xl: "média de cada réplica (estrelas)", xf: (v) => f(v, 1) });
           if (reps.length) {
-            const bins = d3.bin().domain(x.domain()).thresholds(24)(reps.map((p) => p.d));
+            const bins = d3.bin().domain(x.domain()).thresholds(24)(reps.map((p) => p.m));
             const y = d3.scaleLinear().domain([0, d3.max(bins, (b) => b.length)]).range([q.ih, 0]);
             q.g.selectAll("rect").data(bins).join("rect").attr("x", (b) => x(b.x0)).attr("width", (b) => Math.max(0, x(b.x1) - x(b.x0) - 1)).attr("y", (b) => y(b.length)).attr("height", (b) => q.ih - y(b.length)).attr("fill", C.pasto);
           }
-          q.g.append("line").attr("x1", x(0)).attr("x2", x(0)).attr("y1", 0).attr("y2", q.ih).attr("stroke", "#111").attr("stroke-dasharray", "3 3");
+          q.g.append("line").attr("x1", x(obs)).attr("x2", x(obs)).attr("y1", 0).attr("y2", q.ih).attr("stroke", "#111").attr("stroke-dasharray", "3 3");
           nR.set(String(reps.length));
-          nI.set(reps.length > 20 ? `[${fs(S.quantil(reps.map((p) => p.d), 0.025), 0)}; ${fs(S.quantil(reps.map((p) => p.d), 0.975), 0)}] km` : "—");
+          const temIC = reps.length > 20, lo = temIC && S.quantil(reps.map((p) => p.m), 0.025), hi = temIC && S.quantil(reps.map((p) => p.m), 0.975);
+          nI.set(temIC ? `de ${f(lo, 2)} a ${f(hi, 2)}` : "—");
+          txt.innerHTML = !reps.length ? "Sorteie uma réplica: 8 notas tiradas da sacola com reposição, de modo que algumas se repetem e outras ficam de fora."
+            : !temIC ? "Cada réplica é um conjunto de avaliações que o restaurante poderia ter recebido. Sorteie mais, até a nuvem ganhar forma."
+            : `Com ${reps.length} réplicas, 95% das médias caem entre ${f(lo, 2)} e ${f(hi, 2)}. Com só 8 avaliações, a média ${f(obs, 1)} é bem menos firme do que o número sozinho sugere.`;
         }
         des();
-        CX.frase(c, "Cada réplica sorteia 3 papéis com reposição. Quando a AMC A (que perdeu pasto) ou a C (que ganhou) fica de fora, o deslocamento treme. Réplicas com as três iguais dão zero: são as poucas barras no traço.");
       },
       async dados(c) {
         const m = await CX.dado("metodo_centro_massa.json");
@@ -389,15 +494,15 @@
         const pontos = h("div"); c.appendChild(pontos);
         const alvo = h("div"); c.appendChild(alvo);
         const lei = CX.leitura(c);
-        const nO = CX.num(lei, "diferença observada (A − B)"), nP = CX.num(lei, "p por permutação", true);
+        const nO = CX.num(lei, "diferença observada (adubados − sem adubo, kg)"), nP = CX.num(lei, "p por permutação", true);
         nO.set(f(obs, 2));
         function des(mostra) {
           const lista = ultimo && mostra ? ultimo : todos;
-          pontos.innerHTML = `<div class="cx-leg">${mostra && ultimo ? "rótulos embaralhados:" : "rótulos originais:"} ${lista.map((v, i) => `<span style="font-weight:700;color:${i < 8 ? C.acento : C.azul}">${v}</span>`).join(" ")}</div>`;
+          pontos.innerHTML = `<div class="cx-leg"><span>${mostra && ultimo ? "rótulos embaralhados:" : "colheita de cada canteiro (kg):"}</span> ${lista.map((v, i) => `<span style="font-weight:700;color:${i < 8 ? C.acento : C.azul}">${v}</span>`).join(" ")}</div><div class="cx-leg"><span><i style="background:${C.acento}"></i>rótulo "adubado"</span><span><i style="background:${C.azul}"></i>rótulo "sem adubo"</span></div>`;
           alvo.replaceChildren();
           const q = CX.quadro(alvo, { h: 200, m: { l: 30, r: 16, t: 14, b: 34 } });
           const x = d3.scaleLinear().domain([-5, 5]).range([0, q.iw]);
-          CX.eixos(q, x, null, { xl: "diferença de médias com rótulos embaralhados" });
+          CX.eixos(q, x, null, { xl: "diferença de médias (kg) quando os rótulos são embaralhados" });
           if (perms.length) {
             const bins = d3.bin().domain(x.domain()).thresholds(40)(perms);
             const y = d3.scaleLinear().domain([0, d3.max(bins, (b) => b.length)]).range([q.ih, 0]);
@@ -443,31 +548,39 @@
   CX.def("jack", (host) => {
     CX.modos(host, {
       simples(c) {
-        const base = [[1, 1.8], [2, 2.5], [3, 2.9], [4, 3.8], [5, 4.1], [6, 4.4], [7, 5.3], [8, 5.6], [9, 6.3], [9.6, 1.2]];
+        const base = [28, 31, 26, 33, 30, 29, 35, 27, 32, 30, 29, 180];
         const fora = new Set();
-        const q = CX.quadro(c, { h: 280, m: { l: 40, r: 16, t: 14, b: 30 } });
-        const x = d3.scaleLinear().domain([0, 10]).range([0, q.iw]), y = d3.scaleLinear().domain([0, 7]).range([q.ih, 0]);
-        CX.eixos(q, x, y);
+        const q = CX.quadro(c, { h: 210, m: { l: 20, r: 20, t: 24, b: 40 } });
+        const x = d3.scaleLinear().domain([0, 190]).range([0, q.iw]);
+        CX.eixos(q, x, null, { xl: "minutos até a entrega" });
         const gL = q.g.append("g"), gP = q.g.append("g");
         const lei = CX.leitura(c);
-        const nB = CX.num(lei, "β com todos"), nA = CX.num(lei, "β sem os pontos riscados", true);
+        const nB = CX.num(lei, "média com todos os pedidos"), nA = CX.num(lei, "média sem os pedidos riscados", true);
         const lista = h("div", { class: "cx-leg" }); c.appendChild(lista);
-        const todos = S.ols1(base.map((p) => p[0]), base.map((p) => p[1]));
-        nB.set(f(todos.b, 2));
-        const jk = base.map((_, i) => { const s = base.filter((_, j) => j !== i); return S.ols1(s.map((p) => p[0]), s.map((p) => p[1])).b; });
-        lista.innerHTML = "β sem cada ponto: " + jk.map((b, i) => `<span style="${Math.abs(b - todos.b) > 0.2 ? "color:" + C.acento + ";font-weight:700" : ""}">#${i + 1}: ${f(b, 2)}</span>`).join(" · ");
+        const txt = CX.frase(c);
+        const todos = S.media(base);
+        nB.set(f(todos, 1) + " min");
+        const jk = base.map((_, i) => S.media(base.filter((_, j) => j !== i)));
+        lista.innerHTML = "<span>média sem cada pedido:</span> " + jk.map((m, i) => `<span style="${Math.abs(m - todos) > 5 ? "color:" + C.acento + ";font-weight:700" : ""}">#${i + 1}: ${f(m, 1)}</span>`).join(" ");
+        const yj = (i) => 22 + (i % 6) * 21;
         function des() {
-          const s = base.filter((_, i) => !fora.has(i)), fit = S.ols1(s.map((p) => p[0]), s.map((p) => p[1]));
+          const s = base.filter((_, i) => !fora.has(i)), m = s.length ? S.media(s) : null;
           gL.selectAll("*").remove();
-          gL.append("line").attr("x1", x(0)).attr("x2", x(10)).attr("y1", y(todos.a)).attr("y2", y(todos.a + todos.b * 10)).attr("stroke", "#bbb").attr("stroke-dasharray", "4 3");
-          gL.append("line").attr("x1", x(0)).attr("x2", x(10)).attr("y1", y(fit.a)).attr("y2", y(fit.a + fit.b * 10)).attr("stroke", "#111").attr("stroke-width", 2.2);
-          gP.selectAll("circle").data(base).join("circle").attr("cx", (p) => x(p[0])).attr("cy", (p) => y(p[1])).attr("r", 7).style("cursor", "pointer")
-            .attr("fill", (_, i) => (fora.has(i) ? "#fff" : C.acento)).attr("stroke", C.acento).attr("stroke-width", 2)
-            .on("click", (_, p) => { const i = base.indexOf(p); fora.has(i) ? fora.delete(i) : fora.add(i); des(); });
-          nA.set(f(fit.b, 2));
+          gL.append("line").attr("x1", x(todos)).attr("x2", x(todos)).attr("y1", 0).attr("y2", q.ih).attr("stroke", "#bbb").attr("stroke-dasharray", "4 3");
+          gL.append("text").attr("class", "rot-m").attr("x", x(todos) + 4).attr("y", 8).text("com todos");
+          if (m != null && fora.size) {
+            gL.append("line").attr("x1", x(m)).attr("x2", x(m)).attr("y1", 0).attr("y2", q.ih).attr("stroke", "#111").attr("stroke-width", 2.2);
+            gL.append("text").attr("class", "rot-f").attr("x", x(m) - 4).attr("y", 8).attr("text-anchor", "end").text("sem os riscados");
+          }
+          gP.selectAll("circle").data(base.map((v, i) => ({ v, i }))).join("circle").attr("cx", (d) => x(d.v)).attr("cy", (d) => yj(d.i)).attr("r", 7).style("cursor", "pointer")
+            .attr("fill", (d) => (fora.has(d.i) ? "#fff" : C.acento)).attr("stroke", C.acento).attr("stroke-width", 2)
+            .on("click", (_, d) => { fora.has(d.i) ? fora.delete(d.i) : fora.add(d.i); des(); });
+          nA.set(m == null ? "—" : f(m, 1) + " min");
+          txt.innerHTML = fora.has(11)
+            ? `Sem o pedido do pneu furado, a média cai de ${f(todos, 1)} para ${f(m, 1)} minutos. Tirar qualquer outro pedido quase não mexe na média: ela estava nas mãos de um só.`
+            : "Clique nos pedidos para tirá-los da conta e recolocá-los. Tirar um pedido comum quase não mexe na média; experimente tirar o de três horas, lá na direita.";
         }
         des();
-        CX.frase(c, "O ponto #10, lá embaixo à direita, puxa a reta sozinho: sem ele, o β muda muito mais do que sem qualquer outro. Clique nos pontos para tirá-los e recolocá-los.");
       },
       async dados(c) {
         const [b, m] = await Promise.all([CX.base(), CX.dado("metodo_centro_massa.json")]);
@@ -537,16 +650,16 @@
   CX.def("ss", (host) => {
     CX.modos(host, {
       simples(c) {
-        const cid = [["Cidade 1", 0.4], ["Cidade 2", 0.25], ["Cidade 3", 0.1], ["Cidade 4", 0.05]];
+        const mun = [["Município A", 0.6], ["Município B", 0.35], ["Município C", 0.15], ["Município D", 0.05]];
         const ctl = CX.ctrl(c);
-        const sC = CX.slider(ctl, { rot: "choque nacional (queda das lojas de rua)", min: 0, max: 50, val: 30, fmt: (v) => v + "%", aoMudar: des });
+        const sC = CX.slider(ctl, { rot: "força da geada (perda nos cafezais)", min: 0, max: 60, val: 40, fmt: (v) => v + "%", aoMudar: des });
         const alvo = h("div"); c.appendChild(alvo);
         function des() {
           alvo.replaceChildren();
-          barrasH(alvo, cid.map(([n, e]) => [`${n} (exposição ${CX.pct(e)})`, (sC.valor() / 100) * e * 100, C.acento, f((sC.valor() / 100) * e * 100, 1) + "% dos empregos"]), { xl: "dose do choque = choque × exposição", xf: (v) => v + "%", l: 210, max: 22 });
+          barrasH(alvo, mun.map(([n, e]) => [`${n} (${CX.pct(e)} da terra em café)`, (sC.valor() / 100) * e * 100, C.acento, f((sC.valor() / 100) * e * 100, 1) + "% da produção"]), { xl: "dose da geada = força da geada × fatia de café medida antes", xf: (v) => v + "%", l: 240, max: 40 });
         }
         des();
-        CX.frase(c, "O choque é o mesmo para todas; a exposição foi medida antes dele. A dose de cada cidade não depende de nada que ela tenha feito depois.");
+        CX.frase(c, "A geada é a mesma para todos; a fatia de café foi medida antes dela. A dose de cada município não depende de nada que ele tenha feito depois da geada. No trabalho, a geada é a variação do câmbio, e a fatia de café é a exposição de cada AMC.");
       },
       async dados(c) {
         const [b, m] = await Promise.all([CX.base(), CX.dado("metodo_centro_massa.json")]);

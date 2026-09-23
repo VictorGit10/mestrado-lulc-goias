@@ -30,28 +30,29 @@
   CX.def("corr", (host) => {
     CX.modos(host, {
       simples(c) {
-        const r = CX.rng(8), dias = d3.range(90).map(() => { const T = 15 + r() * 20; return { T, s: 20 + 6 * T + CX.normal(r) * 18, a: 0.2 * T + CX.normal(r) * 0.9 }; });
+        const r = CX.rng(8), dias = d3.range(120).map(() => { const T = Math.max(0, r() * 30 - 4); return { T, s: 15 + 4 * T + CX.normal(r) * 10, a: 3 + 0.25 * T + CX.normal(r) * 1.1 }; });
         const ctl = CX.ctrl(c);
         let filtro = false;
-        CX.check(ctl, " olhar só dias entre 24 °C e 26 °C", false, (b) => { filtro = b; des(); });
+        CX.check(ctl, " olhar só os dias com a mesma chuva (entre 10 e 14 mm)", false, (b) => { filtro = b; des(); });
         const alvo = h("div"); c.appendChild(alvo);
         const lei = CX.leitura(c);
-        const nR = CX.num(lei, "r (sorvete × afogamentos)", true), nN = CX.num(lei, "dias considerados");
-        const cs = d3.scaleSequential(d3.interpolateRgb("#9cc3de", "#c0392b")).domain([15, 35]);
+        const nR = CX.num(lei, "r (guarda-chuvas × batidas)", true), nN = CX.num(lei, "dias considerados");
+        const cs = d3.scaleSequential(d3.interpolateRgb("#e9d9a8", "#2f5f86")).domain([0, 26]);
         function des() {
-          const sub = filtro ? dias.filter((d) => d.T >= 24 && d.T <= 26) : dias;
+          const sub = filtro ? dias.filter((d) => d.T >= 10 && d.T <= 14) : dias;
           alvo.replaceChildren();
-          dispersao(alvo, sub.map((d) => ({ x: d.s, y: d.a, cor: cs(d.T), tip: `${f(d.T, 1)} °C` })), { xl: "sorvetes vendidos", yl: "afogamentos", h: 260, xdom: [80, 260], ydom: [0, 10] });
+          dispersao(alvo, sub.map((d) => ({ x: d.s, y: d.a, cor: cs(d.T), tip: `chuva: ${f(d.T, 1)} mm` })), { xl: "guarda-chuvas vendidos no dia", yl: "batidas de carro no dia", h: 260, xdom: [0, 140], ydom: [0, 14] });
           nR.set(f(S.corr(sub.map((d) => d.s), sub.map((d) => d.a)), 2)); nN.set(String(sub.length));
         }
         des();
-        CX.frase(c, "A cor de cada ponto é a temperatura do dia. Com todos os dias, r é alto; com a temperatura fixada, o r despenca, porque era o calor que movia as duas coisas.");
+        c.appendChild(h("div", { class: "cx-leg", html: `<span>cor de cada ponto: a chuva do dia</span><span><i style="background:#e9d9a8"></i>dia seco</span><span><i style="background:#2f5f86"></i>muita chuva</span>` }));
+        CX.frase(c, "Com todos os dias juntos, r é alto: dias de guarda-chuva vendido são dias de batida. Olhando só dias com a mesma chuva, o r despenca, porque era a chuva que movia as duas coisas.");
       },
       async dados(c) {
         const g = (await CX.base()).go;
         const ctl = CX.ctrl(c);
         const pares = {
-          val: ["agric", "soja_sidra_mt", "agricultura no satélite (Mha)", "soja produzida, IBGE (Mt)", "Duas fontes independentes (um satélite, um levantamento) medindo quase o mesmo fenômeno: r alto é o que se espera, e é validação. O #44 faz esta conta com a área de soja e acha r = 0,89."],
+          val: ["agric", "soja_sidra_mt", "agricultura no satélite (Mha)", "soja produzida, IBGE (Mt)", "Duas fontes independentes (um satélite, um levantamento) medindo quase o mesmo fenômeno: r alto é o que se espera, e é validação. O #44 compara a latitude anual do centro da soja nas duas fontes e acha r = 0,89."],
           boi: ["pasto", "bovinos_mi", "pastagem (Mha)", "rebanho bovino (milhões de cabeças)", "Pastagem e rebanho: a correlação em nível mistura relação real (boi precisa de pasto) com tendência comum. O verbete seguinte separa as duas."],
         };
         let k = "val";
@@ -83,7 +84,7 @@
       simples(c) {
         const ctl = CX.ctrl(c);
         let sem = 1;
-        const sT = CX.slider(ctl, { rot: "tendência comum", min: 0, max: 1, passo: 0.05, val: 0.5, fmt: (v) => f(v, 2), aoMudar: des });
+        const sT = CX.slider(ctl, { rot: "quanto os dois crescem por ano", min: 0, max: 1, passo: 0.05, val: 0.5, fmt: (v) => f(v, 2), aoMudar: des });
         CX.btn(ctl, "sortear de novo", () => { sem++; des(); });
         const grid = h("div", { class: "cx-grade2" }); c.appendChild(grid);
         const a1 = h("div"), a2 = h("div"); grid.append(a1, a2);
@@ -94,13 +95,13 @@
           let A = [0], B = [0];
           for (let t = 1; t < n; t++) { A.push(A[t - 1] + tr + CX.normal(r) * 0.6); B.push(B[t - 1] + tr + CX.normal(r) * 0.6); }
           a1.replaceChildren(); a2.replaceChildren();
-          dispersao(a1, A.map((v, i) => ({ x: v, y: B[i], cor: C.azul })), { w: 340, h: 260, xl: "série A (nível)", yl: "série B (nível)" });
+          dispersao(a1, A.map((v, i) => ({ x: v, y: B[i], cor: C.azul, tip: `ano ${2000 + i}` })), { w: 340, h: 260, xl: "preço do cafezinho (índice)", yl: "celulares (índice)" });
           const dA = S.diff(A), dB = S.diff(B);
-          dispersao(a2, dA.map((v, i) => ({ x: v, y: dB[i], cor: C.acento })), { w: 340, h: 260, xl: "ΔA", yl: "ΔB" });
+          dispersao(a2, dA.map((v, i) => ({ x: v, y: dB[i], cor: C.acento, tip: `de ${2000 + i} para ${2001 + i}` })), { w: 340, h: 260, xl: "quanto o café mudou no ano", yl: "quanto os celulares mudaram no ano" });
           nN.set(f(S.corr(A, B), 2)); nD.set(f(S.corr(dA, dB), 2));
         }
         des();
-        CX.frase(c, "A e B são sorteadas de forma independente: não há relação nenhuma entre elas. Com a tendência comum ligada, o r em nível vai para perto de 1; em diferença, fica perto de zero, que é a verdade.");
+        CX.frase(c, "As duas séries são sorteadas de forma independente: não há relação nenhuma entre elas, só o fato de as duas crescerem com o tempo. Com o crescimento ligado, o r em nível vai para perto de 1; em diferença, fica perto de zero, que é a verdade.");
       },
       async dados(c) {
         const g = (await CX.base()).go;
@@ -132,33 +133,39 @@
   CX.def("beta", (host) => {
     CX.modos(host, {
       simples(c) {
-        const pts = [[1, 2.2], [2, 2.6], [3, 3.4], [4, 3.3], [5, 4.4], [6, 4.5], [7, 5.4], [8, 5.2]].map(([x, y]) => ({ x, y }));
+        const BASE = [[1, 215], [2, 160], [3, 305], [4, 245], [5, 355], [6, 425], [7, 395], [8, 545]];
+        const pts = BASE.map(([x, y]) => ({ x, y }));
         const ctl = CX.ctrl(c);
         let quad = true;
         CX.check(ctl, " mostrar os quadrados dos resíduos", true, (b) => { quad = b; des(); });
-        CX.btn(ctl, "acrescentar um ponto extremo", () => { pts.push({ x: 9.5, y: 0.8 }); des(); });
-        CX.btn(ctl, "recomeçar", () => { pts.splice(8); pts.forEach((p, i) => { p.x = i + 1; p.y = [2.2, 2.6, 3.4, 3.3, 4.4, 4.5, 5.4, 5.2][i]; }); des(); });
-        const q = CX.quadro(c, { h: 320, m: { l: 40, r: 16, t: 10, b: 30 } });
-        const x = d3.scaleLinear().domain([0, 10]).range([0, q.iw]), y = d3.scaleLinear().domain([0, 7]).range([q.ih, 0]);
-        CX.eixos(q, x, y, { xl: "crédito (x)", yl: "vendas (y)" });
+        CX.btn(ctl, "acrescentar a casa com piscina aquecida", () => { if (!pts.some((p) => p.piscina)) pts.push({ x: 1.5, y: 640, piscina: true }); des(); });
+        CX.btn(ctl, "recomeçar", () => { pts.splice(0, pts.length, ...BASE.map(([x, y]) => ({ x, y }))); des(); });
+        const q = CX.quadro(c, { h: 320, m: { l: 56, r: 16, t: 10, b: 30 } });
+        const x = d3.scaleLinear().domain([0, 10]).range([0, q.iw]), y = d3.scaleLinear().domain([0, 700]).range([q.ih, 0]);
+        CX.eixos(q, x, y, { xl: "horas de ar-condicionado ligado por dia", yl: "conta de luz no mês (R$)" });
         const fundo = q.g.append("rect").attr("width", q.iw).attr("height", q.ih).attr("fill", "transparent").style("cursor", "crosshair");
         fundo.on("click", (ev) => { const [mx, my] = d3.pointer(ev); pts.push({ x: x.invert(mx), y: y.invert(my) }); des(); });
         const gQ = q.g.append("g"), gL = q.g.append("g"), gP = q.g.append("g");
         const lei = CX.leitura(c);
-        const nB = CX.num(lei, "β (inclinação)", true), nA = CX.num(lei, "intercepto"), nR = CX.num(lei, "R²"), nS = CX.num(lei, "soma dos quadrados");
+        const nB = CX.num(lei, "β (inclinação)", true), nA = CX.num(lei, "intercepto (conta com o ar desligado)"), nR = CX.num(lei, "R²"), nS = CX.num(lei, "soma dos quadrados");
         function des() {
           const fit = S.ols1(pts.map((p) => p.x), pts.map((p) => p.y));
           gQ.selectAll("*").remove(); gL.selectAll("*").remove();
           if (quad) pts.forEach((p, i) => {
             const e = fit.res[i], ly = fit.a + fit.b * p.x, lado = Math.abs(y(p.y) - y(ly));
-            gQ.append("rect").attr("x", x(p.x)).attr("y", Math.min(y(p.y), y(ly))).attr("width", lado).attr("height", lado).attr("fill", e > 0 ? C.azul : C.acento).attr("opacity", 0.14);
+            gQ.append("rect").attr("x", x(p.x)).attr("y", Math.min(y(p.y), y(ly))).attr("width", lado).attr("height", lado).attr("fill", e > 0 ? C.azul : C.acento).attr("opacity", 0.24).attr("stroke", e > 0 ? C.azul : C.acento).attr("stroke-opacity", 0.5);
+            gQ.append("line").attr("x1", x(p.x)).attr("x2", x(p.x)).attr("y1", y(p.y)).attr("y2", y(ly)).attr("stroke", "#555").attr("stroke-dasharray", "2 2");
           });
           gL.append("line").attr("x1", x(0)).attr("x2", x(10)).attr("y1", y(fit.a)).attr("y2", y(fit.a + fit.b * 10)).attr("stroke", "#111").attr("stroke-width", 2.2);
-          gP.selectAll("circle").data(pts).join("circle").attr("r", 7).attr("fill", C.acento).attr("stroke", "#fff").attr("stroke-width", 2).style("cursor", "grab")
+          gP.selectAll("circle").data(pts).join("circle").attr("r", 5.5).attr("fill", C.acento).attr("stroke", "#fff").attr("stroke-width", 1.5).style("cursor", "grab")
             .attr("cx", (p) => x(p.x)).attr("cy", (p) => y(p.y))
-            .call(d3.drag().on("drag", (ev, p) => { p.x = Math.max(0, Math.min(10, x.invert(ev.x))); p.y = Math.max(0, Math.min(7, y.invert(ev.y))); des(); }));
-          nB.set(f(fit.b, 2)); nA.set(f(fit.a, 2)); nR.set(f(fit.r2, 2)); nS.set(f(fit.res.reduce((s, e) => s + e * e, 0), 2));
+            .call(d3.drag().on("drag", (ev, p) => { p.x = Math.max(0, Math.min(10, x.invert(ev.x))); p.y = Math.max(0, Math.min(700, y.invert(ev.y))); des(); }));
+          nB.set("R$ " + f(fit.b, 0) + " por hora"); nA.set("R$ " + f(fit.a, 0)); nR.set(f(fit.r2, 2)); nS.set(f(fit.res.reduce((s, e) => s + e * e, 0), 0));
+          txt.innerHTML = pts.some((p) => p.piscina)
+            ? `Uma única casa, a da piscina aquecida, puxou a reta: a inclinação foi a R$ ${f(fit.b, 0)} por hora. Nada mudou nas outras oito casas.`
+            : `A reta passa onde a soma das áreas dos quadrados é a menor possível. Cada hora diária de ar-condicionado vem acompanhada, em média, de R$ ${f(fit.b, 0)} a mais na conta.`;
         }
+        const txt = CX.frase(c);
         des();
       },
       async dados(c) {
@@ -183,7 +190,7 @@
           nB.set(f(b, 3)); nO.set(f(k === "local" ? F.beta_local : F.theta, 3)); nN.set(f(F.n, 0));
           txt.innerHTML = k === "local"
             ? "Cada ponto é uma AMC num ano, depois de retirados os efeitos fixos de AMC e de ano e o efeito dos vizinhos (é o teorema de Frisch-Waugh-Lovell: a inclinação desta nuvem é o coeficiente da regressão múltipla). Mostram-se 98% centrais; a reta usa todos os pontos."
-            : "A mesma nuvem para o termo dos vizinhos ao sul: se a lavoura do Sul empurrasse o pasto para o Norte, a inclinação seria positiva. Ela é negativa aqui e em todas as 12 especificações do teste (verbete 6.3).";
+            : "A mesma nuvem para o termo dos vizinhos ao sul: se a lavoura do Sul empurrasse o pasto para o Norte, a inclinação seria positiva. Ela é negativa aqui. Com a matriz de oito vizinhos, as 12 especificações do teste dão sinal negativo; com quatro ou doze vizinhos, algumas ficam positivas, e nenhuma estimativa positiva é distinguível de zero (verbete 6.3).";
         }
         des();
       },
@@ -195,23 +202,27 @@
     CX.modos(host, {
       simples(c) {
         const ctl = CX.ctrl(c);
-        let sem = 4, dois = false;
-        const sR = CX.slider(ctl, { rot: "ruído em volta da reta", min: 0, max: 4, passo: 0.1, val: 1, fmt: (v) => f(v, 1), aoMudar: () => { dois = false; des(); } });
-        CX.btn(ctl, "só dois pontos", () => { dois = true; des(); });
-        CX.btn(ctl, "sortear de novo", () => { sem++; dois = false; des(); });
+        const sR = CX.slider(ctl, { rot: "quanto a nota depende de outras coisas", min: 0, max: 2.5, passo: 0.1, val: 1.5, fmt: (v) => "± " + f(v, 1) + " ponto", aoMudar: () => { tres = false; des(); } });
+        CX.btn(ctl, "turma de 3 alunos", () => { tres = true; des(); });
+        CX.btn(ctl, "sortear outra turma", () => { sem++; tres = false; des(); });
         const alvo = h("div"); c.appendChild(alvo);
         const lei = CX.leitura(c);
-        const nB = CX.num(lei, "β estimado (verdadeiro = 0,5)", true), nR = CX.num(lei, "R²");
+        const nB = CX.num(lei, "inclinação estimada (verdadeira = 0,3 ponto por hora)", true), nR = CX.num(lei, "R²");
+        const txt = CX.frase(c);
+        let tres = false;
         function des() {
-          const r = CX.rng(sem), n = dois ? 2 : 80;
-          const xs = d3.range(n).map((i) => (dois ? [2, 8][i] : r() * 10)), ys = xs.map((x) => 1 + 0.5 * x + CX.normal(r) * sR.valor() * (dois ? 1.5 : 1));
+          const r = CX.rng(sem), n = tres ? 3 : 90;
+          const xs = d3.range(n).map((i) => (tres ? [2, 7, 12][i] : r() * 15)), ys = xs.map((x) => Math.max(0, Math.min(10, 3.5 + 0.3 * x + CX.normal(r) * sR.valor())));
           const fit = S.ols1(xs, ys);
           alvo.replaceChildren();
-          dispersao(alvo, xs.map((x, i) => ({ x, y: ys[i], cor: C.azul })), { xdom: [0, 10], ydom: [-8, 14], reta: [fit.a, fit.b], h: 260, xl: "x", yl: "y", r: dois ? 7 : 3.5 });
+          dispersao(alvo, xs.map((x, i) => ({ x, y: ys[i], cor: C.azul })), { xdom: [0, 15], ydom: [0, 10], reta: [fit.a, fit.b], h: 260, xl: "horas de estudo por semana", yl: "nota na prova", r: tres ? 7 : 3.5 });
           nB.set(f(fit.b, 2)); nR.set(f(fit.r2, 2));
+          txt.innerHTML = tres
+            ? `Com três alunos, a reta passa perto de todos e o R² vai a ${f(fit.r2, 2)}. Não é sinal de que o estudo explique a nota: com tão poucos pontos, quase qualquer reta fica perto deles.`
+            : `A inclinação estimada fica perto da verdadeira (0,3 ponto por hora), mas o R² é ${f(fit.r2, 2)}: a maior parte da variação das notas vem de outras coisas. Aumente essa variação e veja o R² cair enquanto a inclinação continua no lugar.`;
         }
+        let sem = 4;
         des();
-        CX.frase(c, "Com ruído grande, o R² desaba e a inclinação estimada continua perto de 0,5. Com dois pontos, R² = 1 qualquer que seja a verdade.");
       },
       async dados(c) {
         const F = (await CX.base()).fwl;
@@ -271,13 +282,14 @@
     CX.modos(host, {
       simples(c) {
         const r = CX.rng(2);
-        const escolas = [["Escola A", 55, C.azul], ["Escola B", 65, C.veg], ["Escola C", 75, C.pasto], ["Escola D", 85, C.acento]].map(([nome, base, cor], k) => {
+        const pessoas = [["Ana", C.azul], ["Bruno", C.veg], ["Carla", C.pasto], ["Davi", C.acento]].map(([nome, cor], k) => {
           const x = [], y = [];
-          for (let t = 0; t < 10; t++) { const m = 20 + 15 * k + (r() - 0.5) * 12; x.push(m); y.push(base - 0.4 * (m - 20 - 15 * k) + t * 0.8 + CX.normal(r) * 1.2); }
+          const vel = 30 + 15 * k, erro = 12 - 2.6 * k; // quem é mais rápido é mais experiente e erra menos
+          for (let t = 0; t < 10; t++) { const dv = (r() - 0.5) * 16; x.push(vel + dv); y.push(erro + 0.28 * dv + t * 0.12 + CX.normal(r) * 0.6); }
           return { nome, cor, x, y };
         });
-        demoFE(c, escolas, "dias com merenda no ano", "nota média");
-        CX.frase(c, "Miniatura construída de propósito: as escolas com mais merenda são também as de nota mais alta (a inclinação entre elas é positiva), mas dentro de cada escola, nos anos de mais merenda, a nota é menor. Só o efeito fixo da unidade separa as duas perguntas.");
+        demoFE(c, pessoas, "velocidade (palavras por minuto)", "erros por página");
+        CX.frase(c, "Miniatura construída de propósito. Entre as pessoas, a reta desce: os mais rápidos são os mais experientes e erram menos. Com o efeito fixo da pessoa, cada uma é comparada consigo mesma, e a reta sobe: nos dias em que alguém digita mais rápido do que costuma, erra mais. O efeito fixo do dia tira a leve piora de todos com o teclado novo.");
       },
       async dados(c) {
         const R = (await CX.base()).reg;
@@ -318,7 +330,7 @@
             q.g.append("text").attr("class", "b rot").attr("x", -8).attr("y", y(n2) + y.bandwidth() / 2 + 4).attr("text-anchor", "end").text(n2);
             q.g.append("text").attr("class", "b rot-f").attr("x", x(v) + 6).attr("y", y(n2) + y.bandwidth() / 2 + 4).text(CX.pct(v));
           });
-          txt.innerHTML = `Com φ = ${f(phi, 2)}: o erro-padrão comum acusa tendência em ${CX.pct(ri / 400)} das séries; o HAC, em ${CX.pct(rh / 400)}. Com memória forte e só 38 anos, o HAC melhora muito mas não chega aos 5%: ele corrige a medida, não cria informação.`;
+          txt.innerHTML = `Com φ = ${f(phi, 2)}, o erro-padrão comum acusa tendência em ${CX.pct(ri / 400)} das séries, quando deveria acusar em 5%; o HAC, em ${CX.pct(rh / 400)}. ` + (phi < 0.3 ? "Com pouca memória, os dois ficam perto do prometido." : rh / 400 > 0.08 ? "O HAC reduz o engano, mas com memória forte e só 38 anos não chega aos 5%: ele corrige a medida da incerteza, e não cria a informação que falta." : "O HAC traz a taxa para perto do prometido; o erro-padrão comum continua enganando.");
         }
         roda();
       },
@@ -377,7 +389,7 @@
       simples(c) {
         const N = 14, ctl = CX.ctrl(c);
         let sem = 1;
-        const sA = CX.slider(ctl, { rot: "agrupamento", min: 0, max: 8, val: 3, fmt: String, aoMudar: des });
+        const sA = CX.slider(ctl, { rot: "o quanto os bairros se parecem por dentro", min: 0, max: 8, val: 3, fmt: (v) => (v ? v + " rodadas de mistura" : "nada (sal e pimenta)"), aoMudar: des });
         CX.btn(ctl, "sortear", () => { sem++; des(); });
         const grid = h("div", { class: "cx-grade2" }); c.appendChild(grid);
         const a1 = h("div"), a2 = h("div"); grid.append(a1, a2);
@@ -396,7 +408,12 @@
           q.g.selectAll("rect").data(z).join("rect").attr("x", (_, k) => (k % N) * cz).attr("y", (_, k) => Math.floor(k / N) * cz).attr("width", cz - 1).attr("height", cz - 1).attr("fill", (v) => cs(v));
           histPerm(a2, perms, I);
           nI.set(f(I, 2)); nP.set(CX.p((perms.filter((p) => p >= I).length + 1) / 500));
+          txtM.innerHTML = sA.valor() === 0
+            ? "Preços sorteados sem relação com os vizinhos: o I observado cai no meio dos mapas embaralhados, e o p é grande. É o mapa sal e pimenta."
+            : `Quarteirões vizinhos com preços parecidos formam manchas: o I (${f(I, 2)}) fica muito à direita de todos os mapas embaralhados. Tratar cada quarteirão como independente seria contar o mesmo bairro várias vezes.`;
         }
+        a1.parentNode.after(h("div", { class: "cx-leg", html: `<span>cor: preço do metro quadrado</span><span><i style="background:#f4efe3;border:1px solid #ddd"></i>mais barato</span><span><i style="background:#8b3a1d"></i>mais caro</span>` }));
+        const txtM = CX.frase(c);
         des();
       },
       async dados(c) {

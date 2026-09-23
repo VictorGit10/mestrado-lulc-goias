@@ -5,95 +5,63 @@
 
   function indice(v) { const b = v.find((x) => x != null); return v.map((x) => (x == null ? null : (100 * x) / b)); }
 
-  /* ---------------- 6.1 Renda da terra: cones em 3D ---------------- */
+  /* ---------------- 6.1 Renda da terra: perfil de renda e mapa visto de cima ---------------- */
   CX.def("renda", (host) => {
     CX.modos(host, {
-      async simples(c) {
+      simples(c) {
         const P = { pL: 10, tL: 6, pG: 5, tG: 1.5, ric: false };
         const ctl = CX.ctrl(c), ctl2 = CX.ctrl(c);
         CX.slider(ctl, { rot: "preço da lavoura", min: 5, max: 16, passo: 0.5, val: P.pL, fmt: (v) => f(v, 1), aoMudar: (v) => { P.pL = v; atualiza(); } });
-        CX.slider(ctl, { rot: "frete da lavoura", min: 2, max: 10, passo: 0.5, val: P.tL, fmt: (v) => f(v, 1), aoMudar: (v) => { P.tL = v; atualiza(); } });
+        CX.slider(ctl, { rot: "frete da lavoura (por 100 km)", min: 2, max: 10, passo: 0.5, val: P.tL, fmt: (v) => f(v, 1), aoMudar: (v) => { P.tL = v; atualiza(); } });
         CX.slider(ctl2, { rot: "preço do boi", min: 2, max: 9, passo: 0.5, val: P.pG, fmt: (v) => f(v, 1), aoMudar: (v) => { P.pG = v; atualiza(); } });
-        CX.slider(ctl2, { rot: "frete do boi", min: 0.5, max: 4, passo: 0.25, val: P.tG, fmt: (v) => f(v, 2), aoMudar: (v) => { P.tG = v; atualiza(); } });
+        CX.slider(ctl2, { rot: "frete do boi (por 100 km)", min: 0.5, max: 4, passo: 0.25, val: P.tG, fmt: (v) => f(v, 2), aoMudar: (v) => { P.tG = v; atualiza(); } });
         const ctl3 = CX.ctrl(c);
-        CX.check(ctl3, " qualidade da terra cai para o norte (Ricardo)", false, (v) => { P.ric = v; atualiza(); });
-        // renda por hectare a d km do mercado (ao sul) e posição y (0 = sul, 1 = norte)
-        const q = (yn) => (P.ric ? 1.25 - 0.5 * yn : 1);
-        const RL = (d, yn) => P.pL * q(yn) - 2 - (P.tL * d) / 100;
-        const RG = (d, yn) => P.pG * Math.pow(q(yn), 0.4) - 1 - (P.tG * d) / 100;
-        const box3 = h("div", { class: "cx-3d" }, h("div", { class: "cx-carregando", text: "carregando a biblioteca 3D…" }));
-        c.appendChild(box3);
-        const perfil = h("div"); c.appendChild(perfil);
+        CX.check(ctl3, " a qualidade da terra piora rumo ao norte (Ricardo)", false, (v) => { P.ric = v; atualiza(); });
+        // renda por hectare a d km do mercado; yn = 0 no sul (mercado), 1 no norte
+        const qual = (yn) => (P.ric ? 1.25 - 0.5 * yn : 1);
+        const RL = (d, yn) => P.pL * qual(yn) - 2 - (P.tL * d) / 100;
+        const RG = (d, yn) => P.pG * Math.pow(qual(yn), 0.4) - 1 - (P.tG * d) / 100;
+        const vence = (d, yn) => { const rl = RL(d, yn), rg = RG(d, yn); return rl > rg && rl > 0 ? "agric" : rg > 0 ? "pasto" : "veg"; };
+        const grid = h("div", { class: "cx-grade2" }); c.appendChild(grid);
+        const a1 = h("div"), a2 = h("div"); grid.append(a1, a2);
+        // perfil: renda de cada uso ao longo do eixo sul → norte
+        const qq = CX.quadro(a1, { w: 340, h: 280, m: { l: 44, r: 16, t: 24, b: 40 } });
+        const ds = d3.range(0, 501, 5), x = d3.scaleLinear().domain([0, 500]).range([0, qq.iw]), y = d3.scaleLinear().domain([0, 14]).range([qq.ih, 0]);
+        CX.eixos(qq, x, y, { xl: "distância do mercado, rumo ao norte (km)", yl: "quanto cada uso pode pagar por hectare", xt: 5 });
+        const gPerf = qq.g.append("g");
+        // mapa visto de cima: o mercado no meio da borda sul
+        const qm = CX.quadro(a2, { w: 340, h: 280, m: { t: 24, r: 6, b: 6, l: 6 } });
+        const NX = 56, NY = 28, cw = qm.iw / NX, chh = (qm.ih - 18) / NY;
+        const celas = [];
+        for (let j = 0; j < NY; j++) for (let i = 0; i < NX; i++) celas.push({ i, j, xk: -500 + ((i + 0.5) * 1000) / NX, yk: ((NY - j - 0.5) * 500) / NY });
+        const gM = qm.g.append("g");
+        const rc = gM.selectAll("rect").data(celas).join("rect").attr("x", (d) => d.i * cw).attr("y", (d) => d.j * chh).attr("width", cw + 0.3).attr("height", chh + 0.3);
+        qm.g.append("path").attr("d", `M${qm.iw / 2},${NY * chh - 12}l-8,12h16z`).attr("fill", "#111");
+        qm.g.append("text").attr("class", "rot-f").attr("x", qm.iw / 2).attr("y", NY * chh + 14).attr("text-anchor", "middle").text("mercado");
+        qm.g.append("text").attr("class", "rot-m").attr("x", qm.iw).attr("y", -8).attr("text-anchor", "end").text("norte ↑");
+        qm.g.append("text").attr("class", "rot-m").attr("y", -8).text("visto de cima: quem vence em cada ponto");
+        a2.appendChild(h("div", { class: "cx-leg", html: `<span><i style="background:${C.agric}"></i>lavoura</span><span><i style="background:${C.pasto}"></i>gado</span><span><i style="background:${C.veg}"></i>vegetação (nenhum uso compensa)</span>` }));
         const lei = CX.leitura(c);
-        const nL = CX.num(lei, "anel da lavoura vai até"), nG = CX.num(lei, "anel do gado vai até"), nV = CX.num(lei, "vão entre os anéis (meio a meio)", true);
-        let THREE = null, surfL, surfG, chao, ren, cena, cam, grupo, parar;
-        const N = 70, L = 500; // grade de N×N sobre um quadrado de 500 km, mercado no meio da borda sul
-        try { THREE = await import("https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"); }
-        catch (e) { box3.replaceChildren(h("div", { class: "cx-erro", text: "A biblioteca 3D não carregou (sem internet?). O perfil abaixo mostra a mesma conta em 2D." })); }
-        if (THREE) {
-          box3.replaceChildren();
-          cena = new THREE.Scene(); cena.background = new THREE.Color(0xf6f5f0);
-          cam = new THREE.PerspectiveCamera(40, 1.6, 1, 5000); cam.position.set(420, 380, 520); cam.lookAt(0, 0, -60);
-          ren = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true }); ren.setPixelRatio(Math.min(2, devicePixelRatio));
-          box3.appendChild(ren.domElement);
-          box3.appendChild(h("div", { class: "cx-3d-leg", html: `altura = renda por hectare · <span style="color:${C.agric}">■</span> lavoura <span style="color:${C.pasto}">■</span> gado · chão: uso vencedor · ◆ mercado` }));
-          cena.add(new THREE.AmbientLight(0xffffff, 0.8)); const luz = new THREE.DirectionalLight(0xffffff, 0.8); luz.position.set(200, 500, 300); cena.add(luz);
-          grupo = new THREE.Group(); cena.add(grupo); grupo.rotation.y = -0.35;
-          const mkSurf = (cor, op) => { const g = new THREE.PlaneGeometry(L * 2, L, N - 1, N - 1); g.rotateX(-Math.PI / 2); const m = new THREE.Mesh(g, new THREE.MeshLambertMaterial({ color: cor, transparent: true, opacity: op, side: THREE.DoubleSide })); grupo.add(m); return m; };
-          surfL = mkSurf(C.agric, 0.75); surfG = mkSurf(C.pasto, 0.75);
-          const gc = new THREE.PlaneGeometry(L * 2, L, N - 1, N - 1); gc.rotateX(-Math.PI / 2);
-          gc.setAttribute("color", new THREE.BufferAttribute(new Float32Array(gc.attributes.position.count * 3), 3));
-          chao = new THREE.Mesh(gc, new THREE.MeshBasicMaterial({ vertexColors: true })); chao.position.y = -0.5; grupo.add(chao);
-          const merc = new THREE.Mesh(new THREE.ConeGeometry(10, 30, 4), new THREE.MeshLambertMaterial({ color: 0x8b3a1d })); merc.position.set(0, 15, L / 2); grupo.add(merc);
-          const redim = () => { const w = box3.clientWidth, hh = box3.clientHeight; ren.setSize(w, hh, false); cam.aspect = w / hh; cam.updateProjectionMatrix(); };
-          redim(); new ResizeObserver(redim).observe(box3);
-          let arr = null, rot = -0.35;
-          box3.addEventListener("pointerdown", (e) => { arr = [e.clientX, rot]; box3.setPointerCapture(e.pointerId); });
-          box3.addEventListener("pointermove", (e) => { if (arr) rot = arr[1] + (e.clientX - arr[0]) * 0.008; });
-          box3.addEventListener("pointerup", () => { arr = null; });
-          let vis = true; new IntersectionObserver((es) => { vis = es[0].isIntersecting; }).observe(box3);
-          parar = CX.loop(() => { if (!vis) return; grupo.rotation.y = rot; ren.render(cena, cam); });
-        }
-        const escH = 18;
+        const nL = CX.num(lei, "o anel da lavoura vai até"), nG = CX.num(lei, "o anel do gado vai até"), nV = CX.num(lei, "vão entre os centros dos anéis", true);
+        const txt = CX.frase(c);
         function atualiza() {
-          if (THREE) {
-            const pl = surfL.geometry.attributes.position, pg = surfG.geometry.attributes.position, pc = chao.geometry.attributes.position, cc = chao.geometry.attributes.color;
-            const col = new THREE.Color();
-            for (let i = 0; i < pl.count; i++) {
-              const x = pl.getX(i), z = pl.getZ(i); // z: +L/2 é o sul (mercado), −L/2 o norte
-              const d = Math.hypot(x, z - L / 2), yn = (L / 2 - z) / L;
-              const rl = RL(d, yn), rg = RG(d, yn);
-              pl.setY(i, Math.max(0, rl) * escH); pg.setY(i, Math.max(0, rg) * escH);
-              col.set(rl > rg && rl > 0 ? C.agric : rg > 0 ? C.pasto : C.veg);
-              cc.setXYZ(i, col.r, col.g, col.b);
-            }
-            pl.needsUpdate = pg.needsUpdate = cc.needsUpdate = true;
-            surfL.geometry.computeVertexNormals(); surfG.geometry.computeVertexNormals();
-            ren.render(cena, cam); // um quadro já, sem depender da animação
-          }
-          // perfil ao longo do eixo sul→norte
-          perfil.replaceChildren();
-          const qq = CX.quadro(perfil, { h: 220, m: { l: 44, r: 90, t: 14, b: 36 } });
-          const ds = d3.range(0, 501, 5), x = d3.scaleLinear().domain([0, 500]).range([0, qq.iw]);
-          const y = d3.scaleLinear().domain([-2, 14]).range([qq.ih, 0]);
-          CX.eixos(qq, x, y, { xl: "distância do mercado, rumo ao norte (km)", yl: "renda por hectare" });
+          rc.attr("fill", (d) => C[vence(Math.hypot(d.xk, d.yk), d.yk / 500)]);
+          gPerf.selectAll("*").remove();
           let fimL = 0, fimG = 0;
-          ds.forEach((d) => { const yn = d / 500, rl = RL(d, yn), rg = RG(d, yn); if (rl > rg && rl > 0) fimL = d; if (rg >= rl && rg > 0) fimG = d; });
-          [[0, fimL, C.agric], [fimL, fimG, C.pasto], [fimG, 500, C.veg]].forEach(([a, b, cor]) => { if (b > a) qq.g.append("rect").attr("x", x(a)).attr("width", x(b) - x(a)).attr("y", qq.ih - 8).attr("height", 8).attr("fill", cor); });
-          qq.g.append("line").attr("class", "zero").attr("x1", 0).attr("x2", qq.iw).attr("y1", y(0)).attr("y2", y(0));
-          const rots = [];
+          ds.forEach((d) => { const k = vence(d, d / 500); if (k === "agric") fimL = d; if (k === "pasto") fimG = d; });
+          [[0, fimL, C.agric], [fimL, fimG, C.pasto], [Math.max(fimL, fimG), 500, C.veg]].forEach(([a, b, cor]) => { if (b > a) gPerf.append("rect").attr("x", x(a)).attr("width", x(b) - x(a)).attr("y", qq.ih + 1).attr("height", 5).attr("fill", cor); });
           [[RL, C.agric, "lavoura"], [RG, "#9c7a1d", "gado"]].forEach(([fn, cor, n]) => {
-            qq.g.append("path").attr("fill", "none").attr("stroke", cor).attr("stroke-width", 2.4).attr("d", d3.line().x((d) => x(d)).y((d) => y(Math.max(-2, fn(d, d / 500))))(ds));
-            const t = qq.g.append("text").attr("class", "rot").attr("x", qq.iw + 4); t.append("tspan").style("fill", cor).text("■ "); t.append("tspan").text(n);
-            rots.push({ sel: t, y: y(Math.max(-2, fn(500, 1))) + 4 });
+            gPerf.append("path").attr("fill", "none").attr("stroke", cor).attr("stroke-width", 2.4).attr("d", d3.line().defined((d) => fn(d, d / 500) > 0).x((d) => x(d)).y((d) => y(Math.min(14, fn(d, d / 500))))(ds));
+            const d0 = 20;
+            gPerf.append("text").attr("class", "rot").attr("x", x(d0) + 4).attr("y", y(Math.min(13.5, fn(d0, d0 / 500))) - 6).style("fill", cor).text(n);
           });
-          CX.desempilha(rots, 8, qq.ih - 14);
-          nL.set(fimL + " km"); nG.set(fimG > fimL ? fimG + " km" : "—"); nV.set(fimG > fimL ? f((fimG + fimL) / 2 - fimL / 2, 0) + " km" : "—");
+          nL.set(fimL ? fimL + " km" : "—"); nG.set(fimG > fimL ? fimG + " km" : "—"); nV.set(fimG > fimL ? f(fimG / 2, 0) + " km" : "—");
+          txt.innerHTML = "Cada linha mostra quanto um uso pode pagar por hectare a cada distância do mercado: a da lavoura começa alta e cai depressa (produto valioso, frete caro); a do gado começa baixa e cai devagar. Em cada ponto fica o uso que pode pagar mais; onde nenhum paga nada, fica a vegetação. Suba o preço da lavoura: o anel dela se alarga e o do gado se desloca para longe, sem que ninguém empurre ninguém." +
+            (P.ric ? " Com a qualidade piorando rumo ao norte, os anéis deixam de ser círculos: encolhem para o norte e se esticam para os lados, e a ordenação passa a depender também da terra, e não só da distância." : "");
         }
         atualiza();
-        CX.frase(c, "Cada uso tem um cone de renda centrado no mercado: alto e íngreme para a lavoura (produto caro, frete pesado), baixo e largo para o gado. Em cada ponto vence o cone mais alto; onde os dois ficam abaixo de zero, fica a vegetação. Suba o preço da lavoura e o anel dela se alarga sobre o do gado, que se desloca para fora sem que ninguém \"empurre\" nada: é o preço que coordena.");
-        return () => parar && parar();
       },
+
       async dados(c) {
         const m = await CX.dado("metodo_centro_massa.json");
         const cy = (v, t) => { const w = m.pesos[v][t]; let s = 0, sw = 0; m.amc.forEach((a, i) => { s += w[i] * a.cy; sw += w[i]; }); return s / sw; };
@@ -193,8 +161,9 @@
         `<table class="cx-tab"><tr><th>placar do canal de adjacência</th><th></th></tr>
         <tr><td>Granger, lavoura Sul → pasto Norte</td><td>p = 0,97</td></tr>
         <tr><td>Toda-Yamamoto, nas duas direções</td><td>p = 0,25 e 0,45</td></tr>
-        <tr><td>termo de vizinhança (12 especificações)</td><td>12 negativos; 1 com p &lt; 0,05, no sentido oposto</td></tr>
-        <tr><td>recortes sem a assinatura exigida</td><td>36 de 36</td></tr>
+        <tr><td>termo de vizinhança, 12 recortes com 8 vizinhos</td><td>12 negativos; 1 com p &lt; 0,05, no sentido oposto</td></tr>
+        <tr><td>com 4 e 12 vizinhos</td><td>alguns positivos no rebanho, nenhum distinguível de zero</td></tr>
+        <tr><td>estimativas positivas e significativas</td><td>0 de 36</td></tr>
         <tr><td>substituição local (dentro da AMC)</td><td>β ≈ −0,51</td></tr></table>`;
     }
     des();
@@ -205,17 +174,17 @@
     CX.modos(host, {
       simples(c) {
         const ctl = CX.ctrl(c);
-        const sP = CX.slider(ctl, { rot: "preço da saca (US$)", min: 10, max: 40, val: 20, fmt: (v) => "US$ " + v, aoMudar: des });
-        const sC = CX.slider(ctl, { rot: "câmbio (R$ por US$)", min: 1, max: 6, passo: 0.1, val: 2, fmt: (v) => "R$ " + f(v, 2), aoMudar: des });
-        const sK = CX.slider(ctl, { rot: "custo por saca (R$)", min: 10, max: 80, val: 30, fmt: (v) => "R$ " + v, aoMudar: des });
+        const sP = CX.slider(ctl, { rot: "preço da rede lá fora (US$)", min: 10, max: 50, val: 30, fmt: (v) => "US$ " + v, aoMudar: des });
+        const sC = CX.slider(ctl, { rot: "câmbio (R$ por US$)", min: 2, max: 6, passo: 0.1, val: 4, fmt: (v) => "R$ " + f(v, 2), aoMudar: des });
+        const sK = CX.slider(ctl, { rot: "custo de cada rede (R$)", min: 40, max: 160, val: 100, fmt: (v) => "R$ " + v, aoMudar: des });
         const alvo = h("div"); c.appendChild(alvo);
         const lei = CX.leitura(c);
-        const nR = CX.num(lei, "preço recebido (R$)"), nM = CX.num(lei, "margem por saca", true);
+        const nR = CX.num(lei, "o artesão recebe (R$)"), nM = CX.num(lei, "margem por rede", true);
         function des() {
           const rec = sP.valor() * sC.valor(), mg = rec - sK.valor();
           alvo.replaceChildren();
           const q = CX.quadro(alvo, { h: 150, m: { l: 150, r: 70, t: 10, b: 30 } });
-          const x = d3.scaleLinear().domain([Math.min(0, mg) - 5, 250]).range([0, q.iw]), y = d3.scaleBand().domain(["recebido", "custo", "margem"]).range([0, q.ih]).padding(0.25);
+          const x = d3.scaleLinear().domain([Math.min(0, mg) - 5, 300]).range([0, q.iw]), y = d3.scaleBand().domain(["recebido", "custo", "margem"]).range([0, q.ih]).padding(0.25);
           CX.eixos(q, x, null, { xf: (v) => "R$ " + v });
           [["recebido", rec, C.azul], ["custo", sK.valor(), C.cinza], ["margem", mg, mg >= 0 ? C.veg : "#9b2c2c"]].forEach(([n, v, cc]) => {
             q.g.append("rect").attr("x", x(Math.min(0, v))).attr("y", y(n)).attr("width", Math.abs(x(v) - x(0))).attr("height", y.bandwidth()).attr("fill", cc).attr("rx", 3);
@@ -225,7 +194,7 @@
           nR.set("R$ " + f(rec, 2)); nM.set("R$ " + f(mg, 2));
         }
         des();
-        CX.frase(c, "Suba o câmbio sem mexer no preço em dólar: a margem cresce, e terra que não compensava plantar passa a compensar. É o mecanismo de Richards (2012) para a expansão da soja após as desvalorizações do fim dos anos 1990.");
+        CX.frase(c, "Suba o câmbio sem mexer no preço em dólar: a margem cresce, e produzir mais passa a compensar. Na soja, a conta é a mesma, e terra que não compensava plantar passa a compensar. É o mecanismo de Richards (2012) para a expansão da soja depois das desvalorizações do fim dos anos 1990.");
       },
       async dados(c) {
         const M = (await CX.base()).macro;
