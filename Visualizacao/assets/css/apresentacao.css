@@ -470,8 +470,12 @@ body.estatico .goias-traco .anim { animation: none; stroke-dashoffset: 0; stroke
 .s-fecho .anot small { display: block; font-size: 25px; font-weight: 500; color: #444; }
 .s-fecho .lado { position: absolute; left: 1210px; top: 150px; width: 600px; }
 .s-fecho .lado .titulo { font-size: 66px; }
-.s-fecho .obrigado { position: absolute; left: 1210px; bottom: 110px; width: 600px; font-family: var(--sans); font-size: 27px; line-height: 1.6; color: var(--muted); }
-.s-fecho .obrigado b { font-size: 53px; color: var(--fg); display: block; margin-bottom: 8px; font-family: var(--serif); font-weight: 600; }
+
+/* ---------- encerramento: o diorama num iframe do tamanho do palco ----------
+   pointer-events: none e tabindex -1 no iframe: ele nunca pega o foco, então as
+   setas continuam com a apresentação. */
+.s-diorama { padding: 0; }
+.s-diorama .diorama { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; border: 0; pointer-events: none; background: var(--bg); }
 
 /* --- reserva --- */
 .s-divisor { background: #2a2622; color: #eee; justify-content: center; }

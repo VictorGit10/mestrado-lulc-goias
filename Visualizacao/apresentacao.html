@@ -6,7 +6,7 @@
 <title>A marcha ao norte · qualificação</title>
 <meta name="description" content="Apresentação da qualificação de mestrado (PPGCIAMB-UFG): uso e cobertura da terra em Goiás, 1985–2024. Navegação só por teclado.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23fafaf7'/%3E%3Ccircle cx='32' cy='32' r='14' fill='%238b3a1d'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="assets/css/apresentacao.css?v=24">
+<link rel="stylesheet" href="assets/css/apresentacao.css?v=25">
 </head>
 <body>
 <div class="stage">
@@ -619,7 +619,14 @@
     <p class="kicker">2024</p>
     <h2 class="titulo">O mesmo mapa, <em>outra leitura</em></h2>
   </div>
-  <div class="obrigado" data-step="3"><b>Obrigado.</b>Victor Alves Rodrigues Amaral · PPGCIAMB-UFG<br>A visualização completa está no site do trabalho.</div>
+</section>
+
+<!-- ENCERRAMENTO — o diorama de Goiás (diorama-encerramento/cena.html),
+     com o agradecimento. O iframe começa vazio: apresentacao-diorama.js o
+     carrega só a partir do fecho e o descarrega ao sair dos dois slides, então
+     o WebGL não existe no resto da apresentação. -->
+<section class="slide cheia s-diorama" data-titulo="Encerramento · o diorama de Goiás">
+  <iframe class="diorama" title="Diorama animado de Goiás, com o agradecimento" tabindex="-1"></iframe>
 </section>
 
 <!-- ======================================================================
@@ -684,5 +691,6 @@
 <script src="assets/js/apresentacao-hooks.js?v=8b"></script>
 <script src="assets/js/apresentacao-didatica.js?v=6"></script>
 <script src="assets/js/apresentacao.js?v=9b"></script>
+<script src="assets/js/apresentacao-diorama.js?v=3"></script>
 </body>
 </html>
