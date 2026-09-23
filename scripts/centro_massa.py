@@ -153,6 +153,12 @@ def carregar_dados() -> tuple[pd.DataFrame, pd.DataFrame]:
 
     gdf = gpd.read_file(ARQ_GEOM).to_crs(CRS_METRICO)
     gdf["code_amc"] = gdf["code_amc"].astype(int)
+    # Centroide GEOMÉTRICO (centro de área do polígono), calculado DEPOIS do to_crs
+    # métrico — a ordem importa: o centroide em graus não é o centroide em metros.
+    # Nota p/ reuso: para um polígono muito côncavo (meia-lua, forma em C) o centroide
+    # geométrico pode cair FORA do próprio polígono. Nas 166 AMCs isso é imaterial — o
+    # #43 recalcula o mesmo centro pixel a pixel, sem malha, e bate em 1–2 km —, mas
+    # numa malha mais irregular a escolha segura seria .representative_point().
     cent = gdf.geometry.centroid
     centroides = pd.DataFrame({
         "code_amc": gdf["code_amc"].to_numpy(),

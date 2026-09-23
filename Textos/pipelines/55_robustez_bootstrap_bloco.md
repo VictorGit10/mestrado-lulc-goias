@@ -49,10 +49,31 @@ Varrido o bloco de **1 a 14 AMCs** (seis partições: k = 166, 83, 55, 33, 20, 1
 O intervalo **alarga como esperado** — no caso da pastagem, de **45 para 80 km** de
 largura entre o bloco de 1 AMC e o de 14 —, e **o veredito não muda em nenhum tamanho**.
 
-O único ponto em que a régua importa é a **componente leste da agricultura**, que passa a
-incluir zero quando os blocos chegam a **oito AMCs**. É a única afirmação da Perna 1 cuja
-força depende de tratar as unidades como independentes, e por isso ela é reportada com
-essa ressalva.
+O ponto em que a régua importa é a **componente leste**, e ela importa para todas as
+variáveis: **nenhuma componente leste sobrevive à varredura inteira**. A primeira a cair é
+a da **pastagem**, já em blocos de **três AMCs** (IC [−1,7; +44,7]), e ela vinha no fio da
+navalha desde o bootstrap i.i.d. ([+1,2; +39,5]); a da agricultura cai em blocos de **oito**
+([−7,3; +105,8]); a do rebanho, em blocos de **catorze** ([−7,8; +54,9]).
+
+| AMCs/bloco | Agricultura | Pastagem | Rebanho | Vegetação |
+|---|---|---|---|---|
+| 1,00 | exclui 0 | exclui 0 | exclui 0 | inclui 0 |
+| 2,00 | exclui 0 | exclui 0 | exclui 0 | inclui 0 |
+| 3,02 | exclui 0 | **inclui 0** | exclui 0 | inclui 0 |
+| 5,03 | exclui 0 | inclui 0 | exclui 0 | inclui 0 |
+| 8,30 | **inclui 0** | inclui 0 | exclui 0 | inclui 0 |
+| 13,83 | inclui 0 | inclui 0 | **inclui 0** | inclui 0 |
+
+As afirmações da Perna 1 cuja força depende de tratar as unidades como independentes são,
+portanto, **as três do eixo leste-oeste**, e não apenas a da agricultura. Nenhuma delas
+sustenta conclusão do trabalho — a marcha é descrita pelo eixo meridional, que é invariante
+—, mas todas são reportadas com essa ressalva.
+
+*(Correção de 08/set/2026: a redação anterior dizia "único ponto sensível: a componente
+leste da agricultura, a partir de oito AMCs". A conferência linha a linha de
+`centro_massa_bootstrap_bloco.csv` mostra que a da pastagem cai antes, em três AMCs. O
+defeito é o da regra "a varredura acha só a classe que procura": o pipeline foi lido pelo
+ΔNorte, e o ΔLeste entrou de carona na tabela sem receber a mesma leitura.)*
 
 ## Veredito
 

@@ -50,7 +50,7 @@ As duas quase coincidem (validação cruzada da agregação). **Estabilidade** (
 
 ## Achado — a capacidade de armazenagem é a camada **mais ao sul de todas**
 
-Goiás tem **1.135 armazéns** cadastrados com **18,54 Mt** de capacidade estática. O centroide dessa capacidade senta-se em **lat −17,24°** — e as duas formas de calcular **coincidem** (ponto −17,240° vs AMC −17,238°; Δ = 0,3 km), validando a agregação por AMC.
+Goiás tem **1.135 armazéns** cadastrados com **18,54 Mt** de capacidade estática, dos quais **1.134 trazem coordenada** e entram no centroide-ponto (o restante, 2.450 t, entra só pelo método AMC, que precisa apenas do `cod_ibge` — daí os 18,533 Mt do ponto contra 18,535 Mt da AMC). O centroide dessa capacidade senta-se em **lat −17,24°** — e as duas formas de calcular **coincidem** (ponto −17,240° vs AMC −17,238°; Δ = 0,3 km), validando a agregação por AMC.
 
 Comparado com a posição **recente** de cada referência (vão = capacidade − referência; negativo = capacidade **ao sul**):
 

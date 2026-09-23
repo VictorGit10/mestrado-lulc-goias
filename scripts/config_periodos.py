@@ -25,7 +25,8 @@ Robustez da fronteira 2020 a mudança de rótulo do Mosaico (#28D, 2026-07-23):
     IMUNE (veg) nao quebra em 2020 -> Ato III e evento de COMPOSICAO da fronteira
     (pasto->lavoura acelera), nao de taxa de desmatamento. CONCLUSAO: a fronteira
     de 2020 e real; o ROTULO estava invertido e foi CORRIGIDO em 25/jul/2026 —
-    "Conversao seletiva" virou "Conversao acelerada (mascarada)" (ver ATOS III).
+    "Conversao seletiva" virou "Conversao acelerada (mascarada)" e, em 22/ago/2026,
+    "Conversao acelerada sob rotulo ambiguo" (ver ATOS III).
 
 Fronteira 2005/2006 — nota metodologica (NAO incluida como fronteira de periodo):
     Detectada por STARS (shifts em 2004/2006 com l=5, alpha=0.05) e KL/TV
@@ -69,7 +70,7 @@ from __future__ import annotations
 ATOS = {
     "I":   {"inicio": 1985, "fim": 2000, "titulo": "Pastagem como herança"},
     "II":  {"inicio": 2001, "fim": 2019, "titulo": "Expansão e intensificação"},
-    "III": {"inicio": 2020, "fim": 2024, "titulo": "Conversão acelerada (mascarada)",
+    "III": {"inicio": 2020, "fim": 2024, "titulo": "Conversão acelerada sob rótulo ambíguo",
             # RENOMEADO em 2026-07-25 (decisao do autor). O titulo anterior era
             # "Conversao seletiva", nascido da leitura crua de que a agricultura
             # desacelerou no fim da serie — que e a MUDANCA DE ROTULO do Mosaico
@@ -79,6 +80,10 @@ ATOS = {
             # de 2020 sempre foi robusta (ver docstring); so o ROTULO estava
             # invertido. "(mascarada)" e parte do nome de proposito: o traco que
             # define o periodo e que a medida ingenua diz o OPOSTO do que ocorreu.
+            # RENOMEADO de novo em 2026-08-22 (qualificacao, 7722aa4): "mascarada"
+            # afirmava mais que o dado — o vao entre as duas reguas e em parte
+            # reetiquetagem e em parte uso misto, e o trabalho nao separa os dois.
+            # "sob rotulo ambiguo" diz so o que se mede. Alinhado no site em 2026-09-22.
             "nota_rotulo": "a agricultura NAO desacelera no Ato III; a medida crua e que "
                            "subconta — ver #28D/D26 e o bracket do #33"},
 }
@@ -123,11 +128,14 @@ MARCOS = {
     },
     1996: {
         "titulo": "Lei Kandir",
-        "evidencia": "A",       # evidencia causal
-        "escopo_empirico": "go_especifico",
-        "nota": "Único evento com efeito diferenciado em GO: perda de veg_nat desacelera "
-                "de 0,54 pp/a para 0,41 pp/a após 1998, enquanto agricultura se expande "
-                "no sudoeste. DiD confirma divergência vs estados-controle após 1996.",
+        "evidencia": "B",       # rebaixado em 22/set/2026: era "A" com "DiD confirma
+                                # divergencia apos 1996", mas a Kandir NAO esta entre os
+                                # marcos do DiD (piecewise_did.py: 1995, 2003, 2012, 2018).
+                                # Alinhado a marcos.json (B, cerrado_amplo).
+        "escopo_empirico": "cerrado_amplo",
+        "nota": "Perda de veg_nat em GO cai de 0,66 para 0,44 pp/a entre 1994-98 e "
+                "1999-2003, enquanto a agricultura avança no sudoeste. Nao testado no DiD: "
+                "contexto, nao efeito.",
     },
     2002: {
         "titulo": "Crédito e demanda chinesa",

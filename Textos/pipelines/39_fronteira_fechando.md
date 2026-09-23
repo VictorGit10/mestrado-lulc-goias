@@ -162,7 +162,7 @@ Decomposição do Δ do fluxo de conversão de vegetação (Mha/ano):
 ### 4. A demanda NÃO esfriou no Ato III — reforça a leitura de oferta no Sul
 
 Níveis médios dos drivers (#37) por ato: câmbio real 134,5→**169,0**; preço recebido soja
-104,4→**186,4**; crédito rural GO (R$ 2010) 14,3→**24,1 bi**. A demanda **subiu** no Ato III.
+104,4→**186,4**; crédito rural GO (R$ de dez/2024) 14,3→**24,1 bi**. A demanda **subiu** no Ato III.
 Logo a desaceleração da **conversão de vegetação** no Sul ocorreu **sob demanda forte** →
 consistente com **restrição de oferta** (de Cerrado convertível) no Sul, não com demanda fraca.
 *(Ajuste de 25/jul/2026: a frase dizia "desaceleração agrícola do Sul (#32/#33)" e apoiava-se
