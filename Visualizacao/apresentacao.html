@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A marcha ao norte · qualificação</title>
+<meta name="description" content="Apresentação da qualificação de mestrado (PPGCIAMB-UFG): uso e cobertura da terra em Goiás, 1985–2024. Navegação só por teclado.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23fafaf7'/%3E%3Ccircle cx='32' cy='32' r='14' fill='%238b3a1d'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/css/apresentacao.css?v=23">
+</head>
+<body>
+<div class="stage">
+<div class="pagina">
+
+<!-- ======================================================================
+     1 · TÍTULO — o hero do site: Goiás se desenhando do Sul para o Norte
+     ====================================================================== -->
+<section class="slide cheia s-titulo" data-titulo="Título">
+  <svg class="goias-traco"></svg>
+  <div class="bloco">
+    <p class="eyebrow">Qualificação de mestrado &middot; Goiás &middot; 1985–2024</p>
+    <h1>A marcha ao norte</h1>
+    <p class="sub">Dinâmica de uso e cobertura da terra em Goiás (1985–2024) e seus fatores socioeconômicos</p>
+    <div class="autoria">
+      <b>Victor Alves Rodrigues Amaral</b><br>
+      Orientador: Prof. Dr. Laerte Guimarães Ferreira Júnior
+    </div>
+  </div>
+  <div class="rodape-titulo">
+    <div class="logos" aria-label="Instituições">
+      <img class="logo-ufg" src="img/logos/ufg-preta.png" alt="Universidade Federal de Goiás">
+      <img class="logo-ciamb" src="img/logos/ciamb-texto.png" alt="Programa de Pós-Graduação em Ciências Ambientais — CIAMB">
+      <img class="logo-lapig" src="img/logos/lapig-colorida.png" alt="Laboratório de Processamento de Imagens e Geoprocessamento — LAPIG">
+      <img class="logo-capes" src="img/logos/capes.svg" alt="CAPES — Coordenação de Aperfeiçoamento de Pessoal de Nível Superior">
+    </div>
+    <div class="quando">Goiânia · 2026</div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     2 · ABERTURA — o mapa ano a ano, com a régua dos 40 anos do site.
+     4 toques: Ato I, Ato II, Ato III, pergunta
+     ====================================================================== -->
+<section class="slide cheia s-mapa" data-hook="abertura" data-passos="4" data-titulo="Abertura · o mapa de 1985 a 2024">
+  <div class="regua" data-marcos>
+    <div class="regua-meta"><span class="regua-era"></span><strong class="regua-rot"></strong></div>
+    <div class="regua-corpo"><span>1985</span>
+      <div class="regua-trilho"><i class="banda heranca"></i><i class="banda expansao"></i><i class="banda conversao"></i><span class="regua-cursor"></span></div>
+    <span>2024</span></div>
+  </div>
+  <div class="ano">1985</div>
+  <div class="ato-rot"></div>
+  <div class="mapa-quadro"><canvas></canvas></div>
+  <div class="contadores">
+    <div><span><i style="--c:#1f8a2e"></i>Vegetação natural</span><b data-c="veg"></b></div>
+    <div><span><i style="--c:#ffd700"></i>Pastagem</span><b data-c="pasto"></b></div>
+    <div><span><i style="--c:#ff69b4"></i>Agricultura</span><b data-c="agric"></b></div>
+    <div><span><i style="--c:#c98a4b"></i>Mosaico de usos</span><b data-c="mosaico"></b></div>
+  </div>
+  <div class="pergunta-final" data-step="4">O que aconteceu aqui?</div>
+  <div class="rodape-mapa">MapBiomas 10.1 · 30 m · % de Goiás<br>pinos na régua = referências institucionais</div>
+</section>
+
+<!-- 3 · A HIPÓTESE DE PARTIDA — as duas pontas são dados; o elo é a hipótese -->
+<section class="slide s-domino" data-secao="problema" data-hook="domino" data-passos="4" data-titulo="A hipótese de partida (o dominó)">
+  <p class="kicker">A hipótese de partida</p>
+  <h2 class="titulo">E se a lavoura do Sul empurrasse o pasto para o Norte?</h2>
+  <div class="coluna">
+    <p class="passo" data-n="1" data-step="1">No Sul, a lavoura toma o lugar do pasto.</p>
+    <p class="passo" data-n="2" data-step="2">O pasto deslocado sobe para o Norte, levando o boi junto.</p>
+    <p class="passo" data-n="3" data-step="3">E lá, abre o Cerrado que ainda resta.</p>
+    <p class="virada" data-step="4">Foi daqui que o trabalho partiu. As duas pontas aparecem nos dados; <span class="acento">o elo entre elas, o empurrão, não apareceu nos testes.</span></p>
+  </div>
+  <svg class="mapa-domino" role="img" aria-label="Goiás dividido nas 166 AMC: o ganho de lavoura se concentra no Sul, o ganho de pasto no Norte, e fios tracejados com um ponto de interrogação ligam um ao outro."></svg>
+  <div class="legenda-dom">
+    <div data-step="1"><i style="--c1:#f6dbe8; --c2:#d96aa3"></i>Ganho de lavoura</div>
+    <div data-step="3"><i style="--c1:#f1e3bd; --c2:#b8871c"></i>Ganho de pasto</div>
+    <span>por AMC, 1985–2019</span>
+  </div>
+</section>
+
+<!-- 4 · PROBLEMA — as três famílias de explicação do texto (§1.1) -->
+<section class="slide s-problema" data-secao="problema" data-titulo="Problema · três famílias de explicação">
+  <p class="kicker">O problema</p>
+  <h2 class="titulo">Três famílias de explicação para o mesmo mapa</h2>
+  <div class="colunas" style="--n:3; gap:56px">
+    <div class="cartao" data-step="1">
+      <h3>1 · Uma região empurra a outra</h3>
+      <p>O deslocamento indireto de uso da terra (iLUC), dentro do estado.</p>
+      <p class="consequencia">A conversão tem origem localizável: uma política regional pode alcançá-la.</p>
+    </div>
+    <div class="cartao" data-step="2" style="--c:#6b7b5a">
+      <h3>2 · Forças de mercado comuns</h3>
+      <p>Atuando ao longo do gradiente Sul–Norte, medido pela aptidão.</p>
+      <p class="consequencia">Se as duas regiões respondem ao mesmo incentivo, não há origem a conter.</p>
+    </div>
+    <div class="cartao" data-step="3" style="--c:#2d5a3d">
+      <h3>3 · O que resta exposto encolhe</h3>
+      <p>O próprio encolhimento do Cerrado ainda exposto à conversão.</p>
+      <p class="consequencia">O ritmo passa a depender do estoque, e não só do mercado.</p>
+    </div>
+  </div>
+  <div class="resposta" data-step="4"><b>Por que importa</b>As leituras descrevem o mesmo mapa e recomendam ações opostas. Distingui-las exige um desenho analítico capaz de rejeitar as que não se sustentam.</div>
+</section>
+
+<!-- 5 · PERGUNTA -->
+<section class="slide cheia s-pergunta" data-fundo="terracota" data-titulo="Pergunta de pesquisa">
+  <svg class="goias-traco claro"></svg>
+  <p class="kicker">Pergunta de pesquisa</p>
+  <p class="pq">Como e por que o uso da terra mudou em Goiás entre 1985 e 2024?</p>
+  <p class="pq-sub" data-step="1"><span>Em sua forma mais precisa</span>O que coordena a reorganização espacial da produção agropecuária no estado?</p>
+</section>
+
+<!-- 6 · POR QUE GOIÁS E OBJETIVOS — os antigos slides 6 e 7 fundidos (tempo para os momentos didáticos) -->
+<section class="slide s-porque" data-secao="problema" data-realca="2" data-titulo="Por que Goiás · objetivos">
+  <p class="kicker">Justificativa e objetivos</p>
+  <h2 class="titulo" style="margin-bottom:30px">Dois regimes do Cerrado, <em>medidos do mesmo jeito</em></h2>
+  <div class="colunas" style="--n:3; gap:44px">
+    <div class="cartao" style="--c:#d96aa3"><h3>Sul consolidado</h3><p>A expansão acontece sobre área já aberta.</p></div>
+    <div class="cartao" style="--c:#c79a2e"><h3>Norte em fronteira</h3><p>A expansão avança sobre vegetação natural.</p></div>
+    <div class="cartao" style="--c:#6b6b6b"><h3>Sob o mesmo desenho</h3><p>Mesmo classificador, malha e fonte: a diferença entre Sul e Norte não vem da medida.</p></div>
+  </div>
+  <div class="colunas" style="--n:2; gap:56px; margin-top:34px" data-step="1">
+    <div class="cartao" style="--c:#2d5a3d"><h3>O que ainda pode ser perdido</h3><p>Restam 6,56 Mha de savana e campo nativo expostos à conversão, cerca de 60% do que havia em 1985. <strong>44% deles estão no Norte</strong>, para onde a conversão migrou.</p></div>
+    <div class="cartao"><h3>O que o trabalho acrescenta</h3><p>O deslocamento entre regiões de um mesmo estado, de vizinho para vizinho, não aparece nas fontes consultadas. Aqui ele é submetido a teste formal.</p></div>
+  </div>
+  <div class="obj-faixa" data-step="2">
+    <p class="obj-geral-c"><strong>Objetivo geral:</strong> caracterizar e explicar a reorganização espacial do uso e cobertura da terra em Goiás entre 1985 e 2024, em sua relação com fatores socioeconômicos.</p>
+    <div class="obj-4">
+      <div class="obj"><span class="n">Específico 1</span><h3>O padrão existe?</h3><p>Existência, ritmo e robustez do deslocamento para o norte.</p></div>
+      <div class="obj"><span class="n">Específico 2</span><h3>Qual é o mecanismo?</h3><p>Os mecanismos locais: intensificação e pasto→lavoura no Sul; extensificação no Norte.</p></div>
+      <div class="obj"><span class="n">Específico 3</span><h3>O Sul empurrou o Norte?</h3><p>Testar o deslocamento intraestadual e o papel dos <em>drivers</em>, com destaque para o câmbio.</p></div>
+      <div class="obj"><span class="n">Específico 4</span><h3>Por que desacelerou?</h3><p>A desaceleração recente e o teto de oferta de terra no Sul.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 8 · DADOS E MÉTODO -->
+<section class="slide" data-secao="metodo" data-titulo="Dados e método">
+  <p class="kicker">Dados e método</p>
+  <h2 class="titulo">Contar tudo, fixar o território, conferir por fora</h2>
+  <div class="colunas cartoes-grandes">
+    <div class="cartao" data-step="1">
+      <h3>Censo, não amostra</h3>
+      <p>MapBiomas Coleção 10.1, a 30 m: todos os pixels de Goiás, nos 40 anos, na grade original do produto.</p>
+    </div>
+    <div class="cartao" data-step="2" style="--c:#6b7b5a">
+      <h3>Território constante</h3>
+      <p>Os 246 municípios de hoje viram <strong>166 Áreas Mínimas Comparáveis</strong> (Ehrl, 2017), unidades cujo contorno não muda com as emancipações do período.</p>
+    </div>
+    <div class="cartao" data-step="3" style="--c:#2f5d8a">
+      <h3>Satélite contra campo</h3>
+      <p>Cada medida do satélite tem uma contraparte que não passa por ele: soja plantada e rebanho do IBGE, crédito rural, câmbio e preços. Nos gráficos, a medida de campo leva a etiqueta <span class="tag-ibge">IBGE</span>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 9 · TRÊS ATOS -->
+<section class="slide s-atos" data-secao="metodo" data-titulo="Três atos · a periodização">
+  <p class="kicker">Periodização</p>
+  <h2 class="titulo" style="margin-bottom:10px">Três atos, detectados nos dados</h2>
+  <div class="regua">
+    <div class="regua-meta"></div>
+    <div class="regua-corpo"><span>1985</span>
+      <div class="regua-trilho"><i class="banda heranca"></i><i class="banda expansao"></i><i class="banda conversao"></i></div>
+    <span>2024</span></div>
+  </div>
+  <div class="atos-cartoes">
+    <div style="--c:var(--ato1)">
+      <span class="ano-i">ATO I · 1985–2000</span>
+      <h3>Pastagem como herança</h3>
+      <p>O ato mais destrutivo em volume: a pastagem avança <strong>3,71 Mha</strong> e a vegetação natural cede <strong>4,10 Mha</strong>.</p>
+      <p>A lavoura cresce (1,17 → 3,00 Mha), mas sem mudar de endereço.</p>
+    </div>
+    <div style="--c:var(--ato2)">
+      <span class="ano-i">ATO II · 2001–2019</span>
+      <h3>Expansão e intensificação</h3>
+      <p>A lavoura mantém o ritmo; <strong>quem inverte o sinal é a pastagem</strong> (+0,248 → −0,076 Mha/ano).</p>
+      <p>Muda a fonte da terra: a lavoura passa a crescer sobre o pasto.</p>
+    </div>
+    <div style="--c:var(--ato3)">
+      <span class="ano-i">ATO III · 2020–2024</span>
+      <h3>Conversão acelerada sob rótulo ambíguo</h3>
+      <p>O pasto recua quase 4× mais rápido. A lavoura nova passa a ser rotulada “Mosaico”.</p>
+    </div>
+  </div>
+  <p class="deteccao" data-step="1">As fronteiras não foram escolhidas: saem de testes de quebra estrutural aplicados às séries de uso da terra. A de 2020 aparece também na <strong>soja plantada do IBGE</strong>, que não passa pelo satélite.</p>
+</section>
+
+<!-- 9b · O BALANÇO DE QUARENTA ANOS — Tabela do balanço e cruzamento 1985×2024 (§4.1) -->
+<section class="slide s-balanco" data-hook="balanco" data-passos="3" data-secao="metodo" data-titulo="O balanço de quarenta anos">
+  <p class="kicker">Periodização · o balanço</p>
+  <h2 class="titulo">O que os quarenta anos somam</h2>
+  <svg class="graf-balanco" role="img" aria-label="Área de cada classe em Goiás, 1985 a 2024, em milhões de hectares: a vegetação natural cai de 17,7 para 11,9; a agricultura sobe de 1,2 para 5,6; a pastagem sobe até 14,8 em 2003 e desce a 12,0; o Mosaico de Usos fica perto de 3,6."></svg>
+  <div class="resposta" data-step="3"><b>O elo intermediário</b>58% da área que entrou em agricultura (2,72 de 4,65 Mha) veio de pastagem. É a parte da hipótese de partida que os dados confirmam.</div>
+  <p class="fonte">MapBiomas Coleção 10.1 · área de cada classe em Goiás, ano a ano</p>
+</section>
+
+<!-- 10 · O RÓTULO QUE MUDA -->
+<section class="slide" data-secao="metodo" data-titulo="Ato III · o rótulo que muda">
+  <p class="kicker">Ato III · antes das quatro perguntas</p>
+  <h2 class="titulo">O satélite diz que parou. O campo diz que acelerou.</h2>
+  <div class="dv" style="--min:-100; --max:260">
+    <p class="dv-cab">Sul de Goiás · ritmo anual no Ato III, comparado ao do Ato II</p>
+    <div class="dv-linha" data-step="1" style="--v:-88; --c:var(--agric)"><span class="dv-rot">Pasto → Agricultura <span class="tag-sat">satélite</span></span><span class="dv-trilho"><i></i></span><span class="dv-val">−88%</span></div>
+    <div class="dv-linha" data-step="2" style="--v:244; --c:var(--imune)"><span class="dv-rot">Soja plantada: hectares novos por ano <span class="tag-ibge">IBGE</span></span><span class="dv-trilho"><i></i></span><span class="dv-val">+244%</span></div>
+    <div class="dv-linha" data-step="3" style="--v:51; --c:var(--mosaico)"><span class="dv-rot">Pasto → Agricultura ou Mosaico <span class="tag-sat">satélite</span></span><span class="dv-trilho"><i></i></span><span class="dv-val">+51%</span></div>
+    <div class="dv-eixo" data-step="1"><span style="--t:-100">−100%</span><span style="--t:0">0</span><span style="--t:100">+100%</span><span style="--t:200">+200%</span></div>
+  </div>
+  <p class="texto menor" style="margin-top:36px" data-step="3">No fim da série, parte da lavoura nova sobre pasto passa a ser rotulada <strong>“Mosaico de Usos”</strong>. Somadas as duas classes, a conversão no Sul não para: acelera.</p>
+  <div class="resposta" data-step="4"><b>Consequência para o resto</b>O que parou foi o rótulo, e não a conversão. Daqui em diante, toda medida de lavoura pelo satélite aparece nas duas versões: só Agricultura (piso) e Agricultura + Mosaico (teto).</div>
+</section>
+
+<!-- 10b · COMO SE MEDE O CENTRO — a balança: halter (lúdico) → Goiás visto de lado
+     (pesos reais por AMC) → 1985→2024 → bootstrap AMC a AMC (B = 2.000).
+     Hook "balanca" em apresentacao-didatica.js; o apoio pode ser arrastado. -->
+<section class="slide s-balanca" data-hook="balanca" data-passos="7" data-secao="investigacao" data-perna="1" data-titulo="Perna 1 · como se mede o centro (a balança)">
+  <p class="kicker">Pergunta 1 de 4 · O padrão existe? <span class="selo-kicker">o método</span></p>
+  <h2 class="titulo">O centro de massa é um ponto de <em>equilíbrio</em></h2>
+  <svg class="palco-bal" role="img" aria-label="Uma régua apoiada num triângulo: primeiro um halter, depois as 166 AMC de Goiás vistas de lado, com o pasto de cada uma como peso."></svg>
+  <div class="bal-rodape">
+    <div class="bal-legendas">
+      <p data-ate="0">Um halter com pesos diferentes. Apoiado no meio, ele tomba para o lado mais pesado.</p>
+      <p data-step="1" data-ate="1">Ele só para onde os puxões dos dois lados se anulam: na média das posições, <strong>ponderada pelo peso</strong>.</p>
+      <p data-step="2" data-ate="2">Em Goiás, cada AMC vira um peso: os <strong>hectares de pasto</strong>, pendurados no centroide dela. Os pesos são 166.</p>
+      <p data-step="3" data-ate="3">Visto de lado, com o norte à direita, o estado vira uma régua. As AMC se empilham por faixa de 10 km, e o apoio vai para o equilíbrio de 1985.</p>
+      <p data-step="4" data-ate="4">De 1985 a 2024, com o apoio parado onde estava, a régua <strong>tomba para o norte</strong>. O contorno é o pasto de 1985.</p>
+      <p data-step="5" data-ate="5">O novo ponto de equilíbrio fica <strong>77,6 km ao norte</strong>. É esse o número do próximo slide.</p>
+      <p data-step="6" data-ate="6">E se o mapa tivesse saído um pouco diferente? Cada sorteio monta um Goiás alternativo: 166 AMC tiradas do mesmo saco, com reposição. Umas entram duas vezes, outras ficam de fora, e a conta é refeita. São <strong>2.000 sorteios</strong>.</p>
+      <p data-step="7">Na vegetação natural, o apoio quase não sai do lugar, e a faixa de 95% dos sorteios <strong>inclui o zero</strong>. Não dá para dizer que o centro dela se moveu: é o que se chama de ancorado.</p>
+    </div>
+    <div class="bal-formula" data-step="1">
+      <div class="f-eq"><i>ȳ</i> = <span class="frac"><span>Σ <i>m<sub>i</sub></i> · <i>y<sub>i</sub></i></span><span>Σ <i>m<sub>i</sub></i></span></span></div>
+      <p class="f-sub" data-ate="1"><i>m</i> = massa (peso) &nbsp;·&nbsp; <i>y</i> = posição<br><span class="num">(3·20 + 1·100) ÷ (3 + 1) = 40 cm</span></p>
+      <p class="f-sub" data-step="2">166 termos · <i>m<sub>i</sub></i> = hectares de pasto da AMC<br><i>y<sub>i</sub></i> = posição norte–sul do centroide</p>
+    </div>
+  </div>
+  <p class="fonte">Pesos e centroides das 166 AMC · MapBiomas 10.1 · o halter é ilustrativo</p>
+</section>
+
+<!-- 11 · PERNA 1 — CENTROS DE MASSA -->
+<section class="slide s-marcha" data-hook="marcha" data-passos="4" data-secao="investigacao" data-perna="1" data-titulo="Perna 1 · os centros de massa">
+  <p class="kicker">Pergunta 1 de 4 · O padrão existe?</p>
+  <h2 class="titulo">O centro de gravidade subiu, menos o da vegetação</h2>
+  <svg class="mapa-cm"></svg>
+  <svg class="graf-lat"></svg>
+  <div class="legenda-cm" data-step="2" data-ate="3">
+    <p class="rotulo-sans">Quanto o centro andou para o norte · 1985 → 2024</p>
+    <div style="--c:#c79a2e"><i></i><span>Pastagem</span><b>+78 km</b></div>
+    <div style="--c:#8e3b5a"><i></i><span>Rebanho <span class="tag-ibge">IBGE</span></span><b>+67 km</b></div>
+    <div style="--c:#d96aa3"><i></i><span>Agricultura</span><b>+65 km</b></div>
+    <div style="--c:#2d5a3d"><i></i><span>Vegetação natural</span><b>ficou onde estava</b></div>
+  </div>
+  <p class="vao" data-step="3" data-ate="3">A lavoura fica sempre <strong>123–135 km ao sul</strong> do pasto e do boi: as camadas sobem juntas, sem trocar de ordem.</p>
+  <div class="composicao" data-step="4">
+    <p class="rotulo-sans">Fatia de cada camada que fica no Sul · <span class="hl-leg a"></span>1985 → <span class="hl-leg b"></span>2024</p>
+    <div class="halteres" style="--min:20; --max:100">
+      <div class="hl" style="--a:51; --b:32; --c:#c79a2e"><span class="hl-rot">Pastagem</span><span class="hl-trilho"><i class="seg"></i><i class="a"></i><i class="b"></i></span><span class="hl-val">51% → 32%</span></div>
+      <div class="hl" style="--a:47; --b:32; --c:#8e3b5a"><span class="hl-rot">Rebanho</span><span class="hl-trilho"><i class="seg"></i><i class="a"></i><i class="b"></i></span><span class="hl-val">47% → 32%</span></div>
+      <div class="hl" style="--a:92; --b:71; --c:#d96aa3"><span class="hl-rot">Lavoura</span><span class="hl-trilho"><i class="seg"></i><i class="a"></i><i class="b"></i></span><span class="hl-val">92% → 71%</span></div>
+      <div class="hl-eixo"><span style="--t:25">25%</span><span style="--t:50">50%</span><span style="--t:75">75%</span><span style="--t:100">100%</span></div>
+    </div>
+    <p class="texto menor" style="margin-top:26px">O centro é uma média: sobe quando a fatia do Sul encolhe, e cada camada chega lá por um caminho. O pasto saiu do Sul e entrou no Norte; o rebanho cresceu só no Norte; a lavoura cresceu mais no Sul em hectares, mas mais depressa no resto do estado.</p>
+  </div>
+  <p class="fonte">Centro de massa ponderado pela área de cada camada nas 166 AMC · intervalo de 95% por 2.000 sorteios · MapBiomas 10.1 e IBGE</p>
+</section>
+
+<!-- 12 · PERNA 1 — AS MEDIDAS IMUNES -->
+<section class="slide" data-secao="investigacao" data-perna="1" data-titulo="Perna 1 · 2019–2024, medida a medida">
+  <p class="kicker">Pergunta 1 de 4 · O padrão existe?</p>
+  <h2 class="titulo">De 2019 a 2024, só a “Agricultura” do satélite parou</h2>
+  <p class="rotulo-sans" style="margin-bottom:12px">Quanto o centro de cada medida andou para o norte entre 2019 e 2024</p>
+  <div class="barras barras-grupos">
+    <p class="barras-grupo" data-step="1">Medidas que não passam pelo rótulo “Agricultura”</p>
+    <div class="barra" data-step="1" style="--c:#c79a2e; --w:100%"><span class="r">Pastagem <span class="tag-sat">satélite</span></span><span class="trilho"><span class="b"></span></span><span class="v">+12,9 km</span></div>
+    <div class="barra" data-step="1" style="--c:#8e3b5a; --w:92.2%"><span class="r">Rebanho bovino <span class="tag-ibge">IBGE</span></span><span class="trilho"><span class="b"></span></span><span class="v">+11,9 km</span></div>
+    <div class="barra" data-step="1" style="--c:#2f5d8a; --w:78.3%"><span class="r">Soja plantada <span class="tag-ibge">IBGE</span></span><span class="trilho"><span class="b"></span></span><span class="v">+10,1 km</span></div>
+    <p class="barras-grupo" data-step="2">Lavoura vista pelo satélite</p>
+    <div class="barra" data-step="2" style="--c:#c98a4b; --w:34.1%"><span class="r">Agricultura + Mosaico</span><span class="trilho"><span class="b"></span></span><span class="v">+4,4 km</span></div>
+    <div class="barra" data-step="3" style="--c:#d96aa3; --w:3.9%"><span class="r">Só Agricultura</span><span class="trilho"><span class="b"></span></span><span class="v">+0,5 km</span></div>
+  </div>
+  <p class="texto menor" style="margin-top:28px" data-step="3">É a janela em que a lavoura nova passa a ser rotulada Mosaico. O centro da “Agricultura” para justamente quando o rótulo muda, enquanto a soja do IBGE segue subindo.</p>
+  <div class="resposta" data-step="4"><b>Resposta 1</b>Sim. O centro do pasto, do rebanho e da lavoura está 65–78 km mais ao norte, e o da vegetação natural ficou onde estava. O erro de rótulo do fim da série faz a marcha parecer menor, e não maior.</div>
+</section>
+
+<!-- 13 · PERNA 2 — DOIS GOIÁSES -->
+<section class="slide" data-secao="investigacao" data-perna="2" data-titulo="Perna 2 · dois Goiáses">
+  <p class="kicker">Pergunta 2 de 4 · Qual é o mecanismo?</p>
+  <h2 class="titulo">A marcha é o saldo de duas conversões diferentes</h2>
+  <div class="colunas cartoes-grandes" style="--n:2; gap:80px">
+    <div class="cartao" style="--c:#d96aa3" data-step="1">
+      <h3>Sul · intensificação</h3>
+      <p>A transição que manda é <strong>pasto → lavoura</strong>: terra que troca de função.</p>
+    </div>
+    <div class="cartao" style="--c:#c79a2e" data-step="1">
+      <h3>Norte · fronteira</h3>
+      <p>A transição que manda é <strong>vegetação → pasto</strong>: terra nova sendo aberta.</p>
+    </div>
+  </div>
+  <div class="dv" style="--min:-60; --max:0; --rotw:220px; margin-top:64px" data-step="2">
+    <p class="dv-cab">Vegetação natural → pasto · ritmo anual no Ato III, comparado ao do Ato II</p>
+    <div class="dv-linha" style="--v:-49; --c:var(--agric)"><span class="dv-rot">Sul</span><span class="dv-trilho"><i></i></span><span class="dv-val">−49%</span></div>
+    <div class="dv-linha" style="--v:-13; --c:var(--pasto)"><span class="dv-rot">Norte</span><span class="dv-trilho"><i></i></span><span class="dv-val">−13%</span></div>
+    <div class="dv-eixo"><span style="--t:-50">−50%</span><span style="--t:-25">−25%</span><span style="--t:0">0</span></div>
+  </div>
+  <p class="texto menor" style="margin-top:30px" data-step="2">No Sul, a abertura de vegetação natural cai pela metade; no Norte, quase não muda.</p>
+  <p class="texto menor" style="margin-top:auto" data-step="3">Isso responde <em>onde</em>. Para saber <em>como</em>, é preciso outra medida: a idade do pasto no momento em que vira lavoura.</p>
+</section>
+
+<!-- 14 · PERNA 2 — IDADE DO PASTO -->
+<section class="slide s-idade" data-hook="idade" data-secao="investigacao" data-perna="2" data-titulo="Perna 2 · a idade do pasto convertido">
+  <p class="kicker">Pergunta 2 de 4 · Qual é o mecanismo?</p>
+  <h2 class="titulo" style="margin-bottom:26px">O pasto que vira lavoura é de dois tipos</h2>
+  <div style="display:flex; gap:48px; align-items:flex-start">
+    <svg class="graf-idade" role="img" aria-label="Distribuição da idade da pastagem quando vira lavoura: um pico nos primeiros anos e uma cauda longa. A curva de um tipo só não alcança o pico; a soma de dois tipos reproduz a forma." style="width:940px; flex:none; display:block"></svg>
+    <div class="troca-col">
+      <div class="troca leads-idade" data-ate="1">
+        <p class="lead-idade" data-ate="0">Cada barra é a parte do pasto convertido que tinha aquela idade. Há um <strong>pico nos primeiros anos</strong> e uma <strong>cauda longa</strong>.</p>
+        <p class="lead-idade" data-step="1" data-ate="1">Se todo esse pasto fosse de <strong>um tipo só</strong>, as idades seguiriam a curva tracejada. Ela não alcança o pico.</p>
+      </div>
+      <p class="cartao" style="--c:#d9a441; font-size:28px; margin:0 0 20px; padding-top:12px" data-step="2"><strong>Pasto jovem</strong> · cerca de 4 anos, 33% das conversões. Nos de até 3 anos, 45% já tinham sido lavoura antes: é rotação.</p>
+      <p class="cartao" style="--c:#2d5a3d; font-size:28px; margin:0 0 20px; padding-top:12px" data-step="3"><strong>Pasto velho</strong> · cerca de 16 anos, 67%. Nos de 30 anos ou mais, só 1% já tinha sido lavoura: é pasto antigo que só agora virou lavoura.</p>
+      <p style="font-size:28px; line-height:1.36; margin:0 0 14px" data-step="4">Os dois tipos <strong>convivem em toda parte</strong>, nas 5 mesorregiões e dentro das 166 AMC. A região explica só <strong>0,5%</strong> da variação da idade.</p>
+    </div>
+  </div>
+  <div class="resposta" data-step="5"><b>Resposta 2</b>Pasto→lavoura no Sul, vegetação→pasto no Norte; e duas populações de pasto convertidas no estado inteiro. O que escolhe entre elas está abaixo da escala municipal.</div>
+  <p class="fonte">MapBiomas 10.1 · 16,0 milhões de conversões de pasto em lavoura com idade conhecida · idade = anos seguidos como pasto</p>
+</section>
+
+<!-- 15a · PERNA 3 — O QUE O EMPURRÃO DEIXARIA NOS DADOS: três momentos, cada um com uma
+     pergunta, uma evidência dominante e uma frase. (0) o que se esperaria, com a AMC de
+     Acreúna e os vizinhos ao sul (a W_sul do #34, k = 8); (1) no espaço: a nuvem AMC-ano
+     cuja inclinação É o θ publicado (Frisch–Waugh–Lovell); (2) no tempo: as duas previsões
+     do Granger. O Toda–Yamamoto e o I(2) ficam na reserva. Hook "empurrao". -->
+<section class="slide s-empurrao" data-hook="empurrao" data-secao="investigacao" data-perna="3" data-titulo="Perna 3 · como se testa um empurrão">
+  <p class="kicker">Pergunta 3 de 4 · O Sul empurrou o Norte? <span class="selo-kicker">o método</span></p>
+  <h2 class="titulo">O que o empurrão deixaria nos dados</h2>
+  <div class="emp-leg-mapa" data-ate="1"><span><i class="s"></i>vizinho ao sul: entra na conta</span><span><i class="n"></i>vizinho ao norte: fica de fora</span></div>
+  <svg class="mapa-emp" role="img" aria-label="Mapa: a AMC de Acreúna e os seus vizinhos ao sul, entre eles Rio Verde; depois o Sul e o Norte de Goiás."></svg>
+  <div class="emp-direita">
+    <div class="emp-esperado" data-ate="0">
+      <p class="emp-pergunta">O que esperaríamos?</p>
+      <div class="emp-marca" style="--c:#d96aa3"><span class="n">1</span><div><b>No espaço</b>Mais lavoura nos vizinhos ao sul → <strong>mais pasto aqui</strong>.</div></div>
+      <div class="emp-marca" style="--c:#c79a2e"><span class="n">2</span><div><b>No tempo</b>Primeiro a lavoura do Sul, <strong>depois</strong> o pasto do Norte.</div></div>
+    </div>
+    <div class="emp-quadro" data-step="1" data-ate="1">
+      <p class="emp-pergunta">O que apareceu no espaço?</p>
+      <div class="emp-legenda"><span class="lg hip"><i></i>o que o empurrão exigiria</span><span class="lg real"><i></i>o que os dados mostram</span></div>
+      <div class="graf-emp g-nuvem"><canvas></canvas><svg></svg></div>
+    </div>
+    <div class="emp-quadro" data-step="2">
+      <p class="emp-pergunta">O que apareceu no tempo?</p>
+      <div class="emp-legenda"><span class="lg sul"><i></i>lavoura nova (Sul)</span><span class="lg norte"><i></i>pasto novo (Norte)</span><span class="lg pa"><i></i>previsão: só o Norte</span><span class="lg pb"><i></i>previsão: Norte + Sul</span></div>
+      <div class="graf-emp g-serie"><svg></svg></div>
+    </div>
+  </div>
+  <div class="emp-frase troca">
+    <p data-ate="0">Se a lavoura do Sul empurrasse o pasto para o Norte, estas duas marcas teriam de aparecer.</p>
+    <p data-step="1" data-ate="1">Cada ponto é uma AMC num ano. A inclinação esperada é positiva; a observada é <strong>negativa</strong> (θ = −0,157).</p>
+    <p data-step="2">Somar o passado da lavoura do Sul <strong>praticamente não melhora</strong> a previsão do pasto do Norte (p = 0,97).</p>
+  </div>
+  <div class="resposta emp-conclusao" data-step="2"><b>Leitura</b>Não encontramos a assinatura do empurrão local testado.</div>
+  <p class="fonte">MapBiomas 10.1 · painel das 166 AMC, 1985–2024, com efeitos fixos de AMC e de ano</p>
+</section>
+
+<!-- 15b · PERNA 3 — O QUE OS TESTES ENCONTRARAM: os dois testes do slide anterior, repetidos
+     em 3 medidas de lavoura e 2 janelas, no mesmo desenho (hook "placar"). As 12 inclinações
+     vêm do site (auditadas); os 24 p-valores, do didatica_apresentacao.json. -->
+<section class="slide s-placar" data-hook="placar" data-secao="investigacao" data-perna="3" data-titulo="Perna 3 · o teste do empurrão">
+  <p class="kicker">Pergunta 3 de 4 · O Sul empurrou o Norte?</p>
+  <h2 class="titulo" style="margin-bottom:18px">Em nenhuma medida a assinatura aparece</h2>
+  <p class="texto menor" data-step="1" style="margin-bottom:0">Os dois testes do slide anterior, repetidos com três medidas de lavoura e em duas janelas: até 2019 e até 2024.</p>
+  <div class="pl-paineis">
+    <div class="pl-painel" data-step="2">
+      <p class="pl-tit"><b>No espaço</b> · 12 inclinações</p>
+      <p class="pl-cont"><span class="num">0 de 12</span> na zona do empurrão</p>
+      <svg class="pl-graf pl-theta" data-valores='{"sat":[-0.157,-0.124,-0.122,-0.096],"uni":[-0.075,-0.050,-0.018,-0.012],"soja":[-0.025,-0.024,-0.012,-0.007]}' role="img" aria-label="As doze inclinações, todas negativas; a zona positiva, onde o empurrão apareceria, está vazia."></svg>
+    </div>
+    <div class="pl-painel" data-step="3">
+      <p class="pl-tit"><b>No tempo</b> · 24 testes</p>
+      <p class="pl-cont"><span class="num">0 de 24</span> na zona do empurrão</p>
+      <svg class="pl-graf pl-p" role="img" aria-label="Os 24 valores de p do teste temporal, todos acima de 0,05; o menor é 0,078."></svg>
+      <p class="pl-nota">O teste detecta um empurrão forte em ~93% das vezes; um moderado, em ~48%.</p>
+    </div>
+  </div>
+  <div class="resposta" data-step="4"><b>O que aparece no lugar</b>Substituição local: onde a lavoura cresce, o pasto recua <strong>ali mesmo</strong>, entre 0,5 e 1,1 ha de pasto por hectare de lavoura (p &lt; 0,001 em 5 de 6 combinações).</div>
+  <p class="fonte">MapBiomas 10.1 e IBGE · painel das 166 AMC · o ponto marcado é o exemplo do slide anterior</p>
+</section>
+
+<!-- 16 · PERNA 3 — MOTOR COMUM: a cadeia choque comum → exposição diferente → resposta prevista,
+     cada elo com o seu dado (câmbio real; aptidão por AMC; p de permutação). Hook "motor". -->
+<section class="slide s-motor" data-hook="motor" data-secao="investigacao" data-perna="3" data-titulo="Perna 3 · se ninguém empurra">
+  <p class="kicker">Pergunta 3 de 4 · O Sul empurrou o Norte?</p>
+  <h2 class="titulo" style="margin-bottom:30px">Se ninguém empurra, o que coordena?</h2>
+  <div class="cadeia">
+    <div class="elo" data-step="1">
+      <p class="elo-n"><span>1</span>O choque é comum</p>
+      <svg class="elo-graf mo-cambio" role="img" aria-label="Câmbio real, 1985 a 2024."></svg>
+      <p class="elo-txt">Com o real desvalorizado, a soja e a carne exportadas rendem mais reais, no estado inteiro ao mesmo tempo.</p>
+    </div>
+    <span class="elo-seta" data-step="2">→</span>
+    <div class="elo" data-step="2">
+      <p class="elo-n"><span>2</span>A exposição é diferente</p>
+      <svg class="elo-graf mo-mapa" role="img" aria-label="As 166 AMC coloridas pela aptidão agrícola da terra, maior no Sul."></svg>
+      <p class="elo-txt">A aptidão agrícola da terra (Embrapa) é maior no Sul e menor no Norte.</p>
+    </div>
+    <span class="elo-seta" data-step="3">→</span>
+    <div class="elo" data-step="3">
+      <p class="elo-n"><span>3</span>A resposta prevista</p>
+      <div class="elo-resp">
+        <p style="--c:#d96aa3"><b>Sul, terra mais apta</b>a terra vai para a lavoura, e o rebanho cresce menos</p>
+        <p style="--c:#c79a2e"><b>Norte, terra menos apta</b>o rebanho cresce mais</p>
+      </div>
+      <svg class="elo-graf mo-p" role="img" aria-label="O teste da interação câmbio vezes aptidão: p de permutação entre 0,07 e 0,13, fora da zona de 5%."></svg>
+      <p class="elo-txt">Nos dados, a direção é a prevista, mas o p fica entre 0,07 e 0,13.</p>
+    </div>
+  </div>
+  <div class="motor-mas" data-step="4"><b>Mas</b>a aptidão acompanha a latitude. Com a latitude no mesmo modelo, a aptidão perde 62% do efeito. O dado sustenta um <strong>gradiente Sul→Norte</strong>, sem dizer se ele é de solo, de acesso ou de tempo de ocupação.</div>
+  <div class="resposta" data-step="5"><b>Resposta 3</b>Não, no canal testado: a assinatura do empurrão não aparece em nenhuma das 36 especificações, e a substituição local aparece em quase todas. O padrão é compatível com um estímulo econômico comum ao longo do gradiente Sul→Norte.</div>
+  <p class="fonte">Câmbio real efetivo (Ipeadata) · aptidão agrícola (Embrapa) · rebanho (IBGE) · p de permutação do choque</p>
+</section>
+
+<!-- 17 · PERNA 4 — A DEMANDA NÃO CAIU: tudo na mesma unidade (média do Ato III sobre a do Ato II) -->
+<section class="slide" data-secao="investigacao" data-perna="4" data-titulo="Perna 4 · a demanda estava no pico">
+  <p class="kicker">Pergunta 4 de 4 · Por que desacelerou?</p>
+  <h2 class="titulo">Não faltou demanda: mudou a fonte da terra</h2>
+  <div class="dv" style="--min:-60; --max:100">
+    <p class="dv-cab">Média do Ato III comparada à do Ato II</p>
+    <p class="dv-grupo" data-step="1">Demanda · Goiás</p>
+    <div class="dv-linha" data-step="1" style="--v:26; --c:#6b6b6b"><span class="dv-rot">Câmbio real <small>(alta = real mais desvalorizado)</small></span><span class="dv-trilho"><i></i></span><span class="dv-val">+26%</span></div>
+    <div class="dv-linha" data-step="1" style="--v:79; --c:#6b6b6b"><span class="dv-rot">Preço recebido pela soja</span><span class="dv-trilho"><i></i></span><span class="dv-val">+79%</span></div>
+    <p class="dv-grupo" data-step="2">Conversão · Sul</p>
+    <div class="dv-linha" data-step="2" style="--v:51; --c:var(--agric)"><span class="dv-rot">Pasto → lavoura ou uso misto</span><span class="dv-trilho"><i></i></span><span class="dv-val">+51%</span></div>
+    <div class="dv-linha" data-step="2" style="--v:-49; --c:var(--veg)"><span class="dv-rot">Vegetação natural → pasto</span><span class="dv-trilho"><i></i></span><span class="dv-val">−49%</span></div>
+    <div class="dv-eixo" data-step="1"><span style="--t:-50">−50%</span><span style="--t:0">0</span><span style="--t:50">+50%</span><span style="--t:100">+100%</span></div>
+  </div>
+  <p class="texto menor" style="margin-top:34px" data-step="3">O Sul não parou de querer terra: <strong>parou de tirá-la da vegetação natural</strong> e passou a tirá-la do pasto já aberto. No estado, a abertura de vegetação quase não mudou (0,071 → 0,072 Mha por ano): mudou de endereço.</p>
+  <p class="fonte">Ipeadata (câmbio e preço) · MapBiomas 10.1 (conversões)</p>
+</section>
+
+<!-- 18 · PERNA 4 — O TETO -->
+<section class="slide" data-secao="investigacao" data-perna="4" data-titulo="Perna 4 · o teto de oferta">
+  <p class="kicker">Pergunta 4 de 4 · Por que desacelerou?</p>
+  <h2 class="titulo" style="margin-bottom:24px">Onde resta menos, converte-se mais devagar</h2>
+  <div style="display:flex; gap:60px; align-items:flex-start">
+    <div style="width:860px; flex:none"><p class="rotulo-sans" style="margin:0 0 10px; font-size:21px">Savana e campo nativo ainda expostos à conversão<br>% do que cada região tinha em 1985</p>
+    <svg viewBox="40 22 640 262" style="width:860px; display:block" role="img" aria-label="Savana e campo nativo ainda expostos à conversão, por região, em % do que havia em 1985: o Sul cai a 53%; Centro 63%, Norte 65%.">
+      <rect class="est-banda" x="495.4" y="44" width="52.6" height="206"></rect>
+      <text class="est-escala" x="521" y="38" text-anchor="middle">Ato III</text>
+      <line class="est-grade" x1="92" y1="44" x2="548" y2="44"></line>
+      <line class="est-grade" x1="92" y1="81.5" x2="548" y2="81.5"></line>
+      <line class="est-grade" x1="92" y1="118.9" x2="548" y2="118.9"></line>
+      <line class="est-grade" x1="92" y1="156.4" x2="548" y2="156.4"></line>
+      <line class="est-grade" x1="92" y1="193.8" x2="548" y2="193.8"></line>
+      <line class="est-grade" x1="92" y1="231.3" x2="548" y2="231.3"></line>
+      <text class="est-escala" x="84" y="48" text-anchor="end">100%</text>
+      <text class="est-escala" x="84" y="86" text-anchor="end">90%</text>
+      <text class="est-escala" x="84" y="123" text-anchor="end">80%</text>
+      <text class="est-escala" x="84" y="161" text-anchor="end">70%</text>
+      <text class="est-escala" x="84" y="198" text-anchor="end">60%</text>
+      <text class="est-escala" x="84" y="236" text-anchor="end">50%</text>
+      <path class="est-linha est-linha--norte" d="M92.0,44.0 L103.7,55.0 L115.4,59.9 L127.1,61.6 L138.8,65.9 L150.5,72.2 L162.2,77.3 L173.8,85.5 L185.5,90.1 L197.2,94.9 L208.9,98.7 L220.6,102.1 L232.3,107.7 L244.0,111.9 L255.7,115.2 L267.4,120.7 L279.1,124.9 L290.8,127.6 L302.5,130.5 L314.2,133.5 L325.8,136.2 L337.5,138.8 L349.2,141.0 L360.9,141.5 L372.6,141.8 L384.3,143.9 L396.0,144.7 L407.7,148.1 L419.4,152.8 L431.1,157.2 L442.8,159.7 L454.5,161.0 L466.2,161.7 L477.8,162.1 L489.5,163.1 L501.2,165.1 L512.9,167.3 L524.6,170.2 L536.3,174.3 L548.0,176.0"></path>
+      <path class="est-linha est-linha--centro" d="M92.0,44.0 L103.7,55.4 L115.4,59.9 L127.1,64.7 L138.8,71.8 L150.5,78.4 L162.2,83.8 L173.8,90.0 L185.5,95.1 L197.2,100.0 L208.9,104.6 L220.6,109.1 L232.3,114.4 L244.0,120.2 L255.7,124.5 L267.4,128.9 L279.1,132.5 L290.8,136.3 L302.5,140.3 L314.2,143.9 L325.8,146.9 L337.5,148.9 L349.2,150.4 L360.9,151.4 L372.6,152.4 L384.3,153.6 L396.0,153.9 L407.7,156.5 L419.4,159.9 L431.1,162.7 L442.8,164.6 L454.5,166.6 L466.2,168.3 L477.8,169.5 L489.5,171.3 L501.2,172.4 L512.9,174.8 L524.6,177.3 L536.3,181.6 L548.0,184.3"></path>
+      <path class="est-linha est-linha--sul" d="M92.0,44.0 L103.7,62.4 L115.4,75.1 L127.1,84.8 L138.8,97.9 L150.5,108.0 L162.2,116.3 L173.8,129.9 L185.5,140.1 L197.2,148.6 L208.9,154.9 L220.6,158.9 L232.3,164.3 L244.0,167.2 L255.7,168.6 L267.4,171.7 L279.1,176.6 L290.8,181.2 L302.5,187.7 L314.2,192.9 L325.8,194.5 L337.5,194.5 L349.2,196.0 L360.9,198.9 L372.6,200.6 L384.3,202.6 L396.0,203.6 L407.7,204.5 L419.4,205.7 L431.1,207.9 L442.8,209.7 L454.5,211.1 L466.2,212.4 L477.8,212.6 L489.5,212.7 L501.2,212.7 L512.9,214.2 L524.6,215.8 L536.3,218.7 L548.0,220.1"></path>
+      <text class="est-rot" x="556" y="226" fill="#8b3a1d">Sul 53%</text>
+      <text class="est-rot" x="556" y="174" fill="#2d5a3d">Norte 65%</text>
+      <text class="est-rot" x="556" y="192" fill="#77726a">Centro 63%</text>
+      <line class="est-eixo" x1="92" y1="250" x2="548" y2="250"></line>
+      <text class="est-escala" x="92" y="268" text-anchor="middle">1985</text>
+      <text class="est-escala" x="208.9" y="268" text-anchor="middle">1995</text>
+      <text class="est-escala" x="325.8" y="268" text-anchor="middle">2005</text>
+      <text class="est-escala" x="442.8" y="268" text-anchor="middle">2015</text>
+      <text class="est-escala" x="548" y="268" text-anchor="middle">2024</text>
+    </svg></div>
+    <div>
+      <p class="cartao" style="font-size:27px; line-height:1.34; padding-top:10px; margin:0 0 24px" data-step="1"><strong>Quanto menos resta, mais devagar se converte:</strong> a relação é negativa nas 16 combinações testadas, e significante em 11.</p>
+      <p class="cartao" style="--c:#2d5a3d; font-size:27px; line-height:1.34; padding-top:10px; margin:0 0 24px" data-step="2"><strong>Não é a proteção integral:</strong> 94–97% do que resta está fora dela, e ela quase não cresceu desde 1985 (+0,12 Mha, contra 4,11 Mha suprimidos). Reserva Legal e APP ficam em aberto.</p>
+      <p class="cartao" style="--c:#6b6b6b; font-size:27px; line-height:1.34; padding-top:10px; margin:0" data-step="3"><strong>O limite:</strong> a conta atribui só 17% da freada do Sul a restar menos vegetação. O resto é lido por eliminação das outras explicações.</p>
+    </div>
+  </div>
+  <div class="resposta" data-step="4"><b>Resposta 4</b>Não faltou demanda: ela estava no pico. No Sul, a vegetação exposta encolheu e a conversão desacelerou junto; o que sobra ali é sobretudo floresta, que a fronteira não consome. A conversão segue para o Norte, onde ainda há savana.</div>
+  <p class="fonte">MapBiomas 10.1 · savana e campo nativo, incluídas Reserva Legal e APP: por isso é um teto</p>
+</section>
+
+<!-- 18b · O QUE A MARCHA CUSTOU — carbono por ato e área × IFDM por região, cada lado numa unidade só -->
+<section class="slide s-custo" data-secao="investigacao" data-perna="4" data-titulo="Perna 4 · o que a marcha custou">
+  <p class="kicker">Pergunta 4 de 4 · Por que desacelerou?</p>
+  <h2 class="titulo">O que a marcha custou</h2>
+  <div class="colunas" style="--n:2; gap:96px">
+    <div data-step="1">
+      <p class="rotulo-sans">Carbono · 973 Mt CO₂e removidos em 40 anos</p>
+      <div class="barras custo-barras">
+        <p class="barras-cab">Mt CO₂e removidas por ano, em média</p>
+        <div class="barra on" style="--c:var(--ato1); --w:100%"><span class="r">Ato I</span><span class="trilho"><span class="b"></span></span><span class="v">48,1</span></div>
+        <div class="barra on" style="--c:var(--ato2); --w:20.2%"><span class="r">Ato II</span><span class="trilho"><span class="b"></span></span><span class="v">9,7</span></div>
+        <div class="barra on" style="--c:var(--ato3); --w:24.5%"><span class="r">Ato III</span><span class="trilho"><span class="b"></span></span><span class="v">11,8</span></div>
+      </div>
+      <p class="item-custo">Três quartos saíram no Ato I. Depois, a fronteira passou a consumir quase só savana, menos densa em carbono que a floresta.</p>
+    </div>
+    <div data-step="2">
+      <p class="rotulo-sans">Desenvolvimento municipal (IFDM)</p>
+      <div class="barras custo-barras">
+        <p class="barras-cab">Crescimento da área cultivada, 2013–2021</p>
+        <div class="barra on" style="--c:var(--pasto); --w:100%"><span class="r">Norte</span><span class="trilho"><span class="b"></span></span><span class="v">+93%</span></div>
+        <div class="barra on" style="--c:var(--agric); --w:15.1%"><span class="r">Sul</span><span class="trilho"><span class="b"></span></span><span class="v">+14%</span></div>
+      </div>
+      <p class="item-custo">O IFDM subiu nas duas regiões, e a distância entre elas quase não mudou: 0,092 ponto em 2013, 0,083 em 2023. Quase dobrar a área não trouxe ao Norte desenvolvimento adicional (associação, não causa).</p>
+    </div>
+  </div>
+  <p class="fonte">Densidades de carbono do Quarto Inventário Nacional · IFDM (FIRJAN) · MapBiomas 10.1</p>
+</section>
+
+<!-- 19 · VEREDITO -->
+<section class="slide" data-secao="veredito" data-titulo="Veredito · o placar dos testes">
+  <p class="kicker">Veredito</p>
+  <p class="texto" style="font-size:30px; max-width:none; margin-bottom:20px">O empurrão local não apareceu. A intensificação no Sul e a fronteira no Norte são compatíveis com <strong>estímulos econômicos comuns</strong> ao longo do gradiente Sul→Norte e com o encolhimento da vegetação ainda exposta.</p>
+  <table class="placar" data-step="1">
+    <thead><tr><th>Pergunta</th><th>Resposta</th><th>O placar dos testes</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="pq">1 · O padrão existe?</td>
+        <td class="rp">Sim: o centro de gravidade do pasto, do boi e da lavoura está mais ao norte.</td>
+        <td><span class="nm">+78 · +67 · +65 km</span><span class="gl">intervalo exclui zero nas três camadas; inclui zero na vegetação</span></td>
+      </tr>
+      <tr>
+        <td class="pq">2 · Qual é o mecanismo?</td>
+        <td class="rp">Pasto→lavoura no Sul, vegetação→pasto no Norte, e duas populações de pasto em todo lugar.</td>
+        <td><span class="nm">5 de 5 regiões · 166 de 166 AMC</span><span class="gl">com as duas populações; a região explica 0,5% da idade</span></td>
+      </tr>
+      <tr>
+        <td class="pq">3 · O Sul empurrou o Norte?</td>
+        <td class="rp">O empurrão não apareceu. O que aparece é a lavoura tomando o pasto ali mesmo.</td>
+        <td><span class="nm">0 de 12 · 0 de 24 · 5 de 6</span><span class="gl">inclinação positiva · Sul antes do Norte · substituição local</span></td>
+      </tr>
+      <tr>
+        <td class="pq">4 · Por que desacelerou?</td>
+        <td class="rp">Não faltou comprador: compatível com atrito de oferta, não com demanda em queda.</td>
+        <td><span class="nm">16 de 16 · 11 de 16</span><span class="gl">a conversão desacelera quando resta menos · com significância a 5%</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="resposta" data-step="2" style="font-size:30px; line-height:1.3; padding:16px 24px"><b>O que os testes não separam</b>Câmbio, crédito e preços andam juntos; aptidão e latitude também. O teste aponta na direção prevista (p = 0,07–0,13), sem identificar a força nem o canal espacial.</div>
+</section>
+
+<!-- 19b · O QUE ISSO DIZ À LITERATURA — Discussão §5.1 a §5.3 -->
+<section class="slide s-literatura" data-secao="veredito" data-titulo="O que isso diz à literatura">
+  <p class="kicker">Discussão</p>
+  <h2 class="titulo">O que isso diz à literatura</h2>
+  <table class="quadro-lit">
+    <thead><tr><th>Arcabouço</th><th>O que Goiás mostra</th><th>Até onde vai</th></tr></thead>
+    <tbody>
+      <tr data-step="1">
+        <td class="arc">Renda da terra<small>Angelsen (2007)</small></td>
+        <td>A ordenação dos usos se preserva enquanto as três camadas sobem juntas: a lavoura fica 123–135 km ao sul do pasto nos 40 anos.</td>
+        <td class="alc">Compatível com o arcabouço; não separa qualidade de acesso ou preço da terra.</td>
+      </tr>
+      <tr data-step="2">
+        <td class="arc">Transição florestal<small>Angelsen (2007); Rudel et al. (2005)</small></td>
+        <td>O Sul estabiliza sem regeneração líquida: terceiro estágio de Angelsen, ainda sem transição pela definição de Rudel.</td>
+        <td class="alc">Compatível com restrição de oferta; cinco anos e o Cerrado savânico limitam a analogia.</td>
+      </tr>
+      <tr data-step="3">
+        <td class="arc">Deslocamento indireto<small>Arima et al. (2011)</small></td>
+        <td>O canal por adjacência não aparece em 36 especificações relacionadas; a substituição local aparece em quase todas.</td>
+        <td class="alc">Nulo documentado: nada aqui refuta o iLUC de longo alcance.</td>
+      </tr>
+      <tr data-step="4">
+        <td class="arc">Câmbio<small>Richards (2012)</small></td>
+        <td>Richards estima a resposta da área de soja à desvalorização em outra escala e período; Goiás mostra um gradiente compatível com estímulo comum.</td>
+        <td class="alc">p = 0,07–0,13: indício, sem identificar o câmbio nem separar aptidão de latitude.</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 20 · O QUE NÃO SE AFIRMA -->
+<section class="slide" data-secao="veredito" data-titulo="O que o trabalho não afirma">
+  <p class="kicker">Alcance e limites</p>
+  <h2 class="titulo">O que cada resposta não alcança</h2>
+  <div class="colunas" style="--n:2; gap:44px 80px">
+    <div class="cartao" data-step="1" style="--c:#8b3a1d"><h3>1 · Que a vegetação andou, ou que as classes mudaram de lugar</h3><p>O intervalo da vegetação inclui zero. E um centro de massa é o equilíbrio da distribuição: ele sobe com o ganho do Norte e com a perda do Sul, sem que nenhum hectare se mova.</p></div>
+    <div class="cartao" data-step="1" style="--c:#c79a2e"><h3>2 · O que escolhe entre as duas populações de pasto</h3><p>A região explica 0,5% da idade, e o sistema produtivo não decide. A resposta está abaixo da escala municipal, no imóvel rural.</p></div>
+    <div class="cartao" data-step="2" style="--c:#2d5a3d"><h3>3 · Que o iLUC não existe, nem qual força move a marcha</h3><p>Só o canal intraestadual, local e contemporâneo foi testado. E câmbio, crédito e preço andam juntos: o desenho não separa qual deles, nem se o eixo é aptidão ou latitude.</p></div>
+    <div class="cartao" data-step="2" style="--c:#2f5d8a"><h3>4 · Quanto do que restou é Reserva Legal e APP</h3><p>“Exposta” e “protegida” são tetos, e não o cadastro lote a lote. E o Ato III tem cinco anos: sinal inicial, não regime consolidado.</p></div>
+  </div>
+</section>
+
+<!-- 21 · ATÉ A DEFESA -->
+<section class="slide" data-secao="defesa" data-titulo="Até a defesa · cronograma">
+  <p class="kicker">Próximos passos</p>
+  <h2 class="titulo" style="margin-bottom:30px">Cronograma até a defesa</h2>
+  <div style="display:grid; grid-template-columns: 1.2fr 1fr; gap:60px">
+    <table class="crono">
+      <thead><tr><th>Atividade</th><th>Set</th><th>Out</th><th>Nov</th><th>Dez</th><th>Jan</th></tr></thead>
+      <tbody>
+        <tr><td>Revisão de literatura</td><td class="m"><i></i></td><td class="m"><i></i></td><td class="m"></td><td class="m"></td><td class="m"></td></tr>
+        <tr><td>Arestas empíricas residuais</td><td class="m"><i></i></td><td class="m"><i></i></td><td class="m"></td><td class="m"></td><td class="m"></td></tr>
+        <tr><td>Reescrita do referencial</td><td class="m"></td><td class="m"><i></i></td><td class="m"><i></i></td><td class="m"></td><td class="m"></td></tr>
+        <tr><td>Repositório e visualização</td><td class="m"></td><td class="m"></td><td class="m"><i></i></td><td class="m"></td><td class="m"></td></tr>
+        <tr><td>Redação final</td><td class="m"></td><td class="m"></td><td class="m"><i></i></td><td class="m"></td><td class="m"></td></tr>
+        <tr class="marco"><td>Depósito</td><td class="m"></td><td class="m"></td><td class="m"></td><td class="m"><i></i></td><td class="m"></td></tr>
+        <tr class="marco"><td>Defesa</td><td class="m"></td><td class="m"></td><td class="m"></td><td class="m"></td><td class="m"><i></i></td></tr>
+      </tbody>
+    </table>
+    <div data-step="1">
+      <p class="rotulo-sans" style="margin:0 0 18px">Frentes abertas</p>
+      <p class="cartao" style="font-size:29px; line-height:1.36; margin:0 0 26px; padding-top:12px"><strong>Literatura:</strong> quem já testou deslocamento em escala subnacional (Arima et al., 2011, é o precedente conhecido).</p>
+      <p class="cartao" style="font-size:29px; line-height:1.36; margin:0; padding-top:12px"><strong>Separar aptidão de latitude:</strong> procurar uma medida de exposição econômica que não cresça junto com a latitude. Se não houver uma, isso fica declarado como limite do trabalho.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 22 · FECHO -->
+<section class="slide cheia s-fecho" data-titulo="Fecho · o mesmo mapa, outra leitura">
+  <div class="fig-recorte mapa-fim" style="background:transparent"><img src="img/mapas_gee/cobertura_2024.webp" alt="Cobertura e uso da terra em Goiás, 2024" style="width:1100px; top:-53px; left:0"></div>
+  <div class="anot" style="--c:#c79a2e; left:690px; top:120px" data-step="1">Norte · fronteira<small>vegetação natural → pasto</small></div>
+  <div class="anot" style="--c:#d96aa3; left:110px; top:880px" data-step="1">Sul · intensificação<small>pasto → lavoura</small></div>
+  <div class="anot" style="--c:#8b3a1d; left:470px; top:520px" data-step="2">mesmo motor, gradiente Sul→Norte<small>até o teto de oferta</small></div>
+  <div class="lado">
+    <p class="kicker">2024</p>
+    <h2 class="titulo">O mesmo mapa, <em>outra leitura</em></h2>
+  </div>
+  <div class="obrigado" data-step="3"><b>Obrigado.</b>Victor Alves Rodrigues Amaral · PPGCIAMB-UFG<br>A visualização completa está no site do trabalho.</div>
+</section>
+
+<!-- ======================================================================
+     RESERVA — um slide só, que abre o site (e as páginas de apoio) dentro da
+     apresentação, na parte que responde à pergunta. Letra ou clique abre;
+     Esc volta; + e − ajustam o zoom da página aberta.
+     ====================================================================== -->
+<section class="slide reserva s-hub" data-titulo="Reserva · onde está a resposta">
+  <p class="kicker">Para a arguição</p>
+  <h2 class="titulo">Onde está a resposta</h2>
+  <div class="hub-grade">
+    <a class="hub" href="index.html#p4-periodizacao" data-tecla="A"><kbd>A</kbd><b>Como os três atos foram detectados?</b><span>Oficina · periodização</span></a>
+    <a class="hub" href="dossie-mosaico.html" data-tecla="C"><kbd>C</kbd><b>O caso do Mosaico de Usos</b><span>Página de apoio · os quatro testes</span></a>
+    <a class="hub" href="metodo-centro-de-massa.html" data-tecla="D"><kbd>D</kbd><b>Como se calcula o centro de massa?</b><span>Por dentro do método</span></a>
+    <a class="hub" href="centros-de-massa.html" data-tecla="E"><kbd>E</kbd><b>O centro de cada camada</b><span>Atlas dos centros de massa</span></a>
+    <a class="hub" href="index.html#p4-robustez" data-tecla="G"><kbd>G</kbd><b>A marcha resiste a pixel, malha e classe?</b><span>Oficina · robustez</span></a>
+    <a class="hub" href="index.html#p1-fluxos" data-tecla="H"><kbd>H</kbd><b>De onde veio cada hectare</b><span>Os fluxos de 1985 a 2024</span></a>
+    <a class="hub" href="index.html#sec-idade-pastagem" data-tecla="I"><kbd>I</kbd><b>A idade do pasto no mapa</b><span>Pergunta 2 · interativo</span></a>
+    <a class="hub" href="index.html#p2-perna3" data-tecla="J"><kbd>J</kbd><b>O empurrão e o motor comum</b><span>Pergunta 3 · testes e placebos</span></a>
+    <a class="hub" href="index.html#p2-perna4" data-tecla="K"><kbd>K</kbd><b>Teto, proteção, carbono e IFDM</b><span>Pergunta 4</span></a>
+    <a class="hub" href="index.html#p3-autocorrecao" data-tecla="L"><kbd>L</kbd><b>O que se publicaria sem o teste</b><span>Resultados superados</span></a>
+    <a class="hub" href="index.html#p4-metodos-intro" data-tecla="M"><kbd>M</kbd><b>Métodos, pergunta a pergunta</b><span>Oficina · métodos</span></a>
+    <a class="hub" href="index.html#p4-decisoes" data-tecla="N"><kbd>N</kbd><b>As 31 decisões metodológicas</b><span>Oficina · decisões</span></a>
+  </div>
+  <p class="nota hub-ajuda">Letra ou clique abre a página aqui dentro · <kbd>Esc</kbd> volta · <kbd>+</kbd> <kbd>−</kbd> ajustam o tamanho</p>
+</section>
+
+<!-- RESERVA · TODA–YAMAMOTO — por que o Granger simples não basta (#42, D16). Hook "ty". -->
+<section class="slide reserva s-ty" data-hook="ty" data-titulo="Reserva · Granger e Toda–Yamamoto">
+  <p class="kicker">Para a arguição</p>
+  <h2 class="titulo">Por que o Granger simples não basta</h2>
+  <div class="colunas" style="--n:3; gap:48px">
+    <div class="cartao"><h3>O problema</h3><p>O pasto do Norte tem tendência que uma diferença não remove: é I(2). Regredir uma série estacionária sobre outra que não é fabrica precedência espúria.</p></div>
+    <div class="cartao"><h3>A armadilha</h3><p>O Granger simples acende no sentido <em>inverso</em>, Norte→Sul (p = 0,0007), e acende igual em placebos sem mecanismo, como o pasto do Norte “prevendo” o pasto do Sul.</p></div>
+    <div class="cartao"><h3>A saída</h3><p>O Toda–Yamamoto ajusta o modelo em nível com defasagens extras (d<sub>max</sub> = 2) e continua válido nesse caso. Ele não acende em nenhum sentido.</p></div>
+  </div>
+  <svg class="medidor-p" role="img" aria-label="Valores de p, defasagem de 1 ano: Granger Sul para Norte 0,97; Toda–Yamamoto Sul para Norte 0,25; Norte para Sul 0,45. Nenhum abaixo de 0,05."></svg>
+  <p class="nota" style="margin-top:18px">Poder do Granger nesta série (T = 38): ~93% para um empurrão forte, ~48% para um moderado. Um empurrão moderado não fica descartado só por este teste.</p>
+  <p class="fonte">Testes ADF e KPSS em nível, na primeira e na segunda diferença</p>
+</section>
+
+<!-- RESERVA · PRIMEIRA DIFERENÇA (D7) — numa AMC real: Rio Verde, lavoura do MapBiomas. Hook "primdif". -->
+<section class="slide reserva s-primdif" data-hook="primdif" data-titulo="Reserva · por que a variação ano a ano">
+  <p class="kicker">Para a arguição</p>
+  <h2 class="titulo">De “quanto havia?” para “quanto mudou?”</h2>
+  <div class="pd-graficos">
+    <svg class="pd-nivel" role="img" aria-label="Área de lavoura na AMC de Rio Verde, 1985 a 2024: uma curva que sobe."></svg>
+    <span class="pd-seta">→</span>
+    <svg class="pd-dif" role="img" aria-label="A mesma série em primeira diferença: quanto a lavoura mudou em cada ano."></svg>
+  </div>
+  <div class="colunas" style="--n:3; gap:48px; margin-top:34px">
+    <div class="cartao"><h3>A AMC contra ela mesma</h3><p>A pergunta deixa de ser “AMC com mais lavoura têm menos pasto?” e passa a ser “quando a lavoura de uma AMC subiu, o pasto <em>dela</em> recuou?”.</p></div>
+    <div class="cartao"><h3>O que o efeito fixo tira</h3><p>Sobre a diferença, o efeito fixo de AMC tira o <strong>ritmo próprio</strong> de cada uma. O coeficiente mede o desvio em relação ao que a tendência local e o ano já previam.</p></div>
+    <div class="cartao"><h3>Por que não em nível</h3><p>Em nível, área e produção correlacionam ~0,9 só porque as duas cresceram; na variação <em>within</em>, a mesma dupla fica perto de zero. Três exceções declaradas: Toda–Yamamoto, o teto de oferta e a correlação estadual descritiva.</p></div>
+  </div>
+  <p class="fonte">AMC de Rio Verde · lavoura (MapBiomas 10.1)</p>
+</section>
+
+</div>
+</div>
+<script src="assets/js/apresentacao-hooks.js?v=8"></script>
+<script src="assets/js/apresentacao-didatica.js?v=5"></script>
+<script src="assets/js/apresentacao.js?v=9"></script>
+</body>
+</html>
