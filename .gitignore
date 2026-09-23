@@ -36,3 +36,19 @@ Visualizacao/scratch/
 
 # Scratch de auditoria (PDFs por commit, checadores de uma sessão só)
 tmp/
+
+# Scratch de QA e auditoria da viz (perfis de navegador, capturas, checadores de uma sessão)
+Visualizacao/.qa_edge/
+Visualizacao/.qa_slides/
+Visualizacao/laboratorio_metodos/qa/
+Visualizacao/_auditoria_i18n*
+_salva_agentes_i18n.py
+
+# Auxiliares do LaTeX do caderno de estudo
+qualificacao/guia/*.aux
+qualificacao/guia/*.log
+qualificacao/guia/*.out
+qualificacao/guia/*.toc
+
+# Texto integral extraído das referências (direitos autorais; os PDFs já ficam fora)
+qualificacao/ref/pdf/
