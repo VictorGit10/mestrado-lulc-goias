@@ -20,7 +20,7 @@
   const quadro = slide.querySelector("iframe.diorama");
   const fecho = slide.previousElementSibling;
   const stage = document.querySelector(".stage");
-  const src = "diorama-encerramento/cena.html?v=3&embutido" +
+  const src = "diorama-encerramento/cena.html?v=4&embutido" +
     (document.body.classList.contains("estatico") ? "&estatico" : "");
   let carregado = false, tPre = 0;
 

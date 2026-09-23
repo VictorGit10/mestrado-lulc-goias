@@ -35,9 +35,9 @@ com a apresentação. O "Obrigado." saiu do fecho e ficou só aqui.
 
 ## Offline
 
-A cena procura `../assets/js/vendor/three.min.js` (Three.js 0.158.0) e, se não achar,
-carrega do jsDelivr. D3 já é local (`d3.v7.min.js`). Sem o arquivo local e sem internet,
-o texto do slide aparece, mas a maquete não.
+Tudo é local: `../assets/js/vendor/three.min.js` (Three.js 0.158.0, baixado do jsDelivr
+em 23/set/2026) e `d3.v7.min.js`; a fonte é a mesma pilha dos slides, sem Google Fonts. O
+jsDelivr só entra como reserva se o arquivo local sumir.
 
 O contorno vem dos dados do projeto. Árvores, relevo, lavouras, gado, construções e nuvens
 são paisagem ilustrativa, sem posição nem quantidade medidas; o rodapé do slide diz isso.
