@@ -268,6 +268,63 @@ Soja (SIDRA) & $\Delta$ bovinos & $W_{\mathrm{sul}}$ & $-0{,}007$ & $0{,}088$ & 
 \notafig{estimação por mínimos quadrados com efeitos fixos de unidade e de ano; erros-padrão agrupados por unidade. O coeficiente reportado é o do termo de vizinhança $\hat{\theta}$ da Equação~\ref{eq:slx}; o termo local $\hat{\beta}$ é omitido porque mede substituição dentro da unidade, que não é deslocamento. O $n$ menor nas linhas da soja reflete o início mais tardio da série municipal do SIDRA.}
 \end{table}
 
+
+\textbf{Sensibilidade à matriz de vizinhança.} O número de vizinhos da matriz
+\(W\) é uma escolha do desenho, e nada na hipótese fixa o valor oito. A grade
+inteira foi por isso reestimada com os quatro e com os doze vizinhos mais
+próximos, mantidos o filtro direcional e a padronização por linha. Com quatro
+vizinhos, nove unidades ficam sem nenhum vizinho ao sul; com doze, duas. A
+Tabela~\ref{tab:slx-w} traz os dezoito termos de vizinhança nas três matrizes.
+Nenhuma das cinquenta e quatro estimativas é positiva e significativa a 5\%, e
+no desfecho pastagem o termo dos vizinhos ao sul é negativo nas seis células de
+cada matriz. O que não se mantém é o sinal no desfecho rebanho, que é negativo
+nas seis células com oito vizinhos, mas positivo em duas delas com quatro
+vizinhos e em quatro delas com doze, sempre com \(p > 0{,}70\). A contagem de
+doze estimativas negativas em doze é, portanto, própria da matriz de oito
+vizinhos, e o que as três matrizes sustentam juntas é a ausência de um termo
+positivo distinguível de zero. A única estimativa ao sul significativa com oito
+vizinhos (Agricultura, pastagem, janela plena) deixa de sê-lo com quatro e com
+doze, e com quatro vizinhos passa a sê-lo outra, também negativa (soja,
+pastagem, janela truncada, \(p = 0{,}038\)). O placebo ao norte na régua da soja, por sua vez, acende nas duas janelas
+com doze vizinhos. O termo local \(\hat{\beta}\), omitido da tabela, é
+negativo nas doze células de cada matriz e significativo em oito delas nas três.
+
+
+\begin{table}[!ht]
+\centering
+\caption[Sensibilidade do termo de vizinhança à matriz]{Termo de vizinhança do teste espacial com quatro, oito e doze vizinhos.}
+\label{tab:slx-w}
+\footnotesize
+\begin{tabular}{lllccc}
+\toprule
+\textbf{Régua de lavoura} & \textbf{Desfecho} & \textbf{$W$} & \textbf{$k = 4$} & \textbf{$k = 8$} & \textbf{$k = 12$} \\
+\midrule
+\multicolumn{6}{l}{\textit{Janela plena (1985--2024)}} \\
+Agricultura & $\Delta$ pastagem & $W_{\mathrm{sul}}$ & $-0{,}064$ ($0{,}294$) & $-0{,}157$ ($0{,}020$) & $-0{,}088$ ($0{,}414$) \\
+Agricultura & $\Delta$ pastagem & $W_{\mathrm{norte}}$ (placebo) & $+0{,}072$ ($0{,}472$) & $+0{,}182$ ($0{,}203$) & $+0{,}115$ ($0{,}355$) \\
+Agricultura & $\Delta$ bovinos & $W_{\mathrm{sul}}$ & $-0{,}051$ ($0{,}550$) & $-0{,}124$ ($0{,}261$) & $-0{,}028$ ($0{,}925$) \\
+Agric. $\cup$ Mosaico & $\Delta$ pastagem & $W_{\mathrm{sul}}$ & $-0{,}100$ ($0{,}272$) & $-0{,}050$ ($0{,}545$) & $-0{,}044$ ($0{,}537$) \\
+Agric. $\cup$ Mosaico & $\Delta$ pastagem & $W_{\mathrm{norte}}$ (placebo) & $+0{,}024$ ($0{,}459$) & $-0{,}017$ ($0{,}717$) & $-0{,}060$ ($0{,}294$) \\
+Agric. $\cup$ Mosaico & $\Delta$ bovinos & $W_{\mathrm{sul}}$ & $-0{,}198$ ($0{,}259$) & $-0{,}018$ ($0{,}902$) & $+0{,}053$ ($0{,}839$) \\
+Soja (SIDRA) & $\Delta$ pastagem & $W_{\mathrm{sul}}$ & $-0{,}015$ ($0{,}307$) & $-0{,}012$ ($0{,}526$) & $-0{,}007$ ($0{,}812$) \\
+Soja (SIDRA) & $\Delta$ pastagem & $W_{\mathrm{norte}}$ (placebo) & $-0{,}033$ ($0{,}215$) & $-0{,}054$ ($0{,}032$) & $-0{,}077$ ($0{,}004$) \\
+Soja (SIDRA) & $\Delta$ bovinos & $W_{\mathrm{sul}}$ & $+0{,}001$ ($0{,}976$) & $-0{,}024$ ($0{,}752$) & $+0{,}063$ ($0{,}743$) \\
+\multicolumn{6}{l}{\textit{Janela truncada (1985--2019)}} \\
+Agricultura & $\Delta$ pastagem & $W_{\mathrm{sul}}$ & $-0{,}050$ ($0{,}424$) & $-0{,}122$ ($0{,}083$) & $-0{,}115$ ($0{,}104$) \\
+Agricultura & $\Delta$ pastagem & $W_{\mathrm{norte}}$ (placebo) & $+0{,}064$ ($0{,}449$) & $+0{,}141$ ($0{,}215$) & $+0{,}080$ ($0{,}424$) \\
+Agricultura & $\Delta$ bovinos & $W_{\mathrm{sul}}$ & $-0{,}016$ ($0{,}864$) & $-0{,}096$ ($0{,}429$) & $-0{,}016$ ($0{,}957$) \\
+Agric. $\cup$ Mosaico & $\Delta$ pastagem & $W_{\mathrm{sul}}$ & $-0{,}123$ ($0{,}239$) & $-0{,}075$ ($0{,}421$) & $-0{,}072$ ($0{,}360$) \\
+Agric. $\cup$ Mosaico & $\Delta$ pastagem & $W_{\mathrm{norte}}$ (placebo) & $+0{,}039$ ($0{,}254$) & $-0{,}014$ ($0{,}805$) & $-0{,}067$ ($0{,}312$) \\
+Agric. $\cup$ Mosaico & $\Delta$ bovinos & $W_{\mathrm{sul}}$ & $-0{,}192$ ($0{,}329$) & $-0{,}012$ ($0{,}941$) & $+0{,}093$ ($0{,}738$) \\
+Soja (SIDRA) & $\Delta$ pastagem & $W_{\mathrm{sul}}$ & $-0{,}020$ ($0{,}038$) & $-0{,}025$ ($0{,}094$) & $-0{,}016$ ($0{,}501$) \\
+Soja (SIDRA) & $\Delta$ pastagem & $W_{\mathrm{norte}}$ (placebo) & $-0{,}045$ ($0{,}114$) & $-0{,}053$ ($0{,}052$) & $-0{,}065$ ($0{,}022$) \\
+Soja (SIDRA) & $\Delta$ bovinos & $W_{\mathrm{sul}}$ & $+0{,}021$ ($0{,}719$) & $-0{,}007$ ($0{,}934$) & $+0{,}080$ ($0{,}705$) \\
+\bottomrule
+\end{tabular}
+\fontefig{elaboração própria, a partir de \texttt{scripts/\_sensibilidade\_w\_deslocamento.py}.}
+\notafig{cada célula traz $\hat{\theta}$ e, entre parênteses, o $p$; mesma especificação da Tabela~\ref{tab:slx}, que corresponde à coluna $k = 8$. $k$ é o número de vizinhos mais próximos sobre o qual o filtro direcional é aplicado.}
+\end{table}
+
 \FloatBarrier
 
 \section{Dependência espacial: modelos de defasagem e de erro}

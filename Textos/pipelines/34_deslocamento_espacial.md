@@ -93,7 +93,7 @@ Coeficiente θ do termo de vizinhança (W·Δagric), IC95%. O deslocamento previ
 
 - **Tempo contínuo** (não atos) — evita circularidade com #29 (ver acima).
 - **Recorte Sul = Sul Goiano; Norte = Norte + Noroeste Goiano** (coerente com #33). 58 AMCs no Sul, 30 no Norte+Noroeste.
-- **Pesos direcionais**: k=8 vizinhos mais próximos filtrados por latitude do centroide (EPSG:5880). Linha-padronizados.
+- **Pesos direcionais**: k=8 vizinhos mais próximos filtrados por latitude do centroide (EPSG:5880). Linha-padronizados. **Sensibilidade a k=4 e k=12 testada em 23/set/2026** (seção ao fim): a contagem "12/12 negativos" é própria do k=8.
 - **SLX (não Durbin/SAR)**: o termo espacial é `W·X` (exógeno), estimável por PanelOLS com FE — sem a maquinaria ML do spreg, mais robusto e interpretável para um primeiro teste de deslocamento.
 
 ---
@@ -171,7 +171,7 @@ Esta é a única mudança de veredito da auditoria, e ela pede correção na red
 | Soja plantada (SIDRA) ◆ | plena | −0,012 | 0,526 |
 | Soja plantada (SIDRA) ◆ | truncada | −0,025 | 0,094 |
 
-**O que sobrevive:** o **sinal**. θ é negativo em **12/12** células (as 6 acima mais as 6 do
+**O que sobrevive:** o **sinal**. θ é negativo em **12/12** células *(com k=8; com k=4 são 10/12 e com k=12, 8/12 — ver "Sensibilidade à matriz W", 23/set/2026)* (as 6 acima mais as 6 do
 desfecho rebanho). A hipótese de deslocamento prevê **θ>0**, e não há uma única
 especificação em que isso apareça — muito menos significativa.
 
@@ -201,14 +201,16 @@ exige. O que muda é **em que apoiá-la**:
 | leg | antes | depois da auditoria |
 |---|---|---|
 | sem precedência temporal | nulo de baixo poder, "não refuta sozinho" | **robusto nas 3 réguas e nas 2 janelas** (0/24 células significativas) |
-| spillover de sinal trocado | ⚠️ "**é ele que refuta**" (θ=−0,16, p=0,02) | **sinal robusto (12/12 negativo); significância não** — não citar o p=0,02 como se fosse robusto |
+| spillover de sinal trocado | ⚠️ "**é ele que refuta**" (θ=−0,16, p=0,02) | **sinal robusto (12/12 negativo) com k=8; com k=4/12 só o desfecho pasto mantém o sinal, nenhum θ>0 significativo em k algum**; significância não — não citar o p=0,02 como se fosse robusto |
 | substituição local | forte | **robusta nas 3 réguas**, e maior sob a união |
 
 🚫 **Não escrever mais**: "o spillover é significativo e de sinal trocado (p=0,02), e é ele
 que carrega a refutação". ✅ **Escrever**: "a assinatura que a hipótese exige (θ>0) **não
-aparece em nenhuma régua**; o coeficiente é negativo em todas as 12 especificações
-testadas, e o único estimador significativo está na régua que a mudança de rótulo
-contamina".
+aparece em nenhuma régua**; ~~o coeficiente é negativo em todas as 12 especificações
+testadas~~, e o único estimador significativo está na régua que a mudança de rótulo
+contamina". → **Revisto em 23/set/2026**: a parte riscada só vale para k=8. Escrever
+"nenhum θ positivo e significativo, com 4, 8 ou 12 vizinhos; no pasto o sinal é negativo
+em todas as células das três matrizes".
 
 **Padrão que se repete, e vale nomear.** É o mesmo movimento do [#54](54_defensabilidade_perna4.md)
 na Perna 4: sob a inferência correta o achado perde significância e ganha defensabilidade,
@@ -218,3 +220,39 @@ difícil de derrubar.
 
 **Saídas**: `data/processed/deslocamento_bracket_leadlag.csv`,
 `data/processed/deslocamento_bracket_slx.csv`.
+
+## Sensibilidade à matriz W (k = 4, 8, 12) — 23/set/2026
+
+**Por quê.** Até aqui só existia a W de k=8 (a comparação queen × KNN-8 do
+`painel_espacial_dinamico.py` é outra análise). Uma banca pode perguntar se o resultado
+depende de k. Script: `scripts/_sensibilidade_w_deslocamento.py`, que reusa o bracket
+por import (mesmas réguas, janelas, modelos) e só troca k. Saída:
+`data/processed/deslocamento_sensibilidade_w.csv`; tabela no Apêndice (`tab:slx-w`, gerada
+por `qualificacao/apendice/gerar_apendice.py`).
+
+| | k=4 | k=8 | k=12 |
+|---|---|---|---|
+| AMCs sem vizinho ao sul | 9 | 3 | 2 |
+| θ<0 (12 células W_sul) | 10/12 | **12/12** | 8/12 |
+| θ>0 e p<0,05 | 0 | 0 | 0 |
+| desfecho pasto: θ<0 | 6/6 | 6/6 | 6/6 |
+| Agricultura·pasto·plena (o p=0,02) | p=0,294 | p=0,020 | p=0,414 |
+| placebo norte, soja SIDRA | nenhum sig. | plena p=0,032 | plena p=0,004; truncada p=0,022 |
+| β local: negativo / p<0,05 | 12/12 · 8 | 12/12 · 8 | 12/12 · 8 |
+
+**Leitura.**
+- **Não depende de k:** nenhum θ positivo e significativo; θ<0 em todas as células de pasto;
+  a substituição local (β praticamente idêntico nas três matrizes).
+- **Depende de k:** o "12/12 negativos" / "sinal universal". Os positivos que surgem com
+  k=4 e k=12 estão todos no desfecho **rebanho**, com p≥0,70 (zero na prática). O p=0,02 some
+  com os outros k (já não carregava conclusão); com k=4 surge outro negativo significativo
+  (soja, pasto, truncada, p=0,038).
+- **Placebo:** o placebo norte da soja fica mais forte com k=12 — reforça a ressalva de
+  especificidade já registrada acima.
+
+🚫 Não escrever "o sinal é negativo em todas as especificações" sem dizer "com k=8".
+✅ Escrever "nenhum θ positivo distinguível de zero, com 4, 8 ou 12 vizinhos".
+
+Superfície corrigida no mesmo dia: cap. 4 (§ efeito de vizinhança + nota da figura), cap. 5
+(prudência interpretativa), Apêndice (nova tabela), `index.html`/`index.en.html` (Perna 3 e
+glossário), `apresentacao.html` (nota no painel espacial).

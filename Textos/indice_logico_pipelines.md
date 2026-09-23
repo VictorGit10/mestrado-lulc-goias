@@ -31,19 +31,20 @@ apresentação se faz em ordem lógica. São dois documentos, e este é o segund
 O padrão `#28C` e `#40B` já era a solução certa: **sufixo** para inserir no lugar lógico sem
 mexer na identidade.
 
-### A divisão de trabalho entre os cinco documentos
+### A divisão de trabalho entre os seis documentos
 
 | Documento | Eixo | Responde |
 |---|---|---|
 | [`pipelines/README.md`](pipelines/README.md) | Cronológico | "O que é o #38 e como rodo?" |
 | [`narrativa_pipelines.md`](narrativa_pipelines.md) | Cronológico-narrativo | "Como o trabalho foi construído (tour fase a fase)?" |
 | [`guia_de_leitura.md`](guia_de_leitura.md) | Por método | "O que é Toda-Yamamoto e por que usei?" |
+| [`exemplos_didaticos.md`](exemplos_didaticos.md) | Por exemplo | "Como eu *explico* cada peça (miniatura → dados reais → frase pronta)?" |
 | [`ensaio_a_investigacao.md`](ensaio_a_investigacao.md) | Narrativo-ensaístico | "Qual é a *história* do trabalho, e por que ela importa?" |
 | **este documento** | **Lógico** | **"O que sustenta a tese, e com que força?"** |
 
 > O **ensaio** é o único feito para ser lido de cabo a rabo, uma vez, como uma história — ele
 > funde a cronologia da narrativa, a lógica deste índice e a profundidade do guia num só texto
-> corrido. Os outros quatro são obras de consulta.
+> corrido. Os outros cinco são obras de consulta.
 
 ---
 
@@ -191,8 +192,8 @@ sinal). O canal robusto do #49 é o **M3, substituição local**.
 > (iLUC intra-estadual) — foi **testada e refutada no canal testado**. A precedência temporal não
 > aparece (Granger nulo, **mas de baixo poder** — N≈38); e o spillover direcional, onde estimável,
 > saiu com o **sinal oposto** ao previsto em **todas** as especificações testadas (θ<0 em 12/12
-> réguas × janelas × desfechos; auditoria da deriva, 28/jul/2026). A refutação se apoia na
-> **ausência universal da assinatura prevista** (θ>0 nunca aparece), não num coeficiente
+> réguas × janelas × desfechos; auditoria da deriva, 28/jul/2026) *(com k=8 vizinhos; com k=4/12 o rebanho tem θ>0 com p≥0,70 e só o pasto mantém o sinal — sensibilidade a W, 23/set/2026, ficha #34)*. A refutação se apoia na
+> **ausência universal da assinatura prevista** (θ>0 significativo nunca aparece, com 4, 8 ou 12 vizinhos), não num coeficiente
 > isolado: o p=0,02 do θ=−0,16 é da régua exposta e **não sobrevive ao bracket D26**.
 > **Afirma (o positivo, corroborante):** o que coordena os dois mecanismos e dá o **compasso
 > temporal** da marcha é um impulso **macro comum**, com o câmbio real (REER) como candidato mais
@@ -215,7 +216,7 @@ não a significância.
 
 | Papel | Pipeline | O que entrega |
 |---|---|---|
-| **Manchete (nulo)** | **#34** `deslocamento_espacial.py` | O teste formal, em **tempo contínuo**. (a) Sem precedência: Granger ΔAgric_Sul → ΔPasto_Norte **p=0,97** (nulo de **baixo poder** — N≈38; poder ~48% p/ efeito moderado, ~93% p/ grande, sim. Monte Carlo). (b) Spillover direcional de **sinal trocado**: θ=−0,16 (p=0,02) na régua crua — mas o **bracket D26 (28/jul) mantém o sinal (12/12 negativo) e derruba a significância** (p<0,05 em 1/12; 0,42–0,55 sob união/SIDRA). (c) Substituição local forte: β=−0,52, **robusta nas 3 réguas** (−0,52 crua / −1,14 união / −0,07 SIDRA, p<0,001) |
+| **Manchete (nulo)** | **#34** `deslocamento_espacial.py` | O teste formal, em **tempo contínuo**. (a) Sem precedência: Granger ΔAgric_Sul → ΔPasto_Norte **p=0,97** (nulo de **baixo poder** — N≈38; poder ~48% p/ efeito moderado, ~93% p/ grande, sim. Monte Carlo). (b) Spillover direcional de **sinal trocado**: θ=−0,16 (p=0,02) na régua crua — mas o **bracket D26 (28/jul) mantém o sinal (12/12 negativo com k=8; 10/12 e 8/12 com k=4/12, nenhum θ>0 significativo) e derruba a significância** (p<0,05 em 1/12; 0,42–0,55 sob união/SIDRA). (c) Substituição local forte: β=−0,52, **robusta nas 3 réguas** (−0,52 crua / −1,14 união / −0,07 SIDRA, p<0,001) |
 | **Autocorreção** | **#42** `granger_reverso_norte_sul.py` | **A peça-modelo do conjunto.** O #34 deixou uma ponta: o teste *reverso* deu p=0,0007 — que, se real, inverteria a tese. O #42 provou que é **regressão espúria**: `pasto_Norte` é I(2), `agric_Sul` é I(0), ordens diferentes nem cointegram; **Toda-Yamamoto zera as duas direções**; e os **placebos** mostram que o Norte "lidera" até o pasto do próprio Sul → **D16** |
 | **Extensão + Autocorreção** | **#45** `analise_trase_lulc.py` | Terceiro canal a confirmar co-evolução sem líder: a cadeia exportadora **não lidera** (0/3 termos defasados sobrevivem à robustez) **nem co-move materialmente**. Em jul/2026 derrubou o próprio achado-manchete ao descobrir que o regressor era produção disfarçada (β +0,335 → +0,037) |
 | **Extensão** | **#53** `centro_massa_capacidade.py` | Fecha a ressalva do #45 pelo lado da **capacidade instalada**: o centroide da capacidade de armazenagem (CONAB) é a camada **mais ao sul de todas** (~150 km ao sul do pasto, ~83 km ao sul até do crédito) — a infraestrutura física **consolida o núcleo, não lidera**. Metade "silos"; a "frigoríficos" segue sem dado |

@@ -7,6 +7,7 @@ modo que nenhum coeficiente do apendice seja digitado a mao. Rodar:
 
 Fontes:
     data/processed/deslocamento_bracket_slx.csv        (#49  --- SLX direcional)
+    data/processed/deslocamento_sensibilidade_w.csv    (SLX com k = 4, 8, 12)
     data/processed/drive_horse_race_latitude.csv       (#56  --- corrida de exposicoes)
     data/processed/drive_amc_apt_confirmatorio.csv     (#52  --- shift-share confirmatorio)
 """
@@ -311,7 +312,73 @@ def secao_slx() -> str:
         linhas, "llccccr", cab,
         ("Termo de vizinhança do teste espacial",
          "Termo de vizinhança do teste espacial do deslocamento, nas dezoito especificações."),
-        "tab:slx", nota)
+        "tab:slx", nota) + chr(10) + chr(10) + secao_slx_sensibilidade_w()
+
+
+SLX_W_TEXTO = r"""
+\textbf{Sensibilidade à matriz de vizinhança.} O número de vizinhos da matriz
+\(W\) é uma escolha do desenho, e nada na hipótese fixa o valor oito. A grade
+inteira foi por isso reestimada com os quatro e com os doze vizinhos mais
+próximos, mantidos o filtro direcional e a padronização por linha. Com quatro
+vizinhos, nove unidades ficam sem nenhum vizinho ao sul; com doze, duas. A
+Tabela~\ref{tab:slx-w} traz os dezoito termos de vizinhança nas três matrizes.
+Nenhuma das cinquenta e quatro estimativas é positiva e significativa a 5\%, e
+no desfecho pastagem o termo dos vizinhos ao sul é negativo nas seis células de
+cada matriz. O que não se mantém é o sinal no desfecho rebanho, que é negativo
+nas seis células com oito vizinhos, mas positivo em duas delas com quatro
+vizinhos e em quatro delas com doze, sempre com \(p > 0{,}70\). A contagem de
+doze estimativas negativas em doze é, portanto, própria da matriz de oito
+vizinhos, e o que as três matrizes sustentam juntas é a ausência de um termo
+positivo distinguível de zero. A única estimativa ao sul significativa com oito
+vizinhos (Agricultura, pastagem, janela plena) deixa de sê-lo com quatro e com
+doze, e com quatro vizinhos passa a sê-lo outra, também negativa (soja,
+pastagem, janela truncada, \(p = 0{,}038\)). O placebo ao norte na régua da soja, por sua vez, acende nas duas janelas
+com doze vizinhos. O termo local \(\hat{\beta}\), omitido da tabela, é
+negativo nas doze células de cada matriz e significativo em oito delas nas três.
+"""
+
+
+def secao_slx_sensibilidade_w() -> str:
+    d = pd.read_csv(PROC / "deslocamento_sensibilidade_w.csv")
+    d = d[d.termo == "vizinhanca"].copy()
+    rot = {"agric": "Agricultura", "agric_uniao": r"Agric. $\cup$ Mosaico",
+           "soja_sidra": "Soja (SIDRA)"}
+    W_SUL, W_NOR = r"$W_{\mathrm{sul}}$", r"$W_{\mathrm{norte}}$ (placebo)"
+    DP, DB = r"$\Delta$ pastagem", r"$\Delta$ bovinos"
+
+    def rotulo(modelo: str):
+        if "placebo" in modelo:
+            return W_NOR, DP
+        return W_SUL, (DB if "bovinos" in modelo else DP)
+
+    def cel(r) -> str:
+        p = f"{r.p:.3f}".replace(".", "{,}")
+        return num(r.beta, 3, mais=True) + f" (${p}$)"
+
+    linhas = []
+    for jan, jan_rot in (("plena", "Janela plena (1985--2024)"),
+                         ("truncada 1985–2019", "Janela truncada (1985--2019)")):
+        linhas.append(r"\multicolumn{6}{l}{\textit{" + jan_rot + r"}} \\")
+        sub = d[d.janela == jan]
+        for (regua, modelo), g in sub.groupby(["regua", "modelo"], sort=False):
+            w, des = rotulo(modelo)
+            por_k = {int(r.k): cel(r) for _, r in g.iterrows()}
+            linhas.append(" & ".join([
+                (rot[regua] if regua in rot else esc(regua)), des, w,
+                por_k[4], por_k[8], por_k[12],
+            ]) + r" \\")
+    cab = (r"\textbf{Régua de lavoura} & \textbf{Desfecho} & \textbf{$W$} & "
+           r"\textbf{$k = 4$} & \textbf{$k = 8$} & \textbf{$k = 12$} \\")
+    nota = (r"cada célula traz $\hat{\theta}$ e, entre parênteses, o $p$; mesma "
+            r"especificação da Tabela~\ref{tab:slx}, que corresponde à coluna $k = 8$. "
+            r"$k$ é o número de vizinhos mais próximos sobre o qual o filtro "
+            r"direcional é aplicado.")
+    return SLX_W_TEXTO + chr(10) + chr(10) + tabela(
+        linhas, "lllccc", cab,
+        ("Sensibilidade do termo de vizinhança à matriz",
+         "Termo de vizinhança do teste espacial com quatro, oito e doze vizinhos."),
+        "tab:slx-w", nota, fonte=r"elaboração própria, a partir de "
+        r"\texttt{scripts/\_sensibilidade\_w\_deslocamento.py}.", tam="footnotesize")
 
 
 # ---------------------------------------------------------------------------
