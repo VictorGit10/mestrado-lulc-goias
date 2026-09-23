@@ -1,6 +1,6 @@
 # Guia unificado da qualificação
 
-Preparado em 23/09/2026. Junta dois materiais feitos em paralelo e de forma independente: o roteiro, as perguntas e o plano de estudo desta pasta (`ROTEIRO_ORAL_DETALHADO`, `PERGUNTAS_BANCA`, `PLANO_DE_DOMINIO`) e um segundo roteiro feito numa conversa à parte. Os três arquivos originais continuam na pasta, e este não os substitui. Quando os dois divergiam, ficou a formulação que o texto da qualificação e o código sustentam, e três pendências que os dois deixavam em aberto foram conferidas nos scripts (Parte 1).
+Preparado em 23/09/2026. Junta dois materiais feitos em paralelo e de forma independente: o roteiro, as perguntas e o plano de estudo desta pasta (`ROTEIRO_ORAL_DETALHADO`, `PERGUNTAS_BANCA`, `PLANO_DE_DOMINIO`) e um segundo roteiro feito numa conversa à parte. Os três arquivos originais continuam na pasta, e este não os substitui. Quando os dois divergiam, ficou a formulação que o texto da qualificação e o código sustentam, e três dúvidas que os dois deixavam em aberto foram respondidas nos scripts (Parte 1, já resolvida).
 
 **Banca:** uma economista, um sociólogo/cientista ambiental e um estatístico.
 **Tempo:** 30 minutos. A meta de ensaio é terminar entre 26 e 28 minutos.
@@ -8,32 +8,32 @@ Preparado em 23/09/2026. Junta dois materiais feitos em paralelo e de forma inde
 
 ---
 
-## Parte 1: o que conferir e corrigir antes da apresentação
+## Parte 1: o que foi conferido e corrigido antes da apresentação
 
-### 1.1 Três pendências resolvidas nos scripts
+> **Estado em 23/09/2026: tudo resolvido e commitado** (`745ae4a`, `fc47e9b`, `b40c784`, `768c046`). O texto recompila limpo e o `verificar.py` dá 0 erros e 0 avisos. Restam só as duas verificações opcionais marcadas com ☐ em 1.3. O que segue serve para **saber responder**, não para corrigir.
 
-| Pendência | O que o código diz | Consequência |
+### 1.1 Três dúvidas respondidas nos scripts
+
+| Dúvida | Resposta (código) | Como dizer na banca |
 |---|---|---|
-| O que são os empurrões "forte" e "moderado" na simulação de poder | Simulação Monte Carlo do próprio `grangercausalitytests` (estatística F com soma dos quadrados dos resíduos, T = 38) em `scripts/_poder_granger_deslocamento.py`. **Moderado = correlação parcial ≈ 0,3, com poder de ~48%. Forte = correlação parcial ≈ 0,5, com poder de ~93%.** O tamanho do teste é 5% sob o nulo (ficha do #34, Limitações). | Agora dá para responder. Os 93% e os 48% valem para o **Granger simples**, e não para o Toda-Yamamoto nem para as 12 inclinações espaciais. |
-| Se o "preço recebido pela soja" está deflacionado | Em `scripts/coleta_drivers_macro.py`, `preco_recebido_soja_idx` = **cotação internacional da soja em US$ (FMI, série IFS12_SOJAGP12, nominal) × câmbio real efetivo**, normalizado (média 1985–2024 = 100). **Não é preço pago ao produtor levantado em pesquisa, e o câmbio já está dentro dele.** | ⚠ Ver 1.2. O "+26% câmbio" e o "+79% preço" do slide 19 **não são dois sinais independentes**. |
-| Se o teste espacial foi testado com outra matriz W | Só existe a W de **k = 8 vizinhos mais próximos**, filtrada ao sul ou ao norte e padronizada por linha (ficha do #34, §96; apêndice, eq. SLX). **Atualizado em 23/09:** a sensibilidade a k = 4 e k = 12 foi rodada (`scripts/_sensibilidade_w_deslocamento.py`; ficha do #34, "Sensibilidade à matriz W"; apêndice, tabela `tab:slx-w`). Com 4, 8 e 12 vizinhos, nenhum θ positivo é significativo, o desfecho pasto fica negativo nas 6 células e o β local praticamente não se move. O que depende de k é a contagem de negativos: 12 de 12 com k = 8, 10 de 12 com k = 4, 8 de 12 com k = 12 (os positivos estão todos no rebanho, com p ≥ 0,70). Contiguidade e raio continuam sem teste. | Diga "nenhum θ positivo distinguível de zero, com 4, 8 ou 12 vizinhos". "Todas negativas" só com "com oito vizinhos". |
+| O que são os empurrões "forte" e "moderado" na simulação de poder | Monte Carlo do próprio `grangercausalitytests` (F com soma dos quadrados dos resíduos, T = 38) em `scripts/_poder_granger_deslocamento.py`. **Moderado = correlação parcial ≈ 0,3 → poder ~48%. Forte ≈ 0,5 → ~93%.** Tamanho de 5% sob o nulo. | Os 93% e os 48% valem só para o **Granger simples**, e não para o Toda-Yamamoto nem para as inclinações espaciais. |
+| Se o "preço recebido pela soja" está deflacionado | `preco_recebido_soja_idx` (`scripts/coleta_drivers_macro.py`) = **cotação internacional em US$ (FMI, nominal) × câmbio real efetivo**, normalizado (média 1985–2024 = 100). | Não é preço pesquisado junto ao produtor, e o câmbio está dentro dele: o "+26% câmbio" e o "+79% soja" do slide 19 **não são sinais independentes**. |
+| Se o teste espacial depende da matriz W | Rodado com k = 4, 8 e 12 (`scripts/_sensibilidade_w_deslocamento.py`; ficha do #34; apêndice, `tab:slx-w`). Nenhum θ positivo é significativo nas três; o pasto fica negativo nas 6 células; o β local praticamente não se move. Negativos: 12/12 (k = 8), 10/12 (k = 4), 8/12 (k = 12); os positivos são todos do rebanho, com p ≥ 0,70. | "Nenhum θ positivo distinguível de zero, com 4, 8 ou 12 vizinhos." "Todas negativas" só com "com oito vizinhos". Contiguidade e raio não foram testados. |
 
-### 1.2 Defeitos no texto e nos slides que a banca pode apontar
+### 1.2 Defeitos que a banca poderia apontar (todos corrigidos)
 
-> **Aplicadas em 23/09/2026 (nada commitado):** os itens 1 a 6 abaixo. O texto (`03_metodologia.tex` e `04_resultados.tex`) recompila limpo (116 páginas), e o `verificar.py` dá 0 erros e 0 avisos. Nos slides, o 17 diz "o teste no tempo", o 19 diz "Soja em reais (cotação × câmbio)" e declara na fonte que a linha contém o câmbio, e o veredito diz "16 de 16 · 11 de 16". O nome "preço recebido" foi mantido no texto como construção definida em §3.2, e não como pesquisa junto ao produtor.
+1. ✅ **"Preço recebido pelo produtor".** O texto atribuía ao Ipeadata "preços recebidos pelo produtor". Agora a §3.2 (`03_metodologia.tex:144–151`) define o *preço recebido* como construção (cotação × câmbio real) e avisa que ele não é independente do câmbio. Slide 19: "Soja, índice (cotação em dólar × câmbio real)", com a fonte declarando que a linha contém o câmbio.
+2. ✅ **Erro de medida no desfecho.** Dizia que "atenua qualquer associação". Agora (`03_metodologia.tex:1354`): reduz a precisão e o poder e, quando não é puramente aleatório, pode atenuar. *Para a fala:* com erro clássico no desfecho, o coeficiente não é viesado; a atenuação vem de erro no regressor ou de erro não clássico, como a má classificação.
+3. ✅ **Albers × contagem de pixels.** A Albers agora é "empregada apenas nesta sobreposição vetorial" (`03_metodologia.tex:752`); as áreas do raster vêm da contagem de pixels.
+4. ✅ **Slide 17.** "O teste **no tempo** detecta um empurrão forte em ~93%."
+5. ✅ **Slide 22.** "16 de 16 · 11 de 16". *Na fala:* "negativa nas 16, significante em 11".
+6. ✅ **Ficha do #39.** O crédito rural agora está em "R$ de dez/2024", como no texto.
 
-1. **"Preço recebido pelo produtor" (texto, `03_metodologia.tex:136` e `:211`, e slide 19).** O texto diz que o Ipeadata fornece "os preços recebidos pelo produtor de soja e de boi". O código usa a cotação internacional em dólar multiplicada pelo câmbio real efetivo. A economista pode perguntar a fonte, e a resposta honesta contradiz o texto. **Correção sugerida:** chamar a série de "cotação internacional da soja convertida pelo câmbio real (índice)" no texto e, no slide 19, "Cotação da soja, em reais (índice)". Na fala, dizer que as duas barras compartilham o câmbio.
-2. **"Erro de medida no desfecho atenua qualquer associação em direção a zero" (`03_metodologia.tex`, Limitações, "Resultado nulo não é refutação").** Com erro clássico, isto é, aditivo e independente, no desfecho de uma regressão linear, o coeficiente **não é viesado**: perde precisão e poder. A atenuação é consequência de erro no *regressor*, ou de erro não clássico (por exemplo, correlacionado com o nível verdadeiro, como a má classificação). **Correção sugerida:** "erro de medida no desfecho reduz a precisão e o poder do teste, e pode atenuar o coeficiente quando não é clássico". O caso do censo contra a amostra continua servindo de exemplo.
-3. **Albers × contagem de pixels (`03_metodologia.tex:742` contra `:333–336`).** A linha 742 diz que a aptidão foi sobreposta em Albers, "a mesma dos demais cálculos de área". Mas as linhas 333–336 dizem que as áreas vêm da contagem de pixels pelo cosseno da latitude, "sem passar por projeção nenhuma". **Correção:** tirar "a mesma dos demais cálculos de área" ou dizer que a Albers é usada só nessa sobreposição vetorial.
-4. **Slide 17, "O teste detecta um empurrão forte em ~93%".** A frase fica abaixo dos dois painéis, mas o poder só foi calculado para o teste no tempo, e o texto diz expressamente que as 12 inclinações não têm cálculo de poder. **Correção:** "O teste **no tempo** detecta…".
-5. **Slide 22, "16 de 16".** Na fala, diga sempre "negativa nas 16, **significante em 11**". A régua do placar é o sinal, e a banca vai querer saber a significância.
-6. **A ficha do #39 (`Textos/pipelines/39_fronteira_fechando.md:165`) ainda diz "crédito rural GO (R$ 2010) 14,3→24,1".** O texto da qualificação está certo (reais de dezembro de 2024, conforme `coleta_drivers_macro.py`). Não entra na apresentação, mas quem abrir a ficha encontra a contradição.
+### 1.3 Verificações opcionais
 
-### 1.3 Verificações opcionais, em ordem de custo-benefício
-
-- ✅ **Sensibilidade da W a k = 4 e k = 12** no teste espacial (#34/#49). Feita em 23/09 (ver 1.1); fecha a pergunta 30 da Parte 3.
-- **Acurácia da Coleção 10.1 por classe** (pastagem, agricultura, mosaico) no Cerrado. Não precisa rodar nada, só ler o documento de acurácia do MapBiomas. É a única pergunta sobre o dado que qualquer um dos três pode fazer.
-- **Teste de raiz unitária com quebra (Zivot-Andrews)** na pastagem do Norte. A classificação I(2) foi feita com ADF e KPSS, sem modelar quebra, e a série tem duas quebras estimadas. Se não rodar, tenha a resposta pronta (pergunta 25).
+- ✅ **Sensibilidade da W a k = 4 e k = 12.** Feita (ver 1.1); fecha a pergunta 30 da Parte 3.
+- ☐ **Acurácia da Coleção 10.1 por classe** (pastagem, agricultura, mosaico) no Cerrado. Não precisa rodar nada, só ler o documento de acurácia do MapBiomas. Pergunta 37.
+- ☐ **Teste de raiz unitária com quebra (Zivot-Andrews)** na pastagem do Norte. A classificação I(2) veio de ADF e KPSS, sem modelar quebra. Se não rodar, use a resposta da pergunta 25.
 
 ---
 
