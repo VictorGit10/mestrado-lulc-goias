@@ -4,7 +4,7 @@
 
 **Unidade de análise**: 246 municípios de Goiás. **Período**: 1974–2024 (dependendo da fonte).
 
-**Programa**: Mestrado Profissional em Ciências Ambientais — CIAMB/UFG.
+**Programa**: Mestrado Acadêmico em Ciências Ambientais — CIAMB/UFG.
 
 > **Nota (jul/2026, revista em ago/2026).** Este documento registra o **escopo e as hipóteses iniciais**. A investigação evoluiu: as hipóteses de "deslocamento" (iLUC intra-estadual) foram **testadas e refinadas/refutadas** (#34/#42), e a análise longitudinal passou a usar **166 Áreas Mínimas Comparáveis** (D11) ao lado dos 246 municípios. A **tese que de fato emergiu** — a "marcha ao norte" (reorganização espacial Sul→Norte sob drive comum ao longo do **gradiente Sul→Norte** + teto de oferta) — está em [narrativa_pipelines.md](../narrativa_pipelines.md) e [guia_de_leitura.md](../guia_de_leitura.md). O texto que consolida tudo isso em prosa ABNT está em [`qualificacao/`](../../qualificacao/README.md). *(Esta nota dizia "gradiente de aptidão" até a **D28**, de 19/ago/2026, que rebaixou a aptidão de canal identificado a régua de medida.)*
 
@@ -47,4 +47,4 @@ Correlação das mudanças espaciais com:
 | Cartografia | matplotlib + QGIS | Exploração rápida (Python) / layout final (QGIS) |
 | Análise espacial | pysal/spreg | Moran's I, LISA, regressão espacial |
 
-Ver também: [estrutura_diretorios.md](estrutura_diretorios.md), [como_retomar_trabalho.md](como_retomar_trabalho.md).
+Ver também: [README.md](../README.md).

@@ -75,7 +75,7 @@ Corrigido em:
 
 **Não tocado:** chaves de coluna de dado `pct_vegetacao_nativa` / `lulc_vegetacao_nativa_ha` em `assets/js/timeline.js` e `inventario.js` — são chaves internas (o display já diz "Vegetação natural"/"Veg. natural"); renomear exigiria tocar produtor + consumidores.
 
-**Resíduo cosmético (não corrigido):** `docs/BLUEPRINT_PARTE2.md` (2) e `scripts/gerar_grafico_duas_populacoes.py:29` (comentário) ainda dizem "vegetação nativa". Não são viz visível.
+**Resíduo cosmético (não corrigido):** `_arquivo/viz_BLUEPRINT_PARTE2.md` (2) e `scripts/gerar_grafico_duas_populacoes.py:29` (comentário) ainda dizem "vegetação nativa". Não são viz visível.
 
 ## 7. Resíduos em aberto
 

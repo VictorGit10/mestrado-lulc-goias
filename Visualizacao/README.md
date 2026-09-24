@@ -5,7 +5,7 @@ HTML/CSS/JS puro sobre a dinamica de uso e cobertura da terra em Goias e sua
 relacao com fatores socioeconomicos.
 
 > **Estrutura atual (desde 2/ago/2026): quatro pernas de evidencia, pagina
-> unica, sem abas.** A re-arquitetura proposta em `docs/PROPOSTA_REFORMULACAO.md`
+> unica, sem abas.** A re-arquitetura proposta em `_arquivo/viz_PROPOSTA_REFORMULACAO.md`
 > **foi executada**: `index.html` e a peca em quatro pernas, alinhada a
 > `Textos/indice_logico_pipelines.md`; a versao anterior, por abas e
 > atos/movimentos, ficou congelada em `index-original.html` e nao recebe mais
@@ -130,7 +130,7 @@ Para parar o servidor: `Ctrl+C` no terminal (ou fechar a janela).
 
 Comecou como MVP de 5 dias (escopo deliberadamente reduzido), cresceu para um
 companion por atos/movimentos e, em 2/ago/2026, foi **re-arquitetada em quatro
-pernas de evidencia** — a proposta de `docs/PROPOSTA_REFORMULACAO.md`, executada.
+pernas de evidencia** — a proposta de `_arquivo/viz_PROPOSTA_REFORMULACAO.md`, executada.
 Pendencias tecnicas em `docs/IMPLEMENTACAO.md`.
 
 ## Estrutura da peca (desde ago/2026)

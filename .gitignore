@@ -52,3 +52,6 @@ qualificacao/guia/*.toc
 
 # Texto integral extraído das referências (direitos autorais; os PDFs já ficam fora)
 qualificacao/ref/pdf/
+
+# Arquivo: saídas antigas (pesadas, regeneráveis)
+_arquivo/outputs/

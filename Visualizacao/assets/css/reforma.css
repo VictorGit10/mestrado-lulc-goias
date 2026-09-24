@@ -2,7 +2,7 @@
    reforma.css — camada da visualizacao reformulada (scroll unico, 4 pernas).
    Carregada DEPOIS de styles.css e escopada em `body.reforma`, para que o
    index.html publicado continue intocado enquanto a reforma e' construida.
-   Nada aqui deve editar styles.css; ver docs/PLANO_DE_CONSTRUCAO.md §4.
+   Nada aqui deve editar styles.css; ver _arquivo/viz_PLANO_DE_CONSTRUCAO.md §4.
    ========================================================================== */
 
 body.reforma {

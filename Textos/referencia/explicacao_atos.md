@@ -30,7 +30,7 @@ O teste sup-F procura o ponto no tempo onde dividir a série em dois segmentos *
 
 > [!WARNING]
 > O `F = 21.5` de 2020 sai da série de agricultura **crua**, que a deriva do Mosaico de Usos
-> distorce (ver [D25/D26](Textos/metodologia/tratamento_deriva_mosaico.md)). Sob a régua corrigida
+> distorce (ver [D25/D26](../metodologia/tratamento_deriva_mosaico.md)). Sob a régua corrigida
 > — `agricultura ∪ mosaico` — a mesma quebra dá **F = 34,1**: a fronteira não só sobrevive à
 > correção como fica **mais forte**. É o número a citar quando a pergunta for se o corte de 2020
 > é artefato de classificador.
@@ -60,7 +60,7 @@ Este método mede o quanto a **matriz de transição LULC** (quem virou o quê) 
 > ele lê o mesmo artefato de rótulo que contamina o primário, em vez de um objeto independente.
 > A corroboração independente e imune do corte de 2020 é a **soja plantada do IBGE/SIDRA**
 > (quebra em 2020 sozinha, F = 7,8), a **pastagem** e o **câmbio** (#37). Ver
-> [#29](Textos/pipelines/29_triangulacao_periodizacao.md).
+> [#29](../pipelines/29_triangulacao_periodizacao.md).
 
 ### Método 4: Intensity Analysis — Aldwaik & Pontius 2012 (Pipeline #31) — **Diagnóstico complementar**
 
@@ -104,8 +104,8 @@ Zoom máximo: olha transições individuais (ex: pasto→agricultura, cerrado→
 > razão `*_vs_uniform` do Ato III — inclusive as de transições que o problema de rótulo não toca.
 > E a "retração da agricultura" em P3 **inverte** sob o bracket: −84% na régua crua, **+67%** na
 > união `agricultura ∪ mosaico`. As leituras dos Atos I e II não são afetadas. Detalhe em
-> [#29 → Intensity Analysis](Textos/pipelines/29_triangulacao_periodizacao.md) e em
-> [#28D](Textos/pipelines/28D_deriva_mosaico.md).
+> [#29 → Intensity Analysis](../pipelines/29_triangulacao_periodizacao.md) e em
+> [#28D](../pipelines/28D_deriva_mosaico.md).
 
 ### A convergência dos 4 métodos
 
@@ -207,7 +207,7 @@ Goiás entra na série com um padrão herdado: em 1985 quase um terço do estado
 > [!WARNING]
 > **A Lei Kandir nunca foi marco do DiD.** Esta ficha atribuía a ela "a única evidência causal
 > GO-específica (F = 86.6, DiD robusto p = 0.005)". O marco do desenho de diferenças em diferenças
-> é o **Commodity Boom (2003)** — ver [#23](Textos/pipelines/23_did.md), corrigido em 21/ago/2026.
+> é o **Commodity Boom (2003)** — ver [#23](../pipelines/23_did.md), corrigido em 21/ago/2026.
 > E o próprio DiD é rebaixado no texto de qualificação por não existir grupo não tratado. O rótulo
 > "pastagem como herança" descreve o que domina a paisagem, e não uma pausa agrícola que os dados
 > não mostram.
@@ -241,8 +241,8 @@ O ato começa com a moeda estabilizada e a exportação de grãos já desonerada
 > (razão 0,6 em 2015 → 32,5 em 2024), e a medida crua registra um colapso onde o campo
 > registra aceleração. A **fronteira de 2020 é real** — a soja plantada do IBGE/SIDRA, que não
 > passa pelo classificador, quebra em 2020 sozinha —, só o *rótulo* estava invertido. Ver
-> [#28D](Textos/pipelines/28D_deriva_mosaico.md) e a
-> [decisão D26](Textos/metodologia/tratamento_deriva_mosaico.md).
+> [#28D](../pipelines/28D_deriva_mosaico.md) e a
+> [decisão D26](../metodologia/tratamento_deriva_mosaico.md).
 
 O ritmo de conversão **não** cai: ele acelera, e a medida ingênua diz o contrário. Sob a régua
 corrigida (`pasto → agricultura ∪ mosaico`), a saída de pasto puro para lavoura-ou-uso-misto

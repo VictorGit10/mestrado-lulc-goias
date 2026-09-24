@@ -113,7 +113,7 @@ que já existe**. Nenhuma exige redação; todas são investigação.
 > CSVs do #32/#28 e os 4 JSONs da viz (**regenerados**, não editados à mão: `centro_massa.py`,
 > `analise_transicoes.py`, `export_idade_histograma_regional.py`, `analise_reserva_terra.py`,
 > `exportar_marcha_viz.py`) → `Visualizacao/` (index.html, utils.js, timeline.js, README, docs) →
-> `explicacao_atos.md`, narrativa, ensaio, #28, #29. **O texto do Ato III no site foi reescrito**, não só
+> `referencia/explicacao_atos.md`, narrativa, ensaio, #28, #29. **O texto do Ato III no site foi reescrito**, não só
 > reetiquetado: a copy anterior dizia "as lavouras se estabilizam", "a vegetação registra sutil recuperação" e
 > "a queda livre encontra um piso" — as três eram leituras do artefato. A nova copy usa só medidas verificadas
 > (soja SIDRA +38%, pastagem cedendo 3× mais rápido, vegetação nativa **plana**, fronteira migrando ao norte).
@@ -394,7 +394,7 @@ padrão é **específico e robusto** (placebos nulos, lead limpo, sinal 100% est
   - **Mosaico** ganhou faixa listrada própria na barra empilhada: "Outros" caiu de 11,5% para 1,0% em 2024, e a classe que absorve a conversão do fim da série aparece indo de 6,1% (2019) a 10,5% (2024).
   - **Arquivo órfão morto**: `idade_pastagem_amc.geojson` (amostra, sem script gerador) virou **`malha_amc.geojson`** — só geometria e identidade —, gerado por `scripts/export_malha_amc_viz.py`. O nome mudou de propósito.
   - **Não feito, por decisão registrada**: (a) o mapa **municipal** de idade — em resolução fina ele só repintaria o gradiente refutado; (b) repintar a classe 21 nos **40 rasters GEE** (exigiria reexportar tudo; a barra e a legenda já declaram); (c) `idade_pastagem_histograma.json` (por Ato) segue exportado e **não consumido** — é a leitura temporal suspensa.
-  **Diagnóstico original (21/jul/2026), preservado:** quatro itens, documentados em `Visualizacao/docs/BLUEPRINT_PARTE2.md` → "Estado dos dados da Perna 2":
+  **Diagnóstico original (21/jul/2026), preservado:** quatro itens, documentados em `_arquivo/viz_BLUEPRINT_PARTE2.md` → "Estado dos dados da Perna 2":
   1. **`assets/data/idade_pastagem_amc.geojson` é a amostra** — 43.951 px (= 78.000 − 34.049 fora de GO) contra 44.639.028 do censo. É o que o coroplético do §6 renderiza (`pastagem-reserva.js:227`), sob uma seção cuja manchete diz "todos os 44,6 milhões de eventos". Arquivo **órfão**: nenhum script do repo o gera (mesmo padrão do PNG órfão da §1.2 do `censo_vs_amostra.md`). O `marcha-mapa.js` também o carrega, mas só pela geometria — lá é inofensivo.
   2. **Dois cards-manchete do §6 trazem números da amostra** (`index.html:812` "μ ≈ 4,6 a (44%)" e `:822` "μ ≈ 21,8 a (56%)"); o censo dá μ₁ 4,24a **w₁ 31,5%** / μ₂ 22,49a w₂ 68,5% para a mesma janela 2016-24 — e a prosa três linhas abaixo já diz "31%", então a seção **se contradiz**. O bloco `<details>` abaixo está correto.
   3. **Três JSONs do censo exportados e não cabeados**: `idade_pastagem_municipal.json` e `_gmm.json` (regerados, não consumidos) e `idade_pastagem_regional.json` (541 KB, malha meso "Opção A", export da própria reforma). O ganho principal do censo — mediana municipal deixou de ser ruído, 44% dos munis com <20 px → 0% — não aparece em lugar nenhum do site. `28_idade_pastagem.md:418` **afirma falsamente** que os quatro arquivos foram regerados do censo.

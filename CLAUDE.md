@@ -11,10 +11,12 @@ acontece por padrão.
 
 Pastas/arquivos do principal:
 - `Visualizacao/` — site/visualização interativa de Goiás (exceto a variante abaixo).
-- `Textos/` — documentação da dissertação (escopo, pipelines, metodologia, outputs).
+- `Textos/` — documentação da dissertação. **Porta de entrada: `Textos/README.md`** (mapa das
+  pastas + tabela "por tema" que liga pipelines, scripts, dados, figuras, site e qualificação).
+- `qualificacao/` — o texto ABNT (abnTeX2); `qualificacao/README.md` é o estado vivo da redação.
 - `scripts/*.py` — pipelines de Goiás, **exceto os `*_mg.py`** (ver paralelo).
 - `data/`, `outputs/`, `notebooks/` — dados, resultados e cadernos (de Goiás).
-- `index.html` (raiz), `explicacao_atos.md`, `guia-github-pages-e-commits.md`, `requirements.txt`.
+- `index.html` (raiz), `requirements.txt`.
 
 ## Trabalhos paralelos — IGNORAR salvo pedido explícito
 
@@ -30,9 +32,8 @@ Não buscar, ler nem editar estes itens durante tarefas de Goiás. Ao trabalhar 
 - `scripts/*_mg.py` (9 arquivos) — pipeline de dados de **Minas Gerais**. Ficam em `scripts/`
   por acoplamento técnico (ex.: `coleta_sidra_mg.py` importa `coleta_sidra.py` e lê `data/`),
   mas são **paralelos**. O sufixo `_mg` os distingue.
-- `Visualizacao/index-Victor-Lapig.html` — variante experimental da viz de Goiás (usa os assets
-  de `Visualizacao/`; por isso não foi movida). Não é a viz principal; candidata a remoção se
-  obsoleta.
+- `_arquivo/` — material superado (planos antigos da viz, páginas aposentadas, rascunhos
+  iniciais). Guardado, não atualizado; não usar como fonte.
 
 > Há uma análise metodológica em aberto (sugestão de uma professora de Economia) sobre usar
 > **Áreas Mínimas Comparáveis (AMC)** do IBGE para séries municipais consistentes — isso é

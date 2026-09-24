@@ -1,4 +1,4 @@
-"""Verificacao da visualizacao reformulada (docs/PLANO_DE_CONSTRUCAO.md §7).
+"""Verificacao da visualizacao reformulada (_arquivo/viz_PLANO_DE_CONSTRUCAO.md §7).
 
 Uso:
     python -m http.server 8765 --directory Visualizacao

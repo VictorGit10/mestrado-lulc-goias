@@ -3,7 +3,7 @@
 **Decisão D27** (2026-07-28). Governa toda figura **importada de um script** para uma peça de
 comunicação (site, dissertação, apresentação). Nasceu de um defeito real encontrado na revisão da
 Perna 4 da viz ([#39](../pipelines/39_fronteira_fechando.md); registro em
-`Visualizacao/docs/PLANO_DE_CONSTRUCAO.md` §18).
+`_arquivo/viz_PLANO_DE_CONSTRUCAO.md` §18).
 
 É uma decisão **de processo**, não de análise: não muda nenhum número. Muda o que precisa ser
 conferido antes de um número aparecer para alguém.
@@ -259,7 +259,7 @@ só a leitura de cima a baixo acha, que é o que a Fase D é.
 
 ## Ver também
 
-- `Visualizacao/docs/PLANO_DE_CONSTRUCAO.md` §18 — o registro da revisão da Perna 4.
+- `_arquivo/viz_PLANO_DE_CONSTRUCAO.md` §18 — o registro da revisão da Perna 4.
 - [tratamento_deriva_mosaico.md](tratamento_deriva_mosaico.md) — D25/D26, origem da ressalva do
   caso 2.
 - [censo_vs_amostra.md](censo_vs_amostra.md) — o bug da classe 21, a armadilha da classe B.
