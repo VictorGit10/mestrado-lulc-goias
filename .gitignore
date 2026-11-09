@@ -55,3 +55,8 @@ qualificacao/ref/pdf/
 
 # Arquivo: saídas antigas (pesadas, regeneráveis)
 _arquivo/outputs/
+
+# Documentos pessoais do mestrado (qualificação, pré-projeto, PPGCIAMB): fora do repositório público
+_documentos/
+# Transcrições da banca e pedidos às IAs: fora do repositório público
+Textos/banca_qualificacao/
