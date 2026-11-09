@@ -1,8 +1,8 @@
 # "Por dentro do método": a página do centro de massa
 
 **Página:** `Visualizacao/metodo-centro-de-massa.html`
-**Criada em:** 21–22/set/2026
-**Pipelines explicados:** #32 (centro de massa), #55 (bootstrap de blocos), #43 (teste pixel a pixel)
+**Criada em:** 21–22/set/2026 · **revista em:** 28/set/2026 (capítulos 8, 9 e 13–16; placar; redação)
+**Pipelines explicados:** #32 (centro de massa), #55 (bootstrap de blocos), #43 (teste pixel a pixel), #58 (ancoragem e decomposição por região), #59 (projeção, anos-extremo, malha municipal, coleções, réguas da lavoura)
 
 ## Para que serve
 
@@ -15,7 +15,8 @@ Ela é a primeira de uma série, **"Por dentro do método"**, com uma página po
 Nenhum número da página é digitado à mão. Eles vêm de duas fontes:
 
 - **Refeitos.** A página refaz o centro médio, o mediano (Weiszfeld), a decomposição, o bootstrap e o deslocamento pixel a pixel na mesma régua, a partir dos pesos e posições do JSON.
-- **Oficiais.** O que vem de CSV de pipeline é lido de `D.oficial` e rotulado com o nome do arquivo: `centro_massa_anual.csv`, `centro_massa_deslocamento.csv`, `centro_massa_bootstrap.csv`, `centro_massa_bootstrap_bloco.csv` e `centro_massa_pixel_anual.csv`.
+- **Oficiais.** O que vem de CSV de pipeline é lido de `D.oficial` e rotulado com o nome do arquivo: `centro_massa_anual.csv`, `centro_massa_deslocamento.csv`, `centro_massa_bootstrap.csv`, `centro_massa_bootstrap_bloco.csv`, `centro_massa_pixel_anual.csv`, `centro_massa_decomposicao.csv` e `_ic.csv`, `centro_massa_ancoragem_resumo.csv` (#58), `centro_massa_robustez_complementar.csv`, `centro_massa_regua_series.csv` e `centro_massa_colecoes_pixel.csv` (#59).
+- **Refeitos a partir das zonas do #58.** A ancoragem (cap. 8) e a decomposição por região (cap. 9) são refeitas no navegador com as zonas exportadas pela própria função do pipeline (`centro_massa_ancoragem.zonas_por_amc`), e a leitura de cada figura mostra a diferença para o CSV do #58.
 
 Onde as duas coisas aparecem juntas (a tabela por ato, o IC do bootstrap), elas ficam lado a lado.
 
@@ -60,13 +61,23 @@ O que o JSON leva:
 | 4 | O equilíbrio visto de lado | régua norte–sul com o peso somado em faixas de 10 km e um apoio arrastável. A régua inclina conforme ȳ − p | #32 (componente N) |
 | 5 | A conta, linha por linha | tabela com 166 linhas de w·y. As AMC entram uma a uma e o centro parcial caminha no mapa. Três ordens, mesmo ponto final. Compara com o CSV | #32 `mean_center` |
 | 6 | Quarenta contas | trajetórias ampliadas, série de latitude com os atos, tabela por ato (pipeline × refeito) | #32 `tabela_deslocamento` |
-| 7 | De onde vêm os km | decomposição ΔN = Σ(s_fim − s_ini)(y − ȳ_ini): mapa divergente, cascata em 4 grupos e as 8 maiores parcelas | identidade contábil (nova, só leitura) |
-| 8 | Centro mediano | Weiszfeld passo a passo. Clicar numa AMC multiplica o peso por 10 | #32 `median_center` |
-| 9 | Quanto é ruído | bootstrap ao vivo (mulberry32, semente 42) com o mapa das cópias, histograma, o IC ao vivo ao lado do #55, seletor de blocos e a grade de IC do #55 | #32 `bootstrap_incerteza`, #55 |
-| 10 | Sem malha nenhuma | série AMC × pixel desde 1985 e tabela na mesma régua | #43 |
-| 11 | O que o método não diz | veredito e limites | — |
+| 7 | De onde vêm os km | decomposição ΔN = Σ(s_fim − s_ini)(y − ȳ_ini): mapa divergente, cascata em 4 grupos e as 8 maiores parcelas | identidade contábil (só leitura) |
+| 8 | Quem segura o centro no lugar | mapa por região com o centro com todas e sem a região escolhida; série do puxão de cada região; identidade LOO = alavanca/(1 − w) conferida na leitura. Partições: 3 regiões, 5 mesorregiões, 4 faixas | #58 |
+| 9 | Troca de peso ou movimento dentro | barras por região (troca de peso × movimento dentro), números com o IC do #58 e a fração em 1, 3, 4, 5 e 166 pedaços | #58 `_decompor` |
+| 10 | Centro mediano | Weiszfeld passo a passo. Clicar numa AMC multiplica o peso por 10 | #32 `median_center` |
+| 11 | Quanto é ruído | bootstrap ao vivo (mulberry32, semente 42) com o mapa das cópias, histograma, o IC ao vivo ao lado do #55, seletor de blocos e a grade de IC do #55 | #32 `bootstrap_incerteza`, #55 |
+| 12 | Sem malha, e com outra malha | série AMC × pixel desde 1985 e tabela na mesma régua; tabela AMC × 246 municípios (o único teste de malha do rebanho) | #43, #59 D |
+| 13 | A projeção e os anos das pontas | série anual com a reta refeita no navegador e as médias de 5 anos das pontas; tabela EPSG:5880 × Albers × esfera e 1/3/5 anos × reta | #59 A, B |
+| 14 | Três classificações do mesmo satélite | série pixel a pixel nas Coleções 9, 10.1 e 11; tabela 1985–2023 com o Mosaico; conferência com o #43 | #59 E |
+| 15 | Que lavoura? | cinco réguas da agricultura (MapBiomas, + Mosaico, soja e temporárias da PAM) e as parcelas por cultura em três janelas | #59 C |
+| 16 | O placar dos testes | tabela pergunta × teste × resultado × o que muda no texto, montada dos arquivos | todos |
+| 17 | O que o método não diz | veredito e limites | — |
 
-A barra de variável no topo (pastagem, rebanho, agricultura, vegetação natural) reprograma todas as figuras de uma vez.
+A barra de variável no topo (pastagem, rebanho, agricultura, vegetação natural) reprograma todas as figuras de uma vez, exceto a do capítulo 15, que é só da agricultura.
+
+### Redação revista em 28/set
+
+A página dizia "o centro de massa da pastagem andou 77,6 km para o norte" e "o centro sobe". Passou a dizer "o centro de gravidade da pastagem está 77,6 km mais ao norte", a regra de leitura da dissertação: o centro se desloca por ganho no norte, por perda no sul ou por crescimento desigual, sem que nenhum hectare mude de lugar. A pista do capítulo 4 ganhou essa observação, e os capítulos 8 e 9 dão a ela os números.
 
 ### A decomposição (capítulo 7) não é resultado novo
 
@@ -105,7 +116,7 @@ A conclusão não muda, e a distância entre as duas medições **diminui**. A p
 
 ## Pendências
 
-- [ ] Link para a página no `index.html` (proposta: um card em "Bastidores", ao lado do Atlas e do Caso do Mosaico). Por enquanto a página não aparece em nenhum link da página principal.
+- [ ] Link para a página no `index.html` (proposta: um card em "Bastidores", ao lado do Atlas e do Caso do Mosaico). Em 28/set a página só é alcançada pela `apresentacao.html`.
 - [ ] Versão em inglês (`metodo-centro-de-massa.en.html`), como as outras páginas à parte.
 - [ ] Alinhar a régua do pixel no `index.html` e no caderno (ver acima).
 - [ ] Nenhuma verificação visual por captura de tela foi possível na sessão de criação, porque o painel do navegador não renderizava. A verificação foi funcional, por script: todos os capítulos, console limpo e 375 px sem rolagem lateral.

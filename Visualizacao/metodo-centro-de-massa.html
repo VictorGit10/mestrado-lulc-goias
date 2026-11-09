@@ -7,15 +7,15 @@
 
   <title>Por dentro do método: o centro de massa — Goiás 1985–2024</title>
 
-  <meta name="description" content="A conta do centro de massa refeita passo a passo no navegador, com as 166 Áreas Mínimas Comparáveis de Goiás e os pesos reais de 1985 a 2024: posições, pesos, a soma linha por linha, o deslocamento, o mediano, o bootstrap e o teste sem malha.">
+  <meta name="description" content="A conta do centro de massa refeita passo a passo no navegador, com as 166 Áreas Mínimas Comparáveis de Goiás e os pesos reais de 1985 a 2024: posições, pesos, a soma linha por linha, o deslocamento, o mediano, o bootstrap, a malha, a projeção, três coleções do MapBiomas e as réguas da lavoura.">
   <meta property="og:title" content="Por dentro do método: o centro de massa · Goiás 1985–2024">
-  <meta property="og:description" content="Como se calcula, com dados reais, o ponto de equilíbrio da pastagem, do rebanho e da agricultura em Goiás, e como se sabe que ele andou para o norte.">
+  <meta property="og:description" content="Como se calcula, com dados reais, o ponto de equilíbrio da pastagem, do rebanho e da agricultura em Goiás, e como se testa que ele está mais ao norte do que estava.">
   <meta property="og:type" content="website">
 
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23fafaf7'/%3E%3Ccircle cx='32' cy='32' r='14' fill='%238b3a1d'/%3E%3C/svg%3E">
 
   <link rel="stylesheet" href="assets/css/styles.css?v=5">
-  <link rel="stylesheet" href="assets/css/metodo.css?v=1">
+  <link rel="stylesheet" href="assets/css/metodo.css?v=2">
 </head>
 
 <body class="metodo-page" id="top">
@@ -39,15 +39,18 @@
       <div class="mt-tag">Por dentro do método</div>
       <h1 class="mt-title">O centro de massa, conta por conta</h1>
       <p class="mt-subtitle">
-        A Perna&nbsp;1 da dissertação diz que o centro de massa da pastagem andou 77,6&nbsp;km para o
-        norte entre 1985 e 2024. Esta página mostra de onde sai esse número. A conta é refeita aqui,
-        no seu navegador, com os mesmos dados do pipeline, e cada passo pode ser mexido.
+        A Perna&nbsp;1 da dissertação diz que o centro de gravidade da pastagem está 77,6&nbsp;km mais
+        ao norte em 2024 do que em 1985. Esta página mostra de onde sai esse número, como ele se lê e a
+        que testes ele foi submetido. A conta é refeita aqui, no seu navegador, com os mesmos dados dos
+        pipelines, e cada passo pode ser mexido.
       </p>
       <div class="mt-meta-bar">
         <strong>Dados:</strong> as 166 Áreas Mínimas Comparáveis (AMC) de Goiás, com a área de
         pastagem, agricultura e vegetação natural do MapBiomas (Coleção 10.1) e o rebanho bovino da
         Pesquisa Pecuária Municipal (IBGE), de 1985 a 2024. <strong>Álgebra:</strong> a mesma dos
-        pipelines #32 (centro de massa), #55 (bootstrap de blocos) e #43 (teste pixel a pixel).
+        pipelines #32 (centro de massa), #55 (bootstrap de blocos), #43 (teste pixel a pixel),
+        #58 (ancoragem e decomposição por região) e #59 (projeção, anos-extremo, malha municipal,
+        coleções e réguas da lavoura).
         <strong>Conferência:</strong> ao abrir, a página refaz os 160 centros anuais e compara com o
         arquivo oficial do pipeline <span id="mt-confere-topo"></span>.
       </div>
@@ -67,11 +70,18 @@
         <li><a href="#tempo">6. Quarenta contas, uma por ano</a></li>
         <li class="roteiro-grupo">Ler o número</li>
         <li><a href="#decomposicao">7. De onde vêm os quilômetros</a></li>
+        <li><a href="#ancoragem">8. Quem segura o centro no lugar</a></li>
+        <li><a href="#troca">9. Troca de peso ou movimento dentro das regiões</a></li>
         <li class="roteiro-grupo">Pôr o número à prova</li>
-        <li><a href="#mediano">8. O centro mediano, contra aglomerados</a></li>
-        <li><a href="#incerteza">9. Quanto do deslocamento é ruído</a></li>
-        <li><a href="#pixel">10. A conta sem malha nenhuma</a></li>
-        <li><a href="#limites">11. O que o método não diz</a></li>
+        <li><a href="#mediano">10. O centro mediano, contra aglomerados</a></li>
+        <li><a href="#incerteza">11. Quanto do deslocamento é ruído</a></li>
+        <li><a href="#pixel">12. A conta sem malha, e com outra malha</a></li>
+        <li><a href="#regua">13. A projeção e os anos das pontas</a></li>
+        <li><a href="#colecoes">14. Três classificações do mesmo satélite</a></li>
+        <li><a href="#lavoura">15. Que lavoura?</a></li>
+        <li class="roteiro-grupo">Balanço</li>
+        <li><a href="#placar">16. O placar dos testes</a></li>
+        <li><a href="#limites">17. O que o método não diz</a></li>
       </ol>
     </nav>
 
@@ -144,7 +154,7 @@
         <p>
           Toda a pastagem de uma AMC passa a morar no centroide dela. Nas AMC grandes do norte essa
           aproximação é mais grosseira do que nas pequenas do sul. É o problema da unidade de área
-          modificável (MAUP), e o <a href="#pixel">capítulo 10</a> mede o tamanho dele.
+          modificável (MAUP), e o <a href="#pixel">capítulo 12</a> mede o tamanho dele.
         </p>
       </div>
       <a class="voltar-topo" href="#top">↑ roteiro</a>
@@ -222,8 +232,9 @@
         <p>
           Com o apoio no centro de 1985, arraste o ano até 2024. A régua, que estava nivelada, pende
           para o norte. As barras em contorno mostram onde estava o peso em 1985. É isso que quer dizer
-          “o centro de massa da pastagem andou 77,6&nbsp;km para o norte”: o ponto de equilíbrio de
-          2024 fica 77,6&nbsp;km à direita do de 1985.
+          “o centro de gravidade da pastagem está 77,6&nbsp;km mais ao norte”: o ponto de equilíbrio de
+          2024 fica 77,6&nbsp;km à direita do de 1985. Repare que nenhuma barra precisou mudar de
+          lugar para isso acontecer. Bastou que as do norte crescessem e as do sul diminuíssem.
         </p>
       </div>
       <p>
@@ -336,7 +347,7 @@
       <div class="capitulo-eyebrow">Capítulo 7</div>
       <h2>De onde vêm os quilômetros</h2>
       <p>
-        O centro sobe para o norte se o norte ganha peso, mas também se o sul perde. O deslocamento
+        O centro se desloca para o norte se o norte ganha peso, mas também se o sul perde. O deslocamento
         pode ser repartido exatamente entre as 166 AMC para mostrar quanto veio de cada lado. Seja
         <i>s<sub>i</sub></i> = <i>w<sub>i</sub></i> / Σ<i>w</i> a participação da AMC no total. Então
       </p>
@@ -371,9 +382,140 @@
       <a class="voltar-topo" href="#top">↑ roteiro</a>
     </section>
 
-    <!-- 8 ================================================================= -->
+    <!-- 8 (novo, #58) ===================================================== -->
+    <section class="capitulo" id="ancoragem">
+      <div class="capitulo-eyebrow">Capítulo 8 · ancoragem (Pipeline #58)</div>
+      <h2>Quem segura o centro no lugar</h2>
+      <p>
+        O capítulo anterior repartiu o deslocamento entre as 166 AMC. Aqui a pergunta muda de escala:
+        que <strong>região</strong> do estado segura o centro onde ele está? O teste é o mais simples
+        possível. Tira-se uma região inteira da conta, refaz-se o centro com as outras e mede-se
+        quanto ele pula. Se ele pula muito, aquela região pesava muito no equilíbrio.
+      </p>
+      <p>
+        A conta de uma região funciona como a de uma AMC. Cada região tem o seu peso <i>w<sub>b</sub></i>
+        (a fatia que ela guarda do total) e o seu próprio centro <i>C<sub>b</sub></i>, e o centro de
+        Goiás é a média dos centros das regiões, ponderada pelos pesos. Não é uma aproximação: dá
+        exatamente o número do capítulo 6.
+      </p>
+      <div class="formula">
+        <i>C</i> = Σ<sub><i>b</i></sub> <i>w<sub>b</sub></i> · <i>C<sub>b</sub></i>
+        &nbsp;&nbsp;&nbsp;
+        puxão da região <i>b</i> = <i>C</i> − <i>C</i><sup>(sem <i>b</i>)</sup>
+      </div>
+      <p>
+        O <strong>puxão</strong> tem sinal. Uma região que puxa o centro para o sul tem puxão
+        negativo: sem ela, o centro iria para o norte. A mesma medida sem o sinal, em duas dimensões,
+        é o que a literatura chama de <em>leave-one-out</em> (LOO), “deixar um de fora”.
+      </p>
+      <div class="mt-fig">
+        <div class="mt-ctl">
+          <span class="mt-seg" id="c8a-part" role="group" aria-label="Como dividir o estado">
+            <button type="button" aria-pressed="true" data-p="regiao3">3 regiões</button><button type="button" aria-pressed="false" data-p="meso5">5 mesorregiões</button><button type="button" aria-pressed="false" data-p="faixa_lat4">4 faixas de latitude</button>
+          </span>
+          <label for="c8a-ano">Ano</label>
+          <input type="range" id="c8a-ano" min="1985" max="2024" step="1" value="2024">
+          <span class="mt-ano" id="c8a-ano-v">2024</span>
+        </div>
+        <div id="c8a-mapa"></div>
+        <div class="mt-legenda" id="c8a-leg"></div>
+        <div id="c8a-serie" style="border-top:1px solid var(--color-rule)"></div>
+        <div class="mt-leitura" id="c8a-leitura"></div>
+      </div>
+      <div class="pista">
+        <h4>Experimente</h4>
+        <p>
+          Clique numa região da legenda para tirá-la da conta. O símbolo vazado mostra onde o centro
+          ficaria sem ela. Depois troque a variável no topo para “Agricultura” e compare a linha do Sul
+          com a da pastagem: na pastagem o puxão do Sul enfraquece ao longo dos anos, e na agricultura
+          ele fica praticamente igual.
+        </p>
+      </div>
+      <h3>Uma medida em duas escalas</h3>
+      <p>
+        Há quem acrescente ao LOO uma segunda medida, a <strong>alavanca</strong>: o peso da região
+        vezes a distância entre o centro dela e o centro do estado, <i>w<sub>b</sub></i> ·
+        |<i>C<sub>b</sub></i> − <i>C</i>|. É o braço de alavanca da física (massa vezes distância).
+        As duas parecem medidas diferentes, mas não são. Uma conta de duas linhas mostra que
+      </p>
+      <div class="formula">LOO<sub><i>b</i></sub> = alavanca<sub><i>b</i></sub> / (1 − <i>w<sub>b</sub></i>)</div>
+      <p>
+        exatamente. É a mesma quantidade em outra escala. A leitura da figura acima faz as duas contas
+        para a região que você tirar e mostra que a igualdade fecha. Por isso esta página usa só o
+        puxão.
+      </p>
+      <div class="nao-mostra">
+        <h4>O que a ancoragem não diz</h4>
+        <p>
+          Que uma região “importa pouco” porque puxa pouco. O Centro guarda um terço do rebanho e quase
+          não puxa, porque o centro dele fica perto do centro do estado. Puxar pouco é estar perto do
+          ponto de equilíbrio, e não ter pouca massa. E a região é um recorte escolhido, e não uma
+          unidade natural. Por isso a figura oferece três partições.
+        </p>
+      </div>
+      <a class="voltar-topo" href="#top">↑ roteiro</a>
+    </section>
+
+    <!-- 9 (novo, #58) ===================================================== -->
+    <section class="capitulo" id="troca">
+      <div class="capitulo-eyebrow">Capítulo 9 · decomposição (Pipeline #58)</div>
+      <h2>Troca de peso ou movimento dentro das regiões</h2>
+      <p>
+        O centro de Goiás pode ir para o norte por dois caminhos. No primeiro, as regiões do norte
+        passam a guardar uma <strong>fatia maior</strong> do total, e cada região fica onde estava. No
+        segundo, a atividade <strong>se desloca para o norte dentro de cada região</strong>, e as fatias
+        ficam iguais. Na prática os dois acontecem juntos, e a conta abaixo separa um do outro sem
+        deixar sobra:
+      </p>
+      <div class="formula" style="line-height:2">
+        Δ<i>C</i> = Σ<sub><i>b</i></sub> Δ<i>w<sub>b</sub></i> · (<i>C̄<sub>b</sub></i> − <i>C̄</i>)
+        &nbsp;+&nbsp;
+        Σ<sub><i>b</i></sub> <i>w̄<sub>b</sub></i> · Δ<i>C<sub>b</sub></i><br>
+        <span style="font-size:.85em;color:var(--color-muted)">troca de peso entre as regiões &nbsp;&nbsp;+&nbsp;&nbsp; movimento dentro de cada região</span>
+      </div>
+      <p>
+        A barra em cima de uma letra é a média entre o ano inicial e o final. A primeira parcela de uma
+        região é grande quando a fatia dela muda muito e ela fica longe do centro. A segunda é grande
+        quando o centro da própria região se desloca. Somadas, dão o deslocamento do capítulo 6 até o
+        metro.
+      </p>
+      <div class="mt-fig">
+        <div class="mt-ctl">
+          <span class="mt-seg" id="c9a-part" role="group" aria-label="Como dividir o estado">
+            <button type="button" aria-pressed="true" data-p="regiao3">3 regiões</button><button type="button" aria-pressed="false" data-p="meso5">5 mesorregiões</button><button type="button" aria-pressed="false" data-p="faixa_lat4">4 faixas de latitude</button>
+          </span>
+          <label for="c9a-a">de</label><select id="c9a-a"></select>
+          <label for="c9a-b">até</label><select id="c9a-b"></select>
+        </div>
+        <div id="c9a-graf"></div>
+        <div class="mt-numeros" id="c9a-num"></div>
+        <div id="c9a-escala" style="border-top:1px solid var(--color-rule)"></div>
+        <div class="mt-leitura" id="c9a-leitura"></div>
+      </div>
+      <h3>A porcentagem depende de quantos pedaços se usa</h3>
+      <p>
+        O gráfico de baixo, dentro da figura, refaz a conta com o estado dividido em pedaços cada vez
+        menores. Com um pedaço só não existe troca de peso, e tudo é movimento dentro. Com as 166 AMC
+        como pedaços, tudo é troca de peso, porque o centroide de uma AMC não sai do lugar. Entre os
+        dois extremos, a fração depende do recorte. As faixas de latitude dão uma fração alta quase por
+        construção: numa faixa estreita no sentido norte–sul, o centro da faixa não tem para onde ir.
+      </p>
+      <div class="veredito-box">
+        <h4>Como ler o número</h4>
+        <p>
+          Nunca como “X% do deslocamento é troca de peso”, sem mais nada. Sempre com a escala junto:
+          visto em três regiões, cerca de três quartos do deslocamento da pastagem, do rebanho e da
+          agricultura são redistribuição entre elas, e ainda sobram alguns quilômetros de movimento
+          dentro de cada uma. É por isso que a dissertação escreve “o centro de gravidade está N km
+          mais ao norte”, e não “a pastagem subiu”.
+        </p>
+      </div>
+      <a class="voltar-topo" href="#top">↑ roteiro</a>
+    </section>
+
+    <!-- 10 (era 8) ======================================================= -->
     <section class="capitulo" id="mediano">
-      <div class="capitulo-eyebrow">Capítulo 8 · robustez a aglomerados</div>
+      <div class="capitulo-eyebrow">Capítulo 10 · robustez a aglomerados</div>
       <h2>O centro mediano, contra aglomerados</h2>
       <p>
         O centro médio é o ponto que minimiza a soma dos <em>quadrados</em> das distâncias às AMC. O
@@ -418,9 +560,9 @@
       <a class="voltar-topo" href="#top">↑ roteiro</a>
     </section>
 
-    <!-- 9 ================================================================= -->
+    <!-- 11 (era 9) ======================================================= -->
     <section class="capitulo" id="incerteza">
-      <div class="capitulo-eyebrow">Capítulo 9 · margem de erro</div>
+      <div class="capitulo-eyebrow">Capítulo 11 · margem de erro</div>
       <h2>Quanto do deslocamento é ruído</h2>
       <p>
         A fórmula devolve um número, e não uma distribuição. Para ter um intervalo de confiança, o
@@ -475,16 +617,18 @@
         <h4>O que o bootstrap não diz</h4>
         <p>
           Nada sobre o erro do classificador. Ele mede a incerteza de amostragem sobre as unidades. Se
-          o MapBiomas confunde pastagem com savana numa região, nenhuma reamostragem enxerga isso.
+          o MapBiomas confunde pastagem com savana numa região, nenhuma reamostragem enxerga isso. A
+          forma de erro de classificação que dá para medir é outra, e está no
+          <a href="#colecoes">capítulo 14</a>.
         </p>
       </div>
       <a class="voltar-topo" href="#top">↑ roteiro</a>
     </section>
 
-    <!-- 10 ================================================================ -->
+    <!-- 12 (era 10) ====================================================== -->
     <section class="capitulo" id="pixel">
-      <div class="capitulo-eyebrow">Capítulo 10 · robustez à malha</div>
-      <h2>A conta sem malha nenhuma</h2>
+      <div class="capitulo-eyebrow">Capítulo 12 · robustez à malha</div>
+      <h2>A conta sem malha, e com outra malha</h2>
       <p>
         O capítulo 2 pôs toda a pastagem de uma AMC no centroide dela. Se a pastagem de uma AMC grande
         estiver concentrada num canto, essa posição está errada. O teste é refazer a conta sem polígono
@@ -502,20 +646,183 @@
         <div class="tabela-wrap" id="c10-tab" style="border-top:1px solid var(--color-rule)"></div>
       </div>
       <p style="font-size:0.94rem;color:var(--color-muted)" id="c10-regua"></p>
+      <h3>E o rebanho?</h3>
+      <p>
+        O rebanho não tem pixel: ele vem da Pesquisa Pecuária Municipal, uma tabela por município. Para
+        ele, o teste possível é trocar de malha. A tabela abaixo refaz a conta com os 246 municípios de
+        hoje no lugar das 166 AMC (Pipeline #59). É uma malha pior de propósito: antes das emancipações,
+        o município-filho não tem dado e o rebanho dele fica no município-pai, que é o artefato que a AMC
+        existe para evitar. Se mesmo assim o número quase não muda, a malha não está fabricando o
+        resultado.
+      </p>
+      <div class="mt-fig"><div class="tabela-wrap" id="c12-mun"></div></div>
       <a class="voltar-topo" href="#top">↑ roteiro</a>
     </section>
 
-    <!-- 11 ================================================================ -->
+    <!-- 13 (novo, #59) ==================================================== -->
+    <section class="capitulo" id="regua">
+      <div class="capitulo-eyebrow">Capítulo 13 · projeção e anos-extremo (Pipeline #59)</div>
+      <h2>A projeção e os anos das pontas</h2>
+      <p>
+        Duas escolhas da conta poderiam, em tese, fabricar parte do resultado. A primeira é a
+        <strong>projeção</strong>. O capítulo 2 pôs as AMC em metros na EPSG:5880, a Policônica do
+        Brasil. Ela é uma projeção de compromisso: não preserva exatamente nem a área nem a distância.
+        O teste é refazer a conta em duas réguas diferentes, uma projeção que preserva a área (Albers
+        para a América do Sul) e uma média feita direto sobre a esfera, sem projeção nenhuma, em que
+        cada centroide vira uma seta de comprimento 1 saindo do centro da Terra e o centro de massa é
+        a direção da soma das setas.
+      </p>
+      <p>
+        A segunda escolha são os <strong>anos das pontas</strong>. O deslocamento compara 1985 com
+        2024. Se um desses anos fosse atípico, o número carregaria esse acaso. O teste troca o ano
+        isolado pela média de três e de cinco anos em cada ponta, e ajusta uma reta aos quarenta
+        centros anuais.
+      </p>
+      <div class="mt-fig">
+        <div id="c13-graf"></div>
+        <div class="mt-legenda" id="c13-leg"></div>
+        <div class="tabela-wrap" id="c13-tab" style="border-top:1px solid var(--color-rule)"></div>
+        <div class="mt-leitura" id="c13-leitura"></div>
+      </div>
+      <div class="nao-mostra">
+        <h4>Onde é fácil se confundir</h4>
+        <p>
+          As médias de três e cinco anos dão números menores, e isso não é sinal de fragilidade. A
+          média dos cinco primeiros anos está em 1987 e a dos cinco últimos em 2022: o intervalo entre
+          elas é de 35 anos, e não de 39, e o deslocamento encolhe junto. A reta, que usa os quarenta anos, é o teste mais direto. O r²
+          dela é descritivo: a série anual é autocorrelacionada e o r² não é um teste de significância.
+        </p>
+      </div>
+      <a class="voltar-topo" href="#top">↑ roteiro</a>
+    </section>
+
+    <!-- 14 (novo, #59) ==================================================== -->
+    <section class="capitulo" id="colecoes">
+      <div class="capitulo-eyebrow">Capítulo 14 · erro de classificação (Pipeline #59)</div>
+      <h2>Três classificações do mesmo satélite</h2>
+      <p>
+        O MapBiomas não mede pastagem. Ele <strong>classifica</strong> pixels de imagens Landsat, e
+        toda classificação erra. O bootstrap do capítulo 11 não enxerga esse erro. Sem uma verdade de
+        campo para os quarenta anos, a forma de erro que dá para medir é a
+        <strong>sensibilidade à coleção</strong>: o MapBiomas refaz o mapa inteiro, de 1985 em diante,
+        a cada nova coleção, com amostras, regras e modelos revistos. Se o deslocamento aparecesse em
+        uma coleção e sumisse na seguinte, ele seria um artefato daquela classificação.
+      </p>
+      <p>
+        A figura refaz o centro de massa pixel a pixel nas Coleções 9, 10.1 (a da dissertação) e 11,
+        sobre o mesmo recorte de Goiás. Cada pixel pesa pela sua área e fica na sua posição, sem malha
+        nenhuma, como no capítulo 12.
+      </p>
+      <div class="mt-fig">
+        <div id="c14-graf"></div>
+        <div class="mt-legenda" id="c14-leg"></div>
+        <div class="tabela-wrap" id="c14-tab" style="border-top:1px solid var(--color-rule)"></div>
+        <div class="mt-leitura" id="c14-leitura"></div>
+      </div>
+      <div class="nao-mostra">
+        <h4>O que este teste não diz</h4>
+        <p>
+          Que o MapBiomas acerta. As três coleções usam o mesmo satélite, boa parte do mesmo método e
+          parte das mesmas amostras, e podem errar juntas. A concordância entre elas é uma condição
+          necessária, e não suficiente. O rebanho não entra: ele vem de uma tabela do IBGE, e não de
+          uma classificação de imagem.
+        </p>
+      </div>
+      <a class="voltar-topo" href="#top">↑ roteiro</a>
+    </section>
+
+    <!-- 15 (novo, #59) ==================================================== -->
+    <section class="capitulo" id="lavoura">
+      <div class="capitulo-eyebrow">Capítulo 15 · a régua da lavoura (Pipeline #59)</div>
+      <h2>Que lavoura?</h2>
+      <p>
+        Para a pastagem e o rebanho, todos os testes anteriores apontam na mesma direção. Para a
+        agricultura, há uma pergunta anterior a qualquer teste: <strong>o que conta como lavoura</strong>.
+        A figura mostra o centro de massa da agricultura medido de cinco jeitos, cada um contado a partir
+        do seu primeiro ano.
+      </p>
+      <ul>
+        <li><strong>Agricultura do MapBiomas</strong>: a régua da dissertação, as classes de lavoura do satélite.</li>
+        <li><strong>Agricultura mais o Mosaico de Usos</strong>: o Mosaico é uma classe do MapBiomas para áreas em
+          que o satélite não separa pasto de lavoura. No fim da série, parte da lavoura nova passa a ser
+          classificada como Mosaico. Somar os dois dá um teto.</li>
+        <li><strong>Soja plantada</strong>: a área declarada à Produção Agrícola Municipal do IBGE (PAM), que não
+          depende de satélite.</li>
+        <li><strong>Lavouras temporárias da PAM</strong>: todas as culturas de ciclo curto, com e sem o milho. O
+          milho entra à parte porque a área da segunda safra repete terra já contada na soja.</li>
+      </ul>
+      <div class="mt-fig">
+        <div id="c15-graf"></div>
+        <div class="mt-legenda" id="c15-leg"></div>
+        <div class="mt-ctl" style="border-top:1px solid var(--color-rule)">
+          <label for="c15-jan">Culturas das temporárias, janela</label>
+          <select id="c15-jan"></select>
+        </div>
+        <div class="mt-barras" id="c15-cult"></div>
+        <div class="mt-leitura" id="c15-leitura"></div>
+      </div>
+      <p>
+        As réguas se dividem em dois grupos. A soja e as classes de lavoura do satélite se deslocam para o
+        norte. O conjunto das temporárias e a soma com o Mosaico se deslocam para o sul. A barra de culturas
+        explica a divisão. Em 1988 o <strong>arroz</strong> ocupava em Goiás quase tanto quanto a soja, e
+        ficava ao norte do centro das lavouras. Em 2024 ele praticamente desapareceu. Com o feijão
+        aconteceu o mesmo, em escala menor. E a cana, que fica ao sul do centro das lavouras, cresceu dez
+        vezes. A leitura mais provável é a do arroz de sequeiro plantado na abertura de áreas novas, antes
+        do pasto. Os dados desta página mostram o tamanho, a posição e o desaparecimento do arroz, e não a
+        razão dele. A soma com o Mosaico se desloca para o sul quase toda entre 1985 e 2000, o mesmo
+        período em que o arroz some da PAM. Que o Mosaico do norte guardasse essa agricultura não foi
+        testado. Quem mede a lavoura inteira mede, sobretudo, o fim do arroz. Quem mede a soja mede a
+        lavoura comercial de grãos.
+      </p>
+      <div class="veredito-box">
+        <h4>O que isso muda na leitura</h4>
+        <p>
+          A frase “o centro de gravidade da agricultura está 65&nbsp;km mais ao norte” vale para a lavoura
+          <strong>comercial</strong> que o MapBiomas classifica como agricultura, e é confirmada pela soja
+          da PAM, uma fonte independente do satélite. Ela não vale para “toda a lavoura”, porque a lavoura
+          de 1985 incluía uma agricultura de abertura que ficava ao norte e sumiu. As duas coisas são
+          verdadeiras ao mesmo tempo, e a dissertação precisa dizer qual das duas está medindo. Para a
+          pastagem e o rebanho essa ambiguidade não existe.
+        </p>
+      </div>
+      <a class="voltar-topo" href="#top">↑ roteiro</a>
+    </section>
+
+    <!-- 16 (novo) ========================================================= -->
+    <section class="capitulo" id="placar">
+      <div class="capitulo-eyebrow">Capítulo 16 · balanço</div>
+      <h2>O placar dos testes</h2>
+      <p>
+        Cada linha é uma pergunta que alguém poderia fazer ao resultado, o teste que responde a ela e o
+        que o teste devolveu. Os números vêm dos arquivos dos pipelines. O resultado de um teste que não
+        passou não é escondido: ele muda o que a dissertação diz, e a última coluna registra como.
+      </p>
+      <div class="mt-fig">
+        <div class="tabela-wrap" id="c16-tab"></div>
+      </div>
+      <p>
+        O que o placar não traz é o teste que ninguém fez. Dois ficam declarados. O erro de classificação
+        só é medido pela concordância entre coleções, e não contra uma verdade de campo. E o rebanho não
+        tem teste pixel a pixel, porque o dado é uma tabela municipal.
+      </p>
+      <a class="voltar-topo" href="#top">↑ roteiro</a>
+    </section>
+
+    <!-- 17 (era 11) ====================================================== -->
     <section class="capitulo" id="limites">
-      <div class="capitulo-eyebrow">Capítulo 11</div>
+      <div class="capitulo-eyebrow">Capítulo 17</div>
       <h2>O que o método não diz</h2>
       <div class="veredito-box">
         <h4>O que ele sustenta</h4>
         <p>
-          Que o ponto de equilíbrio da pastagem, do rebanho e da agricultura se deslocou para o norte
-          entre 1985 e 2024. O intervalo de 95% exclui o zero em todos os tamanhos de bloco. O centro
-          mediano conta a mesma história, e a conta pixel a pixel, sem malha, chega ao mesmo lugar. A
-          vegetação natural fica ancorada.
+          Que o centro de gravidade da pastagem, do rebanho e da agricultura comercial está mais ao
+          norte em 2024 do que em 1985. O intervalo de 95% exclui o zero em todos os tamanhos de bloco.
+          O resultado se mantém pixel a pixel, na malha municipal, em outras duas projeções, com outros
+          anos nas pontas e nas Coleções 9 e 11 do MapBiomas. No centro mediano a direção se mantém e
+          a magnitude muda (na agricultura, +40&nbsp;km contra +65&nbsp;km do médio), e por isso o número
+          em quilômetros é sempre o do centro médio. A vegetação natural
+          fica ancorada. Visto em três regiões, a maior parte do deslocamento é troca de peso entre
+          elas.
         </p>
       </div>
       <div class="nao-mostra">
@@ -528,9 +835,15 @@
         </p>
       </div>
       <p>
-        O centro também não diz que a atividade “saiu” do sul. Ele sobe quando o norte cresce mais
-        depressa que o sul, mesmo que o sul não perca nada, como mostra o capítulo 7. Para saber se o
-        sul perdeu área, é preciso olhar as áreas, e não o centro.
+        O centro também não diz que a atividade “saiu” do sul. Ele se desloca para o norte quando o norte
+        cresce mais depressa que o sul, mesmo que o sul não perca nada, como mostram os capítulos 7 e 9.
+        Na agricultura é exatamente isso: o Sul segue segurando o centro com a mesma força
+        (capítulo 8). Para saber se o sul perdeu área, é preciso olhar as áreas, e não o centro.
+      </p>
+      <p>
+        E o centro da agricultura depende de qual lavoura se mede (capítulo 15). Para a lavoura comercial,
+        o centro de gravidade está mais ao norte. Para o conjunto das lavouras temporárias, que em 1988
+        incluía muito arroz no norte, ele está mais ao sul.
       </p>
       <a class="voltar-topo" href="#top">↑ roteiro</a>
     </section>
@@ -538,8 +851,10 @@
     <footer class="mt-footer">
       <p>
         <strong>Fontes de dados.</strong> MapBiomas, Coleção 10.1 (Landsat, 30&nbsp;m): pastagem,
-        agricultura e vegetação natural (floresta, savana e campo). IBGE, Pesquisa Pecuária Municipal:
-        efetivo de bovinos. Malha de Áreas Mínimas Comparáveis construída a partir de Ehrl (2017).
+        agricultura e vegetação natural (floresta, savana e campo); Coleções 9 e 11 no capítulo 14. IBGE,
+        Pesquisa Pecuária Municipal: efetivo de bovinos. IBGE, Produção Agrícola Municipal: área plantada
+        das lavouras temporárias (capítulo 15). Malha de Áreas Mínimas Comparáveis construída a partir de
+        Ehrl (2017).
       </p>
       <p>
         <strong>Como a página foi feita.</strong> O arquivo <code>assets/data/metodo_centro_massa.json</code>
@@ -547,7 +862,9 @@
         <code>painel_amc_goias.parquet</code> e <code>amc_goias.gpkg</code> (Pipeline #25), e só é gravado
         se o centro recalculado bater com o arquivo oficial do Pipeline #32. Toda conta desta página é
         feita no navegador, com a álgebra de <code>centro_massa.py</code> (#32),
-        <code>robustez_bootstrap_bloco.py</code> (#55) e <code>centro_massa_pixel.py</code> (#43).
+        <code>robustez_bootstrap_bloco.py</code> (#55), <code>centro_massa_pixel.py</code> (#43) e
+        <code>centro_massa_ancoragem.py</code> (#58). Os capítulos 13 a 15 mostram os resultados de
+        <code>centro_massa_robustez_complementar.py</code> (#59), rotulados com o arquivo de origem.
       </p>
       <p id="mt-confere"></p>
       <div class="mt-footer-bottom">
@@ -561,6 +878,6 @@
   <div class="mt-tip" id="mt-tip" role="tooltip"></div>
 
   <script src="assets/js/vendor/d3.v7.min.js?v=2"></script>
-  <script src="assets/js/metodo-centro-massa.js?v=1"></script>
+  <script src="assets/js/metodo-centro-massa.js?v=2"></script>
 </body>
 </html>

@@ -9,6 +9,9 @@ dos MESMOS arquivos e com a MESMA álgebra do #32 e do #55 (robustez_bootstrap_b
   - os pesos w_it das quatro variáveis, 1985–2024 (regra do #32: NaN/<=0 -> fora);
   - as partições em blocos do #55 (mesmo k-means, mesma semente);
   - os resultados oficiais (CSVs do #32/#55/#43) para a página se conferir contra eles;
+  - as zonas do #58 (mesma função `zonas_por_amc`), para a página refazer a ancoragem e a
+    decomposição por região, e os resultados oficiais do #58 e do #59 (réguas agrícolas,
+    coleções MapBiomas, projeção, anos-extremo, malha municipal);
   - um ajuste polinomial EPSG:5880 -> (lon, lat), só para rotular latitude no navegador.
 
 Nenhum número novo: a página refaz a conta e mostra a diferença para o CSV oficial. Antes de
@@ -18,7 +21,7 @@ centro_massa_anual.csv (tolerância de 10 m) e aborta se não bater.
 COMO RODAR
     python scripts/exportar_metodo_centro_massa_viz.py
 Saída: Visualizacao/assets/data/metodo_centro_massa.json
-Depende de: #25 (painel_amc_goias.parquet, amc_goias.gpkg), #32, #43, #55.
+Depende de: #25 (painel_amc_goias.parquet, amc_goias.gpkg), #32, #43, #55, #58, #59.
 """
 from __future__ import annotations
 
@@ -150,6 +153,41 @@ def main() -> None:
     XY = np.column_stack([CX, CY])
     blocos = {int(k): kmeans_blocos(XY, k).tolist() for k in GRADE_K}
 
+    # Zonas do #58, pela MESMA função do pipeline (regra canônica de região, faixas de latitude).
+    from centro_massa_ancoragem import zonas_por_amc, ORDEM_ZONAS, ROTULO_PARTICAO  # noqa: E402
+    zn = zonas_por_amc().set_index("code_amc").reindex(codes)
+    zonas = {}
+    for p, ordem in ORDEM_ZONAS.items():
+        assert zn[p].isin(ordem).all(), f"zona fora da ordem em {p}"
+        zonas[p] = {"rotulo": ROTULO_PARTICAO[p], "ordem": ordem,
+                    "lab": [ordem.index(z) for z in zn[p]]}
+
+    # #58 — decomposição (totais por partição × variável × janela) e IC; resumo da ancoragem.
+    dec = pd.read_csv(PROC / "centro_massa_decomposicao.csv")
+    dec = dec[dec.variavel.isin(VARS)]
+    dec_tot = (dec.groupby(["particao", "variavel", "janela", "ano_ini", "ano_fim"])
+                  [["entre_N_km", "dentro_N_km"]].sum().reset_index())
+    dec_ic = pd.read_csv(PROC / "centro_massa_decomposicao_ic.csv")
+    dec_ic = dec_ic[dec_ic.variavel.isin(VARS)][["k_blocos", "particao", "variavel", "janela",
+                                                  "total_N_lo", "total_N_hi", "entre_N_lo", "entre_N_hi",
+                                                  "dentro_N_lo", "dentro_N_hi", "frac_entre_N_lo",
+                                                  "frac_entre_N_hi", "dentro_exclui_zero"]]
+    anc = pd.read_csv(PROC / "centro_massa_ancoragem_resumo.csv")
+    anc = anc[anc.variavel.isin(VARS) & (anc.janela == "LÍQUIDO")][
+        ["particao", "variavel", "zona", "loo_km_mediana", "puxao_norte_ini_km", "puxao_norte_fim_km",
+         "influencia_share_mediana"]]
+
+    # #59 — bateria complementar, séries das réguas agrícolas e das coleções (km locais).
+    rob = pd.read_csv(PROC / "centro_massa_robustez_complementar.csv")
+    regua = pd.read_csv(PROC / "centro_massa_regua_series.csv").set_index("ano")
+    colpx = pd.read_csv(PROC / "centro_massa_colecoes_pixel.csv", dtype={"colecao": str})
+    for c in ["9", "10.1", "11"]:
+        assert c in set(colpx.colecao), f"coleção {c} ausente do cache do #59"
+    reguas = {k: {"ano": s.dropna().index.tolist(), "y": np.round(s.dropna().to_numpy() - y0 / 1000, 3).tolist()}
+              for k, s in regua.items()}
+    colecoes = {f"{c}|{g}": {"ano": d.ano.tolist(), "y": km(d.y_m, y0).tolist()}
+                for (c, g), d in colpx.sort_values("ano").groupby(["colecao", "grupo"])}
+
     # Resultados oficiais, para a página se conferir.
     boot = pd.read_csv(PROC / "centro_massa_bootstrap.csv")
     bloco = pd.read_csv(PROC / "centro_massa_bootstrap_bloco.csv")
@@ -166,11 +204,17 @@ def main() -> None:
                   for k, g in of.groupby("variavel")},
         "boot": boot.round(3).to_dict("records"),
         "bloco": bloco[["variavel", "k_blocos", "amc_por_bloco", "dN_km", "dN_lo", "dN_hi",
-                        "exclui_zero"]].round(3).to_dict("records"),
+                        "exclui_zero", "dL_km", "dL_lo", "dL_hi", "exclui_zero_leste"]].round(3).to_dict("records"),
         "desloc": desl[["variavel", "ato", "ano_ini", "ano_fim", "dnorte_km", "dleste_km"]]
                       .round(3).to_dict("records"),
         "pixel": {k: {"ano": g["ano"].tolist(), "x": g["x"].tolist(), "y": g["y"].tolist()}
                   for k, g in pix.sort_values("ano").groupby("variavel")},
+        "dec58": dec_tot.round(4).to_dict("records"),
+        "dec58_ic": dec_ic.round(4).to_dict("records"),
+        "anc58": anc.round(4).to_dict("records"),
+        "rob59": rob.round(4).replace({np.nan: None}).to_dict("records"),
+        "reguas59": reguas,
+        "colecoes59": colecoes,
     }
 
     dados = {
@@ -190,6 +234,7 @@ def main() -> None:
         "pesos": pesos,
         "latfit": {"expo": expo, "lat": c_lat.tolist(), "lon": c_lon.tolist(), "esc": 100},
         "blocos": blocos,
+        "zonas": zonas,
         "oficial": oficial,
     }
     js = json.dumps(dados, ensure_ascii=False, separators=(",", ":"))

@@ -386,14 +386,19 @@ longo do tempo**. É essa riqueza que o efeito fixo explora.
   - a **elipse de desvio-padrão**: desenha a *dispersão* e a *orientação* (o azimute) do
     espalhamento — mostra não só onde está o centro, mas em que direção a mancha se alonga.
 
-  Tudo calculado em **EPSG:5880** (uma projeção de área-igual, para que "km" signifique km de
-  verdade).
-- **Seu resultado (a manchete):** de 1985 a 2024, o centro de massa subiu ao norte —
-  **pastagem +78 km, rebanho +67 km, agricultura +65 km** — enquanto a **vegetação natural ficou
+  Tudo calculado em **EPSG:5880** (SIRGAS 2000 / Policônica do Brasil). É uma projeção
+  **métrica de compromisso, não de área-igual**: não preserva área nem distância exatamente, mas
+  dentro de Goiás o erro de escala é pequeno para deslocamentos de dezenas de km, e o recálculo
+  pixel a pixel do #43, feito em coordenadas geográficas (sem projeção), bate em 1–2 km.
+- **Seu resultado (a manchete):** de 1985 a 2024, o centro de gravidade de cada camada ficou
+  mais ao norte — **pastagem +78 km, rebanho +67 km, agricultura +65 km** — enquanto a **vegetação natural ficou
   ancorada**. A lavoura fica sempre **123–135 km** ao sul do pasto/rebanho (o gradiente
   latitudinal persistente). E **só no Ato III (2020–24) a agricultura praticamente estaciona**
   (avança só +0,2 km, dentro do ruído do bootstrap — é desaceleração recente, não reversão)
-  enquanto pasto e rebanho seguem subindo — o sinal mais limpo de deslocamento, e é recente.
+  enquanto os centros de pasto e rebanho seguem indo ao norte — o sinal mais limpo de
+  deslocamento, e é recente. Leia sempre "o centro de gravidade está N km mais ao norte", e não
+  "o pasto subiu": o centro se move por ganho no Norte, por perda no Sul ou por crescimento
+  desigual, sem que nenhum hectare mude de lugar (a conta que separa isso é o #58, abaixo).
 - **A barra de erro (Decisão D19):** um centro de massa é uma estatística **pontual** — sem
   margem de erro não dá para saber se um deslocamento pequeno é real ou ruído. Por isso o #32
   ganhou um **bootstrap de AMCs**: reamostra as 166 AMCs **com reposição** (B = 2000), recomputa
@@ -419,6 +424,34 @@ longo do tempo**. É essa riqueza que o efeito fixo explora.
   recuou ao norte** (+34,8 km, mas com IC larguíssimo — [+0,2, +79,9]: a *direção* é robusta, a
   *magnitude* não) e a **savânica inclui zero** (+12,4 km, IC [−0,3, +23,3]). Média nenhuma
   dispensa abrir os componentes — e componente nenhum dispensa a barra de erro.
+- **Quem segura e quem move o centro (#58).** Pense no estado dividido em três pedaços (Sul,
+  Centro, Norte), cada um com o seu próprio centro e o seu peso (a fatia do pasto, do boi ou da
+  lavoura). O centro de Goiás é a média desses três centros, ponderada pelo peso. Isso é uma
+  identidade: dá exatamente o número do #32.
+  - **Ancoragem (tirar um pedaço).** Recalcula-se o centro sem o Sul e mede-se quanto ele pula.
+    Esse pulo é o *leave-one-out* (LOO). O Sul é quem mais segura o centro em todas as camadas,
+    o que já se esperava, porque é o pedaço mais pesado e mais distante. O interessante é como
+    esse puxão muda no tempo. No pasto, o Sul puxa 37 km menos em 2024 do que em 1985. Na
+    lavoura, puxa o mesmo (−171 → −169 km): o centro de gravidade fica mais ao norte sem a
+    lavoura do Sul ceder.
+  - **A "alavanca" (peso × distância)** é a mesma conta em outra escala: LOO = alavanca/(1 − peso).
+    Se alguém chamar as duas de medidas "complementares", essa é a resposta.
+  - **Decomposição.** O deslocamento entre 1985 e 2024 se divide em duas parcelas que somam o
+    total sem sobra: a **troca de peso** (o Norte ficou com uma fatia maior) e o **movimento
+    dentro** (o centro de cada pedaço andou). Com três pedaços, **74–81%** do ΔNorte do pasto, do
+    boi e da lavoura é troca de peso, e os 15–17 km restantes são movimento interno (IC exclui zero).
+  - **O que isso NÃO diz:** a porcentagem depende de quantos pedaços se usa. Com as 166 AMCs como
+    pedaços ela é 100% por construção (uma AMC não se move); com um pedaço só, 0%. Por isso o
+    número só se diz com a escala junto: "vista em 3 a 5 pedaços, a maior parte do deslocamento
+    é redistribuição entre eles". E a conta não diz *por que* os pesos mudaram; isso são as
+    Pernas 2 a 4.
+- **A bateria que faltava (#59).** O resultado foi refeito numa projeção de área-igual e sobre
+  a esfera (diferença ≤ 2 km), com os anos das pontas trocados por uma reta nos 40 anos (r² de
+  0,97–0,98), nos 246 municípios em vez das AMC (≤ 1,1 km, o primeiro teste de malha do rebanho)
+  e pixel a pixel em três coleções do MapBiomas (a direção se mantém nas três). Dois achados
+  mudam a forma de dizer: **(1)** a agricultura depende da régua, porque a lavoura comercial vai
+  ao norte e o conjunto das temporárias da PAM vai ao sul, com o fim do arroz de 1988–2000;
+  **(2)** o centro mediano mantém a direção mas não a magnitude (agricultura +40 contra +65 km).
 
 #### 1.7 Correlação de Pearson (r) e o p-valor
 
@@ -1019,7 +1052,7 @@ Ela se apoia em quatro pernas:
 
 | Perna | O que afirma | Pipelines | Força da evidência |
 |---|---|---|---|
-| **1. O padrão existe** | Tudo marchou ao norte; a lavoura fica ao sul do pasto; a vegetação ficou **ancorada** | #32, #43 (MAUP), #44 (desagregado), D19 (IC) | **Forte** — robusto a malha, a desagregação e ao bootstrap |
+| **1. O padrão existe** | Os centros de gravidade de pasto, rebanho e lavoura estão ao norte de onde estavam em 1985; a lavoura fica ao sul do pasto; a vegetação ficou **ancorada** | #32, #43 (MAUP), #44 (desagregado), D19 (IC) | **Forte** — robusto a malha, a desagregação e ao bootstrap |
 | **2. O mecanismo local** | Sul: pasto→lavoura (intensifica); Norte: mata→pasto (fronteira) | #33, #28, #22, **#22B**, #40, #28C, #40B, #49 | **Forte no *tipo* de transição** — mas por medidas **imunes**: o `veg→pasto` do #33 (que não passa pelo Mosaico) e os centroides #32/#44. **✅ A "intensificação" ficou mais firme (#22B, 27/jul)**: o β<0 de `Δ Agric ~ Δ VA agro` é **within-município**, não composição entre municípios — sobrevive a um FE de grupo×ano movendo só +2,4% a +14,1%. **⚠️ Cai o gradiente latitudinal de IDADE do pasto (#40/#28C/#33 — três testes independentes)**, **cai a queda de −88% do `pasto→agric` do Sul no Ato III (#33: inverte para +51%)** e **cai a "retração da agricultura" do Intensity (#31: −84% inverte para +67%)**. Auditoria D26, `metodologia/tratamento_deriva_mosaico.md` §9 — sobrevive a bimodalidade/coexistência, não o "young-Sul/old-Norte". **✅ Confirmado na régua consertada (#12B, 27/jul)**: com o Mosaico como 7º grupo a matriz primária dá os mesmos **−88% / +51%** do bracket — o remendo e o conserto convergem |
 | **3. Reorganização coordenada, não deslocamento** | *Negativo:* sem precedência temporal, sem spillover direcional. *Positivo:* coordenada por um **drive macro comum** (câmbio o candidato), não por causação local | *Negativo:* #34, #42, #45, #53, #41 · *Positivo:* #37, #38, #52 (aptidão exógena), #54 (inferência), #50 (crédito não lidera) | **Forte no negativo** (nulo bem defendido); **corroborante no positivo** — o #54 mostrou que o p clusterizado (~0,03) era otimista, a permutação do shifter dá **p≈0,07–0,13 (não sig. a 5%)**; o que sustenta o drive comum é a **especificidade** (placebos/lead/jackknife), não a significância |
 | **4. O teto de oferta** | Sul bateu no estoque; Norte ainda tem Cerrado; 97% desprotegido | #39, #46, #48 (valida PRODES), #47 (custo) | **Forte no diagnóstico**, com proxy declarado (D13/D17) |
@@ -1209,11 +1242,43 @@ da **vegetação natural inclui zero** ([−0,5, +15,6]), então eu **não** rep
 **"ancorada"**. A regra que adotei é: *ΔNorte com IC contendo zero nunca vira quilômetro no
 texto*. É por isso que a vegetação aparece como "ficou parada" e não como um número.
 
+**"O centro de massa se moveu porque a atividade foi para o norte ou porque o Sul perdeu peso?"**
+As duas coisas, e a conta separa. O #58 divide o ΔNorte em troca de peso entre três regiões e
+movimento dentro delas: no pasto, +62,8 dos +77,6 km (81%) são troca de peso e +14,8 km são
+movimento interno, com IC95% [+5,4; +23,3]. Na lavoura, 74%. A fração depende do número de
+regiões (com 166 AMCs seria 100% por construção), então eu a digo sempre com a escala: vista em
+três regiões, a maior parte do deslocamento é redistribuição. Por isso escrevo "o centro de
+gravidade está N km mais ao norte", e não "a lavoura subiu".
+
+**"Se você somar a lavoura com o Mosaico de Usos, o centro não vai para o sul?"**
+Vai, 60 km, e a lavoura temporária inteira da PAM também vai para o sul (−46 km em 1988–2024).
+Não é o método errando, é a pergunta mudando: "que lavoura?". O #59 decompõe as temporárias por
+cultura, e quase todo o deslocamento ao sul é o arroz: 689 mil ha em 1988, quase a área da soja,
+77 km ao norte do centro das lavouras, e 28 mil ha em 2024. Some isso entre 1988 e 2000, o mesmo
+período em que a união com o Mosaico vai para o sul. A lavoura comercial (as classes de lavoura
+do MapBiomas e a soja da PAM, fonte independente do satélite) tem o centro de gravidade ao norte.
+Por isso digo "o centro de gravidade da lavoura comercial está 65 km mais ao norte", e não "da
+lavoura". Para o pasto e o rebanho a pergunta não existe.
+
+**"Como você sabe que não é erro do MapBiomas?"**
+Não sei contra uma verdade de campo, e não afirmo isso. O que dá para medir é a sensibilidade à
+coleção: o #59 refaz o centro pixel a pixel nas Coleções 9, 10.1 e 11, que o MapBiomas
+reclassificou do zero com amostras e regras revistas. De 1985 a 2023, a agricultura dá +65,7,
++65,8 e +65,9 km nas Coleções 9, 10.1 e 11, e a pastagem +76,5, +75,9 e +69,0 km. A concordância
+é necessária, não suficiente, porque as três usam o mesmo satélite e boa parte do mesmo método.
+
+**"O centro mediano dá o mesmo número?"**
+Não, e eu digo isso. Dá a mesma direção: pastagem +101 km, rebanho +81, agricultura +40, contra
++78, +67 e +65 do centro médio. O mediano fica dentro do aglomerado do Sudoeste e responde menos
+ao crescimento distante ao norte, que é o que o médio registra. Por isso o número em quilômetros
+que cito é sempre o do centro médio, e digo qual centro é.
+
 **"O método do centro de massa é seu ou é padrão?"**
 É padrão, e não inventei nada. *Mean center* ponderado é o que o **US Census Bureau** publica como
 *mean center of population*, e o trio que uso (centro médio + centro mediano de Weiszfeld + elipse
 de desvio-padrão) é o toolset *Measuring Geographic Distributions* do **ArcGIS**. Tudo em projeção
-de área-igual (EPSG:5880). A implementação foi reproduzida do zero a partir do dado cru e bate ao
+métrica (EPSG:5880, Policônica do Brasil); ela não é de área-igual, e por isso o #43 refaz a conta
+pixel a pixel em coordenadas geográficas, sem projeção nenhuma, e bate em 1–2 km. A implementação foi reproduzida do zero a partir do dado cru e bate ao
 decimal.
 
 **"Correlação não é causa. Como você sabe que o câmbio importa?"**

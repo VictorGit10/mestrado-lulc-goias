@@ -394,7 +394,7 @@
         el("line", { x1: bx, x2: bx + 20, y1: by, y2: by, stroke: INK, "stroke-width": 2, "vector-effect": "non-scaling-stroke" }, barra);
         const tt = el("text", { x: bx, y: by - 5 * k, "font-size": 11 * k, fill: MUTED }, barra); tt.textContent = "20 km";
         const v = S.v, a = cent[v][0], b = cent[v][iA(ano)];
-        $("#c6-leitura").innerHTML = `${nome(v)}, 1985 → ${ano}: o centro andou <b>${fmtS(b.y - a.y)} km</b> na direção norte e <b>${fmtS(b.x - a.x)} km</b> na direção leste.`;
+        $("#c6-leitura").innerHTML = `${nome(v)}, 1985 → ${ano}: o centro se deslocou <b>${fmtS(b.y - a.y)} km</b> na direção norte e <b>${fmtS(b.x - a.x)} km</b> na direção leste.`;
         G.marca(ano);
       }
       function tabela() {
@@ -463,7 +463,177 @@
       m.atualiza.push(calcula); aoMudarVar(calcula); calcula();
     })();
 
-    // ═══════════════ Cap. 8 · mediano
+    // ═══════════════ Zonas (#58): agregação por região, comum aos caps. 8, 9 e 16
+    // Partições extras só para a escala do cap. 9: 1 pedaço e 166 AMC.
+    D.zonas.um = { rotulo: "1 pedaço", ordem: ["Goiás"], lab: AMC.map(() => 0) };
+    D.zonas.amc166 = { rotulo: "166 AMC", ordem: AMC.map((a) => a.nome), lab: AMC.map((_, i) => i) };
+    const RAMPA = d3.piecewise(d3.interpolateLab, [SUL, "#a8a399", NORTE]);
+    const zCor = (p, k) => { const n = D.zonas[p].ordem.length; return RAMPA(n === 1 ? 0.5 : k / (n - 1)); };
+    function porZona(w, p) {
+      const Z = D.zonas[p], nz = Z.ordem.length;
+      const A = new Float64Array(nz), SX = new Float64Array(nz), SYz = new Float64Array(nz);
+      for (let i = 0; i < N; i++) { const wi = w[i]; if (!(wi > 0)) continue; const z = Z.lab[i]; A[z] += wi; SX[z] += wi * CX[i]; SYz[z] += wi * CY[i]; }
+      let T = 0; for (const a of A) T += a;
+      return { nz, A, T, x: [...A].map((a, z) => (a > 0 ? SX[z] / a : NaN)), y: [...A].map((a, z) => (a > 0 ? SYz[z] / a : NaN)), s: [...A].map((a) => a / T) };
+    }
+    // Decomposição simétrica do #58 (centro_massa_ancoragem._decompor), componente norte.
+    function decompoe(v, a0, a1, p) {
+      const e0 = porZona(pesos(v, a0), p), e1 = porZona(pesos(v, a1), p), nz = e0.nz;
+      const y0 = e0.y.map((y, z) => (Number.isFinite(y) ? y : e1.y[z])), y1 = e1.y.map((y, z) => (Number.isFinite(y) ? y : e0.y[z]));
+      const ok = y0.map((y) => Number.isFinite(y)), s0 = e0.s.map((s, z) => (ok[z] ? s : 0)), s1 = e1.s.map((s, z) => (ok[z] ? s : 0));
+      let yr = 0; for (let z = 0; z < nz; z++) if (ok[z]) yr += (s0[z] * y0[z] + s1[z] * y1[z]) / 2;
+      const entre = [], dentro = [];
+      for (let z = 0; z < nz; z++) { entre.push(ok[z] ? (s1[z] - s0[z]) * ((y0[z] + y1[z]) / 2 - yr) : 0); dentro.push(ok[z] ? ((s0[z] + s1[z]) / 2) * (y1[z] - y0[z]) : 0); }
+      const E = entre.reduce((a, b) => a + b, 0), De = dentro.reduce((a, b) => a + b, 0);
+      return { entre, dentro, E, De, T: E + De, s0, s1 };
+    }
+
+    // ═══════════════ Cap. 8 · ancoragem (#58)
+    (function ancoragem() {
+      let P = "regiao3", ano = 2024, fora = 0;
+      const m = novoMapa($("#c8a-mapa"), { rotulo: "Goiás dividido em regiões, com o centro de massa com todas as regiões e sem a região escolhida" });
+      const gZ = el("g", {}, m.gT), mk = marcaCG(m.gT, 10);
+      const mkSem = el("circle", { fill: "none", stroke: INK, "stroke-width": 2.2, "vector-effect": "non-scaling-stroke" }, m.gT);
+      const seta = el("line", { stroke: INK, "stroke-width": 1.4, "stroke-dasharray": "3 3", "vector-effect": "non-scaling-stroke" }, m.gT);
+      function puxoes(v, a, p) {
+        const e = porZona(pesos(v, a), p), X = e.x.reduce((s, x, z) => s + (e.A[z] > 0 ? e.A[z] * x : 0), 0) / e.T, Y = e.y.reduce((s, y, z) => s + (e.A[z] > 0 ? e.A[z] * y : 0), 0) / e.T;
+        return e.x.map((_, z) => {
+          if (!(e.A[z] > 0)) return null;
+          const Ao = e.T - e.A[z]; if (!(Ao > 0)) return null;
+          const xo = (X * e.T - e.A[z] * e.x[z]) / Ao, yo = (Y * e.T - e.A[z] * e.y[z]) / Ao, w = e.A[z] / e.T;
+          const loo = Math.hypot(X - xo, Y - yo), infl = w * Math.hypot(e.x[z] - X, e.y[z] - Y);
+          return { z, w, X, Y, xo, yo, cx: e.x[z], cy: e.y[z], puxN: Y - yo, loo, infl };
+        });
+      }
+      const G = (function () {
+        const W = 760, H = 230, mg = { l: 52, r: 90, t: 16, b: 26 };
+        const svg = d3.select("#c8a-serie").append("svg").attr("class", "mt-graf").attr("viewBox", `0 0 ${W} ${H}`).attr("role", "img").attr("aria-label", "Puxão de cada região sobre o centro de massa, ano a ano");
+        const x = d3.scaleLinear().domain([1985, 2024]).range([mg.l, W - mg.r]);
+        const gA = svg.append("g"), gX = svg.append("g").attr("class", "mt-eixo").attr("transform", `translate(0,${H - mg.b})`), gY = svg.append("g").attr("class", "mt-eixo").attr("transform", `translate(${mg.l},0)`);
+        const gL = svg.append("g"), gZ0 = svg.append("line").attr("stroke", "#b9b6ad"), reg = svg.append("line").attr("stroke", INK).attr("stroke-dasharray", "2 3");
+        svg.append("text").attr("x", mg.l + 6).attr("y", mg.t + 8).attr("font-size", 11).attr("fill", MUTED).text("puxão sobre o centro (km; + = para o norte)");
+        gX.call(d3.axisBottom(x).tickFormat(d3.format("d")).ticks(8));
+        D.atos.forEach((a, j) => { if (j % 2 === 0) gA.append("rect").attr("class", "mt-ato").attr("x", x(a.ini - 0.5)).attr("width", x(a.fim + 0.5) - x(a.ini - 0.5)).attr("y", mg.t).attr("height", H - mg.t - mg.b); });
+        return function () {
+          const serie = ANOS.map((a) => puxoes(S.v, a, P)), nz = D.zonas[P].ordem.length;
+          const vals = serie.flat().filter(Boolean).map((q) => q.puxN);
+          const y = d3.scaleLinear().domain([Math.min(-10, ...vals) - 5, Math.max(10, ...vals) + 5]).range([H - mg.b, mg.t + 14]);
+          gY.call(d3.axisLeft(y).ticks(5).tickFormat((d) => fmt(d, 0)));
+          gZ0.attr("x1", mg.l).attr("x2", W - mg.r).attr("y1", y(0)).attr("y2", y(0));
+          gL.html("");
+          for (let z = 0; z < nz; z++) {
+            const pts = serie.map((s, i) => [ANOS[i], s[z]]).filter(([, q]) => q);
+            if (!pts.length) continue;
+            gL.append("path").attr("fill", "none").attr("stroke", zCor(P, z)).attr("stroke-width", z === fora ? 3 : 1.8).attr("d", d3.line().x(([a]) => x(a)).y(([, q]) => y(q.puxN))(pts));
+            const [aF, qF] = pts.at(-1);
+            gL.append("text").attr("x", x(aF) + 5).attr("y", y(qF.puxN) + 4).attr("font-size", 11).attr("fill", INK).attr("font-weight", z === fora ? 700 : 400).text(D.zonas[P].ordem[z]);
+          }
+          reg.attr("x1", x(ano)).attr("x2", x(ano)).attr("y1", mg.t).attr("y2", H - mg.b);
+        };
+      })();
+      function legenda() {
+        $("#c8a-leg").innerHTML = D.zonas[P].ordem.map((n, z) => `<button type="button" class="mt-btn${z === fora ? " pri" : ""}" data-z="${z}" style="border-left:6px solid ${zCor(P, z)}">${z === fora ? "fora: " : "tirar "}${n}</button>`).join(" ");
+        $("#c8a-leg").querySelectorAll("button").forEach((b) => b.addEventListener("click", () => { fora = +b.dataset.z; desenha(); }));
+      }
+      function desenha() {
+        const Z = D.zonas[P], k = m.kpx();
+        m.polys.forEach((p, i) => { p.style.fill = mix(zCor(P, Z.lab[i]), Z.lab[i] === fora ? 55 : 22); });
+        const q = puxoes(S.v, ano, P), sel = q[fora];
+        gZ.innerHTML = "";
+        q.forEach((r) => { if (!r) return; el("rect", { x: r.cx - 5 * k, y: sy(r.cy) - 5 * k, width: 10 * k, height: 10 * k, fill: zCor(P, r.z), stroke: "#fff", "stroke-width": 1.5 * k }, gZ); });
+        const any = q.find(Boolean);
+        poeCG(mk, m, any.X, any.Y);
+        if (sel) {
+          mkSem.setAttribute("cx", sel.xo); mkSem.setAttribute("cy", sy(sel.yo)); mkSem.setAttribute("r", 9 * k); mkSem.style.display = "";
+          seta.setAttribute("x1", sel.X); seta.setAttribute("y1", sy(sel.Y)); seta.setAttribute("x2", sel.xo); seta.setAttribute("y2", sy(sel.yo)); seta.style.display = "";
+        } else { mkSem.style.display = seta.style.display = "none"; }
+        legenda(); G();
+        $("#c8a-ano-v").textContent = ano;
+        const nomeZ = Z.ordem[fora];
+        let txt = sel
+          ? `Em ${ano}, a região <b>${nomeZ}</b> guarda <b>${fmt(100 * sel.w)}%</b> da ${nome(S.v).toLowerCase()}. Sem ela, o centro iria <b>${fmt(Math.abs(sel.puxN))} km para o ${sel.puxN < 0 ? "norte" : "sul"}</b>: o puxão dela é de ${fmtS(sel.puxN)} km. Em duas dimensões, o salto (LOO) é de ${fmt(sel.loo)} km.<br>
+             A alavanca é peso × distância = ${fmt(sel.w, 3)} × ${fmt(Math.hypot(sel.cx - sel.X, sel.cy - sel.Y))} km = <b>${fmt(sel.infl, 2)} km</b>, e alavanca / (1 − peso) = ${fmt(sel.infl / (1 - sel.w), 2)} km, que é o LOO (${fmt(sel.loo, 2)} km).`
+          : `A região ${nomeZ} não tem ${nome(S.v).toLowerCase()} em ${ano}.`;
+        // Conferência com o arquivo do #58 (puxão em 1985 e 2024).
+        const of = D.oficial.anc58.filter((r) => r.particao === P && r.variavel === S.v);
+        if (of.length) {
+          let pior = 0;
+          for (const r of of) { const z = Z.ordem.indexOf(r.zona), a = puxoes(S.v, 1985, P)[z], b = puxoes(S.v, 2024, P)[z]; if (a) pior = Math.max(pior, Math.abs(a.puxN - r.puxao_norte_ini_km)); if (b) pior = Math.max(pior, Math.abs(b.puxN - r.puxao_norte_fim_km)); }
+          txt += `<br><span style="color:${MUTED}">Os puxões de 1985 e 2024 refeitos aqui diferem de <code>centro_massa_ancoragem_resumo.csv</code> em no máximo ${fmt(pior * 1000, 0)} m.</span>`;
+        }
+        $("#c8a-leitura").innerHTML = txt;
+      }
+      segmento("#c8a-part", (d) => { P = d.p; fora = 0; desenha(); });
+      $("#c8a-ano").addEventListener("input", (ev) => { ano = +ev.target.value; desenha(); });
+      m.atualiza.push(desenha); aoMudarVar(desenha); desenha();
+    })();
+
+    // ═══════════════ Cap. 9 · troca de peso × movimento dentro (#58)
+    (function troca() {
+      let P = "regiao3";
+      const sa = $("#c9a-a"), sb = $("#c9a-b");
+      ANOS.forEach((a) => { sa.add(new Option(a, a)); sb.add(new Option(a, a)); }); sa.value = 1985; sb.value = 2024;
+      const PARTS = [["um", 1], ["regiao3", 3], ["faixa_lat4", 4], ["meso5", 5], ["amc166", 166]];
+      function barras(r, a0, a1) {
+        const Z = D.zonas[P], nz = Z.ordem.length, W = 760, rh = 30, mg = { l: 170, r: 70, t: 30, b: 26 }, H = mg.t + mg.b + rh * (nz + 1) + 8;
+        const vals = [...r.entre, ...r.dentro, r.T, 0];
+        const x = d3.scaleLinear().domain([Math.min(...vals) - 3, Math.max(...vals) + 3]).range([mg.l, W - mg.r]);
+        const svg = d3.select("#c9a-graf").html("").append("svg").attr("class", "mt-graf").attr("viewBox", `0 0 ${W} ${H}`).attr("role", "img").attr("aria-label", "Parcela de cada região no deslocamento norte, separada em troca de peso e movimento dentro");
+        svg.append("text").attr("x", mg.l).attr("y", 14).attr("font-size", 11).attr("fill", MUTED).text(`ΔNorte ${a0} → ${a1} (km), por região`);
+        const lg = svg.append("g").attr("transform", `translate(${W - mg.r - 250},6)`);
+        [["troca de peso", ACC, 1], ["movimento dentro", "#9ab0c4", 0]].forEach(([t, c], j) => { lg.append("rect").attr("x", j * 130).attr("y", 0).attr("width", 12).attr("height", 10).attr("fill", c); lg.append("text").attr("x", j * 130 + 16).attr("y", 9).attr("font-size", 11).attr("fill", INK).text(t); });
+        svg.append("line").attr("x1", x(0)).attr("x2", x(0)).attr("y1", mg.t - 4).attr("y2", H - mg.b).attr("stroke", "#b9b6ad");
+        for (let z = 0; z < nz; z++) {
+          const yy = mg.t + z * rh;
+          svg.append("rect").attr("x", x(Math.min(0, r.entre[z]))).attr("width", Math.abs(x(r.entre[z]) - x(0))).attr("y", yy + 3).attr("height", 11).attr("fill", ACC);
+          svg.append("rect").attr("x", x(Math.min(0, r.dentro[z]))).attr("width", Math.abs(x(r.dentro[z]) - x(0))).attr("y", yy + 15).attr("height", 11).attr("fill", "#9ab0c4");
+          svg.append("rect").attr("x", 8).attr("y", yy + 6).attr("width", 6).attr("height", 18).attr("fill", zCor(P, z));
+          svg.append("text").attr("x", mg.l - 10).attr("y", yy + 19).attr("text-anchor", "end").attr("font-size", 12.5).attr("fill", INK).text(`${Z.ordem[z]} (${fmt(100 * r.s0[z], 0)}% → ${fmt(100 * r.s1[z], 0)}%)`);
+          svg.append("text").attr("x", x(Math.max(0, r.entre[z], r.dentro[z])) + 5).attr("y", yy + 19).attr("font-size", 11).attr("fill", MUTED).text(`${fmtS(r.entre[z])} | ${fmtS(r.dentro[z])}`);
+        }
+        const yT = mg.t + nz * rh + 4;
+        svg.append("rect").attr("x", x(Math.min(0, r.T))).attr("width", Math.abs(x(r.T) - x(0))).attr("y", yT + 4).attr("height", 16).attr("fill", INK);
+        svg.append("text").attr("x", mg.l - 10).attr("y", yT + 17).attr("text-anchor", "end").attr("font-size", 12.5).attr("font-weight", 700).attr("fill", INK).text("Total");
+        svg.append("text").attr("x", x(Math.max(0, r.T)) + 5).attr("y", yT + 17).attr("font-size", 12).attr("font-weight", 700).attr("fill", INK).text(fmtS(r.T) + " km");
+        svg.append("g").attr("class", "mt-eixo").attr("transform", `translate(0,${H - mg.b})`).call(d3.axisBottom(x).ticks(7).tickFormat((d) => fmt(d, 0)));
+      }
+      function escala(a0, a1) {
+        const W = 760, H = 190, mg = { l: 60, r: 20, t: 30, b: 40 };
+        const svg = d3.select("#c9a-escala").html("").append("svg").attr("class", "mt-graf").attr("viewBox", `0 0 ${W} ${H}`).attr("role", "img").attr("aria-label", "Fração do deslocamento que é troca de peso, conforme o número de pedaços");
+        svg.append("text").attr("x", 14).attr("y", 17).attr("font-size", 12).attr("font-weight", 700).attr("fill", MUTED).text("Quanto do ΔNorte é troca de peso, conforme o número de pedaços");
+        const x = d3.scalePoint().domain(PARTS.map(([p]) => p)).range([mg.l + 30, W - mg.r - 30]);
+        const y = d3.scaleLinear().domain([0, 100]).range([H - mg.b, mg.t]);
+        svg.append("g").attr("class", "mt-eixo").attr("transform", `translate(${mg.l},0)`).call(d3.axisLeft(y).ticks(5).tickFormat((d) => d + "%"));
+        PARTS.forEach(([p, n]) => {
+          const r = decompoe(S.v, a0, a1, p), f = Math.abs(r.T) < 3 ? null : (100 * r.E) / r.T;
+          svg.append("text").attr("x", x(p)).attr("y", H - mg.b + 16).attr("text-anchor", "middle").attr("font-size", 11.5).attr("fill", INK).attr("font-weight", p === P ? 700 : 400).text(D.zonas[p].rotulo);
+          if (f === null) return;
+          svg.append("line").attr("x1", x(p)).attr("x2", x(p)).attr("y1", y(0)).attr("y2", y(Math.max(0, Math.min(100, f)))).attr("stroke", COR[S.v]).attr("stroke-width", 3);
+          svg.append("circle").attr("cx", x(p)).attr("cy", y(Math.max(0, Math.min(100, f)))).attr("r", p === P ? 7 : 5).attr("fill", COR[S.v]).attr("stroke", INK).attr("stroke-width", p === P ? 1.5 : 0);
+          svg.append("text").attr("x", x(p) + 10).attr("y", y(Math.max(0, Math.min(100, f))) + 4).attr("font-size", 11).attr("fill", INK).text(fmt(f, 0) + "%");
+        });
+      }
+      function desenha() {
+        const a0 = +sa.value, a1 = +sb.value, r = decompoe(S.v, a0, a1, P), pequeno = Math.abs(r.T) < 3;
+        barras(r, a0, a1); escala(a0, a1);
+        const ic = (k) => D.oficial.dec58_ic.find((q) => q.k_blocos === k && q.particao === P && q.variavel === S.v && q.janela === "LÍQUIDO");
+        const liq = a0 === 1985 && a1 === 2024, i1 = liq ? ic(166) : null, i12 = liq ? ic(12) : null;
+        $("#c9a-num").innerHTML = `<div><div class="k">Deslocamento total</div><div class="v">${fmtS(r.T)} km</div>${i1 ? `<div class="s">IC 95% [${fmtS(i1.total_N_lo)}; ${fmtS(i1.total_N_hi)}]</div>` : ""}</div>
+          <div><div class="k">Troca de peso</div><div class="v">${fmtS(r.E)} km${pequeno ? "" : ` · ${fmt((100 * r.E) / r.T, 0)}%`}</div>${i1 ? `<div class="s">fração: IC 95% [${fmt(100 * i1.frac_entre_N_lo, 0)}%; ${fmt(100 * i1.frac_entre_N_hi, 0)}%]</div>` : ""}</div>
+          <div><div class="k">Movimento dentro</div><div class="v">${fmtS(r.De)} km</div>${i1 ? `<div class="s">IC 95% [${fmtS(i1.dentro_N_lo)}; ${fmtS(i1.dentro_N_hi)}]${i12 ? `; em blocos de ~14 AMC [${fmtS(i12.dentro_N_lo)}; ${fmtS(i12.dentro_N_hi)}]` : ""}</div>` : ""}</div>`;
+        const of = D.oficial.dec58.find((q) => q.particao === P && q.variavel === S.v && q.ano_ini === a0 && q.ano_fim === a1);
+        let txt = pequeno
+          ? `O deslocamento entre ${a0} e ${a1} é de ${fmtS(r.T)} km, pequeno demais para ser repartido em porcentagem.`
+          : `Entre ${a0} e ${a1}, dos ${fmtS(r.T)} km, <b>${fmt((100 * r.E) / r.T, 0)}%</b> vêm de as regiões trocarem de peso e ${fmt((100 * r.De) / r.T, 0)}% de a ${nome(S.v).toLowerCase()} se deslocar dentro delas. Em cada região, a barra terracota é o quanto a mudança de fatia dela empurrou o centro, e a barra azul-clara é o quanto o centro da própria região se deslocou, já ponderado pelo peso dela.`;
+        if (of) txt += `<br><span style="color:${MUTED}">Confere com <code>centro_massa_decomposicao.csv</code>: troca de peso ${fmtS(of.entre_N_km, 3)} km no arquivo e ${fmtS(r.E, 3)} km aqui.</span>`;
+        $("#c9a-leitura").innerHTML = txt;
+      }
+      segmento("#c9a-part", (d) => { P = d.p; desenha(); });
+      sa.addEventListener("change", desenha); sb.addEventListener("change", desenha);
+      aoMudarVar(desenha); desenha();
+    })();
+
+    // ═══════════════ Cap. 10 (era 8) · mediano
     (function mediano() {
       const box = $("#c8-mapa");
       let m, ano = 1985, passos = [], k = 0, base, anim = null;
@@ -528,7 +698,7 @@
       aoMudarVar(monta); monta();
     })();
 
-    // ═══════════════ Cap. 9 · bootstrap
+    // ═══════════════ Cap. 11 (era 9) · bootstrap
     (function bootstrap() {
       const selK = $("#c9-k"), B = 2000;
       const KS = Object.keys(D.blocos).map(Number).sort((a, b) => b - a);
@@ -619,7 +789,7 @@
       aoMudarVar(zera); zera();
     })();
 
-    // ═══════════════ Cap. 10 · pixel
+    // ═══════════════ Cap. 12 (era 10) · pixel
     (function pixel() {
       const vs = ["pastagem", "agricultura", "veg_natural"], ser = {};
       let lo = 0, hi = 0;
@@ -646,6 +816,169 @@
         vs.map((v) => { const a = ser[v].amc.at(-1), p = ser[v].px.at(-1); return `<tr><td>${nome(v)}</td><td class="num">${fmtS(a)} km</td><td class="num">${fmtS(p)} km</td><td class="num">${fmtS(p - a)} km</td></tr>`; }).join("") + "</tbody></table>";
       $("#c10-regua").innerHTML = `As duas colunas estão na mesma régua, a posição norte em EPSG:5880. Em outras partes do site o teste do pixel aparece como pastagem +79,2&nbsp;km e agricultura +66,9&nbsp;km. Esses valores vêm da diferença de latitude convertida a 111&nbsp;km por grau, que é uma régua um pouco diferente. Medido na mesma régua das AMC, o pixel dá ${fmtS(ser.pastagem.px.at(-1))} e ${fmtS(ser.agricultura.px.at(-1))}&nbsp;km. A conclusão é a mesma, e a distância entre as duas medições fica ainda menor.`;
       aoMudarVar(() => { for (const v of vs) L[v].forEach((p) => p.attr("opacity", !vs.includes(S.v) || S.v === v ? 1 : 0.3)); });
+    })();
+
+    // ═══════════════ #59 · utilitários
+    const R59 = D.oficial.rob59;
+    const r59 = (teste, variavel, regua, janela) => R59.find((r) => r.teste === teste && r.variavel === variavel && r.regua === regua && r.janela === janela);
+    const cent4 = {}; for (const v of VARS) cent4[v] = ANOS.map((a) => centro(pesos(v, a)));
+    function eixoTempo(svg, x, H, mg) {
+      D.atos.forEach((a, j) => { if (j % 2 === 0) svg.append("rect").attr("class", "mt-ato").attr("x", x(Math.max(x.domain()[0], a.ini) - 0.5)).attr("width", x(Math.min(x.domain()[1], a.fim) + 0.5) - x(Math.max(x.domain()[0], a.ini) - 0.5)).attr("y", mg.t).attr("height", H - mg.t - mg.b); });
+      svg.append("g").attr("class", "mt-eixo").attr("transform", `translate(0,${H - mg.b})`).call(d3.axisBottom(x).tickFormat(d3.format("d")).ticks(8));
+    }
+
+    // ═══════════════ Cap. 12 (complemento) · malha municipal
+    (function malhaMunicipal() {
+      const lin = VARS.map((v) => {
+        const a = r59("D_malha", v, "AMC (166, #32)", "LÍQUIDO"), m = r59("D_malha", v, "município (246, malha atual)", "LÍQUIDO");
+        const a1 = r59("D_malha", v, "AMC (166, #32)", "Ato I"), m1 = r59("D_malha", v, "município (246, malha atual)", "Ato I");
+        return `<tr><td>${nome(v)}</td><td class="num">${fmtS(a.dN_km)}</td><td class="num">${fmtS(m.dN_km)}</td><td class="num">${fmtS(m.dN_km - a.dN_km)}</td><td class="num">${fmtS(a1.dN_km)} | ${fmtS(m1.dN_km)}</td></tr>`;
+      }).join("");
+      $("#c12-mun").innerHTML = `<table class="tabela-dados"><thead><tr><th>ΔNorte 1985 → 2024 (km)</th><th class="num">166 AMC</th><th class="num">246 municípios</th><th class="num">diferença</th><th class="num">só o Ato I (AMC | municípios)</th></tr></thead><tbody>${lin}</tbody></table>
+        <p class="tabela-nota">De <code>centro_massa_robustez_complementar.csv</code> (Pipeline #59, teste D). O Ato I (1985–2000) é o período das emancipações, quando a malha municipal mais erra.</p>`;
+    })();
+
+    // ═══════════════ Cap. 13 · projeção e anos-extremo
+    (function reguaCap() {
+      const W = 760, H = 280, mg = { l: 56, r: 16, t: 18, b: 26 };
+      const svg = d3.select("#c13-graf").append("svg").attr("class", "mt-graf").attr("viewBox", `0 0 ${W} ${H}`).attr("role", "img").attr("aria-label", "Posição norte do centro de massa, ano a ano, com a reta ajustada e as médias das pontas");
+      const x = d3.scaleLinear().domain([1985, 2024]).range([mg.l, W - mg.r]);
+      eixoTempo(svg, x, H, mg);
+      const gY = svg.append("g").attr("class", "mt-eixo").attr("transform", `translate(${mg.l},0)`), gD = svg.append("g");
+      svg.append("text").attr("x", mg.l + 6).attr("y", mg.t + 10).attr("font-size", 11).attr("fill", MUTED).text("km ao norte da posição de 1985");
+      $("#c13-leg").innerHTML = `<span style="--c:${INK}"><i></i>centro de cada ano</span><span style="--c:${ACC}"><i class="tr"></i>reta ajustada aos 40 anos</span><span style="--c:${NORTE}"><i></i>média de 5 anos em cada ponta</span>`;
+      function desenha() {
+        const v = S.v, ys = cent4[v].map((c) => c.y - cent4[v][0].y);
+        const n = ANOS.length, mx = d3.mean(ANOS), my = d3.mean(ys);
+        let sxy = 0, sxx = 0; ANOS.forEach((a, i) => { sxy += (a - mx) * (ys[i] - my); sxx += (a - mx) ** 2; });
+        const b = sxy / sxx, a0 = my - b * mx;
+        const r2 = (sxy * sxy) / (sxx * ys.reduce((s, y) => s + (y - my) ** 2, 0));
+        const y = d3.scaleLinear().domain([Math.min(-5, ...ys) - 4, Math.max(5, ...ys) + 4]).range([H - mg.b, mg.t + 14]);
+        gY.call(d3.axisLeft(y).ticks(5).tickFormat((d) => fmt(d, 0)));
+        gD.html("");
+        gD.append("line").attr("x1", x(1985)).attr("x2", x(2024)).attr("y1", y(0)).attr("y2", y(0)).attr("stroke", "#b9b6ad");
+        gD.append("path").attr("fill", "none").attr("stroke", COR[v]).attr("stroke-width", 1.5).attr("d", d3.line().x((_, i) => x(ANOS[i])).y((d) => y(d))(ys));
+        gD.selectAll("circle.p").data(ys).join("circle").attr("cx", (_, i) => x(ANOS[i])).attr("cy", (d) => y(d)).attr("r", 2.6).attr("fill", INK);
+        gD.append("line").attr("x1", x(1985)).attr("x2", x(2024)).attr("y1", y(a0 + b * 1985)).attr("y2", y(a0 + b * 2024)).attr("stroke", ACC).attr("stroke-width", 2).attr("stroke-dasharray", "6 4");
+        const m5a = d3.mean(ys.slice(0, 5)), m5b = d3.mean(ys.slice(-5));
+        [[1985, 1989, m5a], [2020, 2024, m5b]].forEach(([p, q, m]) => gD.append("line").attr("x1", x(p)).attr("x2", x(q)).attr("y1", y(m)).attr("y2", y(m)).attr("stroke", NORTE).attr("stroke-width", 4));
+        const lin = VARS.map((w) => {
+          const A = ["EPSG:5880", "Albers (ESRI:102033)", "esfera 3D"].map((rg) => r59("A_projecao", w, rg, "LÍQUIDO").dN_km);
+          const B = [1, 3, 5].map((k) => r59("B_extremos", w, `média de ${k} ano(s) nas pontas`, "LÍQUIDO").dN_km);
+          const R = r59("B_extremos", w, "reta MQO (inclinação × 39)", "LÍQUIDO");
+          return `<tr class="${w === v ? "forte" : ""}"><td>${nome(w)}</td>${A.map((q) => `<td class="num">${fmtS(q)}</td>`).join("")}${B.slice(1).map((q) => `<td class="num">${fmtS(q)}</td>`).join("")}<td class="num">${fmtS(R.dN_km)} (r² ${fmt(R.r2, 2)})</td></tr>`;
+        }).join("");
+        $("#c13-tab").innerHTML = `<table class="tabela-dados"><thead><tr><th>ΔNorte 1985 → 2024 (km)</th><th class="num">EPSG:5880 (#32)</th><th class="num">Albers</th><th class="num">esfera</th><th class="num">pontas de 3 anos</th><th class="num">pontas de 5 anos</th><th class="num">reta, 40 anos</th></tr></thead><tbody>${lin}</tbody></table>
+          <p class="tabela-nota">De <code>centro_massa_robustez_complementar.csv</code> (Pipeline #59, testes A e B).</p>`;
+        const R = r59("B_extremos", v, "reta MQO (inclinação × 39)", "LÍQUIDO");
+        $("#c13-leitura").innerHTML = `${nome(v)}: a reta ajustada nesta página avança <b>${fmt(b * 10)} km por década</b>, ${fmtS(b * 39)} km em 39 anos, com r² de ${fmt(r2, 2)} (o pipeline dá ${fmtS(R.dN_km)} km e r² ${fmt(R.r2, 2)}). ${r2 > 0.9 ? "Os pontos quase não se afastam da reta, e nenhum ano isolado carrega o resultado." : "Os pontos se espalham em torno da reta, e o deslocamento é pequeno diante dessa variação."}`;
+      }
+      aoMudarVar(desenha); desenha();
+    })();
+
+    // ═══════════════ Cap. 14 · três coleções
+    (function colecoes() {
+      const COLS = [["9", "2 3", "pontilhada"], ["10.1", "", "contínua, a da dissertação"], ["11", "8 4", "tracejada"]];
+      const W = 760, H = 280, mg = { l: 50, r: 16, t: 18, b: 26 };
+      const svg = d3.select("#c14-graf").append("svg").attr("class", "mt-graf").attr("viewBox", `0 0 ${W} ${H}`).attr("role", "img").attr("aria-label", "Deslocamento norte desde 1985 em três coleções do MapBiomas, pixel a pixel");
+      const x = d3.scaleLinear().domain([1985, 2025]).range([mg.l, W - mg.r]);
+      eixoTempo(svg, x, H, mg);
+      const gY = svg.append("g").attr("class", "mt-eixo").attr("transform", `translate(${mg.l},0)`), gD = svg.append("g");
+      svg.append("text").attr("x", mg.l + 6).attr("y", mg.t + 10).attr("font-size", 11).attr("fill", MUTED).text("km ao norte da posição de 1985, pixel a pixel");
+      $("#c14-leg").innerHTML = COLS.map(([c, d, t]) => `<span><svg width="30" height="10" aria-hidden="true"><line x1="0" x2="30" y1="5" y2="5" stroke="${INK}" stroke-width="2" ${d ? `stroke-dasharray="${d}"` : ""}/></svg> Coleção ${c} (${t})</span>`).join("");
+      const grupo = { pastagem: "pastagem", agricultura: "agricultura", veg_natural: "veg_natural" };
+      function desenha() {
+        const v = S.v, g = grupo[v];
+        gD.html("");
+        if (!g) { gY.html(""); gD.append("text").attr("x", W / 2).attr("y", H / 2).attr("text-anchor", "middle").attr("font-size", 13).attr("fill", MUTED).text("O rebanho vem de uma tabela do IBGE e não tem classificação de imagem para comparar."); $("#c14-leitura").innerHTML = "Escolha pastagem, agricultura ou vegetação natural na barra do topo."; return; }
+        const ser = COLS.map(([c, d]) => { const s = D.oficial.colecoes59[`${c}|${g}`]; return { c, d, ano: s.ano, y: s.y.map((q) => q - s.y[0]) }; });
+        const all = ser.flatMap((s) => s.y);
+        const y = d3.scaleLinear().domain([Math.min(-5, ...all) - 4, Math.max(5, ...all) + 4]).range([H - mg.b, mg.t + 14]);
+        gY.call(d3.axisLeft(y).ticks(6).tickFormat((d) => fmt(d, 0)));
+        gD.append("line").attr("x1", x(1985)).attr("x2", x(2025)).attr("y1", y(0)).attr("y2", y(0)).attr("stroke", "#b9b6ad");
+        ser.forEach((s) => gD.append("path").attr("fill", "none").attr("stroke", COR[v]).attr("stroke-width", s.c === "10.1" ? 2.6 : 2).attr("stroke-dasharray", s.d || null).attr("d", d3.line().x((_, i) => x(s.ano[i])).y((q) => y(q))(s.y)));
+        const d23 = ser.map((s) => s.y[s.ano.indexOf(2023)]);
+        $("#c14-leitura").innerHTML = `${nome(v)}, de 1985 a 2023 (o último ano presente nas três): Coleção 9 ${fmtS(d23[0])} km, Coleção 10.1 ${fmtS(d23[1])} km e Coleção 11 ${fmtS(d23[2])} km.`;
+      }
+      const lin = ["pastagem", "agricultura", "veg_natural", "mosaico"].map((g) => {
+        const q = ["9", "10.1", "11"].map((c) => r59("E_colecao", g, `Coleção ${c}`, "1985–2023 (comum)"));
+        const rot = { pastagem: "Pastagem", agricultura: "Agricultura", veg_natural: "Vegetação natural", mosaico: "Mosaico de Usos" }[g];
+        return `<tr><td>${rot}</td>${q.map((r) => `<td class="num">${fmtS(r.dN_km)}</td>`).join("")}</tr>`;
+      }).join("");
+      const val = ["pastagem", "agricultura", "veg_natural"].map((g) => r59("E_validacao_43", g, "Col. 10.1 aqui − #43", "LÍQUIDO"));
+      $("#c14-tab").innerHTML = `<table class="tabela-dados"><thead><tr><th>ΔNorte 1985 → 2023 (km), pixel a pixel</th><th class="num">Coleção 9</th><th class="num">Coleção 10.1</th><th class="num">Coleção 11</th></tr></thead><tbody>${lin}</tbody></table>
+        <p class="tabela-nota">De <code>centro_massa_robustez_complementar.csv</code> (Pipeline #59, teste E). Conferência: a Coleção 10.1 calculada aqui reproduz o Pipeline #43 com diferença de ${val.map((r) => fmtS(r.dN_km, 2)).join(", ")} km (pastagem, agricultura, vegetação natural). Aqui a agricultura exclui a silvicultura, como no painel da dissertação.</p>`;
+      aoMudarVar(desenha); desenha();
+    })();
+
+    // ═══════════════ Cap. 15 · que lavoura?
+    (function lavoura() {
+      const REG = [["MapBiomas agricultura", "#d96aa3", ""], ["MapBiomas agricultura ∪ Mosaico", "#7b5ea7", "7 4"], ["PAM soja plantada", "#4a7ba6", ""], ["PAM temporárias sem milho", "#2e8b82", ""], ["PAM temporárias com milho total", "#2e8b82", "2 3"]];
+      const ROT = { "MapBiomas agricultura": "Agricultura do MapBiomas", "MapBiomas agricultura ∪ Mosaico": "Agricultura + Mosaico", "PAM soja plantada": "Soja plantada (PAM)", "PAM temporárias sem milho": "Temporárias sem milho (PAM)", "PAM temporárias com milho total": "Temporárias com milho (PAM)" };
+      const W = 760, H = 300, mg = { l: 50, r: 16, t: 18, b: 26 };
+      const svg = d3.select("#c15-graf").append("svg").attr("class", "mt-graf").attr("viewBox", `0 0 ${W} ${H}`).attr("role", "img").attr("aria-label", "Deslocamento norte do centro de massa da agricultura medido por cinco réguas");
+      const x = d3.scaleLinear().domain([1985, 2024]).range([mg.l, W - mg.r]);
+      eixoTempo(svg, x, H, mg);
+      const ser = REG.map(([k, c, d]) => { const s = D.oficial.reguas59[k]; return { k, c, d, ano: s.ano, y: s.y.map((q) => q - s.y[0]) }; });
+      const all = ser.flatMap((s) => s.y);
+      const y = d3.scaleLinear().domain([Math.min(...all) - 5, Math.max(...all) + 5]).range([H - mg.b, mg.t + 14]);
+      svg.append("g").attr("class", "mt-eixo").attr("transform", `translate(${mg.l},0)`).call(d3.axisLeft(y).ticks(6).tickFormat((d) => fmt(d, 0)));
+      svg.append("line").attr("x1", x(1985)).attr("x2", x(2024)).attr("y1", y(0)).attr("y2", y(0)).attr("stroke", "#b9b6ad");
+      svg.append("text").attr("x", mg.l + 6).attr("y", mg.t + 10).attr("font-size", 11).attr("fill", MUTED).text("km ao norte da posição do primeiro ano de cada régua");
+      ser.forEach((s) => svg.append("path").attr("fill", "none").attr("stroke", s.c).attr("stroke-width", 2.2).attr("stroke-dasharray", s.d || null).attr("d", d3.line().x((_, i) => x(s.ano[i])).y((q) => y(q))(s.y)));
+      $("#c15-leg").innerHTML = ser.map((s) => `<span><svg width="30" height="10" aria-hidden="true"><line x1="0" x2="30" y1="5" y2="5" stroke="${s.c}" stroke-width="2.4" ${s.d ? `stroke-dasharray="${s.d}"` : ""}/></svg> ${ROT[s.k]}: ${fmtS(s.y.at(-1))} km desde ${s.ano[0]}</span>`).join("");
+      const sel = $("#c15-jan"), JAN = ["1988–2024", "1988–2000", "2001–2024"];
+      JAN.forEach((j) => sel.add(new Option(j, j)));
+      function culturas() {
+        const j = sel.value, tot = R59.find((r) => r.teste === "C_culturas" && r.regua === "TOTAL" && r.janela === j);
+        const cs = R59.filter((r) => r.teste === "C_culturas" && r.regua !== "TOTAL" && r.janela === j).sort((a, b) => Math.abs(b.dN_km) - Math.abs(a.dN_km)).slice(0, 8);
+        const mt = Math.abs(cs[0].dN_km) || 1, nomeC = (c) => ({ feijao: "feijão", algodao: "algodão", cana: "cana-de-açúcar", batata_inglesa: "batata-inglesa" }[c] || c);
+        $("#c15-cult").innerHTML = `<div class="linha cab"><span>Parcela de cada cultura, ${j}</span><span></span><span class="n">km</span></div>` +
+          cs.map((r) => `<div class="linha" style="--c:${r.dN_km >= 0 ? NORTE : SUL}"><span class="nm">${nomeC(r.regua)} (${fmt(r.area_ini_ha / 1000, 0)} → ${fmt(r.area_fim_ha / 1000, 0)} mil ha)</span><div class="b" style="width:${(100 * Math.abs(r.dN_km)) / mt}%"></div><span class="n">${fmtS(r.dN_km)}</span></div>`).join("");
+        $("#c15-leitura").innerHTML = `Lavouras temporárias sem milho, ${j}: o centro se desloca <b>${fmtS(tot.dN_km)} km</b>. Desse total, ${fmtS(tot.composicao_km)} km vêm da troca de composição entre culturas (umas crescem, outras somem) e ${fmtS(tot.deslocamento_km)} km do deslocamento de cada cultura. É a mesma decomposição do capítulo 9, com culturas no lugar de regiões. Azul empurra o centro para o norte e laranja para o sul.`;
+      }
+      sel.addEventListener("change", culturas); culturas();
+    })();
+
+    // ═══════════════ Cap. 16 · placar
+    (function placar() {
+      const V3 = ["pastagem", "bovinos", "agricultura"];
+      const boot = (v) => D.oficial.boot.find((r) => r.variavel === v && r.janela === "LÍQUIDO");
+      const bl = (v) => D.oficial.bloco.filter((r) => r.variavel === v);
+      const med = (v) => { const a = D.oficial.anual[v]; return a.ymed.at(-1) - a.ymed[0]; };
+      const pxd = (v) => { const p = D.oficial.pixel[v]; const c = cent4[v]; return (p.y.at(-1) - p.y[0]) - (c.at(-1).y - c[0].y); };
+      const faixa = (arr) => `${fmtS(Math.min(...arr))} a ${fmtS(Math.max(...arr))} km`;
+      const ok = "✓ passa", meio = "◐ passa com ressalva", nao = "✗ não passa";
+      let pior = 0; for (const v of VARS) ANOS.forEach((a, j) => { const c = cent4[v][j]; pior = Math.max(pior, Math.abs(c.y - D.oficial.anual[v].y[j])); });
+      const projDif = Math.max(...V3.map((v) => { const q = ["EPSG:5880", "Albers (ESRI:102033)", "esfera 3D"].map((rg) => r59("A_projecao", v, rg, "LÍQUIDO").dN_km); return Math.max(...q) - Math.min(...q); }));
+      const reta = V3.map((v) => r59("B_extremos", v, "reta MQO (inclinação × 39)", "LÍQUIDO"));
+      const mun = V3.map((v) => r59("D_malha", v, "município (246, malha atual)", "LÍQUIDO").dN_km - r59("D_malha", v, "AMC (166, #32)", "LÍQUIDO").dN_km);
+      const col = (g) => ["9", "10.1", "11"].map((c) => r59("E_colecao", g, `Coleção ${c}`, "1985–2023 (comum)").dN_km);
+      const colP = col("pastagem"), colA = col("agricultura");
+      const leste = bl("agricultura").filter((r) => !r.exclui_zero_leste).map((r) => r.k_blocos);
+      const dec = V3.map((v) => { const t = D.oficial.dec58.find((q) => q.particao === "regiao3" && q.variavel === v && q.janela === "LÍQUIDO"); return t.entre_N_km / (t.entre_N_km + t.dentro_N_km); });
+      const decA12 = D.oficial.dec58_ic.find((q) => q.k_blocos === 12 && q.particao === "regiao3" && q.variavel === "agricultura" && q.janela === "LÍQUIDO");
+      const soja = r59("C_regua_agricola", "agricultura", "PAM soja plantada", "LÍQUIDO"), temp = r59("C_regua_agricola", "agricultura", "PAM temporárias sem milho", "LÍQUIDO"), uni = r59("C_regua_agricola", "agricultura", "MapBiomas agricultura ∪ Mosaico", "LÍQUIDO");
+      const a3 = D.oficial.boot.find((r) => r.variavel === "agricultura" && r.janela === "Ato III");
+      const veg = boot("veg_natural");
+      const L = [
+        ["A conta está certa?", "A página refaz os 160 centros e compara com o arquivo do #32", `diferença máxima de ${fmt(pior * 1000, 1)} m`, ok, "—"],
+        ["O deslocamento é maior que o ruído?", "Bootstrap de AMC, 2.000 sorteios (D19)", V3.map((v) => `${nome(v)} [${fmtS(boot(v).dN_lo, 0)}; ${fmtS(boot(v).dN_hi, 0)}] km`).join("; "), V3.every((v) => boot(v).exclui_zero) ? ok : nao, "—"],
+        ["E a vegetação natural?", "O mesmo bootstrap", `[${fmtS(veg.dN_lo)}; ${fmtS(veg.dN_hi)}] km, inclui o zero`, nao, "Descrita como ancorada, e não como “+7,6 km”"],
+        ["E se as AMC vizinhas forem parecidas?", "Bootstrap em blocos, 6 tamanhos (#55)", `o intervalo alarga e exclui o zero em ${V3.map((v) => `${bl(v).filter((r) => r.exclui_zero).length}`).join(", ")} dos ${bl("pastagem").length} tamanhos (${V3.map(nome).join(", ")})`, V3.every((v) => bl(v).every((r) => r.exclui_zero)) ? ok : meio, "—"],
+        ["E a direção leste?", "O mesmo bootstrap em blocos (#55)", `a componente leste da agricultura inclui o zero com ${leste.length} dos 6 tamanhos de bloco`, nao, "A dissertação afirma só a direção norte–sul"],
+        ["É o efeito de um aglomerado?", "Centro mediano (Weiszfeld, #32)", `ΔNorte do mediano: ${V3.map((v) => `${nome(v)} ${fmtS(med(v))}`).join(", ")} km (o médio: ${V3.map((v) => fmtS(cent4[v].at(-1).y - cent4[v][0].y)).join(", ")})`, V3.every((v) => med(v) > 0) ? meio : nao, "A direção se mantém e a magnitude não: o número em km é o do centro médio, e se diz qual"],
+        ["É efeito da malha de AMC?", "Pixel a pixel (#43) e 246 municípios (#59)", `pixel − AMC: ${["pastagem", "agricultura"].map((v) => fmtS(pxd(v))).join(" e ")} km; municípios − AMC: ${faixa(mun)}`, ok, "—"],
+        ["É efeito da projeção?", "Albers de área igual e média esférica (#59)", `maior diferença entre as três réguas: ${fmt(projDif)} km`, ok, "—"],
+        ["É efeito dos anos das pontas?", "Médias de 3 e 5 anos e reta nos 40 anos (#59)", `reta: ${V3.map((v, i) => `${nome(v)} ${fmtS(reta[i].dN_km, 0)} km (r² ${fmt(reta[i].r2, 2)})`).join("; ")}`, ok, "—"],
+        ["É artefato de uma classificação?", "Coleções 9, 10.1 e 11, pixel a pixel (#59)", `1985–2023: pastagem ${colP.map((q) => fmtS(q)).join(" / ")}; agricultura ${colA.map((q) => fmtS(q)).join(" / ")} km`, colP.every((q) => q > 0) && colA.every((q) => q > 0) ? ok : meio, "Condição necessária, não suficiente: as coleções compartilham satélite e método"],
+        ["A agricultura se mede de um jeito só?", "Cinco réguas, MapBiomas e PAM (#59)", `soja ${fmtS(soja.dN_km)} km; temporárias ${fmtS(temp.dN_km)} km; agricultura + Mosaico ${fmtS(uni.dN_km)} km`, meio, "Vale para a lavoura comercial; o conjunto das temporárias vai para o sul com o fim do arroz"],
+        ["A lavoura continua no fim da série?", "Bootstrap no Ato III (2020–2024)", `${fmtS(a3.dN_km)} km, intervalo [${fmtS(a3.dN_lo)}; ${fmtS(a3.dN_hi)}]`, nao, "Descrita como estacionada no Ato III"],
+        ["A atividade se deslocou, ou o peso mudou de lugar?", "Decomposição por região (#58)", `troca de peso em 3 regiões: ${V3.map((v, i) => `${nome(v)} ${fmt(100 * dec[i], 0)}%`).join(", ")}; o movimento dentro da agricultura inclui o zero em blocos de ~14 AMC [${fmtS(decA12.dentro_N_lo)}; ${fmtS(decA12.dentro_N_hi)}]`, meio, "“Centro de gravidade N km mais ao norte”, nunca “a lavoura subiu”; a fração só com a escala"],
+      ];
+      $("#c16-tab").innerHTML = `<table class="tabela-dados" style="white-space:normal"><thead><tr><th>Pergunta</th><th>Teste</th><th>O que deu</th><th>Resultado</th><th>O que muda no texto</th></tr></thead><tbody>` +
+        L.map((r) => `<tr>${r.map((c, j) => `<td style="white-space:normal;${j === 3 ? "font-weight:700;white-space:nowrap" : ""}">${c}</td>`).join("")}</tr>`).join("") + "</tbody></table>" +
+        `<p class="tabela-nota">Todos os números vêm dos arquivos dos pipelines #32, #43, #55, #58 e #59 levados para esta página, ou da conta refeita aqui. “Passa com ressalva” quer dizer que o resultado se mantém, mas só com a forma de dizer da última coluna.</p>`;
     })();
 
     // ═══════════════ conferência contra o CSV oficial

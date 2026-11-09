@@ -54,6 +54,8 @@ $$\min_{m} \; \sum_i w_i \, \lVert m - p_i \rVert_2$$
 
 **Intuição**: é o ponto que deixa todo mundo "o mais perto possível". Como usa a distância (e não o quadrado dela), é **robusto** — um único aglomerado pesado o desloca menos que ao centro médio. **Por que reportamos os dois:** se o médio e o mediano contam a *mesma* história, o movimento não é um artefato do peso do cluster do Sudoeste — é um deslocamento genuíno da distribuição.
 
+> **Nuance registrada em 28/set/2026 (#59, bloco F).** Na *direção*, contam a mesma história; na *magnitude*, não. ΔNorte 1985–2024 do mediano: pastagem +101,1 km (médio +77,6), rebanho +81,1 (+66,9), agricultura **+39,9 (+65,2)**, vegetação +11,1 (+7,6). O mediano fica dentro do aglomerado do Sudoeste e responde menos ao crescimento de massa distante. O número em quilômetros é sempre o do centro médio, e o texto diz qual centro é. Ver [59_centro_massa_robustez_complementar.md](59_centro_massa_robustez_complementar.md).
+
 ### 3. Elipse de desvio-padrão (*Standard Deviational Ellipse*, SDE) — a "sombra" da massa
 Enquanto o centro diz **onde** está a massa, a elipse (Yuill 1971) diz **quão espalhada** e **em que orientação** ela está. É a pegada de 1 desvio-padrão (1σ) calculada por ato. O ângulo do eixo principal:
 $$\theta = \tfrac{1}{2}\,\operatorname{arctan2}\!\left(2\textstyle\sum_i w_i\,dx_i\,dy_i,\; \sum_i w_i\,(dx_i^2 - dy_i^2)\right)$$

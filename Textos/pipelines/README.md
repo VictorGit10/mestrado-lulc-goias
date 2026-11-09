@@ -7,6 +7,12 @@ Pipelines **#1–#54 (+ #28C, #28D, #40B)** documentados aqui — **56 arquivos*
 > e na auditoria dela. Com eles o trabalho tem **58 pipelines**. Ficam ao fim da tabela, na ordem em
 > que nasceram; o **#39B** fica junto do #39, que é o pipeline que ele corrige.
 
+> **#58 (set/2026)** veio de fora: métricas de exclusão e de alavanca que revisores pediram num
+> manuscrito de Mario Barroso sobre centros de massa, aplicadas às regiões de Goiás, mais a
+> decomposição do deslocamento em troca de peso entre regiões e movimento dentro delas. **#59**
+> (mesmo dia) é a bateria de robustez que ainda faltava ao centro de massa: projeção, anos-extremo,
+> malha municipal, três coleções MapBiomas e as réguas da lavoura. Com eles são **60 pipelines**.
+
 > **O número é identidade, não ordem de leitura.** Ele registra *quando* o pipeline nasceu — é
 > um handle permanente (aparece em ~1.050 referências cruzadas, nas docstrings, na memória do
 > projeto e nas mensagens de commit) e **não é renumerado**. A cronologia é deliberada: é ela que
@@ -84,6 +90,8 @@ Pipelines **#1–#54 (+ #28C, #28D, #40B)** documentados aqui — **56 arquivos*
 | 55 | [55_robustez_bootstrap_bloco.md](55_robustez_bootstrap_bloco.md) | `robustez_bootstrap_bloco.py` | O IC do centro de massa sob dependência espacial: *bootstrap* de blocos, varrendo o tamanho — veredito invariante em 6/6 | 1985–2024 | AMC (166) | ✅ |
 | 56 | [56_drive_horse_race_latitude.md](56_drive_horse_race_latitude.md) | `drive_horse_race_latitude.py` | A corrida de exposições: posta a latitude na mesma regressão, a aptidão perde 62% da magnitude e a significância (**D28**) | 1985–2024 | AMC (166) | ✅ |
 | 57 | [57_remanescente_qualidade.md](57_remanescente_qualidade.md) | `remanescente_qualidade.py` | O remanescente do Sul é pior ou só menor? Canal entre-AMCs eliminado; dentro da unidade, 60% do que resta no Sul é floresta | 1985–2024 | AMC + região | ✅ |
+| 58 | [58_centro_massa_ancoragem.md](58_centro_massa_ancoragem.md) | `centro_massa_ancoragem.py` | Quem segura e quem move o centro de massa: o Sul ancora todas as camadas; o ΔNorte de pasto, rebanho e lavoura é 74–81% troca de peso entre 3 regiões e 15–17 km de movimento interno (IC exclui zero); a fração depende da escala das zonas. Nota de método: LOO = Influência/(1 − w) | 1985–2024 | AMC → região | ✅ |
+| 59 | [59_centro_massa_robustez_complementar.md](59_centro_massa_robustez_complementar.md) | `centro_massa_robustez_complementar.py` | A bateria que faltava: projeção (≤ 2 km), anos-extremo (reta de 40 anos, r² 0,97–0,98), malha municipal (≤ 1,1 km, inclusive o rebanho), Coleções 9/10.1/11 pixel a pixel (a direção sobrevive às três). **A agricultura se divide**: lavoura comercial (MapBiomas, soja PAM) ao norte; temporárias da PAM (−46 km) e união com o Mosaico (−61 km) ao sul, quase inteiro pelo fim do arroz de 1988–2000. Mediano: mesma direção, magnitude diferente (agricultura +40 × +65 km) | 1985–2024 | AMC + município + pixel | ✅ |
 
 ## Como os pipelines se cruzam
 

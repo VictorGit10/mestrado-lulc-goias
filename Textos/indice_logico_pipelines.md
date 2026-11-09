@@ -113,6 +113,8 @@ desagregação e de quantificação de incerteza.
 | **Robustez** | **#35** `robustez_janelas.py` | Três réguas de tempo (atos, grade de 5 anos, décadas). O pasto marcha ao norte em todas |
 | **Autocorreção** | **#44** `centro_massa_desagregado.py` | Abre os *lumps*. A "muralha norte" é **a floresta**, não a vegetação inteira — o campo nativo recuou +35 km. Controles limpos: área urbana parada, leite ancorado |
 | **Autocorreção** | **D19** (dentro do #32) | Bootstrap de AMCs (B=2000): todo ΔNorte agora vem com IC95%. **A vegetação (+7,6 km) inclui zero** — é "ancorada", não "moveu +8 km" |
+| **Robustez** | **#59** `centro_massa_robustez_complementar.py` | A bateria que faltava. Projeção (Albers, esfera): ≤ 2 km. Anos-extremo: reta de 40 anos +63 a +71 km, r² 0,97–0,98. Malha municipal: ≤ 1,1 km, primeiro teste de malha do **rebanho**. Coleções 9/10.1/11 pixel a pixel: agricultura +65,7/+65,8/+65,9, pastagem +76,5/+75,9/+69,0. ⚠️ **A agricultura se divide pela régua**: comercial (MapBiomas, soja PAM +48) ao norte; temporárias da PAM −46 e união com o Mosaico −61 ao **sul**, pelo fim do arroz (689 → 28 mil ha, 77 km ao norte do centro). ⚠️ O mediano mantém a direção e não a magnitude (agricultura +40 × +65) |
+| **Robustez (leitura)** | **#58** `centro_massa_ancoragem.py` | Sustenta a regra "centro de gravidade N km mais ao norte". Decompõe o ΔNorte em 3 regiões: **74–81%** é troca de peso entre regiões e **15–17 km** é movimento dentro delas (IC i.i.d. exclui zero). Na lavoura, o puxão do Sul fica igual (−171 → −169 km). A fração vai a 100% com 166 AMCs por construção: só se lê com a escala ao lado |
 
 **O que esta perna NÃO permite dizer:** que o centro de massa explica *por que* a fronteira
 marchou — é uma descrição, não um mecanismo (isso é a Perna 2). E um centro de massa é uma
@@ -309,6 +311,14 @@ só: **uma manchete e as três peças que a defendem e a estendem.**
  │                                                A camada MAIS ao sul de todas: ~150 km ao
  │                                                sul do pasto, ~83 km ao sul até do crédito
  │                                                Fecha a metade "silos" da ressalva do #45
+ │
+ ├─ #59  centro_massa_robustez_complementar.py  ROBUSTEZ  "Projeção, pontas, malha, coleção, régua?"
+ │                                                passa em todos; a lavoura se divide pela régua
+ │                                                (comercial ao norte, temporárias ao sul: o arroz)
+ │
+ ├─ #58  centro_massa_ancoragem.py  ROBUSTEZ     "Quem segura o centro e o que o move?"
+ │                                   (leitura)    ¾ do ΔNorte = troca de peso entre 3 regiões
+ │                                                o Sul ancora; na lavoura o puxão dele não cede
  │
  └─ D19  bootstrap_incerteza()       AUTOCORREÇÃO "Qual a incerteza de cada ΔNorte?"
                                                   IC95% por bootstrap → veg inclui zero
